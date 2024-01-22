@@ -1,0 +1,119 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Health Metrics and the Spread of Infectious Diseases"
+  subtitle: "Machine Learning Applications and Spatial Modeling Analysis with R"
+  reader-mode: true
+  author: 
+    name: Federica Gazzelloni
+    orcid: 0000-0002-4285-611X
+  site-url: https://fgazzelloni.quarto.pub/hmsidr/
+  repo-url: https://github.com/Fgazzelloni/hmsidR
+  repo-branch: origin
+  sharing: [twitter, facebook, linkedin]
+  publisher: "CRC Press"
+  publisher-place: "Boca Raton, FL."
+  repo-actions: [edit, issue]
+  cover-image: images/cover.png
+  favicon: images/cover.png
+  date: "06/09/2023" # date of the aggrement with the Editor
+  page-navigation: true
+  page-footer:
+    left: |
+      Health Metrics and the Spread of Infectious Diseases was written by <a href="https://federicagazzelloni.netlify.app/">Federica Gazzelloni</a>.
+    right: |
+      This book was built with <a href="https://quarto.org/">Quarto</a>.
+
+  chapters:
+    - index.qmd
+    - intro.qmd
+    
+    - part: 01-MetricsEvaluation.qmd
+      chapters:
+        - 01.1-HealthMetrics.qmd
+        - 01.2-Components.qmd
+        - 01.3-Causes_and_Risks.qmd
+        
+    - part: 02-MachineLearning.qmd
+      chapters:
+        - 02.1-Techniques.qmd
+        - 02.2-Packages.qmd
+        - 02.3-Predictions.qmd
+        
+    - part: 03-DataVisualizations.qmd
+      chapters:
+        - 03.1-Applications.qmd
+        - 03.2-Spatials.qmd
+        - 03.3-Examples.qmd 
+        
+    - part: 04-InfectiousDiseases.qmd
+      chapters:
+        - 04.1-Covid19.qmd
+        - 04.2-Malaria.qmd
+        - 04.3-Summary.qmd  
+        
+    - conclusions.qmd
+    - references.qmd   
+    
+  appendices:
+    - appendixA.qmd
+    - appendixB.qmd 
+    - appendixC.qmd 
+    
+appendix-style: default     
+search: true    
+   
+bibliography: references.bib
+csl: apa-6th-edition.csl
+
+format:
+  pdf:
+    documentclass: scrreport
+  html:
+    theme:
+      - cosmo
+    include-in-header: 
+      text: | 
+        <script defer data-domain="" src=""></script>
+        <link rel = "shortcut icon" href = "favicon.ico" />
+        
+    smooth-scroll: true
+    code-link: true
+    code-overflow: wrap
+    code-copy: true
+    code-fold: show
+    code-summary: "Hide code"
+    code-block-border-left: "#ff66c4"
+    code-block-bg: "gray90"
+    fig-align: center
+    fig-cap-location: bottom
+    fig-width: 8
+    fig-height: 5
+    linkcolor: "#ff66c4"
+    link-external-newwindow: true    
+    callout-appearance: simple   
+    author-meta: "Federica Gazzelloni"
+
+editor: visual
+editor_options:
+  chunk_output_type: inline
+  
+execute: 
+  echo: true
+  message: false
+  warning: false
+  
+  
+knitr:
+    opts_chunk:
+        collapse: false
+        message: false
+        warning: false
+        comment: "#>"
+        R.options:
+            knitr.graphics.auto_pdf: true
+              
+
+

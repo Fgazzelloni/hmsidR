@@ -1,0 +1,135 @@
+# Metrics components {#sec-02-Components}
+
+
+::: {.callout}
+## Learning Objectives: 
+-   Life tables and Life expectancy used in the book
+-   Mortality level and rates
+-   Identify the disability weights
+:::
+
+This section is dedicated to a closer look at what are the components of the health metrics, how to build them and finally how to use them for making countries comparison. YLLs, YLDs and DALYs can be used for different cause of deaths and disabilities, at different age levels.
+
+### YLLs components
+
+The number of years of life lost YLLs is the first of the three metrics that is calculated, and is important for releasing a first look at the status of a population. It is calculated for identifying the area where improvement is required for reducing the loss in health status and clearly reducing the probability of death [@reiner2022]
+
+The components of YLL (Years of Life Lost) include several factors that contribute to the calculation of premature death due to a disease or injury. These components are:
+
+**Age at death**: The age at which a person died due to a disease or injury is a crucial component of YLL. The earlier the age at death, the greater the impact on potential years of life lost.
+
+**Life expectancy**: The expected age at death in a population without the disease or injury is an important component of YLL. This value is used to compare the actual age at death with the expected age at death and determine the number of years of life lost.
+
+**Standard life expectancy**: To make comparisons across populations and over time, YLL is often expressed relative to a standard life expectancy, typically set at an age of 70 years.
+
+**Population size**: The size of the population affected by a disease or injury is another important component of YLL. A larger population will have a greater impact on overall YLL, regardless of the age at death.
+
+**Cause of death**: The cause of death is also considered when calculating YLL, as different causes may have different impacts on potential years of life lost.
+
+By taking these factors into account, YLL provides a measure of the potential years of life lost due to premature death caused by a disease or injury. It is an important component of the DALY, which provides a comprehensive view of the overall burden of disease on a population.
+
+### YLDs components
+
+The components of YLD (Years Lived with Disability) include several factors that contribute to the calculation of the number of years lived with a disability due to a disease or injury. These components are:
+
+**Prevalence**: The prevalence of a condition is the number of cases of a particular disease or injury present in a population at a given time. This is an important component of YLD as it determines the number of people who are affected by a disease or injury and the overall impact on the population.
+
+**Disability weight**: The disability weight reflects the severity of the disability caused by a disease or injury. It is used to quantify the impact of a condition on quality of life, with higher weights assigned to more severe conditions.
+
+**Age**: The age of the person affected by a disease or injury is also considered when calculating YLD. Conditions that occur at an earlier age will have a greater impact on the number of years lived with disability.
+
+**Population size**: The size of the population affected by a disease or injury is another important component of YLD. A larger population will have a greater impact on overall YLD, regardless of the age of the affected individuals.
+
+**Duration of disability**: The duration of disability is also considered when calculating YLD. Conditions that last for a longer period of time will have a greater impact on the number of years lived with disability.
+
+By taking these factors into account, YLD provides a measure of the number of years lived with a disability due to a disease or injury. It is an important component of the DALY, which provides a comprehensive view of the overall burden of disease on a population.
+
+### DALYs components
+
+Both YLL and YLD are components of the DALY and are used to provide a comprehensive assessment of the impact of disease and injury on a population. By combining YLL and YLD, the DALY takes into account both premature death and the impact of disease or injury on quality of life, providing a more comprehensive view of the overall burden of disease.
+
+## Build the metrics
+
+### Life tables and Life expectancy
+
+Two fundamental components are used for calculating the YLL are:
+
+-   life tables
+-   life expectancy
+
+Both of these elements are key for achieving the highest value of prediction of the state of health of a population.
+
+#### Life tables
+
+The life tables are selected among the most frequently used, more information about how to build a like table can be found in the @sec-appendixA of this book.
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(infectious)
+```
+
+**Glifetables** contains five variables:
+
+1.  **indicator**:
+
+```{r}
+#| echo: false
+Glifetables %>%
+  count(indicator) %>%
+  select(indicator) %>%
+  knitr::kable()
+```
+
+2.  **age group**: from 1 to 85+ in 5-year classes
+
+3.  **sex:** female, male, and both
+
+4.  **value**
+
+```{r}
+ #| echo: false
+Glifetables %>%
+  mutate(indicator = sub(" -.*$", "", indicator)) %>%
+  group_by(indicator) %>%
+  summarize(value = round(mean(value), 3))
+```
+
+5.  **year**: from 2000 to 2019
+
+#### Life expectancy
+
+The life expectancy rates are calculated with consideration of the probability of survival based on key parameter such as age, and deaths probabilities for that age. More info about how to calculate the life expectancy can be found in the @sec-appendixA section of this book.
+
+This visualization of the `ex - expectation of life at age x` shows for each age group its changing level across the years.
+
+```{r}
+Glifetables %>%
+  filter(indicator == "ex - expectation of life at age x") %>%
+  ggplot(aes(year, value, group = age_group, color = age_group)) +
+  geom_line() +
+  facet_wrap(vars(sex)) +
+  labs(title = "ex - expectation of life at age x") +
+  theme_bw()
+```
+
+## How to build the YLLs: a practical example
+
+In this section a practical calculation of the health metrics is done for the practitioner to be able to replicate this calculation for further analysis based on these key elements.
+
+```{r}
+Germany_lungc %>%
+  full_join(
+    Glifetables %>%
+      filter(year == 2019,
+             indicator == "ex - expectation of life at age x") %>%
+      rename(life_expectancy = value),
+    by = c("age_group", "sex")
+  ) %>%
+  select(-upper, -lower, -year, -indicator) %>%
+  group_by(age_group) %>%
+  mutate(YLL = val * life_expectancy) %>%
+  filter(!is.na(YLL)) %>%
+  head()
+```

@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: 8c35abb3-d263-47b3-81cb-0a60e686a4e1
+      url: 'https://quartopub.com/sites/fgazzelloni/health-metrics-and-the-spread-of-infectious-diseases'
