@@ -21,6 +21,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -66,6 +85,7 @@ ul.task-list li input[type="checkbox"] {
 <script defer="" data-domain="" src=""></script>
 <link rel="shortcut icon" href="favicon.ico">
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -285,9 +305,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#ylls-ylds-and-dalys" id="toc-ylls-ylds-and-dalys" class="nav-link active" data-scroll-target="#ylls-ylds-and-dalys"><span class="toc-section-number">1.1</span>  YLLs, YLDs and DALYs</a></li>
   <li><a href="#yll-years-of-life-lost" id="toc-yll-years-of-life-lost" class="nav-link" data-scroll-target="#yll-years-of-life-lost"><span class="toc-section-number">1.2</span>  YLL (Years of Life Lost)</a></li>
   <li><a href="#yld-years-lived-with-disability" id="toc-yld-years-lived-with-disability" class="nav-link" data-scroll-target="#yld-years-lived-with-disability"><span class="toc-section-number">1.3</span>  YLD (Years Lived with Disability)</a></li>
-  <li><a href="#daly-disability-adjusted-life-year" id="toc-daly-disability-adjusted-life-year" class="nav-link" data-scroll-target="#daly-disability-adjusted-life-year"><span class="toc-section-number">1.4</span>  DALY (Disability-Adjusted Life Year)</a></li>
-  <li><a href="#how-the-metrics-are-used" id="toc-how-the-metrics-are-used" class="nav-link" data-scroll-target="#how-the-metrics-are-used"><span class="toc-section-number">1.5</span>  How the metrics are used</a></li>
-  <li><a href="#hale-healthy-life-expectancy" id="toc-hale-healthy-life-expectancy" class="nav-link" data-scroll-target="#hale-healthy-life-expectancy"><span class="toc-section-number">1.6</span>  HALE (Healthy Life Expectancy)</a></li>
+  <li><a href="#daly-disability-adjusted-life-year" id="toc-daly-disability-adjusted-life-year" class="nav-link" data-scroll-target="#daly-disability-adjusted-life-year"><span class="toc-section-number">1.4</span>  DALY (Disability-Adjusted Life Year)</a>
+  <ul class="collapse">
+  <li><a href="#how-the-metrics-are-used" id="toc-how-the-metrics-are-used" class="nav-link" data-scroll-target="#how-the-metrics-are-used"><span class="toc-section-number">1.4.1</span>  How the metrics are used</a></li>
+  </ul></li>
+  <li><a href="#hale-healthy-life-expectancy" id="toc-hale-healthy-life-expectancy" class="nav-link" data-scroll-target="#hale-healthy-life-expectancy"><span class="toc-section-number">1.5</span>  HALE (Healthy Life Expectancy)</a></li>
+  <li><a href="#qaly" id="toc-qaly" class="nav-link" data-scroll-target="#qaly"><span class="toc-section-number">1.6</span>  QALY</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/01.1-HealthMetrics.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -336,18 +359,32 @@ Learning Objectives:
 <section id="yll-years-of-life-lost" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="yll-years-of-life-lost"><span class="header-section-number">1.2</span> YLL (Years of Life Lost)</h2>
 <p>YLL (Years of Life Lost) measures the number of years a person would have lived if they had not died prematurely due to a disease or injury. YLL is calculated by subtracting the age at death from the expected age at death in a population without the disease or injury.</p>
+<p>This metric was first calculate in late 1940s and defined as <strong>Standardized Rate for Mortality defined in units of Lost Years of Life</strong> by William Haenszel <span class="citation" data-cites="haenszel1950">(<a href="references.html#ref-haenszel1950" role="doc-biblioref">Haenszel, 1950</a>)</span>. The investigation about <strong>What is the leading cause of death</strong> brought to the development of a measurement that would take consideration of the age at death and put it in comparison with the expected life expectancy. This initially lead to understand that early deaths had a greater impact than those at later ages. And in particular it was ascertain that if the number of years were accounted for a group of people, this would have led to recognize potential life lost for a certain cause. Since this first approach to measure the cause of deaths, some adjustments of the standard death rates were made leading to a new calculation which was built on considering standardized deaths rate applied to age-specific factors that would have led to death for a specific cause of death. The impact on the society due to premature losses involves, not only the mere sadness for having lost a beloved one but the lost of working-people dying prematurely.</p>
+<p><span class="math display">\[
+YLL=N*le
+\]</span></p>
+<blockquote class="blockquote">
+<p>Standard life tables allow measuring the impact of different diseases at the same level, which is essential for comparative studies such as the Global Burden of Disease study <span class="citation" data-cites="devleesschauwer2020">(<a href="references.html#ref-devleesschauwer2020" role="doc-biblioref">Devleesschauwer, McDonald, Speybroeck, &amp; Wyper, 2020</a>)</span>.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><a href="https://en.wikipedia.org/wiki/Japan">Japanese</a> <a href="https://en.wikipedia.org/wiki/Life_expectancy" title="Life expectancy">life expectancy</a> statistics</p>
+</blockquote>
+<p>The mortality risks that are country-specific…</p>
 </section>
 <section id="yld-years-lived-with-disability" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="yld-years-lived-with-disability"><span class="header-section-number">1.3</span> YLD (Years Lived with Disability)</h2>
-<p>YLD (Years Lived with Disability) measures the number of years a person lives with a disability due to a disease or injury. It is calculated by multiplying the prevalence of a condition by the disability weight, which reflects the severity of the disability.</p>
+<p><strong>YLD</strong> (Years Lived with Disability) measures the number of years a person lives with a disability due to a disease or injury. It is calculated by multiplying the <strong>prevalence of a condition</strong> by the <strong>disability weight</strong>, which reflects the severity of the disability.</p>
+<p><span class="math display">\[
+YLD=I*DW*L
+\]</span></p>
+<p>Where <span class="math inline">\(I\)</span> is the incidence, <span class="math inline">\(DW\)</span> are the disability weights and <span class="math inline">\(L\)</span> is the average duration of the condition.</p>
 </section>
 <section id="daly-disability-adjusted-life-year" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="daly-disability-adjusted-life-year"><span class="header-section-number">1.4</span> DALY (Disability-Adjusted Life Year)</h2>
 <p>DALY (Disability-Adjusted Life Year) is a measure of overall disease burden and is calculated as the sum of years of potential life lost due to premature death (YLL) and years lived with disability (YLD). The DALY takes into account both the quantity and quality of life lost due to disease or injury.</p>
-<p>The YLL and YLD are components of the DALY, which are used to assess how diseases and injuries impact populations. As a result, @sec-ch12Components section provides a more comprehensive picture of the overall burden of disease by combining YLLs and YLDs in different life expectancy groups.</p>
-</section>
-<section id="how-the-metrics-are-used" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="how-the-metrics-are-used"><span class="header-section-number">1.5</span> How the metrics are used</h2>
+<p>This measure is used to assess how diseases and injuries impact populations, and provides a comprehensive picture of the overall burden of disease by combining YLLs and YLDs in different groups.</p>
+<section id="how-the-metrics-are-used" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="how-the-metrics-are-used"><span class="header-section-number">1.4.1</span> How the metrics are used</h3>
 <p>The health metrics of DALY, YLL, and YLD can be used in several ways to help prioritize public health interventions, evaluate the impact of diseases and injuries, and inform public health decision-making. Some common uses of these metrics include:</p>
 <p><strong>Prioritizing public health interventions</strong>: By calculating the overall burden of disease in a population, public health practitioners can prioritize which diseases and injuries to address first. This helps allocate resources and target interventions to the areas of greatest need.</p>
 <p><strong>Evaluating the impact of diseases and injuries</strong>: These metrics can be used to measure the impact of diseases and injuries on individuals and populations and to track changes over time. This information can help inform public health decision-making and allocate resources more effectively.</p>
@@ -356,8 +393,9 @@ Learning Objectives:
 <p><strong>Monitoring global health trends</strong>: DALY, YLL, and YLD can also be used to monitor global health trends and track changes in the burden of disease over time. This information can be used to inform global health policies and allocate resources to address emerging health threats.</p>
 <p>Overall, the health metrics of DALY, YLL, and YLD provide valuable information for public health practitioners, researchers, and policy makers to help prioritize and allocate resources, evaluate the impact of diseases and injuries, and inform public health decision-making.</p>
 </section>
-<section id="hale-healthy-life-expectancy" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="hale-healthy-life-expectancy"><span class="header-section-number">1.6</span> HALE (Healthy Life Expectancy)</h2>
+</section>
+<section id="hale-healthy-life-expectancy" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="hale-healthy-life-expectancy"><span class="header-section-number">1.5</span> HALE (Healthy Life Expectancy)</h2>
 <ul>
 <li>Description and calculation</li>
 </ul>
@@ -367,8 +405,22 @@ Learning Objectives:
 <p>Overall, the HALE metric provides a valuable perspective on the overall health and well-being of a population, combining information about both quantity and quality of life to provide a comprehensive view of health outcomes.</p>
 <p>It adjusts overall life expectancy by the amount of time lived in less than perfect health. This is calculated by subtracting from the life expectancy a figure which is the number of years lived with disability multiplied by a weighting to represent the effect of the disability.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p>More info <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</section>
+<section id="qaly" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="qaly"><span class="header-section-number">1.6</span> QALY</h2>
+<blockquote class="blockquote">
+<p>DALYs are related to the <a href="https://en.wikipedia.org/wiki/Quality-adjusted_life_year" title="Quality-adjusted life year">quality-adjusted life year</a> (QALY) measure; however, QALYs only measure the benefit with and without medical intervention and therefore do not measure the total burden. Also, QALYs tend to be an individual measure, and not a societal measure.</p>
+</blockquote>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="doc-bibliography" style="display: none">
+<div id="ref-devleesschauwer2020" class="csl-entry" role="doc-biblioentry">
+Devleesschauwer, B., McDonald, S. A., Speybroeck, N., &amp; Wyper, G. M. A. (2020). Valuing the years of life lost due to COVID-19: The differences and pitfalls. <em>International Journal of Public Health</em>, <em>65</em>(6), 719–720. <a href="https://doi.org/10.1007/s00038-020-01430-2">https://doi.org/10.1007/s00038-020-01430-2</a>
+</div>
+<div id="ref-haenszel1950" class="csl-entry" role="doc-biblioentry">
+Haenszel, W. (1950). A standardized rate for mortality defined in units of lost years of life. <em>American Journal of Public Health and the Nations Health</em>, <em>40</em>(1), 17–26. Retrieved from <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1528498/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1528498/</a>
+</div>
+</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

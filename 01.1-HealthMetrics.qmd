@@ -1,12 +1,12 @@
 # Health Metrics {#sec-01.1HealthMetrics}
 
-::: {.callout}
-## Learning Objectives: 
-- A closer look at the metrics
-- Understand how to use them
-- Think about potentiality for improvements
-:::
+::: callout
+## Learning Objectives:
 
+-   A closer look at the metrics
+-   Understand how to use them
+-   Think about potentiality for improvements
+:::
 
 ## YLLs, YLDs and DALYs
 
@@ -18,17 +18,35 @@ The health metrics, and their components are used to measure the burden of disea
 
 YLL (Years of Life Lost) measures the number of years a person would have lived if they had not died prematurely due to a disease or injury. YLL is calculated by subtracting the age at death from the expected age at death in a population without the disease or injury.
 
+This metric was first calculate in late 1940s and defined as **Standardized Rate for Mortality defined in units of Lost Years of Life** by William Haenszel [@haenszel1950]. The investigation about **What is the leading cause of death** brought to the development of a measurement that would take consideration of the age at death and put it in comparison with the expected life expectancy. This initially lead to understand that early deaths had a greater impact than those at later ages. And in particular it was ascertain that if the number of years were accounted for a group of people, this would have led to recognize potential life lost for a certain cause. Since this first approach to measure the cause of deaths, some adjustments of the standard death rates were made leading to a new calculation which was built on considering standardized deaths rate applied to age-specific factors that would have led to death for a specific cause of death. The impact on the society due to premature losses involves, not only the mere sadness for having lost a beloved one but the lost of working-people dying prematurely.
+
+$$
+YLL=N*le
+$$
+
+> Standard life tables allow measuring the impact of different diseases at the same level, which is essential for comparative studies such as the Global Burden of Disease study [@devleesschauwer2020].
+
+> [Japanese](https://en.wikipedia.org/wiki/Japan) [life expectancy](https://en.wikipedia.org/wiki/Life_expectancy "Life expectancy") statistics
+
+The mortality risks that are country-specific...
+
 ## YLD (Years Lived with Disability)
 
-YLD (Years Lived with Disability) measures the number of years a person lives with a disability due to a disease or injury. It is calculated by multiplying the prevalence of a condition by the disability weight, which reflects the severity of the disability.
+**YLD** (Years Lived with Disability) measures the number of years a person lives with a disability due to a disease or injury. It is calculated by multiplying the **prevalence of a condition** by the **disability weight**, which reflects the severity of the disability.
+
+$$
+YLD=I*DW*L
+$$
+
+Where $I$ is the incidence, $DW$ are the disability weights and $L$ is the average duration of the condition.
 
 ## DALY (Disability-Adjusted Life Year)
 
 DALY (Disability-Adjusted Life Year) is a measure of overall disease burden and is calculated as the sum of years of potential life lost due to premature death (YLL) and years lived with disability (YLD). The DALY takes into account both the quantity and quality of life lost due to disease or injury.
 
-The YLL and YLD are components of the DALY, which are used to assess how diseases and injuries impact populations. As a result, \@sec-ch12Components section provides a more comprehensive picture of the overall burden of disease by combining YLLs and YLDs in different life expectancy groups.
+This measure is used to assess how diseases and injuries impact populations, and provides a comprehensive picture of the overall burden of disease by combining YLLs and YLDs in different groups.
 
-## How the metrics are used
+### How the metrics are used
 
 The health metrics of DALY, YLL, and YLD can be used in several ways to help prioritize public health interventions, evaluate the impact of diseases and injuries, and inform public health decision-making. Some common uses of these metrics include:
 
@@ -63,3 +81,7 @@ It adjusts overall life expectancy by the amount of time lived in less than perf
 More info [^01.1-healthmetrics-2]
 
 [^01.1-healthmetrics-2]: about the methodology https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/health/health_life_expectancy.pdf
+
+## QALY
+
+> DALYs are related to the [quality-adjusted life year](https://en.wikipedia.org/wiki/Quality-adjusted_life_year "Quality-adjusted life year") (QALY) measure; however, QALYs only measure the benefit with and without medical intervention and therefore do not measure the total burden. Also, QALYs tend to be an individual measure, and not a societal measure.
