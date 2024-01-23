@@ -144,8 +144,6 @@ Germany_lungc%>%
   head()
 ```
 
-
-
 #### YLL
 
 ```{r}
