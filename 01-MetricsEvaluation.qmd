@@ -4,7 +4,11 @@
 
 Health metrics are key variables to understand more about the state of health of a population.
 
-In this book we'll talk about how to calculate the **numbers of years of life lost (YLLs)** and the **numbers of years lived with disabilities (YLDs)**, sum them up to eventually obtain the key metric of **disability adjusted life years (DALYs)** identifying the numbers of years of life lost due to death or a disability status.
+In this book we'll learn about how to calculate the metrics, and then consider their variation due to causes and risks. In particular, how the effect of the spread of some infectious disease can influence them and affect the overall state of health of a population.
+
+It was in late
+
+**numbers of years of life lost (YLLs)** and the **numbers of years lived with disabilities (YLDs)**, sum them up to eventually obtain the key metric of **disability adjusted life years (DALYs)** identifying the numbers of years of life lost due to death or a disability status.
 
 The numbers of years of life lost by a population in comparison to other countries or to the Global mean trend, is based on the latest study results relative to how the well being of a country is in terms of the definition of a healthy life. To give an example, let's think about a population whose individuals are living a good life, so defined *healthy life* measured on **life expectancy** established to be 80 years on average, as most of the World population meets this as a deadline.
 

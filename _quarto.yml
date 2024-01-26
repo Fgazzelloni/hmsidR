@@ -28,8 +28,6 @@ book:
 
   chapters:
     - index.qmd
-    
-    - preface.qmd
     - intro.qmd
     
     - part: 01-MetricsEvaluation.qmd
@@ -68,20 +66,32 @@ appendix-style: default
 search: true    
    
 bibliography: references.bib
-csl: apa-6th-edition.csl
+csl: chicago-fullnote-bibliography-16th-edition.csl
 
 format:
   pdf:
-    documentclass: krantz
+    documentclass: krantz 
+    papersize: executive
+    default-image-extension: tex
+    include-in-header: 
+        text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+    toc: true
+    number-sections: true
+    colorlinks: true
+    #cite-method: biblatex
+    keep-tex: true # create a tex file
+    
   html:
-    theme:
+    theme: 
       - cosmo
-      - r4ds.scss
+      - hmsid.scss
+    html-math-method: katex
     include-in-header: 
       text: | 
         <script defer data-domain="" src=""></script>
         <link rel = "shortcut icon" href = "favicon.ico" />
-        
     smooth-scroll: true
     code-link: true
     code-overflow: wrap
@@ -98,7 +108,14 @@ format:
     link-external-newwindow: true    
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
-
+#include-before-body:
+#  text: |
+#    \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+#      showspaces = false,
+#      showtabs = false,
+#      breaksymbolleft={},
+#      breaklines
+#    }
 editor: visual
 editor_options:
   chunk_output_type: inline
@@ -114,9 +131,7 @@ knitr:
         collapse: false
         message: false
         warning: false
-        comment: "#>"
-        R.options:
-            knitr.graphics.auto_pdf: true
+        comment: ""
+        #R.options:
+            #knitr.graphics.auto_pdf: true
               
-
-
