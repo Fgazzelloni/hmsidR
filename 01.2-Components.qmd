@@ -1,6 +1,6 @@
 # Metrics components {#sec-01.2-Components}
 
-::: callout
+::: {.callout-tip}
 ## Learning Objectives:
 
 -   Life tables and Life expectancy used in the book

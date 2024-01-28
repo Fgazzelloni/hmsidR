@@ -29,34 +29,28 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    
     - part: 01-MetricsEvaluation.qmd
       chapters:
         - 01.1-HealthMetrics.qmd
         - 01.2-Components.qmd
         - 01.3-Causes_and_Risks.qmd
-        
     - part: 02-MachineLearning.qmd
       chapters:
         - 02.1-Techniques.qmd
         - 02.2-Packages.qmd
         - 02.3-Predictions.qmd
-        
     - part: 03-DataVisualizations.qmd
       chapters:
         - 03.1-Applications.qmd
         - 03.2-Spatials.qmd
         - 03.3-Examples.qmd 
-        
     - part: 04-InfectiousDiseases.qmd
       chapters:
         - 04.1-Covid19.qmd
         - 04.2-Malaria.qmd
         - 04.3-Summary.qmd  
-        
     - conclusions.qmd
     - references.qmd   
-    
   appendices:
     - appendixA.qmd
     - appendixB.qmd 
@@ -68,21 +62,8 @@ search: true
 bibliography: references.bib
 csl: chicago-fullnote-bibliography-16th-edition.csl
 
+
 format:
-  pdf:
-    documentclass: krantz 
-    papersize: executive
-    default-image-extension: tex
-    include-in-header: 
-        text: |
-         \usepackage{fvextra}
-         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-    toc: true
-    number-sections: true
-    colorlinks: true
-    #cite-method: biblatex
-    keep-tex: true # create a tex file
-    
   html:
     theme: 
       - cosmo
@@ -92,9 +73,8 @@ format:
       text: | 
         <script defer data-domain="" src=""></script>
         <link rel = "shortcut icon" href = "favicon.ico" />
-    smooth-scroll: true
-    code-link: true
     code-overflow: wrap
+    code-link: true
     code-copy: true
     code-fold: show
     code-summary: "Hide code"
@@ -108,14 +88,8 @@ format:
     link-external-newwindow: true    
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
-#include-before-body:
-#  text: |
-#    \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
-#      showspaces = false,
-#      showtabs = false,
-#      breaksymbolleft={},
-#      breaklines
-#    }
+code-overflow: wrap
+toc: true
 editor: visual
 editor_options:
   chunk_output_type: inline

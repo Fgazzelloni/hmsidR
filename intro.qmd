@@ -1,6 +1,6 @@
 # Introduction {#sec-intro .unnumbered}
 
-::: callout
+::: {.callout-tip}
 -   What this book is all about
 -   How it can be used
 -   What is the main take away

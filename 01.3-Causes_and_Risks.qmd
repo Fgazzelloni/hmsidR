@@ -1,6 +1,6 @@
 # Causes and Risks {#sec-01.3-Causes_and_Risks}
 
-::: callout
+::: {.callout-tip}
 ## Learning Objectives:
 
 -   How to use the metrics

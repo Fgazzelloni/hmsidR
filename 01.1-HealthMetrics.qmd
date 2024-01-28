@@ -1,6 +1,6 @@
 # Health Metrics {#sec-01.1HealthMetrics}
 
-::: callout
+::: callout-tip
 ## Learning Objectives:
 
 -   A closer look at the metrics
@@ -10,7 +10,7 @@
 
 ## YLLs, YLDs and DALYs
 
-In this section are shown the methods used for building three key metrics: YLLs, YLDs and DALYs. These will be used throughout the book for making comparisons among the state of health of different countries.
+In this section are shown the methods used for building three key metrics: YLLs, YLDs and DALYs. These metrics will then be used throughout the book for making comparisons among the state of health of different countries.
 
 The health metrics, and their components are used to measure the burden of disease and quantify the impact of diseases and injuries on individuals and populations. These metrics can help prioritize public health interventions and evaluate the effectiveness of public health programs.
 
@@ -65,23 +65,3 @@ Overall, the health metrics of DALY, YLL, and YLD provide valuable information f
 ## HALE (Healthy Life Expectancy)
 
 -   Description and calculation
-
-The health metric of HALE (Healthy Life Expectancy) is a measure of overall health and well-being that takes into account both quantity and quality of life. It is a composite measure that combines years of life expectancy with a measure of the prevalence and severity of disability in a population. HALE provides a more comprehensive view of health outcomes than traditional measures of life expectancy, which only consider the quantity of life.
-
-The calculation of HALE typically involves estimating the number of years that an individual can expect to live in good health, taking into account the impact of diseases and injuries on quality of life. This information is then used to estimate the overall health status of a population.
-
-HALE is a useful tool for public health practitioners and policy makers, as it provides a more nuanced view of the health outcomes of a population. This information can help inform public health interventions and prioritize resources, as well as help track changes in health outcomes over time. Additionally, HALE can be used to compare the health outcomes of different populations and identify disparities in health outcomes, which can help inform targeted public health interventions.
-
-Overall, the HALE metric provides a valuable perspective on the overall health and well-being of a population, combining information about both quantity and quality of life to provide a comprehensive view of health outcomes.
-
-It adjusts overall life expectancy by the amount of time lived in less than perfect health. This is calculated by subtracting from the life expectancy a figure which is the number of years lived with disability multiplied by a weighting to represent the effect of the disability.[^01.1-healthmetrics-1]
-
-[^01.1-healthmetrics-1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
-
-More info [^01.1-healthmetrics-2]
-
-[^01.1-healthmetrics-2]: about the methodology https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/health/health_life_expectancy.pdf
-
-## QALY
-
-> DALYs are related to the [quality-adjusted life year](https://en.wikipedia.org/wiki/Quality-adjusted_life_year "Quality-adjusted life year") (QALY) measure; however, QALYs only measure the benefit with and without medical intervention and therefore do not measure the total burden. Also, QALYs tend to be an individual measure, and not a societal measure.

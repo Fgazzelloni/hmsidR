@@ -1,6 +1,6 @@
 # Techniques {#sec-02.1-Techniques}
 
-::: callout
+::: {.callout-tip}
 ## Learning Objectives:
 
 -   How to manipulate data through feature engineering

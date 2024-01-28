@@ -8,11 +8,13 @@
 .DS_Store
 data
 data-raw
-inst/scripts
-inst/extdata
+inst
+rsconnect
 components_hm_files
+compiler
 R
 man
+*.html
 *.aux
 *.bcf
 *.idx
@@ -25,4 +27,3 @@ man
 *.ilg
 *.ind
 *.run.xml
-notes.qmd
