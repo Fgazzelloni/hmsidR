@@ -1,6 +1,7 @@
 # Metrics components {#sec-01.2-Components}
 
-::: {.callout-tip}
+::: callout
+
 ## Learning Objectives:
 
 -   Life tables and Life expectancy used in the book
@@ -8,7 +9,12 @@
 -   Identify the disability weights
 :::
 
+\
+
+
 This section is dedicated to a closer look at what are the components of the health metrics, how to build them and finally how to use them for making countries comparison. YLLs, YLDs and DALYs can be used for different cause of deaths and disabilities, at different age levels.
+
+
 
 ## YLLs components
 

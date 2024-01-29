@@ -1,6 +1,6 @@
 # Health Metrics {#sec-01.1HealthMetrics}
 
-::: callout-tip
+::: callout
 ## Learning Objectives:
 
 -   A closer look at the metrics
@@ -61,6 +61,34 @@ The health metrics of DALY, YLL, and YLD can be used in several ways to help pri
 **Monitoring global health trends**: DALY, YLL, and YLD can also be used to monitor global health trends and track changes in the burden of disease over time. This information can be used to inform global health policies and allocate resources to address emerging health threats.
 
 Overall, the health metrics of DALY, YLL, and YLD provide valuable information for public health practitioners, researchers, and policy makers to help prioritize and allocate resources, evaluate the impact of diseases and injuries, and inform public health decision-making.
+
+
+#### First application of DALYs
+
+As an example here is shown how the DALY metric can be used for prevention:
+
+Suppose we have data on the number of cases of a particular disease, as well as the average number of years of life lost due to this disease. We can use this information to calculate the total number of DALYs lost due to this disease.
+
+```{r}
+# Load the library 'dplyr'
+library(dplyr)
+
+# Create a data frame with the number of cases and average years of life lost
+df <- data.frame(YLL = c(5, 10, 15),
+                 YLD = c(1,3,4))
+
+# Calculate the number of DALYs lost
+df <- df %>% mutate(DALY = YLL + YLD)
+
+# Sum the total number of DALYs lost
+total_dalys <- sum(df$DALY)
+total_dalys
+```
+
+In this example, the number of cases of the disease and the average years of life lost for each case are used to calculate the number of DALYs lost for each case. Finally, the total number of DALYs lost for the entire population.
+
+This information can be used to inform public health interventions to prevent the spread of this disease and reduce the number of DALYs lost. For example, the information could be used to prioritize resources for disease control and prevention activities, such as health education campaigns, vaccination programs, and screening and treatment programs.
+
 
 ## HALE (Healthy Life Expectancy)
 
