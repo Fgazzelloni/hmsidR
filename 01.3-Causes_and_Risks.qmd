@@ -1,18 +1,21 @@
 # Causes and Risks {#sec-01.3-Causes_and_Risks}
 
 \
-
 ::: callout
+
 ## Learning Objectives:
 
 -   How to use the metrics
+
 -   Overview of the causes and risks
+
 -   Identify the objective of the research question
+
 :::
 
-\
-
+```         
 Conditions and injuries that are associated with the burden of disease and injury vary according to their specific causes and risks. However, some common causes and risk factors include:
+```
 
 -   **Lifestyle choices**: Poor diet, physical inactivity, tobacco use, and excessive alcohol consumption are major risk factors for many chronic diseases and injuries, including heart disease, stroke, cancer, and liver disease.
 
@@ -28,21 +31,15 @@ Conditions and injuries that are associated with the burden of disease and injur
 
 -   **Injuries**: Injuries, such as falls, road traffic accidents, and violence, can also contribute to the burden of diseases and injuries.
 
-
-
 \
 
 A particular health condition can have multiple causes (co-morbidities) and risk factors. For instance, a poverty status and the lack of access to healthcare facilities, is proven to be increasing the risk of infectious diseases, while poor diet and physical inactivity can increase the risk of chronic diseases. Acting in favor of addressing the *underlying causes and risk factors* for diseases and injuries is crucial for prompt public health interventions and can help reduce the overall burden of disease.
 
-
 ## Risk Metrics
 
+Risk factors associated with a particular health condition are considered based on the *Theoretical minimum risk exposure levels (TMRELs)* and as a function of the risk exposure or *relative risk (RR)* value. Not all the variables that are thought to be risk factors increasing causes for a particular health condition are always the driving cause of the condition, for this reason a minimum level of risk exposure is established for the risk to be considered involved as effective in the outcome.
 
-Risk factors associated with a particular health condition are considered based on the *Theoretical minimum risk exposure levels (TMRELs)* and as a function of the risk exposure or *relative risk (RR)* value. Not all the variables that are thought to be risk factors increasing causes for a particular health condition are always the driving cause of the condition, for this reason a minimum level of risk exposure is established for the risk to be considered involved as effective in the outcome. 
-
-Moreover, disease attributable to a particular risk factor or combination of risk factors need to be ascertain investigating the risk-outcome relationship. Risk factors can also act indirectly on the outcome via intermediate risks, such as the association of low fruit consumption and heart disease influenced by systolic blood pressure which acts as mediator between the two. 
-
-
+Moreover, disease attributable to a particular risk factor or combination of risk factors need to be ascertain investigating the risk-outcome relationship. Risk factors can also act indirectly on the outcome via intermediate risks, such as the association of low fruit consumption and heart disease influenced by systolic blood pressure which acts as mediator between the two.
 
 ```{r}
 #| echo: false
@@ -60,21 +57,14 @@ coordinates(fhp) <- list( x=c("low fruit"=0,
 rethinking::drawdag(fhp)
 ```
 
+As an example of risk factors which met the minimum level (TMRELs) are **particulate matter air pollution**, **high systolic blood pressure**, and **smoking**, these factors are expected to be the *leading contributors* to the overall burden of diseases (cit.ihme). Although, it is not always the case when looking closer at a more specific type of disease; the outcome varies based on location, sex, and age.
 
+In terms of DALYs, the level of the disability adjusted life years is highly influenced by behavioral, environmental, and occupational risks.
 
-As an example of risk factors which met the minimum level (TMRELs) are **particulate matter air pollution**, **high systolic blood pressure**, and **smoking**, these factors are the *leading contributors* to the overall burden of diseases (cit.ihme). Although, it is not always the case when looking closer at a more specific type of disease; the outcome varies based on location, sex, and age. 
+### Health Risk by Exposure
 
+The GBD evaluated 87 risk factors from 1990 to 2019.
 
-
-In terms of DALYs, the level of the disability adjusted life years is highly influenced by behavioral, environmental, and occupational risks. 
-
-###  Health Risk by Exposure
-
-The GBD evaluated 87-88 risk factors from 1990 to 2021.
-
-####  Relative Risk
+#### Relative Risk
 
 ### Summarizing the relationship between risk and outcome
-
-
-

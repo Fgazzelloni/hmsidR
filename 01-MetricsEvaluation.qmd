@@ -6,7 +6,66 @@ The health metrics are key variables to understand more about the state of healt
 
 ### The history of health metrics
 
-The history of health metrics is a fascinating journey that spans centuries, evolving from rudimentary observations to sophisticated statistical methods. One of the earliest forms of health metrics can be traced back to the work of *John Graunt*, an Englishman, in the 17th century [@johngra2024].
+The history of health metrics is a fascinating journey that spans centuries, evolving from rudimentary observations to sophisticated statistical methods.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| output: false
+library(tidyverse)
+timeline <- tibble(id=seq(1,8,1),
+                   type=c("Ancient Observations",
+              "John Graunt (17th Century)",
+              "Life Tables (19th Century)",
+              "Global Burden of Disease Study (1990)",
+              "Disability-Adjusted Life Years (DALYs)",
+              "Quality-Adjusted Life Years (QALYs)",
+              "Advancements in Technology and Data",
+              "Current Landscape"),
+text=c("The concept of health metrics can be traced back to ancient civilizations where observations on life expectancy, birth rates, and mortality were made. However, these were often anecdotal and lacked systematic measurement.",
+       " In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analyzed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
+       "The 19th century saw the development of life tables, providing a systematic approach to analyzing mortality and life expectancy. This period marked a transition from descriptive observations to more structured methods in health metrics.",
+       " A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health Organization (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
+       "The GBD Study introduced DALYs as a metric in 1990. DALYs combine years of life lost due to premature mortality and years lived with disability, providing a comprehensive measure of disease burden. This metric became instrumental in assessing the overall health impact of different conditions.",
+       "QALYs, another important health metric, emerged in the late 20th century as a measure combining both the quality and quantity of life lived. QALYs are commonly used in health economics and healthcare decision-making.",
+       "With advancements in technology, including computing power and big data analytics, health metrics have become more sophisticated. Real-time tracking, machine learning applications, and global health databases contribute to a more dynamic understanding of population health.",
+       "Today, health metrics encompass a wide range of measures, including traditional mortality rates, disease-specific metrics, and broader indicators like well-being and social determinants of health. These metrics play a crucial role in shaping public health policies, healthcare interventions, and global health assessments."))
+```
+
+```{r}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 4
+#| fig-align: "center"
+#| fig-cap: "Metrics development timeline"
+#| fig-alt: "Metrics development timeline"
+timeline %>%
+  ggplot(aes(x=id,y=0.5))+
+  geom_segment(aes(x=id,xend=id,y=0.5,yend=0.8),linewidth=0.3)+
+  geom_segment(aes(x=id,xend=id,y=0.5,yend=-1),linewidth=0.1)+
+  geom_point()+
+  geom_line(group=1,linewidth=1)+
+  ggtext::geom_textbox(aes(label=type,y=1),
+                       fontface="bold",
+                       width = unit(0.13, "npc"),
+                       box.size=0,
+                       fill=NA,
+                       hjust=0.5,
+                       size=2)+
+    ggtext::geom_textbox(aes(label=text,y=-1),
+                       width = unit(0.13, "npc"),
+                       box.size=0,
+                       fill="white",
+                       hjust=0.5,
+                       size=2)+
+  ylim(-3,2)+
+  xlim(0.8,8.2)+
+  coord_cartesian()+
+  theme_void()
+```
+
+One of the earliest forms of health metrics can be traced back to the work of *John Graunt*, an Englishman, in the 17th century [@johngra2024].
 
 In 1662, Graunt published a landmark work titled "Natural and Political Observations Made upon the Bills of Mortality." Graunt was not a physician but a haberdasher, and his interest in mortality data was driven by the Bills of Mortality, which were weekly and annual records of deaths in London. These bills were maintained by the Worshipful Company of Parish Clerks and provided information on the number of births and deaths in the city.
 
@@ -14,7 +73,9 @@ Graunt meticulously analyzed this **mortality data** and produced **tables** tha
 
 One of Graunt's key observations was the consistent pattern of higher mortality among infants and young children. He noted the difference in life expectancy between males and females and provided insights into factors influencing mortality, such as epidemics and seasons.
 
-Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of **life tables**, which provided a systematic way to analyze mortality and life expectancy. With the growth of epidemiology in the 20th century, health metrics expanded to include measures like **Disability-Adjusted Life Years (DALYs)** and **Quality-Adjusted Life Years (QALYs)**, capturing not just mortality but also the impact of diseases on overall health and well-being.
+Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of **life tables**, which provided a systematic way to analyze mortality and life expectancy. More specifically, Mary Dempsey in 1940s wrote an article for the National Tuberculosis Association about the concept of Years of Life Lost, assessing time-lost as a metric for health for the first time. She was then followed by other more advanced improvements spanning all throughout of the rest of the century.
+
+With the growth of epidemiology the 20th century was a key century for the expansion of the health metrics, the use of life table and modification of expected survival time to include weights metrics. Measures like **Quality-Adjusted Life Years (QALYs)**, and **Disability-Adjusted Life Years (DALYs)** assessed to capturing not just mortality but also the impact of diseases on overall health and well-being.
 
 In the contemporary era, the integration of computing power and big data has further transformed health metrics. Today, we have complex models, machine learning algorithms, and global health databases that allow for real-time tracking of diseases and health outcomes.
 

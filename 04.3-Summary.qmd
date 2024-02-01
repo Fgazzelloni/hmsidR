@@ -1,6 +1,6 @@
 # Summary: the State of Health {#sec-04.3-Summary}
 
-::: callout-tip
+::: callout
 ## Learning Objectives:
 
 -   Compare countries different health metrics level

@@ -1,5 +1,7 @@
 # Metrics components {#sec-01.2-Components}
 
+\
+
 ::: callout
 
 ## Learning Objectives:
@@ -7,14 +9,12 @@
 -   Life tables and Life expectancy used in the book
 -   Mortality level and rates
 -   Identify the disability weights
+
 :::
 
 \
 
-
 This section is dedicated to a closer look at what are the components of the health metrics, how to build them and finally how to use them for making countries comparison. YLLs, YLDs and DALYs can be used for different cause of deaths and disabilities, at different age levels.
-
-
 
 ## YLLs components
 
@@ -60,6 +60,8 @@ library(infectious)
 
 ```{r}
 #| echo: false
+#| message: false
+#| warning: false
 Glifetables %>%
   count(indicator) %>%
   select(indicator) %>%
@@ -155,7 +157,6 @@ Germany_lungc%>%
 ```{r}
 #| message: false
 #| warning: false
-library(tidyverse)
 options(scipen = 999)
 ```
 
@@ -168,6 +169,8 @@ temp <- tempfile()
 ```
 
 ```{r}
+#| message: false
+#| warning: false
 xmart <- read_csv("~/Documents/R/R_general_resources/Spatials/infectious_container/hmsidR/data/data-raw/xmart.csv")
 
 xmart_yr <- xmart[-1,]%>%

@@ -1,7 +1,9 @@
 project:
   type: book
   output-dir: docs
+  
 
+    
 book:
   title: "Health Metrics and the Spread of Infectious Diseases"
   subtitle: "Machine Learning Applications and Spatial Modeling Analysis with R"
@@ -20,11 +22,21 @@ book:
   favicon: images/cover.png
   date: "06/09/2023" # date of the aggrement with the Editor
   page-navigation: true
+  sidebar:
+    #background: "#cdbdcc"
+    pinned: true
+    align: center
+    style: docked
+    #type: dark
+
   page-footer:
     left: |
-      Health Metrics and the Spread of Infectious Diseases was written by <a href="https://federicagazzelloni.netlify.app/">Federica Gazzelloni</a>.
+      &copy; 2024 This book is written by <a href="https://federicagazzelloni.netlify.app/">Federica Gazzelloni</a>.
+    center: |
+      Editor CRC Press - Taylor & Francis Group
     right: |
-      This book was built with <a href="https://quarto.org/">Quarto</a>.
+      Built with ❤︎️ and [Quarto](https://quarto.org/)
+    background: "#29306c"
 
   chapters:
     - index.qmd
@@ -78,18 +90,20 @@ format:
     code-copy: true
     code-fold: show
     code-summary: "Hide code"
-    code-block-border-left: "#ff66c4"
+    code-block-border-left: "#cdbdcc"
     code-block-bg: "gray90"
     fig-align: center
     fig-cap-location: bottom
     fig-width: 8
     fig-height: 5
-    linkcolor: "#ff66c4"
+    linkcolor: "#88398a"
     link-external-newwindow: true    
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
-code-overflow: wrap
-toc: true
+    #mainfont: Atkinson Hyperlegible
+    #highlight-style: a11y
+    toc: true
+    
 editor: visual
 editor_options:
   chunk_output_type: inline

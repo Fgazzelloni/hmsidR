@@ -1,11 +1,15 @@
 # Health Metrics {#sec-01.1HealthMetrics}
 
+\
+
 ::: callout
+
 ## Learning Objectives:
 
 -   A closer look at the metrics
 -   Understand how to use them
 -   Think about potentiality for improvements
+
 :::
 
 ## YLLs, YLDs and DALYs
@@ -62,7 +66,6 @@ The health metrics of DALY, YLL, and YLD can be used in several ways to help pri
 
 Overall, the health metrics of DALY, YLL, and YLD provide valuable information for public health practitioners, researchers, and policy makers to help prioritize and allocate resources, evaluate the impact of diseases and injuries, and inform public health decision-making.
 
-
 #### First application of DALYs
 
 As an example here is shown how the DALY metric can be used for prevention:
@@ -88,7 +91,6 @@ total_dalys
 In this example, the number of cases of the disease and the average years of life lost for each case are used to calculate the number of DALYs lost for each case. Finally, the total number of DALYs lost for the entire population.
 
 This information can be used to inform public health interventions to prevent the spread of this disease and reduce the number of DALYs lost. For example, the information could be used to prioritize resources for disease control and prevention activities, such as health education campaigns, vaccination programs, and screening and treatment programs.
-
 
 ## HALE (Healthy Life Expectancy)
 

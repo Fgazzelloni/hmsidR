@@ -1,6 +1,6 @@
 # Covid19 Outbreaks {#sec-04.1-Covid19}
 
-::: callout-tip
+::: callout
 ## Learning Objectives:
 
 -   What is Covid19

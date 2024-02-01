@@ -11,3 +11,12 @@ A deterministic model, on the other hand, could be used to model the spread of a
 In general, a **stochastic process**, or random process [@dobrow2016] is the type of model which attempt to replicate uncertain outcomes. At opposite, in a **deterministic system** the outcome is obtained from a given input, and for this reason it is reproducible.
 
 Most models used to study the spread of a virus are a **combination of both deterministic and stochastic models**. For example, the SIR (Susceptible-Infected-Recovered) model is a deterministic model that describes the dynamics of the spread of a virus, but it also includes stochastic elements such as random interactions between individuals.
+
+
+
+- do research on the topic
+- identify data sources
+- create a data dictionary
+
+
+

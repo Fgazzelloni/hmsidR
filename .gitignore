@@ -14,6 +14,9 @@ components_hm_files
 compiler
 R
 man
+_extensions/
+_site/
+docs/
 *.html
 *.aux
 *.bcf

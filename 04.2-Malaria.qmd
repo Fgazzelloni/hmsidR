@@ -1,6 +1,6 @@
 # The case of Malaria {#sec-04.2-Malaria}
 
-::: callout-tip
+::: callout
 ## Learning Objectives:
 
 -   What is Malaria

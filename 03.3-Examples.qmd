@@ -1,6 +1,6 @@
 # Examples of data visualizations {#sec-03.3-Examples}
 
-::: callout-tip
+::: callout
 ## Learning Objectives:
 
 -   Learn how to improve the visualization

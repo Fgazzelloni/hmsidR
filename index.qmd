@@ -10,7 +10,7 @@ engine: knitr
 The book is continuously being refined and expanded.
 :::
 
-## What is this book
+## What is this book is all about
 
 Health metrics and the spread of infectious diseases, with machine learning applications and spatial model analysis are the topics of this book. Here you will find everything you need to analyze the state of health of a country and compare it with that of other countries. You will also be able to evaluate the best model for predicting future trends.
 
