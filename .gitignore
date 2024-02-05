@@ -16,6 +16,7 @@ R
 man
 _extensions/
 _site/
+_freeze/
 docs/
 *.html
 *.aux

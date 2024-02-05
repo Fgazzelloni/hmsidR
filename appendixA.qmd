@@ -16,9 +16,9 @@ $d_x$ deceased at age $x$
 
 $q_x$ probability of deaths
 
-$p_x$ probability of survive
+$p_x$ probability of survival
 
-The probability of survive is given by: $$p_x=1-q_x$$
+The probability of survival is given by: $$p_x=1-q_x$$
 
 **Let's start constructing a life table**
 

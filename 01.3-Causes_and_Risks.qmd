@@ -1,21 +1,14 @@
 # Causes and Risks {#sec-01.3-Causes_and_Risks}
 
-\
 ::: callout
-
 ## Learning Objectives:
 
 -   How to use the metrics
-
 -   Overview of the causes and risks
-
 -   Identify the objective of the research question
-
 :::
 
-```         
-Conditions and injuries that are associated with the burden of disease and injury vary according to their specific causes and risks. However, some common causes and risk factors include:
-```
+Conditions and injuries associated with the burden of disease and injury vary according to specific causes and risks. In this book causes and risk factors include:
 
 -   **Lifestyle choices**: Poor diet, physical inactivity, tobacco use, and excessive alcohol consumption are major risk factors for many chronic diseases and injuries, including heart disease, stroke, cancer, and liver disease.
 
@@ -32,6 +25,28 @@ Conditions and injuries that are associated with the burden of disease and injur
 -   **Injuries**: Injuries, such as falls, road traffic accidents, and violence, can also contribute to the burden of diseases and injuries.
 
 \
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| fig-cap: "Causal relationships leading to fueling DALYs value"
+# install.packages("devtools")
+# devtools::install_github("r-causal/ggdag")
+library(ggdag)
+dag <- dagify(
+  "DALY"~"W"+"YLD"+"YLL", # mortality, age,sex, cause
+  "Cause"~"age"+"sex"+"place"+"race"+"other", # age, sex, cause
+  "W"~"Cause", # age, sex, cause
+  "YLD"~"W", # age, sex, cause, disability weights
+  "YLL"~"W",
+  coords=time_ordered_coords()
+)
+
+ggdag(dag)+theme_dag_blank()
+```
+
+
 
 A particular health condition can have multiple causes (co-morbidities) and risk factors. For instance, a poverty status and the lack of access to healthcare facilities, is proven to be increasing the risk of infectious diseases, while poor diet and physical inactivity can increase the risk of chronic diseases. Acting in favor of addressing the *underlying causes and risk factors* for diseases and injuries is crucial for prompt public health interventions and can help reduce the overall burden of disease.
 

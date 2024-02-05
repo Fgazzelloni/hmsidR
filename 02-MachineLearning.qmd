@@ -2,7 +2,7 @@
 
 ## Overview
 
-This chapter provides a simple explanation on how to model a fast growing phenomenon such as in the case of the spread of infectious diseases, or on the contrary how a fast growing little impact can influence the performance of health metrics for some countries but doesn't affect the Global picture. More specifically, a further look will be provided at the evolution of the infection in some specific countries, and how this influences the overall level of health metrics.
+This chapter provides a simple explanation on how to model a fast growing phenomenon such as in the case of the spread of infectious diseases, or on the contrary how a fast growing little impact can influence the level of health metrics for some countries but doesn't affect the Global picture. More specifically, a further look will be provided at the evolution of the infection in some specific countries, and how this influences the overall level of health metrics.
 
 The spread of a virus can be seen as a random process, since the number of individuals who are infected at any given time can change randomly. The exact number of individuals who will be infected in the future cannot be determined with certainty, since it depends on various factors such as the contagiousness of the virus, the behavior of individuals, and the efficacy of mitigation measures.
 
@@ -12,11 +12,74 @@ In general, a **stochastic process**, or random process [@dobrow2016] is the typ
 
 Most models used to study the spread of a virus are a **combination of both deterministic and stochastic models**. For example, the SIR (Susceptible-Infected-Recovered) model is a deterministic model that describes the dynamics of the spread of a virus, but it also includes stochastic elements such as random interactions between individuals.
 
+-   do research on the topic
+-   identify data sources
+-   create a data dictionary
 
+## Measure Machine Learning Models
 
-- do research on the topic
-- identify data sources
-- create a data dictionary
+> The loss function is **a method for evaluating how well a machine learning algorithm models a featured data set**[^02-machinelearning-1]. The ***cost function*** is the average of all loss function values.
 
+[^02-machinelearning-1]: <https://builtin.com/machine-learning/common-loss-functions>
 
+### Loss functions based on modeling techniques
 
+Modeling techniques are Regression and Classification modeling, this is depending on whether the output or the reference variable of the analysis is numeric or categorical, respectively.
+
+-   Regression:
+
+    -   Mean Square Error / Quadratic Loss / L2 Loss
+
+        $$
+        MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{}Y_i-Y_i)^2}
+        $$
+
+    -   Mean Absolute Error / L1 Loss
+
+        $$
+        MAE=\frac{\sum_{i=1}^{n}{|y_i-x_i|}}{n}
+        $$
+
+    -   Huber Loss / Smooth Mean Absolute Error
+
+        $$
+        L_{\delta}(y,f(x))=\left\{\begin{matrix} \frac{1}{2}(y-f(x))^2 & \text{for } |y-f(x)|\leq \delta, \\ \delta|y-f(x)|-\frac{1}{2}\delta^2 & \text{otherwise.} \end{matrix}\right.
+        $$
+
+    -   Log-Cosh Loss
+
+    -   Quantile Loss
+
+-   Classification:
+
+    -   Binary Cross-Entropy Loss / Log Loss
+
+        $$
+        L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}
+        $$
+
+    -   Hinge Loss
+
+        $$
+        L=max(0,1-y*f(x))
+        $$
+
+### Public health loss functions
+
+In the field of public health the measures of cost like mortality and morbidity are used to evaluate the outcome of health and well-being of a population.
+
+The most common analyses methods are[@hult2021]:
+
+-   cost-utility, using quality-adjusted life years (QALY)
+
+-   cost-effectiveness, for specific outcomes, such as life expectancy or medical outcomes.
+
+As mentioned in the history of health metrics, a cost-utility framework is one used for the calculation of QALY, a measure that within time has been considered as discriminating disabilities in the population by assessing a cost which was too higher or too low in most of the situation and was largely criticized for not being able to capture the whole picture.
+
+Comprehensive tools assessing the impacts through cost-effectiveness measures to estimate the effectiveness of health interventions should also include a measure of disability. The measure of DALY (1993) developed for major consideration of the disability status for the evaluation of the well-being of a population was then built adding a further layer based on weights of disability.
+
+So, to recap, the measures for a cost-effectiveness intervention are:
+
+-   mortality
+-   morbidity
+-   disability

@@ -3,14 +3,16 @@
 \
 
 ::: callout
-
 ## Learning Objectives:
 
 -   A closer look at the metrics
 -   Understand how to use them
 -   Think about potentiality for improvements
-
 :::
+
+The DALY is a generalization of the well-known Potential Years of Life Lost measure (PYLLs) to include lost good health[^01.1-healthmetrics-1]
+
+[^01.1-healthmetrics-1]: [@globalh]
 
 ## YLLs, YLDs and DALYs
 

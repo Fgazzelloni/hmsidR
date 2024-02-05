@@ -75,7 +75,7 @@ One of Graunt's key observations was the consistent pattern of higher mortality 
 
 Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of **life tables**, which provided a systematic way to analyze mortality and life expectancy. More specifically, Mary Dempsey in 1940s wrote an article for the National Tuberculosis Association about the concept of Years of Life Lost, assessing time-lost as a metric for health for the first time. She was then followed by other more advanced improvements spanning all throughout of the rest of the century.
 
-With the growth of epidemiology the 20th century was a key century for the expansion of the health metrics, the use of life table and modification of expected survival time to include weights metrics. Measures like **Quality-Adjusted Life Years (QALYs)**, and **Disability-Adjusted Life Years (DALYs)** assessed to capturing not just mortality but also the impact of diseases on overall health and well-being.
+With the growth of epidemiology the 20th century was a key century for the expansion of the health metrics, the use of life table and modification of expected survival time to include weights metrics. Measures like **Quality-Adjusted Life Years (QALYs)**, and **Disability-Adjusted Life Years (DALYs)**[@murray1994a] assessed to capturing not just mortality but also the impact of diseases on overall health and well-being.
 
 In the contemporary era, the integration of computing power and big data has further transformed health metrics. Today, we have complex models, machine learning algorithms, and global health databases that allow for real-time tracking of diseases and health outcomes.
 

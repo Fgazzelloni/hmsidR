@@ -2,8 +2,6 @@ project:
   type: book
   output-dir: docs
   
-
-    
 book:
   title: "Health Metrics and the Spread of Infectious Diseases"
   subtitle: "Machine Learning Applications and Spatial Modeling Analysis with R"
@@ -100,8 +98,6 @@ format:
     link-external-newwindow: true    
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
-    #mainfont: Atkinson Hyperlegible
-    #highlight-style: a11y
     toc: true
     
 editor: visual
@@ -112,7 +108,8 @@ execute:
   echo: true
   message: false
   warning: false
-  
+  freeze: auto 
+  cache: true
   
 knitr:
     opts_chunk:
