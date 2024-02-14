@@ -1,24 +1,50 @@
 # Machine Learning {#sec-02-MachineLearning}
 
+
+> "Human beings are not just passive victims of disease. They are active participants in the biological confrontation between man and microbe."
+
+
 ## Overview
 
 This chapter provides a simple explanation of how to model fast-growing phenomena, such as the spread of infectious diseases. Conversely, it also look at how a rapidly growing health impact can influence the health metrics of certain countries without significantly affecting the global perspective. More specifically, a further look will be provided at the evolution of the infection in some specific countries, and how this influences the overall level of health metrics.
 
-The spread of a virus can be seen as a random process, since the number of individuals who are infected at any given time can change randomly. The exact number of individuals who will be infected in the future cannot be determined with certainty, since it depends on various factors such as the contagiousness of the virus, the behavior of individuals, and the efficacy of mitigation measures.
+The spread of a virus can be seen as a **random process**, since the number of individuals who are infected at any given time can change randomly. The exact number of individuals who will be infected in the future cannot be determined with certainty, as it depends on various factors such as the contagiousness of the virus, the behavior of individuals, and the efficacy of mitigation measures.
 
-A deterministic model, on the other hand, could be used to model the spread of a virus under certain conditions, such as a fixed number of individuals, constant contagiousness, and no mitigation measures. This type of model can be used to make predictions about the spread of a virus under certain assumptions, but it will not account for the randomness and uncertainty associated with real-world scenarios.
+A **deterministic model**, on the other hand, could be used to model the spread of a virus under certain conditions, such as a fixed number of individuals, constant contagiousness, and no mitigation measures. This type of model can be used to make predictions about the spread of a virus under certain assumptions, but it will not account for the randomness and uncertainty associated with real-world scenarios.
 
 In general, a **stochastic process**, or random process [@dobrow2016] is the type of model which attempt to replicate uncertain outcomes. At opposite, in a **deterministic system** the outcome is obtained from a given input, and for this reason it is reproducible.
 
 Most models used to study the spread of a virus are a **combination of both deterministic and stochastic models**. For example, the SIR (Susceptible-Infected-Recovered) model is a deterministic model that describes the dynamics of the spread of a virus, but it also includes stochastic elements such as random interactions between individuals.
 
--   do research on the topic
--   identify data sources
--   create a data dictionary
+The emergence of infections is an ongoing evolution and adaptation[@broemeling2021], Dubos' believed that the relationship between humans and microbes is dynamic and influenced by various factors, including environmental conditions, human behavior, and microbial adaptation. It highlights the importance of understanding the complex interactions between host and pathogen in the emergence and spread of infectious diseases. As microbiologist, *René Dubos* described life as a dynamic interplay between organisms and their environment, as a **process of adaptation and interaction**, where organisms continuously respond to changes in their surroundings to maintain balance and survival.
+
+#### Best practices for application of machine learning models
+
+1. Data checking
+
+  -   do research on the topic
+  -   identify data sources
+  -   create a data dictionary
+
+2. Exploratory Data Analysis
+
+  - visualize the relationship between the response and predictor
+  
+3. Feature Engineering
+
+  - consider transforming variables to a standard format
+
+4. Modelling Decision
+
+  - decide for the model that best suits your data
+  - simulate different scenarios
+  - apply learning parameters to your model
+
+
 
 ## Measure Machine Learning Models
 
-> The loss function is **a method for evaluating how well a machine learning algorithm models a featured data set**[^02-machinelearning-1]. The ***cost function*** is the average of all loss function values.
+> The loss function is **a method for evaluating how well a machine learning algorithm models featured a data set**[^02-machinelearning-1]. The ***cost function*** is the average of all loss function values.
 
 [^02-machinelearning-1]: <https://builtin.com/machine-learning/common-loss-functions>
 
@@ -65,6 +91,8 @@ Modeling techniques are Regression and Classification modeling, this is dependin
         $$
 
 ### Public health loss functions
+
+> "The public may be less interested in environmental quality than in economic prosperity." Dubos
 
 In the field of public health the measures of cost like mortality and morbidity are used to evaluate the outcome of health and well-being of a population.
 

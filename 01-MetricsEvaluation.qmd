@@ -1,5 +1,7 @@
 # Metrics and Evaluation {#sec-01-MetricsEvaluation}
 
+> "The concept of health also has highly subjective connotations, precisely because it is conditioned by the personal view of happiness." René Dubos[@dubos1976]
+
 ## Overview
 
 The health metrics are key variables to understand more about the state of health of a population. In this first section of the book we'll learn about the history of the metrics, how to calculate them, and how to take consideration of their variation due to causes and risks. In particular, we will have a look at the metrics components and the challenges in providing standardized values for a global comparison. Moreover in the following sections we will see how to build a model, evaluate the effect of the spread of infectious disease on the health metrics and how if affects the overall state of health of a population.
@@ -18,17 +20,17 @@ timeline <- tibble(id=seq(1,8,1),
                    type=c("Ancient Observations",
               "John Graunt (17th Century)",
               "Life Tables (19th Century)",
+              "Quality-Adjusted Life Years (QALYs)",
               "Global Burden of Disease Study (1990)",
               "Disability-Adjusted Life Years (DALYs)",
-              "Quality-Adjusted Life Years (QALYs)",
               "Advancements in Technology and Data",
               "Current Landscape"),
 text=c("The concept of health metrics can be traced back to ancient civilizations where observations on life expectancy, birth rates, and mortality were made. However, these were often anecdotal and lacked systematic measurement.",
-       " In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analyzed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
+       "In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analyzed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
        "The 19th century saw the development of life tables, providing a systematic approach to analyzing mortality and life expectancy. This period marked a transition from descriptive observations to more structured methods in health metrics.",
-       " A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health Organization (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
-       "The GBD Study introduced DALYs as a metric in 1990. DALYs combine years of life lost due to premature mortality and years lived with disability, providing a comprehensive measure of disease burden. This metric became instrumental in assessing the overall health impact of different conditions.",
        "QALYs, another important health metric, emerged in the late 20th century as a measure combining both the quality and quantity of life lived. QALYs are commonly used in health economics and healthcare decision-making.",
+       "A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health Organization (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
+       "The GBD Study introduced DALYs as a metric in 1990. DALYs combine years of life lost due to premature mortality and years lived with disability, providing a comprehensive measure of disease burden. This metric became instrumental in assessing the overall health impact of different conditions.",
        "With advancements in technology, including computing power and big data analytics, health metrics have become more sophisticated. Real-time tracking, machine learning applications, and global health databases contribute to a more dynamic understanding of population health.",
        "Today, health metrics encompass a wide range of measures, including traditional mortality rates, disease-specific metrics, and broader indicators like well-being and social determinants of health. These metrics play a crucial role in shaping public health policies, healthcare interventions, and global health assessments."))
 ```
@@ -38,8 +40,8 @@ text=c("The concept of health metrics can be traced back to ancient civilization
 #| fig-width: 8
 #| fig-height: 4
 #| fig-align: "center"
-#| fig-cap: "Metrics development timeline"
-#| fig-alt: "Metrics development timeline"
+#| fig-cap: "Health Metrics development timeline"
+#| fig-alt: "Health Metrics development timeline"
 timeline %>%
   ggplot(aes(x=id,y=0.5))+
   geom_segment(aes(x=id,xend=id,y=0.5,yend=0.8),linewidth=0.3)+
@@ -73,19 +75,23 @@ Graunt meticulously analyzed this **mortality data** and produced **tables** tha
 
 One of Graunt's key observations was the consistent pattern of higher mortality among infants and young children. He noted the difference in life expectancy between males and females and provided insights into factors influencing mortality, such as epidemics and seasons.
 
-Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of **life tables**, which provided a systematic way to analyze mortality and life expectancy. More specifically, Mary Dempsey in 1940s wrote an article for the National Tuberculosis Association about the concept of Years of Life Lost, assessing time-lost as a metric for health for the first time. She was then followed by other more advanced improvements spanning all throughout of the rest of the century.
+Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of **life tables**, which provided a systematic way to analyze mortality and life expectancy. More specifically, *Mary Dempsey* in 1940s wrote an article for the National Tuberculosis Association about the concept of **Years of Life Lost**, assessing time-lost as a metric for health for the first time. She was then followed by other more advanced improvements spanning all throughout of the rest of the century.
+
+> "The quality of life depends also on the state of "public health"-namely on factors that affect the biological welfare of the community as a whole.[@dubos1976a]
 
 With the growth of epidemiology the 20th century was a key century for the expansion of the health metrics, the use of life table and modification of expected survival time to include weights metrics. Measures like **Quality-Adjusted Life Years (QALYs)**, and **Disability-Adjusted Life Years (DALYs)**[@murray1994a] assessed to capturing not just mortality but also the impact of diseases on overall health and well-being.
 
 In the contemporary era, the integration of computing power and big data has further transformed health metrics. Today, we have complex models, machine learning algorithms, and global health databases that allow for real-time tracking of diseases and health outcomes.
 
-John Graunt's work may have been a humble beginning, but it set in motion a scientific approach to understanding population health. The journey from *Graunt's Bills of Mortality* [@johngra2024a] to today's sophisticated health metrics reflects the continuous quest to quantify and comprehend the complexities of human health and disease.
+John Graunt's work may have been a humble beginning, but it sets in motion a scientific approach to understanding population health. The journey from *Graunt's Bills of Mortality* [@johngra2024a] to today's sophisticated health metrics reflects the continuous quest to quantify and comprehend the complexities of human health and disease.
 
 ### **Quality-Adjusted Life Years (QALYs)**
 
-The concept of Quality-Adjusted Life Years (QALYs) emerged in the late 1970s, originating from the idea of combining both the *quantity* and *quality* of life by *Joseph S. Pliskin*, then it became a widely used metric for evaluating the *cost-effectiveness* of healthcare interventions [@quality-2023]. One QALY corresponds to one year in perfect health, it ranges from 1 (perfect health) to 0 (dead). However, this metric, used in various sectors such as health insurance, is somewhat criticized due to its lack of addressing disparities among individuals. It might result in discrimination against individuals with specific medical conditions or disabilities.
+The concept of **Quality-Adjusted Life Years (QALYs)** emerged in the late 1970s, originating from the idea of combining both the *quantity* and *quality* of life by *Joseph S. Pliskin*, then it became a widely used metric for evaluating the *cost-effectiveness* of healthcare interventions [@quality-2023]. One *QALY* corresponds to one year in perfect health, it ranges from 1 (perfect health) to 0 (dead). However, this metric, used in various sectors such as health insurance, is somewhat criticized due to its lack of addressing disparities among individuals. It might result in discrimination against individuals with specific medical conditions or disabilities.
 
-A controversial result followed 25 years of research and studies due to the concerning validity of the metric to be inclusive. Started in the early 1989s, to step in the 2010 with the European Commission [@echoutco2016] which started the largest-ever study specifically dedicated to testing the assumptions of the QALY [@holmes2013], ending in 2013 with the recommended not using QALYs in healthcare decision making, arguing that patients with disabilities are valued less under a QALY-based system then individuals with no disabilites. The result was then further criticized and it is still on debate.
+A controversial result followed 25 years of research and studies due to the concerning validity of the metric to be inclusive. Started in the early 1989s, to step in the 2010 with the *European Commission* [@echoutco2016] which started the largest-ever study specifically dedicated to testing the assumptions of the *QALY* [@holmes2013], ending in 2013 with the recommended "not using QALYs in healthcare decision making", arguing that patients with disabilities are valued less under a QALY-based system then individuals with no disabilites. The result was then further criticized and it is still on debate.
+
+> "Thus, medicine cannot by itself determine the quality of life. It can only help people to achieve the state of health that enables them to cultivate the art of life-but in their own way. This implies the ability to enjoy the fundamental satisfactions of the biological joie de vivre. It implies also the ability for each person to do what he wants to do and become what he wants to become, according to human values that transcend medical judgment." R.Dubos[@dubos1976a]
 
 ### **Disability-Adjusted Life Years (DALYs)**
 
