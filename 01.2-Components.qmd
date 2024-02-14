@@ -14,7 +14,7 @@ The evaluation of the health metrics starts from the assessment of their compone
 
 YLLs, YLDs and DALYs calculation focused on cause-specific analyses considers a cause of deaths and/or disability, at a specific point in time, based all ages or on specific age groups, for both sex or only for females or males. Even the weights for the calculation of the disability levels changes based on the type of disability and all the other parameters.
 
-## Years of Life Lost (YLLs)' components
+## YLLs' components
 
 The number of years of life lost YLLs is the first of the three metrics that is calculated, and is important for releasing a first look at the status of a population. First mentioned in 1947 by Mary Dempsey[@dempsey2019] to measure the burden of tuberculosis, it is built for identifying the area where improvement is required for reducing the loss in health status and clearly reducing the probability of death [@reiner2022].
 
@@ -101,7 +101,7 @@ Glifetables %>%
   theme_bw()
 ```
 
-## Years Lived with Disability (YLDs)' components
+## YLDs' components
 
 The components of YLD (Years Lived with Disability) include several factors that contribute to the calculation of the number of years lived with a disability due to a disease or injury. These components are:
 
@@ -127,13 +127,15 @@ $$
 
 By taking these factors into account, YLD provides a measure of the number of years lived with a disability due to a disease or injury. It is an important component of the DALY, which provides a comprehensive view of the overall burden of disease on a population.
 
-## Disability Adjusted Life Years (DALYs)' components
+## DALYs' components
 
 Both YLL and YLD are components of the DALY and are used to provide a comprehensive assessment of the impact of disease and injury on a population. By combining YLL and YLD, the DALY takes into account both premature death and the impact of disease or injury on quality of life, providing a more comprehensive view of the overall burden of disease.
 
 > However, HALYs, including DALYs and QALYs, are especially useful in guiding the allocation of health resources as they provide a common numerator, allowing for the expression of utility in terms of dollar/DALY, or dollar/QALY. For example, in Gambia, provision of the pneumococcal conjugate vaccine costs \$670 per DALY saved. This number can then be compared to other treatments for other diseases, to determine whether investing resources in preventing or treating a different disease would be more efficient in terms of overall health [@disabili2023].
 
-## The German Lung Cancer Study
+### Case Study
+
+#### The German Lung Cancer Study
 
 In this section a practical calculation of the health metrics is done for the practitioner to be able to replicate this calculation for further analysis based on these key elements.
 

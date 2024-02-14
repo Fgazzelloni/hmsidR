@@ -1,8 +1,6 @@
 # Machine Learning {#sec-02-MachineLearning}
 
-
 > "Human beings are not just passive victims of disease. They are active participants in the biological confrontation between man and microbe."
-
 
 ## Overview
 
@@ -16,35 +14,31 @@ In general, a **stochastic process**, or random process [@dobrow2016] is the typ
 
 Most models used to study the spread of a virus are a **combination of both deterministic and stochastic models**. For example, the SIR (Susceptible-Infected-Recovered) model is a deterministic model that describes the dynamics of the spread of a virus, but it also includes stochastic elements such as random interactions between individuals.
 
-The emergence of infections is an ongoing evolution and adaptation[@broemeling2021], and to use the words of one of the most popular involved with the study of the state of health, yet in the late 1970s, Dubos' believed that "the relationship between humans and microbes is dynamic and influenced by various factors, including environmental conditions, human behavior, and microbial adaptation". He highlighted the importance of understanding the complex interactions between host and pathogen in the emergence and spread of infectious diseases. As microbiologist, *René Dubos* described life as a dynamic interplay between organisms and their environment, as a **process of adaptation and interaction**, where organisms continuously respond to changes in their surroundings to maintain balance and survival. This is the exact explanation of what happens inside a machine learning model environment. A continuous parameters learning and adjustment process due to simulations of the observed data. 
+The emergence of infections is an ongoing evolution and adaptation[@broemeling2021], and to use the words of one of the most popular involved with the study of the state of health, yet in the late 1970s, Dubos' believed that "the relationship between humans and microbes is dynamic and influenced by various factors, including environmental conditions, human behavior, and microbial adaptation". He highlighted the importance of understanding the complex interactions between host and pathogen in the emergence and spread of infectious diseases. As microbiologist, *René Dubos* described life as a dynamic interplay between organisms and their environment, as a **process of adaptation and interaction**, where organisms continuously respond to changes in their surroundings to maintain balance and survival. This is the exact explanation of what happens inside a machine learning model environment. A continuous parameters learning and adjustment process due to simulations of the observed data.
 
+### Best practices for application of machine learning models
 
+1.  Data checking
 
-#### Best practices for application of machine learning models
+-   do research on the topic
+-   identify data sources
+-   create a data dictionary
 
-1. Data checking
+2.  Exploratory Data Analysis
 
-  -   do research on the topic
-  -   identify data sources
-  -   create a data dictionary
+-   visualize the relationship between the response and predictor
 
-2. Exploratory Data Analysis
+3.  Feature Engineering
 
-  - visualize the relationship between the response and predictor
-  
-3. Feature Engineering
+-   consider transforming variables to a standard format
 
-  - consider transforming variables to a standard format
+4.  Modelling Decision
 
-4. Modelling Decision
+-   decide for the model that best suits your data
+-   simulate different scenarios
+-   apply learning parameters to your model
 
-  - decide for the model that best suits your data
-  - simulate different scenarios
-  - apply learning parameters to your model
-
-
-
-## Measure Machine Learning Models
+## Measures of Machine Learning Models
 
 > The loss function is **a method for evaluating how well a machine learning algorithm models featured a data set**[^02-machinelearning-1]. The ***cost function*** is the average of all loss function values.
 

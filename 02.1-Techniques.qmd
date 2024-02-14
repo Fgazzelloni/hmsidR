@@ -8,17 +8,25 @@
 -   Learn how to apply machine learning algorithms
 :::
 
-## Data Analytics
+## Data Analytics versus Data Science
 
-Collecting data to use in a research analysis involves a selection of sources and methods to use for optimizing computational time when downloading and reading the files.
+It an ongoing debate that involves the distinction of the field of data analytics from that of data science. Essentially we need both, and for two reasons:
 
-Once data is set and ready to use a further step is required to make the data suitable for the selected model.
+-   rigorous analysis of data available
 
-In this chapter, an overview of different method of data loading and featuring selection is provided before to get into selecting the best model to use.
+-   provide a perspective on overall results
 
-The source of data is an important variable. Generally, data can be downloaded by using an API (application programming interface) which allow the user to get access to data directly from source, with the use of specified back-end computations. There are alternatives at using an API; data can be obtained by downloading it directly into the computer, or loaded through library packages.
+Data analytics is mostly focused on analyzing data, which means collecting, checking, tidying and manipulating to finally apply ad hoc statistical techniques.
 
-Usually, available files are provided under various forms such as delimited type of files, .csv, .xls, .json, and other types.
+Data science on the other side provide a overall conclusion about the data provided, reached through simulations, application of probabilities and declaring definitive conclusions sentencing about the significance of the data test on a particular matter of concern.
+
+In this book we will go through both of them as we analyze data and then provide an overall conclusion about the answer of the research topic. To be more specific, an overview of different method of data loading and featuring selection is provided before to get into selecting the best model to use.
+
+### Collecting and Analyzing Data
+
+Collecting data to use in a research analysis involves a selection of sources and methods to use for optimizing computational time when downloading and reading the files. Once data is set and ready to use a further step is required to make the data suitable for the selected model.
+
+The source of data is an important variable. Generally, data can be downloaded by using an API (application programming interface) which allow the user to get access to data directly from source, with the use of specified back-end computations. There are alternatives at using an API; data can be obtained by downloading it directly into the computer, or loaded through library packages. Usually, available files are provided under various forms such as delimited type of files, .csv, .xls, .json, and other types.
 
 Here is an example of how to use an API for downloading a file directly onto your computer.
 
@@ -70,3 +78,11 @@ data %>%
   geom_density()+
   facet_wrap(~type)
 ```
+
+### Visualizing Data
+
+### Feature Engineering
+
+### Modeling Techniques
+
+## Conclusion
