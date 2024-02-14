@@ -7,3 +7,7 @@
 -   Evaluate prediction results
 -   Improve predictions
 :::
+
+## Prediction about the Future
+
+## Prediction without Memory

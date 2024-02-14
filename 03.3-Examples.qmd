@@ -1,4 +1,4 @@
-# Examples of data visualizations {#sec-03.3-Examples}
+# More Examples {#sec-03.3-Examples}
 
 ::: callout
 ## Learning Objectives:
