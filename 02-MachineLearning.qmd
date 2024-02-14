@@ -2,7 +2,7 @@
 
 ## Overview
 
-This chapter provides a simple explanation on how to model a fast growing phenomenon such as in the case of the spread of infectious diseases, or on the contrary how a fast growing little impact can influence the level of health metrics for some countries but doesn't affect the Global picture. More specifically, a further look will be provided at the evolution of the infection in some specific countries, and how this influences the overall level of health metrics.
+This chapter provides a simple explanation of how to model fast-growing phenomena, such as the spread of infectious diseases. Conversely, it also look at how a rapidly growing health impact can influence the health metrics of certain countries without significantly affecting the global perspective. More specifically, a further look will be provided at the evolution of the infection in some specific countries, and how this influences the overall level of health metrics.
 
 The spread of a virus can be seen as a random process, since the number of individuals who are infected at any given time can change randomly. The exact number of individuals who will be infected in the future cannot be determined with certainty, since it depends on various factors such as the contagiousness of the virus, the behavior of individuals, and the efficacy of mitigation measures.
 
