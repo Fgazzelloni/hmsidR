@@ -3,10 +3,13 @@
 ::: callout
 ## Learning Objectives:
 
--   How to use the metrics
 -   Overview of the causes and risks
 -   Identify the objective of the research question
+- Causal inference
 :::
+
+
+## Conditions and injuries
 
 Conditions and injuries associated with the burden of disease and injury vary according to specific causes and risks. In this book causes and risk factors include:
 
@@ -83,3 +86,20 @@ The GBD evaluated 87 risk factors from 1990 to 2019.
 #### Relative Risk
 
 ### Summarizing the relationship between risk and outcome
+
+
+## Causal inference
+
+Causality concerns the relationship between two variables, where one variable (the cause) influences or determines the other variable (the effect). For example, regular exercise leads to improved cardiovascular health, or adequate sleep contributes to better cognitive function. However, it's essential to distinguish causality from correlation, which denotes the statistical association between two variables. For instance, the correlation between watching television and obesity rates does not imply a causal link. To establish causality, one must systematically consider alternative explanations or confounding factors that may influence both the cause and the effect.
+
+As the foundation of prediction, causal inference investigates on the underlining causes of a condition or a phenomenon. These causes might not immediately visible but need to be discovered passing through various steps of data analysis of the observed data to reveal the hidden threads of cause.
+
+Performing casual inference requires a settlement of an experiment, where there are **treatment** and **outcome** elements. The treatment is the action taken to the data, in the example of regular exercise leads to improved cardiovascular health, to state that this statement is true, an intervention is done to the data, simulating the intervening of another factor variable on the relationship. The formal name of an intervention is  "treatment", and to investigate the relationship between exercise and the improvement of cardiovascular health, a treatment would be seeing how data can change if regular portions of fruits is eaten.
+
+So, now the elements factor of the investigation are exercise and potion of fruits, and this is done to see how the combination of the two would improve or not cardiovascular health. Once the intervention is analysed looking at how the response variable, in this case cardiovascular health, changed due to treatment, then the next step would be to apply a control procedure to 
+
+It is useful, expecially when the result of an intervention is uncertain to apply a **counter-factual** scenario.
+
+
+
+
