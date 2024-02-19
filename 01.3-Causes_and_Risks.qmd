@@ -50,9 +50,61 @@ ggdag(dag)+theme_dag_blank()
 
 A particular health condition can have multiple causes (co-morbidities) and risk factors. For instance, a poverty status and the lack of access to healthcare facilities, is proven to be increasing the risk of infectious diseases, while poor diet and physical inactivity can increase the risk of chronic diseases. Acting in favor of addressing the *underlying causes and risk factors* for diseases and injuries is crucial for prompt public health interventions and can help reduce the overall burden of disease.
 
-## Risk Metrics
+## Risk Measures
 
-Risk factors associated with a particular health condition are considered based on the *Theoretical minimum risk exposure levels (TMRELs)* and as a function of the risk exposure or *relative risk (RR)* value. Not all the variables that are thought to be risk factors increasing causes for a particular health condition are always the driving cause of the condition, for this reason a minimum level of risk exposure is established for the risk to be considered involved as effective in the outcome.
+In the following section we will step into key risk measures such as:
+
+-   Risk-specific exposures
+
+<!-- -->
+
+-   Relative risks (RRs)
+
+-   Theoretical minimum-risk exposure levels (TMRELs)
+
+-   Population attributable fractions (PAFs)
+
+### Risk-specific exposures
+
+The quantification of risks and causes involves the evaluation of a set of behavioral, environmental and occupational, and metabolic risks. Pairs of risk-outcome are investigated based on observations and statistical evidences. Convincing evidences consist of plausible associations between exposure and disease in terms of size, duration and effects.
+
+Risk combinations can be **additive** (the occurrence of a least one event, A or B), **multiplicative** (the occurrence of both of two events, A and B) or just **interactive,** acting to influence other pairs, this action is generally identified as possible **confounding**, to be distinguished by factors in the causal pathway between exposure and outcome.
+
+To have an idea of the impact of different risk factors on a cause of illness, the **Socio-demographic Index (SDI)** provide insights into the potential magnitude of social, cultural and demographic factors looking at the risk exposures and possible paths for policy interventions. The Life Expectancy level is closely correlated to the level of the SDI indicator as it is based on average income per person, educational attainment, and total fertility rate (TFR). Higher SDI values typically indicate better socio-economic conditions, including improved access to healthcare, education, and sanitation, which can mitigate various health risks. Conversely, lower SDI values are associated with higher risk exposure due to limited access to healthcare, poorer living conditions, and other socio-economic challenges.
+
+One more element to take into consideration is the **Comparative Risk Assessment (CRA)**[@stanaway2018] divided into attributable and avoidable burden. Considering as the objective the potential reduction of future disease burden, four types of **minimum risk exposure** distributions are identified:
+
+-   theoretical
+
+-   plausible
+
+-   feasible
+
+-   cost-effective
+
+The following provide a high level overview on quantifying attributable burden by using the theoretical minimum risk.
+
+### Relative risks (RRs)
+
+The Relative Risk (or Risk Ratio) for the risk-outcome pairs, mortality and morbidity calculation passes through the decomposition of the attributable burden to a risk. The sum of all-risk exposure effect is accounted for location, age, sex, and mediation-cause. And as said the exposure of all-risks for a disease is split in metabolic, behavioral and environmental risks. Each factor contributes to the overall change.
+
+The relative risk is the ratio between the proportions of exposed and unexposed groups.
+
+$$
+RR= \frac{p_0}{p_1}
+$$
+
+where $p_0$ and $p_1$ are the proportions of unexposed and exposed group respectively. Or, in terms of population, these group would approx the values of the real population:
+
+$$
+RR = \frac{p_1}{p_0}=\frac{d_1/n_1}{d_0/n_0}
+$$
+
+### Theoretical minimum-risk exposure levels
+
+(TMRELs)
+
+Risk factors associated with a particular health condition are considered based on the *Theoretical minimum risk exposure levels (TMRELs)* and as a **function of the risk exposure or *relative risk (RR)* value**. Not all the variables that are thought to be risk factors increasing causes for a particular health condition are always the driving cause of the condition, for this reason a minimum level of risk exposure is established for the risk to be considered involved as effective in the outcome.
 
 Moreover, disease attributable to a particular risk factor or combination of risk factors need to be ascertain investigating the risk-outcome relationship. Risk factors can also act indirectly on the outcome via intermediate risks, such as the association of low fruit consumption and heart disease influenced by systolic blood pressure which acts as mediator between the two.
 
@@ -94,4 +146,4 @@ Performing casual inference requires a settlement of an experiment, where there 
 
 So, now the elements factor of the investigation are exercise and potion of fruits, and this is done to see how the combination of the two would improve or not cardiovascular health. Once the intervention is analysed looking at how the response variable, in this case cardiovascular health, changed due to treatment, then the next step would be to apply a control procedure to
 
-It is useful, expecially when the result of an intervention is uncertain to apply a **counter-factual** scenario.
+It is useful, especially when the result of an intervention is uncertain to apply a **counter-factual** scenario.

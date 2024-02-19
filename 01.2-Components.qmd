@@ -14,6 +14,20 @@ The evaluation of the health metrics starts from the assessment of their compone
 
 YLLs, YLDs and DALYs calculation focused on cause-specific analyses considers a cause of deaths and/or disability, at a specific point in time, based all ages or on specific age groups, for both sex or only for females or males. Even the weights for the calculation of the disability levels changes based on the type of disability and all the other parameters.
 
+## Incidence and Prevalence
+
+The incidence, even identified as the cumulative incidence (risk) - $r$ is the probability the disease occurs in a specified period of time.
+
+$$
+r= \frac{\text{number of new cases at time t}}{\text{disease-free population}}
+$$
+
+The prevalence identify the burden of disease at a specific time, rather than the probability of the disease to impact on the population, it expresses the probability of suffering from a disease, it is based on the total number of existing cases among the whole population. So, incidence relates on new cases, while prevalence on existing number of cases.
+
+$$
+\text{Prevalence}=\frac{\text{number of people affected at time t}}{\text{total population}}
+$$
+
 ## YLLs' components
 
 The number of years of life lost YLLs is the first of the three metrics that is calculated, and is important for releasing a first look at the status of a population. First mentioned in 1947 by Mary Dempsey[@dempsey2019] to measure the burden of tuberculosis, it is built for identifying the area where improvement is required for reducing the loss in health status and clearly reducing the probability of death [@reiner2022].
