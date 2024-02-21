@@ -7,3 +7,5 @@
 -   Combination of packages and functions
 -   How to find a new R-package
 :::
+
+This book provides all data analysis, visualization and modeling in R (a hint to Python translations can be found in @sec-appendixC) and the universe of packages available is vast. How to untangle among all of them? Which one to choose? Sometimes is rather favorable starting from working out of the library boxes, and this means using functions that are provided in the built-in packages inside a fresh R installation. And here there is more to talk about. Generally, the only command-line R is not sufficient for you to see and manipulate outputs, an R compiler interface is needed, whether is the [RStudio](https://posit.co/products/open-source/rstudio/) IDE (integrate development environment), [VSCode](https://code.visualstudio.com/) or any other IDE cloud environments such as [Posit.cloud](https://posit.cloud/).

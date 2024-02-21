@@ -31,3 +31,5 @@ docs/
 *.ilg
 *.ind
 *.run.xml
+*.*_cache/
+*.*_files/
