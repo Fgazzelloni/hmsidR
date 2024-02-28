@@ -8,9 +8,13 @@
 -   How to find a new R-package
 :::
 
+## Inside and outside of the library boxes
+
 This book provides all data analysis, visualization, and modeling in R (a hint to Python translations can be found in @sec-appendixC), and the universe of available packages is vast. How do you untangle among all of them? Which one to choose? Sometimes, it is rather favorable to start by working out of the library boxes, which means using functions provided in the built-in packages inside a fresh R installation.
 
 On the contrary, life has become easier with the advent of wrapping functions and the reduction of lines of code through the use of functions found in packages. In the past, data analysis and modeling in R required extensive coding, often involving repetitive tasks and lengthy scripts. However, with the introduction of packages containing pre-built functions for common tasks, such as data manipulation, visualization, and statistical modeling, the process has been streamlined. These packages offer a wide range of functions that can be easily applied to perform complex analyses with just a few lines of code. As a result, users can achieve sophisticated results more efficiently, without the need to write lengthy and intricate scripts from scratch. This shift has not only simplified the process of data analysis and modeling but has also democratized access to advanced statistical techniques, making them more accessible to a broader audience.
+
+## Useful packages
 
 Some of the most used modeling packages available in R that are particularly useful for machine learning modeling of the spread of infectious diseases and evaluating DALYs variation due to infectious disease include:
 
@@ -34,9 +38,11 @@ Each package has its strengths and weaknesses, and the choice of package often d
 
 For example, tidymodels provides a tidy and consistent workflow for modeling tasks, while mlr3 offers extensive support for machine learning algorithms and hyperparameter tuning.
 
-It's also worth considering other packages not mentioned here that may be relevant for specific aspects of the analysis, such as spatial modeling (e.g., spdep) or time series forecasting (e.g., prophet).
+It's also worth considering other packages that may be relevant for specific aspects of the analysis, such as spatial modeling (e.g., spdep) or time series forecasting (e.g., prophet).
 
 -   [**spdep**](https://cran.r-project.org/web/packages/spdep/index.html): spdep package and its piped interface [**sfdep**](https://cran.r-project.org/package=sfdep) are powerful tools for spatial econometrics and spatial statistics. With a set of functions for analyzing spatial dependence and autocorrelation in spatial data, they can be particularly relevant in infectious disease modeling. By accounting for spatial relationships between geographic units, such as regions or neighborhoods, these packages incorporate spatial effects into models and allow for a better understanding of how infectious diseases spread across space.
 -   [**prophet**](https://facebook.github.io/prophet/): prophet package in R is specifically designed for time series forecasting with an emphasis on flexibility and ease of use. Developed by Facebook, prophet can handle various time series patterns, including seasonality, holiday effects, and trend changes, making it suitable for modeling infectious disease trends over time. The package automatically detects and accommodates these patterns, simplifying the modeling process and enabling researchers to generate accurate forecasts with minimal effort.
 
 Ultimately, the features and capabilities of each package should carefully be evaluated in relation to their specific research objectives before to choose the one that best meets research needs and objectives. Additionally, experimenting with different packages and techniques may be beneficial to identify the most effective approach for a given analysis.
+
+### Examples

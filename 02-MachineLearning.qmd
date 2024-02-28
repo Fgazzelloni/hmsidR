@@ -1,10 +1,12 @@
-# Machine Learning {#sec-02-MachineLearning}
+# Introduction {#sec-02-MachineLearning}
 
 > "Human beings are not just passive victims of disease. They are active participants in the biological confrontation between man and microbe."
 
 ## Overview
 
 This chapter provides a simple explanation of how to model fast-growing phenomena, such as the spread of infectious diseases. Conversely, it also look at how a rapidly growing health impact can influence the health metrics of certain countries without significantly affecting the global perspective. More specifically, a further look will be provided at the evolution of the infection in some specific countries, and how this influences the overall level of health metrics.
+
+### Deterministic or Stochastic modeling
 
 The spread of a virus can be seen as a **random process**, since the number of individuals who are infected at any given time can change randomly. The exact number of individuals who will be infected in the future cannot be determined with certainty, as it depends on various factors such as the contagiousness of the virus, the behavior of individuals, and the efficacy of mitigation measures.
 
@@ -14,35 +16,340 @@ In general, a **stochastic process**, or random process [@dobrow2016] is the typ
 
 Most models used to study the spread of a virus are a **combination of both deterministic and stochastic models**. For example, the SIR (Susceptible-Infected-Recovered) model is a deterministic model that describes the dynamics of the spread of a virus, but it also includes stochastic elements such as random interactions between individuals.
 
-The emergence of infections is an ongoing evolution and adaptation[@broemeling2021], and to use the words of one of the most popular involved with the study of the state of health, yet in the late 1970s, Dubos' believed that "the relationship between humans and microbes is dynamic and influenced by various factors, including environmental conditions, human behavior, and microbial adaptation". He highlighted the importance of understanding the complex interactions between host and pathogen in the emergence and spread of infectious diseases. As microbiologist, *René Dubos* described life as a dynamic interplay between organisms and their environment, as a **process of adaptation and interaction**, where organisms continuously respond to changes in their surroundings to maintain balance and survival. This is the exact explanation of what happens inside a machine learning model environment. A continuous parameters learning and adjustment process due to simulations of the observed data.
+## What is a machine learning model
 
-### Best practices for application of machine learning models
+And how it differs from statistical models (deterministic and stochastic) it is all a matter of parameters calibration. The difference between a deterministic and stochastic model is key to understanding when the machine learning come into play.
 
-1.  Data checking
+The emergence of infections is an ongoing evolution and adaptation[@broemeling2021], and to use the words of one of the most popular scientists involved with the study of the state of health, yet in the late 1970s, Dr. Renè Dubos' believed that "the relationship between humans and microbes is dynamic and influenced by various factors, including environmental conditions, human behavior, and microbial adaptation". The importance of understanding the complex interactions between host and pathogen in the emergence and spread of infectious diseases is described as a dynamic interplay between organisms and their environment, as a **process of continuous adaptation and interaction**, where organisms continuously respond to changes in their surroundings to maintain balance and survival. This is the exact explanation of what happens inside a machine learning model environment. A continuous parameters learning and adjustment process achieved with a technique called tuning or more clearly calibration of parameters with the result of a range of possible alternative scenarios releasing simulations of the observed data.
 
--   do research on the topic
--   identify data sources
--   create a data dictionary
+Machine learning models fall under the category of **empirically driven models**. Unlike **mechanistic models**, which are based on explicit equations and known relationships between variables (such as differential equations used in infectious disease modeling), machine learning models derive patterns and relationships directly from data without explicit knowledge of the underlying mechanisms. Therefore, while both mechanistic and empirically driven models are used for prediction, they operate on different principles:
 
-2.  Exploratory Data Analysis
+> mechanistic models rely on known relationships and equations, while machine learning models learn patterns from data.
 
--   visualize the relationship between the response and predictor
+### Model function
 
-3.  Feature Engineering
+In general what happens inside the application of a model function is the search for coefficients estimates that minimize the difference with the observed data.
 
--   consider transforming variables to a standard format
+Consider $y$ as the observed number of deaths or infections, in the data we will have other influencing variables $x_1,x_2,...$, what we want is to be able to replicate the action of these $x_i$, called predictors when the level of $y$ or our response variable varies.
 
-4.  Modelling Decision
+#### The Cholera example
 
--   decide for the model that best suits your data
--   simulate different scenarios
--   apply learning parameters to your model
+Let's use the `{HistData}` package for an example on *William Farr*'s Data on `Cholera` in London, 1849. This set of data contains information about the number of deaths due to Cholera in specific districts, the population density, the water provider and other variables. Let's load the data and select just the variable of interest.
+
+If we are interested in the evolution of mortality due to Cholera. We might want to look at the regional level, how the annual deaths - all causes (`annual_deaths`), the death's rate per 10,000 inhabitants (`cholera_drate`), or is distributed.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(HistData)
+cholera <- HistData::Cholera %>%
+  select(cholera_drate,poor_rate,pop_dens,annual_deaths)
+cholera %>% head
+```
+
+The observed variables are identified by the response `y = cholera death rate`, and the predictors `X = (region, pop_dens, poor_rate)`.
+
+Now let's observe in mathematical terms what happens when we start investigating the relationship between the response and the predictors, and attempt explaining the behavior of the variables.
+
+In general a model function with just one predictor is given by:
+
+$$
+y=\beta_0 + \beta_1 x
+$$
+
+And in this case we can assume this to be equal to a $Y=a+mx$ linear function. In our case $\beta_0$ would be the intercept and $\beta_1$ the slope of the line that will summarize the information between $y$ and $x$. When a model is attempted we estimate the values of the slope and the intercept in order to replicate the $y$ values with applying just the value of $x$ to our model function.
+
+So, the estimated data will approximate the observed data, but with some margin of error.
+
+$$
+y \sim \hat y = \hat \beta_0+\hat \beta_1x + \epsilon
+$$
+
+where $\hat \beta_0$ is the estimate value of the intercept, and $\hat \beta_1$ the estimated value of the slope plus some margin of error.
+
+The difference between $y$ and $\hat y$ is the error we make when applying a model.
+
+$$
+y- \hat y = \epsilon
+$$
+
+Reducing the error $(\epsilon)$ as much as possible can lead to better fit of the model.
+
+While the case of begin in presence of just one predictor influencing our response variable might be useful for educational purposes, as in the Cholera data above, the case with more than one predictor can be more realistic and it changes the model function to become more complex. This is called multilinear model function.
+
+$$y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n$$
+
+In this case more than one predictor is used to investigate the varying level of the response variable. A compact form of the model function with more than one predictor can be stated as:
+
+$$
+y=\beta_0 + \sum_{i=1}^{p}{\beta_ix_i}= \beta_0+\beta X
+$$
+
+In this notation, the capital $X$ takes the form of a matrix containing various $x_i$: $X=(x_1,x_2,x_3,...,x_p)$, the predictors, and the $\beta=(\beta_1,\beta_2,\beta_3,...,\beta_p)$ are the coefficient to be estimated.
+
+In the case of **Cholera data**, the application of a model function requires one more step to be taken. First we visualize how the response variable relates to each of the predictors in order to establish if it is the case of a linear or non-linear relationship, the following scatter-plots represent how the death rates due to Cholera varies in different regions, based on population density level and considering the poor level.
+
+```{r}
+#| echo: false
+#| fig-cap: "Cholera death rates pairs relationship"
+
+library(patchwork)
+p1 <- cholera |>
+  ggplot(aes(x=poor_rate,y=cholera_drate))+
+  geom_point()+geom_smooth()
+p2 <- cholera |>
+  ggplot(aes(x=pop_dens,y=cholera_drate))+
+  geom_point()+geom_smooth(method = "lm")+labs(y="")
+p3 <- cholera |>
+  ggplot(aes(x=annual_deaths,y=cholera_drate))+
+  geom_point()+geom_smooth(method = "lm")+labs(y="")
+(p1+p2+p3) & theme_bw() 
+```
+
+The trends are not linear, the first plot is clearly grouping deaths rates by regions, the other two have both a squiggling line. In fact the blue line passing through the dots does not fit the data very well. To make that line we used a `geom_smooth()` from the `{ggplot2}` package, we will see more about data visualization techniques in the following chapters, but for now let's just assume that with this function we can visualize the estimates of the linear model fit on our data.
+
+Let's now apply a linear model function to actually see the coefficients estimates. These types of models are not always good for non-linear relationships but have the property to being simple at to be explained. And this is a good starting point to understand what happen in a more complicated model.
+
+A linear regression model is applied to this data with the `lm()` function from the `{stats}` built-in R package.
+
+```{r}
+mod_cholera <- lm(formula = cholera_drate ~ annual_deaths , 
+                  data = cholera)
+```
+
+```{r}
+plot <- cholera %>%
+  ggplot(aes(x = annual_deaths)) +
+  geom_line(aes(y = cholera_drate, color = "Death Rate")) +
+  geom_smooth(aes(y = cholera_drate),method = "lm",formula= "y ~ x")
+```
+
+```{r}
+# source: https://stackoverflow.com/questions/42673665/geom-smooth-gives-different-fit-than-nls-alone
+dat2 = ggplot_build(plot)$data[[2]]
+dat2 <- dat2%>%rename(cholera_drate=y,annual_deaths=x)
+```
+
+```{r}
+predictions <- predict(mod_cholera, newdata = dat2)
+
+rmse <- sqrt(mean((predictions - cholera$cholera_drate)^2))
+cat("Root Mean Squared Error (RMSE):", rmse, "\n")
+```
+
+```{r}
+# Plot simulated data and predictions
+cholera %>%
+  ggplot(aes(x = annual_deaths)) +
+  geom_line(aes(y = cholera_drate, color = "Death Rate")) +
+  geom_line(data = dat2, aes(color = "Predicted"),
+            y = predictions) +
+  geom_smooth(aes(y = cholera_drate),linewidth=0.1,
+              method = "lm",formula= "y ~ x")+
+  labs(title = "Prediction of excess of mortality due to Cholera", 
+       x = "Annual Deaths", y = "Death Rate") +
+  scale_color_manual(values = c("Death Rate" = "grey40", 
+                                "Predicted" = "red")) +
+  theme_minimal()
+```
+
+The `lm(formula = y ~ ., data= observed-data)` is our model function $y=\beta_0+\beta_1x$, this formula apply the mathematical technique of reversed matrix multiplication for estimating the values of the coefficients. Such as in the exemplified case of:
+
+$$
+y=a+mx \text{ --> } \hat x=\frac{(y-a)}{m}
+$$ where $a$ is our intercept $\beta_0$ and $m$ is our slope $(\beta_0)$.
+
+On a linear model the $\beta_i$ are defined as parameters, and parameters estimation and calibration is all that makes the model to fit best the observed data and most probably be able to adapt and predict future values. There a variety of models, not only linear, it depends by the type of data, if the outcome is continuous or discrete, if the number of predictors is higher than the number of observation and so on. We can have non-linear models, as well as multilevel models and more complex combination. A major subdivision is between **regression** and **classification**, whether the outcome variable is continuous or not.
+
+**Machine learning models** are all that types of models that can be all of the above but allow for model parameters auto-calibration. More will be explained below, but crucial is the understanding that when we attempt making a model we do high level calculations, for instance when make differential equations. The next level of a basic equation with various parameters, included time and probabilities. In substance we imagine to consider the proportion of variation in time when time reduces to zero. In the case of studying infectious disease and interested in time varying variables we would need a model that considers time. So, let's start looking at how our simple linear equation $y=a+mx$ can change into a differential equation. A differential equation describes how a quantity changes with respect to another quantity, in particular time in this case. So, we are interested in the variation of $y$ within time.
+
+$$
+{y}'=\frac{dy}{dt}= \frac{y_1 - y_0}{t_1-t_0}
+$$ And this is explained by the variation of the predictors in time, the calculation is a derivative. Recall that the derivative of a constant is 0, in our case $a$ is the constant. $$
+\frac{dy}{dt}= \frac{d(a+mx)}{dt}= m\frac{dx}{dt}
+$$ This equation describes how $y$ changes with respect to time $t$, taking into account the rate of change of $x$ with respect to time 't', and the constant slope $m$ of the line.
+
+$$
+y'=m\frac{dx}{dt}
+$$
+
+To locate the machine learning models within the models framework, we can think about the scope of the analysis, which in this case is predicting the future or to make forecasts.
+
+In particular, these types of models are subdivided in:
+
+1.  **Mechanistic Model** For example the SIR model is a **classic compartmental model** used to simulate the spread of infectious diseases. It divides the population into three compartments: susceptible (S), infectious (I), and recovered (R). The equations describe the rate of change of each compartment over time, where $\beta$ represents the transmission rate and $\gamma$ represents the recovery rate.
+
+Mathematical Equation:
+
+$$ \frac{dS}{dt} = - \beta \cdot S \cdot I $$
+
+$$\frac{dI}{dt} = \beta \cdot S \cdot I - \gamma \cdot I $$
+
+$$ \frac{dR}{dt} = \gamma \cdot I $$
+
+2.  **Empirically Driven Model**: Empirically driven models do not have explicit mathematical equations like mechanistic models. Instead, they learn patterns and relationships directly from data. An example of an empirically driven model is **Random Forest** which is a machine learning algorithm that builds multiple decision trees and combines their predictions to make accurate predictions. It works by splitting the data into subsets and building a decision tree for each subset. The final prediction is made by aggregating the predictions of all decision trees. Unlike mechanistic models, Random Forest does not rely on explicit equations or known relationships but instead learns patterns from the input data.
+
+#### SEIR and Random Forest Example
+
+In this example we simulate data of an epidemic to build a SEIR (susceptible, exposed, infected, recovered) model, a case a little more complicated than just making a SIR (susceptible, infected, recovered) model which will will see in the chapter covid19.
+
+For this example we use a package named `{deSolve}` which solves differential equations.
+
+```{r}
+# Load required packages
+library(deSolve)  # For solving differential equations
+```
+
+We define a function for making the SEIR model, and its parameters. $\beta$ is the transmission rate, $\sigma$ the rate of latent individuals becoming infectious, and $\gamma$ the rate of recovery.
+
+```{r}
+seir_model <- function(time, state, parameters) {
+  # variables need to be in a list
+  with(as.list(c(state, parameters)), {
+    # Parameters
+    beta <- parameters[1]  # Transmission rate
+    sigma <- parameters[2]  # Rate of latent individuals becoming infectious
+    gamma <- parameters[3]  # Rate of recovery
+    
+    # SEIR equations
+    dS <- -beta * S * I / N
+    dE <- beta * S * I / N - sigma * E
+    dI <- sigma * E - gamma * I
+    dR <- gamma * I
+    
+    # Return derivatives
+    return(list(c(dS, dE, dI, dR)))
+  })
+}
+```
+
+Simulate starting parameters by assigning a value to them.
+
+```{r}
+N <- 1000  # Total population size
+beta <- 0.3  # Transmission rate
+sigma <- 0.1  # Rate of latent individuals becoming infectious
+gamma <- 0.05  # Rate of recovery
+```
+
+Set an initial state and a time vector, let's say 100 days.
+
+```{r}
+initial_state <- c(S = N - 1, E = 1, I = 0, R = 0)  # Initial state
+
+# Time vector
+times <- seq(0, 100, by = 1)
+```
+
+Here we use the `ode()` function from the `{deSolve}` package for the solving the differential equations in the the SEIR model function that we created above.
+
+```{r}
+output <- deSolve::ode(y = initial_state, 
+                       times = times, 
+                       func = seir_model,
+                       parms = c(beta = beta, sigma = sigma, gamma = gamma))
+```
+
+The output is class "deSolve", "matrix" :
+
+```{r}
+class(output)
+```
+
+So, needs to be converted to be a dataframe. And here we have the time, the susceptible, the exposed, the infected and finally the recovered simulated values in 100 days of an epidemic.
+
+```{r}
+simulated_data <- as.data.frame(output)
+head(simulated_data)
+```
+
+```{r}
+# Plot simulated data
+ggplot(simulated_data, aes(x = time)) +
+  geom_line(aes(y = S, color = "Susceptible")) +
+  geom_line(aes(y = E, color = "Exposed")) +
+  geom_line(aes(y = I, color = "Infectious")) +
+  geom_line(aes(y = R, color = "Recovered")) +
+  labs(title = "Simulation of SEIR Model", x = "Time", y = "Population") +
+  scale_color_manual(values = c("Susceptible" = "blue", "Exposed" = "orange",
+                                 "Infectious" = "red", "Recovered" = "green")) +
+  theme_minimal()
+
+```
+
+The next step is to calibrate this model by applying a machine learning algorithm. In this case we use the `rpart`, which is a `random forest` type of model engine, and add some noise to the simulated data, to be normally distributed.
+
+```{r}
+simulated_data <- cbind(simulated_data, 
+                        noise = rnorm(nrow(simulated_data), mean = 0, sd = 5))
+```
+
+Feature engineering: Generate lagged values of infected cases
+
+```{r}
+simulated_data <- cbind(simulated_data, lagged_I = lag(simulated_data$I, 1))
+```
+
+## GAM - Generalized Additive Model (non-linear)
+
+```{r}
+library(tidymodels)
+library(mgcv)  # For GAM modeling
+
+# Prepare data for machine learning
+split <- initial_split(simulated_data,prop = 0.8)
+train_data <- training(split)
+test_data <- testing(split)
+```
+
+```{r}
+#| warning: false
+#| message: false
+gam_model <- gam(I ~ te(S,E) + s(time, by=I, k=20) + R + noise, 
+                 data = train_data, 
+                 method = "GCV.Cp", # Generalized Cross-Validation
+                 family = gaussian,
+                 sp = 0.1)
+# Make predictions on test data
+predictions <- predict(gam_model, newdata = test_data,type = "link", se.fit = TRUE)
+
+# Evaluate the model
+rmse <- sqrt(mean((predictions$fit - test_data$I)^2))
+cat("Root Mean Squared Error (RMSE):", rmse, "\n")
+```
+
+```{r}
+# Plot simulated data and predictions
+simulated_data %>%
+  ggplot(aes(x = time)) +
+  geom_line(aes(y = I, color = "Infected")) +
+  geom_line(data = test_data, aes(color = "Predicted"),y = predictions$fit) +
+  labs(title = "Simulation and Prediction of SEIR Model with GAM", x = "Time", y = "Infected Population") +
+  scale_color_manual(values = c("Infected" = "blue", "Predicted" = "red")) +
+  theme_minimal()
+```
+
+#### GAM - Model convergence
+
+```{r}
+gam.check(gam_model,pch=19,cex=.3)
+```
+
+```{r}
+concurvity(gam_model, full = F)
+```
+
+### INLA: an empirical Bayes approach to GAMs
 
 ## Measures of Machine Learning Models
 
 > The loss function is **a method for evaluating how well a machine learning algorithm models featured a data set**[^02-machinelearning-1]. The ***cost function*** is the average of all loss function values.
 
 [^02-machinelearning-1]: <https://builtin.com/machine-learning/common-loss-functions>
+
+-   overview of modeling
 
 ### Loss functions based on modeling techniques
 

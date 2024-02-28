@@ -1,4 +1,4 @@
-# Infectious Diseases {#sec-04-InfectiousDiseases}
+# Introduction {#sec-04-InfectiousDiseases}
 
 ## Overview
 

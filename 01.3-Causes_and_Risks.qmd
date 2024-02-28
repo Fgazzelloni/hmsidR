@@ -130,7 +130,8 @@ In some cases, relative risks can be modeled using **network analysis**, a speci
 
 The relationship between variables, represented by nodes and edges considering potential interactions or dependencies between them. This approach is generally favorable when exploring complex relationships among multiple variables.
 
-To represent the network we can use a Directed Acyclic Graph (DAG), this graphs also help identifying the causal relationship between treatments or interventions and let understand the action of influence within the network. 
+To represent the network we can use a Directed Acyclic Graph (DAG), this graphs also help identifying the causal relationship between treatments or interventions and let understand the action of influence within the network.
+
 ```{r}
 # Load the library
 library(ggdag)
@@ -192,6 +193,7 @@ ggplot(data = data, aes(x =relative_risk)) +
   theme_minimal()
 
 ```
+
 ```{r}
 #| fig-width: 6
 #| fig-height: 4
@@ -205,7 +207,6 @@ ggplot(data = data, aes(x = relative_risk)) +
   theme_minimal()
 
 ```
-
 
 ### Theoretical minimum-risk exposure levels (TMRELs)
 
@@ -245,13 +246,12 @@ $$
 
 Where:
 
-- $P_e$ is the prevalence of the risk factor in the population.
-- $RR$ is the relative risk associated with the risk factor, representing the increased risk of disease among individuals exposed to the risk factor compared to those who are not exposed.
+-   $P_e$ is the prevalence of the risk factor in the population.
+-   $RR$ is the relative risk associated with the risk factor, representing the increased risk of disease among individuals exposed to the risk factor compared to those who are not exposed.
 
 The PAF ranges from 0% to 100%. A PAF of 0% indicates that the risk factor has no impact on the incidence of the disease, while a PAF of 100% indicates that all cases of the disease in the population can be attributed to the risk factor.
 
 PAF is useful for public health interventions as it provides insight into the potential impact of reducing or eliminating a specific risk factor on the incidence of disease in the population. By targeting interventions to reduce exposure to the risk factor, public health efforts can effectively reduce the burden of disease in the population and improve overall health outcomes.
-
 
 ## Causal inference
 

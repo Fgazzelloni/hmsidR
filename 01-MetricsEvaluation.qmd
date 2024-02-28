@@ -1,4 +1,4 @@
-# Metrics and Evaluation {#sec-01-MetricsEvaluation}
+# Introduction {#sec-01-MetricsEvaluation}
 
 > "The concept of health also has highly subjective connotations, precisely because it is conditioned by the personal view of happiness." René Dubos[@dubos1976]
 
@@ -151,8 +151,6 @@ HLY is typically calculated by subtracting the number of years lived with disabi
 
 In terms of policy implications, HLY is used to inform health policy decisions by identifying areas where interventions are needed to promote healthy aging and improve overall population health. By focusing on the number of years lived in good health, policymakers can target interventions to prevent and manage chronic diseases and disabilities effectively.
 
-
 ## Conclusion
 
 These metrics are used alone or in combination with other health metrics in global health assessments conducted by organizations such as the World Health Organization (WHO), the European Commission, and the Institute for Health Metrics and Evaluation (IHME) by providing a Global perspective and insights into the health status of populations helping keeping track of the progresses towards longer terms health objectives over time.
-

@@ -9,6 +9,13 @@ book:
   author: 
     name: Federica Gazzelloni
     orcid: 0000-0002-4285-611X
+  cookie-consent:
+    type: express
+    style: headline
+    palette: dark
+  google-analytics:
+    tracking-id: "G-J9YVQPL7W9"
+    anonymize-ip: true  
   site-url: https://fgazzelloni.quarto.pub/hmsidr/
   repo-url: https://github.com/Fgazzelloni/hmsidR
   repo-branch: origin
@@ -39,23 +46,27 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - part: 01-MetricsEvaluation.qmd
+    - part: "Metrics Evaluation"
       chapters:
+        - 01-MetricsEvaluation.qmd
         - 01.1-HealthMetrics.qmd
         - 01.2-Components.qmd
         - 01.3-Causes_and_Risks.qmd
-    - part: 02-MachineLearning.qmd
+    - part: "Machine Learning"
       chapters:
+        - 02-MachineLearning.qmd
         - 02.1-Techniques.qmd
         - 02.2-Packages.qmd
         - 02.3-Predictions.qmd
-    - part: 03-DataVisualizations.qmd
+    - part: "Data Visualization"
       chapters:
+        - 03-DataVisualization.qmd
         - 03.1-Applications.qmd
         - 03.2-Spatials.qmd
         - 03.3-Examples.qmd 
-    - part: 04-InfectiousDiseases.qmd
+    - part: "Infetious Diseases"
       chapters:
+        - 04-InfectiousDiseases.qmd
         - 04.1-Covid19.qmd
         - 04.2-Malaria.qmd
         - 04.3-Summary.qmd  
@@ -65,6 +76,7 @@ book:
     - appendixA.qmd
     - appendixB.qmd 
     - appendixC.qmd 
+    - appendixD.qmd
     
 appendix-style: default     
 search: true    
