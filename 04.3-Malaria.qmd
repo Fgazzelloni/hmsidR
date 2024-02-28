@@ -1,0 +1,143 @@
+# The case of Malaria {#sec-04.3-Malaria}
+
+::: callout
+## Learning Objectives:
+
+-   What is Malaria
+-   How does it spread
+-   Map Malaria outbreaks
+:::
+
+## Malaria description
+
+## Synthetic data
+
+```{r}
+#| message: false
+#| warning: false
+# Set seed for reproducibility
+set.seed(123)
+
+# Number of time steps (e.g., months)
+n_steps <- 12
+
+# Initial number of infected individuals
+initial_infected <- 10
+
+# Parameters for malaria transmission dynamics
+transmission_rate <- 0.2  # Rate of malaria transmission
+recovery_rate <- 0.1      # Rate of recovery from malaria
+
+# Initialize vectors to store data
+time <- 1:n_steps
+infected <- numeric(n_steps)
+
+# Initialize the number of infected individuals
+infected[1] <- initial_infected
+
+# Simulate malaria transmission dynamics
+for (i in 2:n_steps) {
+  # Calculate the number of new infections
+  new_infections <- rbinom(1, infected[i - 1], transmission_rate)
+  
+  # Calculate the number of recoveries
+  recoveries <- rbinom(1, infected[i - 1], recovery_rate)
+  
+  # Update the number of infected individuals
+  infected[i] <- infected[i - 1] + new_infections - recoveries
+  
+  # Ensure that the number of infected individuals is non-negative
+  if (infected[i] < 0) {
+    infected[i] <- 0
+  }
+}
+
+# Plot the simulated malaria data
+plot(time, infected, type = "l", xlab = "Time", ylab = "Number of Infected Individuals", main = "Simulated Malaria Data")
+
+```
+
+### Modeling with caret
+
+```{r}
+#| message: false
+#| warning: false
+# Load necessary libraries
+library(caret)
+
+malaria_data <- data.frame(time=time, infected_cases=infected)
+# 1. Data Preparation
+# Convert 'time' column to Date format
+#malaria_data$time <- as.Date(malaria_data$time)
+
+# 2. Feature Engineering
+# You can create lagged variables if needed
+malaria_data$lagged_cases <- lag(malaria_data$infected_cases, 1)
+
+# 3. Model Selection
+# Define the machine learning model (e.g., Random Forest)
+model <- train(
+  infected_cases ~ lagged_cases,  # Specify the formula
+  data = malaria_data,            # Specify the data
+  method = "rf",                  # Specify the machine learning algorithm (Random Forest)
+  trControl = trainControl(method = "cv"),  # Cross-validation for hyperparameter tuning
+  tuneGrid = expand.grid(mtry = c(2, 3, 4))  # Hyperparameter grid for tuning
+)
+
+# 4. Model Training (Parameter Calibration)
+# The 'train' function automatically performs parameter calibration (hyperparameter tuning)
+
+# 5. Evaluation
+# Predict future trends using the trained model
+predictions <- predict(model, newdata = malaria_data)
+
+# Evaluate the model's performance (e.g., using RMSE)
+rmse <- sqrt(mean((predictions - malaria_data$infected_cases)^2))
+cat("Root Mean Squared Error (RMSE):", rmse, "\n")
+
+# 6. Iterative Improvement
+# Refine your model by adjusting parameters, feature engineering, etc.
+
+```
+
+```{r}
+#| message: false
+#| warning: false
+# 6. Iterative Improvement
+# Refine your model by adjusting parameters, feature engineering, etc.
+
+# 1. Adjusting Parameters
+# You can further fine-tune the model by adjusting parameters such as 'mtry' in Random Forest
+# For example, try different values of 'mtry' and see how it affects model performance
+# Define tuning grid for mtry
+tuneGrid <- expand.grid(mtry = seq(1, ncol(malaria_data) - 1))
+model <- train(
+  infected_cases ~ lagged_cases,
+  data = malaria_data,
+  method = "rf",
+  trControl = trainControl(method = "cv"),
+  tuneGrid = tuneGrid  # Adjust the range of 'mtry'
+)
+
+# 2. Feature Engineering
+# Explore additional features that may improve model performance
+# For example, you can create lagged variables for other relevant features
+malaria_data$feature <- log(malaria_data$infected_cases)
+malaria_data$lagged_feature <- lag(malaria_data$feature, 1)
+
+# Re-train the model with the new feature
+model <- train(
+  infected_cases ~ lagged_cases + lagged_feature,  # Include the new feature
+  data = malaria_data,
+  method = "rf",
+  trControl = trainControl(method = "cv"),
+  tuneGrid = expand.grid(mtry = c(2, 3, 4)) 
+)
+
+# 3. Evaluate Model Performance
+# After making adjustments, evaluate the model's performance again
+predictions <- predict(model, newdata = malaria_data)
+rmse <- sqrt(mean((predictions - malaria_data$infected_cases)^2))
+cat("Root Mean Squared Error (RMSE) after Iterative Improvement:", rmse, "\n")
+
+```

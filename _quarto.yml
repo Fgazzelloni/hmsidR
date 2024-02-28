@@ -48,28 +48,32 @@ book:
     - intro.qmd
     - part: "Metrics Evaluation"
       chapters:
-        - 01-MetricsEvaluation.qmd
-        - 01.1-HealthMetrics.qmd
-        - 01.2-Components.qmd
-        - 01.3-Causes_and_Risks.qmd
+        - 01.0-Section1.qmd
+        - 01.1-MetricsEvaluation.qmd
+        - 01.2-HealthMetrics.qmd
+        - 01.3-Components.qmd
+        - 01.4-Causes_and_Risks.qmd
     - part: "Machine Learning"
       chapters:
-        - 02-MachineLearning.qmd
-        - 02.1-Techniques.qmd
-        - 02.2-Packages.qmd
-        - 02.3-Predictions.qmd
+        - 02.0-Section2.qmd
+        - 02.1-MachineLearning.qmd
+        - 02.2-Techniques.qmd
+        - 02.3-Packages.qmd
+        - 02.4-Predictions.qmd
     - part: "Data Visualization"
       chapters:
-        - 03-DataVisualization.qmd
-        - 03.1-Applications.qmd
-        - 03.2-Spatials.qmd
-        - 03.3-Examples.qmd 
+        - 03.0-Section3.qmd
+        - 03.1-DataVisualization.qmd
+        - 03.2-Applications.qmd
+        - 03.3-Spatials.qmd
+        - 03.4-Examples.qmd 
     - part: "Infetious Diseases"
       chapters:
-        - 04-InfectiousDiseases.qmd
-        - 04.1-Covid19.qmd
-        - 04.2-Malaria.qmd
-        - 04.3-Summary.qmd  
+        - 04.0-Section4.qmd
+        - 04.1-InfectiousDiseases.qmd
+        - 04.2-Covid19.qmd
+        - 04.3-Malaria.qmd
+        - 04.4-Summary.qmd  
     - conclusions.qmd
     - references.qmd   
   appendices:

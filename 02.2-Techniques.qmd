@@ -1,0 +1,113 @@
+# Techniques for Machine Learning Applications {#sec-02.2-Techniques}
+
+::: callout
+## Learning Objectives:
+
+-   How to manipulate data through feature engineering
+-   Select the most suitable model for your data
+-   Learn how to apply machine learning algorithms
+:::
+
+## Data Analytics versus Data Science
+
+It an ongoing debate that involves the distinction of the field of data analytics from that of data science. Essentially we need both, and for two reasons:
+
+-   rigorous analysis of data available
+-   provide a perspective on overall results
+
+Data analytics is mostly focused on analyzing data, which means collecting, checking, tidying and manipulating to finally apply ad hoc statistical techniques.
+
+Data science on the other side provide a overall conclusion about the data provided, reached through simulations, application of probabilities and declaring definitive conclusions sentencing about the significance of the data test on a particular matter of concern.
+
+In this book we will go through both of them as we analyze data and then provide an overall conclusion about the answer of the research topic. To be more specific, an overview of different method of data loading and featuring selection is provided before to get into selecting the best model to use.
+
+## Collecting and Analyzing Data
+
+Collecting data to use in a research analysis involves a selection of sources and methods to use for optimizing computational time when downloading and reading the files. Once data is set and ready to use a further step is required to make the data suitable for the selected model.
+
+The source of data is an important variable. Generally, data can be downloaded by using an API (application programming interface) which allow the user to get access to data directly from source, with the use of specified back-end computations. There are alternatives at using an API; data can be obtained by downloading it directly into the computer, or loaded through library packages. Usually, available files are provided under various forms such as delimited type of files, .csv, .xls, .json, and other types.
+
+Here is an example of how to use an API for downloading a file directly onto your computer.
+
+```{r}
+#| eval: false
+library(httr)
+url <- ""
+httr::GET(url = url)
+```
+
+### Download Data with APIs
+
+#### IHME Data API
+
+### Synthetic Data
+
+```{r}
+# Load required packages
+library(deSolve)  # For solving differential equations
+library(ggplot2)  # For data visualization
+
+# Function to define the SEIR model
+seir_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    # Parameters
+    beta <- parameters[1]  # Transmission rate
+    sigma <- parameters[2]  # Rate of latent individuals becoming infectious
+    gamma <- parameters[3]  # Rate of recovery
+    
+    # SEIR equations
+    dS <- -beta * S * I / N
+    dE <- beta * S * I / N - sigma * E
+    dI <- sigma * E - gamma * I
+    dR <- gamma * I
+    
+    # Return derivatives
+    return(list(c(dS, dE, dI, dR)))
+  })
+}
+
+# Simulation parameters
+N <- 1000  # Total population size
+beta <- 0.3  # Transmission rate
+sigma <- 0.1  # Rate of latent individuals becoming infectious
+gamma <- 0.05  # Rate of recovery
+initial_state <- c(S = N - 1, E = 1, I = 0, R = 0)  # Initial state
+
+# Time vector
+times <- seq(0, 100, by = 1)
+
+# Solve the SEIR model
+output <- ode(y = initial_state, times = times, func = seir_model,
+              parms = c(beta = beta, sigma = sigma, gamma = gamma))
+
+# Convert output to data frame
+simulated_data <- as.data.frame(output)
+
+# Plot simulated data
+ggplot(simulated_data, aes(x = time)) +
+  geom_line(aes(y = S, color = "Susceptible")) +
+  geom_line(aes(y = E, color = "Exposed")) +
+  geom_line(aes(y = I, color = "Infectious")) +
+  geom_line(aes(y = R, color = "Recovered")) +
+  labs(title = "Simulation of SEIR Model", x = "Time", y = "Population") +
+  scale_color_manual(values = c("Susceptible" = "blue", "Exposed" = "orange",
+                                 "Infectious" = "red", "Recovered" = "green")) +
+  theme_minimal()
+
+```
+
+Once data is on your computer available and ready to use, the next step is to have a look at it and decide whether to perform some adjustment to the data to make it suitable for your model.
+
+This step includes:
+
+-   data manipulation/wrangling
+-   featuring engineering
+-   exploratory data analysis
+
+### Visualizing Data
+
+### Feature Engineering
+
+### Modeling Techniques
+
+## Conclusion
