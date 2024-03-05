@@ -110,6 +110,7 @@ ggplot() +
 #### Map with ggmap
 
 ```{r}
+#| eval: false
 library(ggmap)
 bbox = c(left = -1.099, 
          bottom = 44.559,

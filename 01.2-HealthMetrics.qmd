@@ -2,8 +2,7 @@
 
 \
 
-::: callout
-## Learning Objectives:
+::: {#Learning Objectives .callout}
 
 -   A closer look at the metrics
 -   Understand how to use them

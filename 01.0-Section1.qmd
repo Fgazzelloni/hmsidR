@@ -14,7 +14,7 @@ The Health Metrics chapter provides an in-depth analysis of key health indicator
 
 ### Chapter 3: Components of the Health Metrics
 
-In this chapter, we beak down the components that contribute to health metrics such as DALYs, focusing on understanding the underlying factors driving disease burden. We examine the complex interplay between various components, including mortality, life expectancy, incidence and prevalence, and disability weights, providing insight into their individual and collective impact on population health outcomes. Through comprehensive analysis and case studies, this chapter aims at providing a simple explanation at how to build the components of the health metrics.
+In this chapter, we break down the components that contribute to health metrics such as DALYs, focusing on understanding the underlying factors driving disease burden. We examine the complex interplay between various components, including mortality, life expectancy, incidence and prevalence, and disability weights, providing insight into their individual and collective impact on population health outcomes. Through comprehensive analysis and case studies, this chapter aims at providing a simple explanation at how to build the components of the health metrics.
 
 ### Chapter 4: Causes and Risks
 

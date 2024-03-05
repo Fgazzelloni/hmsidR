@@ -28,7 +28,7 @@ book:
   date: "06/09/2023" # date of the aggrement with the Editor
   page-navigation: true
   sidebar:
-    #background: "#cdbdcc"
+    background: "#cfb4cd"
     pinned: true
     align: center
     style: docked
@@ -46,28 +46,28 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - part: "Metrics Evaluation"
+    - part: "**Metrics Evaluation**"
       chapters:
         - 01.0-Section1.qmd
         - 01.1-MetricsEvaluation.qmd
         - 01.2-HealthMetrics.qmd
         - 01.3-Components.qmd
         - 01.4-Causes_and_Risks.qmd
-    - part: "Machine Learning"
+    - part: "**Machine Learning**"
       chapters:
         - 02.0-Section2.qmd
         - 02.1-MachineLearning.qmd
         - 02.2-Techniques.qmd
         - 02.3-Packages.qmd
         - 02.4-Predictions.qmd
-    - part: "Data Visualization"
+    - part: "**Data Visualization**"
       chapters:
         - 03.0-Section3.qmd
         - 03.1-DataVisualization.qmd
         - 03.2-Applications.qmd
         - 03.3-Spatials.qmd
         - 03.4-Examples.qmd 
-    - part: "Infetious Diseases"
+    - part: "**Infetious Diseases**"
       chapters:
         - 04.0-Section4.qmd
         - 04.1-InfectiousDiseases.qmd
@@ -115,6 +115,7 @@ format:
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
     toc: true
+ 
     
 editor: visual
 editor_options:
@@ -136,3 +137,7 @@ knitr:
         #R.options:
             #knitr.graphics.auto_pdf: true
               
+              
+  
+
+  

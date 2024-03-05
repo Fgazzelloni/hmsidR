@@ -188,7 +188,7 @@ temp <- tempfile()
 ```{r}
 #| message: false
 #| warning: false
-xmart <- read_csv("~/Documents/R/R_general_resources/Spatials/infectious_container/hmsidR/data/data-raw/xmart.csv")
+xmart <- read_csv(here::here("data/data-raw/xmart.csv"))
 
 xmart_yr <- xmart[-1,]%>%
   janitor::clean_names()%>%
@@ -272,7 +272,7 @@ xmart_tidy_19%>%
 Let's use 2019 data from the IHME website:
 
 ```{r}
-IHME_GBD_2019 <- read_csv("~/Documents/R/R_general_resources/Spatials/infectious_container/hmsidR/data/inst/extdata/IHME-GBD_2019_DATA-3a85d0d4-1/IHME-GBD_2019_DATA-3a85d0d4-1.csv")
+IHME_GBD_2019 <- read_csv(here::here("data/inst/extdata/IHME-GBD_2019_DATA-3a85d0d4-1/IHME-GBD_2019_DATA-3a85d0d4-1.csv"))
 IHME_GBD_2019%>%
   arrange(age_name)%>%
   head

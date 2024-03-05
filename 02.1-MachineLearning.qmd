@@ -2,8 +2,7 @@
 
 > "Human beings are not just passive victims of disease. They are active participants in the biological confrontation between man and microbe."
 
-
-This chapter will walk you through a basic construction of a machine learning model, providing a simple explanation of how to model fast-growing phenomena, such as in the case of the spread of infectious diseases. 
+This chapter will walk you through a basic construction of a machine learning model, providing a simple explanation of how to model fast-growing phenomena, such as in the case of the spread of infectious diseases.
 
 ### Deterministic and Stochastic modeling
 
@@ -27,7 +26,7 @@ Machine learning models fall under the category of **empirically driven models**
 
 Before delving deep into machine learning techniques for analyzing health data and metrics, we need to proceed step by step in **building a modeling framework**. This requires a thorough understanding of the modeling procedure. Therefore, we start by building a linear regression model, then transition to applying a logistic regression model, which is the most suitable for analyzing our data. Finally, we identify the most appropriate model adjustment with automated parameter calibration.
 
-::: callout-note
+::: {#modeling_framework .callout-note}
 ### Modeling framework
 
 1.  **Conceptualization**: Defining the problem, objectives, and scope of the model. This involves identifying the key variables, relationships, assumptions, and constraints.
@@ -43,7 +42,7 @@ Before delving deep into machine learning techniques for analyzing health data a
 6.  **Model Evaluation and Interpretation**: Analyzing the model results to draw insights, make predictions, or inform decision-making. This step involves interpreting the model outputs in the context of the problem domain and communicating findings to stakeholders.
 :::
 
-## Model development
+## The steps of building a model
 
 The process of constructing a mathematical or computational model that represents the relationships between variables in a given system is intended as model development. At the heart of this process is the application of a model function to estimate coefficients that minimize the difference between the model's predictions and the observed data.
 
@@ -168,7 +167,7 @@ mod <- lm(formula = deaths ~ date, data = cholera)
 summary(mod)
 ```
 
-The output of the summary of our first linear regression model tells us something, even if has been anticipated that this type of model is not the adequate model to use for this data, the result is that the `date`, our predictor $(x)$ is influencing positively the number of deaths due to cholera. And this can be said because the data coefficeint is positive, it is corresponds to $\beta_1$. So to sum up:
+The output of the summary of our first linear regression model tells us something, even if has been anticipated that this type of model is not the adequate model to use for this data, the result is that the `date`, our predictor $(x)$ is influencing positively the number of deaths due to cholera. And this can be said because the data coefficient is positive, it is corresponds to $\beta_1$. So to sum up:
 
 -   $\beta_0=2.954e+04$
 -   $\beta_1=6.678e-01$
