@@ -10,7 +10,7 @@ Originally made by the English scientist **John Graunt** (1620-1674), for the an
 
 More recent life tables are standardized to be used for a population of 100 000 at age 0.
 
-:::{.callout}
+::: callout
 $l_x$ survivors at age $x$ it starts with a value of 100 000
 
 $d_x$ deceased at age $x$

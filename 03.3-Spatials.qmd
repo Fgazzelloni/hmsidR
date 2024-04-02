@@ -1,11 +1,24 @@
 # Spatial data modeling and Visualization {#sec-03.3-Spatials}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   How to make a map
 -   Identify the missing pieces
 -   Map the results
+:::
 :::
 
 ## Locate infections with Montecarlo simulations
@@ -98,19 +111,20 @@ ggplot() +
              mapping = aes(x=longitude,
                            y=latitude,
                            size=number),color="black") +
-  scale_color_manual(values=c("infected"="brown","non_infected"="grey20")) +
+  scale_color_manual(values=c("infected"="#a60845","non_infected"="grey20")) +
   xlab("Longitude") +
   ylab("Latitude") +
   ggtitle("Center of mass") +
   labs(color = "Type", 
-       size = "Magnitude of Infection")+
-  theme_bw()
+       size = "Magnitude of Infection")
 ```
 
 #### Map with ggmap
 
 ```{r}
 #| eval: false
+#| message: false
+#| warning: false
 library(ggmap)
 bbox = c(left = -1.099, 
          bottom = 44.559,
@@ -133,7 +147,7 @@ mapObj = mapObj +
              mapping = aes(x=longitude,
                            y=latitude,
                            size=number),color="black") +
-  scale_color_manual(values=c("infected"="brown","non_infected"="grey20")) +
+  scale_color_manual(values=c("infected"="#a60845","non_infected"="grey20")) +
   xlab("Longitude") +
   ylab("Latitude") +
   ggtitle("Center of mass") +
@@ -279,12 +293,11 @@ for(i in 1:10000){
 # plot results of Monte-carlo simulation in the form of a histogram
 ggplot() + geom_histogram(data = results, 
                           mapping = aes(x=costs),
-                          fill = alpha("brown",alpha = 0.5),
+                          fill = alpha("#a60845",alpha = 0.5),
                           bins = 25) +
   ggtitle("Simulated infection sensitivity\nat center of gravity (center of mass)") + 
   xlab("Simulated loss") +
-  ylab("Absolute frequency")+
-  theme_bw()
+  ylab("Absolute frequency")
 ```
 
 \

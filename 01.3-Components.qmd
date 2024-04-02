@@ -1,32 +1,122 @@
 # Components of the Health Metrics {#sec-01.3-Components}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse,quietly = T)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   Life tables and Life expectancy used in the book
 -   Mortality level and rates
 -   Identify the disability weights
 :::
+:::
 
 ## Cause-specific or Population-wide
 
-The evaluation of the health metrics starts from the assessment of their components, and this is a key part to focus on, as results strongly depends on the type of life tables, mortality rates and disability weights used in the analysis. Consider if the objective of the analysis is **Cause-specific** or **Population-wide Analysis** (or Global Analysis) can change the granularity of the health metrics components.
+The evaluation of health metrics begins with assessing their components, which is crucial because results strongly depend on the types of **life tables**, **mortality rates**, and **disability weights** used in the analysis. The objective of the analysis, whether it is **cause-specific** or **population-wide**, can significantly impact the granularity of the health metrics components.
 
-YLLs, YLDs and DALYs calculation focused on cause-specific analyses considers a cause of deaths and/or disability, at a specific point in time, based all ages or on specific age groups, for both sex or only for females or males. Even the weights for the calculation of the disability levels changes based on the type of disability and all the other parameters.
+When calculating **YLLs**, **YLDs**, and **DALYs** for cause-specific analyses, various factors are considered, including **causes of deaths** and/or **disabilities** at specific points in time, across all ages or specific age groups, and for both sexes or only females or males. Additionally, weights used for calculating disability levels can vary depending on the type of disability and other parameters.
 
 ## Incidence and Prevalence
 
-The incidence, even identified as the cumulative incidence (risk) - $r$ is the probability the disease occurs in a specified period of time.
+The incidence, even identified as the new case of a disease or injury entering the population, the cumulative incidence (risk) - $r$ is the probability the disease occurs in a specified period of time.
 
 $$
-r= \frac{\text{number of new cases at time t}}{\text{disease-free population}}
+\text{Incidence rate}= \frac{\text{number of new cases at time t}}{\text{total population at risk}}*1000
 $$
 
-The prevalence identify the burden of disease at a specific time, rather than the probability of the disease to impact on the population, it expresses the probability of suffering from a disease, it is based on the total number of existing cases among the whole population. So, incidence relates on new cases, while prevalence on existing number of cases.
+The prevalence identify the burden of disease at a specific time, rather than the probability of the disease to impact on the population, it expresses the probability of suffering from a disease, it is based on the total number of existing cases among the whole population.
 
 $$
-\text{Prevalence}=\frac{\text{number of people affected at time t}}{\text{total population}}
+\text{Prevalence proportion}=\frac{\text{number of existing cases at time t}}{\text{total population}}
 $$
+
+In summary, incidence measures the rate of new cases arising within a population over time, while prevalence measures the proportion of existing cases within the population at a specific point in time. Both metrics are crucial in epidemiology for understanding the dynamics and burden of diseases within populations.
+
+### Sample calculation of Incidence and Prevalence
+
+The incidence is the rate of new cases within a specified time frame, it provides insights into the disease's spread dynamics, while the prevalence denotes the proportion of individuals currently affected by the disease at a given point in time.
+
+Let's simulate some virus cases for a population of 100 000 individuals over 365 days. Consider an average infection time of 5 days or 1/5=0.2 (20%) rate of infection, and average time of recovery of 20 days which corresponds to a recovery rate of 1/20=0.05 (5%)
+
+```{r}
+library(dplyr,quietly = T)
+
+population_size <- 100000  # Number of individuals
+days <- 365  # Number of days
+
+
+
+set.seed(123)
+dates <- seq(as.Date("2019-01-01"),
+             as.Date("2019-12-31"), by = "day")
+
+cases <- rpois(length(dates), lambda = 0.2)
+recovered <- rpois(length(dates), lambda = 0.05)  
+covid_data <- data.frame(Date = dates, Cases = cases, Recovered = recovered)
+```
+
+```{r}
+#| echo: false
+covid_data%>%
+  head()
+```
+
+Calculate the cumulative incidence and prevalence over time:
+
+```{r}
+covid_data <- 
+  transform(covid_data, 
+            Cumulative_Cases = cumsum(Cases),
+            Cumulative_Recovered = cumsum(Recovered))
+
+# Calculate daily incidence and prevalence per 100,000 population
+covid_data <- 
+  transform(covid_data, 
+            Incidence = (Cumulative_Cases /population_size)*1000,
+            Prevalence = ((Cumulative_Cases-Cumulative_Recovered) / population_size)*1000)
+```
+
+```{r}
+#| echo: false
+covid_data%>%
+  head()
+```
+
+```{r}
+total_cases <- sum(covid_data$Cases)
+total_recoveries <- sum(covid_data$Recovered)
+```
+
+#### Incidence and Prevalence rates for the year
+
+```{r}
+(incidence_rate <- total_cases / population_size);
+(prevalence_rate <- (total_cases - total_recoveries) / population_size)
+```
+
+```{r}
+ggplot(covid_data, aes(x = Date)) +
+  geom_line(aes(y = Incidence, color = "Incidence"), size = 1.5) +
+  geom_line(aes(y = Prevalence, color = "Prevalence"), size = 1.5) +
+  scale_color_manual(values = c("Incidence" = "#29306c", 
+                                "Prevalence" = "#a60845")) +
+  labs(title = "Incidence and Prevalence COVID-19 Cases",
+       x = "Date",
+       y = "Number per 100,000 Population",
+       color = "Metric") +
+  theme(legend.position = "bottom")
+```
 
 ## YLLs' components
 
@@ -66,38 +156,37 @@ The life tables are selected among the most frequently used, more information ab
 #| message: false
 #| warning: false
 library(tidyverse)
-library(infectious)
+library(hmsidwR)
 ```
 
-**Glifetables** contains five variables:
+**hmsidwR::gho_lifetables** contains five variables:
 
-1.  **indicator**:
+1.  **indicator:**
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
-Glifetables %>%
+gho_lifetables %>%
   count(indicator) %>%
-  select(indicator) %>%
-  knitr::kable()
+  select(indicator) 
 ```
 
-2.  **age group**: from 1 to 85+ in 5-year classes
+2.  **age group:** from \<1 to 85+ in 5-year classes
 
 3.  **sex:** female, male, and both
 
-4.  **value**
+4.  **value:** indicators value
 
 ```{r}
  #| echo: false
-Glifetables %>%
-  mutate(indicator = sub(" -.*$", "", indicator)) %>%
+gho_lifetables %>%
+  #mutate(indicator = sub(" -.*$", "", indicator)) %>%
   group_by(indicator) %>%
-  summarize(value = round(mean(value), 3))
+  summarize("on average value" = round(mean(value), 3))
 ```
 
-5.  **year**: from 2000 to 2019
+5.  **year:** from 2000 to 2019
 
 #### Life expectancy
 
@@ -106,18 +195,21 @@ The life expectancy rates are calculated with consideration of the probability o
 This visualization of the `ex - expectation of life at age x` shows for each age group its changing level across the years.
 
 ```{r}
-Glifetables %>%
+#| echo: false
+gho_lifetables %>%
   filter(indicator == "ex - expectation of life at age x") %>%
-  ggplot(aes(year, value, group = age_group, color = age_group)) +
-  geom_line() +
+  ggplot(aes(year, value, group = age, color = age)) +
+  geom_line(show.legend = F) +
   facet_wrap(vars(sex)) +
-  labs(title = "ex - expectation of life at age x") +
-  theme_bw()
+  ylim(60,80)+
+  labs(title = "ex - expectation of life at age x")
 ```
 
 ## YLDs' components
 
-The components of YLD (Years Lived with Disability) include several factors that contribute to the calculation of the number of years lived with a disability due to a disease or injury. These components are:
+The estimation of YLDs requires certain epidemiological parameters such as prevalence, incidence, case-fatality rate, relative risk, odds ratio, hazard ratio, mean, incidence ratio, severity, duration and remission.
+
+In particular, we are interested in the major factors that contribute to the calculation of the number of years lived with a disability due to a disease or injury. These components are:
 
 -   **Prevalence and Incidence**: The prevalence of a condition is the number of cases of a particular disease or injury present in a population at a given time. This is an important component of YLD as it determines the number of people who are affected by a disease or injury and the overall impact on the population. The incidence is the impact of new cases on a population in a specified time period, and it is calculated by considering the number of new cases affected by a condition divided by the size of a population. Both incidence and prevalence can be used in the calculation.
 
@@ -153,25 +245,23 @@ Both YLL and YLD are components of the DALY and are used to provide a comprehens
 
 In this section a practical calculation of the health metrics is done for the practitioner to be able to replicate this calculation for further analysis based on these key elements.
 
+Let's use 2019 data from the IHME website for Germany 2019 number of deaths due to lungcancer. Data is stored in the `{hmsidwR}` package and ready to use.
+
 ```{r}
-Germany_lungc%>%
-  mutate(age_group=gsub(" year$| years$","",age_group))%>%
-  full_join(Glifetables%>%
-          filter(year==2019,
-                 indicator=="ex - expectation of life at age x")%>%
-            rename(life_expectancy=value), 
-          by=c("age_group","sex"))%>%
-  select(-upper,-lower,-year,-indicator)%>%
-  arrange(age_group)%>% # View() #DataExplorer::profile_missing()
-  group_by(age_group)%>%
-  mutate(YLL = val * life_expectancy) %>%
-  filter(!is.na(YLL)) %>%
+#| eval: false
+hmsidwR::germany_lungc
+```
+
+```{r}
+#| echo: false
+germany_lungc %>% 
   head()
 ```
 
 #### YLL
 
 ```{r}
+#| echo: false
 #| message: false
 #| warning: false
 options(scipen = 999)
@@ -179,7 +269,7 @@ options(scipen = 999)
 
 ```{r}
 #| eval: false
-#| echo: true
+#| echo: false
 # To download the data directly without saving anything:
 url <- "https://apps.who.int/gho/data/node.main.LIFECOUNTRY?lang=en"
 temp <- tempfile()
@@ -188,57 +278,67 @@ temp <- tempfile()
 ```{r}
 #| message: false
 #| warning: false
-xmart <- read_csv(here::here("data/data-raw/xmart.csv"))
+#| eval: true
+#| output: false
 
-xmart_yr <- xmart[-1,]%>%
-  janitor::clean_names()%>%
-  pivot_longer(cols=3:17,names_to="year",values_to="value")%>%
-  mutate(value=as.numeric(value))
 
-xmart_yr %>% count(x1)
+hmsidwR::gho_lifetables
 ```
 
 ```{r}
-xmart_yr%>%head
+gho_lifetables %>% glimpse
 ```
 
 ```{r}
-xmart1<- xmart[-1,]
-names(xmart1)<- xmart[1,]
+#| echo: false
+gho_lifetables%>%
+  count(indicator)%>%
+  select(-n)
 ```
 
 ```{r}
-xmart_tidy <- xmart1 %>%
-  janitor::clean_names() %>%
-  pivot_longer(cols=3:17,names_to="sex",values_to="value")%>%
-  mutate(value=as.numeric(value)) %>%
-  full_join(xmart_yr,by=c("indicator"="x1","age_group"="x2","value")) %>%
-  mutate(age_group=sub("&lt;","",age_group),
-         sex=gsub("_\\d+","",sex),
-         sex=ifelse(sex=="both_sexes","both",sex),
-         year=sub("x","",year),
-         year=gsub("_\\d+","",year),
-         value=round(value,5))
-
-whodataindicators <- xmart_tidy 
-xmart_tidy%>%count(indicator)
-```
-
-```{r}
-xmart_tidy %>% # count(year)
-  filter(sex=="both",
+#| echo: false
+pyramid <- gho_lifetables %>% 
+  mutate(value = ifelse(sex == 'female', 
+                        as.integer(value * -1), 
+                        as.integer(value)))%>%
+  filter(!sex=="both",
          indicator=="ex - expectation of life at age x")%>%
-         #age_group=="1 year")%>%
-  ggplot(aes(year,value,group=indicator))+
-  geom_line()+
-  facet_wrap(vars(age_group),scales="free")+
-  labs(title="Global expectation of life at age x",
-       subtitle="for the years 2000, 2005, 2010, 2015, and 2019",
-       caption="DataSource: WHO Global Health Observatory data repository | Graphics: Federica Gazzelloni")
+  mutate(age=sub("1-4","01-04",age),
+         age=sub("5-9","05-09",age))%>%#filter(age=="<1")#pull(value)%>%summary()
+ggplot(aes(x = age, y = value, fill = sex)) +
+  geom_bar(stat = 'identity')+
+  scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99")) +
+  #scale_y_continuous(breaks = c(-400, -200, -100, 0, 100, 200, 400),label = c("80", "40", "10", "0", "10", "40", "80"))+
+  coord_flip()+
+  labs(title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
+       subtitle ="",
+       y = "Age",
+       caption = "Data Source: WHO | Graphic: @fgazzelloni") +
+  theme(axis.text.x = element_blank(),
+        axis.title = element_blank())
+# pyramid
 ```
 
 ```{r}
-xmart_tidy %>% # count(year)
+#| eval: false
+#| echo: false
+library(gganimate)
+pyramid_gif <- pyramid+
+  transition_states(year,transition_length = 1,state_length = 2) + 
+  enter_fade() +
+  exit_fade() + 
+  ease_aes('cubic-in-out')
+
+animate(pyramid_gif,
+        fps = 40,duration = 5,width = 1200,height = 1400,res = 120,
+        renderer = gifski_renderer('images/gho_pyramid.gif'))
+```
+
+![](images/gho_pyramid.gif){fig-align="center" width="375"}
+
+```{r}
+gho_lifetables %>% 
   filter(sex=="both",
          indicator=="ex - expectation of life at age x")%>%
   group_by(indicator,year) %>%
@@ -253,65 +353,26 @@ xmart_tidy %>% # count(year)
 ```
 
 ```{r}
-xmart_tidy_19 <- xmart_tidy%>%
-    filter(sex=="both",
-           indicator=="ex - expectation of life at age x",
-           year=="2019")%>%
-  select(-indicator,-year,-sex)%>%
-  rename("life_expectancy"=value)
+#| message: false
+#| warning: false
 
-
-xmart_tidy_19%>%
-  mutate(age_group=gsub(" year$| years$","",age_group))%>%
-  merge(Glifetables%>%
-          filter(year==2019,sex=="both",
-                 indicator=="ex - expectation of life at age x"),by=c("age_group"))%>%
-  select(age_group,life_expectancy,value)
-```
-
-Let's use 2019 data from the IHME website:
-
-```{r}
-IHME_GBD_2019 <- read_csv(here::here("data/inst/extdata/IHME-GBD_2019_DATA-3a85d0d4-1/IHME-GBD_2019_DATA-3a85d0d4-1.csv"))
-IHME_GBD_2019%>%
-  arrange(age_name)%>%
-  head
-```
-
-```{r}
-data_2019 <- IHME_GBD_2019%>%
-  select(-measure_id,-location_id,-age_id,-cause_id,-sex_id,-metric_id,-metric_name,-year,-measure_name)
-data_2019 %>% count(cause_name)
-```
-
-```{r}
-data_2019%>%head
-```
-
-```{r}
-Germany_lungc <- data_2019%>% #count(age_name)
-  filter(location_name=="Germany",
-         str_detect(cause_name,"lung"),
-         !sex_name=="Both") %>%
-  mutate(sex_name=tolower(sex_name))
-
-Germany_lungc %>% head
-```
-
-```{r}
-Germany_lungc%>%
-  mutate(age_name=gsub(" year$| years$","",age_name))%>%
-  full_join(Glifetables%>%
-          filter(year==2019,
+gelung_YLL <- germany_lungc%>%
+  full_join(gho_lifetables%>%
+          filter(!age%in%c("<1","1-4","5-9"),
+                 year==2019,
                  indicator=="ex - expectation of life at age x")%>%
-            rename(life_expectancy=value), 
-          by=c("age_name"="age_group","sex_name"="sex"))%>%
-  select(-upper,-lower,-year,-indicator)%>%
-  arrange(age_name)%>% # View() #DataExplorer::profile_missing()
-  group_by(age_name)%>%
-  mutate(YLL=val*life_expectancy)%>%
-  drop_na()%>%
-  select(-location_name,-cause_name)
+            select(-indicator)%>%
+            rename(life_expectancy=value))%>%
+  rename(deaths=val)%>%
+  arrange(age)%>% 
+  group_by(age,sex)%>%
+  reframe(deaths,life_expectancy,YLL=deaths*life_expectancy)
+```
+
+```{r}
+#| echo: false
+gelung_YLL%>%
+  head()
 ```
 
 #### YLDs

@@ -1,5 +1,11 @@
 # Introduction to Infectious Diseases {#sec-04.1-InfectiousDiseases}
 
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
+
 ## Overview
 
 Emerging infectious diseases are a global concern, causing millions of deaths annually. Understanding their behavior and predicting outbreaks is crucial for public health. Accurate predictions help plan interventions and mitigate impacts, including economic ones. However, predicting new diseases is challenging due to limited data and complex factors. Reliable computational tools, like machine learning and mathematical models, are needed to understand disease dynamics and aid decision-making. While no model is perfect, they provide valuable insights for planning resources and policies, particularly during outbreaks. Combining various models and data sources enhances prediction accuracy. Overall, these tools are essential for managing infectious diseases and making informed decisions.

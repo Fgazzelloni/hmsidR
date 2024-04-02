@@ -6,7 +6,6 @@ The Infectious Diseases section provides an in-depth exploration of specific inf
 
 ### Chapter 13: Introduction to Infectious Diseases
 
-
 The Introduction to Infectious Diseases chapter offers a concise yet comprehensive overview of the field, providing readers with a foundational understanding of infectious diseases. Through succinct explanations and engaging narratives, this chapter introduces key concepts, historical perspectives, and the fundamental principles underlying the study of infectious diseases. From the earliest recorded outbreaks to modern-day pandemics, we explore the dynamic interplay between pathogens, hosts, and the environment, setting the stage for a deeper exploration into the complexities of infectious disease dynamics.
 
 ### Chapter 14: Covid19 Outbreaks

@@ -1,11 +1,24 @@
 # Covid19 Outbreaks {#sec-04.2-Covid19}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   What is Covid19
 -   How does it spread
 -   Map Covid19 outbreaks
+:::
 :::
 
 ## Covid19 spread of infection as a cause for increased DALY for selected countries
@@ -55,8 +68,7 @@ ggplot(as.data.frame(result), aes(time, I, color = "Infected")) +
   geom_line(aes(time, S, color = "Susceptible")) +
   geom_line(aes(time, E, color = "Exposed")) +
   scale_color_discrete(name = "Compartment") +
-  labs(x = "Time (days)", y = "Number of individuals") +
-  theme_bw()
+  labs(x = "Time (days)", y = "Number of individuals") 
 ```
 
 In this example, many factors are not taken into account. In reality, the spread of a virus is much more complex and influenced by many factors such as human behavior, government policies, and healthcare systems.
@@ -173,8 +185,7 @@ data.frame(Time = data$Time,
   geom_line(aes(y = Observed, color = "Observed"), 
             linetype = "dashed") +
   scale_color_discrete(name = NULL, labels = c("Predicted", "Observed")) +
-  labs(x = "Time", y = "Number of Confirmed Cases") +
-  theme_bw()
+  labs(x = "Time", y = "Number of Confirmed Cases") 
 
 # Calculate the goodness-of-fit measures
 rmse <- sqrt(mean((data$y - predictions)^2))
@@ -188,8 +199,8 @@ cat("R-squared:", r2, "\n")
 library(bayesplot)
 mcmc_areas(results, pars = c("beta", "gamma", "I0"),
            prob = 0.89, ROPE = c(0.05, 0.1),
-           prob_lines = TRUE, prob_args = list(col = "red"),
-           rope_args = list(col = "blue"),
+           prob_lines = TRUE, prob_args = list(col = "#a60845"),
+           rope_args = list(col = "#29306c"),
            main = "Posterior Distribution of Parameters")
 
 ```

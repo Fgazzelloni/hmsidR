@@ -1,11 +1,24 @@
 # Causes and Risks {#sec-01.4-Causes_and_Risks}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   Overview of the causes and risks
 -   Identify the objective of the research question
 -   Causal inference
+:::
 :::
 
 ## Conditions and injuries
@@ -133,6 +146,7 @@ The relationship between variables, represented by nodes and edges considering p
 To represent the network we can use a Directed Acyclic Graph (DAG), this graphs also help identifying the causal relationship between treatments or interventions and let understand the action of influence within the network.
 
 ```{r}
+#| echo: false
 # Load the library
 library(ggdag)
 set.seed(555)
@@ -148,9 +162,11 @@ ggdag(dag)+theme_dag_blank()
 ```
 
 ```{r}
+#| echo: false
 # Load necessary libraries
 library(dagitty)
 library(tidyverse)
+
 
 # Create DAG
 dag <- dagitty('dag {
@@ -186,11 +202,10 @@ relative_risk <- prob_outcome_given_exposure / prob_outcome_given_no_exposure
 data$relative_risk <- relative_risk
 # Visualize relative risk distribution
 ggplot(data = data, aes(x =relative_risk)) +
-  geom_histogram(binwidth = 0.2, fill = "skyblue", color = "black") +
+  geom_histogram(binwidth = 0.2, fill = "#29306c", color = "black") +
   labs(title = "Distribution of Relative Risk",
        x = "Relative Risk",
-       y = "Frequency") +
-  theme_minimal()
+       y = "Frequency") 
 
 ```
 
@@ -200,11 +215,10 @@ ggplot(data = data, aes(x =relative_risk)) +
 #| fig-align: center
 # Visualize relative risk distribution with density plot
 ggplot(data = data, aes(x = relative_risk)) +
-  geom_density(fill = "skyblue", color = "black") +
+  geom_density(fill = "#29306c", color = "black") +
   labs(title = "Distribution of Relative Risk",
        x = "Relative Risk",
-       y = "Density") +
-  theme_minimal()
+       y = "Density") 
 
 ```
 

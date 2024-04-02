@@ -1,15 +1,140 @@
 /*-- scss:defaults --*/
+// Part of the style is taken from R4DS book by Hadley Wickham
+
+$primary: #29306c !default;
+$font-size-root: 18px !default;
 
 // Code blocks
-$code-block-font-size: .7em;
+$code-block-font-size: .9em;
 
 // Contrast
 $min-contrast-ratio:   7;
 
+/* Code ------------------------------------------------ */
 
+code {
+  color: #373a3c;
+}
+
+code a:any-link {
+  text-decoration: underline;
+  text-decoration-color: #ccc;
+}
+
+pre {
+  background-image: linear-gradient(160deg,#f8f8f8 0,#f1f1f1 100%);
+}
+
+/* Headings ------------------------------------------------------ */
+
+#title-block-header.quarto-title-block.default .quarto-title h1.title {
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+h3 { margin-top: 1.5em; font-size: 1.2rem; font-weight: 500; }
+h4 { margin-top: 1.5em; font-size: 1.1rem; }
+h5 { margin-top: 1.5em; font-size: 1rem; }
+
+.quarto-section-identifier {
+  color: #6C6C6C;
+  font-weight: normal;
+}
+
+
+// Custom Callouts
+// Source: https://github.com/quarto-dev/quarto-cli/blob/e83119062f21a6ea8b98199ce21b041b6659d291/src/resources/formats/html/styles-callout.html#L3
+// How to create CUSTOM Callout Boxes in Quarto by Melissa Van Bussel
+
+// stucture to use the custom Callouts
+// :::{.solutionbox}
+// ::::{.solutionbox-header}
+// :::::{.solutionbox-icon}
+// :::::
+// some title
+// ::::
+// 
+// ::::{.solutionbox-body}
+// and some content
+// ::::
+// 
+// :::
+
+
+.solutionbox{
+  margin-top: 1em;
+  margin-bottom: 1em;  
+  border-radius: .25rem;
+  border-left: solid #acacac .3rem;
+  border-right: solid 1px #acacac;
+  border-top: solid 1px #acacac;
+  border-bottom: solid 1px #acacac;
+  border-left-color: #29526c !important; //#cfb4cd
+}
+
+.solutionbox-icon{
+  height: 0.9rem;
+  width: 0.9rem;
+  display: inline-block;
+  content: "";
+  background-repeat: no-repeat;
+  background-size: 0.9rem 0.9rem;
+  margin-top: .5rem;
+  padding-right: 1.25rem;
+  background-image: url('images/icons/graduation-cap-solid.svg');
+
+}
+
+
+.solutionbox-header{
+  //margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: none;
+  font-weight: 600;
+  opacity: 85%;
+  font-size: 0.9rem;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: flex;
+  background-color: #ebecf7;
+  height: 2em;
+  overflow: hidden;
+  
+}
+
+.solutionbox-header p{
+  padding-top: .2em;
+}
+
+.solutionbox-body{
+  font-size: 0.9rem;
+  font-weight: 400;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.solutionbox-body > :last-child {
+  padding-bottom: 0.5rem;
+  margin-bottom: 0;
+}
 ///*-- scss:rules --*/
 //
 //.bi-github {
 //  color: white;
 //}
 
+
+$linkColor: #29306c;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+// Links and actions
+$linkColor: $link-color !default;
+$linkColorHover: $link-color-hover !default;
+  a {
+    color: $linkColor;
+  }

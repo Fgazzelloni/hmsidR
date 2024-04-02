@@ -1,9 +1,22 @@
 # Application of the model results {#sec-03.2-Applications}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   Overview of the basic plots
 -   How to customize a plot
 -   Tell the story with data
+:::
 :::

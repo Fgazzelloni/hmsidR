@@ -1,11 +1,24 @@
 # Essential R Packages for Machine Learning {#sec-02.3-Packages}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   Overview of the most suitable R-packages
 -   Combination of packages and functions
 -   How to find a new R-package
+:::
 :::
 
 ## Inside and outside of the library boxes

@@ -4,7 +4,8 @@ project:
   
 book:
   title: "Health Metrics and the Spread of Infectious Diseases"
-  subtitle: "Machine Learning Applications and Spatial Modeling Analysis with R"
+  subtitle: "Machine Learning Applications and Spatial Modelling Analysis with R"
+  abstract: "A walk through a comprehensive exploration of health metrics, their calculation, modeling, and cross-country comparisons. This book spans the intricate landscape of public health analysis, offering a practical examination of various methodologies and approaches. From the fundamentals of health metrics calculation to providing an overview of modeling techniques, it equips readers with the knowledge and tools essential for understanding and interpreting health data, gaining valuable insights into global disparities and factors influencing health outcomes. In addition to providing the R code necessary to produce the analysis, the book teaches how to create appropriate data visualizations and maps. In compliance with the principles of transparency and reproducibility, all datasets utilized in this book have been organized into an R package called [{hmsidwR}](https://fgazzelloni.github.io/hmsidwR/). This integration ensures that readers have easy access to the necessary data, thereby facilitating the replication of the analyses presented throughout the text."
   reader-mode: true
   author: 
     name: Federica Gazzelloni
@@ -20,7 +21,7 @@ book:
   repo-url: https://github.com/Fgazzelloni/hmsidR
   repo-branch: origin
   sharing: [twitter, facebook, linkedin]
-  publisher: "CRC Press"
+  publisher: "CRC Press - Chapman & Hall"
   publisher-place: "Boca Raton, FL."
   repo-actions: [edit, issue]
   cover-image: images/cover.png
@@ -28,7 +29,7 @@ book:
   date: "06/09/2023" # date of the aggrement with the Editor
   page-navigation: true
   sidebar:
-    background: "#cfb4cd"
+    background: "#ebecf7"
     pinned: true
     align: center
     style: docked
@@ -104,14 +105,14 @@ format:
     code-copy: true
     code-fold: show
     code-summary: "Hide code"
-    code-block-border-left: "#cdbdcc"
-    code-block-bg: "gray90"
+    code-block-border-left: "#29526c"
+    code-block-bg: "#f0f0f5"
     fig-align: center
     fig-cap-location: bottom
     fig-width: 8
     fig-height: 5
-    linkcolor: "#88398a"
-    link-external-newwindow: true    
+    linkcolor: "#29306c"
+    link-external-newwindow: true 
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
     toc: true
@@ -126,16 +127,19 @@ execute:
   message: false
   warning: false
   freeze: auto 
-  cache: true
-  
+  cache: false
+  df-print: kable
+ 
+
+
 knitr:
-    opts_chunk:
-        collapse: false
-        message: false
-        warning: false
-        comment: ""
-        #R.options:
-            #knitr.graphics.auto_pdf: true
+  opts_chunk: 
+    collapse: true
+    comment: "#>" 
+    R.options:
+      knitr.graphics.auto_pdf: true  
+  
+
               
               
   

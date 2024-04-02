@@ -1,6 +1,5 @@
 # Markov Chain {#sec-appendixB}
 
-
 ## Markov Chain
 
 code is from Dobrow - Bayesian analisis of infectious diseases book (chapter4)

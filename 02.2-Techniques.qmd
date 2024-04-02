@@ -1,11 +1,24 @@
 # Techniques for Machine Learning Applications {#sec-02.2-Techniques}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   How to manipulate data through feature engineering
 -   Select the most suitable model for your data
 -   Learn how to apply machine learning algorithms
+:::
 :::
 
 ## Data Analytics versus Data Science
@@ -90,9 +103,8 @@ ggplot(simulated_data, aes(x = time)) +
   geom_line(aes(y = I, color = "Infectious")) +
   geom_line(aes(y = R, color = "Recovered")) +
   labs(title = "Simulation of SEIR Model", x = "Time", y = "Population") +
-  scale_color_manual(values = c("Susceptible" = "blue", "Exposed" = "orange",
-                                 "Infectious" = "red", "Recovered" = "green")) +
-  theme_minimal()
+  scale_color_manual(values = c("Susceptible" = "#29306c", "Exposed" = "orange",
+                                 "Infectious" = "#a60845", "Recovered" = "#a8bd3a")) 
 
 ```
 

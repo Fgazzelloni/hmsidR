@@ -6,11 +6,11 @@ engine: knitr
 
 *Last updated: `r format(lubridate::now(tzone = "CET"), usetz = TRUE, digits = 0)`*
 
-::: callout-warning
-The book is continuously being refined and expanded.
+::: solutionbox-header
+❗️The book is continuously being refined and expanded.
 :::
 
-## What this book is all about
+## What to Expect: A Preview of Your Health Metrics Journey
 
 This book explores health metrics, such as Disability Adjusted Life Years (DALYs) and others, it will expand on the components' calculation, to finally investigate the influence of infectious disease dynamics on the metrics trend. It's like a toolbox for checking how healthy a country is while comparing it with others. You'll also learn how to choose the best tools to predict future health trends, using statistics, visualizing data, applying machine learning algorithms and working with maps in the R programming language. Think of this book as your complete guide to understanding and predicting the state of health of a population at global and country levels by leveraging expertise managing various statistical tools.
 

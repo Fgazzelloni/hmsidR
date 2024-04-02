@@ -1,5 +1,11 @@
 # Introduction to Data Visualizaion {#sec-03.1-DataVisualization}
 
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
+
 ## Overview
 
 One of my favorite topics to practice with for understanding more about data to be analysed is visualization. Through visualizing data we can summarize the information contained in it, tell a story about the interaction of key variables in the data, represent statistical values and finally design the background of the story.
@@ -16,7 +22,7 @@ The digital revolution of the late 20th century with the advent of powerful comp
 
 ### The Grammar of Graphics
 
-The `plot()`\` function and its competitor `ggplot()`\` are tools.
+The `plot()` function and its competitor `ggplot()` are tools.
 
 ### Colors and Palette
 

@@ -1,12 +1,30 @@
+---
+tbl-colwidths: [75,25]
+engine: knitr
+bibliography: references.bib
+---
+
 # Health Metrics {#sec-01.2-HealthMetrics}
 
-\
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
-::: {#Learning Objectives .callout}
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
 
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   A closer look at the metrics
 -   Understand how to use them
 -   Think about potentiality for improvements
+:::
 :::
 
 The aim of this book is more aligned with the assessment of the burden of diseases in terms of disability and premature mortality, which DALYs specifically capture. The primary concern is understanding the impact of diseases on overall health, along with a closer look at the calculation of DALYs. Although, the definition of DALYs has been provided in the introduction of this first section of the book, a further addition is required in order to correctly identify the structure of the metrics components. The DALY is a generalization of the well-known *Potential Years of Life Lost measure (PYLLs)* which includes the lost of good health[^01.2-healthmetrics-1].
@@ -21,35 +39,342 @@ The health metrics, and their components are used to measure the burden of disea
 
 ### YLL (Years of Life Lost)
 
-YLL (Years of Life Lost) measures the number of years a person would have lived if they had not died prematurely due to a disease or injury. YLL is calculated by subtracting the age at death from the expected age at death in a population without the disease or injury.
+As a metric that measures the number of years a person would have lived if they had not died prematurely due to a disease or injury, YLL is calculated by subtracting the age at death from the expected age at death in a population without the disease or injury.
 
-This metric was first calculate in late 1940s and defined as **Standardized Rate for Mortality defined in units of Lost Years of Life** by *William Haenszel* [@haenszel1950]. The investigation about **What is the leading cause of death** brought to the development of a measurement that would take consideration of the age at death and put it in comparison with the expected life expectancy. This initially lead to understand that early deaths had a greater impact than those at later ages. And in particular it was ascertain that if the number of years were accounted for a group of people, this would have led to recognize potential life lost for a certain cause. Since this first approach to measure the cause of deaths, some adjustments of the standard death rates were made leading to a new calculation which was built on considering standardized deaths rate applied to age-specific factors that would have led to death for a specific cause of death. The impact on the society due to premature losses involves, not only the mere sadness for having lost a beloved one but the lost of working-people dying prematurely.
+This metric was first calculate in late 1940s (@sec-01.1-MetricsEvaluation), then defined as **Standardized Rate for Mortality in units of Lost Years of Life** by *William Haenszel* [@haenszel1950]. The investigation about **What is the leading cause of death** brought to the development of a measurement that would take consideration of the **age at death** and put it in comparison with the **expected life expectancy**. This initially lead to understand that early deaths had a greater impact than those at later ages. And in particular it was ascertain that if the number of years were accounted for a group of people, this would have led to recognize potential life lost for a certain cause. Since this first approach to measure the cause of deaths, some adjustments of the standard death rates were made leading to a new calculation which was built on considering **standardized deaths rate applied to age-specific factors** that would have led to death for a specific cause of death.
+
+> The impact on the society due to premature losses involves, not only the mere sadness for having lost a beloved one but the lost of working-people dying prematurely. It is cost for the entire society.
+
+#### Calculation
 
 $$
 YLL=N*le
-$$
+$$ {#eq-yll}
 
-> Standard life tables allow measuring the impact of different diseases at the same level, which is essential for comparative studies such as the Global Burden of Disease study [@devleesschauwer2020].
+in @eq-yll, $N$ is the number of premature deaths, and $le$ is the expected live expectancy, or the expected numbers of years someone could live. More specification about the components of YLL are provided in the next @sec-01.3-Components and a sample of the construction of a life table with relative estimations of the life expectancy can be found in @sec-appendixA.
 
-> [Japanese](https://en.wikipedia.org/wiki/Japan) [life expectancy](https://en.wikipedia.org/wiki/Life_expectancy "Life expectancy") statistics
+In general the Global Burden of Diseases studies (GBD) use standard life tables, allowing for the measurement of the impact of different diseases at the same level. This standardization is essential for comparative studies, such as cross-country comparisons [@devleesschauwer2020]. It is also true that country-specific life expectancies are suitable for investigating early deaths due to health causes, such as deadly diseases. Moreover certain type of country-specific **life expectancies** are frequently used and suggested due to their usefulness in providing a heuristic picture of longevity characteristics, which are valuable for policymakers and prevention efforts, such as in the case of **Japanese life expectancy** [@tsugane2021]. A G7 cross-country study that showed how Japan had the longest average life expectancy, primarily due to remarkably low mortality rates from ischemic heart disease and cancer, which are the leading causes of death for most countries, as proven by the GBD study.
 
-The mortality risks that are country-specific...
+As a first step, we use deaths data from the GBD 2019 study. This dataset is stored in the `{hmsidwR}` package and is made of 2754 observations and 7 variables. It contains the estimated number of deaths due to 9 causes for 6 regions: Global, France, Italy, Germany, United Kingdom, and United States. Let's calculate the Years of Life Lost (YLLs) due to **stroke** in 2019.
+
+```{r}
+#| warning: false
+#| message: false
+#| output: false
+
+library(tidyverse)
+library(hmsidwR)
+hmsidwR::deaths2019
+```
+
+```{r}
+#| echo: false
+#| label: tbl-location
+#| tbl-column: body
+#| tbl-cap: "Locations"
+
+deaths2019%>%
+  count(location)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-cause
+#| tbl-cap: "Causes"
+
+deaths2019%>%
+  count(cause)
+```
+
+```{r}
+#| label: tbl-deaths_stroke
+#| tbl-cap: "Deaths due to Stroke"
+deaths_stroke <- deaths2019 %>%
+  filter(location=="Global",
+         str_detect(cause,"Stroke")) %>%
+  select(-location,-cause,deaths=val)
+
+deaths_stroke %>% head()
+```
+
+```{r}
+hmsidwR::gho_lifetables%>%
+  count(indicator)
+```
+
+```{r}
+ex2019 <- hmsidwR::gho_lifetables%>%
+          filter(year==2019,
+                 indicator=="ex - expectation of life at age x")%>%
+            select(-indicator)%>%
+            rename(life_expectancy=value)%>%
+    mutate(age=gsub("1-4","01-04",age),
+           age=gsub("5-9","05-09",age),
+           age=gsub("<1","01",age),
+           sex=str_to_title(sex))
+
+ex2019 %>%
+  head()
+```
+
+```{r}
+YLL_global_stroke <- deaths_stroke %>%
+  mutate(age=gsub(" .*","",age),
+         age=gsub("1-4","01-04",age),
+         age=gsub("5-9","05-09",age),
+         age=gsub("<1","01",age))%>%
+  full_join(ex2019)%>%
+  group_by(age)%>%
+  mutate(YLL=deaths*life_expectancy)%>%
+  drop_na()%>%
+  select(sex,age,YLL)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-YLL_global_stroke
+#| tbl-cap: "Global Stroke YLLs"
+
+YLL_global_stroke%>%
+  head()
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| label: fig-YLL_global_stroke
+#| fig-cap: "YLLs due to stroke in the Global region"
+#| echo: false
+
+dat <- YLL_global_stroke%>%
+  filter(!sex=="Both")
+
+dat %>%  
+  ggplot(aes(x=age))+
+  geom_line(aes(y=YLL))+
+  geom_point(data=dat%>%
+               filter(sex=="Female"),
+             aes(y=YLL),color="pink")+
+  geom_point(data=dat%>%
+               filter(sex=="Male"),
+             aes(y=YLL),color="darkgreen")+
+  geom_smooth(aes(y=YLL,group=1),
+              se=F,color="#29306c")+
+  scale_y_continuous(labels = scales::label_comma(scale = 1/1000))+
+  labs(title="Global region: Years of Life Lost (YLLs) due to stroke",
+       subtitle="Year 2019",
+       caption = "DataSource: WHO life expectancy & IHME results Stroke data | YLLs Values in Thousands",x="Age Group",y="YLLs")+
+  theme(axis.text.x = element_text(size=7,angle = 45,vjust = 0.5),
+        plot.caption = element_text(size=8))
+```
 
 ### YLD (Years Lived with Disability)
 
 **YLD** (Years Lived with Disability) measures the number of years a person lives with a disability due to a disease or injury. It is calculated by multiplying the **prevalence of a condition** by the **disability weight**, which reflects the severity of the disability.
 
-$$
-YLD=I*DW*L
-$$
+The key factor of the disability weights (DW) is liked to the severity (mean of the range of health loss suffered to disease) of a non-fatal health condition due to disease or injury. DW ranges between 0 (equivalent to full health) and 1 (equivalent to death). The estimation of the disability weights is challenging and has been continuously changed by modifying and adapting methodologies in various studies[@liu2023]. The challenge is assigning disability weights to diseases with different levels of prevalence and severity, such as cases with high prevalence and low severity. Furthermore, then the results need to be reported to a year-based value.
 
-Where $I$ is the incidence, $DW$ are the disability weights and $L$ is the average duration of the condition.
+Moreover, the calculation of the YLDs has been updated over the years passing from incidence to prevalence-based approach. More in-depth analyses are in @sec-01.3-Components, for now we will be focusing on using the most updated approach based on values of prevalence estimated by the GBD2019 which are here summarized in the `hmsidwR::g7_hmetrics` data set.
+
+#### Calculation
+
+$$
+YLD=p*DW
+$$ {#eq-yld}
+
+in @eq-yld, $p$ is the prevalence, $DW$ are the disability weights. The prevalence is the incidence times the duration of the condition.
+
+Since the release of the GBD 2010 and WHO have decided to switch to a prevalence-based approach to calculation of YLDs. The major impact of this is to shift the age distribution of YLDs significantly (Figure 2.2). Thus for example YLDs for congenital hearing loss will be spread relatively evenly across all age groups in the prevalence perspective, whereas they will all fall at age 0 in an incidence perspective.
+
+In this case we use the `disability weights` and the `severity` levels extracted from a dataset in the GBD 2019 study. The dataset `disweights2019` is stored in the `{hmsidwR}` package and is made of 25 observations and 7 variables. It contains the estimated values for the disability weights as well as the upper and lower estimates. Let's calculate the `Years Lived with Disabilities (YLDs)` due to **Stroke** in 2019.
+
+```{r}
+#| eval: false
+hmsidwR::disweights2019
+```
+
+```{r}
+#| echo: false
+hmsidwR::disweights2019%>%
+  select(specification,cause1,severity,disability_weight) %>%
+  drop_na()%>%
+  head()
+```
+
+The level of `severity` is assigned to be:
+
+-   mild = 20%
+-   moderate = 45%
+-   severe = 75%
+
+This assigned levels are general for all ages, the values might vary for other specification of the level of disability[@wyper2020].
+
+```{r}
+dwsev2019 <- hmsidwR::disweights2019%>%
+  select(cause1,severity,disability_weight) %>%
+  drop_na() %>%
+  mutate(severity_n=case_when(severity=="mild"~0.2,
+                              severity=="moderate"~0.45,
+                              severity=="severe"~0.75)) 
+
+dwsev2019 %>%
+  head()
+```
+
+The values for disability weights and severity are here considered for all ages, in general the level of disability weights can differ by age for different type of stroke, but here for simplicity consider weights varying only based on the severity level of stroke.
+
+```{r}
+dw_stroke <- dwsev2019 %>%
+  filter(cause1=="Stroke")%>%
+  group_by(severity)%>%
+  reframe(severity_n=mean(severity_n),
+          disability_weight=mean(disability_weight))
+dw_stroke
+```
+
+Strokes are associated with `cardiovascular diseases (CVDs)`. In particular, there are two main types of stroke: ischemic stroke and hemorrhagic stroke. When looking at the age-standardized prevalence of cardiovascular disease at the global level, we can calculate the YLD at the global level age standardized by extracting the incidence and prevalence values from the table `hmsidwR::g7_hmetrics`. We then multiply these values by the severity and disability weights, as follows. We note the difference in the YLDs if incidence or prevalence is used in the calculation.
+
+```{r}
+inc_prev_stroke_as <- g7_hmetrics%>%
+  filter(measure%in%c("Incidence","Prevalence"),
+         location=="Global",
+         cause=="Cardiovascular diseases",
+         metric=="Percent",
+         year==2019)%>%
+  select(measure,sex,val)%>%
+  pivot_wider(names_from = "measure",values_from = "val")
+inc_prev_stroke_as
+```
+
+```{r}
+#| label: tbl-YLD_global_stroke_as
+#| tbl-cap: "Global YLD due to stroke age standardized"
+YLD_global_stroke_as <- merge(inc_prev_stroke_as,dw_stroke) %>%
+  group_by(sex)%>%
+  mutate(YLD_p=round(Prevalence*severity_n*disability_weight*100,3),
+         YLD_i=round(Incidence*severity_n*disability_weight*100,3))%>%
+  select(sex,YLD_p,YLD_i)%>%
+  summarise(YLD_p=sum(YLD_p),YLD_i=sum(YLD_i))
+YLD_global_stroke_as
+```
+
+Now, what we want is to calculate the YLDs due to `stroke` for 5-year age groups at Global level, so then with the YLL values previously obtained in @tbl-YLL_global_stroke we can calculate the DALYs.
+
+Here we use the incidence and prevalence values for stroke found in `hmsidwR::g7_inc_prev_CVD2019`.
+
+```{r}
+inc_prev_stroke_5y <- hmsidwR::g7_inc_prev_CVD2019 %>% 
+  filter(cause=="Stroke",
+         location=="Global")%>%
+  select(measure,sex,age,val)%>%
+  pivot_wider(names_from = "measure",values_from = "val")
+
+
+inc_prev_stroke_5y %>%
+  head()
+```
+
+```{r}
+#| label: tbl-YLD_global_stroke
+#| tbl-cap: "Global YLD due to stroke 5Yrs"
+YLD_global_stroke <- merge(inc_prev_stroke_5y,dw_stroke)%>%
+  group_by(sex,age) %>%
+  reframe(YLD_p=sum(Prevalence*severity_n*disability_weight*100),
+         YLD_i=sum(Incidence*severity_n*disability_weight*100))
+
+YLD_global_stroke %>%
+  head()
+```
+
+```{r}
+#| echo: false
+#| label: fig-YLD_global_stroke
+#| fig-cap: "YLDs due to stroke in the Global region"
+
+dat <- YLD_global_stroke %>%  
+  filter(!sex=="Both")
+
+dat %>%
+  ggplot(aes(x=age,y=YLD_p))+
+  geom_line(aes(y=YLD_p))+
+  geom_point(data=dat%>%filter(sex=="Female"),
+             color="pink")+
+  geom_point(data=dat%>%filter(sex=="Male"),
+             color="darkgreen")+
+  geom_smooth(aes(group=1), se=F)+
+  scale_y_continuous(labels = scales::label_comma(scale = 1*1000,
+                                                  accuracy = 0.1))+
+  labs(title="Global region: Years Lived with Disabilities (YLDs) due to stroke",
+       subtitle="Year 2019",
+       caption = "DataSource: IHME results Stroke data | YLDs Values X 1000",x="Age Group",y="YLDs")+
+  theme(axis.text.x = element_text(size=7,
+                                   angle = 45,
+                                   vjust = 0.5),
+        plot.caption = element_text(size=8))
+```
 
 ### DALY (Disability-Adjusted Life Year)
 
-DALY (Disability-Adjusted Life Year) is a measure of overall disease burden and is calculated as the sum of years of potential life lost due to premature death (YLL) and years lived with disability (YLD). The DALY takes into account both the quantity and quality of life lost due to disease or injury.
+The **DALY** is a measure of the overall disease burden and is calculated as the sum of **years of potential life lost** due to premature death **(YLL)** and **years lived with disability (YLD)**. The DALYs indicate the number of years life lost due to disease or injury, and take into account both the quantity and quality of life.
 
-This measure is used to assess how diseases and injuries impact populations, and provides a comprehensive picture of the overall burden of disease by combining YLLs and YLDs in different groups.
+#### Calculation
+
+$$
+DALYs=YLLs+YLDs
+$$ {#eq-daly}
+
+One DALY is one lost year of healthy life, this measure is used to assess how diseases and injuries impact populations, and provides a comprehensive picture of the overall burden of disease by combining YLLs and YLDs in different groups.
+
+The sum of YLLs @tbl-YLL_global_stroke and YLDs @tbl-YLD_global_stroke releases the overall value of DALYs due to stroke in the Global region. Here we can see there is no much difference in magnitude if incidence or prevalence is used.
+
+```{r}
+DALY_global_stroke <- merge(YLL_global_stroke,YLD_global_stroke) %>%
+  mutate(DALY_p=YLL+YLD_p,DALY_i=YLL+YLD_i)
+
+DALY_global_stroke%>%
+  select(sex,age,YLL,YLD_p,YLD_i,DALY_p,DALY_i)%>%
+  head()
+```
+
+```{r}
+#| echo: false
+#| label: fig-DALY_global_stroke
+#| fig-cap: "DALYs due to stroke in the Global region"
+dat <- DALY_global_stroke %>% 
+  select(sex,age,YLL,YLD_p,DALY_p)%>%
+  filter(!sex=="Both")%>%
+  mutate_if(is.numeric,scale)
+
+dat %>%
+  ggplot(aes(x=age))+
+  geom_line(aes(y=DALY_p))+
+  geom_smooth(aes(y=DALY_p,group=1),
+              se=F) +
+  geom_line(aes(y=YLL,group=sex,color=sex),
+            #color="grey",
+            linewidth=0.2)+
+  geom_line(aes(y=YLD_p,group=sex,color=sex),
+            #color="darkred",
+            linewidth=0.2)+
+  scale_color_manual(values=c("pink","darkgreen"))+
+  geom_point(data=dat%>%filter(sex=="Female"),
+             aes(y=YLL),color="pink")+
+  geom_point(data=dat%>%filter(sex=="Male"),
+             aes(y=YLL),color="darkgreen")+
+  geom_point(data=dat%>%filter(sex=="Female"),
+             aes(y=YLD_p),color="pink")+
+  geom_point(data=dat%>%filter(sex=="Male"),
+             aes(y=YLD_p),color="darkgreen")+
+  scale_y_continuous(labels = scales::label_comma(scale = 1*1000,
+                                                  accuracy = 0.1))+
+  labs(title="Global region: Disability Adjusted Life Years (DALYs) due to stroke",
+       subtitle="Year 2019",
+       caption = "DataSource: IHME results Stroke data | DALYs Values ",x="Age Group",y="DALYs")+
+  theme(axis.text.x = element_text(size=7,angle = 45,vjust = 0.5),
+        plot.title = element_text(size=12),
+        plot.caption = element_text(size=8),
+        legend.position = "bottom")
+```
 
 ## How the metrics are used
 
@@ -67,16 +392,13 @@ The health metrics of DALY, YLL, and YLD can be used in several ways to help pri
 
 Overall, the health metrics of DALY, YLL, and YLD provide valuable information for public health practitioners, researchers, and policy makers to help prioritize and allocate resources, evaluate the impact of diseases and injuries, and inform public health decision-making.
 
-#### First application of DALYs
+#### General application of DALYs
 
 As an example here is shown how the DALY metric can be used for prevention:
 
 Suppose we have data on the number of cases of a particular disease, as well as the average number of years of life lost due to this disease. We can use this information to calculate the total number of DALYs lost due to this disease.
 
 ```{r}
-# Load the library 'dplyr'
-library(dplyr)
-
 # Create a data frame with the number of cases and average years of life lost
 df <- data.frame(YLL = c(5, 10, 15),
                  YLD = c(1,3,4))
@@ -95,4 +417,99 @@ This information can be used to inform public health interventions to prevent th
 
 ## HALE (Healthy Life Expectancy)
 
--   Description and calculation
+**Healthy Life Expectancy (HALE)** is a metric used to estimate the number of years a person can expect to live in good health, taking into account both mortality and morbidity factors. It is often used as a **measure of overall population health and quality of life**. It takes into account the impact of both fatal and non-fatal health outcomes on overall life expectancy. HALE is typically calculated using data on mortality rates and health-related quality of life measures, such as disability-adjusted life years (DALYs) or quality-adjusted life years (QALYs). These measures allow for the estimation of the number of years lost due to premature death or disability.
+
+It can be used to identify health disparities, assess the effectiveness of healthcare interventions, and inform public health policies. By measuring the number of years lived in good health, HALE offers a more articulated understanding of population health rather than traditional life expectancy measures.
+
+#### Calculation
+
+$$
+HALE= \text{life expectancy}- YLD
+$${#eq-hale}
+
+
+
+The HALE is obtained by subtracting the YLDs from the life expectancy of a population. But if we consider more specifications such as comorbidities and other health factors that can verify in real life, the calculation can be adjusted by assuming different levels of **prevalence** based on disease sequelae with associated **disability weights**, and eventually accounting for **comorbidity** level by using a **Monte Carlo simulation approach**. 
+
+We use age-specific mortality and YLDs per capita by location, age, sex, and year, and define the HALE as:
+
+> the average number of years that a person at a given age can expect to live in good health, taking into account mortality and loss of functional health.
+
+![HALE - GLOBAL HEALTH METRICS\| VOLUME 392, ISSUE 10159, P1859-1922, NOVEMBER 10, 2018](images/hale.png){fig-align="center" width="504"}
+
+
+The process of calculating the HALE for a specific population, considering factors such as sex, country, and year, involves computing the **average health** of individuals across different age groups within the population and integrating information on the **prevalence** of various health conditions and their associated **disability weights**. **Comorbidity** is addressed using a **Monte Carlo simulation approach**, assuming independence of comorbidities within each age group. Simulations are conducted to model exposure to different health conditions based on their estimated prevalence in each age group, resulting in a simulated population reflecting the prevalence of multi-morbidities[@stanaway2018].
+
+**Positive health** associated with each health condition is defined as one minus the disability weight $(1-DW)$. The **combined health** for an individual in the simulated population is determined by multiplying these positive health values for all relevant health conditions present.
+
+The **average health** values are then computed as one minus the Years Lived with Disability (YLD) $(1-YLD)$ per person in the population, which are used to calculate **health-adjusted person years**. The **Sullivan's method** is employed to incorporate these average health values into the **life table**. This involves adjusting the values in the $nLx$ column of the life table by the corresponding average health values, recalculating the life table using these adjusted values, and then using an iterative process to estimate health-adjusted person-years for different age groups.
+
+Finally, HALE is calculated by dividing the adjusted person-years for each age group by the proportion of a hypothetical birth cohort still alive at that age.
+
+### Simulate life table data
+
+Define age intervals (e.g., every 5 years), simulate survival probabilities for each age interval (between 0 and 1)
+
+```{r}
+set.seed(040424)
+age_intervals <- seq(0, 100, by = 5)
+survival_probabilities <- runif(length(age_intervals), min = 0.5, max = 1)
+```
+
+
+```{r}
+life_table <- data.frame(Age = age_intervals, 
+                         Survival_Probability = survival_probabilities,
+                         nLx=100000-(age_intervals*survival_probabilities))
+life_table%>%head()
+```
+
+Calculate adjusted $Tx$ for each age group as the sum of **health-adjusted person-years** with all age intervals above the current age interval.
+
+```{r}
+prevalences <- runif(length(age_intervals), min = 0, max = 0.5)
+disability_weights <- runif(length(age_intervals), min = 0, max = 1)
+average_health <- 1 - (prevalences * disability_weights)
+life_table$adjusted_px <- life_table$Survival_Probability * average_health
+life_table%>%head()
+```
+
+Let's make a function to calculate the HALE.
+
+```{r}
+calculate_HALE <- function(age,px) {
+  # Initialize a vector to store adjusted Tx for each age group
+  adjusted_Tx <- numeric(length(age))
+  # Iterate over each age interval to calculate adjusted Tx
+  for (i in 1:length(age)) {
+    # Calculate adjusted Tx for the current age group
+    adjusted_Tx[i] <- sum(px[i:length(age)])
+  }
+  HALE <- numeric(length(age))
+  # Calculate HALE for each age group
+  for (i in 1:length(age)) {
+    # Calculate HALE for the current age group
+    HALE[i] <- adjusted_Tx[i] / px[i]
+  }
+HALE
+}
+
+```
+
+```{r}
+HALE1 <- calculate_HALE(age_intervals,life_table$Survival_Probability)
+HALE2 <- calculate_HALE(age_intervals,life_table$adjusted_px)
+```
+
+
+```{r}
+#| echo: false
+data.frame(age_intervals, HALE1,HALE2)%>%
+  ggplot(aes(x=age_intervals))+
+  geom_line(aes(y=HALE1))+
+  geom_line(aes(y=HALE2),color="red")+
+  labs(title = "Health Adjusted Life Expectancy (HALE) by Age",
+       x="Age Group (5Yrs)")
+```
+
+

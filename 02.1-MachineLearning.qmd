@@ -1,5 +1,11 @@
 # Introduction to Machine Learning {#sec-02.1-MachineLearning}
 
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
+
 > "Human beings are not just passive victims of disease. They are active participants in the biological confrontation between man and microbe."
 
 This chapter will walk you through a basic construction of a machine learning model, providing a simple explanation of how to model fast-growing phenomena, such as in the case of the spread of infectious diseases.
@@ -148,8 +154,7 @@ ggplot(cholera,aes(x=date,y=deaths))+
   geom_point()+
   geom_smooth(method = "lm")+
   labs(title="Deaths due to Cholera in London (1849)",
-       x="Date",y="Cholera death")+
-  theme_minimal()
+       x="Date",y="Cholera death")
 ```
 
 The purpose of creating a model is to identify underlying patterns within a series of observations. This requires the model to interpolate given observations in order to represent the overall pattern accurately. For instance, in the visualization above, the blue line made with the `geom_smooth()` function from the `{ggplot2}` package, when specified with `method="lm"`, helps us visualize the direction of a linear pattern in the data. However, it's evident that the data points form a bell-curved distribution of deaths over time, indicating a non-linear relationship between date and cholera deaths.

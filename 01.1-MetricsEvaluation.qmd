@@ -1,16 +1,22 @@
 # Introduction to Metrics Evaluation {#sec-01.1-MetricsEvaluation}
 
-
 ```{r}
 #| label: introduction-setup
 #| include: false
-source("R/_common.R")
+#| echo: false
 
 library(tidyverse)
-set_options()
+source("R/_common.R")
+
+
+#set_options()
 ```
 
-*"The concept of health also has highly subjective connotations, precisely because it is conditioned by the personal view of happiness." René Dubos[@dubos1976]*
+<br>
+
+*\*"The concept of health also has highly subjective connotations, precisely because it is conditioned by the personal view of happiness." René Dubos[@dubos1976]\**
+
+<br>
 
 The health metrics are key variables to understand more about the state of health of a population. In this first section of the book we'll learn about the history of the metrics, how to calculate them, and how to take consideration of their variation due to causes and risks. In particular, we will have a look at the metrics components and the challenges in providing standardized values for a global comparison. Moreover in the following sections we will see how to build a model, evaluate the effect of the spread of infectious disease on the health metrics and how if affects the overall state of health of a population.
 
@@ -20,6 +26,7 @@ The history of health metrics is a fascinating journey that spans centuries, evo
 
 ```{r}
 #| echo: false
+#| eval: false
 #| message: false
 #| warning: false
 #| output: false
@@ -44,8 +51,7 @@ text=c("The concept of health metrics can be traced back to ancient civilization
 
 ```{r}
 #| echo: false
-#| fig-width: 8
-#| fig-height: 4
+#| eval: false
 #| fig-align: "center"
 #| fig-cap: "Health Metrics development timeline"
 #| fig-alt: "Health Metrics development timeline"
@@ -74,9 +80,13 @@ timeline %>%
   theme_void()
 ```
 
-One of the earliest forms of health metrics can be traced back to the work of *John Graunt*, an Englishman, in the 17th century [@johngra2024]. In 1662, Graunt published a landmark work titled "Natural and Political Observations Made upon the Bills of Mortality." Graunt defined as the **father of human demography** was largely self-educated, and his interest in mortality data was driven by the Bills of Mortality, which were weekly and annual records of deaths in London, and provided information on the number of births and deaths in the city. Graunt meticulously analyzed this **mortality data** and produced **tables** that presented various patterns and trends. His work laid the foundation for modern demography and statistical analysis. Among his notable contributions were the concepts of **life expectancy** and **mortality rates**. One of Graunt's key observations was the consistent pattern of higher mortality among infants and young children. He noted the difference in life expectancy between males and females and provided insights into factors influencing mortality, such as epidemics and seasons.
+![Timeline](images/01_timeline.png){fig-align="center" #fig-timeline}
 
-Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of **life tables**, which provided a systematic way to analyze mortality and life expectancy. More specifically, *Mary Dempsey* in 1940s wrote an article for the National Tuberculosis Association about the concept of **Years of Life Lost**, assessing time-lost as a metric for health for the first time. She was then followed by other more advanced improvements spanning all throughout of the rest of the century.
+\
+
+Illustrated by @fig-timeline, one of the earliest forms of health metrics can be traced back to the work of *John Graunt*, an Englishman, in the 17th century [@johngra2024]. In 1662, Graunt published a landmark work titled "Natural and Political Observations Made upon the Bills of Mortality." Graunt defined as the **father of human demography** was largely self-educated, and his interest in mortality data was driven by the Bills of Mortality, which were weekly and annual records of deaths in London, and provided information on the number of births and deaths in the city. Graunt meticulously analyzed this **mortality data** and produced **tables** that presented various patterns and trends. His work laid the foundation for modern demography and statistical analysis. Among his notable contributions were the concepts of **life expectancy** and **mortality rates**. One of Graunt's key observations was the consistent pattern of higher mortality among infants and young children. He noted the difference in life expectancy between males and females and provided insights into factors influencing mortality, such as epidemics and seasons.
+
+Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of **life tables**, which provided a systematic way to analyze mortality and life expectancy. More specifically, *Mary Dempsey* in 1940s wrote an article[@dempsey2019a] for the National Tuberculosis Association about the concept of **Years of Life Lost (YLL)**, assessing time-lost as a metric for health for the first time. She was then followed by other more advanced improvements spanning all throughout of the rest of the century.
 
 > "The quality of life depends also on the state of "public health"-namely on factors that affect the biological welfare of the community as a whole.[@dubos1976a]
 

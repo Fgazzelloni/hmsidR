@@ -1,11 +1,24 @@
 # The case of Malaria {#sec-04.3-Malaria}
 
-::: callout
-## Learning Objectives:
+```{r}
+#| echo: false
+library(tidyverse)
+source("R/_common.R")
+```
 
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
 -   What is Malaria
 -   How does it spread
 -   Map Malaria outbreaks
+:::
 :::
 
 ## Malaria description
@@ -62,6 +75,7 @@ plot(time, infected, type = "l", xlab = "Time", ylab = "Number of Infected Indiv
 ```{r}
 #| message: false
 #| warning: false
+#| eval: false
 # Load necessary libraries
 library(caret)
 
@@ -98,13 +112,6 @@ cat("Root Mean Squared Error (RMSE):", rmse, "\n")
 # 6. Iterative Improvement
 # Refine your model by adjusting parameters, feature engineering, etc.
 
-```
-
-```{r}
-#| message: false
-#| warning: false
-# 6. Iterative Improvement
-# Refine your model by adjusting parameters, feature engineering, etc.
 
 # 1. Adjusting Parameters
 # You can further fine-tune the model by adjusting parameters such as 'mtry' in Random Forest
