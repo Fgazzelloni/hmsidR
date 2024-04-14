@@ -12,7 +12,7 @@ A large component of this book is made in R language for spatial/data visualizat
 
 More about the author here:
 
--   [Professional profile](https://www.linkedin.com/in/fgazzelloni/)
--   [Blog](https://federicagazzelloni.netlify.app/)
+-   [Professional profile](https://www.linkedin.com/in/federicagazzelloni/)
+-   [Blog](https://federicagazzelloni.com/)
 
 
