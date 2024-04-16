@@ -11,7 +11,7 @@ data-raw
 inst
 rsconnect
 components_hm_files
-compiler
+compiler/
 R
 man
 _extensions/

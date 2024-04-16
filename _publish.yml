@@ -1,4 +1,9 @@
 - source: project
   quarto-pub:
-    - id: 8c35abb3-d263-47b3-81cb-0a60e686a4e1
+    - id: 73c88b97-73bf-47b0-baf8-afc70030b64c
+      url: 'https://fgazzelloni.quarto.pub/hmsidwr'
+    - id: e4cdd5be-0f6d-4f45-8fc5-7018a5eb0f66
       url: 'https://fgazzelloni.quarto.pub/health-metrics-and-the-spread-of-infectious-diseases'
+  netlify:
+    - id: c339a06b-0b9a-42b9-9381-3250f18baf47
+      url: 'https://peppy-sundae-492722.netlify.app'

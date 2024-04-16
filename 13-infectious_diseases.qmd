@@ -1,0 +1,77 @@
+# Introduction to Infectious Diseases {#sec-13-infectious_diseases}
+
+```{r}
+#| echo: false
+library(tidyverse)
+#source("R/_common.R")
+```
+
+## Overview
+
+Emerging infectious diseases are a global concern, causing millions of
+deaths annually. Understanding their behavior and predicting outbreaks
+is crucial for public health. Accurate predictions help plan
+interventions and mitigate impacts, including economic ones. However,
+predicting new diseases is challenging due to limited data and complex
+factors. Reliable computational tools, like machine learning and
+mathematical models, are needed to understand disease dynamics and aid
+decision-making. While no model is perfect, they provide valuable
+insights for planning resources and policies, particularly during
+outbreaks. Combining various models and data sources enhances prediction
+accuracy. Overall, these tools are essential for managing infectious
+diseases and making informed decisions.
+
+Transfer learning involves utilizing knowledge gained from one
+predictive task to address another. It utilizes a model initially
+trained for a specific task in a particular area to tackle a different
+task or extend its capabilities to a distinct domain. The potential of
+transfer learning in the context of infectious disease research has been
+relatively under-investigated [@roster2022].
+
+### Infectious Diseases the invisible enemies
+
+The infective agent begins to thrive and multiply throughout the body
+[@broemeling2021]. Its proliferation can be fast or slow depending on
+the type of organism. Every infectious disease has an incubation period,
+the length of time the pathogen is established until appearance of
+symptoms of the disease.
+
+Factors influencing infection
+
+-   quantity of invading germs (dose of the infection)
+-   the virulence of the infection
+-   the condition of the body's immune system
+-   contact with source of infection for contagious diseases
+
+Microorganisms adapt far more rapidly than humans as the scene shifts. A
+bacterial generation ranges from 20-30 minutes, for viruses it's much
+smaller.
+
+> Who is going to adapt to whom?
+
+Virus means **poisonous substance** ranging from 20 to 400 nm in
+diameter can be observed only with a electron microscope. Outside of a
+living cell is a dormant particle of strange shapes. When manage to get
+inside the cell it starts replicating killing the cell or skewing its
+functions.
+
+### The impact on DALYs
+
+To understand the magnitude of impacts on DALYs caused by infectious
+diseases we use big data analytics with machine learning analysis to
+classify the patterns of global disease burden by human development
+index (HDI) to have a better understanding of DALYs caused by COVID19
+given different levels of HDI.
+
+::: callout
+The HDI considers the level of [life
+expectancy](https://en.wikipedia.org/wiki/Life_expectancy "Life expectancy"),
+[education](https://en.wikipedia.org/wiki/Education_Index "Education Index")
+(mean years of schooling completed), and [per capita
+income](https://en.wikipedia.org/wiki/Per_capita_income "Per capita income")
+indicators, which is used to rank countries into four tiers of [human
+development](https://en.wikipedia.org/wiki/Human_development_(humanity) "Human development (humanity)")
+[@humande2024].
+:::
+
+COVID-19

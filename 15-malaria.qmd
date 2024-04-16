@@ -1,9 +1,9 @@
-# The case of Malaria {#sec-04.3-Malaria}
+# The case of Malaria {#sec-15-malaria}
 
 ```{r}
 #| echo: false
 library(tidyverse)
-source("R/_common.R")
+#source("R/_common.R")
 ```
 
 ::: solutionbox

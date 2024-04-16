@@ -1,0 +1,135 @@
+# Essential R Packages for Machine Learning {#sec-07-packages}
+
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
+-   Overview of the most suitable R-packages
+-   Combination of packages and functions
+-   How to find a new R-package
+:::
+:::
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
+## Inside and outside of the library boxes
+
+This book provides all data analysis, visualization, and modeling in R
+(a hint to Python translations can be found in @sec-appendixC), and the
+universe of available packages is vast. How do you untangle among all of
+them? Which one to choose? Sometimes, it is rather favorable to start by
+working out of the library boxes, which means using functions provided
+in the built-in packages inside a fresh R installation.
+
+On the contrary, life has become easier with the advent of wrapping
+functions and the reduction of lines of code through the use of
+functions found in packages. In the past, data analysis and modeling in
+R required extensive coding, often involving repetitive tasks and
+lengthy scripts. However, with the introduction of packages containing
+pre-built functions for common tasks, such as data manipulation,
+visualization, and statistical modeling, the process has been
+streamlined. These packages offer a wide range of functions that can be
+easily applied to perform complex analyses with just a few lines of
+code. As a result, users can achieve sophisticated results more
+efficiently, without the need to write lengthy and intricate scripts
+from scratch. This shift has not only simplified the process of data
+analysis and modeling but has also democratized access to advanced
+statistical techniques, making them more accessible to a broader
+audience.
+
+## Useful packages
+
+Some of the most used modeling packages available in R that are
+particularly useful for machine learning modeling of the spread of
+infectious diseases and evaluating DALYs variation due to infectious
+disease include:
+
+-   [**caret**](https://topepo.github.io/caret/)[@kuhn]: The caret
+    package (short for **C**lassification **A**nd **RE**gression
+    **T**raining) provides a unified interface for training and
+    evaluating machine learning models. It supports a wide range of
+    algorithms and offers convenient functions for hyperparameter tuning
+    and model selection.
+-   [**tidymodels**](https://www.tmwr.org/)[@silge]: tidymodels provides
+    a collection of packages for modeling and machine learning tasks,
+    including tidyr, dplyr, and ggplot2. It offers a consistent and tidy
+    workflow for data preprocessing, model building, evaluation, and
+    visualization.
+-   [**mlr3**](https://mlr3book.mlr-org.com/)[@mlr-org]: mlr3 is a
+    modern and extensible framework for machine learning in R. It
+    provides a unified interface for modeling tasks, making it easy to
+    train and evaluate a wide range of machine learning algorithms.
+-   [**INLA**](https://www.r-inla.org/what-is-inla)[@r-inlap]:
+    Integrated Nested Laplace Approximations (INLA) is a package for
+    Bayesian inference using the INLA method. It is particularly useful
+    for spatial and spatio-temporal modeling, which can be relevant for
+    studying the spread of infectious diseases.
+-   [**fpp3**](https://otexts.com/fpp3/)[@forecast]: The fpp3 package is
+    part of the Forecasting: Principles and Practice (3rd edition) book,
+    offering tools for forecasting time series data. While not
+    specifically focused on machine learning, it provides useful
+    functions for time series analysis, which can be relevant for
+    modeling disease spread over time.
+
+These packages offer a diverse set of tools and techniques for modeling
+infectious disease spread and assessing its impact on health metrics
+like DALYs. These packages provide valuable insights into the dynamics
+of infectious diseases and used correctly can be used to inform public
+health interventions and policies. However, whether these packages are
+the most suitable depends on various factors, including:
+
+-   the specific requirements of the analysis
+-   the expertise of the researcher
+-   the nature of the data being used
+
+Each package has its strengths and weaknesses, and the choice of package
+often depends on factors such as:
+
+-   the complexity of the modeling task
+-   the type of data available
+-   the preferred modeling approach (e.g., frequentist vs. Bayesian).
+
+For example, tidymodels provides a tidy and consistent workflow for
+modeling tasks, while mlr3 offers extensive support for machine learning
+algorithms and hyperparameter tuning.
+
+It's also worth considering other packages that may be relevant for
+specific aspects of the analysis, such as spatial modeling (e.g., spdep)
+or time series forecasting (e.g., prophet).
+
+-   [**spdep**](https://cran.r-project.org/web/packages/spdep/index.html):
+    spdep package and its piped interface
+    [**sfdep**](https://cran.r-project.org/package=sfdep) are powerful
+    tools for spatial econometrics and spatial statistics. With a set of
+    functions for analyzing spatial dependence and autocorrelation in
+    spatial data, they can be particularly relevant in infectious
+    disease modeling. By accounting for spatial relationships between
+    geographic units, such as regions or neighborhoods, these packages
+    incorporate spatial effects into models and allow for a better
+    understanding of how infectious diseases spread across space.
+-   [**prophet**](https://facebook.github.io/prophet/): prophet package
+    in R is specifically designed for time series forecasting with an
+    emphasis on flexibility and ease of use. Developed by Facebook,
+    prophet can handle various time series patterns, including
+    seasonality, holiday effects, and trend changes, making it suitable
+    for modeling infectious disease trends over time. The package
+    automatically detects and accommodates these patterns, simplifying
+    the modeling process and enabling researchers to generate accurate
+    forecasts with minimal effort.
+
+Ultimately, the features and capabilities of each package should
+carefully be evaluated in relation to their specific research objectives
+before to choose the one that best meets research needs and objectives.
+Additionally, experimenting with different packages and techniques may
+be beneficial to identify the most effective approach for a given
+analysis.
+
+### Examples

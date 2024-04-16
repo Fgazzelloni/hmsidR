@@ -1,0 +1,56 @@
+# Overview {#sec-part3 .unnumbered}
+
+## Data Visualization
+
+The Data Visualization section delves into the power of visual
+representations in conveying complex health data and insights. Through
+the use of various visualization techniques, including charts, graphs,
+and interactive dashboards, we explore how to effectively communicate
+health metrics and trends to diverse audiences. From exploring trends
+over time to comparing geographical variations, we demonstrate how data
+visualization can enhance understanding and decision-making in public
+health.
+
+### Chapter 9: Introduction to Data Visualization
+
+The Introduction to Data Visualization chapter dives into world of
+visual representation in data analysis with R. It offers insights into
+various visualization techniques and their applications. From basic
+graphical representations to advanced visualization tools, this chapter
+provides readers with the essential knowledge and skills needed to
+convey complex information in a clear and compelling manner. Through
+illustrative examples and practical tips, readers will gain a deeper
+appreciation for the power of visualization in exploring and
+understanding data.
+
+### Chapter 10: Application of the model results
+
+In this chapter, we explore practical applications of data visualization
+in public health and epidemiology. We delve into case studies and
+real-world examples where data visualization has been instrumental in
+informing health interventions, policy decisions, and research
+initiatives. Through hands-on demonstrations and tutorials, we equip
+readers with the skills and tools necessary to create impactful
+visualizations that drive action and improve health outcomes.
+
+### Chapter 11: Spatial data modeling and Visualization
+
+The Spatials chapter focuses on the spatial analysis of health data,
+examining the geographical distribution of disease burden and health
+outcomes. We explore techniques such as geographic information systems
+(GIS) and spatial clustering analysis to identify spatial patterns and
+hotspots of disease transmission. Through interactive mapping and
+spatial visualization, we elucidate the spatial epidemiology of
+infectious diseases and its implications for targeted intervention
+strategies and resource allocation.
+
+### Chapter 12: More Examples
+
+In this chapter, we showcase practical examples and case studies of data
+visualization and spatial analysis in public health research and
+practice. From mapping disease outbreaks to analyzing spatial
+disparities in health outcomes, we highlight innovative approaches and
+best practices in data-driven decision-making. Through diverse examples
+spanning different health contexts and geographical settings, we inspire
+readers to harness the power of data visualization and spatial analysis
+to address pressing public health challenges and drive positive change.

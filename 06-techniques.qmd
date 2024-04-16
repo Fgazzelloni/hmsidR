@@ -1,0 +1,375 @@
+# Techniques for Machine Learning Applications {#sec-06-techniques}
+
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
+-   How to manipulate data through feature engineering
+-   Select the most suitable model for your data
+-   Learn how to apply machine learning algorithms
+:::
+:::
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
+## Data Analytics versus Data Science
+
+It an ongoing debate that involves the distinction of the field of data
+analytics from that of data science. Essentially we need both, and for
+two reasons:
+
+-   rigorous analysis of data available
+-   provide a perspective on overall results
+
+Data analytics is mostly focused on analyzing data, which means
+collecting, checking, tidying and manipulating to finally apply ad hoc
+statistical techniques.
+
+Data science on the other side provide a overall conclusion about the
+data provided, reached through simulations, application of probabilities
+and declaring definitive conclusions sentencing about the significance
+of the data test on a particular matter of concern.
+
+In this book we will go through both of them as we analyze data and then
+provide an overall conclusion about the answer of the research topic. To
+be more specific, an overview of different method of data loading and
+featuring selection is provided before to get into selecting the best
+model to use.
+
+## Collecting and Analyzing Data
+
+Collecting data to use in a research analysis involves a selection of
+sources and methods to use for optimizing computational time when
+downloading and reading the files. Once data is set and ready to use a
+further step is required to make the data suitable for the selected
+model.
+
+The source of data is an important variable. Generally, data can be
+downloaded by using an API (application programming interface) which
+allow the user to get access to data directly from source, with the use
+of specified back-end computations. There are alternatives at using an
+API; data can be obtained by downloading it directly into the computer,
+or loaded through library packages. Usually, available files are
+provided under various forms such as delimited type of files, .csv,
+.xls, .json, and other types.
+
+Here is an example of how to use an API for downloading a file directly
+onto your computer.
+
+```{r}
+#| eval: false
+library(httr)
+url <- ""
+httr::GET(url = url)
+```
+
+### Download Data with APIs
+
+#### IHME Data API
+
+```{r}
+#| warning: false
+#| message: false
+library(httr)
+library(jsonlite)
+library(tidyverse)
+```
+
+SDG query input:
+
+-   GetGoal - GetIndicator - GetTarget - GetLocation - GetAgeGroup -
+    GetScenario - GetSex
+
+SDG query input for results:
+
+-   GetResultsByTarget - GetResultsByIndicator - GetResultsByLocation -
+    GetResultsByYear
+
+```{r}
+url="https://api.healthdata.org/sdg/v1/"
+key="YOUR-KEY-HERE"
+get_data <- function(url,key,sdg) {
+  library(httr)
+  library(jsonlite)
+  url <- paste0(url,"/",sdg)
+  headers <- c('Authorization'=key)
+  res <- GET(url, add_headers(headers))
+  data = fromJSON(rawToChar(res$content))
+  data = data$results
+}
+```
+
+Build the query to download results by adding specification of the data.
+
+```         
+GetResultsByLocation?location_id=86&indicator_id=1002&year=2019
+
+? location_id & indicator_id ...
+```
+
+Let's have a look at the cases of malaria in Italy in 2019:
+
+```{r}
+#| echo: false
+key="8ym9ht687svohiwtqiinfjd3gxq7vihc"
+```
+
+```{r}
+#| eval: false
+data <- get_data(url="https://api.healthdata.org/sdg/v1",
+         key=key,
+         sdg="GetResultsByLocation?location_id=86&indicator_id=1002&year=2019")
+data
+```
+
+### Synthetic Data
+
+```{r}
+# Load required packages
+library(deSolve)  # For solving differential equations
+library(ggplot2)  # For data visualization
+
+# Function to define the SEIR model
+seir_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    # Parameters
+    beta <- parameters[1]  # Transmission rate
+    sigma <- parameters[2]  # Rate of latent individuals becoming infectious
+    gamma <- parameters[3]  # Rate of recovery
+    
+    # SEIR equations
+    dS <- -beta * S * I / N
+    dE <- beta * S * I / N - sigma * E
+    dI <- sigma * E - gamma * I
+    dR <- gamma * I
+    
+    # Return derivatives
+    return(list(c(dS, dE, dI, dR)))
+  })
+}
+
+# Simulation parameters
+N <- 1000  # Total population size
+beta <- 0.3  # Transmission rate
+sigma <- 0.1  # Rate of latent individuals becoming infectious
+gamma <- 0.05  # Rate of recovery
+initial_state <- c(S = N - 1, E = 1, I = 0, R = 0)  # Initial state
+
+# Time vector
+times <- seq(0, 100, by = 1)
+
+# Solve the SEIR model
+output <- ode(y = initial_state, times = times, func = seir_model,
+              parms = c(beta = beta, sigma = sigma, gamma = gamma))
+
+# Convert output to data frame
+simulated_data <- as.data.frame(output)
+
+# Plot simulated data
+ggplot(simulated_data, aes(x = time)) +
+  geom_line(aes(y = S, color = "Susceptible")) +
+  geom_line(aes(y = E, color = "Exposed")) +
+  geom_line(aes(y = I, color = "Infectious")) +
+  geom_line(aes(y = R, color = "Recovered")) +
+  labs(title = "Simulation of SEIR Model", x = "Time", y = "Population") +
+  scale_color_manual(values = c("Susceptible" = "#29306c", "Exposed" = "orange",
+                                 "Infectious" = "#a60845", "Recovered" = "#a8bd3a")) 
+
+```
+
+Once data is on your computer available and ready to use, the next step
+is to have a look at it and decide whether to perform some adjustment to
+the data to make it suitable for your model.
+
+This step includes:
+
+-   data manipulation/wrangling
+-   featuring engineering
+-   exploratory data analysis
+
+### Feature Engineering
+
+Identifying the most relevant information within the data representing
+it in a way that enhances the model's ability to learn patterns and make
+accurate predictions, involves the process of selecting, transforming,
+and creating new features (variables) from raw data. This is what is
+meant with **feature engineering**.
+
+Let's look at the deaths rates due to rabies and reshape the data to
+make a machine learning model that would take consideration of the
+deaths rates due to all causes within a time frame of 29 years from 1990
+to 2019 in Asia and the Global region. In addition we consider the
+number of DALYs due to both rabies and all cause mortality. The first
+thing to notice is that deaths rates and DALYs are on different units,
+rates and years respectively.
+
+```{r}
+rabies <- hmsidwR::rabies%>%
+  select(-upper,-lower)%>%
+  pivot_wider(names_from = measure,values_from = val)%>%
+  filter(cause=="Rabies")%>%
+  rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
+  select(-cause)
+rabies %>% head
+```
+
+Creating new features from existing ones provide additional predictive
+power. In this case we have split the cause vector into two indicating
+deaths due to both causes separately. Also, we can scale and center the
+numeric variables so to have homogeneous data to use in the model, this
+is useful in particular when a transformation is applied. We could use
+splines, for example.
+
+```{r}
+all_causes <- hmsidwR::rabies%>%
+  select(-upper,-lower)%>%
+  pivot_wider(names_from = measure,values_from = val)%>%
+  filter(!cause=="Rabies")%>%
+  rename(dx_allcauses=Deaths,dalys_allcauses=DALYs)%>%
+  select(-cause)
+
+dat <- rabies %>%
+  full_join(all_causes,by=c("location","year"))
+
+dat %>% head()
+```
+
+This is the data we have obtained, and to be able to visualize the
+magnitude of difference it is necessary to scale or standardiza the
+data.
+
+```{r}
+dat%>%
+  select(-year,-location)%>%
+  scale()%>%
+  cbind(dat%>%select(year,location))%>%
+  ggplot(aes(x=year,group=location,color=location))+
+  geom_line(aes(y=dx_rabies),
+            linewidth=1)+
+  #geom_line(aes(y=dx_allcauses))+
+  geom_line(aes(y=dalys_rabies))
+  #geom_line(aes(y=dalys_allcauses))
+```
+
+```{r}
+suppressPackageStartupMessages({library(tidymodels)})
+set.seed(04042024)
+split <- initial_split(dat,prop = 0.8)
+training <- training(split)
+test <- testing(split)
+folds <- vfold_cv(training)
+```
+
+Then create a recipe with some key steps to trasnform the data into a
+model digestable shape.
+
+```{r}
+rec <- recipe(dalys_rabies ~. , data=training)%>%
+  step_dummy(all_nominal_predictors())%>%
+  step_scale(all_predictors())%>%
+  step_center(all_predictors())%>%
+  step_corr(threshold = 0.8)%>%
+  step_YeoJohnson(all_predictors())
+
+rec %>%
+  prep()%>%juice()%>%head
+```
+
+### Machine Learning Modeling Techniques
+
+#### Random Forest
+
+There are various type of modeling that can be used, let's get started
+with a random forest, this choice is due to this type of algorithm which
+will create multiple bootstrap samples (random samples with replacement)
+from the original dataset. Each bootstrap sample is used to train a
+separate decision tree.
+
+Rabies death rates may exhibit complex relationships with predictor
+variables. Random forests are capable of capturing non-linear
+relationships between predictors and the target variable.
+
+Also, it handles missing data well, provides variables importance and
+are an ensemble learning method, which means they combine the
+predictions of multiple individual decision trees to produce a more
+accurate and stable prediction.
+
+In our simplified case this type of model will do random samples with
+replacement of data. In {tidymodels} we can select different types of
+engines, in the case of random forest we could use randomForest, ranger,
+and others. The difference between these engines derives from the
+specific type of calculation used to make the estimation. The Ranger
+engine is notably faster than randomForest, so let's use that for this
+example.
+
+```{r}
+rf_mod <- rand_forest(mtry = tune(),
+                      trees = tune(),
+                      min_n = tune(),
+                      mode = "regression",
+                      engine = "ranger")
+```
+
+```{r}
+wkf <- workflow(preprocessor = rec,
+                spec = rf_mod)
+
+rf_res <- tune_grid(object = wkf,
+          resamples = folds,
+          grid = 5,
+          control = control_grid(save_pred = TRUE))
+```
+
+```{r}
+#rf_res%>%unnest(.metrics)
+show_best(rf_res, metric = "rmse")
+```
+
+```{r}
+autoplot(rf_res, metric = "rmse") +
+  scale_x_log10()
+```
+
+```{r}
+rf_res_tuned <- select_best(rf_res, metric = "rmse")
+```
+
+```{r}
+rf_fit <- wkf %>% 
+  finalize_workflow(select_best(rf_res, 
+                                metric = "rmse")) %>%
+  fit(training)
+```
+
+```{r}
+rf_fit %>% 
+   predict(new_data = test) %>% 
+   bind_cols(test) %>% 
+   rmse(truth = dalys_rabies, estimate = .pred)
+```
+
+```{r}
+rf_fit %>% 
+   predict(new_data = test) %>% 
+   bind_cols(test)  %>%
+  ggplot(aes(dalys_rabies, 
+              .pred, 
+              color = location)) +
+   geom_point() +
+   geom_abline(color = "red") +
+   scale_color_brewer(type = "qual") +
+   coord_fixed() +
+   expand_limits(x = 0, y = 0)
+```
+
+#### 
+
+## Conclusion

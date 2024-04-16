@@ -1,0 +1,281 @@
+# Predictive Modeling and Beyond {#sec-08-predictions}
+
+```{r}
+#| echo: false
+library(tidyverse)
+#source("R/_common.R")
+```
+
+::: solutionbox
+::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+:::
+
+::: solutionbox-body
+-   How to use the Predict function
+-   Evaluate prediction results
+-   Improve predictions
+:::
+:::
+
+## Prediction about the Future
+
+In the dynamic landscape of public health, the ability to forecast and
+predict future trends is of paramount importance. The "Predictions"
+chapter provides an overview of predictive modeling, leveraging time
+series analysis and mixed models to anticipate the trajectory of
+infectious diseases and health metrics. Time series analysis serves as a
+powerful tool for understanding and forecasting temporal patterns in
+health data. By examining historical trends and patterns, researchers
+can identify underlying dynamics and make informed predictions about
+future outcomes. Techniques such as ARIMA (AutoRegressive Integrated
+Moving Average) models offer a systematic approach to modeling
+time-dependent data, capturing seasonal variations, trends, and
+irregularities to generate accurate forecasts.
+
+Furthermore, mixed models provide a versatile framework for
+incorporating various sources of variability and correlation within the
+data. By combining fixed effects with random effects, mixed models
+accommodate complex data structures, such as hierarchical or
+longitudinal data, while accounting for individual-level and group-level
+factors that may influence the outcome of interest. Throughout this
+chapter, we explore the application of these predictive modeling
+techniques in the context of infectious disease spread and health metric
+estimation. We demonstrate how time series analysis and mixed models can
+be tailored to address specific research questions, such as predicting
+disease outbreaks, estimating disease burden, and assessing the impact
+of interventions on population health.
+
+From forecasting the trajectory of emerging pathogens to evaluating the
+long-term implications of public health policies, predictive modeling
+offers valuable insights into the future of global health.
+
+The **Social Demographic Index (SDI)** is an index that considers the
+social and economic background conditions influencing health outcomes in
+specific locations. In terms of calculation it is composed of the
+geometric mean of the total fertility rate (TFR) for those younger than
+25 years old (TFU25), the mean education for those 15 years old and
+older (EDU15+), and lag-distributed income (LDI) per capita. It ranges
+from 0 to 1 but it is usually multiplied by 100 for a scale of 0 to 100.
+
+We use the **Social Demographic Index (SDI)** as predictor in our model:
+
+$$logit(y) = \alpha + \beta SDI$$
+
+### Time Series Analysis
+
+Time series analysis is a statistical technique used to analyze temporal
+data, where observations are collected at regular intervals over time.
+It involves studying the patterns, trends, and dependencies present in
+the data to make forecasts or infer relationships. Time series data
+often exhibit inherent characteristics such as trend, seasonality,
+cyclic patterns, and irregular fluctuations, which can be explored using
+various methods such as decomposition, smoothing, and modeling. This
+analysis is widely used in fields like economics, finance, epidemiology,
+and environmental science to understand and predict future trends,
+identify anomalies, and make informed decisions based on historical
+patterns.
+
+**Decomposition methods** play a crucial role in time series analysis by
+unraveling the underlying structure of temporal data. By decomposing a
+time series into its constituent components, such as trend, seasonality,
+and random fluctuations, these methods enable researchers to gain deeper
+insights into the underlying patterns and dynamics driving the data.
+Understanding the trend allows for the identification of long-term
+changes or shifts in the data, while detecting seasonal patterns helps
+uncover recurring fluctuations that may follow seasonal or cyclical
+patterns. By separating these components, decomposition methods provide
+a clearer understanding of the temporal dynamics within the data,
+facilitating more accurate forecasting and predictive modeling.
+Moreover, decomposing time series data can aid in anomaly detection,
+trend analysis, and seasonal adjustment, making it an indispensable tool
+for studying and interpreting complex temporal phenomena.
+
+#### Modeling
+
+Modeling time series data often requires a combination of techniques to
+capture its complex nature. Mixed models, splines, and ARIMA
+(AutoRegressive Integrated Moving Average) are powerful tools commonly
+used for this purpose. Mixed models, also known as hierarchical models,
+allow for the incorporation of both fixed and random effects, making
+them flexible in capturing various sources of variability in the data.
+Splines provide a flexible way to capture nonlinear relationships and
+smooth out the data, which is particularly useful for capturing trends
+or seasonal patterns. ARIMA models, on the other hand, are adept at
+capturing the autocorrelation structure present in the data, including
+both short-term and long-term dependencies. By integrating these
+techniques, analysts can build comprehensive models that account for
+different aspects of the time series data, leading to more accurate
+forecasts and insights into underlying trends and patterns.
+
+-   time series analysis with mixed effect model, spline interpolation
+    and ARIMA(1,0,0)
+
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(hmsidwR)
+  library(fpp3)
+})
+```
+
+```{r}
+hmsidwR::sdi90_19 |> head()
+```
+
+```{r}
+sdi90_19|>
+  group_by(location)|>
+  reframe(avg=round(mean(value),3))|>
+  filter(location%in%c("Global","Italy","France","Germany"))
+```
+
+```{r}
+sdi_fr <- sdi90_19 |>
+  filter(location=="France")
+
+sdi_fr |> str()
+```
+
+```{r}
+library(tsibble)
+sdi_fr_ts <- tsibble::as_tsibble(sdi_fr,index = year)
+
+sdi_fr_ts|>
+  autoplot()
+```
+
+```{r}
+dcmp <- sdi_fr_ts |>
+  model(stl = STL(value))
+
+components(dcmp)|> head()
+```
+
+> "three types of time series patterns: trend, seasonality and cycles.
+> When we decompose a time series into components, we usually combine
+> the trend and cycle into a single trend-cycle component (often just
+> called the trend for simplicity). Thus we can think of a time series
+> as comprising three components: a trend-cycle component, a seasonal
+> component, and a remainder component (containing anything else in the
+> time series). (https://otexts.com/fpp3/decomposition.html)"
+
+$$y_t=S_t+T_t+R_t$$
+
+$$y_t=S_t*T_t*R_t--->log(y_t)=log(S_t)+log(T_t)+log(R_t)$$
+
+The **remainder** component shown in the bottom panel is what is left
+over when the seasonal and trend-cycle components have been subtracted
+from the data.(https://otexts.com/fpp3/components.html)
+
+```{r}
+components(dcmp) |> autoplot()
+```
+
+```{r}
+components(dcmp) |>
+  as_tsibble() |>
+  autoplot(value, colour="gray") +
+  geom_line(aes(y=trend), colour = "#D55E00") 
+```
+
+##### Autocorrelation function
+
+Time series that show *no autocorrelation* are called white noise. In
+this case we have autocorrelation. So, no white noise.
+
+```{r}
+sdi_fr_ts |>
+  ACF(value) |> 
+  autoplot()
+```
+
+```{r}
+sdi_fr_ts|>
+  features(value, 
+           features = unitroot_kpss)
+```
+
+Seasonal difference is not required
+
+```{r}
+sdi_fr_ts|>
+  features(value, 
+           features = unitroot_nsdiffs)
+```
+
+### Auto-ARIMA
+
+to establish the best fit
+
+```{r}
+fit <- sdi_fr_ts|>
+   model(ARIMA(value))
+
+fit|>
+  report()
+```
+
+```{r}
+fit |>
+  forecast(h=10) |>
+  ggplot(aes(x=year,y=.mean))+
+  geom_line(data=sdi_fr_ts,
+            aes(y=value))+
+  geom_line(color="purple")
+```
+
+### partial autocorrelations
+
+```{r}
+sdi_fr_ts|>
+  PACF(value) |>
+  autoplot()
+```
+
+```{r}
+sdi_fr_ts|>
+  gg_tsdisplay(y = value,plot_type = "partial")
+```
+
+### Model ensamble
+
+```{r}
+caf_fit <- sdi_fr_ts|>
+  model(arima210 = ARIMA(value ~ pdq(2,1,0)),
+        arima013 = ARIMA(value ~ pdq(0,1,3)),
+        stepwise = ARIMA(value),
+        search = ARIMA(value, stepwise=FALSE))
+```
+
+```{r}
+caf_fit |> 
+  pivot_longer(cols=everything(),
+               names_to = "Model name",
+               values_to = "Orders")
+```
+
+```{r}
+glance(caf_fit) |> arrange(AICc) |> select(.model:BIC)
+```
+
+### ARIMA chosen is ARIMA(1,1,0)
+
+```{r}
+caf_fit |>
+  select(search) |>
+  gg_tsresiduals()
+```
+
+```{r}
+caf_fit |>
+  forecast(h=5) |>
+  filter(.model=='search') |>
+  ggplot(aes(x=year,y=.mean))+
+  geom_line(data=sdi_fr_ts,
+            aes(y=value))+
+  geom_line(color="purple")
+```

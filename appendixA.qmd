@@ -1,14 +1,24 @@
 # Life tables and Life expectancy {#sec-appendixA}
 
-Back in the 1700s the Swiss mathematician and physicist Daniel Bernoulli (1700 - 1782) developed the use of a life table model by differentiating life tables based on specific causes of death [see @kovacheva2017, and @lifetab].
+Back in the 1700s the Swiss mathematician and physicist Daniel Bernoulli
+(1700 - 1782) developed the use of a life table model by differentiating
+life tables based on specific causes of death [see @kovacheva2017, and
+@lifetab].
 
-Originally made by the English scientist **John Graunt** (1620-1674), for the analysis of the mortality of the population of London and the impact of different diseases. Life tables contain fundamental statistics for the calculation of probabilities of deaths and the computation of life expectancy at birth and at different ages.
+Originally made by the English scientist **John Graunt** (1620-1674),
+for the analysis of the mortality of the population of London and the
+impact of different diseases. Life tables contain fundamental statistics
+for the calculation of probabilities of deaths and the computation of
+life expectancy at birth and at different ages.
 
-[!["Life tables", William Farr (England 1859)](images/appendixA_life_tables.png){fig-align="center" width="55%"}](https://www.jstor.org/stable/community.24736608?searchText=life+tables&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3Dlife%2Btables%26efqs%3DeyJjdHkiOlsiWTI5dWRISnBZblYwWldSZmFXMWhaMlZ6Il19%26image_search_referrer%3Dglobal&ab_segments=0%2FSYC-6744_basic_search%2Ftest-1&refreqid=fastly-default%3Ac770f9049f8754dad03896e1b52df20c&searchkey=1675639441064)
+[!["Life tables", William Farr (England
+1859)](images/appendixA_life_tables.png){fig-align="center"
+width="55%"}](https://www.jstor.org/stable/community.24736608?searchText=life+tables&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3Dlife%2Btables%26efqs%3DeyJjdHkiOlsiWTI5dWRISnBZblYwWldSZmFXMWhaMlZ6Il19%26image_search_referrer%3Dglobal&ab_segments=0%2FSYC-6744_basic_search%2Ftest-1&refreqid=fastly-default%3Ac770f9049f8754dad03896e1b52df20c&searchkey=1675639441064)
 
 ### Life tables components
 
-More recent life tables are standardized to be used for a population of 100 000 at age 0.
+More recent life tables are standardized to be used for a population of
+100 000 at age 0.
 
 ::: callout
 $l_x$ survivors at age $x$ it starts with a value of 100 000
@@ -24,43 +34,50 @@ The probability of survival is given by: $$p_x=1-q_x$$
 
 **Let's start constructing a life table**
 
-The **Global Life Tables** are included in the {infectious} package as `Glifetables` dataset. This dataset has been released by the WHO, and contains various indicators.
+The **Global Life Tables** are included in the `{hmsidwR}` package as
+`gho_lifetables` dataset. This dataset has been released by the WHO, and
+contains various indicators.
 
-The construction of the Global Life Tables takes consideration of age-specific mortality patterns, which is the main improvements made on life tables construction since the first set of model life tables published by the United Nations in 1955, see [@modified] for more information about a detailed procedure.
+The construction of the Global Life Tables takes consideration of
+age-specific mortality patterns, which is the main improvements made on
+life tables construction since the first set of model life tables
+published by the United Nations in 1955, see [@modified] for more
+information about a detailed procedure.
 
 To have a look at the package documentation for this dataset, use:
 
 ```{r}
 #| eval: false
-?infectious::Glifetables
+?hmsidwR::gho_lifetables
 ```
 
 ```{r}
 #| warning: false
 #| message: false
 library(tidyverse)
-infectious::Glifetables %>%
-  count(indicator)
+hmsidwR::gho_lifetables %>%
+  count(indicator)%>%
+  select(-n)
 ```
 
 The indicator of interest for re-building a life table are:
 
 -   `lx` - number of people left alive at age x
--   `age_group`
+-   `age`
 
 These two key elements are crucial for building the life tables.
 
 ```{r}
-lx <- infectious::Glifetables %>%
+lx <- hmsidwR::gho_lifetables %>%
   distinct() %>%
-  filter(indicator == "lx - number of people left alive at age x",
+  filter(indicator == "lx",
          year == "2019")
 ```
 
 ```{r}
 x <- lx %>% 
   filter(sex == "female") %>% 
-  select(x = age_group)
+  select(x = age)
 
 lx_f <- lx %>% 
   filter(sex == "female") %>% 
@@ -88,33 +105,63 @@ data.frame(
   qx = 1 - lead(px),
   Lx = c((lx_f$lx[1] + (lx_f$lx[2])) / 2,
          5 * (lx_f$lx[-1] + lead(lx_f$lx[-1])) / 2)
-) %>% head
+) %>% 
+  head()
 ```
 
 ```{r}
-infectious::Glifetables %>%
+hmsidwR::gho_lifetables %>%
   distinct() %>%
+  mutate(indicator=gsub(" .*","",indicator))%>%
   filter(
-    indicator == "nLx - person-years lived between ages x and x+n",
+    indicator == "nLx",
     year == "2019",
     sex == "female"
-  )
+  ) %>%
+  head()
 ```
 
 ## Life expectancy
 
-Life expectancy is the expected number of years a person will live, based on current age and prevailing mortality rates. There are several methods to calculate life expectancy, but one common approach is to use the actuarial life table, which is a statistical table that provides the mortality rates for a population at different ages. The following steps can be used to calculate life expectancy using a life table:
+Life expectancy is the expected number of years a person will live,
+based on current age and prevailing mortality rates. There are several
+methods to calculate life expectancy, but one common approach is to use
+the actuarial life table, which is a statistical table that provides the
+mortality rates for a population at different ages. The following steps
+can be used to calculate life expectancy using a life table:
 
-Identify the relevant mortality rates for the population and time period of interest. Calculate the probability of surviving to each age, given the mortality rates. Multiply the probability of surviving to each age by the remaining life expectancy at that age to obtain the expected number of years of life remaining at each age. Sum the expected number of years of life remaining at each age to obtain the total life expectancy. Note that life expectancy is a statistical estimate and can be influenced by many factors, such as lifestyle, health, and environmental factors, so actual individual life expectancy can vary widely.
+Identify the relevant mortality rates for the population and time period
+of interest. Calculate the probability of surviving to each age, given
+the mortality rates. Multiply the probability of surviving to each age
+by the remaining life expectancy at that age to obtain the expected
+number of years of life remaining at each age. Sum the expected number
+of years of life remaining at each age to obtain the total life
+expectancy. Note that life expectancy is a statistical estimate and can
+be influenced by many factors, such as lifestyle, health, and
+environmental factors, so actual individual life expectancy can vary
+widely.
 
 Here are some key references for calculating life expectancy:
 
-1.  United Nations World Population Prospects - The UN provides detailed life tables and population data, including life expectancy, for countries and regions around the world.
+1.  United Nations World Population Prospects - The UN provides detailed
+    life tables and population data, including life expectancy, for
+    countries and regions around the world.
 
-2.  Centers for Disease Control and Prevention (CDC) - The CDC provides life tables for the United States, as well as information on how life expectancy is calculated and factors that affect it.
+2.  Centers for Disease Control and Prevention (CDC) - The CDC provides
+    life tables for the United States, as well as information on how
+    life expectancy is calculated and factors that affect it.
 
-3.  World Health Organization (WHO) - The WHO provides information on global health and life expectancy, including data and reports on trends in life expectancy and mortality.
+3.  World Health Organization (WHO) - The WHO provides information on
+    global health and life expectancy, including data and reports on
+    trends in life expectancy and mortality.
 
-4.  Actuarial Science textbooks - Books such as "Actuarial Mathematics" by Bowers, Gerber, Hickman, Jones, and Nesbitt, or "An Introduction to Actuarial Mathematics" by Michel Millar, provide comprehensive coverage of the methods and mathematics used in calculating life expectancy.
+4.  Actuarial Science textbooks - Books such as "Actuarial Mathematics"
+    by Bowers, Gerber, Hickman, Jones, and Nesbitt, or "An Introduction
+    to Actuarial Mathematics" by Michel Millar, provide comprehensive
+    coverage of the methods and mathematics used in calculating life
+    expectancy.
 
-5.  Journal articles - Articles in actuarial and demographic journals, such as the North American Actuarial Journal or Demographic Research, often provide in-depth coverage of the latest research and methods for calculating life expectancy.
+5.  Journal articles - Articles in actuarial and demographic journals,
+    such as the North American Actuarial Journal or Demographic
+    Research, often provide in-depth coverage of the latest research and
+    methods for calculating life expectancy.

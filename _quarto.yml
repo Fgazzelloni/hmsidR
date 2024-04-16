@@ -2,11 +2,12 @@ project:
   type: book
   output-dir: docs
   
+#callout-appearance: minimal  
+  
 book:
   title: "Health Metrics and the Spread of Infectious Diseases"
   subtitle: "Machine Learning Applications and Spatial Modelling Analysis with R"
-  abstract: "A walk through a comprehensive exploration of health metrics, their calculation, modeling, and cross-country comparisons. This book spans the intricate landscape of public health analysis, offering a practical examination of various methodologies and approaches. From the fundamentals of health metrics calculation to providing an overview of modeling techniques, it equips readers with the knowledge and tools essential for understanding and interpreting health data, gaining valuable insights into global disparities and factors influencing health outcomes. In addition to providing the R code necessary to produce the analysis, the book teaches how to create appropriate data visualizations and maps. In compliance with the principles of transparency and reproducibility, all datasets utilized in this book have been organized into an R package called [{hmsidwR}](https://fgazzelloni.github.io/hmsidwR/). This integration ensures that readers have easy access to the necessary data, thereby facilitating the replication of the analyses presented throughout the text."
-  reader-mode: true
+  #abstract: "A walk through a comprehensive exploration of health metrics, their calculation, modeling, and cross-country comparisons. This book spans the intricate landscape of public health analysis, offering a practical examination of various methodologies and approaches. From the fundamentals of health metrics calculation to providing an overview of modeling techniques, it equips readers with the knowledge and tools essential for understanding and interpreting health data, gaining valuable insights into global disparities and factors influencing health outcomes. In addition to providing the R code necessary to produce the analysis, the book teaches how to create appropriate data visualizations and maps. In compliance with the principles of transparency and reproducibility, all datasets utilized in this book have been organized into an R package called [{hmsidwR}](https://fgazzelloni.github.io/hmsidwR/). This integration ensures that readers have easy access to the necessary data, thereby facilitating the replication of the analyses presented throughout the text."
   author: 
     name: Federica Gazzelloni
     orcid: 0000-0002-4285-611X
@@ -27,11 +28,15 @@ book:
   cover-image: images/cover.png
   favicon: images/cover.png
   date: "06/09/2023" # date of the aggrement with the Editor
+  reader-mode: true
   page-navigation: true
+  back-to-top-navigation: true
   sidebar:
+    foreground: "primary"
     background: "#ebecf7"
     pinned: true
-    align: center
+    # border: true
+    #align: center
     style: docked
     #type: dark
 
@@ -39,7 +44,7 @@ book:
     left: |
       &copy; 2024 This book is written by <a href="https://federicagazzelloni.netlify.app/">Federica Gazzelloni</a>.
     center: |
-      Editor CRC Press - Taylor & Francis Group
+      Editor CRC Press - Chapman & Hall | Taylor & Francis Group
     right: |
       Built with ❤︎️ and [Quarto](https://quarto.org/)
     background: "#29306c"
@@ -49,32 +54,32 @@ book:
     - intro.qmd
     - part: "**Metrics Evaluation**"
       chapters:
-        - 01.0-Section1.qmd
-        - 01.1-MetricsEvaluation.qmd
-        - 01.2-HealthMetrics.qmd
-        - 01.3-Components.qmd
-        - 01.4-Causes_and_Risks.qmd
+        - part1.qmd
+        - 01-metrics_evaluation.qmd
+        - 02-health_metrics.qmd
+        - 03-components.qmd
+        - 04-causes_risks.qmd
     - part: "**Machine Learning**"
       chapters:
-        - 02.0-Section2.qmd
-        - 02.1-MachineLearning.qmd
-        - 02.2-Techniques.qmd
-        - 02.3-Packages.qmd
-        - 02.4-Predictions.qmd
+        - part2.qmd
+        - 05-machine_learning.qmd
+        - 06-techniques.qmd
+        - 07-packages.qmd
+        - 08-predictions.qmd
     - part: "**Data Visualization**"
       chapters:
-        - 03.0-Section3.qmd
-        - 03.1-DataVisualization.qmd
-        - 03.2-Applications.qmd
-        - 03.3-Spatials.qmd
-        - 03.4-Examples.qmd 
-    - part: "**Infetious Diseases**"
+        - part3.qmd
+        - 09-data_visualization.qmd
+        - 10-applications.qmd
+        - 11-spatials.qmd
+        - 12-examples.qmd 
+    - part: "**Infectious Diseases**"
       chapters:
-        - 04.0-Section4.qmd
-        - 04.1-InfectiousDiseases.qmd
-        - 04.2-Covid19.qmd
-        - 04.3-Malaria.qmd
-        - 04.4-Summary.qmd  
+        - part4.qmd
+        - 13-infectious_diseases.qmd
+        - 14-covid19.qmd
+        - 15-malaria.qmd
+        - 16-summary.qmd  
     - conclusions.qmd
     - references.qmd   
   appendices:
@@ -86,8 +91,9 @@ book:
 appendix-style: default     
 search: true    
    
-bibliography: references.bib
-csl: chicago-fullnote-bibliography-16th-edition.csl
+bibliography: [references.bib, packages.bib]
+biblio-style: chicago
+#csl: chicago-fullnote-bibliography-16th-edition.csl
 
 
 format:
@@ -104,19 +110,69 @@ format:
     code-link: true
     code-copy: true
     code-fold: show
-    code-summary: "Hide code"
+    #code-summary: "Hide code"
     code-block-border-left: "#29526c"
     code-block-bg: "#f0f0f5"
     fig-align: center
     fig-cap-location: bottom
-    fig-width: 8
-    fig-height: 5
     linkcolor: "#29306c"
     link-external-newwindow: true 
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
     toc: true
- 
+    toc-title: Contents
+    toc-location: right
+    toc-depth: 3
+    mermaid: 
+      theme: neutral
+      
+  pdf:
+    documentclass: krantz
+    classoption: [krantz2]
+    papersize: a4
+    toc: true
+    toc-title: Contents
+    toc-depth: 2
+    number-sections: true
+    number-depth: 3
+    number-offset: 0
+    lof: true
+    lot: true
+    fontsize: 12pt
+    monofont: "Source Code Pro"
+    monofontoptions: "Scale=0.7"
+    latex_engine: xelatex
+    citation_package: natbib
+    pandoc_args: --top-level-division=chapter
+    toc_unnumbered: no
+    toc_appendix: yes
+    quote_footer: ["\\VA{", "}{}"]
+    highlight_bw: yes
+    fig-pos: 'H'
+    dev: "cairo_pdf"
+    keep-tex: true
+    code-block-border-left: "#BFBFBF"
+    code-block-bg: "#f1f3f5"
+    highlight-style: none 
+    colorlinks: false 
+    hyperrefoptions:
+      - linktoc=all
+    indent: 2m  
+    latex-clean: true
+    latex-auto-install: true
+    include-in-header:
+    - text: |
+        \pagenumbering{arabic}
+        \usepackage{lscape}
+        \newcommand{\blandscape}{\begin{landscape}}
+        \newcommand{\elandscape}{\end{landscape}}
+        \usepackage{etoolbox}
+        \AtBeginEnvironment{table}{\sffamily} 
+    - file: latex/preamble.tex
+    include-before-body: 
+    - file: latex/before_body.tex    
+    include-after-body: 
+    - file: latex/after_body.tex
     
 editor: visual
 editor_options:
@@ -128,16 +184,20 @@ execute:
   warning: false
   freeze: auto 
   cache: false
-  df-print: kable
+  fig.align: 'center'
+  #df-print: kable
+  #engine: knitr
  
-
-
+tbl-cap-location: top 
+#filters: 
+#  - include-code-files
 knitr:
   opts_chunk: 
     collapse: true
     comment: "#>" 
     R.options:
       knitr.graphics.auto_pdf: true  
+
   
 
               

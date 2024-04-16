@@ -1,9 +1,9 @@
-# Summary: the State of Health {#sec-04.4-Summary}
+# Summary: the State of Health {#sec-16-summary}
 
 ```{r}
 #| echo: false
 library(tidyverse)
-source("R/_common.R")
+#source("R/_common.R")
 ```
 
 ::: solutionbox
@@ -20,17 +20,31 @@ Learning Objectives
 :::
 :::
 
-\
+## Overview
 
-In this chapter, we delve into two primary learning objectives aimed at enhancing our understanding of public health dynamics: **estimating the burden of rabies** and **comparing health metric levels across different countries**. Rabies, a deadly viral disease transmitted through the saliva of infected animals, poses a significant threat to human health globally. Understanding its burden is crucial for effective control and prevention strategies. Additionally, we explore the variations in health metrics due to rabies. In conclusion, an overview of DALYs levels among different countries will provide insights into the disparities in health outcomes and the factors influencing them. Through these learning objectives, we aim to equip readers with the knowledge and tools necessary for a comprehensive understanding of public health challenges.
-
+In this chapter, we delve into two primary learning objectives aimed at
+enhancing our understanding of public health dynamics: **estimating the
+burden of rabies** and **comparing health metric levels across different
+countries**. Rabies, a deadly viral disease transmitted through the
+saliva of infected animals, poses a significant threat to human health
+globally. Understanding its burden is crucial for effective control and
+prevention strategies. Additionally, we explore the variations in health
+metrics due to rabies. In conclusion, an overview of DALYs levels among
+different countries will provide insights into the disparities in health
+outcomes and the factors influencing them. Through these learning
+objectives, we aim to equip readers with the knowledge and tools
+necessary for a comprehensive understanding of public health challenges.
 
 ## Estimating the burden of rabies
 
-The disability-adjusted life–year (DALY), as standardized metrics incorporate premature mortality and disability due to disease; as rabies is rapidly fatal, disability accounts for a minimal part of the disease burden[@whoexpe].
+The disability-adjusted life–year (DALY), as standardized metrics
+incorporate premature mortality and disability due to disease; as rabies
+is rapidly fatal, disability accounts for a minimal part of the disease
+burden[@whoexpe].
 
+Let's have a look at the data for Rabies in Asia, Africa and Middle East
+from to 2020
 
-Let's have a look at the data for Rabies in Asia, Africa and Middle East from to 2020
 ```{r}
 suppressPackageStartupMessages({
   library(hmsidwR)
@@ -41,7 +55,6 @@ suppressPackageStartupMessages({
 
 data(rabies)
 ```
-
 
 ```{r}
 hmsidwR::rabies %>%
@@ -66,18 +79,16 @@ ts_rabies <- rabies %>%
 ts_rabies %>%
   autoplot(.vars = val)+
   labs(title="DALYs trend of Rabies in Asia",
-       subtitle = "1990 to 2020",y="DALYs")+
-  theme_hmsid()
+       subtitle = "1990 to 2020",y="DALYs")#+
+  #theme_hmsid()
 ```
-
-
 
 ```{r}
 ts_rabies%>%
   model(stl = STL(val))%>%
   components() %>%
-   autoplot() +
-  theme_hmsid()
+   autoplot() #+
+  #theme_hmsid()
 ```
 
 ```{r}
@@ -88,11 +99,13 @@ ts_rabies%>%
   autoplot(val, colour="gray") +
   geom_line(aes(y=trend), colour = "#D55E00") 
 ```
+
 ```{r}
 ts_rabies%>%  
   gg_tsdisplay(y = val,
                plot_type = "partial")
 ```
+
 ```{r}
 rabies %>%
   filter(measure=="DALYs",
@@ -102,13 +115,19 @@ rabies %>%
   ggplot(aes(x=year,y=val,group=location,color=location))+
   geom_line()+
   labs(title="DALYs trend of Rabies",
-     subtitle = "1990 to 2020",y="DALYs")+
-  theme_hmsid()
+     subtitle = "1990 to 2020",y="DALYs")#+
+  #theme_hmsid()
 ```
 
-Assume the estimates made by the IHME are now our observed values, apply a model to see how would the number of DALYs due to rabies would develop over time. We can safety say it is a decreasing trend, but as one of the deadliest neglected disease the objective is its eradication.
+Assume the estimates made by the IHME are now our observed values, apply
+a model to see how would the number of DALYs due to rabies would develop
+over time. We can safety say it is a decreasing trend, but as one of the
+deadliest neglected disease the objective is its eradication.
 
-The only covariate (predictor) used is `year`, as variable that is potentially predictive of the outcome number of DALYs (`val`). It might be worthy to have a look at how it could vary if other covariates are added in the model.
+The only covariate (predictor) used is `year`, as variable that is
+potentially predictive of the outcome number of DALYs (`val`). It might
+be worthy to have a look at how it could vary if other covariates are
+added in the model.
 
 The relationship is clearly linear, so we apply a linear model.
 
@@ -132,10 +151,9 @@ cbind(
   geom_line(aes(y=pred),color="red")
 ```
 
-
-Our basic regression model explains ~ 90% of the variability in the data. This can be seen looking at the R-squared, we would have looked at the adjusted R-squared in case of more than one predictor.
-
-
+Our basic regression model explains \~ 90% of the variability in the
+data. This can be seen looking at the R-squared, we would have looked at
+the adjusted R-squared in case of more than one predictor.
 
 Let's make a random forest model
 
@@ -152,8 +170,9 @@ cbind(
 
 ```
 
+Now we add some other predictors and parameters, death rates (`deaths`)
+due to rabies and location.
 
-Now we add some other predictors and parameters, death rates (`deaths`) due to rabies and location.
 ```{r}
 dat2 <- rabies %>%
   filter(cause=="Rabies")%>%
@@ -163,7 +182,6 @@ dat2 <- rabies %>%
 
 dat2 %>%head
 ```
-
 
 ```{r}
 #| fig-align: center
@@ -177,19 +195,23 @@ cbind(
   ggplot(aes(x=year))+
   geom_line(aes(y=dalys,group=location,color=location))+
   geom_line(aes(y=pred,group=location),color="red")+
-  scale_color_manual(values=c("#29306c","#f8bc05"))+
-  theme_hmsid()
+  scale_color_manual(values=c("#29306c","#f8bc05"))#+
+ # theme_hmsid()
 ```
 
-### Machine Learning 
+### Machine Learning
 
-Parameters estimation with `{tidymodels}`, we use techniques such as `cross-validation` to tune the hyperparameters of the model. Here's how you can do it:
+Parameters estimation with `{tidymodels}`, we use techniques such as
+`cross-validation` to tune the hyperparameters of the model. Here's how
+you can do it:
+
 ```{r}
 suppressPackageStartupMessages({library(tidymodels)})
 tidymodels_prefer()
 ```
 
 Define the recipe for data preprocessing
+
 ```{r}
 data_recipe <- recipe(dalys ~ ., data = dat2) %>%
   step_dummy(location)%>%
@@ -200,18 +222,21 @@ data_recipe%>%prep()%>%juice()%>%head
 ```
 
 Define the model specification
+
 ```{r}
 rf_spec <- rand_forest(mtry = tune(),trees = tune()) %>%
   set_mode("regression") %>%
   set_engine("ranger")  # Use the ranger engine for faster computation
 ```
 
-Define the tuning grid
-The parameters to be tuned for a `randomforest` model are:
+Define the tuning grid The parameters to be tuned for a `randomforest`
+model are:
 
-- mtry: the number of predictors that will be randomly sampled at each split when creating the tree models
-- trees: the number of trees contained in the ensemble
-- min_n: the minimum number of data points in a node that are required for the node to be split further
+-   mtry: the number of predictors that will be randomly sampled at each
+    split when creating the tree models
+-   trees: the number of trees contained in the ensemble
+-   min_n: the minimum number of data points in a node that are required
+    for the node to be split further
 
 ```{r}
 rf_grid <- grid_regular(
@@ -222,14 +247,16 @@ rf_grid <- grid_regular(
 )
 ```
 
-Define the resampling strategy
-IN this case we use a cross validation resampling methods performing 10 folds.
+Define the resampling strategy IN this case we use a cross validation
+resampling methods performing 10 folds.
+
 ```{r}
 set.seed(123)
 cv <- vfold_cv(dat2, v = 10)
 ```
 
 Define the model workflow
+
 ```{r}
 rf_wf <- workflow() %>%
   add_recipe(data_recipe) %>%
@@ -237,6 +264,7 @@ rf_wf <- workflow() %>%
 ```
 
 Machine Learning: Perform parameter tuning
+
 ```{r}
 rf_tune <- tune_grid(
   object = rf_wf,
@@ -247,11 +275,11 @@ rf_tune <- tune_grid(
 ```
 
 Model selection
+
 ```{r}
 best_model <- select_best(rf_tune, "rmse")
 best_model
 ```
-
 
 ```{r}
 # Fit the best model to the entire dataset
@@ -261,26 +289,20 @@ final_rf_model <- rf_wf %>%
 ```
 
 Make predictions
+
 ```{r}
 predictions <- predict(final_rf_model, dat2)
 ```
 
 Visualize the results
+
 ```{r}
 cbind(dat2,predictions)%>%
   ggplot(aes(x=year))+
   geom_line(aes(y=dalys,group=location,color=location))+
   geom_line(aes(y=.pred,group=location),color="red")+
-  scale_color_manual(values=c("#29306c","#f8bc05"))+
-  theme_hmsid()
+  scale_color_manual(values=c("#29306c","#f8bc05"))#+
+  #theme_hmsid()
 ```
 
-
-
-
-
-
 ## Health metrics countries comparison
-
-
-

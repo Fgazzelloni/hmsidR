@@ -1,24 +1,36 @@
 # Tools used to make this book {#sec-appendixC}
 
-To set up the environment for replicating the code used in this book the R language is needed as well as R and Rstudio IDE environments. The following sections contain the directions for installing **R** and **RStudio**, how to set up a book with **quarto** and how to use **GitHub** as a version saver source.
+To set up the environment for replicating the code used in this book the
+R language is needed as well as R and Rstudio IDE environments. The
+following sections contain the directions for installing **R** and
+**RStudio**, how to set up a book with **quarto** and how to use
+**GitHub** as a version saver source.
 
 ## RStudio installation
 
-Download and install R and RStudio Desktop: <https://posit.co/download/rstudio-desktop/>
+Download and install R and RStudio Desktop:
+<https://posit.co/download/rstudio-desktop/>
 
 ## How to setup this project with quarto
 
-[**Quarto**](https://quarto.org/) is the new version of [**Rmarkdown**](https://rmarkdown.rstudio.com/), it can be used for making notes, presentations, websites, books and more.
+[**Quarto**](https://quarto.org/) is the new version of
+[**Rmarkdown**](https://rmarkdown.rstudio.com/), it can be used for
+making notes, presentations, websites, books and more.
 
-In this project the book has been made in quarto and version saved on github.
+In this project the book has been made in quarto and version saved on
+github.
 
-For more information about how to publish a quarto book have a look here: [Quarto publishing](https://quarto.org/docs/publishing/github-pages.html)
+For more information about how to publish a quarto book have a look
+here: [Quarto
+publishing](https://quarto.org/docs/publishing/github-pages.html)
 
 ### GitHub useful commands
 
-You can do the same using the command line. In RStudio create a new project on a new directory, add git, and select `quarto book project`
+You can do the same using the command line. In RStudio create a new
+project on a new directory, add git, and select `quarto book project`
 
-The automated process will create a `_quarto.yml` file, the top of the file will look like this one:
+The automated process will create a `_quarto.yml` file, the top of the
+file will look like this one:
 
 ``` r
 ---
@@ -31,13 +43,16 @@ On terminal type: `quarto preview`, it will create a folder `_book`.
 
 #### Add Github afterwords
 
-[existing-github-last](https://happygitwithr.com/existing-github-last.html) to connect with github create a github repo with the same name of your project then type
+[existing-github-last](https://happygitwithr.com/existing-github-last.html)
+to connect with github create a github repo with the same name of your
+project then type
 
 ``` r
 usethis::use_git()
 ```
 
-It asks you to commit all files in the RStudio project. This pushes all files in R to a remote folder designed to head to the github repo.
+It asks you to commit all files in the RStudio project. This pushes all
+files in R to a remote folder designed to head to the github repo.
 
 In terminal connect with the github repo:
 
@@ -85,7 +100,8 @@ then type
 quarto render 
 ```
 
-some issues might arise if more than one calculation is made inside a single chunks split the chunks!
+some issues might arise if more than one calculation is made inside a
+single chunks split the chunks!
 
 quarto render creates a folder `docs`
 
@@ -97,9 +113,11 @@ quarto render creates a folder `docs`
 devtools::create("yourpkg")
 ```
 
-Now that you have your book done, you might need to add some customized data to use within your analysis.
+Now that you have your book done, you might need to add some customized
+data to use within your analysis.
 
-In order to do that, you'll need to just add data in the way that is usually done when inside a package.
+In order to do that, you'll need to just add data in the way that is
+usually done when inside a package.
 
 ### Building blocks of the R package inside the quarto book
 
@@ -119,7 +137,8 @@ once data are ready
 usethis::use_data(yourdata)
 ```
 
-It creates the R folder where the .R scripts of data documentation is located
+It creates the R folder where the .R scripts of data documentation is
+located
 
 ``` r
 usethis::use_r("yourdataset")
@@ -151,8 +170,11 @@ usethis::use_r("yourdataset")
 devtools::document()
 ```
 
-when filling the data .R script for explaining what's inside the dataset a specific structure needs to be used (see examples)
+when filling the data .R script for explaining what's inside the dataset
+a specific structure needs to be used (see examples)
 
 when new data are added
 
-Build tab and ---\> More ---\> clean and install (this is not there anymore when you start with `devtools::create("yourpkg")`) to add the new data to NAMESPACE
+Build tab and ---\> More ---\> clean and install (this is not there
+anymore when you start with `devtools::create("yourpkg")`) to add the
+new data to NAMESPACE

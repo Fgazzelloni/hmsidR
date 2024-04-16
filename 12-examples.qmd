@@ -1,9 +1,9 @@
-# More Examples {#sec-03.4-Examples}
+# More Examples {#sec-12-examples}
 
 ```{r}
 #| echo: false
 library(tidyverse)
-source("R/_common.R")
+#source("R/_common.R")
 ```
 
 ::: solutionbox

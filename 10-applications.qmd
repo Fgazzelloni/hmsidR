@@ -1,9 +1,9 @@
-# Application of the model results {#sec-03.2-Applications}
+# Application of the model results {#sec-10-applications}
 
 ```{r}
 #| echo: false
 library(tidyverse)
-source("R/_common.R")
+#source("R/_common.R")
 ```
 
 ::: solutionbox
@@ -20,3 +20,5 @@ Learning Objectives
 -   Tell the story with data
 :::
 :::
+
+The following examples are to get practiced with Data Visualization.

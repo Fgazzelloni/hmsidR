@@ -4,21 +4,61 @@ engine: knitr
 
 # Preface {.unnumbered}
 
-*Last updated: `r format(lubridate::now(tzone = "CET"), usetz = TRUE, digits = 0)`*
+::: {.content-visible when-format="html"}
+*Last updated:
+`r format(lubridate::now(tzone = "CET"), usetz = TRUE, digits = 0)`*
 
 ::: solutionbox-header
 ❗️The book is continuously being refined and expanded.
 :::
+:::
 
-## What to Expect: A Preview of Your Health Metrics Journey
+## A Preview of Your Health Metrics Journey
 
-This book explores health metrics, such as Disability Adjusted Life Years (DALYs) and others, it will expand on the components' calculation, to finally investigate the influence of infectious disease dynamics on the metrics trend. It's like a toolbox for checking how healthy a country is while comparing it with others. You'll also learn how to choose the best tools to predict future health trends, using statistics, visualizing data, applying machine learning algorithms and working with maps in the R programming language. Think of this book as your complete guide to understanding and predicting the state of health of a population at global and country levels by leveraging expertise managing various statistical tools.
+This book explores health metrics, such as Disability Adjusted Life
+Years (DALYs) and others, it will expand on the components' calculation,
+to finally investigate the influence of infectious disease dynamics on
+the metrics trend. It's like a toolbox for checking how healthy a
+country is while comparing it with others. You'll also learn how to
+choose the best tools to predict future health trends, using statistics,
+visualizing data, applying machine learning algorithms and working with
+maps in the R programming language. Think of this book as your complete
+guide to understanding and predicting the state of health of a
+population at global and country levels by leveraging expertise managing
+various statistical tools.
 
-*Health Metrics and the Spread of Infectious Diseases,* featuring machine learning applications and spatial model analysis, serves as a manual and textbook for introductory health metrics data analysis courses. Additionally, it can be a valuable source code for practitioners and data scientists alike. This book provides a set of tools for analyzing data of various types, but it is specifically designed for health data, such as the number of infections in a population or identifying the health status of a country. There are techniques that will be evaluated as the most appropriate for a certain type of analysis, while others, on the contrary, will be deprecated. It will be interesting to see which one is the most valuable for making predictions, while another should just be used for evaluating data consistency.
+*Health Metrics and the Spread of Infectious Diseases,* featuring
+machine learning applications and spatial model analysis, serves as a
+manual and textbook for introductory health metrics data analysis
+courses. Additionally, it can be a valuable source code for
+practitioners and data scientists alike. This book provides a set of
+tools for analyzing data of various types, but it is specifically
+designed for health data, such as the number of infections in a
+population or identifying the health status of a country. There are
+techniques that will be evaluated as the most appropriate for a certain
+type of analysis, while others, on the contrary, will be deprecated. It
+will be interesting to see which one is the most valuable for making
+predictions, while another should just be used for evaluating data
+consistency.
 
 ### Prerequisites
 
-Before delving into the book, it is beneficial for readers to have a basic understanding of health concepts and terminologies. Familiarity with fundamental statistical concepts can aid in comprehending the metrics discussed. Additionally, a grasp of basic epidemiological principles and awareness of global health challenges will enhance the reader's engagement. However, it's important to note that if this knowledge is not already in place, there is a dedicated section in the book that provides the necessary background. Some knowledge of programming, especially in languages like R or Python, can be advantageous for those interested in the technical aspects of health data analysis, which cover a large part of this book. An open mindset and curiosity about the evolving field of health metrics are key prerequisites, as the book covers a spectrum from historical perspectives to modern machine learning applications. Overall, a multidisciplinary approach, combining aspects of health sciences, statistics, and technology, will enrich the reader's experience.
+Before delving into the book, it is beneficial for readers to have a
+basic understanding of health concepts and terminologies. Familiarity
+with fundamental statistical concepts can aid in comprehending the
+metrics discussed. Additionally, a grasp of basic epidemiological
+principles and awareness of global health challenges will enhance the
+reader's engagement. However, it's important to note that if this
+knowledge is not already in place, there is a dedicated section in the
+book that provides the necessary background. Some knowledge of
+programming, especially in languages like R or Python, can be
+advantageous for those interested in the technical aspects of health
+data analysis, which cover a large part of this book. An open mindset
+and curiosity about the evolving field of health metrics are key
+prerequisites, as the book covers a spectrum from historical
+perspectives to modern machine learning applications. Overall, a
+multidisciplinary approach, combining aspects of health sciences,
+statistics, and technology, will enrich the reader's experience.
 
 ## Acknowledgements
 
@@ -26,12 +66,29 @@ Before delving into the book, it is beneficial for readers to have a basic under
 
 ------------------------------------------------------------------------
 
-The author of this book is *Federica Gazzelloni*, Actuary and Statistician by education and training. She is also a collaborator[^index-1] at the *Institute for Health Metrics and Evaluation (IHME)*, which inspired this work to serve as a manual providing formulas and code for working with health metrics. It guides on how to calculate metrics, analyze the state of health of a population, and deal with data related to the spread of infectious diseases.
+The author of this book is *Federica Gazzelloni*, Actuary and
+Statistician by education and training. She is also a
+collaborator[^index-1] at the *Institute for Health Metrics and
+Evaluation (IHME)*, which inspired this work to serve as a manual
+providing formulas and code for working with health metrics. It guides
+on how to calculate metrics, analyze the state of health of a
+population, and deal with data related to the spread of infectious
+diseases.
 
-[^index-1]: If you'd like to know more about being a IHME collaborator have a look here: <https://www.healthdata.org/research-analysis/gbd/collaborator-network>
+[^index-1]: If you'd like to know more about being a IHME collaborator
+    have a look here:
+    <https://www.healthdata.org/research-analysis/gbd/collaborator-network>
 
-All data used in this book are from the **Institute for Health Metrics and Evaluation (IHME)**. **GBD Results**. Seattle, WA: IHME, University of Washington, 2020. Available from [https://vizhub.healthdata.org/gbd-results/](https://urldefense.com/v3/__https:/vizhub.healthdata.org/gbd-results/__;!!K-Hz7m0Vt54!l72IcmA_WDWDWqHLaUzVrt8XbheUn0_vWggtGDbhl4vxiT64nLrmzX32rCVfXnXUO6SO89nOjSnj5g$). (Accessed January 2023) and the **World Health Organization (WHO)**. **Global Health Observatory data repository**. Available from [https://apps.who.int/gho/data/](https://apps.who.int/gho/data/node.main.LIFECOUNTRY?lang=en).
+All data used in this book are from the **Institute for Health Metrics
+and Evaluation (IHME)**. **GBD Results**. Seattle, WA: IHME, University
+of Washington, 2020. Available from
+[https://vizhub.healthdata.org/gbd-results/](https://urldefense.com/v3/__https:/vizhub.healthdata.org/gbd-results/__;!!K-Hz7m0Vt54!l72IcmA_WDWDWqHLaUzVrt8XbheUn0_vWggtGDbhl4vxiT64nLrmzX32rCVfXnXUO6SO89nOjSnj5g$).
+(Accessed January 2023) and the **World Health Organization (WHO)**.
+**Global Health Observatory data repository**. Available from
+[https://apps.who.int/gho/data/](https://apps.who.int/gho/data/node.main.LIFECOUNTRY?lang=en).
 
 ## Code of Conduct
 
-Please note that this book is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that this book is released with a [Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.

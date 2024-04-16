@@ -4,54 +4,186 @@
 
 ## The concept of Health
 
-The concept of being "well" has evolved over the years and is not solely confined to physical health. Traditionally, health metrics focused on factors like life expectancy, mortality rates, and the prevalence of diseases. However, the understanding of well-being has expanded to include broader dimensions, incorporating mental health, social factors, and overall life satisfaction.
+The concept of being "well" has evolved over the years and is not solely
+confined to physical health. Traditionally, health metrics focused on
+factors like life expectancy, mortality rates, and the prevalence of
+diseases. However, the understanding of well-being has expanded to
+include broader dimensions, incorporating mental health, social factors,
+and overall life satisfaction.
 
-In recent years, there has been an increased emphasis on holistic well-being, recognizing that health is not merely the absence of disease but a state of complete physical, mental, and social well-being. This perspective aligns with the 1946 *World Health Organization*'s constitution principles [@constitu] of health which states: **"a state of complete physical, mental, and social well-being and not merely the absence of disease or infirmity."**
+In recent years, there has been an increased emphasis on holistic
+well-being, recognizing that health is not merely the absence of disease
+but a state of complete physical, mental, and social well-being. This
+perspective aligns with the 1946 *World Health Organization*'s
+constitution principles [@constitu] of health which states: **"a state
+of complete physical, mental, and social well-being and not merely the
+absence of disease or infirmity."**
 
 ### The Culture
 
-The cultural context significantly influences the values, norms, and expectations within a society, and these, in turn, contribute to people's understanding of what constitutes a good life. Education, media, legal systems, and community practices all play pivotal roles in shaping individuals' perceptions of well-being. Cultural norms and values often define what is considered acceptable or taboo, influencing individuals' behaviors and aspirations. Understanding these cultural nuances is crucial when developing health metrics and policies that aim to capture and improve well-being. It emphasizes the need for a holistic approach that considers not only physical health but also the social, cultural, and psychological dimensions of individuals and communities.
+The cultural context significantly influences the values, norms, and
+expectations within a society, and these, in turn, contribute to
+people's understanding of what constitutes a good life. Education,
+media, legal systems, and community practices all play pivotal roles in
+shaping individuals' perceptions of well-being. Cultural norms and
+values often define what is considered acceptable or taboo, influencing
+individuals' behaviors and aspirations. Understanding these cultural
+nuances is crucial when developing health metrics and policies that aim
+to capture and improve well-being. It emphasizes the need for a holistic
+approach that considers not only physical health but also the social,
+cultural, and psychological dimensions of individuals and communities.
 
-Achieving a global mean or standard for well-being involves considering not just the diversity of cultures but also acknowledging the common elements that contribute to human happiness and health. Behavioral education, more specifically the process of teaching individuals how to modify their behaviors in order to improve their overall well-being, plays a pivotal role in this process. Promoting positive behaviors that are conducive to both individual and societal well-being can be a universal goal. Understanding what constitutes "good behavior" in the context of health and happiness is, indeed, central to standardizing well-being metrics.
+Achieving a global mean or standard for well-being involves considering
+not just the diversity of cultures but also acknowledging the common
+elements that contribute to human happiness and health. Behavioral
+education, more specifically the process of teaching individuals how to
+modify their behaviors in order to improve their overall well-being,
+plays a pivotal role in this process. Promoting positive behaviors that
+are conducive to both individual and societal well-being can be a
+universal goal. Understanding what constitutes "good behavior" in the
+context of health and happiness is, indeed, central to standardizing
+well-being metrics.
 
-Moreover, this aligns with the idea that *health is closely tied to happiness*. Cultivating positive behaviors, such as maintaining a healthy lifestyle, fostering social connections, and contributing to one's community, can significantly impact both health and happiness. These behaviors can be universal, yet their interpretation and emphasis might vary based on cultural contexts.
+Moreover, this aligns with the idea that *health is closely tied to
+happiness*. Cultivating positive behaviors, such as maintaining a
+healthy lifestyle, fostering social connections, and contributing to
+one's community, can significantly impact both health and happiness.
+These behaviors can be universal, yet their interpretation and emphasis
+might vary based on cultural contexts.
 
 ### A Global perspective
 
-In essence, achieving global standardization in well-being requires a multi-faceted approach that includes education, social support systems, and a collective effort to reshape cultural narratives. It's a complex task, but incremental changes in education and social structures can contribute to a more harmonized vision of well-being across diverse cultures.
+In essence, achieving global standardization in well-being requires a
+multi-faceted approach that includes education, social support systems,
+and a collective effort to reshape cultural narratives. It's a complex
+task, but incremental changes in education and social structures can
+contribute to a more harmonized vision of well-being across diverse
+cultures.
 
-The aim of this book is to provide an extensive information about the way this well-being can be statically measured. Public health metrics, such as **Years of Life Lost (YLL)** and **Years lived with Disability (YLD)**, are examples of the key metrics discussed and used throughout this book. They are expressed in number of years of life lost or years lived with disabilities, and their sum represents a crucial value named **Disability Adjusted Life Years (DALYs)**. DALYs are generally used for ranking the health status of a population. The book covers the history of the development of the health metrics and aims at stimulating reasoning to suggests alternatives by providing a comprehensive manual to make reference to if you get lost among the plethora of information. The hope is to provide insights for health researchers and policymakers.
+The aim of this book is to provide an extensive information about the
+way this well-being can be statically measured. Public health metrics,
+such as **Years of Life Lost (YLL)** and **Years lived with Disability
+(YLD)**, are examples of the key metrics discussed and used throughout
+this book. They are expressed in number of years of life lost or years
+lived with disabilities, and their sum represents a crucial value named
+**Disability Adjusted Life Years (DALYs)**. DALYs are generally used for
+ranking the health status of a population. The book covers the history
+of the development of the health metrics and aims at stimulating
+reasoning to suggests alternatives by providing a comprehensive manual
+to make reference to if you get lost among the plethora of information.
+The hope is to provide insights for health researchers and policymakers.
 
-To be more specific, the book compares the metrics used to summarize the health status of a population across different locations. It tests prediction levels using key models. The initial tools are `{tidymodels}` and `{INLA}` for modeling, but other machine learning packages like `{mlr3}` and `{caret}` are also tested as alternative tools.
+To be more specific, the book compares the metrics used to summarize the
+health status of a population across different locations. It tests
+prediction levels using key models. The initial tools are `{tidymodels}`
+and `{INLA}` for modeling, but other machine learning packages like
+`{mlr3}` and `{caret}` are also tested as alternative tools.
 
-In practice, the data will include information about humanity such as age, sex, life expectancy, mortality, and risk levels. The interesting part is related to the identification of the influence of some of the most dangerous infectious disease on the values of health metrics of a population, and this is done to practice the variation to eventually predict through model transfer techniques same pattern procedure on other countries. It's not the only application; more examples of model transfer applications are needed in research. (cit)
+In practice, the data will include information about humanity such as
+age, sex, life expectancy, mortality, and risk levels. The interesting
+part is related to the identification of the influence of some of the
+most dangerous infectious disease on the values of health metrics of a
+population, and this is done to practice the variation to eventually
+predict through model transfer techniques same pattern procedure on
+other countries. It's not the only application; more examples of model
+transfer applications are needed in research. (cit)
 
-A focus on the impact of recent infectious disease outbreaks, such as SARS-Covid19, on the state of health of the population, will be provided along with the most affected locations to compare results of both *deterministic* and *stochastic* (Bayesian) models. Risk factor analysis is another important aspect covered in this book. It aims at identifying connections that could lead to an increase in the number of DALYs for specific populations. Additionally, it looks at providing suggestions for public health policy and practice[@GBD2020].
+A focus on the impact of recent infectious disease outbreaks, such as
+SARS-Covid19, on the state of health of the population, will be provided
+along with the most affected locations to compare results of both
+*deterministic* and *stochastic* (Bayesian) models. Risk factor analysis
+is another important aspect covered in this book. It aims at identifying
+connections that could lead to an increase in the number of DALYs for
+specific populations. Additionally, it looks at providing suggestions
+for public health policy and practice[@GBD2020].
 
 ## The structure of the book
 
-The book is structured with an alternation of text and chunks of code, primarily in the R programming language; hints for translations in python is in appendix C. Including R code allows readers to actively engage with real-world case studies on the topic. This approach enables readers to become practitioners by applying the concepts learned directly to practical scenarios.
+The book is structured with an alternation of text and chunks of code,
+primarily in the R programming language; hints for translations in
+python is in appendix C. Including R code allows readers to actively
+engage with real-world case studies on the topic. This approach enables
+readers to become practitioners by applying the concepts learned
+directly to practical scenarios.
 
-The material supports full exploratory data analysis and model data visualization, it contains the code for making some interesting spatial visualization, made using `{ggplot2}`, `{leaflet}`, `{sf}`, `{rgdal}` R packages, plus other main packages for theme user customization. The main reason is to unlock the potentiality of the R language for a wider understanding of both spatial and health metrics.
+The material supports full exploratory data analysis and model data
+visualization, it contains the code for making some interesting spatial
+visualization, made using `{ggplot2}`, `{leaflet}`, `{sf}`, `{rgdal}` R
+packages, plus other main packages for theme user customization. The
+main reason is to unlock the potentiality of the R language for a wider
+understanding of both spatial and health metrics.
 
-The book is foreseen for practitioners at early stages and graduated students in STEM, but it will be useful for experts in the field who would love to have all the tools in one place to scan through as needed.
+The book is foreseen for practitioners at early stages and graduated
+students in STEM, but it will be useful for experts in the field who
+would love to have all the tools in one place to scan through as needed.
 
-### What to expect
+The purpose of this book is to contribute to the scientific development
+of the field of metrics and evaluation [@murray2008]. It is divided in
+four main sections, each containing four chapters. The first section
+**Metrics and Evaluation** is introductory explaining the health metrics
+definition at first level, the second section **Machine Learning** goes
+a bit more inside the topic looking at the tools available for the
+investigation, the third section **Data Visualization** provides the
+user with the tools for being able to visualize the results of the
+analysis, and finally the fourth section makes the things going into
+practice providing **Case Studies**.
 
-The purpose of this book is to contribute to the scientific development of the field of metrics and evaluation [@murray2008]. It is divided in four main sections, each containing four chapters. The first section **Metrics and Evaluation** is introductory explaining the health metrics definition at first level, the second section **Machine Learning** goes a bit more inside the topic looking at the tools available for the investigation, the third section **Data Visualization** provides the user with the tools for being able to visualize the results of the analysis, and finally the fourth section makes the things going into practice providing **Case Studies**.
+**First section** - The first chapter of the book aims at providing an
+overview of the **Metrics Evaluations**, the history of development and
+they usage along the time. In the second chapter **Health Metrics**
+there is a dip dive into the different type of metrics, the *Disability
+Adjusted Life Years (DALYs)* and the components: *Years of Life Lost
+(YLLs)* and *Years Lived with Disabilities (YLDs)*. Along with the
+definition of the metrics, in this chapter there is also a mention of a
+fourth metric, the *HALY* or the *Health Adjusted Life Years*, this is a
+further improvement made in the development of the health metrics and
+the evaluation of the state of health of a population.
 
-**First section** - The first chapter of the book aims at providing an overview of the **Metrics Evaluations**, the history of development and they usage along the time. In the second chapter **Health Metrics** there is a dip dive into the different type of metrics, the *Disability Adjusted Life Years (DALYs)* and the components: *Years of Life Lost (YLLs)* and *Years Lived with Disabilities (YLDs)*. Along with the definition of the metrics, in this chapter there is also a mention of a fourth metric, the *HALY* or the *Health Adjusted Life Years*, this is a further improvement made in the development of the health metrics and the evaluation of the state of health of a population.
+The third chapter **Metrics Components** looks at the key building
+blocks of the health metrics as important set of components for assuring
+consistency and to make sure that the values released are able to
+picture the real health status of a population. The key components are
+*life tables*, *life expectancy*, the *mortality level*, *incidence* and
+*prevalence*, and the *weights of disabilities*. This chapter is
+supported by **appendix A** where the beyond of the calculations are
+further explained.
 
-The third chapter **Metrics Components** looks at the key building blocks of the health metrics as important set of components for assuring consistency and to make sure that the values released are able to picture the real health status of a population. The key components are *life tables*, *life expectancy*, the *mortality level*, *incidence* and *prevalence*, and the *weights of disabilities*. This chapter is supported by **appendix A** where the beyond of the calculations are further explained.
+The fourth chapter evaluates which are the **Causes and Risks** involved
+in influencing the level of the metrics, identifying the most dangerous
+enemies acting in favor of an increase in the number of years of life
+lost or lived with disabilities. Risks are considered stimulating
+alternative solutions for prevention and health policy development.
 
-The fourth chapter evaluates which are the **Causes and Risks** involved in influencing the level of the metrics, identifying the most dangerous enemies acting in favor of an increase in the number of years of life lost or lived with disabilities. Risks are considered stimulating alternative solutions for prevention and health policy development.
+**Second section** - This is the second level dip dive into the metrics
+evaluation, **Machine Learning**. A set of tools available for analyzing
+trends, or phenomenon, how to deal with missing values and an attempt in
+filling the missing data to provide an overall picture of the general
+trend is provided. In the second chapter **Techniques for Machine
+Learning Applications** there is an overview of the different types of
+models that would be suitable to use, the third chapter **Essential R
+Packages for Machine Learning** provides a selection of the R-packages
+to use for modeling. Then chapter three shows how to make **Predictive
+Modeling and Beyond**.
 
-**Second section** - This is the second level dip dive into the metrics evaluation, **Machine Learning**. A set of tools available for analyzing trends, or phenomenon, how to deal with missing values and an attempt in filling the missing data to provide an overall picture of the general trend is provided. In the second chapter **Techniques for Machine Learning Applications** there is an overview of the different types of models that would be suitable to use, the third chapter **Essential R Packages for Machine Learning** provides a selection of the R-packages to use for modeling. Then chapter three shows how to make **Predictive Modeling and Beyond**.
+**Third section** - Focused on all about **Data Visualization**, the
+history and the application in R. The second chapter shows the
+**Application of the model results**, the third chapter applies
+**Spatial data modeling and Visualization** to learn how to use these
+tools. Then, the fourth chapter further allows the reader to be able to
+improve the knowledge acquired with some tailored **Examples**.
 
-**Third section** - Focused on all about **Data Visualization**, the history and the application in R. The second chapter shows the **Application of the model results**, the third chapter applies **Spatial data modeling and Visualization** to learn how to use these tools. Then, the fourth chapter further allows the reader to be able to improve the knowledge acquired with some tailored **Examples**.
-
-**Fourth section** - The **Infectious Diseases** section contains and **Introduction** to infectious diseases, two case studies, one is ***Covid19*** and the other one is **The case of Malaria**. Finally, the fourth chapter of this last section is a **Summary: the State of Health** showing the variation of the health metrics when these two infectious diseases affect the population.
+**Fourth section** - The **Infectious Diseases** section contains and
+**Introduction** to infectious diseases, two case studies, one is
+***Covid19*** and the other one is **The case of Malaria**. Finally, the
+fourth chapter of this last section is a **Summary: the State of
+Health** showing the variation of the health metrics when these two
+infectious diseases affect the population.
 
 ## Final considerations
 
-In **Conclusion**, the tools introduced in this book serve as a powerful key, unlocking the structures of unknown patterns through the application of transfer learning techniques. By using a model designed for one phenomenon to predict another, this approach allows users to navigate and understand previously uncharted territories in a diverse range of scenarios.
+In **Conclusion**, the tools introduced in this book serve as a powerful
+key, unlocking the structures of unknown patterns through the
+application of transfer learning techniques. By using a model designed
+for one phenomenon to predict another, this approach allows users to
+navigate and understand previously uncharted territories in a diverse
+range of scenarios.

@@ -2,7 +2,8 @@
 
 ## Markov Chain
 
-code is from Dobrow - Bayesian analisis of infectious diseases book (chapter4)
+code is from Dobrow - Bayesian analisis of infectious diseases book
+(chapter4)
 
 ```{r}
 set.seed(000)

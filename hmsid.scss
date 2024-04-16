@@ -2,10 +2,10 @@
 // Part of the style is taken from R4DS book by Hadley Wickham
 
 $primary: #29306c !default;
-$font-size-root: 18px !default;
+$font-size-root: 20px !default;
 
 // Code blocks
-$code-block-font-size: .9em;
+$code-block-font-size: .9em; 
 
 // Contrast
 $min-contrast-ratio:   7;
@@ -122,6 +122,8 @@ h5 { margin-top: 1.5em; font-size: 1rem; }
   padding-bottom: 0.5rem;
   margin-bottom: 0;
 }
+
+
 ///*-- scss:rules --*/
 //
 //.bi-github {

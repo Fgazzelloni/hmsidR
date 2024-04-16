@@ -1,0 +1,53 @@
+# Overview {#sec-part1 .unnumbered}
+
+## Metrics Evaluation
+
+In this section, we delve into the evaluation of various health metrics,
+focusing on their significance and relevance in assessing public health
+outcomes. We explore different methodologies and techniques used to
+evaluate metrics, ensuring a comprehensive understanding of their
+implications. Through practical examples and case studies, we highlight
+the importance of robust metrics evaluation in guiding effective health
+interventions and policy decisions.
+
+### Chapter 1: Introduction to Metrics Evaluation
+
+The Introduction to Metrics Evaluation chapter is a foundational
+exploration into the world of health metrics, tracing its historical
+evolution, from the early origins of health measurement to the
+modern-day methodologies. It provides an overview of the fundamental
+metrics used in assessing population health, including DALYs
+(Disability-Adjusted Life Years), HALYs (Healthy Adjusted Life Years),
+and various other key indicators.
+
+### Chapter 2: Health Metrics
+
+The Health Metrics chapter provides an in-depth analysis of key health
+indicators, including DALYs (Disability-Adjusted Life Years) and HALYs
+(Healthy Adjusted Life Years). We explore how these metrics are
+calculated, their applications in assessing disease burden, and their
+role in informing health policy. Through discussions and real-world
+examples, we aim to elucidate the significance of health metrics in
+measuring population health and guiding resource allocation.
+
+### Chapter 3: Components of the Health Metrics
+
+In this chapter, we break down the components that contribute to health
+metrics such as DALYs, focusing on understanding the underlying factors
+driving disease burden. We examine the complex interplay between various
+components, including mortality, life expectancy, incidence and
+prevalence, and disability weights, providing insight into their
+individual and collective impact on population health outcomes. Through
+comprehensive analysis and case studies, this chapter aims at providing
+a simple explanation at how to build the components of the health
+metrics.
+
+### Chapter 4: Causes and Risks
+
+The Causes and Risks chapter investigates the multifaceted nature of
+health outcomes, exploring the underlying causes and risk factors
+associated with disease burden. We examine the epidemiological
+determinants of disease transmission, including infectious agents,
+environmental factors, and social determinants of health. To identify
+key drivers of disease burden, enabling the determination of causes and
+health risks influencing population health outcomes.
