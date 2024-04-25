@@ -1,11 +1,8 @@
 # Introduction to Metrics Evaluation {#sec-01-metrics_evaluation}
 
-**"The concept of health also has highly subjective connotations,
+> **"The concept of health also has highly subjective connotations,
 precisely because it is conditioned by the personal view of happiness."
 René Dubos[@dubos1976]**
-
-\
- 
 
 The health metrics are key variables to understand more about the state
 of health of a population. In this first section of the book we'll learn
@@ -80,10 +77,8 @@ timeline %>%
   theme_void()
 ```
 
-![Health Metrics Timeline](images/01_timeline.png){#fig-timeline
-fig-align="center"}
-
-\
+![Health Metrics development timeline](images/01_timeline.png){#fig-timeline
+fig-align="center" width=80%}
 
 One of the earliest forms of health metrics can be traced back to the
 work of *John Graunt*, an Englishman, in the 17th century
@@ -103,7 +98,6 @@ He noted the difference in life expectancy between males and females and
 provided insights into factors influencing mortality, such as epidemics
 and seasons.
 
-\
 
 Over time, advancements in mathematics, medicine, and statistics led to
 the development of more sophisticated health metrics. The 19th century
@@ -115,13 +109,9 @@ time-lost as a metric for health for the first time. She was then
 followed by other more advanced improvements spanning all throughout of
 the rest of the century.
 
-\
-
-**"The quality of life depends also on the state of "public
+>**"The quality of life depends also on the state of "public
 health"-namely on factors that affect the biological welfare of the
 community as a whole."[@dubos1976a]**
-
-\
 
 With the growth of epidemiology the 20th century was a key century for
 the expansion of the health metrics, the use of life table and
@@ -165,7 +155,7 @@ making", arguing that patients with disabilities are valued less under a
 QALY-based system then individuals with no disabilities. The result was
 then further criticized and it is still on debate.
 
-**"Thus, medicine cannot by itself determine the quality of life. It can
+> **"Thus, medicine cannot by itself determine the quality of life. It can
 only help people to achieve the state of health that enables them to
 cultivate the art of life-but in their own way. This implies the ability
 to enjoy the fundamental satisfactions of the biological joie de vivre.
@@ -343,7 +333,7 @@ number of years lived in good health, policymakers can target
 interventions to prevent and manage chronic diseases and disabilities
 effectively.
 
-## Conclusion
+## How the metrics are used in global health
 
 These metrics are used alone or in combination with other health metrics
 in global health assessments conducted by organizations such as the
@@ -351,4 +341,4 @@ World Health Organization (WHO), the European Commission, and the
 Institute for Health Metrics and Evaluation (IHME) by providing a Global
 perspective and insights into the health status of populations helping
 keeping track of the progresses towards longer terms health objectives
-over time.
+over time. The metrics are also used to inform public health policies, healthcare interventions, and resource allocation decisions, helping to prioritize health needs and target interventions effectively.

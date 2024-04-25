@@ -22,51 +22,50 @@ Learning Objectives
 
 ## Methods and Calculations
 
-The aim of this book is aligned with the assessment of the burden of
-diseases in terms of disability and premature mortality, which DALYs
-specifically capture. The primary concern is understanding the impact of
-diseases on overall health, along with a closer look at the calculation
-of DALYs. Although, the definition of DALYs has been provided in the
-introduction of this first section of the book, a further addition is
-required in order to correctly identify the structure of the metrics
-components. The DALY is a generalization of the well-known *Potential
-Years of Life Lost measure (PYLLs)* which includes the lost of good
-health[^02-health_metrics-1], and in order to understand how it is
-built, in this section are shown the methods used for building the key
-components: YLLs, YLDs. These metrics will then be used to calculate the
-DALYs. They will be used throughout the book for making comparisons
-among the state of health of different countries.
-
-[^02-health_metrics-1]: [@globalh]
+The objective of this book is to assess the burden of diseases, focusing
+on disability and premature mortality, which are captured by DALYs. The
+main goal is to comprehend the impact of diseases on overall health,
+with a specific emphasis on the calculation of DALYs. In the previous
+chapter (@sec-01-metrics_evaluation), we defined the metrics to
+establish the theoretical framework for constructing them. In this
+chapter, we will proceed with the initial calculation of YLLs, YLDs, and
+DALYs. This step is essential for understanding the structure of the
+metric components, which will be further investigated in the following
+chapter (@sec-03-components).
 
 Used to measure the burden of disease and quantify the impact of
 diseases and injuries on individuals and populations, these metrics can
 help prioritize public health interventions and evaluate the
 effectiveness of public health programs.
 
-\
+### YLLs
 
-### YLL (Years of Life Lost)
+The Years of Life Lost (YLLs) is a metric that measures the number of
+years a person would have lived if they had not died prematurely due to
+a disease or injury, YLLs is calculated by subtracting the age at death
+from the expected age at death in a population without the disease or
+injury.
 
-As a metric that measures the number of years a person would have lived
-if they had not died prematurely due to a disease or injury, YLL is
-calculated by subtracting the age at death from the expected age at
-death in a population without the disease or injury.
+First mentioned in 1947 by Mary Dempsey[@dempsey2019] to measure the
+burden of tuberculosis, it is built for identifying the area where
+improvement is required for reducing the loss in health status and
+clearly reducing the probability of death [@reiner2022].
 
-This metric was first calculate in late 1940s (@sec-metrics_evaluation),
-then defined as **Standardized Rate for Mortality in units of Lost Years
-of Life** by *William Haenszel* [@haenszel1950]. The investigation about
-**What is the leading cause of death** brought to the development of a
-measurement that would take consideration of the **age at death** and
-put it in comparison with the **expected life expectancy**. This
-initially lead to understand that early deaths had a greater impact than
-those at later ages. And in particular it was ascertain that if the
-number of years were accounted for a group of people, this would have
-led to recognize potential life lost for a certain cause. Since this
-first approach to measure the cause of deaths, some adjustments of the
-standard death rates were made leading to a new calculation which was
-built on considering **standardized deaths rate applied to age-specific
-factors** that would have led to death for a specific cause of death.
+This metric was first calculate in late 1940s
+(@sec-01-metrics_evaluation), then defined as **Standardized Rate for
+Mortality in units of Lost Years of Life** by *William Haenszel*
+[@haenszel1950]. The investigation about **What is the leading cause of
+death** brought to the development of a measurement that would take
+consideration of the **age at death** and put it in comparison with the
+**expected life expectancy**. This initially lead to understand that
+early deaths had a greater impact than those at later ages. And in
+particular it was ascertain that if the number of years were accounted
+for a group of people, this would have led to recognize potential life
+lost for a certain cause. Since this first approach to measure the cause
+of deaths, some adjustments of the standard death rates were made
+leading to a new calculation which was built on considering
+**standardized deaths rate applied to age-specific factors** that would
+have led to death for a specific cause of death.
 
 > The impact on the society due to premature losses involves, not only
 > the mere sadness for having lost a beloved one but the lost of
@@ -81,32 +80,32 @@ $$ {#eq-yll}
 in @eq-yll, $N$ is the number of premature deaths, and $le$ is the
 [expected live expectancy]{.underline}, or the expected numbers of years
 someone could live. More specification about the components of YLL are
-provided in the next @sec-components and a sample of the construction of
-a life table with relative estimations of the life expectancy can be
+provided in the next @sec-03-components and a sample of the construction
+of a life table with relative estimations of the life expectancy can be
 found in @sec-appendixA.
 
-In general the Global Burden of Diseases studies (GBD) use standard life
-tables, allowing for the measurement of the impact of different diseases
-at the same level. This standardization is essential for comparative
-studies, such as cross-country comparisons [@devleesschauwer2020]. It is
-also true that country-specific life expectancies are suitable for
-investigating early deaths due to health causes, such as deadly
-diseases. Moreover certain type of country-specific **life
-expectancies** are frequently used and suggested due to their usefulness
-in providing a heuristic picture of longevity characteristics, which are
-valuable for policymakers and prevention efforts, such as in the case of
-**Japanese life expectancy** [@tsugane2021]. A G7 cross-country study
-that showed how Japan had the longest average life expectancy, primarily
-due to remarkably low mortality rates from ischemic heart disease and
-cancer, which are the leading causes of death for most countries, as
-proven by the GBD study.\
+In general, the Global Burden of Diseases studies (GBD) utilize standard
+life tables, enabling the measurement of the impact of different
+diseases at a consistent level. This standardization is crucial for
+comparative studies, particularly cross-country comparisons
+[@devleesschauwer2020]. Additionally, country-specific life expectancies
+are valuable for investigating premature deaths resulting from
+health-related causes, such as fatal diseases. Moreover, certain types
+of country-specific life expectancies are frequently recommended due to
+their ability to provide insight into longevity characteristics, which
+can inform policymakers and aid in prevention efforts, as exemplified by
+the Japanese life expectancy [@tsugane2021]. A G7 cross-country study
+demonstrated that Japan has the longest average life expectancy,
+primarily attributed to significantly low mortality rates from ischemic
+heart disease and cancer, which are the leading causes of death in most
+countries, as indicated by the GBD study.
 
-As a first step, we use deaths data from the GBD 2019 study. This
-dataset is stored in the `{hmsidwR}` package and is made of 2754
-observations and 7 variables. It contains the estimated number of deaths
-due to 9 causes for 6 regions: Global, France, Italy, Germany, United
-Kingdom, and United States. Let's calculate the Years of Life Lost
-(YLLs) due to **stroke** in 2019.
+As an initial step, we use the deaths data from the GBD 2019 study,
+which is stored in the `{hmsidwR}` package. This dataset comprises 2754
+observations and 7 variables, containing the estimated number of deaths
+due to 9 causes across 6 regions: Global, France, Italy, Germany, the
+United Kingdom, and the United States. Our specific task is to calculate
+the Years of Life Lost (YLLs) attributable to stroke in the year 2019.
 
 ```{r}
 #| warning: false
@@ -123,28 +122,6 @@ hmsidwR::deaths2019
 ```
 
 ```{r}
-#| echo: false
-#| eval: false
-#| label: tbl-location
-#| tbl-cap: "Locations"
-
-hmsidwR::deaths2019%>%
-  count(location)%>%
-  select(-n)
-```
-
-```{r}
-#| echo: false
-#| eval: false
-#| label: tbl-cause
-#| tbl-cap: "Causes"
-
-hmsidwR::deaths2019%>%
-  count(cause)%>%
-  select(-n)
-```
-
-```{r}
 #| label: tbl-deaths_stroke
 #| tbl-cap: "Deaths due to Stroke"
 
@@ -156,8 +133,9 @@ deaths_stroke <- hmsidwR::deaths2019 %>%
 deaths_stroke %>% head()
 ```
 
-Consider the indicators found in the `hmsidwR::gho_lifetables` and
-select $ex$ **expectation of life at age x**.
+Among the indicators available in the hmsidwR::gho_lifetables dataset,
+we specifically focus on the indicator denoted as $ex$, which represents
+the expectation of life at age x.
 
 ```{r}
 #| label: tbl-indicators
@@ -172,18 +150,19 @@ hmsidwR::gho_lifetables%>%
          "person-years lived between ages x and x+n",
          "age-specific death rate between ages x and x+n",
          "number of people dying between ages x and x+n",
-         "probability of dying between ages x and x+n"))
+         "probability of dying between ages x and x+n"))%>%
+  knitr::kable()
 ```
 
-In this case we consider the **expectation of life at age x** ($ex$) as
-to be the **life expectancy at age x**, to clarify the life expectancy
-it is one value representing the max number of years a person can live.
-For instance, if we consider the Japanese **life expectancy at birth**,
-total (years), looking at the results of the estimation released in 2021
-by the United Nations Population Division research, it approx 84 years.
+The **expectation of life at age x** ($ex$) refers to the life
+expectancy at age x. Typically, life expectancy represents the maximum
+number of years a person can live. For example, if we consider the
+Japanese life expectancy at birth, which is measured in total years,
+according to the estimation released in 2021 by the United Nations
+Population Division research, it is approximately 84 years.
 
 Here, we use the estimated value of the expected life for a 5-year age
-groups for both females and males, and call it `life_expectancy`.
+groups for both females and males, indicated by the `le`.
 
 ```{r}
 #| label: tbl-ex2019
@@ -192,24 +171,21 @@ ex2019 <- hmsidwR::gho_lifetables%>%
           filter(year==2019,
                  indicator=="ex")%>%
             select(-indicator,-year)%>%
-            rename(life_expectancy=value)
+            rename(le=value)
 
 ex2019 %>%
   head()
 ```
 
 ```{r}
+#| label: tbl-YLL_global_stroke
+#| tbl-cap: "Global Stroke YLLs"
 YLL_global_stroke <- deaths_stroke %>%
   select(-upper,-lower)%>%
   full_join(ex2019)%>%
   group_by(age,sex)%>%
-  reframe(YLL=dx*life_expectancy)
-```
+  reframe(YLL=dx*le)
 
-```{r}
-#| echo: false
-#| label: tbl-YLL_global_stroke
-#| tbl-cap: "Global Stroke YLLs"
 
 YLL_global_stroke%>%
   head()
@@ -248,9 +224,9 @@ dat %>%
         plot.caption = element_text(size=8))
 ```
 
-### YLD (Years Lived with Disability)
+### YLDs
 
-**YLD** (Years Lived with Disability) measures the number of years a
+**YLDs** (Years Lived with Disability) measures the number of years a
 person lives with a disability due to a disease or injury. It is
 calculated by multiplying the **prevalence of a condition** by the
 **disability weight**, which reflects the severity of the disability.
@@ -268,7 +244,7 @@ need to be reported to a year-based value.
 
 Moreover, the calculation of the YLDs has been updated over the years
 passing from incidence to prevalence-based approach. More in-depth
-analyses are in @sec-components, for now we will be focusing on using
+analyses are in @sec-03-components, for now we will be focusing on using
 the most updated approach based on values of prevalence estimated by the
 GBD2019 which are here summarized in the `hmsidwR::g7_hmetrics` data
 set.
@@ -439,13 +415,22 @@ dat %>%
         plot.caption = element_text(size=8))
 ```
 
-### DALY (Disability-Adjusted Life Year)
+### DALYs
 
-The **DALY** is a measure of the overall disease burden and is
-calculated as the sum of **years of potential life lost** due to
-premature death **(YLL)** and **years lived with disability (YLD)**. The
-DALYs indicate the number of years life lost due to disease or injury,
-and take into account both the quantity and quality of life.
+As a measure of the overall disease burden the DALYs are used to
+quantify the sum of **years of potential life lost** due to premature
+death **(YLL)** and **years lived with disability (YLD)**.
+
+So, the number of DALYs indicate the number of years of life lost due
+premature deaths, disease or injury. This metric takes into account both
+the quantity and quality of life.
+
+The DALY is a generalization of the well-known *Potential Years of Life
+Lost measure (PYLLs)* which includes the lost of good
+health[^02-health_metrics-1]. We do not consider the PYLLs in this book
+but more information can be found in the references.
+
+[^02-health_metrics-1]: [@globalh]
 
 #### Calculation
 
@@ -514,7 +499,7 @@ dat %>%
         legend.position = "bottom")
 ```
 
-## How the metrics are used
+#### How the DALYs are used
 
 The health metrics of DALY, YLL, and YLD can be used in several ways to
 help prioritize public health interventions, evaluate the impact of
@@ -590,7 +575,7 @@ For example, the information could be used to prioritize resources for
 disease control and prevention activities, such as health education
 campaigns, vaccination programs, and screening and treatment programs.
 
-## HALE (Healthy Life Expectancy)
+### HALE
 
 **Healthy Life Expectancy (HALE)** is a metric used to estimate the
 number of years a person can expect to live in good health, taking into
@@ -664,7 +649,7 @@ Finally, HALE is calculated by dividing the adjusted person-years for
 each age group by the proportion of a hypothetical birth cohort still
 alive at that age.
 
-### Simulate life table data
+**Simulate life table data**
 
 Define age intervals (e.g., every 5 years), simulate survival
 probabilities for each age interval (between 0 and 1)
@@ -688,12 +673,18 @@ Calculate adjusted $Tx$ for each age group as the sum of
 current age interval.
 
 ```{r}
+# Simulate prevalences
 prevalences <- runif(length(age_intervals), 
                      min = 0, max = 0.5)
+# Simulate disability weights
 disability_weights <- runif(length(age_intervals), 
                             min = 0, max = 1)
+# Calculate average health for each age group
 average_health <- 1 - (prevalences * disability_weights)
+
+# Adjust Tx for each age group
 life_table$adjusted_px <- life_table$Survival_Probability * average_health
+
 life_table%>%head()
 ```
 
@@ -720,6 +711,7 @@ HALE
 ```
 
 ```{r}
+# Calculate HALE for the simulated life table data
 HALE1 <- calculate_HALE(age_intervals,
                         life_table$Survival_Probability)
 HALE2 <- calculate_HALE(age_intervals,
@@ -728,11 +720,14 @@ HALE2 <- calculate_HALE(age_intervals,
 
 ```{r}
 #| echo: false
-#| eval: false
-data.frame(age_intervals, HALE1,HALE2)%>%
+#| eval: true
+data.frame(age_intervals, HALE1,HALE2)%>% 
+  pivot_longer(cols=c(HALE1,HALE2),
+               names_to="HALE",
+               values_to="Years")%>% 
   ggplot(aes(x=age_intervals))+
-  geom_line(aes(y=HALE1))+
-  geom_line(aes(y=HALE2),color="red")+
+  geom_line(aes(y=Years,group=HALE,color=HALE))+
+  scale_color_viridis_d(option = "H")+
   labs(title = "Health Adjusted Life Expectancy (HALE) by Age",
        x="Age Group (5Yrs)")
 ```

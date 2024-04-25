@@ -277,8 +277,11 @@ relative_risk <- prob_outcome_given_exposure / prob_outcome_given_no_exposure
 #| fig-cap: 
 #|   - "Distribution of Relative Risk"
 #|   - "Density distribution of Relative Risk"
-#|   
+#| label: fig-distribution_rr 
+#| echo: false
+   
 data$relative_risk <- relative_risk
+
 # Visualize relative risk distribution
 ggplot(data = data, aes(x =relative_risk)) +
   geom_histogram(binwidth = 0.2, fill = "#29306c", color = "black") +
@@ -288,7 +291,7 @@ ggplot(data = data, aes(x =relative_risk)) +
 
 ggplot(data = data, aes(x = relative_risk)) +
   geom_density(fill = "#29306c", color = "black") +
-  labs(title = "Distribution of Relative Risk",
+  labs(title = "Density distribution of Relative Risk",
        x = "Relative Risk",
        y = "Density") 
 ```

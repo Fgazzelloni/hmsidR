@@ -1,4 +1,4 @@
-# Components of the Health Metrics {#sec-03-components}
+# Metrics Components {#sec-03-components}
 
 ::: solutionbox
 ::: solutionbox-header
@@ -9,9 +9,10 @@ Learning Objectives
 :::
 
 ::: solutionbox-body
--   Life tables and Life expectancy used in the book
+-   Life tables and Life expectancy
 -   Mortality level and rates
--   Identify the disability weights
+-   Incidence and Prevalence
+-   Disability weights and Severity levels
 :::
 :::
 
@@ -22,64 +23,454 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 
 ## Cause-specific or Population-wide
 
+In @sec-02-health_metrics, we discussed the importance of health metrics
+in assessing the overall health status of a population and guiding the
+allocation of health resources. We have seen how to calculate key
+metrics by providing direct calculations of each of them, but haven't
+yet discussed the components that make up these metrics. In this
+chapter, we will investigate the components of the metrics such as
+**life expectancy**, **mortality rates**, **incidence and prevalence**,
+and **disability weights**. These components are crucial for
+understanding the burden of disease and injury at both global and
+population levels.
+
+::: {.callout .callout-info}
+These key indicators, used to measure the burden of disease and injury
+on a population, provide a comprehensive view of the impact of diseases
+and injuries on the health status of a population. By combining these
+metrics, policymakers and public health officials can make informed
+decisions about how to improve the health outcomes of a population and
+reduce the burden of disease and injury. But, **what are the components
+of these health metrics, and how are they calculated?**
+:::
+
 The evaluation of health metrics begins with assessing their components,
 which is crucial because results strongly depend on the types of **life
 tables**, **mortality rates**, and **disability weights** used in the
-analysis. The objective of the analysis, whether it is
-**cause-specific** or **population-wide**, can significantly impact the
-granularity of the health metrics components.
+analysis. Furthermore, it is important to consider whether the objective
+of the analyses is **cause-specific** or **population-wide**. This can
+significantly impact the granularity of the health metrics components,
+as in alignment with general principles in epidemiological research and
+health metrics analysis, discussed in the Global Burden of Disease (GBD)
+study methodologies[@vos2020].
 
-When calculating **YLLs**, **YLDs**, and **DALYs** for cause-specific
-analyses, various factors are considered, including **causes of deaths**
-and/or **disabilities** at specific points in time, across all ages or
-specific age groups, and for both sexes or only females or males.
+When calculating **YLLs**, **YLDs**, and **DALYs** for
+**cause-specific** analyses, various factors are considered, including
+**causes of deaths** and/or **disabilities** at specific points in time,
+across all ages or specific age groups, and for both sexes or only
+females or males.
+
 Additionally, weights used for calculating disability levels can vary
-depending on the type of disability and other parameters.
+depending on the type of disability and other parameters. While, for
+**population-wide** analyses, the focus is on the overall health status
+of the population, considering all causes of deaths and disabilities,
+and using general life tables, mortality rates, and disability weights.
+
+In this chapter, we will provide practical examples and case studies to
+illustrate the process of applying the components. By understanding the
+structure of the components of the metrics, you will be better equipped
+to analyze and interpret health data and make informed decisions about
+health policy and resource allocation.
+
+## Life tables and Life expectancy
+
+The first component is the **life expectancy**, used for calculating the
+YLLs in @eq-yll. More specification about **life tables** used to
+calculate the **life expectancy** is in the @sec-appendixA. As a key
+parameter in the calculation of health metrics, life expectancy is
+essential for estimating the number of years lost due to premature
+death.
+
+The **life expectancy** is defined as the average number of years a
+person is expected to live based on current mortality rates, an
+important indicator of the overall health status of a population used to
+compare the health outcomes of different populations over time. It is
+calculated based on the **probability of survival** at each age, taking
+into account the **mortality rates** for that age group.
+
+In life tables, the probability of survival and the mortality rates
+across different age groups are essential for estimating the number of
+remaining expected life years. These tables provide crucial insights
+into the longevity patterns within a population, enabling researchers
+and policymakers to predict life expectancy trends and to assess public
+health strategies effectively.
+
+In the context of calculating Disability-Adjusted Life Years (DALYs),
+specifically for the component related to Years of Life Lost (YLL), $ex$
+(the expected remaining lifetime at age $x$) is typically used rather
+than overall **life expectancy from birth (**$le$). This is because YLLs
+are calculated based on the difference between the age at death and the
+expected age at death, which is more accurately represented by the
+remaining life expectancy at a specific age.
+
+To understand why the expected remaining lifetime at a specific age is
+used in the calculation of YLLs, consider the following example: if a
+person dies at age 50, the YLLs are calculated based on the difference
+between the expected remaining lifetime at age 50 and the actual age at
+death. This approach provides a more precise measure of the years of
+life lost due to premature death, as it accounts for the age-specific
+mortality rates and the probability of survival at that age.
+
+While the life expectancy at birth provides an overall measure of the
+average number of years a person is expected to live, the expected
+remaining lifetime at a specific age is more relevant for calculating
+YLLs, as it reflects the impact of premature death on the remaining
+years of life for individuals at different ages.
+
+### Global Health Observatory Life Tables
+
+The **Global Health Observatory (GHO) Life Tables** are essential tools
+provided by the World Health Organization (WHO) to support global health
+monitoring and assessment. They are part of the broader GHO data
+repository, which serves as WHO's gateway to health-related statistics
+for its 194 Member States. The GHO life tables provide data on life
+tables and life expectancy for different age groups. These tables are
+collected in the `{hmsidwR}` package and used to show how to derive key
+health metrics.
+
+```{r}
+#| message: false
+#| warning: false
+#| eval: true
+library(tidyverse)
+library(hmsidwR)
+```
+
+The **`hmsidwR::gho_lifetables`** dataset contains five variables:
+
+1.  **indicator:** as shown in @tbl-indicators
+
+2.  **age group:** from \<1 to 85+ in 5-year classes
+
+3.  **sex:** female, male, and both
+
+4.  **value:** indicators value
+
+```{r}
+ #| echo: false
+gho_lifetables %>%
+  group_by(indicator) %>%
+  summarize("on average value" = round(mean(value), 3))
+```
+
+5.  **year:** from 2000 to 2019
+
+```{r}
+gho_lifetables %>%
+  filter(indicator == "ex",
+         sex=="both")%>%
+  head()
+```
+
+The life expectancy rates are calculated with consideration of the
+probability of survival based on key parameter such as age, and deaths
+probabilities for that age. More info about how to calculate the life
+expectancy can be found in the @sec-appendixA section of this book.
+
+@fig-expectation-life-1 shows the `ex - expectation of life at age x`
+represented for each age group while in @fig-expectation-life-2 $ex$ is
+represented by averaging value across all age groups from 2000 to 2019.
+
+By averaging across all age groups rather than plotting each line for
+each age group individually, we can visualize the overall trend in life
+expectancy over time. This provides a more comprehensive view of how
+life expectancy has changed across different time.
+
+We can see a difference in the life expectancy values for different age
+groups, with the highest values for the youngest age groups and the
+lowest values for the oldest age groups. This reflects the impact of age
+on life expectancy, with younger individuals having a higher life
+expectancy than older individuals. The overall trend in life expectancy
+shows an increase over time, indicating improvements in health outcomes
+and longevity for the population. More on how to build these plots can
+be found in the @sec-09-data_visualization chapter of this book.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| layout-ncol: 2
+#| fig-cap: 
+#|    - "Global Health Observatory Life Tables"
+#|    - "ex - expectation of life at age x"
+#| label: fig-expectation-life
+
+gho_lifetables %>%
+  filter(indicator == "ex",
+         sex=="both") %>%
+  mutate(age10= case_when(
+    age %in% c("-01","01-04","05-09") ~ "0-09",
+    age %in% c("10-14","15-19") ~ "10-19",
+    age %in% c("20-24","25-29") ~ "20-29",
+    age %in% c("30-34","35-39") ~ "30-39",
+    age %in% c("40-44","45-49") ~ "40-49",
+    age %in% c("50-54","55-59") ~ "50-59",
+    age %in% c("60-64","65-69") ~ "60-69",
+    age %in% c("85+","80-84","75-79","70-74") ~ "70+",
+    TRUE ~ age)) %>%
+  group_by(age10,year) %>%
+  summarize("value" = round(mean(value), 3)) %>%
+  ggplot(aes(year, value, group = age10, color = age10))+
+  geom_line(show.legend = F) +
+  scale_color_manual(values = rainbow(20)) +
+  labs(title = "ex - expectation of life at age x")
+
+
+gho_lifetables %>%
+  filter(indicator == "ex") %>%
+  group_by(year)%>%
+  summarize(value=mean(value))%>%
+  ggplot(aes(year, value)) + 
+  geom_line(show.legend = F) +
+  labs(title = "ex - expectation of life at age x (all ages avg value)")
+```
+
+The mathematical formulation for calculating the expectation of life at
+age x is computed as:
+
+$$e(x) = \frac{T(x)}{l(x)}$$
+
+where $T(x)$ is the total number of person-years lived by the cohort of
+persons alive at age x, and $l(x)$ is the number of persons alive at age
+x.
+
+It shows how $ex$ is strongly related to the value of $T(x)$ and $l(x)$.
+The total number of person-years lived by the cohort of persons alive at
+age x ($T(x)$) typically referred to in demographic and actuarial
+studies, as a function to measure the cumulative amount of life that
+members of a cohort can expect to live beyond a certain age. Its changes
+over time indicate the effects of health policies, technological
+advancements, and socio-economic conditions on the longevity and health
+of populations.
+
+#### Exercise
+
+For example, at age 50, what is the life expectancy value if the total
+number of person-years lived by the cohort of persons alive at age 50 is
+2,370,099 and the number of persons alive at age 50 is 89,867?
+
+hint: e(50) = T(50)/l(50) = 2,370,099/89,867 = 26.4 [see @lifeexp].
+
+## Mortality level and rates
+
+Another fundamental component of health metrics is the **mortality
+level** which indicates the number of deaths in a population. In the
+calculation of YLLs if the number of deaths are **cause-specific**, they
+are calculated for different diseases or injuries. If the number of
+deaths are **population-wide**, they are calculated for the entire
+population.
+
+This component represents the count of deaths at each age or for
+specific diseases within a given time period. Data for this component is
+collected from vital registration systems, health surveys, hospital
+records, and epidemiological studies.
+
+### Understanding Death Counts and Mortality Rates
+
+While mortality rates themselves are not directly used in the formula
+for YLL, they are crucial for understanding the broader context of
+health risks and for estimating the death counts in populations where
+direct data on deaths might be incomplete or unreliable. In regions or
+for populations where vital registration data are incomplete, mortality
+rates derived from sample surveys or demographic models can be used to
+estimate the expected number of deaths.
+
+An analysis of the mortality rates alongside YLL provides a full picture
+of the health challenges faced by a population. While YLL emphasizes the
+impact of premature death, mortality rates help in understanding the
+probability and distribution of these deaths within the population.
+
+The mortality rates can be calculated in different ways, depending on
+the specific nature of the analysis. In general, what is considered as
+the most common mortality rates is the **Crude Mortality Rate (CMR)**,
+which express is the number of deaths per 100,000 population.
+
+$$
+CMR= \frac{\text{Number of deaths}}{\text{Total population}}*100,000
+$$
+
+Other types of mortality rates include:
+
+-   **Age-specific mortality rate**: the number of deaths per 100,000
+    population in a specific age group
+
+    $$
+      ASMR= \frac{\text{Number of deaths in a specific age group}}{\text{Total population in that age group}}*100,000
+      $$
+
+-   **Cause-specific mortality rate**: the number of deaths per 100,000
+    population due to a specific cause
+
+    $$
+    CSMR= \frac{\text{Number of deaths due to a specific cause}}{\text{Total population}}*100,000
+    $$
+
+-   **Infant mortality rate**: the number of deaths per 1,000 live
+    births in the first year of life
+
+    $$
+    IMR= \frac{\text{Number of infant deaths}}{\text{Total number of live births}}*1,000
+    $$
+
+-   **Maternal mortality rate**: the number of maternal deaths per
+    100,000 live births
+
+    $$
+    MMR= \frac{\text{Number of maternal deaths}}{\text{Total number of live births}}*100,000
+    $$
+
+These mortality rates are used to assess the impact of diseases or
+injuries on a population and to identify areas where improvements in
+health care are needed.
+
+#### Example: Deaths Counts derived by Mortality Rates
+
+Let's simulate malaria death counts in an African population with a case
+fatality rate ranging from 0.01% to 0.40%, and a case-incidence of 59.4
+per 1000 population annually[@worldma]. Calculate the number of expected
+malaria cases and the resulting deaths based on this rate for a
+simulated population of 100,000 individuals over a year.
+
+-   Define the Population: Assume a total population of 100,000.
+-   Set the Malaria Incidence Rate: 59.4 per 1000 population annually.
+-   Calculate Total Malaria Cases.
+-   Apply the Case Fatality Rate: Calculate estimated deaths using the
+    CFR range.
+
+```{r}
+#| label: synthetic-malaria-mortality
+# Define the total population
+total_population <- 100000
+
+# Define the incidence rate (cases per 1,000 population)
+incidence_rate <- 59.4
+
+# Calculate the total number of malaria cases per year
+total_cases <- (incidence_rate / 1000) * total_population
+
+# Case fatality rates (min and max)
+cfr_min <- 0.0001  # 0.01%
+cfr_max <- 0.004   # 0.40%
+
+# Calculate estimated deaths for the minimum and maximum case fatality rates
+deaths_min_cfr <- total_cases * cfr_min
+deaths_max_cfr <- total_cases * cfr_max
+```
+
+```{r}
+#| echo: false
+# Print results
+# Print the results
+print(paste("Total population:", total_population))
+print(paste("Malaria incidence rate per 1,000 population:", incidence_rate))
+print(paste("Total estimated malaria cases per year:", round(total_cases)))
+print(paste("Estimated deaths at minimum CFR (0.01%):", round(deaths_min_cfr)))
+print(paste("Estimated deaths at maximum CFR (0.40%):", round(deaths_max_cfr)))
+```
+
+In the simulation scenario, the incidence rate of 59.4 cases per 1,000
+annually helps to understand how pervasive malaria is within the
+simulated population. By applying this rate to the entire population, we
+can estimate the total number of new cases per year. Combining this with
+the case fatality rate gives an estimate of the expected number of
+deaths, highlighting the impact of malaria on public health within that
+population.
 
 ## Incidence and Prevalence
 
-The incidence, even identified as the new case of a disease or injury
-entering the population, the cumulative incidence (risk) - $r$ is the
-probability the disease occurs in a specified period of time.
+Incidence and prevalence are two fundamental concepts used in
+epidemiology to measure how often a disease occurs and how widespread it
+is within a population at a specific time.
+
+-   **Incidence** refers to the number of new cases of a disease that
+    develop in a population during a specific time period. It provides
+    information about the risk of contracting the disease and is usually
+    expressed as a rate — for example, the number of new cases per 1,000
+    people per year.
+
+The incidence rate, even identified as the cumulative incidence (risk) -
+$r$ is considered as a measure of the probability the disease occurs in
+a specified period of time. It quantifies the risk of an individual in
+the population at risk developing the disease during the specified time
+period.
 
 $$
 \text{Incidence rate}= \frac{\text{number of new cases at time t}}{\text{total population at risk}}*1000
 $$
+
+-   **Prevalence** measures the total number of cases of a disease in a
+    population at a given time, including both new and existing cases.
+    It is expressed as a proportion of the population and helps to
+    provide a snapshot of how widespread the disease is.
 
 The prevalence identify the burden of disease at a specific time, rather
 than the probability of the disease to impact on the population, it
 expresses the probability of suffering from a disease, it is based on
 the total number of existing cases among the whole population.
 
-$$
-\text{Prevalence proportion}=\frac{\text{number of existing cases at time t}}{\text{total population}}
-$$
+$$\text{Prevalence}=\frac{\text{number of new & existing cases at time t}}{\text{total population}}$$
+
+Like incidence, it can be multiplied by a factor of 10\^n (where n is
+typically 1,000, 10,000, or 100,000) to express the prevalence per a
+standard number of people.
 
 In summary, incidence measures the rate of new cases arising within a
 population over time, while prevalence measures the proportion of
-existing cases within the population at a specific point in time. Both
-metrics are crucial in epidemiology for understanding the dynamics and
-burden of diseases within populations.
+existing cases within the population at a specific point in time. These
+metrics are widely used in the literature and form the basis for many
+decisions in public health and clinical practice. They are discussed in
+foundational texts such as *"Epidemiology: An Introduction" by Kenneth
+J. Rothman* and in guidelines by health institutions like the Centers
+for Disease Control and Prevention (CDC) and the World Health
+Organization (WHO). Both metrics are crucial for understanding the
+dynamics and burden of diseases within populations.
 
-### Sample calculation of Incidence and Prevalence
+### Use of Prevalence in DALYs Calculation
 
-The incidence is the rate of new cases within a specified time frame, it
-provides insights into the disease's spread dynamics, while the
-prevalence denotes the proportion of individuals currently affected by
-the disease at a given point in time.
+In the context of the Global Burden of Disease (GBD) study, the use of
+prevalence in the calculation of Disability-Adjusted Life Years (DALYs)
+is pivotal because DALYs aim to measure both the **current impact** of
+diseases and their **long-term effects** on populations as this metric
+combines years of life lost due to premature mortality (YLLs) with years
+lived with disability (YLDs). In particular, for YLD calculations,
+prevalence rather than incidence is used for several reasons:
 
-Let's simulate some virus cases for a population of 100 000 individuals
-over 365 days. Consider an average infection time of 5 days or 1/5=0.2
-(20%) rate of infection, and average time of recovery of 20 days which
-corresponds to a recovery rate of 1/20=0.05 (5%)
+-   **Direct Measurement of Burden**: Prevalence data directly reflect
+    the current burden of disease in the population, including both new
+    and ongoing cases. It provides a snapshot of all individuals
+    affected by the disease at a given time, which is essential for
+    calculating the total amount of health loss due to disabilities.
+-   **Incorporation of Disease Duration**: Using prevalence allows the
+    calculation of YLDs to incorporate the duration of the disease until
+    recovery or death. This is because prevalence captures both existing
+    and new cases during the period of measurement.
+-   **Complexity of Disease Models**: Many chronic diseases or
+    conditions with long durations are better captured through
+    prevalence data. This approach simplifies the modeling by avoiding
+    the need for complex calculations that would otherwise be required
+    to estimate the duration of each new case (from incidence data) and
+    its progression over time.
+
+The choice of prevalence over incidence in the calculation of YLDs thus
+reflects a pragmatic approach to capturing the current impact of
+diseases within a population, particularly for chronic diseases where
+ongoing management and sustained healthcare support are crucial.
+
+#### Example: COVID-19 Incidence and Prevalence
+
+Let's simulate some COVID-19 cases for a population of 100 000
+individuals over 365 days. Consider an average infection time of 5 days
+or 1/5=0.2 (20%) rate of infection, and an average time of recovery of
+20 days which corresponds to a recovery rate of 1/20=0.05 (5%)
 
 ```{r}
+#| label: tbl-covid19-synthetic
+#| tbl-cap: "COVID-19 Cases and Recovered - simulate data"
+
 library(tidyverse,quietly = T)
 
 population_size <- 100000  # Number of individuals
 days <- 365  # Number of days
-
-
 
 set.seed(123)
 dates <- seq(as.Date("2019-01-01"),
@@ -87,13 +478,11 @@ dates <- seq(as.Date("2019-01-01"),
 
 cases <- rpois(length(dates), lambda = 0.2)
 recovered <- rpois(length(dates), lambda = 0.05)  
+
 covid_data <- data.frame(Date = dates, 
                          Cases = cases, 
                          Recovered = recovered)
-```
 
-```{r}
-#| echo: false
 covid_data%>%
   head()
 ```
@@ -101,21 +490,22 @@ covid_data%>%
 Calculate the cumulative incidence and prevalence over time:
 
 ```{r}
+#| label: tbl-covid19-inc-prev-synthetic
+#| tbl-cap: "COVID-19 Incidence and Prevalence - simulate data"
+
 covid_data <- 
   transform(covid_data, 
-            Cumulative_Cases = cumsum(Cases),
-            Cumulative_Recovered = cumsum(Recovered))
+            Cum_Cases = cumsum(Cases),
+            Cum_Recovered = cumsum(Recovered))
 
 # Calculate daily incidence and prevalence per 100,000 population
 covid_data <- 
   transform(covid_data, 
-            Incidence = (Cumulative_Cases /population_size)*1000,
-            Prevalence = ((Cumulative_Cases-Cumulative_Recovered) / population_size)*1000)
-```
+            Incidence = (Cum_Cases /population_size)*1000,
+            Prevalence = ((Cum_Cases-Cum_Recovered) / population_size)*1000)
 
-```{r}
-#| echo: false
 covid_data%>%
+  select(-Cases,-Recovered)%>%
   head()
 ```
 
@@ -132,27 +522,134 @@ total_recoveries <- sum(covid_data$Recovered)
 ```
 
 ```{r}
+#| warning: false
+#| message: false
+#| label: fig-inc-prev
+#| fig-cap: "Incidence and Prevalence COVID-19 Cases - simulate data"
+#| echo: false
+#| eval: true
+
 ggplot(covid_data, aes(x = Date)) +
   geom_line(aes(y = Incidence, color = "Incidence"), size = 1.5) +
   geom_line(aes(y = Prevalence, color = "Prevalence"), size = 1.5) +
   scale_color_manual(values = c("Incidence" = "#29306c", 
                                 "Prevalence" = "#a60845")) +
   labs(title = "Incidence and Prevalence COVID-19 Cases",
+       caption="Data: synthetic",
        x = "Date",
        y = "Number per 100,000 Population",
        color = "Metric") +
   theme(legend.position = "bottom")
 ```
 
-## YLLs' components
+## Disability weights and Severity levels
 
-The number of years of life lost YLLs is the first of the three metrics
-that is calculated, and is important for releasing a first look at the
-status of a population. First mentioned in 1947 by Mary
-Dempsey[@dempsey2019] to measure the burden of tuberculosis, it is built
-for identifying the area where improvement is required for reducing the
-loss in health status and clearly reducing the probability of death
-[@reiner2022].
+The **disability weights** measure the **severity** of the health loss
+associated with specific health outcomes or diseases, ranging from 0 (no
+disability) to 1 (equivalent to death). These weights are used to
+calculate the number of years lived with a disability (YLD) in the
+calculation of DALYs.
+
+The severity levels of a disease or injury are determined through a
+combination of clinical data, epidemiological studies, and expert input.
+These levels are crucial for understanding the burden of disease and for
+developing strategies in healthcare management and resource allocation.
+
+The severity levels of a disease or injury are crucial for determining
+the disability weights, which are assigned based on the impact of the
+condition on an individual's quality of life. Higher weights are
+assigned to more severe conditions, reflecting the greater impact on an
+individual's health status, while lower weights are assigned to less
+severe conditions.
+
+Used to quantify the magnitude of health loss due to various diseases
+and injuries, disability weights are calculated based on the severity of
+the condition and the impact on an individual's quality of life. These
+weights are essential for estimating the number of years lived with a
+disability and for calculating the overall burden of disease on a
+population. In population health assessments, such as the Global Burden
+of Disease study, disability weights are assigned to different health
+states of diseases based on their severity and impact on daily living.
+
+#### Methodology for Deriving Disability Weights:
+
+-   **Survey Methods**: Disability weights are often derived through
+    large-scale population surveys. These surveys include questions
+    designed to elicit valuations of different health states. Typically,
+    these methods involve trade-off exercises, such as time trade-off
+    (TTO) or paired comparison tasks, where respondents are asked to
+    choose between different health states or to trade life years in
+    different health states against a standard of full health.
+
+-   **Expert Panels**: In addition to population surveys, expert panels
+    are sometimes used to assess the severity of health states. Experts
+    review clinical descriptions and provide scores based on their
+    understanding and professional experience.
+
+-   **Health State Valuations**: The survey data and expert assessments
+    are used to value a set of standardized health states described by
+    the GBD study. Each health state is associated with particular
+    diseases or injuries and represents different levels of severity.
+
+Here is illustrated a table containing the disability weights for twelve
+combinations of different conditions such as Infectious disease,
+Non-communicable diseases, and other health conditions. The table can be
+downloaded from the `{hmsidwR}` package, and contains the first to
+cause-specific disability weights for the year 2019, as well as the
+severity level of the condition.
+
+```         
+hmsidwR::disweights2019
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| label: tbl-disability-weights-full
+#| tbl-cap: "Disability Weights"
+#| eval: true
+#| echo: false
+
+library(hmsidwR)
+disability_weights <- hmsidwR::disweights2019
+disability_weights%>%
+  head()%>%
+  glimpse()
+```
+
+```{r}
+#| label: tbl-disability-weights
+#| tbl-cap: "Disability Weights"
+
+disability_weights %>% 
+  select(specification,severity,dw)%>%
+  head()
+```
+
+## YLLs, YLDs, and DALYs
+
+These metrics provide a comprehensive view of the impact of diseases and
+injuries on the health status of a population, by taking into account
+both premature death and the impact of disability on quality of life.
+
+The calculation of YLLs, YLDs, and DALYs requires certain
+epidemiological parameters such as: prevalence, incidence, case-fatality
+rate, relative risk, odds ratio, hazard ratio, mean, incidence ratio,
+severity, duration, and remission. These parameters are used to estimate
+the impact of diseases and injuries on the health status of a population
+and to identify areas where improvements in health care are needed.
+
+By combining these metrics, policymakers and public health officials can
+make informed decisions about how to improve the health outcomes of a
+population and reduce the burden of disease and injury.
+
+### YLLs' components
+
+::: {.callout .callout-info}
+The difference between an individual age at death and the arbitrary
+limit of life expectancy is defined as the life lost as a result of
+death.
+:::
 
 The components of YLL (Years of Life Lost) include several factors that
 contribute to the calculation of premature death due to a disease or
@@ -185,77 +682,7 @@ potential years of life lost due to premature death caused by a disease
 or injury. It is an important component of the DALY, which provides a
 comprehensive view of the overall burden of disease on a population.
 
-### Mortality, Life tables and Life expectancy
-
-The selection of these key parameters is crucial for achieving the
-highest value of prediction of the state of health of a population. It
-is important to consider the objective of the analysis, if is
-**Cause-specific** or **Population-wide Analysis** (or Global Analysis).
-
-The difference between an individual age at death and the arbitrary
-limit of life expectancy is defined as the life lost as a result of
-death.
-
-#### Mortality Numbers or Rates
-
--   Age-specific mortality rates
-
--   stratification of mortality data by race and ethnicity
-
-#### Life tables
-
-The life tables are selected among the most frequently used, more
-information about how to build a like table can be found in the
-@sec-appendixA of this book.
-
-```{r}
-#| message: false
-#| warning: false
-library(hmsidwR)
-```
-
-**hmsidwR::gho_lifetables** contains five variables:
-
-1.  **indicator:** as shown in @tbl-indicators
-
-2.  **age group:** from \<1 to 85+ in 5-year classes
-
-3.  **sex:** female, male, and both
-
-4.  **value:** indicators value
-
-```{r}
- #| echo: false
-gho_lifetables %>%
-  #mutate(indicator = sub(" -.*$", "", indicator)) %>%
-  group_by(indicator) %>%
-  summarize("on average value" = round(mean(value), 3))
-```
-
-5.  **year:** from 2000 to 2019
-
-#### Life expectancy
-
-The life expectancy rates are calculated with consideration of the
-probability of survival based on key parameter such as age, and deaths
-probabilities for that age. More info about how to calculate the life
-expectancy can be found in the @sec-appendixA section of this book.
-
-This visualization of the `ex - expectation of life at age x` shows for
-each age group its changing level across the years.
-
-```{r}
-#| echo: false
-gho_lifetables %>%
-  filter(indicator == "ex") %>%
-  ggplot(aes(year, value, group = age, color = age)) +
-  geom_line(show.legend = F) +
-  facet_wrap(vars(sex)) +
-  ylim(60,80)+
-  labs(title = "ex - expectation of life at age x")
-```
-
-## YLDs' components
+### YLDs' components
 
 The estimation of YLDs requires certain epidemiological parameters such
 as prevalence, incidence, case-fatality rate, relative risk, odds ratio,
@@ -274,14 +701,6 @@ disease or injury. These components are:
     and it is calculated by considering the number of new cases affected
     by a condition divided by the size of a population. Both incidence
     and prevalence can be used in the calculation.
-
-$$
-Prevalence = \frac{\text{N. of cases}}{Population}
-$$
-
-$$
-Incidence= \frac{\text{N. of new cases}}{Population}
-$$
 
 -   **Disability weight**: The disability weight reflects the severity
     of the disability caused by a disease or injury. It is used to
@@ -313,7 +732,21 @@ number of years lived with a disability due to a disease or injury. It
 is an important component of the DALY, which provides a comprehensive
 view of the overall burden of disease on a population.
 
-## DALYs' components
+```{r}
+#| message: false
+#| warning: false
+#| label: tbl-disability-weights-2019
+#| tbl-cap: "Disability Weights-2019"
+
+library(hmsidwR)
+disability_weights <- hmsidwR::disweights2019
+
+disability_weights %>%
+  select(cause1,severity,dw)%>%
+  head()
+```
+
+### DALYs' components
 
 Both YLL and YLD are components of the DALY and are used to provide a
 comprehensive assessment of the impact of disease and injury on a
@@ -356,7 +789,7 @@ germany_lungc %>%
   head()
 ```
 
-#### YLL
+**YLLs calculation**
 
 ```{r}
 #| echo: false
@@ -466,7 +899,7 @@ gelung_YLL%>%
   head()
 ```
 
-#### YLDs
+**YLDs calculation**
 
 In this section a practical calculation of the health metrics is done
 for the practitioner to be able to replicate this calculation for

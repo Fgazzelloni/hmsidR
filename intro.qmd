@@ -128,6 +128,8 @@ user with the tools for being able to visualize the results of the
 analysis, and finally the fourth section makes the things going into
 practice providing **Case Studies**.
 
+\
+
 **First section** - The first chapter of the book aims at providing an
 overview of the **Metrics Evaluations**, the history of development and
 they usage along the time. In the second chapter **Health Metrics**
