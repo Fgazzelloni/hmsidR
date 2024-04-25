@@ -408,7 +408,7 @@ than the probability of the disease to impact on the population, it
 expresses the probability of suffering from a disease, it is based on
 the total number of existing cases among the whole population.
 
-$$\text{Prevalence}=\frac{\text{number of new & existing cases at time t}}{\text{total population}}$$
+$$\text{Prevalence}=\frac{\text{number of new + existing cases at time t}}{\text{total population}}$$
 
 Like incidence, it can be multiplied by a factor of 10\^n (where n is
 typically 1,000, 10,000, or 100,000) to express the prevalence per a
