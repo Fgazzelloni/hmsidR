@@ -19,6 +19,7 @@ Learning Objectives
 ```{r}
 #| echo: false
 ggplot2::theme_set(ggplot2::theme_minimal())
+options(scipen = 999)
 ```
 
 ## Cause-specific or Population-wide
@@ -75,7 +76,7 @@ health policy and resource allocation.
 ## Life tables and Life expectancy
 
 The first component is the **life expectancy**, used for calculating the
-YLLs in @eq-yll. More specification about **life tables** used to
+YLLs as in @eq-yll. More specification about **life tables** used to
 calculate the **life expectancy** is in the @sec-appendixA. As a key
 parameter in the calculation of health metrics, life expectancy is
 essential for estimating the number of years lost due to premature
@@ -146,26 +147,25 @@ The **`hmsidwR::gho_lifetables`** dataset contains five variables:
 
 4.  **value:** indicators value
 
-```{r}
- #| echo: false
-gho_lifetables %>%
-  group_by(indicator) %>%
-  summarize("on average value" = round(mean(value), 3))
-```
-
 5.  **year:** from 2000 to 2019
 
 ```{r}
+#| echo: true
+#| label: tbl-lifetables
+#| tbl-cap: "Global Health Observatory Life Tables"
+
 gho_lifetables %>%
   filter(indicator == "ex",
          sex=="both")%>%
+  select(-indicator,-sex)%>%
   head()
 ```
 
-The life expectancy rates are calculated with consideration of the
-probability of survival based on key parameter such as age, and deaths
-probabilities for that age. More info about how to calculate the life
-expectancy can be found in the @sec-appendixA section of this book.
+The life expectancy rates for each age group are calculated with
+consideration of the probability of survival based on key parameter such
+as age, and deaths probabilities for that age. More info about how to
+calculate the life expectancy can be found in the @sec-appendixA section
+of this book.
 
 @fig-expectation-life-1 shows the `ex - expectation of life at age x`
 represented for each age group while in @fig-expectation-life-2 $ex$ is
@@ -191,8 +191,8 @@ be found in the @sec-09-data_visualization chapter of this book.
 #| message: false
 #| layout-ncol: 2
 #| fig-cap: 
-#|    - "Global Health Observatory Life Tables"
 #|    - "ex - expectation of life at age x"
+#|    - "Global Health Observatory Life Tables"
 #| label: fig-expectation-life
 
 gho_lifetables %>%
@@ -213,7 +213,12 @@ gho_lifetables %>%
   ggplot(aes(year, value, group = age10, color = age10))+
   geom_line(show.legend = F) +
   scale_color_manual(values = rainbow(20)) +
-  labs(title = "ex - expectation of life at age x")
+  labs(title = "ex - expectation of life at age x",
+       caption = "DataSource: WHO Global Health Observatory data repository | Graphics: Federica Gazzelloni",
+       x="Year",y="Value")+
+  theme(axis.text.x = element_text(size=7,
+                                   vjust = 0.5),
+        plot.caption = element_text(size=8))
 
 
 gho_lifetables %>%
@@ -221,13 +226,14 @@ gho_lifetables %>%
   group_by(year)%>%
   summarize(value=mean(value))%>%
   ggplot(aes(year, value)) + 
-  geom_line(show.legend = F) +
-  labs(title = "ex - expectation of life at age x (all ages avg value)")
+  geom_line(linewidth=1) +
+  labs(title="Global expectation of life (all ages avg value)",
+       subtitle="for the years 2000, 2005, 2010, 2015, and 2019",
+       caption="DataSource: WHO Global Health Observatory data repository | Graphics: Federica Gazzelloni")
 ```
 
 The mathematical formulation for calculating the expectation of life at
-age x is computed as:
-
+age x is computed as:\
 $$e(x) = \frac{T(x)}{l(x)}$$
 
 where $T(x)$ is the total number of person-years lived by the cohort of
@@ -242,6 +248,46 @@ members of a cohort can expect to live beyond a certain age. Its changes
 over time indicate the effects of health policies, technological
 advancements, and socio-economic conditions on the longevity and health
 of populations.
+
+```{r}
+#| echo: false
+pyramid <- gho_lifetables %>% 
+  mutate(value = ifelse(sex == 'female', 
+                        as.integer(value * -1), 
+                        as.integer(value)))%>%
+  filter(!sex=="both",
+         indicator=="ex")%>%
+ggplot(aes(x = age, y = value, fill = sex)) +
+  geom_bar(stat = 'identity')+
+  scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99")) +
+  coord_flip()+
+  labs(title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
+       subtitle ="",
+       y = "Age",
+       caption = "Data Source: WHO | Graphic: @fgazzelloni") +
+  theme(axis.text.x = element_blank(),
+        axis.title = element_blank())
+# pyramid
+```
+
+```{r}
+#| eval: false
+#| echo: false
+library(gganimate)
+pyramid_gif <- pyramid+
+  transition_states(year,transition_length = 1,state_length = 2) + 
+  enter_fade() +
+  exit_fade() + 
+  ease_aes('cubic-in-out')
+
+animate(pyramid_gif,
+        fps = 40,duration = 5,width = 1200,height = 1400,res = 120,
+        renderer = gifski_renderer('images/gho_pyramid.gif'))
+```
+
+::: {.content-visible when-format="html"}
+![](images/gho_pyramid.gif){fig-align="center" width="375"}
+:::
 
 #### Exercise
 
@@ -283,7 +329,7 @@ probability and distribution of these deaths within the population.
 The mortality rates can be calculated in different ways, depending on
 the specific nature of the analysis. In general, what is considered as
 the most common mortality rates is the **Crude Mortality Rate (CMR)**,
-which express is the number of deaths per 100,000 population.
+which express is the number of deaths per 100,000 population.\
 
 $$
 CMR= \frac{\text{Number of deaths}}{\text{Total population}}*100,000
@@ -292,29 +338,25 @@ $$
 Other types of mortality rates include:
 
 -   **Age-specific mortality rate**: the number of deaths per 100,000
-    population in a specific age group
-
+    population in a specific age group\
     $$
       ASMR= \frac{\text{Number of deaths in a specific age group}}{\text{Total population in that age group}}*100,000
       $$
 
 -   **Cause-specific mortality rate**: the number of deaths per 100,000
-    population due to a specific cause
-
+    population due to a specific cause\
     $$
     CSMR= \frac{\text{Number of deaths due to a specific cause}}{\text{Total population}}*100,000
     $$
 
 -   **Infant mortality rate**: the number of deaths per 1,000 live
-    births in the first year of life
-
+    births in the first year of life\
     $$
     IMR= \frac{\text{Number of infant deaths}}{\text{Total number of live births}}*1,000
     $$
 
 -   **Maternal mortality rate**: the number of maternal deaths per
-    100,000 live births
-
+    100,000 live births\
     $$
     MMR= \frac{\text{Number of maternal deaths}}{\text{Total number of live births}}*100,000
     $$
@@ -392,8 +434,7 @@ The incidence rate, even identified as the cumulative incidence (risk) -
 $r$ is considered as a measure of the probability the disease occurs in
 a specified period of time. It quantifies the risk of an individual in
 the population at risk developing the disease during the specified time
-period.
-
+period.\
 $$
 \text{Incidence rate}= \frac{\text{number of new cases at time t}}{\text{total population at risk}}*1000
 $$
@@ -406,8 +447,7 @@ $$
 The prevalence identify the burden of disease at a specific time, rather
 than the probability of the disease to impact on the population, it
 expresses the probability of suffering from a disease, it is based on
-the total number of existing cases among the whole population.
-
+the total number of existing cases among the whole population.\
 $$\text{Prevalence}=\frac{\text{number of new + existing cases at time t}}{\text{total population}}$$
 
 Like incidence, it can be multiplied by a factor of 10\^n (where n is
@@ -571,7 +611,7 @@ population. In population health assessments, such as the Global Burden
 of Disease study, disability weights are assigned to different health
 states of diseases based on their severity and impact on daily living.
 
-#### Methodology for Deriving Disability Weights:
+### Methodology for Deriving Disability Weights:
 
 -   **Survey Methods**: Disability weights are often derived through
     large-scale population surveys. These surveys include questions
@@ -591,12 +631,18 @@ states of diseases based on their severity and impact on daily living.
     the GBD study. Each health state is associated with particular
     diseases or injuries and represents different levels of severity.
 
-Here is illustrated a table containing the disability weights for twelve
+#### Disability Weights data:
+
+Here is a table containing the disability weights for twelve
 combinations of different conditions such as Infectious disease,
-Non-communicable diseases, and other health conditions. The table can be
-downloaded from the `{hmsidwR}` package, and contains the first to
-cause-specific disability weights for the year 2019, as well as the
-severity level of the condition.
+Non-communicable diseases, and other health conditions.
+
+The data is from the results of a systematic analysis of Global burden
+of 369 diseases and injuries in 204 countries and territories, 1990–2019
+[@GBD2020]. The table can be downloaded from the `{hmsidwR}` package,
+and contains the first two cause-specific disability weights for the
+year 2019, as well as the severity level of the condition set as to be
+mild, moderate and severe. More information on the dataset is on the
 
 ```         
 hmsidwR::disweights2019
@@ -617,6 +663,9 @@ disability_weights%>%
   glimpse()
 ```
 
+The table here shows the first 6 rows of the disability weights for the
+specification, severity, and disability weight for the year 2019.
+
 ```{r}
 #| label: tbl-disability-weights
 #| tbl-cap: "Disability Weights"
@@ -626,11 +675,28 @@ disability_weights %>%
   head()
 ```
 
-## YLLs, YLDs, and DALYs
+If we focus on the first cause of disability for infectious disease, we
+can see that the severity level is 1, and the disability weight is
+0.191. This indicates that the condition is associated with a moderate
+level of severity and has a disability weight of 0.191, which reflects
+the impact of the condition on an individual's quality of life.
 
-These metrics provide a comprehensive view of the impact of diseases and
-injuries on the health status of a population, by taking into account
-both premature death and the impact of disability on quality of life.
+```{r}
+#| message: false
+#| warning: false
+#| label: tbl-disability-weights-2019
+#| tbl-cap: "Disability Weights-2019"
+
+library(hmsidwR)
+disability_weights <- hmsidwR::disweights2019
+
+disability_weights %>%
+  filter(cause1=="Infectious disease")%>%
+  group_by(severity) %>%
+  summarize(dw = mean(dw))
+```
+
+## YLLs, YLDs, and DALYs
 
 The calculation of YLLs, YLDs, and DALYs requires certain
 epidemiological parameters such as: prevalence, incidence, case-fatality
@@ -644,12 +710,6 @@ make informed decisions about how to improve the health outcomes of a
 population and reduce the burden of disease and injury.
 
 ### YLLs' components
-
-::: {.callout .callout-info}
-The difference between an individual age at death and the arbitrary
-limit of life expectancy is defined as the life lost as a result of
-death.
-:::
 
 The components of YLL (Years of Life Lost) include several factors that
 contribute to the calculation of premature death due to a disease or
@@ -676,11 +736,6 @@ injury. These components are:
 -   **Cause of death**: The cause of death is also considered when
     calculating YLL, as different causes may have different impacts on
     potential years of life lost.
-
-By taking these factors into account, YLL provides a measure of the
-potential years of life lost due to premature death caused by a disease
-or injury. It is an important component of the DALY, which provides a
-comprehensive view of the overall burden of disease on a population.
 
 ### YLDs' components
 
@@ -727,25 +782,6 @@ disease or injury. These components are:
     period of time will have a greater impact on the number of years
     lived with disability.
 
-By taking these factors into account, YLD provides a measure of the
-number of years lived with a disability due to a disease or injury. It
-is an important component of the DALY, which provides a comprehensive
-view of the overall burden of disease on a population.
-
-```{r}
-#| message: false
-#| warning: false
-#| label: tbl-disability-weights-2019
-#| tbl-cap: "Disability Weights-2019"
-
-library(hmsidwR)
-disability_weights <- hmsidwR::disweights2019
-
-disability_weights %>%
-  select(cause1,severity,dw)%>%
-  head()
-```
-
 ### DALYs' components
 
 Both YLL and YLD are components of the DALY and are used to provide a
@@ -754,128 +790,44 @@ population. By combining YLL and YLD, the DALY takes into account both
 premature death and the impact of disease or injury on quality of life,
 providing a more comprehensive view of the overall burden of disease.
 
-> However, HALYs, including DALYs and QALYs, are especially useful in
-> guiding the allocation of health resources as they provide a common
-> numerator, allowing for the expression of utility in terms of
-> dollar/DALY, or dollar/QALY. For example, in Gambia, provision of the
-> pneumococcal conjugate vaccine costs \$670 per DALY saved. This number
-> can then be compared to other treatments for other diseases, to
-> determine whether investing resources in preventing or treating a
-> different disease would be more efficient in terms of overall health
-> [@disabili2023].
+::: callout
+DALYs are especially useful in guiding the allocation of health
+resources as they provide a common numerator, allowing for the
+expression of utility in terms of dollar/DALY.
 
-### Case Study
+For example, in Gambia, the provision of the pneumococcal conjugate
+vaccine costs \$670 per DALY saved. This number can then be compared to
+other treatments for other diseases, to determine whether investing
+resources in preventing or treating a different disease would be more
+efficient in terms of overall health[@disabili2023].
+:::
 
-#### The German Lung Cancer Study
+### Case Study: The German Lung Cancer Study
 
-In this section a practical calculation of the health metrics is done
-for the practitioner to be able to replicate this calculation for
-further analysis based on these key elements.
+For this case study, we used data from the GBD study for Germany,
+related to the number of deaths due to lung-cancer in 2019. The data is
+available in the `{hmsidwR}` package and, and includes the upper and
+lower bounds of the estimates and the 5-yrs age group for both sexes. We
+do not have information for the 0-4, 5-9 and 85+ age groups.
 
-Let's use 2019 data from the IHME website for Germany 2019 number of
-deaths due to lungcancer. Data is stored in the `{hmsidwR}` package and
-ready to use.
-
-```{r}
-#| eval: false
+```         
 hmsidwR::germany_lungc
 ```
 
+Here we can see the first 6 rows of the data, that we are going to use
+to calculate the YLLs, the YLDs and finally the DALYs.
+
 ```{r}
-#| echo: false
 #| label: tbl-germany_lungc
 #| tbl-cap: "Germany lungcancer"
+
 germany_lungc %>% 
   head()
 ```
 
-**YLLs calculation**
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-options(scipen = 999)
-```
-
-```{r}
-#| eval: false
-#| echo: false
-# To download the data directly without saving anything:
-url <- "https://apps.who.int/gho/data/node.main.LIFECOUNTRY?lang=en"
-temp <- tempfile()
-```
-
-```{r}
-#| message: false
-#| warning: false
-#| eval: true
-#| output: false
-
-
-hmsidwR::gho_lifetables
-```
-
-```{r}
-#| label: tbl-gho_lifetables
-#| tbl-cap: "GHO Life Tables"
-gho_lifetables %>% glimpse
-```
-
-```{r}
-#| echo: false
-pyramid <- gho_lifetables %>% 
-  mutate(value = ifelse(sex == 'female', 
-                        as.integer(value * -1), 
-                        as.integer(value)))%>%
-  filter(!sex=="both",
-         indicator=="ex")%>%
-ggplot(aes(x = age, y = value, fill = sex)) +
-  geom_bar(stat = 'identity')+
-  scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99")) +
-  coord_flip()+
-  labs(title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
-       subtitle ="",
-       y = "Age",
-       caption = "Data Source: WHO | Graphic: @fgazzelloni") +
-  theme(axis.text.x = element_blank(),
-        axis.title = element_blank())
-# pyramid
-```
-
-```{r}
-#| eval: false
-#| echo: false
-library(gganimate)
-pyramid_gif <- pyramid+
-  transition_states(year,transition_length = 1,state_length = 2) + 
-  enter_fade() +
-  exit_fade() + 
-  ease_aes('cubic-in-out')
-
-animate(pyramid_gif,
-        fps = 40,duration = 5,width = 1200,height = 1400,res = 120,
-        renderer = gifski_renderer('images/gho_pyramid.gif'))
-```
-
-::: {.content-visible when-format="html"}
-![](images/gho_pyramid.gif){fig-align="center" width="375"}
-:::
-
-```{r}
-gho_lifetables %>% 
-  filter(sex=="both",
-         indicator=="ex")%>%
-  group_by(indicator,year) %>%
-  mutate(value=mean(value))%>%
-  ungroup()%>%
-  ggplot(aes(year,value,group=indicator))+
-  geom_line() +
-  geom_smooth(linewidth=0.5) +
-  labs(title="Global expectation of life (all ages avg value)",
-       subtitle="for the years 2000, 2005, 2010, 2015, and 2019",
-       caption="DataSource: WHO Global Health Observatory data repository | Graphics: Federica Gazzelloni")
-```
+Joining `germany_lungc` with the GHO life tables (`gho_lifetables`) we
+can build a new dataset with all information needed for calculating the
+YLLs for the lung cancer deaths in Germany in 2019.
 
 ```{r}
 #| message: false
@@ -883,28 +835,91 @@ gho_lifetables %>%
 
 gelung_YLL <- germany_lungc%>%
   select(-upper,-lower)%>%
-  full_join(gho_lifetables%>%
-          filter(!age%in%c("-01","01-04","05-09"),
-                 year==2019,
-                 indicator=="ex")%>%
-            select(-indicator,-year)%>%
-            rename(life_expectancy=value))%>%
-  group_by(age,sex)%>%
+  filter(sex=="both")%>%
+  left_join(gho_lifetables%>%
+              filter(year==2019,
+                     indicator=="ex")%>%
+              select(-indicator,-year)%>%
+              rename(life_expectancy=value))%>%
+  group_by(age)%>%
   reframe(dx,life_expectancy,YLL=dx*life_expectancy)
-```
 
-```{r}
-#| echo: false
 gelung_YLL%>%
   head()
 ```
 
-**YLDs calculation**
-
-In this section a practical calculation of the health metrics is done
-for the practitioner to be able to replicate this calculation for
-further analysis based on these key elements.
+Now to calculate the YLDs due to lung-cancer we need to consider not fatal disability status. This can appear in conjunction with other conditions,
+or morbidities, that are not fatal but are acting together with the
+lung-cancer[@porst2022]. The disability weights are available from GBD
+study[@ihmeuw/i2024] are the same as those found in the `disweights2019`
+dataset.
 
 ```{r}
-
+#| message: false
+#| warning: false
+#| label: tbl-disweights2019-all
+#| tbl-cap: "Disability Weights"
+library(readxl)
+dw2019 <- read_excel("data/inst/extdata/IHME_GBD_2019_DISABILITY_WEIGHTS_Y2020M010D15.xlsx")
+names(dw2019)<- dw2019[1,]
+dw2019 <- dw2019[-1,]
+head(dw2019)
 ```
+
+```{r}
+dw2019 %>%
+  janitor::clean_names()%>%
+  filter(str_detect(sequela,
+                    "Metastatic phase of lung, bronchus, and trachea cancer"))%>%
+  select(sequela,disability_weight)
+```
+
+So, 0.451 is the disability weight for the metastatic phase of lung, or lung cancer. We can use this value together with the prevalence of the disease show how to calculate the YLDs for the lung cancer deaths in Germany in 2019. The number of lung cancer cases in Germany in 2019 is 34,000, and the prevalence of the disease is 0.0004 for all ages and sex. While considering 5-yrs age groups with a common disability weight of 0.451. Total YLDs can be calculated as the sum of the product of the prevalence and the disability weight for each age group.
+
+$$
+YLLs = \sum_{i=1}^{n}  prevalence_i \times dw 
+$$
+
+
+```{r}
+#| message: false
+#| warning: false
+
+library(readxl)
+lung_cancer_cases_in_Germany_2019 <- read_excel("data/inst/extdata/lung cancer cases in Germany 2019.xlsx")
+head(lung_cancer_cases_in_Germany_2019)
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| label: tbl-lung_cancer_cases_in_Germany_2019
+#| tbl-cap: "Lung Cancer Cases in Germany 2019"
+
+gelung_YLd <- lung_cancer_cases_in_Germany_2019 %>%
+  janitor::clean_names()%>%
+  filter(sex=="Both sexes")%>%
+  select(age,sex,prevalence=value)%>%
+  mutate(dw=0.451,
+         YLD=prevalence*dw)
+
+gelung_YLd%>%
+  head()
+```
+
+```{r}
+(YLLs <- sum(gelung_YLL$YLL))
+(YLDs <- sum(gelung_YLd$YLD))
+(DALYs <- YLLs + YLDs)
+```
+
+
+Per 1000 population, the YLLs, YLDs, and DALYs for lung cancer deaths in Germany in 2019 are 821, 1, and 822, respectively. These metrics provide a comprehensive view of the impact of lung cancer on the health status of the population, combining the years of life lost due to premature death with the years lived with disability.
+
+```{r}
+DALYs/1000 # DALYs per 1000 population
+```
+
+
+
+

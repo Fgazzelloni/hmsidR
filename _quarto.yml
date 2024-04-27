@@ -2,8 +2,6 @@ project:
   type: book
   output-dir: docs
   
-#callout-appearance: minimal  
-  
 book:
   title: "Health Metrics and the Spread of Infectious Diseases"
   subtitle: "Machine Learning Applications and Spatial Modelling Analysis with R"
@@ -35,10 +33,7 @@ book:
     foreground: "primary"
     background: "#ebecf7"
     pinned: true
-    # border: true
-    #align: center
     style: docked
-    #type: dark
 
   page-footer:
     left: |
@@ -99,7 +94,7 @@ biblio-style: chicago
 format:
   html:
     theme: 
-      - cosmo
+      - pulse
       - hmsid.scss
     html-math-method: katex
     include-in-header: 
@@ -109,13 +104,13 @@ format:
     code-overflow: wrap
     code-link: true
     code-copy: true
-    code-fold: show
+    #code-fold: show
     #code-summary: "Hide code"
-    code-block-border-left: "#29526c"
-    code-block-bg: "#f0f0f5"
+    #code-block-border-left: "#29526c"
+    #code-block-bg: "#f0f0f5"
     fig-align: center
     fig-cap-location: bottom
-    linkcolor: "#29306c"
+    #linkcolor: "#29306c" #"#29306c"
     link-external-newwindow: true 
     callout-appearance: simple   
     author-meta: "Federica Gazzelloni"
@@ -151,8 +146,8 @@ format:
     fig-pos: 'H'
     dev: "cairo_pdf"
     keep-tex: true
-    code-block-border-left: "#BFBFBF"
-    code-block-bg: "#f1f3f5"
+    #code-block-border-left: "#BFBFBF"
+    #code-block-bg: "#f1f3f5"
     highlight-style: none 
     colorlinks: false 
     hyperrefoptions:

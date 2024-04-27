@@ -410,7 +410,6 @@ dat %>%
        caption = "DataSource: IHME results Stroke data | YLDs Values X 1000",
        x="Age Group",y="YLDs")+
   theme(axis.text.x = element_text(size=7,
-                                   #angle = 45,
                                    vjust = 0.5),
         plot.caption = element_text(size=8))
 ```
