@@ -1,3 +1,10 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+bibliography: references.bib
+---
+
 # Metrics Components {#sec-03-components}
 
 ::: solutionbox
@@ -29,11 +36,10 @@ in assessing the overall health status of a population and guiding the
 allocation of health resources. We have seen how to calculate key
 metrics by providing direct calculations of each of them, but haven't
 yet discussed the components that make up these metrics. In this
-chapter, we will investigate the components of the metrics such as
-**life expectancy**, **mortality rates**, **incidence and prevalence**,
-and **disability weights**. These components are crucial for
-understanding the burden of disease and injury at both global and
-population levels.
+chapter, we will investigate: **life expectancy**, **mortality rates**,
+**incidence and prevalence**, and **disability weights**. These
+components are crucial for understanding the burden of disease and
+injury at both global and population levels.
 
 ::: {.callout .callout-info}
 These key indicators, used to measure the burden of disease and injury
@@ -588,48 +594,54 @@ The **disability weights** measure the **severity** of the health loss
 associated with specific health outcomes or diseases, ranging from 0 (no
 disability) to 1 (equivalent to death). These weights are used to
 calculate the number of years lived with a disability (YLD) in the
-calculation of DALYs.
+calculation of DALYs, and play a pivotal role between mortality and
+morbidity when estimating the Health Adjusted Life Expectancy (HALE).
+
+The disability weights are crucial for understanding the impact of
+diseases and injuries on the health status of a population, if the
+disability weight of a specific disease is overestimated, the burden of
+the disease may be overestimated. Conversely, if the disability weight
+is underestimated, the burden of disease could result
+underestimated[@ock2019].
 
 The severity levels of a disease or injury are determined through a
 combination of clinical data, epidemiological studies, and expert input.
 These levels are crucial for understanding the burden of disease and for
 developing strategies in healthcare management and resource allocation.
+The severity levels can be assigned to be mild, moderate, or high, with
+respective probabilities reflecting the likelihood of each severity
+level occurring within the affected population.
 
-The severity levels of a disease or injury are crucial for determining
-the disability weights, which are assigned based on the impact of the
-condition on an individual's quality of life. Higher weights are
-assigned to more severe conditions, reflecting the greater impact on an
-individual's health status, while lower weights are assigned to less
-severe conditions.
+Crucial for determining the disability weights, the severity levels are
+assigned based on the impact of the condition on an individual's quality
+of life. Higher weights are assigned to more severe conditions,
+reflecting the greater impact on an individual's health status, while
+lower weights are assigned to less severe conditions. Hence, the
+disability weights are calculated based on the severity of the condition
+and the impact on an individual's quality of life.
 
-Used to quantify the magnitude of health loss due to various diseases
-and injuries, disability weights are calculated based on the severity of
-the condition and the impact on an individual's quality of life. These
-weights are essential for estimating the number of years lived with a
-disability and for calculating the overall burden of disease on a
-population. In population health assessments, such as the Global Burden
-of Disease study, disability weights are assigned to different health
-states of diseases based on their severity and impact on daily living.
+### Methodology for Disability Weights:
 
-### Methodology for Deriving Disability Weights:
+The disability weights can be derived or computed, depending on data
+availability. Often derived through large-scale population surveys, or
+expert panels through reviews of clinical descriptions and assessment
+scores based on understanding and professional experience. These methods
+involve trade-off exercises, such as time trade-off (TTO)[@lugnér2020]
+or paired comparison tasks[@rehm2013]. Surveys the respondents are asked
+to choose between different health states or to trade life years in
+different health states against a standard of full health. Expert panels
+would assess the severity of different health states based on clinical
+descriptions and their professional experience, rating the severity on a
+scale from 0 (no disability) to 1 (equivalent to death).
 
--   **Survey Methods**: Disability weights are often derived through
-    large-scale population surveys. These surveys include questions
-    designed to elicit valuations of different health states. Typically,
-    these methods involve trade-off exercises, such as time trade-off
-    (TTO) or paired comparison tasks, where respondents are asked to
-    choose between different health states or to trade life years in
-    different health states against a standard of full health.
-
--   **Expert Panels**: In addition to population surveys, expert panels
-    are sometimes used to assess the severity of health states. Experts
-    review clinical descriptions and provide scores based on their
-    understanding and professional experience.
-
--   **Health State Valuations**: The survey data and expert assessments
-    are used to value a set of standardized health states described by
-    the GBD study. Each health state is associated with particular
-    diseases or injuries and represents different levels of severity.
+Computed disability weights methods can vary from applying techniques
+such a **Analytical Hierarchy Process (AHP)**[@analytic2024], method
+used where health states are systematically compared in a pairwise
+fashion, and judgments about their relative severity are quantified. Or
+**Combining Results** from different methods and different populations
+to produce a set of disability weights that reflect a consensus view.
+Statistical models might be used to aggregate these results and ensure
+that they are consistent across different scales.
 
 #### Disability Weights data:
 
@@ -642,7 +654,8 @@ of 369 diseases and injuries in 204 countries and territories, 1990–2019
 [@GBD2020]. The table can be downloaded from the `{hmsidwR}` package,
 and contains the first two cause-specific disability weights for the
 year 2019, as well as the severity level of the condition set as to be
-mild, moderate and severe. More information on the dataset is on the
+mild, moderate, severe, and combined for selected communicable, and
+Non-communicable diseases. To access the data:
 
 ```         
 hmsidwR::disweights2019
@@ -664,7 +677,8 @@ disability_weights%>%
 ```
 
 The table here shows the first 6 rows of the disability weights for the
-specification, severity, and disability weight for the year 2019.
+specification, severity, and disability weights for the year 2019 for
+204 countries and territories.
 
 ```{r}
 #| label: tbl-disability-weights
@@ -676,10 +690,10 @@ disability_weights %>%
 ```
 
 If we focus on the first cause of disability for infectious disease, we
-can see that the severity level is 1, and the disability weight is
-0.191. This indicates that the condition is associated with a moderate
-level of severity and has a disability weight of 0.191, which reflects
-the impact of the condition on an individual's quality of life.
+can see that the disability weight varies along with the severity level.
+This indicates that the condition associated with a moderate level of
+severity has a disability weight of 0.057. This is set to reflect the
+impact of the severity condition on an individual's quality of life.
 
 ```{r}
 #| message: false
@@ -822,6 +836,7 @@ to calculate the YLLs, the YLDs and finally the DALYs.
 #| tbl-cap: "Germany lungcancer"
 
 germany_lungc %>% 
+  select(age,sex,prevalence,dx)%>%
   head()
 ```
 
@@ -834,7 +849,6 @@ YLLs for the lung cancer deaths in Germany in 2019.
 #| warning: false
 
 gelung_YLL <- germany_lungc%>%
-  select(-upper,-lower)%>%
   filter(sex=="both")%>%
   left_join(gho_lifetables%>%
               filter(year==2019,
@@ -848,78 +862,115 @@ gelung_YLL%>%
   head()
 ```
 
-Now to calculate the YLDs due to lung-cancer we need to consider not fatal disability status. This can appear in conjunction with other conditions,
-or morbidities, that are not fatal but are acting together with the
-lung-cancer[@porst2022]. The disability weights are available from GBD
-study[@ihmeuw/i2024] are the same as those found in the `disweights2019`
-dataset.
+Now to calculate the YLDs due to lung-cancer we need to consider not
+fatal disability status. This can appear in conjunction with other
+conditions, or morbidities, that are not fatal but are acting together
+with the lung-cancer[@porst2022]. The disability weights are available
+from GBD study[@ihmeuw/i2024] are the same as those found in the
+`disweights2019` dataset.
 
 ```{r}
 #| message: false
 #| warning: false
-#| label: tbl-disweights2019-all
-#| tbl-cap: "Disability Weights"
-library(readxl)
-dw2019 <- read_excel("data/inst/extdata/IHME_GBD_2019_DISABILITY_WEIGHTS_Y2020M010D15.xlsx")
-names(dw2019)<- dw2019[1,]
-dw2019 <- dw2019[-1,]
-head(dw2019)
+#| label: tbl-disweights2019-lung
+#| tbl-cap: "Lung cancer - Disability Weights"
+hmsidwR::disweights2019%>%
+  filter(str_detect(sequela,"lung"))%>%
+  select(sequela,cause1,severity,dw)
+
 ```
 
 ```{r}
-dw2019 %>%
-  janitor::clean_names()%>%
-  filter(str_detect(sequela,
-                    "Metastatic phase of lung, bronchus, and trachea cancer"))%>%
-  select(sequela,disability_weight)
+#| echo: false
+
+lung_dw <- hmsidwR::disweights2019%>%
+  filter(str_detect(sequela,"lung"))%>%
+  select(sequela,cause1,severity,dw)
+paste(lung_dw$sequela[1],"dw = ",lung_dw$dw[1]);
+paste(lung_dw$sequela[2],"dw = ",lung_dw$dw[2])
+  
 ```
 
-So, 0.451 is the disability weight for the metastatic phase of lung, or lung cancer. We can use this value together with the prevalence of the disease show how to calculate the YLDs for the lung cancer deaths in Germany in 2019. The number of lung cancer cases in Germany in 2019 is 34,000, and the prevalence of the disease is 0.0004 for all ages and sex. While considering 5-yrs age groups with a common disability weight of 0.451. Total YLDs can be calculated as the sum of the product of the prevalence and the disability weight for each age group.
-
-$$
-YLLs = \sum_{i=1}^{n}  prevalence_i \times dw 
-$$
-
-
-```{r}
-#| message: false
-#| warning: false
-
-library(readxl)
-lung_cancer_cases_in_Germany_2019 <- read_excel("data/inst/extdata/lung cancer cases in Germany 2019.xlsx")
-head(lung_cancer_cases_in_Germany_2019)
-```
+So, 0.451 is the disability weight for the metastatic phase of lung, or
+lung cancer. We can use this value together with the prevalence of the
+disease show how to calculate the YLDs for the lung cancer deaths in
+Germany in 2019. The number of lung cancer cases in Germany in 2019 is
+34,000, and the prevalence of the disease is 0.0004 for all ages and
+sex. While considering 5-yrs age groups with a common disability weight
+of 0.451. Total YLDs can be calculated as the sum of the product of the
+prevalence and the disability weight for each age group.
 
 ```{r}
 #| message: false
 #| warning: false
-#| label: tbl-lung_cancer_cases_in_Germany_2019
+
+prev_germany_lungc <- germany_lungc%>%
+  filter(sex=="both")%>%
+  select(age,prevalence)
+
+prev_germany_lungc %>%head()
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| label: tbl-prev_germany_lungc_2019
 #| tbl-cap: "Lung Cancer Cases in Germany 2019"
 
-gelung_YLd <- lung_cancer_cases_in_Germany_2019 %>%
-  janitor::clean_names()%>%
-  filter(sex=="Both sexes")%>%
-  select(age,sex,prevalence=value)%>%
+gelung_YLD <- prev_germany_lungc %>%
   mutate(dw=0.451,
          YLD=prevalence*dw)
 
-gelung_YLd%>%
+gelung_YLD%>%
   head()
 ```
 
 ```{r}
-(YLLs <- sum(gelung_YLL$YLL))
-(YLDs <- sum(gelung_YLd$YLD))
-(DALYs <- YLLs + YLDs)
+gelung_YLL%>%
+  select(age,YLL)%>%
+  left_join(gelung_YLD%>%select(age,YLD))%>%
+  mutate(DALY=YLL+YLD)
 ```
 
+```{r}
+(YLLs <- sum(gelung_YLL$YLL))
+(YLDs <- sum(gelung_YLD$YLD))
+(DALYs <- YLLs + YLDs)
 
-Per 1000 population, the YLLs, YLDs, and DALYs for lung cancer deaths in Germany in 2019 are 821, 1, and 822, respectively. These metrics provide a comprehensive view of the impact of lung cancer on the health status of the population, combining the years of life lost due to premature death with the years lived with disability.
+```
+
+Per 1000 population, the YLLs, YLDs, and DALYs for lung cancer deaths in
+Germany in 2019 are 821, 1, and 822, respectively. These metrics provide
+a comprehensive view of the impact of lung cancer on the health status
+of the population, combining the years of life lost due to premature
+death with the years lived with disability.
 
 ```{r}
 DALYs/1000 # DALYs per 1000 population
 ```
 
+The value of the metrics change if we adopt different disability
+weights. Even if it can be noted that the value for the YLDs is very
+small compared to the contribution provided by the YLLs in the
+calculation fo DALYs.
 
+For instance, consider the disability weights for lung cancer calculated
+by a study[@ock2019] tailored onto Korea population. They are subdivided
+in 4 groups by stages from 1 to 4.
 
+|                                              |                    |       |       |
+|-----------------------------------|-------------|-------------|-------------|
+| Cause of Disease                             | Disability Weights | lower | upper |
+| Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
+| Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
+| Trachea, bronchus and lung cancers (stage 3) | 0.758              | 0.710 | 0.801 |
+| Trachea, bronchus and lung cancers (stage 4) | 0.906              | 0.873 | 0.932 |
 
+```{r}
+#| echo: false
+gelung_YLD%>%
+  mutate(dw_korea_lc1=0.600,
+         dw_korea_lc2=0.738,
+         dw_korea_lc3=0.758,
+         dw_korea_lc4=0.906)
+```

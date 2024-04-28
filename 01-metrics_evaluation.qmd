@@ -1,3 +1,10 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+bibliography: references.bib
+---
+
 # Introduction to Metrics Evaluation {#sec-01-metrics_evaluation}
 
 > **"The concept of health also has highly subjective connotations,
@@ -116,10 +123,30 @@ the rest of the century.
 With the growth of epidemiology the 20th century was a key century for
 the expansion of the health metrics, the use of life table and
 modification of expected survival time to include weights metrics.
-Measures like **Quality-Adjusted Life Years (QALYs)**, and
-**Disability-Adjusted Life Years (DALYs)**[@murray1994a] assessed to
-capturing not just mortality but also the impact of diseases on overall
-health and well-being.
+
+The term **Summary Measures of Population Health (SMPH)**[@summary2002]
+was established in the field, originating from the need to encapsulate
+both fatal and non-fatal health outcomes into a single, comprehensive
+measure, representing a significant evolution in health metrics. Used
+for various purposes, the SMPH compare the health of populations and
+include the contributions of different diseases, injuries and risk
+factors to the total disease burden in a population. SMPH, also referred
+to as a composite indicator[@hyder2012], is divided into two broad
+families: health expectancies and health gaps.
+
+**Health expectancies** are summary measures that combine information on
+mortality and morbidity to represent the average number of years that an
+individual can expect to live in good health. Such as **healthy life
+expectancy (HALE)** and the **quality adjusted life expectancy (QALE)**
+using health-related quality of life.
+
+**Health gaps**, on the other hand, represent the difference between the
+current health status of a population and an ideal health situation,
+providing a measure of the potential for improvement in health outcomes.
+Divided into the **disability adjusted life year (DALY)**[@murray1994a]
+in the global burden of disease (GBD) study and the **quality adjusted
+life year (QALY)** used as the outcome index of the cost-utility
+analysis.
 
 In the contemporary era, the integration of computing power and big data
 has further transformed health metrics. Today, we have complex models,
@@ -297,9 +324,9 @@ outcomes. It adjusts overall life expectancy by the amount of time lived
 in less than perfect health. This is calculated by subtracting from the
 life expectancy a figure which is the number of years lived with
 disability multiplied by a weighting to represent the effect of the
-disability[^01-metrics_evaluation-1][@healthy].
+disability[^1][@healthy].
 
-[^01-metrics_evaluation-1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
+[^1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
 
 ### Healthy Life Years (HLY)
 
@@ -344,3 +371,17 @@ keeping track of the progresses towards longer terms health objectives
 over time. The metrics are also used to inform public health policies,
 healthcare interventions, and resource allocation decisions, helping to
 prioritize health needs and target interventions effectively.
+
+The investigation into finding updated metrics is a sustained
+commitment, aiming to develop new measures that are tailored to the
+evolving landscape of the health field. Recently, a new Summary Measure
+of Population Health (SMPH) was proposed, known as **Well-being-Adjusted
+Health Expectancy (WAHE)**. This measure provides an estimate of the
+number of life years equivalent to full
+health[@muszynska-spielauer2022]. WAHE incorporates both the traditional
+health status indicators and well-being factors, thus offering a more
+comprehensive assessment of the population's health that aligns with
+contemporary health priorities. This approach reflects a growing
+recognition that health metrics should not only account for physical and
+clinical indicators but also consider the psychological and overall
+well-being of individuals.
