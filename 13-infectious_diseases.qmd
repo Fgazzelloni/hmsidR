@@ -6,8 +6,6 @@ library(tidyverse)
 #source("R/_common.R")
 ```
 
-## Overview
-
 Emerging infectious diseases are a global concern, causing millions of
 deaths annually. Understanding their behavior and predicting outbreaks
 is crucial for public health. Accurate predictions help plan

@@ -1,12 +1,10 @@
-# Introduction to Data Visualizaion {#sec-09-data_visualization}
+# Introduction to Data Visualization {#sec-09-data_visualization}
 
 ```{r}
 #| echo: false
 library(tidyverse)
 #source("R/_common.R")
 ```
-
-## Overview
 
 One of my favorite topics to practice with for understanding more about
 data to be analysed is visualization. Through visualizing data we can

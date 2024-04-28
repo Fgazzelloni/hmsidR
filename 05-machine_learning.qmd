@@ -252,7 +252,7 @@ package with `geom_line()` and `geom_point()`
 functions[^05-machine_learning-3].
 
 [^05-machine_learning-3]: More about data visualizations techniques are
-    in chapter @sec-data_visualization.
+    in chapter @sec-09-data_visualization.
 
 ```{r}
 #| eval: false
@@ -381,7 +381,7 @@ context of the data and potential confounding variables before drawing
 conclusions about causality or making predictions based solely on this
 model. Other important factors influencing the spread are social
 behavior and vaccination. We will talk more about infectious diseases
-spread in section 4 @sec-infectious_diseases.
+spread in section 4 @sec-13-infectious_diseases.
 
 Now calculate the prediction, with the `predict()` function on new data,
 30 days forward in time.
@@ -503,7 +503,7 @@ $$ \frac{dR}{dt} = \gamma \cdot I $$
 In this example we simulate data of an epidemic to build a SEIR
 (susceptible, exposed, infected, recovered) model, a case a little more
 complicated than just making a SIR (susceptible, infected, recovered)
-model which we will see in more details in @sec-covid19.
+model which we will see in more details in @sec-14-covid19.
 
 For this example we use a package named `{deSolve}` which solves
 differential equations.

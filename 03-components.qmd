@@ -949,25 +949,25 @@ death with the years lived with disability.
 DALYs/1000 # DALYs per 1000 population
 ```
 
-The value of the metrics change if we adopt different disability
-weights. Even if it can be noted that the value for the YLDs is very
-small compared to the contribution provided by the YLLs in the
-calculation fo DALYs.
+The value of the metrics changes when different disability weights are adopted. It is noteworthy that the value for the Years Lived with Disabilities (YLDs) is often quite small compared to the contribution made by the Years of Life Lost (YLLs) in the calculation of Disability-Adjusted Life Years (DALYs). This disparity highlights how mortality frequently dominates the overall disease burden in many health evaluations, underscoring the critical impact of premature death on public health metrics.
 
-For instance, consider the disability weights for lung cancer calculated
-by a study[@ock2019] tailored onto Korea population. They are subdivided
-in 4 groups by stages from 1 to 4.
+For instance, consider the disability weights for lung cancer as calculated in a study tailored to the Korean population[@ock2019]. These weights are subdivided into four groups corresponding to the stages of the disease, from 1 to 4. Each stage reflects increasing severity and a corresponding increase in the disability weight. Such gradations are crucial for accurately reflecting the progression of the disease and its escalating impact on patients' lives. This differentiation allows health policymakers and researchers to fine-tune interventions and allocate resources more effectively, targeting the stages that contribute most significantly to health deterioration.
+
 
 |                                              |                    |       |       |
-|-----------------------------------|-------------|-------------|-------------|
+|-----------------------------|--------------|--------------|--------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
 | Trachea, bronchus and lung cancers (stage 3) | 0.758              | 0.710 | 0.801 |
 | Trachea, bronchus and lung cancers (stage 4) | 0.906              | 0.873 | 0.932 |
 
+
+Understanding the nuances of how disability weights influence the overall calculations of DALYs can guide more informed decisions in health care planning and policy-making. It emphasizes the importance of comprehensive disease management strategies that address both the prevention of disease and the mitigation of its impact throughout all stages of its progression.
+
 ```{r}
 #| echo: false
+#| eval: false
 gelung_YLD%>%
   mutate(dw_korea_lc1=0.600,
          dw_korea_lc2=0.738,
