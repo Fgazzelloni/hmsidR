@@ -30,28 +30,33 @@ risk factors include:
     and excessive alcohol consumption are major risk factors for many
     chronic diseases and injuries, including heart disease, stroke,
     cancer, and liver disease.
+
 -   **Environmental factors**: Exposure to pollutants, such as air
     pollution and toxic chemicals, can increase the risk of certain
     diseases and injuries.
+
 -   **Infections**: Many diseases, such as tuberculosis, HIV/AIDS, and
     malaria, are caused by infectious agents.
+
 -   **Poverty**: People living in poverty are often more susceptible to
     health problems due to limited access to healthcare, healthy food,
     and safe living conditions.
+
 -   **Aging**: As people get older, they are at an increased risk of
     many health problems, including chronic diseases and disabilities.
+
 -   **Genetics**: Some diseases and injuries are caused by genetic
     factors, such as a genetic predisposition to certain cancers.
+
 -   **Injuries**: Injuries, such as falls, road traffic accidents, and
     violence, can also contribute to the burden of diseases and
     injuries.
-
-\
 
 ```{r}
 #| message: false
 #| warning: false
 #| echo: false
+#| eval: false
 #| fig-cap: "Causal relationships leading to fueling DALYs value"
 # install.packages("devtools")
 # devtools::install_github("r-causal/ggdag")

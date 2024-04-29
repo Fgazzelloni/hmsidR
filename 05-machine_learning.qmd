@@ -47,13 +47,15 @@ stochastic elements such as random interactions between individuals.
 ## What is a machine learning model?
 
 And how it differs from statistical models (deterministic and
-stochastic) is all a matter of parameter calibration. The difference
-between a deterministic and stochastic model is key to understanding
-when machine learning comes into play. Machine learning models, learn
-from data to automatically adjust their parameters, optimizing them to
-minimize errors or maximize performance on a given task. They are more
-flexible and adaptable to complex data patterns compared to traditional
-statistical models.
+stochastic) is all a matter of parameter calibration. Understanding the
+differences between deterministic and stochastic models is crucial for
+effectively applying machine learning techniques, as it informs the
+selection of the appropriate modeling approach based on the data
+characteristics and analysis goals. Machine learning models learn from
+data to automatically adjust their parameters, optimizing them to
+minimize errors or maximize performance on a given task. Compared to
+traditional statistical models, they are more flexible and adaptable to
+complex data patterns.
 
 The emergence of infections is an ongoing evolution and adaptation
 [@broemeling2021]. In the late 1970s, Dr. René Dubos believed that '*the
@@ -83,13 +85,24 @@ prediction, they operate on different principles:
 > machine learning models learn patterns from data[@baker2018].
 
 Before delving deep into machine learning techniques for analyzing
-health data and metrics, we need to proceed step by step in **building a
-modeling framework**. This requires a thorough understanding of the
-modeling procedure. Therefore, we start by building a linear regression
-model, then transition to **applying a logistic regression model**,
-which is the most suitable for analyzing our data. Finally, we identify
-the most appropriate model adjustment with automated parameter
-calibration.
+health data and metrics, it's essential to proceed step by step in
+building a modeling framework. This approach begins with a thorough
+understanding of the modeling procedures. Initially, we start by
+constructing a **linear regression model**, as it helps establish
+relationships between variables with a simple, interpretable model. It’s
+effective for continuous outcome data and provides a baseline for model
+performance. Then we transition to a **logistic regression model**,
+useful when dealing with binary or categorical outcome variables, which
+are common in medical data (e.g., disease presence or absence). This
+model type allows for probability estimation, which is more appropriate
+for classification tasks.
+
+Finally, we refine our models by implementing automated parameter
+calibration to identify the most appropriate model adjustments. This
+step involves techniques like grid search, random search, or Bayesian
+optimization to find the optimal model parameters to ensures the model
+not only fits the current data well but also generalizes effectively to
+new, unseen data.
 
 ## The steps of building a model
 
@@ -103,48 +116,51 @@ Let's break this down further: Suppose we have a response variable,
 denoted as $y$, which represents the number of deaths or infections in
 our dataset. Additionally, we have predictor variables $x_1, x_2, ...$,
 which are other factors that may influence the level of $y$. These
-predictor variables could include factors such as population density,
-temperature, vaccination rates, etc. The goal of model development is to
-create a mathematical function that captures the relationship between
-the response variable $y$ and the predictor variables $x_i$.
+predictor varies based on the type of analyses, and could include
+factors such as demographics, secondary health outcomes (morbidity),
+population density, temperature, vaccination rates, etc. The goal of
+model development is to create a mathematical function that captures the
+relationship between the response variable $y$ and the predictor
+variables $x_i$.
 
 This function, often referred to as the model equation or model
 function, is typically represented as:
 
-$$y = f(x_1, x_2, ...) + \epsilon$$
+$$y = f(x_1, x_2, ...) + \epsilon$$ {#eq-simple-model}
 
 Here, $f$ represents the relationship between the predictors and the
 response, and $epsilon$ represents the error term, which captures the
 difference between the observed values of $y$ and the values predicted
-by the model. To estimate the coefficients of the model function, we use
-statistical techniques such as linear regression (continuous response
-variable), logistic regression (binary response variable), or machine
-learning algorithms (with tuning parameters). These techniques analyze
-the relationship between the predictors and the response in the dataset
-and determine the optimal coefficients that minimize the difference
-between the observed $(y)$ values and the values predicted by the model
-$(\hat y)$ .
+by the model. To estimate the coefficients of the model function, we
+employ statistical techniques such as **linear regression** for
+continuous response variables, **logistic regression** for binary
+response variables, and various **machine learning algorithms** that
+include tuning parameters to handle more complex datasets and model
+specifications. These techniques analyze the relationship between the
+predictors and the response in the dataset and determine the optimal
+coefficients that minimize the difference between the observed $(y)$
+values and the values predicted by the model $(\hat y)$ .
 
 Once the model coefficients are estimated, we can use the model function
-to predict the value of $y$ for new sets of predictor variables $x_i$.
-This allows us to simulate the effect of different scenarios or make
-predictions about future outcomes based on the relationships identified
-in the data. Overall, the model development process is a crucial step in
-the modeling framework, as it sets the foundation for understanding and
-analyzing the relationships between variables in a given system. It
-enables us to extract insights from the data, make predictions, and
-inform decision-making in various fields, including epidemiology, public
-health, economics, and environmental science.
+to predict future values of $y$ for new values of predictor variables
+$x_i$. This allows us to simulate the effect of different scenarios or
+make predictions about future outcomes based on the relationships
+identified in the data. Overall, the model development process is a
+crucial step in the modeling framework, as it sets the foundation for
+understanding and analyzing the relationships between variables in a
+given system. It enables us to extract insights from the data, make
+predictions, and inform decision-making in various fields, including
+epidemiology, public health, economics, and environmental science.
 
-### The Cholera example
+### Modeling Cholera
 
 The first dataset used is from the `{HistData}` package
 `HistData::CholeraDeaths1849`, made of
 `r dim(HistData::CholeraDeaths1849)[1]` observations and
-`dim(HistData::CholeraDeaths1849)[2]` variables, with 2 causes of deaths
-cholera and diarrhaea. For this example we select just the deaths due to
-cholera within 12 months in 1849. Let's have a look at the first 6 rows
-of the dataset:
+`r dim(HistData::CholeraDeaths1849)[2]` variables, with 2 causes of
+deaths cholera and diarrhea. For this example we select just the deaths
+due to cholera within 12 months in 1849. Let's have a look at the first
+6 rows of the dataset:
 
 ```{r}
 #| message: false
@@ -161,7 +177,16 @@ cholera %>% head()
 
 The response variable is `y = deaths` due to cholera, and the only
 predictor we are considering on this first step is `x = date` in days
-from 1849-01-01 to 1849-12-31.
+from 1849-01-01 to 1849-12-31. Let's visualize our data by using the
+`{ggplot2}` package with `geom_line()` as layer.
+
+```{r}
+cholera %>%
+  ggplot(aes(x=date,y=deaths))+
+  geom_line()+
+   labs(title="Deaths due to Cholera in London (1849)",
+       x="Date",y="N. deaths")
+```
 
 Now let's observe in mathematical terms what happens when we start
 investigating the relationship between the response and the predictor,
@@ -191,7 +216,7 @@ our model function.
 
 $$
 \hat y = \hat \beta_0+\hat \beta_1x
-$$
+$$ {#eq-lm-estimates}
 
 where $\hat \beta_0$ is the estimate value of the intercept, and
 $\hat \beta_1$ the estimated value of the slope. So, the estimated data
@@ -200,34 +225,34 @@ $(\epsilon)$:
 
 $$
 y \sim \hat y + \epsilon
-$$
+$$ {#eq-model-error}
 
 The difference between $y$ and $\hat y$ is the error we make when
 applying a model.
 
 $$
 y- \hat y = \epsilon
-$$
+$$ {#eq-error}
 
 Reducing the error $(\epsilon)$ as much as possible can lead to better
 fit of the model.
 
-While the case of being in the presence of just one predictor
-influencing our response variable might be useful for educational
-purposes, as in the data above, the scenario with more than one
-predictor can be more realistic and it alters the model function to
-become more complex. This is referred to as a multilinear model
-function.
+While the case of having just one predictor influencing our response
+variable might be useful for educational purposes, as illustrated in the
+data above, scenarios involving more than one predictor are more
+realistic and lead to increased complexity in the model function. This
+situation typically results in a multivariate linear model, often
+referred to as **multiple linear regression**.
 
-$$y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n$$
+$$y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n$$ {#eq-mlm}
 
 In this case more than one predictor is used to investigate the varying
-level of the response variable. A compact form of the model function
+effects of the response variable. A compact form of the model function
 with more than one predictor can be stated as:
 
 $$
 y=\beta_0 + \sum_{i=1}^{p}{\beta_ix_i}= \beta_0+\beta X
-$$
+$$ {#eq-mlm-compact}
 
 In this notation, the capital $X$ takes the form of a matrix containing
 various $x_i$: $X=(x_1,x_2,x_3,...,x_p)$, the predictors, and the
@@ -238,29 +263,64 @@ estimated.
 > be gained in order to inform public health interventions and policies
 > aimed at reducing the burden of this disease.
 
-In the case of **CholeraDeaths1849**, the application of a model
-function requires one more step to be taken. First we visualize how the
-response variable relates to each of the predictors in order to
-establish if it is the case of a linear or non-linear relationship. In
-case of infectious diseases, the trend in time is usually starting at
-some point and then grows to reach a pick which is the highest level of
-infection spread to eventually slow down to were it started. This is
-generally represented with a logistic model, which is not linear.
+If we were to investigate this spread as we hadn't seen before and
+looked at some point in time, let's say in between June and August 1849
+we could have thought that the trend was linear and growing in time. And
+actually is until some point, as we know what happened next. In the
+first plot the model line (blue line) is obtained with the
+`geom_smooth()` function with the specification `method = "lm"` . In the
+second plot we have used all data up to August, and we can clearly see
+the infections spread smoothly to finally explode shaping an elbow
+curve. The `geom_smooth()` selected the best function that suit the data
+with a **locally estimated scatterplot smoothing**, or **LOESS**, which
+is a nonparametric method for smoothing a series of data in which no
+assumptions are made about the underlying structure of the data.
 
-To visualize the spread of cholera in time we use the `{ggplot2}`
-package with `geom_line()` and `geom_point()`
-functions[^05-machine_learning-3].
+```{r}
+#| layout-ncol: 2
+#| label: fig-cholera-section
+#| fig-cap: 
+#|    - "Deaths due to Cholera in London (June to August 1849)"
+#|    - "Deaths due to Cholera in London (January to August 1849)"
+
+cholera %>%
+  filter(date >= "1849-06-01" & date <= "1849-08-01") %>%
+  ggplot(aes(x=date,y=deaths))+
+  geom_point()+
+  geom_smooth(method = "lm", se=F)+
+   labs(title="Deaths due to Cholera in London (June to August 1849)",
+        subtitle="Linear Model",
+       x="Date",y="N. deaths")
+
+cholera %>%
+  filter(date <= "1849-08-01") %>%
+  ggplot(aes(x=date,y=deaths))+
+  geom_point()+
+  geom_smooth(se=F)+
+   labs(title="Deaths due to Cholera in London (January to August 1849)",
+        subtitle = "method LOESS",
+       x="Date",y="N. deaths")
+```
+
+In the case of `CholeraDeaths1849`, and in the context of infectious
+diseases, the trend typically starts at a certain point, then increases
+to reach a peak—the highest level of infection spread—before eventually
+decreasing back to the initial level. This pattern is inherently
+**non-linear**.
+
+To visualize both linear and non-linear trends we can use a
+`geom_smooth()` function[^05-machine_learning-3], with `method = "lm"`
+for linear model and `method = "gam"` for applying a **general additive
+model**.
 
 [^05-machine_learning-3]: More about data visualizations techniques are
     in chapter @sec-09-data_visualization.
 
 ```{r}
 #| eval: false
-ggplot(cholera,aes(x=date,y=deaths))+
-  geom_line(linetype="dashed",linewidth=0.2)+
-  geom_point(shape=21,stroke=0.5)+
-  geom_smooth(method = "lm",
-              se=F)+
+ggplot(cholera, aes(x=date,y=deaths))+
+  geom_line()+
+  geom_smooth(method = "lm",se=F)+
   geom_smooth(method="gam", 
               color="darkred",se=F)
 ```
@@ -277,9 +337,9 @@ ggplot(cholera,aes(x=date,y=deaths))+
   geom_point(shape=21,stroke=0.5)+
   geom_smooth(method = "lm",se=F)+
   geom_smooth(method="gam", 
-              color="darkred",se=F)
+              color="darkred",se=F)+
   labs(title="Deaths due to Cholera in London (1849)",
-       x="Date",y="Cholera death")+
+       x="Date",y="N. deaths")+
   annotate(geom="text",
            x=mean(cholera$date),y=-10,
            label="linear")+
@@ -293,7 +353,7 @@ ggplot(cholera,aes(x=date,y=deaths))+
            colour = "blue")+
     annotate(geom="text",
            x=mean(cholera$date)-50,y=400,
-           label="logistic (non-linear)")+
+           label="gam (non-linear)")+
   annotate("curve", 
            x = mean(cholera$date)+20, 
            xend = mean(cholera$date)-20, 
@@ -340,6 +400,9 @@ on the distributional characteristics of the response variable, to
 represent the data mean trend.
 
 ```{r}
+#| message: false
+#| warning: false
+
 # Load the mgcv package
 library(mgcv)
 
@@ -448,19 +511,19 @@ time.
 
 $$
 {y}'=\frac{dy}{dt}= \frac{y_1 - y_0}{t_1-t_0}
-$$
+$$ {#eq-diff-eq}
 
 And this is explained by the variation of the predictors in time, the
 calculation is a derivative. Recall that the derivative of a constant is
 0, in our case $a$ is the constant. $$
 \frac{dy}{dt}= \frac{d(a+mx)}{dt}= m\frac{dx}{dt}
-$$ This equation describes how $y$ changes with respect to time $t$,
-taking into account the rate of change of $x$ with respect to time 't',
-and the constant slope $m$ of the line.
+$$ {#eq-lin-diff-eq} This equation describes how $y$ changes with
+respect to time $t$, taking into account the rate of change of $x$ with
+respect to time 't', and the constant slope $m$ of the line.
 
 $$
 y'=m\frac{dx}{dt}
-$$
+$$ {#eq-lin-diff-eq-2}
 
 To locate the machine learning models within the models framework, we
 can think about the scope of the analysis, which in this case is
@@ -478,11 +541,11 @@ In particular, these types of models are subdivided in:
 
 Mathematical Equation:
 
-$$ \frac{dS}{dt} = - \beta \cdot S \cdot I $$
+$$ \frac{dS}{dt} = - \beta \cdot S \cdot I $$ {#eq-ds}
 
-$$\frac{dI}{dt} = \beta \cdot S \cdot I - \gamma \cdot I $$
+$$\frac{dI}{dt} = \beta \cdot S \cdot I - \gamma \cdot I $$ {#eq-di}
 
-$$ \frac{dR}{dt} = \gamma \cdot I $$
+$$ \frac{dR}{dt} = \gamma \cdot I $$ {#eq-dr}
 
 2.  **Empirically Driven Model**: Empirically driven models do not have
     explicit mathematical equations like mechanistic models. Instead,
@@ -615,6 +678,8 @@ simulated_data <- cbind(simulated_data,
 ```
 
 ```{r}
+#| message: false
+#| warning: false
 # Load required packages
 library(randomForest)
 
@@ -647,6 +712,8 @@ print(paste("RMSE:", rmse))
 #### GAM - Generalized Additive Model (non-linear)
 
 ```{r}
+#| message: false
+#| warning: false
 library(tidymodels)
 library(mgcv)  # For GAM modeling
 
