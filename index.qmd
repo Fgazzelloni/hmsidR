@@ -11,29 +11,61 @@ engine: knitr
 ::: solutionbox-header
 ❗️The book is continuously being refined and expanded.
 :::
-
 :::
 
 \
-This book will teach you about health metrics such as Disability Adjusted Life Years (DALYs), Years of Life Lost (YLLs), Years Lived with Disabilities (YLDs), and others. It explains how to calculate these metrics and discusses their components in detail. You will explore the influence of infectious disease dynamics on trends in these metrics and learn how to apply machine learning models. The book equips you with all the necessary tools for data collection, analysis, and modeling.
+This book will teach you about health metrics such as Disability
+Adjusted Life Years (DALYs), Years of Life Lost (YLLs), Years Lived with
+Disabilities (YLDs), and others. It explains how to calculate these
+metrics and discusses their components in detail. You will explore the
+influence of infectious disease dynamics on trends in these metrics and
+learn how to apply machine learning models. The book equips you with all
+the necessary tools for data collection, analysis, and modeling.
 
-Think of it as a toolbox for assessing the health of a country and comparing it with others. You will also learn how to select the best tools for predicting future health trends using statistics, visualizing data, and working with maps in the R programming language.
+Think of it as a toolbox for assessing the health of a country and
+comparing it with others. You will also learn how to select the best
+tools for predicting future health trends using statistics, visualizing
+data, and working with maps in the R programming language.
 
-Consider this book your guide to understanding the health status of a population at both global and country levels, leveraging expertise in managing various statistical tools
+Consider this book your guide to understanding the health status of a
+population at both global and country levels, leveraging expertise in
+managing various statistical tools
 
 ## Audience and Utility of the Book
 
-This book serves both as a manual and a textbook for introductory courses in health metrics data analysis. Additionally, it provides valuable source code for practitioners and data scientists alike. This book offers a comprehensive set of tools for analyzing various types of data, specifically tailored for health data such as the burden of diseases to assess population's health status.
+This book serves both as a manual and a textbook for introductory
+courses in health metrics data analysis. Additionally, it provides
+valuable source code for practitioners and data scientists alike. This
+book offers a comprehensive set of tools for analyzing various types of
+data, specifically tailored for health data such as the burden of
+diseases to assess population's health status.
 
-It evaluates techniques that are most appropriate for certain analyses, while it recommends deprecating others. It will be interesting to discover which methods are most valuable for making predictions and which are better suited for evaluating data consistency.
+It evaluates techniques that are most appropriate for certain analyses,
+while it recommends deprecating others. It will be interesting to
+discover which methods are most valuable for making predictions and
+which are better suited for evaluating data consistency.
 
 ### Prerequisites
 
-Before delving into the book, it is beneficial for readers to have a basic understanding of health concepts and terminologies. Familiarity with fundamental statistical concepts can aid in comprehending the metrics discussed. Additionally, a grasp of basic epidemiological principles and awareness of global health challenges will enhance the reader's engagement. However, it's important to note that if this knowledge is not already in place, there is a dedicated section in the book that provides the necessary background. 
+Before delving into the book, it is beneficial for readers to have a
+basic understanding of health concepts and terminologies. Familiarity
+with fundamental statistical concepts can aid in comprehending the
+metrics discussed. Additionally, a grasp of basic epidemiological
+principles and awareness of global health challenges will enhance the
+reader's engagement. However, it's important to note that if this
+knowledge is not already in place, there is a dedicated section in the
+book that provides the necessary background.
 
-A basic knowledge of R programming language is required for those interested in the technical aspects of health data analysis, which cover a large part of this book. An open mindset and curiosity about the evolving field of health metrics are key prerequisites, as the book covers a spectrum from historical perspectives to modern machine learning applications. 
+A basic knowledge of R programming language is required for those
+interested in the technical aspects of health data analysis, which cover
+a large part of this book. An open mindset and curiosity about the
+evolving field of health metrics are key prerequisites, as the book
+covers a spectrum from historical perspectives to modern machine
+learning applications.
 
-Overall, a multidisciplinary approach, combining aspects of health sciences, statistics, and technology, will enrich the reader's experience.
+Overall, a multidisciplinary approach, combining aspects of health
+sciences, statistics, and technology, will enrich the reader's
+experience.
 
 ## Acknowledgements
 
@@ -45,7 +77,12 @@ Overall, a multidisciplinary approach, combining aspects of health sciences, sta
 
 The author of this book is *Federica Gazzelloni*, Actuary and
 Statistician by education and training. She is also a
-collaborator[^index-1] at the *Institute for Health Metrics and Evaluation (IHME)*, which inspired this work to serve as a manual providing formulas and code for working with health metrics. It guides on how to calculate metrics, analyze the state of health of a population, and deal with data related to the spread of infectious diseases.
+collaborator[^index-1] at the *Institute for Health Metrics and
+Evaluation (IHME)*, which inspired this work to serve as a manual
+providing formulas and code for working with health metrics. It guides
+on how to calculate metrics, analyze the state of health of a
+population, and deal with data related to the spread of infectious
+diseases.
 
 [^index-1]: If you'd like to know more about being a IHME collaborator
     have a look here:

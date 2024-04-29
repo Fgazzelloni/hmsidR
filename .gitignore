@@ -33,4 +33,4 @@ docs/
 *.run.xml
 *.*_cache/
 *.*_files/
-modeling/*.*
+/modeling/
