@@ -11,7 +11,7 @@ Learning Objectives
 ::: solutionbox-body
 -   How to manipulate data through feature engineering
 -   Select the most suitable model for your data
--   Learn how to apply machine learning algorithms
+-   Learn about machine learning algorithms
 :::
 :::
 
@@ -20,198 +20,83 @@ Learning Objectives
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-## Data Analytics versus Data Science
+Deciding on the best strategy for selecting and applying a specific
+machine learning model technique can be challenging. Best practices
+suggest a thorough understanding of the phenomenon to be modeled,
+followed by a data manipulation technique known as *feature engineering*
+before applying data to a specific model type. This initial step will
+allow the model to run more smoothly and quickly. As a critical stage in
+the preparation of machine learning data, feature engineering allows
+algorithms to perform better by making the data more amenable to
+processing. It involves creating new features from existing data based
+on domain knowledge or transforming data to improve the model's ability
+to discern patterns. For example, creating features like **moving
+averages** or differences between consecutive days can reveal trends and
+cycles that are not immediately apparent from raw data.
 
-It an ongoing debate that involves the distinction of the field of data
-analytics from that of data science. Essentially we need both, and for
-two reasons:
+A another example is the **standardization** process, which is crucial
+when dealing with variables measured in different units. It involves
+rescaling the features so they have a mean of zero and a standard
+deviation of one. This process is particularly important when variables
+span several orders of magnitude; without standardization, a model might
+incorrectly interpret the scale of a feature as a proxy for importance.
 
--   rigorous analysis of data available
--   provide a perspective on overall results
+Furthermore, the application of transformations, such as **logarithmic**
+scaling or the application of **spline** functions can help in managing
+skewed data or enhancing model ability to capture non-linear
+relationships, which result particularly useful in complex data
+modelings. In addition, tailored adjustments, and more sophisticated
+manipulations have been implemented over time to allow estimation of
+missing values in order to obtain customized, flexible, and more
+homogeneous data. For more information on feature engineering, see
+[@butcher2020] useful for effective machine learning strategy
+application, covering various techniques and appropriate use cases,
+focusing on practical understanding and implementation.
 
-Data analytics is mostly focused on analyzing data, which means
-collecting, checking, tidying and manipulating to finally apply ad hoc
-statistical techniques.
+## **Model selection strategies**
 
-Data science on the other side provide a overall conclusion about the
-data provided, reached through simulations, application of probabilities
-and declaring definitive conclusions sentencing about the significance
-of the data test on a particular matter of concern.
+When applying machine learning techniques to health metrics and the
+study of infectious diseases, it is crucial to select approaches that
+are not only robust but also contextually appropriate. Available machine
+learning models can greatly influence the outcomes of analyses, and
+therefore, our focus in this book will be on those models that are most
+pertinent to public health investigations.
 
-In this book we will go through both of them as we analyze data and then
-provide an overall conclusion about the answer of the research topic. To
-be more specific, an overview of different method of data loading and
-featuring selection is provided before to get into selecting the best
-model to use.
+The first step, once data is collected and prepared for analysis,
+involves conducting a thorough exploratory data analysis (EDA). This
+initial exploration helps to uncover the underlying structure of the
+data, the relationships between variables, and the way the response
+variable—which may also be referred to as the outcome variable—depends
+on predictors. This phase is critical as it informs the necessity of
+subsequent data adjustments and transformations.
 
-## Collecting and Analyzing Data
+Feature engineering may follow the exploratory phase. This process
+involves creating new variables from existing ones to enhance the
+machine learning models' ability to discern patterns and make accurate
+predictions. Decisions on feature engineering should be based on
+insights gained during EDA, with a focus on addressing specific
+challenges posed by the complexity of health data, such as
+non-linearity, high dimensionality, or the presence of interaction
+effects among variables.
 
-Collecting data to use in a research analysis involves a selection of
-sources and methods to use for optimizing computational time when
-downloading and reading the files. Once data is set and ready to use a
-further step is required to make the data suitable for the selected
-model.
+By strategically deploying machine learning techniques tailored to
+specific data, predictive accuracy and relevancy of models can improve,
+thereby enhancing their utility in public health decision-making and
+policy formulation.
 
-The source of data is an important variable. Generally, data can be
-downloaded by using an API (application programming interface) which
-allow the user to get access to data directly from source, with the use
-of specified back-end computations. There are alternatives at using an
-API; data can be obtained by downloading it directly into the computer,
-or loaded through library packages. Usually, available files are
-provided under various forms such as delimited type of files, .csv,
-.xls, .json, and other types.
+### Example 4: Rabies
 
-Here is an example of how to use an API for downloading a file directly
-onto your computer.
+The `rabies` dataset from the `hmsidwR` package contains information on
+deaths and disability-adjusted life years (DALYs) due to rabies and
+other causes in different regions of the world from 1990 to 2019.
+
+Consider only Asia and the Global region, the number of DALYs due to
+both rabies and all cause mortality. The first thing to notice is that
+deaths rates and DALYs are on different units, rates and years
+respectively.
 
 ```{r}
-#| eval: false
-library(httr)
-url <- ""
-httr::GET(url = url)
-```
-
-### Download Data with APIs
-
-#### IHME Data API
-
-```{r}
-#| warning: false
-#| message: false
-library(httr)
-library(jsonlite)
 library(tidyverse)
-```
-
-SDG query input:
-
--   GetGoal - GetIndicator - GetTarget - GetLocation - GetAgeGroup -
-    GetScenario - GetSex
-
-SDG query input for results:
-
--   GetResultsByTarget - GetResultsByIndicator - GetResultsByLocation -
-    GetResultsByYear
-
-```{r}
-url="https://api.healthdata.org/sdg/v1/"
-key="YOUR-KEY-HERE"
-get_data <- function(url,key,sdg) {
-  library(httr)
-  library(jsonlite)
-  url <- paste0(url,"/",sdg)
-  headers <- c('Authorization'=key)
-  res <- GET(url, add_headers(headers))
-  data = fromJSON(rawToChar(res$content))
-  data = data$results
-}
-```
-
-Build the query to download results by adding specification of the data.
-
-```         
-GetResultsByLocation?location_id=86&indicator_id=1002&year=2019
-
-? location_id & indicator_id ...
-```
-
-Let's have a look at the cases of malaria in Italy in 2019:
-
-```{r}
-#| echo: false
-key="8ym9ht687svohiwtqiinfjd3gxq7vihc"
-```
-
-```{r}
-#| eval: false
-data <- get_data(url="https://api.healthdata.org/sdg/v1",
-         key=key,
-         sdg="GetResultsByLocation?location_id=86&indicator_id=1002&year=2019")
-data
-```
-
-### Synthetic Data
-
-```{r}
-# Load required packages
-library(deSolve)  # For solving differential equations
-library(ggplot2)  # For data visualization
-
-# Function to define the SEIR model
-seir_model <- function(time, state, parameters) {
-  with(as.list(c(state, parameters)), {
-    # Parameters
-    beta <- parameters[1]  # Transmission rate
-    sigma <- parameters[2]  # Rate of latent individuals becoming infectious
-    gamma <- parameters[3]  # Rate of recovery
-    
-    # SEIR equations
-    dS <- -beta * S * I / N
-    dE <- beta * S * I / N - sigma * E
-    dI <- sigma * E - gamma * I
-    dR <- gamma * I
-    
-    # Return derivatives
-    return(list(c(dS, dE, dI, dR)))
-  })
-}
-
-# Simulation parameters
-N <- 1000  # Total population size
-beta <- 0.3  # Transmission rate
-sigma <- 0.1  # Rate of latent individuals becoming infectious
-gamma <- 0.05  # Rate of recovery
-initial_state <- c(S = N - 1, E = 1, I = 0, R = 0)  # Initial state
-
-# Time vector
-times <- seq(0, 100, by = 1)
-
-# Solve the SEIR model
-output <- ode(y = initial_state, times = times, func = seir_model,
-              parms = c(beta = beta, sigma = sigma, gamma = gamma))
-
-# Convert output to data frame
-simulated_data <- as.data.frame(output)
-
-# Plot simulated data
-ggplot(simulated_data, aes(x = time)) +
-  geom_line(aes(y = S, color = "Susceptible")) +
-  geom_line(aes(y = E, color = "Exposed")) +
-  geom_line(aes(y = I, color = "Infectious")) +
-  geom_line(aes(y = R, color = "Recovered")) +
-  labs(title = "Simulation of SEIR Model", x = "Time", y = "Population") +
-  scale_color_manual(values = c("Susceptible" = "#29306c", "Exposed" = "orange",
-                                 "Infectious" = "#a60845", "Recovered" = "#a8bd3a")) 
-
-```
-
-Once data is on your computer available and ready to use, the next step
-is to have a look at it and decide whether to perform some adjustment to
-the data to make it suitable for your model.
-
-This step includes:
-
--   data manipulation/wrangling
--   featuring engineering
--   exploratory data analysis
-
-### Feature Engineering
-
-Identifying the most relevant information within the data representing
-it in a way that enhances the model's ability to learn patterns and make
-accurate predictions, involves the process of selecting, transforming,
-and creating new features (variables) from raw data. This is what is
-meant with **feature engineering**.
-
-Let's look at the deaths rates due to rabies and reshape the data to
-make a machine learning model that would take consideration of the
-deaths rates due to all causes within a time frame of 29 years from 1990
-to 2019 in Asia and the Global region. In addition we consider the
-number of DALYs due to both rabies and all cause mortality. The first
-thing to notice is that deaths rates and DALYs are on different units,
-rates and years respectively.
-
-```{r}
 rabies <- hmsidwR::rabies%>%
   select(-upper,-lower)%>%
   pivot_wider(names_from = measure,values_from = val)%>%
@@ -283,9 +168,7 @@ rec %>%
   prep()%>%juice()%>%head
 ```
 
-### Machine Learning Modeling Techniques
-
-#### Random Forest
+## Random Forest
 
 There are various type of modeling that can be used, let's get started
 with a random forest, this choice is due to this type of algorithm which
@@ -369,7 +252,3 @@ rf_fit %>%
    coord_fixed() +
    expand_limits(x = 0, y = 0)
 ```
-
-#### 
-
-## Conclusion

@@ -98,8 +98,10 @@ of Washington, 2020. Available from
 **Global Health Observatory data repository**. Available from
 [https://apps.who.int/gho/data/](https://apps.who.int/gho/data/node.main.LIFECOUNTRY?lang=en).
 
+::: {.content-visible when-format="html"}
 ## Code of Conduct
 
 Please note that this book is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
+:::

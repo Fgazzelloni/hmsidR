@@ -1,9 +1,10 @@
 # Predictive Modeling and Beyond {#sec-08-predictions}
 
+
+
 ```{r}
 #| echo: false
-library(tidyverse)
-#source("R/_common.R")
+ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 ::: solutionbox
@@ -115,11 +116,11 @@ forecasts and insights into underlying trends and patterns.
     and ARIMA(1,0,0)
 
 ```{r}
-suppressPackageStartupMessages({
-  library(tidyverse)
-  library(hmsidwR)
-  library(fpp3)
-})
+#| message: false
+#| warning: false
+library(tidyverse)
+library(hmsidwR)
+library(fpp3)
 ```
 
 ```{r}
@@ -228,7 +229,7 @@ fit |>
   geom_line(color="purple")
 ```
 
-### partial autocorrelations
+### Partial Autocorrelations
 
 ```{r}
 sdi_fr_ts|>
@@ -241,7 +242,7 @@ sdi_fr_ts|>
   gg_tsdisplay(y = value,plot_type = "partial")
 ```
 
-### Model ensamble
+### Model Ensembles
 
 ```{r}
 caf_fit <- sdi_fr_ts|>

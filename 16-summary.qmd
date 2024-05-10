@@ -2,8 +2,7 @@
 
 ```{r}
 #| echo: false
-library(tidyverse)
-#source("R/_common.R")
+ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 ::: solutionbox
@@ -20,7 +19,7 @@ Learning Objectives
 :::
 :::
 
-## Overview
+
 
 In this chapter, we delve into two primary learning objectives aimed at
 enhancing our understanding of public health dynamics: **estimating the
@@ -87,8 +86,7 @@ ts_rabies %>%
 ts_rabies%>%
   model(stl = STL(val))%>%
   components() %>%
-   autoplot() #+
-  #theme_hmsid()
+   autoplot() 
 ```
 
 ```{r}
@@ -115,8 +113,7 @@ rabies %>%
   ggplot(aes(x=year,y=val,group=location,color=location))+
   geom_line()+
   labs(title="DALYs trend of Rabies",
-     subtitle = "1990 to 2020",y="DALYs")#+
-  #theme_hmsid()
+     subtitle = "1990 to 2020",y="DALYs")
 ```
 
 Assume the estimates made by the IHME are now our observed values, apply
@@ -158,6 +155,8 @@ the adjusted R-squared in case of more than one predictor.
 Let's make a random forest model
 
 ```{r}
+#| message: false
+#| warning: false
 library(randomForest)
 myrf<- randomForest::randomForest(formula= val ~.,data= dat)
 
@@ -184,8 +183,7 @@ dat2 %>%head
 ```
 
 ```{r}
-#| fig-align: center
-
+#| fig.align: center
 
 mod_rf2<- randomForest::randomForest(formula= dalys ~.,data= dat2)
 
@@ -195,8 +193,7 @@ cbind(
   ggplot(aes(x=year))+
   geom_line(aes(y=dalys,group=location,color=location))+
   geom_line(aes(y=pred,group=location),color="red")+
-  scale_color_manual(values=c("#29306c","#f8bc05"))#+
- # theme_hmsid()
+  scale_color_manual(values=c("#29306c","#f8bc05"))
 ```
 
 ### Machine Learning
@@ -277,7 +274,7 @@ rf_tune <- tune_grid(
 Model selection
 
 ```{r}
-best_model <- select_best(rf_tune, "rmse")
+best_model <- select_best(rf_tune)
 best_model
 ```
 
@@ -301,8 +298,26 @@ cbind(dat2,predictions)%>%
   ggplot(aes(x=year))+
   geom_line(aes(y=dalys,group=location,color=location))+
   geom_line(aes(y=.pred,group=location),color="red")+
-  scale_color_manual(values=c("#29306c","#f8bc05"))#+
-  #theme_hmsid()
+  scale_color_manual(values=c("#29306c","#f8bc05"))
 ```
 
 ## Health metrics countries comparison
+
+The Global Burden of Disease (GBD) study provides a comprehensive and up to date assessment of health metrics across countries. Let's compare the levels of health metrics in different countries.
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

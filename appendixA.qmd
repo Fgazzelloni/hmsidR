@@ -1,5 +1,12 @@
 # Life tables and Life expectancy {#sec-appendixA}
 
+```{r}
+#| echo: false
+library(tidyverse)
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
+
 Back in the 1700s the Swiss mathematician and physicist Daniel Bernoulli
 (1700 - 1782) developed the use of a life table model by differentiating
 life tables based on specific causes of death [see @kovacheva2017, and

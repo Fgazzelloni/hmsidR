@@ -1,5 +1,10 @@
 # Spatial data modeling and Visualization {#sec-11-spatials}
 
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
 ::: solutionbox
 ::: solutionbox-header
 ::: solutionbox-icon
@@ -99,7 +104,7 @@ df_com
 ### Mapping infections
 
 There are various ways to map infections, here we'll see three type of
-maps made with {ggplot2}, {ggmap}, and {laeflet}.
+maps made with `{ggplot2}`, `{ggmap}`, and `{laeflet}`.
 
 #### Map with ggplot2
 
@@ -220,6 +225,7 @@ locations.
 #| fig-height: 2
 #| fig-align: center
 #| fig-cap: "Euclidean Distance representation"
+
 library(ggdag)
 dagify(y ~ x,
        exposure = "x",
@@ -370,4 +376,3 @@ ggplot() + geom_histogram(data = results,
   ylab("Absolute frequency")
 ```
 
-\

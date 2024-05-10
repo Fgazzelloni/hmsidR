@@ -1,0 +1,70 @@
+# Collecting data {#sec-appendixE}
+
+## Collecting Data with APIs
+
+Collecting data to use in a research analysis involves a selection of
+sources and methods to use for optimizing computational time when
+downloading and reading the files. Once data is set and ready to use a
+further step is required to make the data suitable for the selected
+model.The source of data is an important variable. Generally, data can
+be downloaded by using an API (application programming interface) which
+allow the user to get access to data directly from source, with the use
+of specified back-end computations. There are alternatives at using an
+API; data can be obtained by downloading it directly into the
+computer,or loaded through library packages. Usually, available files
+are provided under various forms such as delimited type of files,
+.csv,.xls, .json, and other types.Here is an example of how to use an
+API for downloading a file directly onto your computer.
+
+```{r}
+#| eval: false
+library(httr)
+url <- ""
+httr::GET(url = url)
+```
+
+### Download Data with APIs
+
+#### IHME Data API
+
+```{r}
+#| warning: false
+#| message: false
+library(httr)
+library(jsonlite)
+library(tidyverse)
+
+# `SDG query input:- GetGoal - GetIndicator - GetTarget - GetLocation - GetAgeGroup - GetScenario - GetSexSDG 
+# query input for results:- GetResultsByTarget - GetResultsByIndicator - GetResultsByLocation - 
+# GetResultsByYear`
+
+
+# url="https://api.healthdata.org/sdg/v1/"key="YOUR-KEY-HERE"
+
+get_data <- function(url,key,sdg) {  
+library(httr)  
+library(jsonlite)  
+url <- paste0(url,"/",sdg)  
+headers <- c('Authorization'=key)  
+res <- GET(url, add_headers(headers))  
+data = fromJSON(rawToChar(res$content))  
+data = data$results
+}
+```
+
+Build the query to download results by adding specification of the data.
+
+`GetResultsByLocation?location_id=86&indicator_id=1002&year=2019? location_id & indicator_id ...`
+
+```{r}
+#| echo: false
+key="8ym9ht687svohiwtqiinfjd3gxq7vihc"
+```
+
+```{r}
+#| eval: false
+data <- get_data(url="https://api.healthdata.org/sdg/v1",
+         key=key,
+         sdg="GetResultsByLocation?location_id=86&indicator_id=1002&year=2019")
+data
+```

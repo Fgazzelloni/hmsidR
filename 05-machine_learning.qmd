@@ -57,6 +57,16 @@ minimize errors or maximize performance on a given task. Compared to
 traditional statistical models, they are more flexible and adaptable to
 complex data patterns.
 
+**Machine learning (ML)** techniques are identified as subfields of the
+**Artificial Intelligence (AI)** technology, acting by learning
+relationships in the data. Learning from experience (E), ML computes
+tasks (T) to improve performance (P). The origins of ML, dating back to
+the late 1950s, only flourished in the 1990s with the aim of minimizing
+loss on unseen samples [@machine2024].
+
+![Machine Learning cycle](images/ml-image.png){fig-align="center"
+width="404"}
+
 The emergence of infections is an ongoing evolution and adaptation
 [@broemeling2021]. In the late 1970s, Dr. René Dubos believed that '*the
 relationship between humans and microbes is dynamic and influenced by
@@ -87,15 +97,20 @@ prediction, they operate on different principles:
 Before delving deep into machine learning techniques for analyzing
 health data and metrics, it's essential to proceed step by step in
 building a modeling framework. This approach begins with a thorough
-understanding of the modeling procedures. Initially, we start by
-constructing a **linear regression model**, as it helps establish
-relationships between variables with a simple, interpretable model. It’s
-effective for continuous outcome data and provides a baseline for model
-performance. Then we transition to a **logistic regression model**,
-useful when dealing with binary or categorical outcome variables, which
-are common in medical data (e.g., disease presence or absence). This
-model type allows for probability estimation, which is more appropriate
-for classification tasks.
+understanding of the modeling procedures. The first consideration is the
+type of output: your response variable, which you aim to investigate and
+eventually predict, will be of a specific type. It can be continuous or
+discrete. This distinction divides the models into two types:
+**regression** for numeric outcomes and **classification** for
+categorical outcomes.
+
+Initially, we start by constructing a **linear regression model**, as it
+helps establish relationships between variables with a simple,
+interpretable model. It’s effective for numeric continuous outcome data
+and provides a baseline for model performance. Then we transition to a
+**logistic regression model**, which despite its name, it is useful when
+dealing with binary or categorical outcome variables, which are common
+in medical data (e.g., disease presence or absence).
 
 Finally, we refine our models by implementing automated parameter
 calibration to identify the most appropriate model adjustments. This
@@ -120,8 +135,9 @@ predictor varies based on the type of analyses, and could include
 factors such as demographics, secondary health outcomes (morbidity),
 population density, temperature, vaccination rates, etc. The goal of
 model development is to create a mathematical function that captures the
-relationship between the response variable $y$ and the predictor
-variables $x_i$.
+relationship between the response variable $y$ (or dependent variable)
+responding to changes in predictor variables $x_i$ (or independent
+variables) within the study.
 
 This function, often referred to as the model equation or model
 function, is typically represented as:
@@ -135,7 +151,7 @@ by the model. To estimate the coefficients of the model function, we
 employ statistical techniques such as **linear regression** for
 continuous response variables, **logistic regression** for binary
 response variables, and various **machine learning algorithms** that
-include tuning parameters to handle more complex datasets and model
+include tuning parameters to handle more complex dataset and model
 specifications. These techniques analyze the relationship between the
 predictors and the response in the dataset and determine the optimal
 coefficients that minimize the difference between the observed $(y)$
@@ -152,7 +168,7 @@ given system. It enables us to extract insights from the data, make
 predictions, and inform decision-making in various fields, including
 epidemiology, public health, economics, and environmental science.
 
-### Modeling Cholera
+### Example 1: Cholera
 
 The first dataset used is from the `{HistData}` package
 `HistData::CholeraDeaths1849`, made of
@@ -195,7 +211,7 @@ to explain the behavior of the variables.
 The following mathematical formulation represent our observed data,
 where $\beta_0$ and $\beta_1$ are the parameters, respectively the
 intercept and the slope allowing the computation of the equivalence
-between $y$ and $x$ [^05-machine_learning-1]
+between $y$ and $x$ [^05-machine_learning-1].\
 
 [^05-machine_learning-1]: We can compare this formulation to a general
     $Y=a+mx$ linear function. In our case $a$ would be the intercept and
@@ -209,7 +225,7 @@ $$ {#eq-lm}
 When a model is attempted, the values of the slope $(\beta_0)$ and the
 intercept $(\beta_1)$ are estimated[^05-machine_learning-2] in order to
 be able to replicate the values $(y)$ of the response by applying $x$ to
-our model function.
+our model function.\
 
 [^05-machine_learning-2]: The hat (\^) on top of the variables indicates
     the values are estimated.
@@ -242,13 +258,13 @@ variable might be useful for educational purposes, as illustrated in the
 data above, scenarios involving more than one predictor are more
 realistic and lead to increased complexity in the model function. This
 situation typically results in a multivariate linear model, often
-referred to as **multiple linear regression**.
+referred to as **multiple linear regression**.\
 
 $$y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n$$ {#eq-mlm}
 
 In this case more than one predictor is used to investigate the varying
 effects of the response variable. A compact form of the model function
-with more than one predictor can be stated as:
+with more than one predictor can be stated as:\
 
 $$
 y=\beta_0 + \sum_{i=1}^{p}{\beta_ix_i}= \beta_0+\beta X
@@ -364,7 +380,7 @@ ggplot(cholera,aes(x=date,y=deaths))+
            colour = "darkred")
 ```
 
-#### Generalized Additive Models (GAMs)
+#### GAM - Generalized Additive Model
 
 The purpose of creating a model is to identify underlying patterns
 within a series of observations. This requires the model to interpolate
@@ -375,8 +391,11 @@ visualize the direction of a linear pattern in the data. However, it's
 evident that the data points form a bell-shaped curved as distribution
 of deaths over time, indicating a non-linear relationship between date
 and cholera deaths. In the second layer we used `method= "gam"`,
-Generalized Additive Models (GAMs) flexible extensions of linear models,
-the most suitable choice for this data.
+**Generalized Additive Models (GAMs)** flexible extensions of linear
+models, the most suitable choice for this data used to model non-linear
+relationships between the response and predictor variables. They are
+particularly useful when the relationship between the variables is
+complex and cannot be adequately captured by linear models.\
 
 $$
 g(\mu) = \beta_0 + f(x)
@@ -390,7 +409,7 @@ there will be $p=1,..,j$ number of $f()$ smooth functions as many as the
 number of predictors.
 
 What is happening here is a transformation of the predictors through the
-application of a function: $x ~ f(x)$. The smooth functions are
+application of a function: $x \sim f(x)$. The smooth functions are
 estimated using non-parametric techniques such as splines (polynomial
 transformations) or kernel functions. These smooth functions allow for
 flexible modeling of the relationship between the predictor variables
@@ -424,18 +443,6 @@ the model explains approximately 91.4% of the variance in the response
 variable (deaths). The deviance explained is 91.6%, suggesting that the
 model fits the data well.
 
-We can even use the plot() function as shown below to see the shape of
-the model results.
-
-```{r}
-#| label: fig-gam
-#| fig-cap: "Cholera 1849 - Gam Model"
-plot(gam_model, select = 1)
-```
-
-This indicates that the relationship between deaths and time is modeled
-non-linearly using a smooth function.
-
 Overall, the model suggests that there is a positive relationship
 between increasing time and the number of deaths due to cholera, with
 the number of deaths increasing over time to reach a pick and then
@@ -446,68 +453,38 @@ model. Other important factors influencing the spread are social
 behavior and vaccination. We will talk more about infectious diseases
 spread in section 4 @sec-13-infectious_diseases.
 
-Now calculate the prediction, with the `predict()` function on new data,
-30 days forward in time.
-
-```{r}
-# Predict future deaths
-future_days <- seq(max(cholera$days) + 1, max(cholera$days) + 30)  
-
-# Assuming you want to predict for the next 30 days
-predicted_deaths <- predict(gam_model, 
-                            newdata = data.frame(days = future_days),
-                            type = "response")
-```
-
-We have used new data (30 days in the future) for predicting the number
-of deaths due to cholera. These predictions are based on the
-relationship between deaths and time captured by the GAM model.
-
-```{r}
-#| message: false
-#| warning: false
-#| echo: false
-#| label: fig-gam-pred
-#| fig-cap: "Deaths due to Cholera in London (1849)"
-ggplot(cholera,aes(x=date,y=deaths))+
-  geom_line(linetype="dashed")+
-  geom_point(shape=21,stroke=0.5)+
-  geom_smooth(method = "gam",se=F)+
-  geom_point(data=data.frame(days = as_date("1849-01-01") +future_days,
-                             predicted_deaths),
-             mapping=aes(x=days,y=predicted_deaths),
-             color="red")+
-  labs(title="Deaths due to Cholera in London (1849)",
-       x="Date",y="Cholera death")
-```
-
-::: callout
 ### Important considerations
 
-There a variety of models, the model decision depends upon the type of
-data, if the outcome is continuous or discrete, if the number of
-predictors is higher than the number of observation and so on. We can
-have non-linear models, as well as multilevel models and more complex
-combination. A major subdivision is between **regression** and
-**classification**, whether the outcome variable is continuous or not.
+There are a variety of models available, and the decision on which model
+to use depends on the type of **learning method**—either **supervised**
+or **unsupervised**. Supervised learning analyzes data by comparing
+observations against a predefined response variable, whereas
+unsupervised learning handles data that do not have a predefined
+response variable.
+
+The **nature of the data** is also fundamental, including whether the
+outcome is continuous or discrete, and whether the number of predictors
+exceeds the number of observations. Models can range from non-linear to
+multilevel, and they can involve more complex combinations. A major
+distinction is made between **regression** and **classification** based
+on whether the outcome variable is continuous.
 
 **Machine learning models** are all that types of models that can be all
-of the above but allow for model parameters auto-calibration. More will
-be explained below, but crucial is the understanding that when we
-attempt making a model we do high level calculations, for instance when
-make differential equations. The next level of a basic equation with
-various parameters, included time and probabilities. In substance we
-imagine to consider the proportion of variation in time when time
-reduces to zero. In the case of studying infectious disease and
-interested in time varying variables we would need a model that
-considers time.
-:::
+of the above but allow for **model parameters auto-calibration**. More
+will be explained below, but it's crucial to understand that creating a
+model involves high-level calculations, such as when constructing
+differential equations. This means progressing beyond a basic equation
+to include various parameters such as time and probabilities. In
+substance, it is considered the proportion of variation over time as
+time approaches zero. In the study of infectious diseases and the
+interest in how variables evolve over time, model selection requires an
+understanding of the underlying patterns and dynamics of growth.
 
-So, let's start looking at how our simple linear equation $y=a+mx$ can
-change into a differential equation. A differential equation describes
-how a quantity changes with respect to another quantity, in particular
-time in this case. So, we are interested in the variation of $y$ within
-time.
+So, let's start looking at how our simple linear equation
+$y= \beta_0+\beta_1 x$ can be changed to become a differential equation.
+A differential equation describes how a quantity changes with respect to
+another quantity, in particular time in this case. So, we are interested
+in the variation of $y$ within time.\
 
 $$
 {y}'=\frac{dy}{dt}= \frac{y_1 - y_0}{t_1-t_0}
@@ -515,31 +492,36 @@ $$ {#eq-diff-eq}
 
 And this is explained by the variation of the predictors in time, the
 calculation is a derivative. Recall that the derivative of a constant is
-0, in our case $a$ is the constant. $$
-\frac{dy}{dt}= \frac{d(a+mx)}{dt}= m\frac{dx}{dt}
-$$ {#eq-lin-diff-eq} This equation describes how $y$ changes with
-respect to time $t$, taking into account the rate of change of $x$ with
-respect to time 't', and the constant slope $m$ of the line.
+0, in our case $\beta_0$ is the constant.\
 
 $$
-y'=m\frac{dx}{dt}
+\frac{dy}{dt}= \frac{d(\beta_0+\beta_1 x)}{dt}= \beta_1 \frac{dx}{dt}
+$$ {#eq-lin-diff-eq}
+
+This equation describes how $y$ changes with respect to time $t$, taking
+into account the rate of change of $x$ with respect to time $t$, and the
+constant slope $\beta_1$ of the line.\
+
+$$
+y'=\beta_1 \frac{dx}{dt}
 $$ {#eq-lin-diff-eq-2}
 
-To locate the machine learning models within the models framework, we
-can think about the scope of the analysis, which in this case is
-predicting the future or to make forecasts.
+The @eq-lin-diff-eq-2 will be used in the SIR model to describe how
+individuals move between compartments over time.
+
+To locate machine learning models within the models framework, we can
+think about the scope of the analysis, which in this case is predicting
+the future preventing undesired outcomes.
 
 In particular, these types of models are subdivided in:
 
 1.  **Mechanistic Model** For example the SIR model is a **classic
     compartmental model** used to simulate the spread of infectious
     diseases. It divides the population into three compartments:
-    susceptible (S), infectious (I), and recovered (R). The equations
-    describe the rate of change of each compartment over time, where
-    $\beta$ represents the transmission rate and $\gamma$ represents the
-    recovery rate.
-
-Mathematical Equation:
+    susceptible $(S)$, infectious $(I)$, and recovered $(R)$. The
+    equations describe the rate of change of each compartment over time,
+    where $\beta$ represents the transmission rate and $\gamma$
+    represents the recovery rate.
 
 $$ \frac{dS}{dt} = - \beta \cdot S \cdot I $$ {#eq-ds}
 
@@ -549,9 +531,9 @@ $$ \frac{dR}{dt} = \gamma \cdot I $$ {#eq-dr}
 
 2.  **Empirically Driven Model**: Empirically driven models do not have
     explicit mathematical equations like mechanistic models. Instead,
-    they learn patterns and relationships directly from data. An example
-    of an empirically driven model is **Random Forest** which is a
-    machine learning algorithm that builds multiple decision trees and
+    they **learn patterns** and relationships directly from data. An
+    example of an empirically driven model is **Random Forest** which is
+    a machine learning algorithm that builds multiple decision trees and
     combines their predictions to make accurate predictions. It works by
     splitting the data into subsets and building a decision tree for
     each subset. The final prediction is made by aggregating the
@@ -559,9 +541,9 @@ $$ \frac{dR}{dt} = \gamma \cdot I $$ {#eq-dr}
     Forest does not rely on explicit equations or known relationships
     but instead learns patterns from the input data.
 
-### The Covid19 example
+### Example 2: Epidemic X
 
-#### SEIR and Random Forest
+#### SEIR
 
 In this example we simulate data of an epidemic to build a SEIR
 (susceptible, exposed, infected, recovered) model, a case a little more
@@ -638,9 +620,9 @@ The output is class "deSolve", "matrix" :
 class(output)
 ```
 
-So, needs to be converted to be a dataframe. And here we have the time,
-the susceptible, the exposed, the infected and finally the recovered
-simulated values in 100 days of an epidemic.
+So, it needs to be converted to be a dataframe of time, susceptible,
+exposed, infected and recovered. All simulated values in 100 days of an
+epidemic.
 
 ```{r}
 simulated_data <- as.data.frame(output)
@@ -660,9 +642,11 @@ ggplot(simulated_data, aes(x = time)) +
 
 ```
 
+#### Random Forest
+
 The next step is to calibrate this model by applying a machine learning
-algorithm. In this case we use the a `random forest` type of model, and
-add some noise to the simulated data, to be normally distributed.
+algorithm. In this case we apply a `random forest` model, and add some
+normally distributed noise to the simulated data.
 
 ```{r}
 simulated_data <- cbind(simulated_data, 
@@ -673,8 +657,8 @@ simulated_data <- cbind(simulated_data,
 Feature engineering: Generate lagged values of infected cases
 
 ```{r}
-simulated_data <- cbind(simulated_data, 
-                        lagged_I = lag(simulated_data$I, 1))
+#simulated_data <- cbind(simulated_data, 
+#                        lagged_I = lag(simulated_data$I, 1))
 ```
 
 ```{r}
@@ -683,17 +667,13 @@ simulated_data <- cbind(simulated_data,
 # Load required packages
 library(randomForest)
 
-# Define the predictors and response variable
-predictors <- c("S", "E", "I", "R", "noise", "lagged_I")
-response <- "deaths"  # Assuming "deaths" is the outcome variable we want to predict
-
 # Split the data into training and testing sets
 set.seed(123)  # Set seed for reproducibility
 train_index <- sample(nrow(simulated_data), 0.8 * nrow(simulated_data))
 train_data <- simulated_data[train_index, ]
 test_data <- simulated_data[-train_index, ]
 
-# Train the Random Forest model
+# Train the Random Forest model - non machine learning yet!
 rf_model <- randomForest(formula = I ~ ., 
                          data = train_data)
 ```
@@ -709,111 +689,361 @@ rmse <- sqrt(mean((test_data$I - predictions)^2,na.rm = T))
 print(paste("RMSE:", rmse))
 ```
 
-#### GAM - Generalized Additive Model (non-linear)
+```{r}
+#| message: false
+#| warning: false
+cbind(test_data,pred=predictions)%>%
+  ggplot(aes(I,pred))+
+  geom_point()+
+  geom_abline()+
+  labs(title = "Prediction of Infections for Epidemic X",
+       subtitle = "Simulate Data",
+       x="Infections",y="Predicted values")
+```
+
+#### Parameters Calibration with Tidymodels
+
+Random Forest model is a powerful machine learning algorithm that can be
+tuned to improve its performance. The tuning process involves selecting
+the optimal values for the hyperparameters of the model, such as the
+number of trees, the number of variables to consider at each split, and
+the minimum number of data points required to split a node. These
+hyperparameters can significantly impact the model's performance, and
+tuning them can help improve the model's accuracy and generalization to
+new data.
+
+For this task we use the `{tidymodels}` package, a collection of
+packages for modeling and machine learning using the tidyverse
+principles. The `{tidymodels}` package provides a consistent interface
+for modeling tasks, making it easier to build, tune, and evaluate
+machine learning models.
 
 ```{r}
 #| message: false
 #| warning: false
 library(tidymodels)
-library(mgcv)  # For GAM modeling
+library(dials)
+#tidymodels_conflicts()
+tidymodels_prefer()
 
-# Prepare data for machine learning
-split <- initial_split(simulated_data,prop = 0.8)
+# Spending data
+set.seed(1231)  # Set seed for reproducibility
+
+# Split the data into training and testing sets
+split <- initial_split(simulated_data, prop = 0.8)
 train_data <- training(split)
 test_data <- testing(split)
+
+# Create a resampling scheme: 5-fold cross-validation
+cv_folds <- vfold_cv(train_data, v = 5)
+
+# Create a recipe for data preprocessing
+data_recipe <- recipe(I ~ ., data = train_data) %>%
+  step_nzv(all_predictors()) %>%
+  step_normalize(all_numeric())
+
+# Define the Random Forest model
+rand_forest_ranger_spec <-
+  # tuning parameters - Machine Learning Application
+  rand_forest( 
+      trees = tune(),
+      min_n = tune()
+  ) %>% 
+  set_engine('ranger') %>%
+  set_mode('regression')
+```
+
+Automate tuning parameters is performed, in this case, using a Bayesian
+Optimization with the `tune_bayes()` function to specify the grid of
+hyperparameters to search over. You can specify the number of iterations
+and initial random points to start the optimization. The `tune_bayes()`
+function uses the `bayes_opt()` function from the `{tune}` package to
+perform the optimization.
+
+```{r}
+#| eval: false
+# Bayesian optimization
+set.seed(123)
+bayes_results <- tune_bayes(
+  rand_forest_ranger_spec,
+  data_recipe,
+  resamples = cv_folds,
+  metrics = metric_set(rmse, rsq),
+  initial = 5,          # Number of initial random points
+  iter = 20,            # Total iterations including initial points
+  param_info = parameters(rand_forest_ranger_spec)
+)
 ```
 
 ```{r}
-#| warning: false
-#| message: false
-gam_model <- gam(I ~ te(S,E) + s(time, by=I, k=20) + R + noise, 
-                 data = train_data, 
-                 method = "GCV.Cp", # Generalized Cross-Validation
-                 family = gaussian,
-                 sp = 0.1)
-
-# Make predictions on test data
-predictions <- predict(gam_model, 
-                       newdata = test_data,
-                       type = "link", 
-                       se.fit = TRUE)
-
-# Evaluate the model
-rmse <- sqrt(mean((predictions$fit - test_data$I)^2))
-cat("Root Mean Squared Error (RMSE):", rmse, "\n")
-```
-
-```{r}
-#| label: fig-seir-gam
-#| fig-cap: "Covid19 Infections with GAM"
 #| echo: false
-# Plot simulated data and predictions
-simulated_data %>%
-  ggplot(aes(x = time)) +
-  geom_line(aes(y = I, color = "Infected")) +
-  geom_line(data = test_data, 
-            aes(color = "Predicted"),y = predictions$fit) +
-  labs(title = "Simulation and Prediction of Covid19 Infections with GAM", 
-       x = "Time", y = "Infected Population") +
-  scale_color_manual(values = c("Infected" = "blue", "Predicted" = "red"))
+# saveRDS(bayes_results,"bayes_results.rds") 
+bayes_results <- readRDS("data/model-data/bayes_results.rds")
 ```
 
-### INLA: an empirical Bayes approach to GAMs
+Examine the results of the Bayesian optimization to identify the optimal
+hyperparameters for the Random Forest model. The `show_best()` function
+displays the best hyperparameters based on the optimization results.
+
+```{r}
+# Summarize the tuning results
+show_best(bayes_results, metric = "rmse")
+
+# Extract the best parameters
+best_bayes <- select_best(bayes_results, metric = "rmse")
+best_bayes
+```
+
+Finally, we can use the best hyperparameters to train the Random Forest
+model on the training data and evaluate its performance on the test
+data. The `fit()` function fits the model using the best
+hyperparameters, and the `predict()` function makes predictions on the
+test data. We can then calculate the Root Mean Squared Error (RMSE) to
+evaluate the model's performance.
+
+```{r}
+# Final model with best parameters
+final_bayes_model <- finalize_model(rand_forest_ranger_spec, best_bayes)
+final_fit <- fit(final_bayes_model, 
+                 formula = I ~ ., 
+                 data = train_data)
+
+# Predict and evaluate on test data
+predictions <- predict(final_fit, new_data = test_data)
+augumented <- augment(final_fit, new_data = test_data)
+eval_metrics <- metrics(estimate=.pred, 
+                        truth = I,
+                        data=augumented)
+eval_metrics
+```
+
+```{r}
+# Calculate Root Mean Squared Error (RMSE)
+err <- (test_data$I - predictions$.pred)^2
+rmse <- sqrt(mean(err,na.rm = T))
+
+# Print RMSE
+print(paste("RMSE:", rmse))
+```
+
+```{r}
+#| layout-ncol: 2
+#| label: fig-seir-rf
+#| fig-cap:
+#|   - "Prediction of Infections for Epidemic X"
+#|   - "Observed vs Estimated values"
+augumented%>%
+   ggplot(aes(I,.pred))+
+   geom_point()+
+  geom_abline()+
+   labs(title = "Prediction of Infections for Epidemic X",
+       subtitle = "Simulate Data",
+       x="Infections",y="Predicted values")
+
+augumented%>%
+   ggplot(aes(x=row_number(I)))+
+   geom_point(aes(y=I))+
+   geom_line(aes(y=.pred),color="navy")+
+   # geom_segment(aes(xend=row_number(I),y=I,yend=.pred),color="orange")+
+   labs(title = "Prediction of Infections for Epidemic X",
+       subtitle = "Simulate Data",
+       x="Time (Day)",y="Obesrved vs Estimated values")
+```
+
+### Example 3: Epidemic Y
+
+#### INLA: an empirical Bayes approach to GAMs
+
+As a valid alternative to Markov chain Monte Carlo (MCMC) methods (Gilks
+et al.
+[1996](https://becarioprecario.bitbucket.io/inla-gitbook/ch-intro.html#ref-Gilksetal:1996);
+Brooks et al.
+[2011](https://becarioprecario.bitbucket.io/inla-gitbook/ch-intro.html#ref-Brooksetal:2011)) -
+(@sec-appendixB), due to the deterministic nature of its approximations,
+**INLA - integrated nested Laplace approximation** [@approxim] is an
+excellent choice for applications requiring repeated model fitting. The
+INLA approach is particularly useful for fitting complex models, such as
+generalized additive models (GAMs), which involve non-linear
+relationships between predictors and the response variable.
+
+The use of a Laplacian approximation is to estimate the individual
+posterior marginals of the model parameters. This allows for faster
+computation and more efficient estimation of the posterior distribution,
+making it a popular choice for Bayesian inference in large-scale
+applications.
+
+However, it's worth noting that for very complex models or those with
+multi-modal posteriors, MCMC might still be preferred due to its
+flexibility and ability to characterize the entire posterior
+distribution.
+
+In INLA, each of GAMs components are treated as random effects with
+specific prior distributions (typically Gaussian). The smoothness of
+these effects is controlled by hyperparameters, which INLA estimates
+from the data. The model is then fitted using the INLA package, which
+provides a fast and efficient way to estimate the posterior distribution
+of the model parameters.
+
+Let's assume new `epidemic_data` with columns `day`, `cases`, and
+`temperature.` To model the number of cases as a function of time and
+temperature, considering a non-linear effect of time using a **random
+walk model** and a linear effect of temperature:
+
+```{r}
+#| eval: false
+install.packages("INLA", 
+                 repos=c(getOption("repos"), 
+                         INLA="https://inla.r-inla-download.org/R/stable"), 
+                 dep=TRUE)
+```
+
+```{r}
+#| message: false
+#| warning: false
+library(INLA)
+```
+
+```{r}
+# Sample data creation
+set.seed(123)
+epidemic_data <- data.frame(
+  day = 1:100,
+  temperature = rnorm(100, mean = 20, sd = 5),
+  cases = rpois(100, lambda = 10 + sin(1:100 / 20) * 10 + rnorm(100, sd = 5))
+)
+
+# Define the model formula
+formula <- cases ~ f(day, model = "rw2") + temperature
+
+# Fit the model using INLA
+result <- inla(formula, 
+               family = "poisson", 
+               data = epidemic_data)
+
+# Summary of the results
+summary(result)
+
+```
+
+```{r}
+# Extracting the fitted values and the effect of time
+time_effect <- result$summary.random$day
+fitted_values <- result$summary.fitted.values
+
+# Creating a data frame for plotting
+plot_data <- data.frame(
+  Day = epidemic_data$day,
+  FittedCases = fitted_values$mean,
+  Lower = fitted_values$`0.025quant`,
+  Upper = fitted_values$`0.975quant`
+)
+
+# Plotting the results
+ggplot(plot_data, aes(x = Day)) +
+  geom_ribbon(aes(ymin = Lower, ymax = Upper), fill = "lightblue", alpha = 0.4) +
+  geom_line(aes(y = FittedCases), color = "blue") +
+  labs(title = "Fitted GAM for Epidemic Y", x = "Day", y = "Fitted number of cases")
+
+```
+
+The `inla()` function allows a model specification, in this case a
+`Poisson` is used and a formula. The non-linear effect is a second-order
+random walk `model = "rw2"`, a statistical modeling approach used to
+represent a type of prior commonly used in Bayesian modeling for time
+series or spatial data where you expect smoothness and some degree of
+continuity between adjacent observations. In particular, GAMs are used
+to capture non-linear trends by fitting smooth, flexible functions to
+the data. These functions can be represented through various basis
+functions, and a second-order random walk is one such basis function.
+The random walk model assumes that the values of the response variable
+are correlated with their neighbors, creating a smooth, continuous
+effect over time.
 
 ## Measures of Machine Learning Models
 
-> The loss function is **a method for evaluating how well a machine
-> learning algorithm models featured a
-> dataset**[^05-machine_learning-4]. The ***cost function*** is the
-> average of all loss function values.
+::: {.callout .success}
+The **loss function** is a method for evaluating how well a machine
+learning algorithm models featured a dataset. The **cost function** is
+the average of all loss function values.
+:::
 
-[^05-machine_learning-4]: <https://builtin.com/machine-learning/common-loss-functions>
+In machine learning, the accuracy of predictive models is assessed using
+various loss functions, which measure the discrepancy between the
+predicted outcomes and the actual values. Selecting the appropriate loss
+function is crucial because it directly influences model optimization
+and performance.
 
--   overview of modeling
+**1. Regression Loss Functions:** For regression tasks where the
+prediction involves continuous numbers, several loss functions are
+commonly used:
 
-### Loss functions based on modeling techniques
+-   **Mean Squared Error (MSE):** MSE calculates the average of the
+    squares of the errors, i.e., the average squared difference between
+    the estimated values and the actual value. This loss function is
+    sensitive to outliers as it squares the errors before averaging
+    them.
 
-Modeling techniques are Regression and Classification modeling, this is
-depending on whether the output or the reference variable of the
-analysis is numeric or categorical, respectively.
+$$
+MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{}Y_i-Y_i)^2}
+$$
 
--   Regression:
+-   **Mean Absolute Error (MAE):** MAE measures the average magnitude of
+    the errors in a set of predictions, without considering their
+    direction (i.e., it averages the absolute differences between
+    predictions and actual outcomes). Unlike MSE, MAE is not overly
+    sensitive to outliers, making it suitable for datasets with
+    anomalies.
 
-    -   Mean Square Error / Quadratic Loss / L2 Loss
+$$
+MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{}Y_i-Y_i|}
+$$
 
-        $$
-        MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{}Y_i-Y_i)^2}
-        $$
+-   **Mean Squared Logarithmic Error (MSLE):** MSLE is useful when
+    targeting a regression model to predict exponential growth. By
+    taking the log of the predictions and actual values, MSLE transforms
+    the target variable to reduce the skew of the distribution, which
+    can lead to more stable predictions across a range of values.
 
-    -   Mean Absolute Error / L1 Loss
+$$
+MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{}Y_i+1)-log(Y_i+1))^2}
+$$
 
-        $$
-        MAE=\frac{\sum_{i=1}^{n}{|y_i-x_i|}}{n}
-        $$
+**2. Classification Loss Functions:** For classification tasks, where
+the output is categorical, typical loss functions include:
 
-    -   Huber Loss / Smooth Mean Absolute Error
+-   **Binary Cross-Entropy:** Also known as log loss, this function
+    measures the performance of a classification model whose output is a
+    probability value between 0 and 1. It is particularly useful for
+    binary classification tasks.
 
-        $$
-        L_{\delta}(y,f(x))=\left\{\begin{matrix} \frac{1}{2}(y-f(x))^2 & \text{for } |y-f(x)|\leq \delta, \\ \delta|y-f(x)|-\frac{1}{2}\delta^2 & \text{otherwise.} \end{matrix}\right.
-        $$
+$$
+L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}
+$$
 
-    -   Log-Cosh Loss
+-   **Hinge Loss:** Often used with Support Vector Machines (SVMs),
+    hinge loss evaluates the margin of classification errors, providing
+    a penalty for miss-classified points to improve model accuracy.
 
-    -   Quantile Loss
+$$
+L=max(0,1-y*f(x))
+$$
 
--   Classification:
+**3. Choosing the Right Loss Function:** Selecting a suitable loss
+function depends heavily on the specific characteristics of the data and
+the model application. For instance, if predicting precise values is
+crucial and the data range is wide, MSE might be appropriate.
+Conversely, for models where the prediction scale is logarithmic or the
+data contains many outliers, MSLE or MAE could be more effective.
 
-    -   Binary Cross-Entropy Loss / Log Loss
+The choice of a loss function is not merely a technical decision but a
+strategic one, affecting how a model learns and performs on unseen data.
+Each loss function has its strengths and trade-offs, making it vital for
+practitioners to understand their implications thoroughly.
 
-        $$
-        L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}
-        $$
-
-    -   Hinge Loss
-
-        $$
-        L=max(0,1-y*f(x))
-        $$
+Understanding these measures and how they influence model training and
+predictions can greatly enhance the effectiveness of machine learning
+applications. For deeper insights, consider studying sources that
+discuss these concepts extensively, such as the in-depth articles
 
 ### Public health loss functions
 
@@ -845,7 +1075,8 @@ developed for major consideration of the disability status for the
 evaluation of the well-being of a population was then built adding a
 further layer based on weights of disability.
 
-So, to recap, the measures for a cost-effectiveness intervention are:
+So, to recap, the measures for a cost-effectiveness intervention involve
+a careful calibration of following components:
 
 -   mortality
 -   morbidity

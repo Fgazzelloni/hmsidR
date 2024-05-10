@@ -82,6 +82,7 @@ book:
     - appendixB.qmd 
     - appendixC.qmd 
     - appendixD.qmd
+    - appendixE.qmd
     
 appendix-style: default     
 search: true    

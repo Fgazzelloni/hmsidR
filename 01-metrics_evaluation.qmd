@@ -1,10 +1,3 @@
----
-editor: 
-  markdown: 
-    wrap: 72
-bibliography: references.bib
----
-
 # Introduction to Metrics Evaluation {#sec-01-metrics_evaluation}
 
 > **"The concept of health also has highly subjective connotations,
@@ -85,8 +78,8 @@ timeline %>%
 ```
 
 ![Health Metrics development
-timeline](images/01_timeline.png){#fig-timeline fig-align="center"
-width="90%"}
+timeline](images/01_timeline.png){#fig-timeline
+fig-align="center" width="90%"}
 
 One of the earliest forms of health metrics can be traced back to the
 work of *John Graunt*, an Englishman, in the 17th century
@@ -324,9 +317,9 @@ outcomes. It adjusts overall life expectancy by the amount of time lived
 in less than perfect health. This is calculated by subtracting from the
 life expectancy a figure which is the number of years lived with
 disability multiplied by a weighting to represent the effect of the
-disability[^1][@healthy].
+disability[^01-metrics_evaluation-1][@healthy].
 
-[^1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
+[^01-metrics_evaluation-1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
 
 ### Healthy Life Years (HLY)
 

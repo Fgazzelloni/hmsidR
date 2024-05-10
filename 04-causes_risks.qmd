@@ -1,5 +1,10 @@
 # Causes and Risks {#sec-04-causes_risks}
 
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
 ::: solutionbox
 ::: solutionbox-header
 ::: solutionbox-icon
@@ -14,11 +19,6 @@ Learning Objectives
 -   Causal inference
 :::
 :::
-
-```{r}
-#| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
-```
 
 ## Conditions and injuries
 
@@ -355,7 +355,7 @@ factor in the past were reduced to an ideal exposure scenario.
 
 PAF is calculated based on the prevalence of the risk factor in the
 population and the relative risk associated with that risk factor. The
-formula for calculating PAF is as follows:
+formula for calculating PAF is as follows:\
 
 $$
 PAF = \frac{{P_e \times (RR - 1)}}{{1 + P_e \times (RR - 1)}}

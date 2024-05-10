@@ -3,7 +3,7 @@
 ```{r}
 #| echo: false
 library(tidyverse)
-#source("R/_common.R")
+ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 ::: solutionbox
@@ -22,6 +22,45 @@ Learning Objectives
 :::
 
 ## Malaria description
+
+Malaria is a mosquito-borne infectious disease that affects humans and
+other animals. It is caused by parasitic protozoans belonging to the
+Plasmodium type. The disease is transmitted through the bites of
+Anopheles mosquitoes. The symptoms of malaria typically include fever,
+fatigue, vomiting, and headaches. If left untreated, malaria can be
+fatal. Malaria is a major public health concern in many tropical and
+subtropical regions, particularly in Africa.
+
+## Malaria transmission dynamics
+
+Malaria transmission dynamics are influenced by various factors,
+including the prevalence of infected individuals, the density of
+mosquito vectors, and environmental conditions. The transmission of
+malaria occurs when an infected mosquito bites a human host, injecting
+the Plasmodium parasites into the bloodstream. The parasites then
+multiply within the host's red blood cells, leading to the
+characteristic symptoms of malaria. The parasites can be transmitted
+back to mosquitoes when they feed on infected individuals, completing
+the transmission cycle.
+
+## Mapping Malaria outbreaks
+
+Mapping Malaria outbreaks can help identify high-risk areas and guide
+public health interventions. Geographic Information Systems (GIS) can be
+used to visualize the spatial distribution of Malaria cases and identify
+patterns of transmission. By analyzing the distribution of Malaria cases
+in relation to environmental factors such as temperature, humidity, and
+vegetation cover, researchers can gain insights into the factors driving
+Malaria transmission and develop targeted control strategies.
+
+## Example: Simulating Malaria transmission dynamics
+
+In this example, we will simulate Malaria transmission dynamics using a
+simple mathematical model. We will generate synthetic data representing
+the number of infected individuals over time and use machine learning to
+predict future trends. We will demonstrate the process of data
+preparation, feature engineering, model selection, training, evaluation,
+and iterative improvement.
 
 ## Synthetic data
 

@@ -1,11 +1,10 @@
----
-editor: 
-  markdown: 
-    wrap: 72
-bibliography: references.bib
----
-
 # Metrics Components {#sec-03-components}
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+options(scipen = 999)
+```
 
 ::: solutionbox
 ::: solutionbox-header
@@ -22,12 +21,6 @@ Learning Objectives
 -   Disability weights and Severity levels
 :::
 :::
-
-```{r}
-#| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
-options(scipen = 999)
-```
 
 ## Cause-specific or Population-wide
 
@@ -136,6 +129,12 @@ collected in the `{hmsidwR}` package and used to show how to derive key
 health metrics.
 
 ```{r}
+#| eval: false
+# install.packages("devtools")
+devtools::install_github("Fgazzelloni/hmsidwR")
+```
+
+```{r}
 #| message: false
 #| warning: false
 #| eval: true
@@ -196,9 +195,6 @@ be found in the @sec-09-data_visualization chapter of this book.
 #| warning: false
 #| message: false
 #| layout-ncol: 2
-#| fig-cap: 
-#|    - "ex - expectation of life at age x"
-#|    - "Global Health Observatory Life Tables"
 #| label: fig-expectation-life
 
 gho_lifetables %>%
@@ -220,7 +216,7 @@ gho_lifetables %>%
   geom_line(show.legend = F) +
   scale_color_manual(values = rainbow(20)) +
   labs(title = "ex - expectation of life at age x",
-       caption = "DataSource: WHO Global Health Observatory data repository | Graphics: Federica Gazzelloni",
+       caption = "DataSource: WHO GHO data repository",
        x="Year",y="Value")+
   theme(axis.text.x = element_text(size=7,
                                    vjust = 0.5),
@@ -235,7 +231,7 @@ gho_lifetables %>%
   geom_line(linewidth=1) +
   labs(title="Global expectation of life (all ages avg value)",
        subtitle="for the years 2000, 2005, 2010, 2015, and 2019",
-       caption="DataSource: WHO Global Health Observatory data repository | Graphics: Federica Gazzelloni")
+       caption="DataSource: WHO GHO data repository")
 ```
 
 The mathematical formulation for calculating the expectation of life at
@@ -299,9 +295,11 @@ animate(pyramid_gif,
 
 For example, at age 50, what is the life expectancy value if the total
 number of person-years lived by the cohort of persons alive at age 50 is
-2,370,099 and the number of persons alive at age 50 is 89,867?
+2,370,099 and the number of persons alive at age 50 is
+89,867?[^03-components-1]
 
-hint: e(50) = T(50)/l(50) = 2,370,099/89,867 = 26.4 [see @lifeexp].
+[^03-components-1]: Answer: e(50) = T(50)/l(50) = 2,370,099/89,867 =
+    26.4 [see @lifeexp].
 
 ## Mortality level and rates
 
@@ -344,29 +342,34 @@ $$
 Other types of mortality rates include:
 
 -   **Age-specific mortality rate**: the number of deaths per 100,000
-    population in a specific age group\
-    $$
-      ASMR= \frac{\text{Number of deaths in a specific age group}}{\text{Total population in that age group}}*100,000
-      $$
+    population in a specific age group \
+
+$$
+ASMR= \frac{\text{Number of deaths in a specific age group}}{\text{Total population in that age group}}*100,000
+$$
 
 -   **Cause-specific mortality rate**: the number of deaths per 100,000
-    population due to a specific cause\
-    $$
-    CSMR= \frac{\text{Number of deaths due to a specific cause}}{\text{Total population}}*100,000
-    $$
+    population due to a specific cause \
+
+$$
+CSMR= \frac{\text{Number of deaths due to a specific cause}}{\text{Total population}}*100,000
+$$
 
 -   **Infant mortality rate**: the number of deaths per 1,000 live
-    births in the first year of life\
-    $$
-    IMR= \frac{\text{Number of infant deaths}}{\text{Total number of live births}}*1,000
-    $$
+    births in the first year of life \
+
+$$
+IMR= \frac{\text{Number of infant deaths}}{\text{Total number of live births}}*1,000
+$$
 
 -   **Maternal mortality rate**: the number of maternal deaths per
-    100,000 live births\
-    $$
-    MMR= \frac{\text{Number of maternal deaths}}{\text{Total number of live births}}*100,000
-    $$
+    100,000 live births \
 
+$$
+MMR= \frac{\text{Number of maternal deaths}}{\text{Total number of live births}}*100,000
+$$
+
+\
 These mortality rates are used to assess the impact of diseases or
 injuries on a population and to identify areas where improvements in
 health care are needed.
@@ -441,6 +444,7 @@ $r$ is considered as a measure of the probability the disease occurs in
 a specified period of time. It quantifies the risk of an individual in
 the population at risk developing the disease during the specified time
 period.\
+
 $$
 \text{Incidence rate}= \frac{\text{number of new cases at time t}}{\text{total population at risk}}*1000
 $$
@@ -454,6 +458,7 @@ The prevalence identify the burden of disease at a specific time, rather
 than the probability of the disease to impact on the population, it
 expresses the probability of suffering from a disease, it is based on
 the total number of existing cases among the whole population.\
+
 $$\text{Prevalence}=\frac{\text{number of new + existing cases at time t}}{\text{total population}}$$
 
 Like incidence, it can be multiplied by a factor of 10\^n (where n is
@@ -664,20 +669,14 @@ hmsidwR::disweights2019
 ```{r}
 #| message: false
 #| warning: false
-#| label: tbl-disability-weights-full
-#| tbl-cap: "Disability Weights"
 #| eval: true
-#| echo: false
 
 library(hmsidwR)
 disability_weights <- hmsidwR::disweights2019
-disability_weights%>%
-  head()%>%
-  glimpse()
 ```
 
-The table here shows the first 6 rows of the disability weights for the
-specification, severity, and disability weights for the year 2019 for
+The table here shows the first 6 rows of the disability weights for
+cause1, severity, and disability weights for the year 2019 for
 204 countries and territories.
 
 ```{r}
@@ -698,8 +697,8 @@ impact of the severity condition on an individual's quality of life.
 ```{r}
 #| message: false
 #| warning: false
-#| label: tbl-disability-weights-2019
-#| tbl-cap: "Disability Weights-2019"
+#| label: tbl-severity-disability-weights
+#| tbl-cap: "Severity and Disability Weights"
 
 library(hmsidwR)
 disability_weights <- hmsidwR::disweights2019
@@ -874,21 +873,10 @@ from GBD study[@ihmeuw/i2024] are the same as those found in the
 #| warning: false
 #| label: tbl-disweights2019-lung
 #| tbl-cap: "Lung cancer - Disability Weights"
-hmsidwR::disweights2019%>%
+
+(lung_dw <- hmsidwR::disweights2019%>%
   filter(str_detect(sequela,"lung"))%>%
-  select(sequela,cause1,severity,dw)
-
-```
-
-```{r}
-#| echo: false
-
-lung_dw <- hmsidwR::disweights2019%>%
-  filter(str_detect(sequela,"lung"))%>%
-  select(sequela,cause1,severity,dw)
-paste(lung_dw$sequela[1],"dw = ",lung_dw$dw[1]);
-paste(lung_dw$sequela[2],"dw = ",lung_dw$dw[2])
-  
+  select(sequela,dw))
 ```
 
 So, 0.451 is the disability weight for the metastatic phase of lung, or
@@ -936,7 +924,6 @@ gelung_YLL%>%
 (YLLs <- sum(gelung_YLL$YLL))
 (YLDs <- sum(gelung_YLD$YLD))
 (DALYs <- YLLs + YLDs)
-
 ```
 
 Per 1000 population, the YLLs, YLDs, and DALYs for lung cancer deaths in
@@ -949,21 +936,40 @@ death with the years lived with disability.
 DALYs/1000 # DALYs per 1000 population
 ```
 
-The value of the metrics changes when different disability weights are adopted. It is noteworthy that the value for the Years Lived with Disabilities (YLDs) is often quite small compared to the contribution made by the Years of Life Lost (YLLs) in the calculation of Disability-Adjusted Life Years (DALYs). This disparity highlights how mortality frequently dominates the overall disease burden in many health evaluations, underscoring the critical impact of premature death on public health metrics.
+The value of the metrics changes when different disability weights are
+adopted. It is noteworthy that the value for the Years Lived with
+Disabilities (YLDs) is often quite small compared to the contribution
+made by the Years of Life Lost (YLLs) in the calculation of
+Disability-Adjusted Life Years (DALYs). This disparity highlights how
+mortality frequently dominates the overall disease burden in many health
+evaluations, underscoring the critical impact of premature death on
+public health metrics.
 
-For instance, consider the disability weights for lung cancer as calculated in a study tailored to the Korean population[@ock2019]. These weights are subdivided into four groups corresponding to the stages of the disease, from 1 to 4. Each stage reflects increasing severity and a corresponding increase in the disability weight. Such gradations are crucial for accurately reflecting the progression of the disease and its escalating impact on patients' lives. This differentiation allows health policymakers and researchers to fine-tune interventions and allocate resources more effectively, targeting the stages that contribute most significantly to health deterioration.
-
+For instance, consider the disability weights for lung cancer as
+calculated in a study tailored to the Korean population[@ock2019]. These
+weights are subdivided into four groups corresponding to the stages of
+the disease, from 1 to 4. Each stage reflects increasing severity and a
+corresponding increase in the disability weight. Such gradations are
+crucial for accurately reflecting the progression of the disease and its
+escalating impact on patients' lives. This differentiation allows health
+policymakers and researchers to fine-tune interventions and allocate
+resources more effectively, targeting the stages that contribute most
+significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------------|--------------|--------------|--------------|
+|-----------------------|-----------------|-----------------|-----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
 | Trachea, bronchus and lung cancers (stage 3) | 0.758              | 0.710 | 0.801 |
 | Trachea, bronchus and lung cancers (stage 4) | 0.906              | 0.873 | 0.932 |
 
-
-Understanding the nuances of how disability weights influence the overall calculations of DALYs can guide more informed decisions in health care planning and policy-making. It emphasizes the importance of comprehensive disease management strategies that address both the prevention of disease and the mitigation of its impact throughout all stages of its progression.
+Understanding the nuances of how disability weights influence the
+overall calculations of DALYs can guide more informed decisions in
+health care planning and policy-making. It emphasizes the importance of
+comprehensive disease management strategies that address both the
+prevention of disease and the mitigation of its impact throughout all
+stages of its progression.
 
 ```{r}
 #| echo: false
