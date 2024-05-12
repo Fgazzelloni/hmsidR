@@ -3,8 +3,6 @@
 > "Human beings are not just passive victims of disease. They are active
 > participants in the biological confrontation between man and microbe."
 
-<br>
-
 ```{r}
 #| echo: false
 ggplot2::theme_set(ggplot2::theme_minimal())
@@ -67,6 +65,14 @@ loss on unseen samples [@machine2024].
 ![Machine Learning cycle](images/ml-image.png){fig-align="center"
 width="404"}
 
+The **Machine Learning cycle** is a continuous process that involves the
+following steps: data collection, data preprocessing, model selection,
+model training, model evaluation, and model deployment. The cycle is
+iterative, with each step informing the next, and the process is
+repeated until the desired performance is achieved. The goal of the
+Machine Learning cycle is to develop models that can make accurate
+predictions or decisions based on data.
+
 The emergence of infections is an ongoing evolution and adaptation
 [@broemeling2021]. In the late 1970s, Dr. René Dubos believed that '*the
 relationship between humans and microbes is dynamic and influenced by
@@ -121,23 +127,24 @@ new, unseen data.
 
 ## The steps of building a model
 
-The process of constructing a mathematical or computational model that
-represents the relationships between variables in a given system is
-intended as model development. At the heart of this process is the
-application of a model function to estimate coefficients that minimize
-the difference between the model's predictions and the observed data.
+The process of constructing a model that would be able to explain the
+relationships between dependent and independet variables in a given
+system is intended as model development. At the heart of this process is
+the application of a model function to estimate coefficients that
+minimize the difference between the model's predictions and the observed
+data.
 
 Let's break this down further: Suppose we have a response variable,
 denoted as $y$, which represents the number of deaths or infections in
-our dataset. Additionally, we have predictor variables $x_1, x_2, ...$,
-which are other factors that may influence the level of $y$. These
-predictor varies based on the type of analyses, and could include
-factors such as demographics, secondary health outcomes (morbidity),
-population density, temperature, vaccination rates, etc. The goal of
-model development is to create a mathematical function that captures the
-relationship between the response variable $y$ (or dependent variable)
-responding to changes in predictor variables $x_i$ (or independent
-variables) within the study.
+our dataset. Additionally, we have some other variables called
+predictors $x_1, x_2, ...$, which are factors that may influence the
+level of $y$. These predictors are selected based on the type of
+analyses, and could include factors such as demographics, secondary
+health outcomes (morbidity), population density, temperature,
+vaccination rates, etc. The goal of model development is to create a
+mathematical function that captures the relationship between the
+response variable $y$ (or dependent variable) responding to changes in
+predictor variables $x_i$ (or independent variables) within the study.
 
 This function, often referred to as the model equation or model
 function, is typically represented as:
@@ -470,15 +477,18 @@ distinction is made between **regression** and **classification** based
 on whether the outcome variable is continuous.
 
 **Machine learning models** are all that types of models that can be all
-of the above but allow for **model parameters auto-calibration**. More
-will be explained below, but it's crucial to understand that creating a
-model involves high-level calculations, such as when constructing
-differential equations. This means progressing beyond a basic equation
-to include various parameters such as time and probabilities. In
-substance, it is considered the proportion of variation over time as
-time approaches zero. In the study of infectious diseases and the
-interest in how variables evolve over time, model selection requires an
-understanding of the underlying patterns and dynamics of growth.
+of the above but allow for: **learning from data through model
+parameters auto-calibration**. Learning from data is a process where an
+algorithm adjusts its parameters to minimize the errors in predictions.
+Each algorithm has its method of learning. More will be explained below,
+but it's crucial to understand that creating a model might involves
+high-level calculations, such as when constructing differential
+equations. This means progressing beyond a basic equation to include
+various parameters such as time and probabilities. In substance, it is
+considered the proportion of variation over time as time approaches
+zero. In the study of infectious diseases and the interest in how
+variables evolve over time, model selection requires an understanding of
+the underlying patterns and dynamics of growth.
 
 So, let's start looking at how our simple linear equation
 $y= \beta_0+\beta_1 x$ can be changed to become a differential equation.
@@ -595,13 +605,13 @@ gamma <- 0.05  # Rate of recovery
 Set an initial state and a time vector, let's say 100 days.
 
 ```{r}
-initial_state <- c(S = N - 1, E = 1, I = 0, R = 0)  # Initial state
+initial_state <- c(S = N - 1, E = 1, I = 0, R = 0)
 
 # Time vector
 times <- seq(0, 100, by = 1)
 ```
 
-Here we use the `ode()` function from the `{deSolve}` package for the
+Here we use the `ode()` function from the `{deSolve}` package for
 solving the differential equations in the the SEIR model function that
 we created above.
 
@@ -629,6 +639,9 @@ simulated_data <- as.data.frame(output)
 head(simulated_data)
 ```
 
+
+This plot shows the simulated data of the SEIR model, with the number of susceptible, exposed, infectious, and recovered individuals over time. The number of susceptible individuals decreases over time as they become exposed and infected, while the number of exposed and infectious individuals increases before eventually decreasing as individuals recover from the infection.
+
 ```{r}
 # Plot simulated data
 ggplot(simulated_data, aes(x = time)) +
@@ -645,8 +658,9 @@ ggplot(simulated_data, aes(x = time)) +
 #### Random Forest
 
 The next step is to calibrate this model by applying a machine learning
-algorithm. In this case we apply a `random forest` model, and add some
-normally distributed noise to the simulated data.
+algorithm. A `random forest` model is a type of model that uses an algorithm called **ensemble learning** to build multiple decision trees and combine their predictions to make accurate predictions. It works by splitting the data into subsets and building a decision tree for each subset. The final prediction is made by aggregating the predictions of all decision trees. Unlike mechanistic models, Random Forest does not rely on explicit equations or known relationships but instead learns patterns from the input data.
+
+The `randomForest()` function from the `{randomForest}` package is used to predict the number of new infections in the simulated data, and train the model to which some normally distributed noise is added to the simulated data.
 
 ```{r}
 simulated_data <- cbind(simulated_data, 
@@ -654,16 +668,13 @@ simulated_data <- cbind(simulated_data,
                                       mean = 0, sd = 5))
 ```
 
-Feature engineering: Generate lagged values of infected cases
-
-```{r}
-#simulated_data <- cbind(simulated_data, 
-#                        lagged_I = lag(simulated_data$I, 1))
-```
+Simulated data is split into **training** and **testing** sets to train the model and evaluate its performance. What this means is that the model is trained on a subset of the data (the training set) and then tested on the remaining data (the testing set) to assess its predictive performance.
 
 ```{r}
 #| message: false
 #| warning: false
+#| fig.cap: "Tree of Random Forest Model for Epidemic X"
+#| fig.height: 4
 # Load required packages
 library(randomForest)
 
@@ -675,23 +686,31 @@ test_data <- simulated_data[-train_index, ]
 
 # Train the Random Forest model - non machine learning yet!
 rf_model <- randomForest(formula = I ~ ., 
-                         data = train_data)
+                         data = round(train_data))
+# Plot the tree
+reprtree:::plot.getTree(rf_model, k=3, depth=4,cex=0.8)
 ```
+
+It can be seen that the Random Forest model is trained on the simulated data, and the decision tree is built grouping the data into different categories, in this case the model uses the input variables (S, E, R, noise) with `depth = 4` to set the limit of the number of splits in the tree. Things can change with a different set of parameters, such as the number of trees, the number of variables to consider at each split, and the minimum number of data points required to split a node.
+
+To predict the number of new infections based on the input variables, the `predict()` function is used on the test set, and the Root Mean Squared Error (RMSE) is then calculated to evaluate the model's performance. It quantifies how much the predicted values deviate from the actual values. The smaller the RMSE, the closer the predicted values are to the actual values, indicating a better predictive model performance. Conversely, a higher RMSE indicates a greater error between predicted and actual values.
 
 ```{r}
 # Make predictions on the test set
 predictions <- predict(rf_model, newdata = test_data)
 
 # Calculate Root Mean Squared Error (RMSE)
-rmse <- sqrt(mean((test_data$I - predictions)^2,na.rm = T))
-
-# Print RMSE
-print(paste("RMSE:", rmse))
+(rmse <- sqrt(mean((test_data$I - predictions)^2,na.rm = T)))
 ```
+This means that the model's predictions deviate from the actual values by an average of 8.66 new infections. This value can be used to assess the model's performance and identify areas for improvement.
 
 ```{r}
-#| message: false
-#| warning: false
+#| layout-ncol: 2
+#| label: fig-seir-rf
+#| fig-cap:
+#|   - "Prediction of Infections for Epidemic X"
+#|   - "Observed vs Estimated values"
+
 cbind(test_data,pred=predictions)%>%
   ggplot(aes(I,pred))+
   geom_point()+
@@ -699,18 +718,26 @@ cbind(test_data,pred=predictions)%>%
   labs(title = "Prediction of Infections for Epidemic X",
        subtitle = "Simulate Data",
        x="Infections",y="Predicted values")
+
+cbind(test_data,pred=predictions)%>%
+   ggplot(aes(x=time))+
+   geom_point(aes(y=I))+
+   geom_line(aes(y=pred),color="navy")+
+   labs(title = "Prediction of Infections for Epidemic X",
+       subtitle = "Simulate Data",
+       x="Time (Day)",y="Obesrved vs Estimated values")
 ```
 
 #### Parameters Calibration with Tidymodels
 
 Random Forest model is a powerful machine learning algorithm that can be
-tuned to improve its performance. The tuning process involves selecting
-the optimal values for the hyperparameters of the model, such as the
-number of trees, the number of variables to consider at each split, and
-the minimum number of data points required to split a node. These
-hyperparameters can significantly impact the model's performance, and
-tuning them can help improve the model's accuracy and generalization to
-new data.
+tuned to improve its performance. The **tuning process** involves
+selecting the optimal values for the hyperparameters of the model, such
+as in the case of a random forest model, the number of trees, the number
+of variables to consider at each split, and the minimum number of data
+points required to split a node. These hyperparameters can significantly
+impact the model's performance, and tuning them can help improve the
+model's accuracy and generalization to new data.
 
 For this task we use the `{tidymodels}` package, a collection of
 packages for modeling and machine learning using the tidyverse
@@ -723,7 +750,6 @@ machine learning models.
 #| warning: false
 library(tidymodels)
 library(dials)
-#tidymodels_conflicts()
 tidymodels_prefer()
 
 # Spending data
@@ -828,7 +854,7 @@ print(paste("RMSE:", rmse))
 
 ```{r}
 #| layout-ncol: 2
-#| label: fig-seir-rf
+#| label: fig-seir-rf-tune
 #| fig-cap:
 #|   - "Prediction of Infections for Epidemic X"
 #|   - "Observed vs Estimated values"
@@ -841,10 +867,9 @@ augumented%>%
        x="Infections",y="Predicted values")
 
 augumented%>%
-   ggplot(aes(x=row_number(I)))+
+   ggplot(aes(x=time))+
    geom_point(aes(y=I))+
    geom_line(aes(y=.pred),color="navy")+
-   # geom_segment(aes(xend=row_number(I),y=I,yend=.pred),color="orange")+
    labs(title = "Prediction of Infections for Epidemic X",
        subtitle = "Simulate Data",
        x="Time (Day)",y="Obesrved vs Estimated values")
@@ -854,17 +879,14 @@ augumented%>%
 
 #### INLA: an empirical Bayes approach to GAMs
 
-As a valid alternative to Markov chain Monte Carlo (MCMC) methods (Gilks
-et al.
-[1996](https://becarioprecario.bitbucket.io/inla-gitbook/ch-intro.html#ref-Gilksetal:1996);
-Brooks et al.
-[2011](https://becarioprecario.bitbucket.io/inla-gitbook/ch-intro.html#ref-Brooksetal:2011)) -
-(@sec-appendixB), due to the deterministic nature of its approximations,
-**INLA - integrated nested Laplace approximation** [@approxim] is an
-excellent choice for applications requiring repeated model fitting. The
-INLA approach is particularly useful for fitting complex models, such as
-generalized additive models (GAMs), which involve non-linear
-relationships between predictors and the response variable.
+As a valid alternative to Markov chain Monte Carlo (MCMC) methods
+([@markovc1995]) - (@sec-appendixB), due to the deterministic nature of
+its approximations, **INLA - integrated nested Laplace approximation**
+[@approxim] is an excellent choice for applications requiring repeated
+model fitting. The INLA approach is particularly useful for fitting
+complex models, such as generalized additive models (GAMs), which
+involve non-linear relationships between predictors and the response
+variable.
 
 The use of a Laplacian approximation is to estimate the individual
 posterior marginals of the model parameters. This allows for faster

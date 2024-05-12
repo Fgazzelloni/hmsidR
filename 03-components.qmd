@@ -98,7 +98,7 @@ health strategies effectively.
 In the context of calculating Disability-Adjusted Life Years (DALYs),
 specifically for the component related to Years of Life Lost (YLL), $ex$
 (the expected remaining lifetime at age $x$) is typically used rather
-than overall **life expectancy from birth (**$le$). This is because YLLs
+than overall **life expectancy from birth** ($le$). This is because YLLs
 are calculated based on the difference between the age at death and the
 expected age at death, which is more accurately represented by the
 remaining life expectancy at a specific age.
@@ -342,28 +342,28 @@ $$
 Other types of mortality rates include:
 
 -   **Age-specific mortality rate**: the number of deaths per 100,000
-    population in a specific age group \
+    population in a specific age group\
 
 $$
 ASMR= \frac{\text{Number of deaths in a specific age group}}{\text{Total population in that age group}}*100,000
 $$
 
 -   **Cause-specific mortality rate**: the number of deaths per 100,000
-    population due to a specific cause \
+    population due to a specific cause\
 
 $$
 CSMR= \frac{\text{Number of deaths due to a specific cause}}{\text{Total population}}*100,000
 $$
 
 -   **Infant mortality rate**: the number of deaths per 1,000 live
-    births in the first year of life \
+    births in the first year of life\
 
 $$
 IMR= \frac{\text{Number of infant deaths}}{\text{Total number of live births}}*1,000
 $$
 
 -   **Maternal mortality rate**: the number of maternal deaths per
-    100,000 live births \
+    100,000 live births\
 
 $$
 MMR= \frac{\text{Number of maternal deaths}}{\text{Total number of live births}}*100,000
@@ -676,8 +676,8 @@ disability_weights <- hmsidwR::disweights2019
 ```
 
 The table here shows the first 6 rows of the disability weights for
-cause1, severity, and disability weights for the year 2019 for
-204 countries and territories.
+cause1, severity, and disability weights for the year 2019 for 204
+countries and territories.
 
 ```{r}
 #| label: tbl-disability-weights
@@ -957,7 +957,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------|-----------------|-----------------|-----------------|
+|---------------------|-----------------|-----------------|-----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

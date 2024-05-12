@@ -53,7 +53,7 @@ homogeneous data. For more information on feature engineering, see
 application, covering various techniques and appropriate use cases,
 focusing on practical understanding and implementation.
 
-## **Model selection strategies**
+## Model selection strategies
 
 When applying machine learning techniques to health metrics and the
 study of infectious diseases, it is crucial to select approaches that
@@ -63,14 +63,14 @@ therefore, our focus in this book will be on those models that are most
 pertinent to public health investigations.
 
 The first step, once data is collected and prepared for analysis,
-involves conducting a thorough exploratory data analysis (EDA). This
+involves conducting a thorough **exploratory data analysis (EDA)**. This
 initial exploration helps to uncover the underlying structure of the
 data, the relationships between variables, and the way the response
 variable—which may also be referred to as the outcome variable—depends
 on predictors. This phase is critical as it informs the necessity of
 subsequent data adjustments and transformations.
 
-Feature engineering may follow the exploratory phase. This process
+**Feature engineering** may follow the exploratory phase. This process
 involves creating new variables from existing ones to enhance the
 machine learning models' ability to discern patterns and make accurate
 predictions. Decisions on feature engineering should be based on
@@ -86,14 +86,14 @@ policy formulation.
 
 ### Example 4: Rabies
 
-The `rabies` dataset from the `hmsidwR` package contains information on
-deaths and disability-adjusted life years (DALYs) due to rabies and
-other causes in different regions of the world from 1990 to 2019.
+The `rabies` dataset from the `{hmsidwR}` package contains information on
+death rates and disability-adjusted life years (DALYs) due to rabies and
+all causes mortality in Asia and for the Global region from 1990 to
+2019.
 
-Consider only Asia and the Global region, the number of DALYs due to
-both rabies and all cause mortality. The first thing to notice is that
-deaths rates and DALYs are on different units, rates and years
-respectively.
+Consider only the number of DALYs due to rabies, the first thing to
+notice is that deaths rates and DALYs are on different units, rates and
+years respectively.
 
 ```{r}
 library(tidyverse)
@@ -106,12 +106,35 @@ rabies <- hmsidwR::rabies%>%
 rabies %>% head
 ```
 
+It can be seen that the number of deaths due to rabies is much lower than the number of DALYs. This difference in scale can affect the model's ability to learn from the data. To address this issue, we can scale and center the numeric variables to make them more comparable.
+
+
+```{r}
+#| layout-ncol: 2
+#| label: fig-rabies-deaths-dalys
+#| fig.cap: 
+#|   - "Not scaled"
+#|   - "Scaled and centered"
+
+rabies%>%
+  ggplot(aes(x=year, group=location,color=location))+
+  geom_line(aes(y=dx_rabies),
+            linewidth=1)+
+  geom_line(aes(y=dalys_rabies))
+  
+rabies%>%
+  # apply a scale transformation to the numeric variables
+  mutate(across(where(is.double),scale))%>%
+  ggplot(aes(x=year, group=location,color=location))+
+  geom_line(aes(y=dx_rabies),
+            linewidth=1)+
+  geom_line(aes(y=dalys_rabies)) 
+```
+
 Creating new features from existing ones provide additional predictive
-power. In this case we have split the cause vector into two indicating
-deaths due to both causes separately. Also, we can scale and center the
-numeric variables so to have homogeneous data to use in the model, this
-is useful in particular when a transformation is applied. We could use
-splines, for example.
+power. Then, combine the cause vector in a way to obtain two vectors for
+death rates due to rabies and all causes, scale and center the numeric
+variables to obtain homogeneous data to use in the model.
 
 ```{r}
 all_causes <- hmsidwR::rabies%>%
@@ -127,9 +150,9 @@ dat <- rabies %>%
 dat %>% head()
 ```
 
-This is the data we have obtained, and to be able to visualize the
-magnitude of difference it is necessary to scale or standardiza the
-data.
+To be able to visualize the magnitude of difference between death rates
+and DALYs for both rabies and all causes, it is necessary to scale or
+standardize the data as shown above.
 
 ```{r}
 dat%>%
@@ -139,13 +162,30 @@ dat%>%
   ggplot(aes(x=year,group=location,color=location))+
   geom_line(aes(y=dx_rabies),
             linewidth=1)+
-  #geom_line(aes(y=dx_allcauses))+
-  geom_line(aes(y=dalys_rabies))
-  #geom_line(aes(y=dalys_allcauses))
+  geom_line(aes(y=dx_allcauses))
+
+dat%>%
+  select(-year,-location)%>%
+  scale()%>%
+  cbind(dat%>%select(year,location))%>%
+  ggplot(aes(x=year,
+  group=location,
+  color=location))+
+  geom_line(aes(y=dalys_rabies),
+            linewidth=1)+
+  geom_line(aes(y=dalys_allcauses))
 ```
 
+### Modeling
+
+Load the `{tidymodels}` meta-package and split the data into training
+and test, create a resampling with cross-validation technique, and a
+recipe to pre-process the data.
+
 ```{r}
-suppressPackageStartupMessages({library(tidymodels)})
+#| message: false
+#| warning: false
+library(tidymodels)
 set.seed(04042024)
 split <- initial_split(dat,prop = 0.8)
 training <- training(split)
@@ -153,8 +193,8 @@ test <- testing(split)
 folds <- vfold_cv(training)
 ```
 
-Then create a recipe with some key steps to trasnform the data into a
-model digestable shape.
+Then create a recipe with some key steps to transform the data into a
+way the model would be able to understand and learn from it.
 
 ```{r}
 rec <- recipe(dalys_rabies ~. , data=training)%>%
@@ -168,7 +208,7 @@ rec %>%
   prep()%>%juice()%>%head
 ```
 
-## Random Forest
+### Random Forest
 
 There are various type of modeling that can be used, let's get started
 with a random forest, this choice is due to this type of algorithm which
@@ -186,11 +226,11 @@ predictions of multiple individual decision trees to produce a more
 accurate and stable prediction.
 
 In our simplified case this type of model will do random samples with
-replacement of data. In {tidymodels} we can select different types of
-engines, in the case of random forest we could use randomForest, ranger,
-and others. The difference between these engines derives from the
-specific type of calculation used to make the estimation. The Ranger
-engine is notably faster than randomForest, so let's use that for this
+replacement of data. In `{tidymodels}` we can select different types of
+engines, in the case of random forest we could use random forest,
+ranger, and others. The difference between these engines derives from
+the specific type of calculation used to make the estimation. The Ranger
+engine is notably faster than random forest, so let's use that for this
 example.
 
 ```{r}
@@ -252,3 +292,103 @@ rf_fit %>%
    coord_fixed() +
    expand_limits(x = 0, y = 0)
 ```
+
+### Generalized Linear Model (GLM)
+
+In the example using a Generalized Linear Model (GLM) I provided
+earlier, we didn't explicitly cover the process of model parameters
+calibration that typically characterizes more complex machine learning
+models. GLMs, while powerful, primarily involve statistical estimation
+rather than the iterative parameter tuning that is common in many
+machine learning techniques. However, adding a machine learning aspect
+through parameter calibration can be done using techniques such as
+cross-validation and grid search to find the best model settings.
+
+To introduce a machine learning feature with parameter calibration into
+our modeling of the rabies data, we can use a technique like
+cross-validation combined with a regularization method or an algorithm
+that supports parameter tuning. Here, we can employ a model from the
+`glmnet` package, which fits a generalized linear model via penalized
+maximum likelihood. The regularization path is computed for the lasso or
+elastic-net penalty at a grid of values for the regularization parameter
+lambda.
+
+Adding Machine Learning Features with `{glmnet}` and Cross-Validation
+
+```{r}
+#| message: false
+#| warning: false  
+if (!require(glmnet)) install.packages("glmnet")
+library(glmnet)
+```
+
+For `glmnet`, we need to input matrices rather than data frames:
+
+```{r}
+# Create matrices for the independent variables (predictors) and the dependent variable (response)
+predictors <- model.matrix(dalys_rabies ~ ., 
+  data = dat)[,-1]  # Remove intercept
+response <- dat$dalys_rabies
+```
+
+Use cross-validation to find the optimal lambda value, which controls
+the strength of the regularization:
+
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+
+# Fit the model with cross-validation
+cv_model <- cv.glmnet(predictors, 
+response, 
+family = "gaussian")
+
+# Plot the lambda selection
+plot(cv_model)
+```
+
+Extract the Best Model and Review
+
+```{r}
+# Get the best lambda value
+best_lambda <- cv_model$lambda.min
+print(paste("Best Lambda:", best_lambda))
+```
+
+```{r}
+# Fit final model with the selected best lambda
+final_model <- glmnet(predictors, 
+response, 
+family = "gaussian", 
+lambda = best_lambda)
+
+# Summary of the final model
+print(summary(final_model))
+```
+
+Predict and Evaluate
+
+```{r}
+# Predict using the final model
+predictions <- predict(final_model, 
+s = best_lambda, 
+newx = predictors)
+
+# Calculate Mean Squared Error
+mse <- mean((response - predictions)^2)
+print(paste("Mean Squared Error:", mse))
+```
+
+### Considerations
+
+By incorporating `glmnet` and using lambda selection via
+cross-validation, we introduce a machine learning feature—parameter
+calibration—into our analysis. This approach not only helps in
+minimizing overfitting but also enhances model performance by selecting
+the most effective regularization parameter. The cross-validation
+process used here is crucial for confirming that our model's parameters
+are optimally tuned for the given data, embodying a key aspect of
+machine learning methodologies.
+
+In summary, the integration of machine learning techniques into public health data analysis can significantly enhance the predictive power and robustness of models. By leveraging the capabilities of machine learning algorithms, we can extract valuable insights from complex health data, enabling more informed decision-making and policy formulation in public health contexts.
+
