@@ -12,5 +12,9 @@ Encoding: UTF-8
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
+BuildType: Website
+
 MarkdownWrap: Column
 MarkdownWrapAtColumn: 72
+
+SpellingDictionary: en_US

@@ -18,6 +18,7 @@ _extensions/
 _site/
 _freeze/
 docs/
+_book/
 *.html
 *.aux
 *.bcf

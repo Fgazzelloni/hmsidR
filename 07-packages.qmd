@@ -18,6 +18,7 @@ Learning Objectives
 ```{r}
 #| echo: false
 ggplot2::theme_set(ggplot2::theme_minimal())
+options(timeout = 600)
 ```
 
 ## Inside and outside of the library boxes
@@ -67,6 +68,11 @@ disease include:
     modern and extensible framework for machine learning in R. It
     provides a unified interface for modeling tasks, making it easy to
     train and evaluate a wide range of machine learning algorithms.
+-   [**h2o**](https://h2o.ai/) is another powerful machine learning
+    framework that can be used to predict DALYs. **`h2o`** offers a
+    range of machine learning algorithms, including linear models,
+    tree-based models, and ensemble methods, with efficient handling of
+    large datasets and support for parallel computing.
 -   [**INLA**](https://www.r-inla.org/what-is-inla)[@r-inlap]:
     Integrated Nested Laplace Approximations (INLA) is a package for
     Bayesian inference using the INLA method. It is particularly useful
@@ -133,3 +139,216 @@ be beneficial to identify the most effective approach for a given
 analysis.
 
 ### Examples
+
+#### Tidymodels
+
+We have already used this package in @sec-05-machine_learning and
+@sec-06-techniques. This meta-package is particulrely useful for testing
+out more models with the help of the workflow_set() function. Here we
+see an example:
+
+```{r}
+library(tidymodels)
+```
+
+
+
+#### mlr3
+
+This meta-package is particularly useful for benchmarking different
+models. Here we see an example:
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+
+library(tidyverse)
+data <- hmsidwR::rabies%>%
+  select(-upper,-lower)%>%
+  pivot_wider(names_from = measure,values_from = val)%>%
+  filter(cause=="Rabies")%>%
+  rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
+  select(-cause)%>%
+  mutate(across(where(is.character),as.factor))
+```
+
+```{r}
+#| message: false
+#| warning: false
+library(mlr3)
+library(mlr3learners)
+library(mlr3viz)
+library(mlr3verse)
+library(data.table)
+#library(xgboost)
+
+# Define the task
+task <- TaskRegr$new(id = "dalys_rabies", 
+                     backend = data, 
+                     target = "dalys_rabies")
+
+# Define the learners
+learner_lm <- lrn("regr.lm")
+learner_xgboost <- lrn("regr.xgboost", 
+                       nrounds = 1000, 
+                       max_depth = 6, 
+                       eta = 0.01)
+
+# Add preprocessing steps: creating dummy variables
+poe <- po("encode")
+task <- poe$train(list(task))[[1]]
+
+# Define a resampling strategy
+resampling <- rsmp("cv", folds = 5)
+
+# Create a benchmark design
+design <- benchmark_grid(
+  tasks = task,
+  learners = list(learner_lm, learner_xgboost),
+  resamplings = resampling
+)
+
+design
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+# Run the benchmark
+set.seed(19052024)
+bmr = benchmark(design, store_models = TRUE)
+```
+
+
+```{r}
+# Aggregate the results
+measures <- msrs(c("regr.rmse", "regr.mae"))
+bmr$aggregate(measures)
+```
+
+#### h2o
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+
+library(tidyverse)
+data <- hmsidwR::rabies%>%
+  select(-upper,-lower)%>%
+  pivot_wider(names_from = measure,values_from = val)%>%
+  filter(cause=="Rabies")%>%
+  rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
+  select(-cause)%>%
+  mutate(across(where(is.character),as.factor))
+```
+
+
+
+```{r}
+#| message: false
+#| warning: false
+# install.packages("h2o")
+library(h2o)
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+# Initialize the H2O cluster
+h2o.init()
+Sys.sleep(10)
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+# Upload data to H2O
+h2o_data <- as.h2o(data)
+
+response <- "dalys_rabies"
+predictors <- setdiff(names(data), response)
+
+
+# Split data into training and testing sets
+splits <- h2o.splitFrame(h2o_data, ratios = 0.8, seed = 1234)
+train <- splits[[1]]
+test <- splits[[2]]
+
+
+# Train a linear regression model
+model_lm <- h2o.glm(
+  x = predictors,
+  y = response,
+  training_frame = train,
+  family = "gaussian"
+)
+
+# Train a GBM model
+model_gbm <- h2o.gbm(
+  x = predictors,
+  y = response,
+  training_frame = train,
+  ntrees = 1000,
+  max_depth = 6,
+  learn_rate = 0.01,
+  seed = 1234
+)
+
+# Train a random forest model
+model_rf <- h2o.randomForest(
+  x = predictors,
+  y = response,
+  training_frame = train,
+  ntrees = 100,
+  max_depth = 20,
+  seed = 1234
+)
+
+# Evaluate linear regression model
+perf_lm <- h2o.performance(model_lm, newdata = test)
+h2o.rmse(perf_lm);
+h2o.mae(perf_lm)
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+# Evaluate GBM model
+perf_gbm <- h2o.performance(model_gbm, newdata = test)
+h2o.rmse(perf_gbm);
+h2o.mae(perf_gbm)
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+# Evaluate random forest model
+perf_rf <- h2o.performance(model_rf, newdata = test)
+h2o.rmse(perf_rf);
+h2o.mae(perf_rf)
+```
+
+```{r}
+#| message: false
+#| warning: false
+h2o.shutdown(prompt = FALSE)
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+```
+

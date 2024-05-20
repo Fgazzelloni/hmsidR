@@ -1,7 +1,5 @@
 # Predictive Modeling and Beyond {#sec-08-predictions}
 
-
-
 ```{r}
 #| echo: false
 ggplot2::theme_set(ggplot2::theme_minimal())
@@ -244,6 +242,17 @@ sdi_fr_ts|>
 
 ### Model Ensembles
 
+To improve the predictive performance, predictions of multiple single
+learners can be aggregated to a **model ensemble** by combining the
+forecasts of individual models. Ensemble methods can reduce the variance
+and bias of the predictions, leading to more accurate and reliable
+results. Ensemble techniques such as bagging, boosting, and stacking
+leverage the diversity of individual models to create a stronger
+collective model that outperforms its components. These methods are
+widely used in machine learning and predictive modeling to enhance the
+predictive power of the model and achieve better generalization
+performance on unseen data.
+
 ```{r}
 caf_fit <- sdi_fr_ts|>
   model(arima210 = ARIMA(value ~ pdq(2,1,0)),
@@ -280,3 +289,14 @@ caf_fit |>
             aes(y=value))+
   geom_line(color="purple")
 ```
+
+### Ensemble Learning
+
+A machine learning technique that combines multiple models could be used to improve predictive performance is **ensemble learning**. It leverages the diversity of individual models to make more accurate predictions and reduce overfitting. Common ensemble methods include bagging, boosting, and stacking. 
+
+- Bagging (Bootstrap Aggregating) creates multiple models by training each model on a random subset of the data and then aggregating their predictions. 
+- Boosting builds a sequence of models, where each model focuses on the errors of the previous model to improve prediction accuracy. 
+- Stacking combines the predictions of multiple models using a meta-learner to generate the final prediction. 
+
+By combining the strengths of different models, ensemble learning can enhance predictive performance and provide more robust results.
+

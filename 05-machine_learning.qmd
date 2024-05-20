@@ -88,6 +88,40 @@ continuous parameter learning and adjustment achieved through a
 technique called tuning or parameter calibration, resulting in a range
 of possible alternative scenarios and simulations of the observed data.
 
+### Empirically Driven Models
+
+To locate machine learning models within the models framework, we can
+think about the scope of the analysis, which in this case is predicting
+the future preventing undesired outcomes.
+
+In particular, these types of models are subdivided in:
+
+1.  **Mechanistic Model** For example the SIR model is a **classic
+    compartmental model** used to simulate the spread of infectious
+    diseases. It divides the population into three compartments:
+    susceptible $(S)$, infectious $(I)$, and recovered $(R)$. The
+    equations describe the rate of change of each compartment over time,
+    where $\beta$ represents the transmission rate and $\gamma$
+    represents the recovery rate.
+
+$$ \text{SIR model  } \left\{\begin{matrix}
+ \frac{dS}{dt} = - \beta \cdot S \cdot I \\
+ \frac{dI}{dt} = \beta \cdot S \cdot I - \gamma \cdot I \\ 
+ \frac{dR}{dt} = \gamma \cdot I 
+\end{matrix}\right. $$ {#eq-sir-model-theory}
+
+2.  **Empirically Driven Model**: Empirically driven models do not have
+    explicit mathematical equations like mechanistic models. Instead,
+    they **learn patterns** and relationships directly from data. An
+    example of an empirically driven model is **Random Forest** which is
+    a machine learning algorithm that builds multiple decision trees and
+    combines their predictions to make accurate predictions. It works by
+    splitting the data into subsets and building a decision tree for
+    each subset. The final prediction is made by aggregating the
+    predictions of all decision trees. Unlike mechanistic models, Random
+    Forest does not rely on explicit equations or known relationships
+    but instead learns patterns from the input data.
+
 Machine learning models fall under the category of **empirically driven
 models**. Unlike **mechanistic models**, which are based on explicit
 equations and known relationships between variables (such as the
@@ -103,32 +137,67 @@ prediction, they operate on different principles:
 Before delving deep into machine learning techniques for analyzing
 health data and metrics, it's essential to proceed step by step in
 building a modeling framework. This approach begins with a thorough
-understanding of the modeling procedures. The first consideration is the
-type of output: your response variable, which you aim to investigate and
-eventually predict, will be of a specific type. It can be continuous or
-discrete. This distinction divides the models into two types:
-**regression** for numeric outcomes and **classification** for
-categorical outcomes.
+understanding of the modeling procedures.
 
-Initially, we start by constructing a **linear regression model**, as it
-helps establish relationships between variables with a simple,
-interpretable model. It’s effective for numeric continuous outcome data
-and provides a baseline for model performance. Then we transition to a
-**logistic regression model**, which despite its name, it is useful when
-dealing with binary or categorical outcome variables, which are common
-in medical data (e.g., disease presence or absence).
+### Learning Methods
 
-Finally, we refine our models by implementing automated parameter
-calibration to identify the most appropriate model adjustments. This
-step involves techniques like grid search, random search, or Bayesian
-optimization to find the optimal model parameters to ensures the model
-not only fits the current data well but also generalizes effectively to
-new, unseen data.
+There are a variety of models available, and the decision on which model
+to use depends on the type of **learning method**—either **supervised**
+or **unsupervised**. Supervised learning analyzes data by comparing
+observations against a predefined response variable, whereas
+unsupervised learning handles data that do not have a predefined
+response variable.
+
+The **nature of the data** is also fundamental, including whether the
+outcome is continuous or discrete, and whether the number of predictors
+exceeds the number of observations. Models can range from non-linear to
+multilevel, and they can involve more complex combinations. A major
+distinction is made between **regression** and **classification** based
+on whether the outcome variable is continuous.
+
+**Machine learning models** are all that types of models that can be all
+of the above but allow for: **learning from data through model
+parameters auto-calibration**. Learning from data is a process where an
+algorithm adjusts its parameters to minimize the errors in predictions.
+Each algorithm has its method of learning.
+
+### Parameters and Hyper-parameters
+
+In machine learning and statistical modeling, parameters and
+hyperparameters are two distinct concepts, each playing a crucial role
+in building and tuning models.
+
+**Parameters** are the **internal** coefficients or weights that the
+model learns from the training data. These values are adjusted during
+the training process to minimize the loss function and improve the
+model's accuracy. For instance, in a linear regression model, parameters
+include the **slope coefficients** and the **intercept** (@eq-lm).
+Parameters are optimized during the training phase using optimization
+algorithms that perform selection, mutation, and crossover of the
+**coefficients**. The goal is to find the set of parameters that best
+fit the training data.
+
+**Hyperparameters** are the **external** settings of the model that can
+be redefined by the practitioner, or optimized using techniques such as
+grid search, random search, or more advanced methods like Bayesian
+optimization. This process involves evaluating model performance with
+different hyperparameter settings. Examples of hyperparameters are the
+sample size, the number of trees on a random forest model, the learning
+rate, the regularization setting ($\lambda$ ) in ridge and lasso
+regression, and so on.
+
+More will be explained below, but it's important to understand that
+creating a model might involve high-level calculations. This means
+progressing beyond a basic equation to include parameter selection and
+hyperparameter optimization. In particular, in the study of infectious
+diseases, the focus is on how variables will evolve over time. For this
+reason, selecting the appropriate model requires an understanding of the
+underlying patterns and dynamics of growth.
 
 ## The steps of building a model
 
 The process of constructing a model that would be able to explain the
-relationships between dependent and independet variables in a given
+relationships between dependent and independent variables in a given
 system is intended as model development. At the heart of this process is
 the application of a model function to estimate coefficients that
 minimize the difference between the model's predictions and the observed
@@ -460,41 +529,21 @@ model. Other important factors influencing the spread are social
 behavior and vaccination. We will talk more about infectious diseases
 spread in section 4 @sec-13-infectious_diseases.
 
-### Important considerations
+### Example 2: Epidemic X
 
-There are a variety of models available, and the decision on which model
-to use depends on the type of **learning method**—either **supervised**
-or **unsupervised**. Supervised learning analyzes data by comparing
-observations against a predefined response variable, whereas
-unsupervised learning handles data that do not have a predefined
-response variable.
+#### SEIR
 
-The **nature of the data** is also fundamental, including whether the
-outcome is continuous or discrete, and whether the number of predictors
-exceeds the number of observations. Models can range from non-linear to
-multilevel, and they can involve more complex combinations. A major
-distinction is made between **regression** and **classification** based
-on whether the outcome variable is continuous.
-
-**Machine learning models** are all that types of models that can be all
-of the above but allow for: **learning from data through model
-parameters auto-calibration**. Learning from data is a process where an
-algorithm adjusts its parameters to minimize the errors in predictions.
-Each algorithm has its method of learning. More will be explained below,
-but it's crucial to understand that creating a model might involves
-high-level calculations, such as when constructing differential
-equations. This means progressing beyond a basic equation to include
-various parameters such as time and probabilities. In substance, it is
-considered the proportion of variation over time as time approaches
-zero. In the study of infectious diseases and the interest in how
-variables evolve over time, model selection requires an understanding of
-the underlying patterns and dynamics of growth.
+In this example we simulate data of an epidemic to build a SEIR
+(susceptible, exposed, infected, recovered) model, a case a little more
+complicated than just making a SIR (susceptible, infected, recovered)
+model (@eq-sir-model-theory) which we will see in more details in
+@sec-14-covid19.
 
 So, let's start looking at how our simple linear equation
 $y= \beta_0+\beta_1 x$ can be changed to become a differential equation.
 A differential equation describes how a quantity changes with respect to
 another quantity, in particular time in this case. So, we are interested
-in the variation of $y$ within time.\
+in the variation of $y$ within time.
 
 $$
 {y}'=\frac{dy}{dt}= \frac{y_1 - y_0}{t_1-t_0}
@@ -516,49 +565,8 @@ $$
 y'=\beta_1 \frac{dx}{dt}
 $$ {#eq-lin-diff-eq-2}
 
-The @eq-lin-diff-eq-2 will be used in the SIR model to describe how
+The @eq-lin-diff-eq-2 will be used in the model to describe how
 individuals move between compartments over time.
-
-To locate machine learning models within the models framework, we can
-think about the scope of the analysis, which in this case is predicting
-the future preventing undesired outcomes.
-
-In particular, these types of models are subdivided in:
-
-1.  **Mechanistic Model** For example the SIR model is a **classic
-    compartmental model** used to simulate the spread of infectious
-    diseases. It divides the population into three compartments:
-    susceptible $(S)$, infectious $(I)$, and recovered $(R)$. The
-    equations describe the rate of change of each compartment over time,
-    where $\beta$ represents the transmission rate and $\gamma$
-    represents the recovery rate.
-
-$$ \frac{dS}{dt} = - \beta \cdot S \cdot I $$ {#eq-ds}
-
-$$\frac{dI}{dt} = \beta \cdot S \cdot I - \gamma \cdot I $$ {#eq-di}
-
-$$ \frac{dR}{dt} = \gamma \cdot I $$ {#eq-dr}
-
-2.  **Empirically Driven Model**: Empirically driven models do not have
-    explicit mathematical equations like mechanistic models. Instead,
-    they **learn patterns** and relationships directly from data. An
-    example of an empirically driven model is **Random Forest** which is
-    a machine learning algorithm that builds multiple decision trees and
-    combines their predictions to make accurate predictions. It works by
-    splitting the data into subsets and building a decision tree for
-    each subset. The final prediction is made by aggregating the
-    predictions of all decision trees. Unlike mechanistic models, Random
-    Forest does not rely on explicit equations or known relationships
-    but instead learns patterns from the input data.
-
-### Example 2: Epidemic X
-
-#### SEIR
-
-In this example we simulate data of an epidemic to build a SEIR
-(susceptible, exposed, infected, recovered) model, a case a little more
-complicated than just making a SIR (susceptible, infected, recovered)
-model which we will see in more details in @sec-14-covid19.
 
 For this example we use a package named `{deSolve}` which solves
 differential equations.
@@ -639,8 +647,12 @@ simulated_data <- as.data.frame(output)
 head(simulated_data)
 ```
 
-
-This plot shows the simulated data of the SEIR model, with the number of susceptible, exposed, infectious, and recovered individuals over time. The number of susceptible individuals decreases over time as they become exposed and infected, while the number of exposed and infectious individuals increases before eventually decreasing as individuals recover from the infection.
+This plot shows the simulated data of the SEIR model, with the number of
+susceptible, exposed, infectious, and recovered individuals over time.
+The number of susceptible individuals decreases over time as they become
+exposed and infected, while the number of exposed and infectious
+individuals increases before eventually decreasing as individuals
+recover from the infection.
 
 ```{r}
 # Plot simulated data
@@ -658,9 +670,19 @@ ggplot(simulated_data, aes(x = time)) +
 #### Random Forest
 
 The next step is to calibrate this model by applying a machine learning
-algorithm. A `random forest` model is a type of model that uses an algorithm called **ensemble learning** to build multiple decision trees and combine their predictions to make accurate predictions. It works by splitting the data into subsets and building a decision tree for each subset. The final prediction is made by aggregating the predictions of all decision trees. Unlike mechanistic models, Random Forest does not rely on explicit equations or known relationships but instead learns patterns from the input data.
+algorithm. A `random forest` model is a type of model that uses an
+algorithm called **ensemble learning** to build multiple decision trees
+and combine their predictions to make accurate predictions. It works by
+splitting the data into subsets and building a decision tree for each
+subset. The final prediction is made by aggregating the predictions of
+all decision trees. Unlike mechanistic models, Random Forest does not
+rely on explicit equations or known relationships but instead learns
+patterns from the input data.
 
-The `randomForest()` function from the `{randomForest}` package is used to predict the number of new infections in the simulated data, and train the model to which some normally distributed noise is added to the simulated data.
+The `randomForest()` function from the `{randomForest}` package is used
+to predict the number of new infections in the simulated data, and train
+the model to which some normally distributed noise is added to the
+simulated data.
 
 ```{r}
 simulated_data <- cbind(simulated_data, 
@@ -668,7 +690,11 @@ simulated_data <- cbind(simulated_data,
                                       mean = 0, sd = 5))
 ```
 
-Simulated data is split into **training** and **testing** sets to train the model and evaluate its performance. What this means is that the model is trained on a subset of the data (the training set) and then tested on the remaining data (the testing set) to assess its predictive performance.
+Simulated data is split into **training** and **testing** sets to train
+the model and evaluate its performance. What this means is that the
+model is trained on a subset of the data (the training set) and then
+tested on the remaining data (the testing set) to assess its predictive
+performance.
 
 ```{r}
 #| message: false
@@ -691,9 +717,22 @@ rf_model <- randomForest(formula = I ~ .,
 reprtree:::plot.getTree(rf_model, k=3, depth=4,cex=0.8)
 ```
 
-It can be seen that the Random Forest model is trained on the simulated data, and the decision tree is built grouping the data into different categories, in this case the model uses the input variables (S, E, R, noise) with `depth = 4` to set the limit of the number of splits in the tree. Things can change with a different set of parameters, such as the number of trees, the number of variables to consider at each split, and the minimum number of data points required to split a node.
+It can be seen that the Random Forest model is trained on the simulated
+data, and the decision tree is built grouping the data into different
+categories, in this case the model uses the input variables (S, E, R,
+noise) with `depth = 4` to set the limit of the number of splits in the
+tree. Things can change with a different set of parameters, such as the
+number of trees, the number of variables to consider at each split, and
+the minimum number of data points required to split a node.
 
-To predict the number of new infections based on the input variables, the `predict()` function is used on the test set, and the Root Mean Squared Error (RMSE) is then calculated to evaluate the model's performance. It quantifies how much the predicted values deviate from the actual values. The smaller the RMSE, the closer the predicted values are to the actual values, indicating a better predictive model performance. Conversely, a higher RMSE indicates a greater error between predicted and actual values.
+To predict the number of new infections based on the input variables,
+the `predict()` function is used on the test set, and the Root Mean
+Squared Error (RMSE) is then calculated to evaluate the model's
+performance. It quantifies how much the predicted values deviate from
+the actual values. The smaller the RMSE, the closer the predicted values
+are to the actual values, indicating a better predictive model
+performance. Conversely, a higher RMSE indicates a greater error between
+predicted and actual values.
 
 ```{r}
 # Make predictions on the test set
@@ -702,7 +741,10 @@ predictions <- predict(rf_model, newdata = test_data)
 # Calculate Root Mean Squared Error (RMSE)
 (rmse <- sqrt(mean((test_data$I - predictions)^2,na.rm = T)))
 ```
-This means that the model's predictions deviate from the actual values by an average of 8.66 new infections. This value can be used to assess the model's performance and identify areas for improvement.
+
+This means that the model's predictions deviate from the actual values
+by an average of 8.66 new infections. This value can be used to assess
+the model's performance and identify areas for improvement.
 
 ```{r}
 #| layout-ncol: 2
@@ -728,7 +770,7 @@ cbind(test_data,pred=predictions)%>%
        x="Time (Day)",y="Obesrved vs Estimated values")
 ```
 
-#### Parameters Calibration with Tidymodels
+#### Optimization with Tidymodels
 
 Random Forest model is a powerful machine learning algorithm that can be
 tuned to improve its performance. The **tuning process** involves
@@ -769,7 +811,7 @@ data_recipe <- recipe(I ~ ., data = train_data) %>%
   step_normalize(all_numeric())
 
 # Define the Random Forest model
-rand_forest_ranger_spec <-
+rf_ranger_model <-
   # tuning parameters - Machine Learning Application
   rand_forest( 
       trees = tune(),
@@ -791,13 +833,13 @@ perform the optimization.
 # Bayesian optimization
 set.seed(123)
 bayes_results <- tune_bayes(
-  rand_forest_ranger_spec,
+  rf_ranger_model,
   data_recipe,
   resamples = cv_folds,
   metrics = metric_set(rmse, rsq),
   initial = 5,          # Number of initial random points
   iter = 20,            # Total iterations including initial points
-  param_info = parameters(rand_forest_ranger_spec)
+  param_info = parameters(rf_ranger_model)
 )
 ```
 
@@ -829,7 +871,7 @@ evaluate the model's performance.
 
 ```{r}
 # Final model with best parameters
-final_bayes_model <- finalize_model(rand_forest_ranger_spec, best_bayes)
+final_bayes_model <- finalize_model(rf_ranger_model, best_bayes)
 final_fit <- fit(final_bayes_model, 
                  formula = I ~ ., 
                  data = train_data)
@@ -880,7 +922,7 @@ augumented%>%
 #### INLA: an empirical Bayes approach to GAMs
 
 As a valid alternative to Markov chain Monte Carlo (MCMC) methods
-([@markovc1995]) - (@sec-appendixB), due to the deterministic nature of
+[@markovc1995] - (@sec-appendixB), due to the deterministic nature of
 its approximations, **INLA - integrated nested Laplace approximation**
 [@approxim] is an excellent choice for applications requiring repeated
 model fitting. The INLA approach is particularly useful for fitting
@@ -983,21 +1025,36 @@ effect over time.
 
 ## Measures of Machine Learning Models
 
+To evaluate the performance of machine learning models, the loss
+function and the evaluation metrics are used to assess how well the
+model generalizes to new, unseen data. The loss function quantifies the
+discrepancy between the predicted outcomes and the actual values,
+providing a measure of the model's performance. The evaluation metrics,
+such as accuracy, precision, recall, and F1 score, provide additional
+insights into the model's performance and can help identify areas for
+improvement.
+
+### Loss Functions
+
 ::: {.callout .success}
 The **loss function** is a method for evaluating how well a machine
 learning algorithm models featured a dataset. The **cost function** is
 the average of all loss function values.
 :::
 
-In machine learning, the accuracy of predictive models is assessed using
-various loss functions, which measure the discrepancy between the
-predicted outcomes and the actual values. Selecting the appropriate loss
-function is crucial because it directly influences model optimization
-and performance.
+The accuracy of predictive models is checked with **loss functions**,
+which measure the discrepancy between the predicted outcomes and the
+actual values. This adjustment the model learning process is performed
+through iterative adjustments of the model parameters with the objective
+to improve the model's performance.
 
-**1. Regression Loss Functions:** For regression tasks where the
-prediction involves continuous numbers, several loss functions are
-commonly used:
+Models are trained to a specific loss function that guides the
+optimization process and quantify the model performance. The most common
+loss functions are:
+
+1.  **Regression Loss Functions:** For regression tasks where the
+    prediction involves continuous numbers, several loss functions are
+    commonly used:
 
 -   **Mean Squared Error (MSE):** MSE calculates the average of the
     squares of the errors, i.e., the average squared difference between
@@ -1005,9 +1062,7 @@ commonly used:
     sensitive to outliers as it squares the errors before averaging
     them.
 
-$$
-MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{}Y_i-Y_i)^2}
-$$
+$$MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{Y_i}-Y_i)^2}$$
 
 -   **Mean Absolute Error (MAE):** MAE measures the average magnitude of
     the errors in a set of predictions, without considering their
@@ -1016,9 +1071,7 @@ $$
     sensitive to outliers, making it suitable for datasets with
     anomalies.
 
-$$
-MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{}Y_i-Y_i|}
-$$
+$$MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{Y_i}-Y_i|}$$
 
 -   **Mean Squared Logarithmic Error (MSLE):** MSLE is useful when
     targeting a regression model to predict exponential growth. By
@@ -1026,21 +1079,17 @@ $$
     the target variable to reduce the skew of the distribution, which
     can lead to more stable predictions across a range of values.
 
-$$
-MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{}Y_i+1)-log(Y_i+1))^2}
-$$
+$$MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{Y_i}+1)-log(Y_i+1))^2}$$
 
-**2. Classification Loss Functions:** For classification tasks, where
-the output is categorical, typical loss functions include:
+2.  **Classification Loss Functions:** For classification tasks, where
+    the output is categorical, typical loss functions include:
 
 -   **Binary Cross-Entropy:** Also known as log loss, this function
     measures the performance of a classification model whose output is a
     probability value between 0 and 1. It is particularly useful for
     binary classification tasks.
 
-$$
-L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}
-$$
+$$L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}$$
 
 -   **Hinge Loss:** Often used with Support Vector Machines (SVMs),
     hinge loss evaluates the margin of classification errors, providing
@@ -1050,22 +1099,107 @@ $$
 L=max(0,1-y*f(x))
 $$
 
-**3. Choosing the Right Loss Function:** Selecting a suitable loss
-function depends heavily on the specific characteristics of the data and
-the model application. For instance, if predicting precise values is
-crucial and the data range is wide, MSE might be appropriate.
-Conversely, for models where the prediction scale is logarithmic or the
-data contains many outliers, MSLE or MAE could be more effective.
+**Choosing the Right Loss Function:** The selection of a suitable loss
+function depends on the specific characteristics of the data and the
+model application. For instance, if predicting precise values is crucial
+and the data range is wide, MSE might be appropriate. Conversely, for
+models where the prediction scale is logarithmic or the data contains
+many outliers, MSLE or MAE could be more effective.
 
 The choice of a loss function is not merely a technical decision but a
 strategic one, affecting how a model learns and performs on unseen data.
 Each loss function has its strengths and trade-offs, making it vital for
-practitioners to understand their implications thoroughly.
+practitioners to understand their implications thoroughly. Understanding
+these measures and how they influence model training and predictions can
+greatly enhance the effectiveness of machine learning applications.
 
-Understanding these measures and how they influence model training and
-predictions can greatly enhance the effectiveness of machine learning
-applications. For deeper insights, consider studying sources that
-discuss these concepts extensively, such as the in-depth articles
+### Evaluation Metrics
+
+While loss functions are used during the training process to guide the
+optimization of the model parameters, **evaluation metrics** measure how
+well the model's predictions align with the actual outcomes, providing a
+signal to adjust the model.
+
+1.  **Regression Evaluation Metrics**: For regression tasks, the
+    following metrics are commonly used to assess the model's predictive
+    performance:
+
+-   **Root Mean Squared Error (RMSE):** A measure of the average
+    deviation between predicted and actual values, calculated as the
+    square root of the average of the squared differences between
+    predicted and actual values. It is commonly used in regression tasks
+    to assess the model's predictive accuracy.
+
+$$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y_i})^2}$$
+
+-   **R-squared (R2):** A statistical measure of how well the model fits
+    the data, indicating the proportion of variance in the dependent
+    variable that is explained by the independent variables. It ranges
+    from 0 to 1, with higher values indicating a better fit.
+
+$$R^2 = 1 - \frac{SS_{residual}}{SS_{total}}$$
+
+-   **Adjusted R-squared:** A modified version of R-squared that adjusts
+    for the number of predictors in the model, providing a more accurate
+    measure of the model's goodness of fit. It penalizes the addition of
+    unnecessary predictors that do not improve the model's performance.
+
+$$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$
+
+2.  **Classification Evaluation Metrics:** For classification tasks, the
+    following metrics are commonly used to evaluate the model's
+    performance:
+
+-   **Accuracy:** The proportion of correctly classified instances out
+    of the total instances in the dataset. It is a simple and intuitive
+    measure of a model's performance, but it may not be suitable for
+    imbalanced datasets.
+
+$$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+-   **Precision:** The proportion of true positive predictions out of
+    all positive predictions made by the model. It is a measure of the
+    model's ability to avoid false positives.
+
+$$Precision = \frac{TP}{TP + FP}$$
+
+-   **Recall (Sensitivity):** The proportion of true positive
+    predictions out of all actual positive instances in the dataset. It
+    is a measure of the model's ability to identify all positive
+    instances.
+
+$$Recall = \frac{TP}{TP + FN}$$
+
+-   **Confusion Matrix:** A table that summarizes the performance of a
+    classification model, showing the number of true positive (TP), true
+    negative (TN), false positive (FP), and false negative (FN)
+    predictions. It is used to calculate metrics such as accuracy,
+    precision, recall, and specificity.
+
+-   **F1 Score:** The harmonic mean of precision and recall, providing a
+    balanced measure of a model's performance. It is particularly useful
+    when dealing with imbalanced datasets.
+
+$$F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}$$
+
+-   **Receiver Operating Characteristic (ROC) Curve:** A graphical
+    representation of the trade-off between true positive rate
+    (sensitivity) and false positive rate (1-specificity) across
+    different threshold values. It is used to evaluate the performance
+    of binary classification models.
+
+$$TPR = \frac{TP}{TP + FN}; \text{ }FPR = \frac{FP}{FP + TN}$$
+
+-   **Area Under the Curve (AUC):** The area under the ROC curve, which
+    provides a single value to summarize the model's performance. An AUC
+    of 0.5 indicates a random classifier, while an AUC of 1.0 indicates
+    a perfect classifier.
+
+$$AUC = \int_{0}^{1} TPR(FPR) dFPR$$
+
+These are only a few of the most common loss functions and evaluation
+metrics able to provide insights into the model's performance to
+generalize to new data and make accurate predictions.
 
 ### Public health loss functions
 
@@ -1083,23 +1217,22 @@ The most common analyses methods are[@hult2021]:
 -   cost-effectiveness, for specific outcomes, such as life expectancy
     or medical outcomes.
 
-As mentioned in the history of health metrics, a cost-utility framework
-is one used for the calculation of QALY, a measure that within time has
-been considered as discriminating disabilities in the population by
-assessing a cost which was too higher or too low in most of the
-situation and was largely criticized for not being able to capture the
-whole picture.
+As mentioned in the history of health metrics
+(@sec-01-metrics_evaluation), the cost-utility framework has been
+employed for calculating QALY. Over time, this measure has been
+criticized for potentially discriminating against certain disabilities
+in the population by assigning costs that were perceived as either too
+high or too low, and for failing to capture the full spectrum of human
+health conditions.
 
-Comprehensive tools assessing the impacts through cost-effectiveness
-measures to estimate the effectiveness of health interventions should
-also include a measure of disability. The measure of DALY (1993)
-developed for major consideration of the disability status for the
-evaluation of the well-being of a population was then built adding a
-further layer based on weights of disability.
+Moreover, comprehensive tools that assess the impacts through
+cost-effectiveness measures to estimate the effectiveness of health
+interventions should also include a measure of disability. The measure
+of DALY (Disability-Adjusted Life Years), developed in 1993, took major
+consideration of the disability status in evaluating the well-being of a
+population. It was further enhanced by incorporating a layer based on
+disability weights.
 
-So, to recap, the measures for a cost-effectiveness intervention involve
-a careful calibration of following components:
-
--   mortality
--   morbidity
--   disability
+In summary, the measures for a cost-effectiveness intervention involve a
+careful calibration of following components: mortality, morbidity, and
+disability.
