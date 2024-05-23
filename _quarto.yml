@@ -125,50 +125,50 @@ format:
   pdf:
     documentclass: krantz
     classoption: [krantz2]
-    papersize: a4
-    toc: true
-    toc-title: Contents
-    toc-depth: 3
-    number-sections: true
-    number-depth: 3
-    number-offset: 0
-    lof: true
-    lot: true
-    fontsize: 12pt
-    monofont: "Source Code Pro"
-    monofontoptions: "Scale=0.7"
-    latex_engine: xelatex
-    citation_package: natbib
-    pandoc_args: --top-level-division=chapter
-    toc_unnumbered: no
-    toc_appendix: yes
-    quote_footer: ["\\VA{", "}{}"]
-    highlight_bw: yes
-    fig-pos: 'H'
-    dev: "cairo_pdf"
-    keep-tex: true
-    #code-block-border-left: "#BFBFBF"
-    #code-block-bg: "#f1f3f5"
-    highlight-style: none 
-    colorlinks: false 
-    hyperrefoptions:
-      - linktoc=all
-    indent: 2m  
-    latex-clean: true
-    latex-auto-install: true
-    include-in-header:
-    - text: |
-        \pagenumbering{arabic}
-        \usepackage{lscape}
-        \newcommand{\blandscape}{\begin{landscape}}
-        \newcommand{\elandscape}{\end{landscape}}
-        \usepackage{etoolbox}
-        \AtBeginEnvironment{table}{\sffamily} 
-    - file: latex/preamble.tex
-    include-before-body: 
-    - file: latex/before_body.tex    
-    include-after-body: 
-    - file: latex/after_body.tex
+   #papersize: a4
+   #toc: true
+   #toc-title: Contents
+   #toc-depth: 3
+   #number-sections: true
+   #number-depth: 3
+   #number-offset: 0
+   #lof: true
+   #lot: true
+   #fontsize: 12pt
+   #monofont: "Source Code Pro"
+   #monofontoptions: "Scale=0.7"
+   #latex_engine: xelatex
+   #citation_package: natbib
+   #pandoc_args: --top-level-division=chapter
+   #toc_unnumbered: no
+   #toc_appendix: yes
+   #quote_footer: ["\\VA{", "}{}"]
+   #highlight_bw: yes
+   #fig-pos: 'H'
+   #dev: "cairo_pdf"
+   #keep-tex: true
+   ##code-block-border-left: "#BFBFBF"
+   ##code-block-bg: "#f1f3f5"
+   #highlight-style: none 
+   #colorlinks: false 
+   #hyperrefoptions:
+   #  - linktoc=all
+   #indent: 2m  
+   #latex-clean: true
+   #latex-auto-install: true
+   #include-in-header:
+   #- text: |
+   #    \pagenumbering{arabic}
+   #    \usepackage{lscape}
+   #    \newcommand{\blandscape}{\begin{landscape}}
+   #    \newcommand{\elandscape}{\end{landscape}}
+   #    \usepackage{etoolbox}
+   #    \AtBeginEnvironment{table}{\sffamily} 
+   #- file: latex/preamble.tex
+   #include-before-body: 
+   #- file: latex/before_body.tex    
+   #include-after-body: 
+   #- file: latex/after_body.tex
     
 editor: visual
 editor_options:

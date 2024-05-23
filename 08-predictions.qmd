@@ -275,6 +275,7 @@ glance(caf_fit) |> arrange(AICc) |> select(.model:BIC)
 ### ARIMA chosen is ARIMA(1,1,0)
 
 ```{r}
+#| eval: false
 caf_fit |>
   select(search) |>
   gg_tsresiduals()
@@ -292,11 +293,19 @@ caf_fit |>
 
 ### Ensemble Learning
 
-A machine learning technique that combines multiple models could be used to improve predictive performance is **ensemble learning**. It leverages the diversity of individual models to make more accurate predictions and reduce overfitting. Common ensemble methods include bagging, boosting, and stacking. 
+A machine learning technique that combines multiple models could be used
+to improve predictive performance is **ensemble learning**. It leverages
+the diversity of individual models to make more accurate predictions and
+reduce overfitting. Common ensemble methods include bagging, boosting,
+and stacking.
 
-- Bagging (Bootstrap Aggregating) creates multiple models by training each model on a random subset of the data and then aggregating their predictions. 
-- Boosting builds a sequence of models, where each model focuses on the errors of the previous model to improve prediction accuracy. 
-- Stacking combines the predictions of multiple models using a meta-learner to generate the final prediction. 
+-   Bagging (Bootstrap Aggregating) creates multiple models by training
+    each model on a random subset of the data and then aggregating their
+    predictions.
+-   Boosting builds a sequence of models, where each model focuses on
+    the errors of the previous model to improve prediction accuracy.
+-   Stacking combines the predictions of multiple models using a
+    meta-learner to generate the final prediction.
 
-By combining the strengths of different models, ensemble learning can enhance predictive performance and provide more robust results.
-
+By combining the strengths of different models, ensemble learning can
+enhance predictive performance and provide more robust results.

@@ -19,8 +19,6 @@ Learning Objectives
 :::
 :::
 
-
-
 In this chapter, we delve into two primary learning objectives aimed at
 enhancing our understanding of public health dynamics: **estimating the
 burden of rabies** and **comparing health metric levels across different
@@ -303,21 +301,10 @@ cbind(dat2,predictions)%>%
 
 ## Health metrics countries comparison
 
-The Global Burden of Disease (GBD) study provides a comprehensive and up to date assessment of health metrics across countries. Let's compare the levels of health metrics in different countries.
+The Global Burden of Disease (GBD) study provides a comprehensive and up
+to date assessment of health metrics across countries. Let's compare the
+levels of health metrics in different countries.
 
 ```{r}
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-

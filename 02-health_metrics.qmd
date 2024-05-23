@@ -78,10 +78,14 @@ YLL=N*le
 $$ {#eq-yll}
 
 in @eq-yll, $N$ is the number of premature deaths, and $le$ is the
-[standard live expectancy at the age of death]{.underline}. This calculation takes into account the number of deaths at each age and multiplies it by the standard life expectancy remaining at that age, using global life tables to determine life expectancy. More specification about the components of YLL are
-provided in the next @sec-03-components and a sample of the construction
-of a life table with relative estimations of the life expectancy can be
-found in @sec-appendixA.
+[standard live expectancy at the age of death]{.underline}. This
+calculation takes into account the number of deaths at each age and
+multiplies it by the standard life expectancy remaining at that age,
+using global life tables to determine life expectancy. More
+specification about the components of YLL are provided in the next
+@sec-03-components and a sample of the construction of a life table with
+relative estimations of the life expectancy can be found in
+@sec-appendixA.
 
 In general, the Global Burden of Diseases studies (GBD) utilize standard
 life tables, enabling the measurement of the impact of different
@@ -105,6 +109,15 @@ observations and 7 variables, containing the estimated number of deaths
 due to 9 causes across 6 regions: Global, France, Italy, Germany, the
 United Kingdom, and the United States. Our specific task is to calculate
 the Years of Life Lost (YLLs) attributable to stroke in the year 2019.
+
+```{r}
+#| eval: false
+#| warning: false
+#| message: false
+# install.packages("devtools")
+devtools::install_github("Fgazzelloni/hmsidwR")
+```
+
 
 ```{r}
 #| warning: false
@@ -255,7 +268,10 @@ YLD=p*DW
 $$ {#eq-yld}
 
 in @eq-yld, $p$ is the prevalence, $DW$ are the disability weights. The
-prevalence is the incidence times the duration of the condition. In other words, it involves the number of cases of a disease or health condition present in the population (prevalence) and the impact of the health condition's severity on quality of life (disability weight).
+prevalence is the incidence times the duration of the condition. In
+other words, it involves the number of cases of a disease or health
+condition present in the population (prevalence) and the impact of the
+health condition's severity on quality of life (disability weight).
 
 Since the release of the GBD 2010 and WHO have decided to switch to a
 prevalence-based approach to calculation of YLDs. The major impact of

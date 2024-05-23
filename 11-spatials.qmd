@@ -108,7 +108,6 @@ maps made with `{ggplot2}`, `{ggmap}`, and `{laeflet}`.
 
 Also for specific location we can use the {worldmet} package.
 
-
 #### Map with ggplot2
 
 ```{r}

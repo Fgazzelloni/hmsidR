@@ -151,8 +151,6 @@ see an example:
 library(tidymodels)
 ```
 
-
-
 #### mlr3
 
 This meta-package is particularly useful for benchmarking different
@@ -222,7 +220,6 @@ set.seed(19052024)
 bmr = benchmark(design, store_models = TRUE)
 ```
 
-
 ```{r}
 # Aggregate the results
 measures <- msrs(c("regr.rmse", "regr.mae"))
@@ -236,7 +233,14 @@ bmr$aggregate(measures)
 #| warning: false
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+```
 
+
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
 library(tidyverse)
 data <- hmsidwR::rabies%>%
   select(-upper,-lower)%>%
@@ -247,15 +251,13 @@ data <- hmsidwR::rabies%>%
   mutate(across(where(is.character),as.factor))
 ```
 
-
-
 ```{r}
 #| message: false
 #| warning: false
+options(timeout = 6000)
 # install.packages("h2o")
 library(h2o)
 ```
-
 
 ```{r}
 #| message: false
@@ -265,7 +267,6 @@ library(h2o)
 h2o.init()
 Sys.sleep(10)
 ```
-
 
 ```{r}
 #| message: false
@@ -319,7 +320,6 @@ h2o.rmse(perf_lm);
 h2o.mae(perf_lm)
 ```
 
-
 ```{r}
 #| message: false
 #| warning: false
@@ -328,7 +328,6 @@ perf_gbm <- h2o.performance(model_gbm, newdata = test)
 h2o.rmse(perf_gbm);
 h2o.mae(perf_gbm)
 ```
-
 
 ```{r}
 #| message: false
@@ -351,4 +350,3 @@ h2o.shutdown(prompt = FALSE)
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
-

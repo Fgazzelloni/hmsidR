@@ -841,7 +841,6 @@ select(1,5,7,9)%>%
 head()
 ```
 
-
 ```{r}
 autoplot(
    grid_results,
@@ -853,10 +852,6 @@ autoplot(
    lims(y = c(-1, 0.9)) +
    theme(legend.position = "none")
 ```
-
-
-
-
 
 ### Summary
 
