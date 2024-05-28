@@ -137,9 +137,13 @@ We can use the Susceptible-Infected-Recovered (SIR) model to describe
 the spread of the disease, where S represents the number of susceptible
 individuals, I represents the number of infected individuals, and R
 represents the number of recovered individuals. The model structure can
-be described as follows:
+be described as follows:\
 
-$$dS/dt = -beta * S * I / N$$ $$dI/dt = beta * S * I / N - gamma * I$$
+$$dS/dt = -beta * S * I / N$$ 
+
+
+$$dI/dt = beta * S * I / N - gamma * I$$
+
 $$dR/dt = gamma * I$$
 
 where beta is the rate of transmission, gamma is the rate of recovery,

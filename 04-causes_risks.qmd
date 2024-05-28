@@ -20,6 +20,32 @@ Learning Objectives
 :::
 :::
 
+> "fear is the most pervasive emotion of modern society" - [@bourke2007]
+
+What qualifies as a risk is subject to dynamic social change [@li2020] ,
+as well as the perception of risk has evolved over time, influenced by
+factors such as media coverage and sociopolitical dynamics.
+
+Historically, major risks included starvation, infections, and violent
+conflicts, while modern risks are often associated with lifestyle
+choices and chronic diseases such as obesity, cardiovascular disease,
+and cancer. Despite advancements in healthcare and increasing life
+expectancy in post-industrial countries, the focus often shifts to
+perceived threats like terrorism, global pandemics such as COVID-19, and
+environmental catastrophes. This shift is reflected in the increasing
+combination of quantitative analyses and public health interventions,
+tracking changes in risk-related discourse and identifying key risk
+topics over time.
+
+Furthermore, tools like topic modeling and sentiment analysis help
+identify how the public perceives various risks and how these
+perceptions evolve [@li2020] over time.
+
+In the field of public health, the latest GBD results reveal significant
+insights into the causes and risks associated with health metrics and
+infectious diseases. The primary risks identified include behavioral,
+environmental, occupational, and metabolic factors.
+
 ## Conditions and injuries
 
 Conditions and injuries associated with the burden of disease and injury
@@ -84,11 +110,17 @@ overall burden of disease.
 
 ## Risk Measures
 
-In the following section we will step into key risk measures such as:
+To provide a comprehensive framework for assessing the burden of
+different risk factors on population health and guide effective public
+health strategies to mitigate these risks, key measures are used to
+assess risks and their impact on health outcomes:
 
 -   Risk-specific exposures
+
 -   Relative risks (RRs)
+
 -   Theoretical minimum-risk exposure levels (TMRELs)
+
 -   Population attributable fractions (PAFs)
 
 ### Risk-specific exposures
@@ -169,8 +201,8 @@ lung cancer compared to non-smokers.
 
 ```{r}
 # Create a 2x2 table of exposure and outcome
-exposed <- c(50, 10)   # Number of exposed individuals with and without the outcome
-unexposed <- c(20, 5)  # Number of unexposed individuals with and without the outcome
+exposed <- c(50, 10)
+unexposed <- c(20, 5)  
 
 # Calculate the relative risk
 relative_risk <- function(exposed, unexposed) {
@@ -182,8 +214,10 @@ relative_risk(exposed, unexposed)
 
 ```
 
+Define the number of events and person-time at risk for exposed and
+unexposed groups:
+
 ```{r}
-# Define the number of events and person-time at risk for exposed and unexposed groups
 d1 <- 50  # Number of events in the exposed group
 n1 <- 10  # Person-time at risk in the exposed group
 d0 <- 20  # Number of events in the unexposed group

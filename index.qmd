@@ -69,22 +69,46 @@ experience.
 
 ## Acknowledgements
 
-*A big thank you to all my friends for their support on this journey.*
+*A big thank you to all my friends and colleagues for their support
+throughout this journey. Your encouragement and belief in my work have
+been invaluable.*
 
-------------------------------------------------------------------------
+This book is the result of nearly four years of dedicated work,
+research, and continuous learning in the field of data science and
+public health. My journey began as a consequence of the COVID-19
+outbreak. Witnessing the global impact of this pandemic inspired me to
+investigate the spread of infectious diseases and contribute to the
+understanding and management of public health crises.
+
+I would also like to acknowledge the invaluable assistance of ChatGPT,
+an AI language model developed by OpenAI, which provided essential
+inputs, helped refine complex ideas, and offered suggestions that
+greatly enhanced the content of this book. The ability to leverage such
+advanced technology has significantly contributed to the clarity and
+depth of the material presented.
+
+Finally, I would like to express my profound gratitude to the
+researchers, data scientists, and public health experts whose work and
+insights have been referenced and built upon throughout this book. Your
+pioneering efforts and dedication to improving public health have laid
+the foundation for the analyses and models discussed herein. Your
+contributions have been a source of inspiration and guidance.
 
 ## About the Author
 
-The author of this book is *Federica Gazzelloni*, Actuary and
+The author of this book is *Federica Gazzelloni*[^index-1], Actuary and
 Statistician by education and training. She is also a
-collaborator[^index-1] at the *Institute for Health Metrics and
+collaborator[^index-2] at the *Institute for Health Metrics and
 Evaluation (IHME)*, which inspired this work to serve as a manual
 providing formulas and code for working with health metrics. It guides
 on how to calculate metrics, analyze the state of health of a
 population, and deal with data related to the spread of infectious
 diseases.
 
-[^index-1]: If you'd like to know more about being a IHME collaborator
+[^index-1]: To learn more about the author's ongoing projects, please
+    visit here: <https://www.federicagazzelloni.com>
+
+[^index-2]: If you'd like to know more about who are GBD Collaborators
     have a look here:
     <https://www.healthdata.org/research-analysis/gbd/collaborator-network>
 
@@ -92,11 +116,13 @@ diseases.
 
 All data used in this book are from the **Institute for Health Metrics
 and Evaluation (IHME)**. **GBD Results**. Seattle, WA: IHME, University
-of Washington, 2020. Available from
-[https://vizhub.healthdata.org/gbd-results/](https://urldefense.com/v3/__https:/vizhub.healthdata.org/gbd-results/__;!!K-Hz7m0Vt54!l72IcmA_WDWDWqHLaUzVrt8XbheUn0_vWggtGDbhl4vxiT64nLrmzX32rCVfXnXUO6SO89nOjSnj5g$).
-(Accessed January 2023) and the **World Health Organization (WHO)**.
-**Global Health Observatory data repository**. Available from
-[https://apps.who.int/gho/data/](https://apps.who.int/gho/data/node.main.LIFECOUNTRY?lang=en).
+of Washington, 2020
+([https://vizhub.healthdata.org/gbd-results/](https://urldefense.com/v3/__https:/vizhub.healthdata.org/gbd-results/__;!!K-Hz7m0Vt54!l72IcmA_WDWDWqHLaUzVrt8XbheUn0_vWggtGDbhl4vxiT64nLrmzX32rCVfXnXUO6SO89nOjSnj5g$) -
+accessed January 2023), the **World Health Organization (WHO)**.
+**Global Health Observatory data repository**
+([https://apps.who.int/gho/data/](https://apps.who.int/gho/data/node.main.LIFECOUNTRY?lang=en)),
+and the **European Centre for Disease Prevention and Control (ECDC)
+(**<https://opendata.ecdc.europa.eu/covid19/>).
 
 ::: {.content-visible when-format="html"}
 ## Code of Conduct

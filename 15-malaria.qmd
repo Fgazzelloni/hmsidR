@@ -105,7 +105,11 @@ for (i in 2:n_steps) {
 }
 
 # Plot the simulated malaria data
-plot(time, infected, type = "l", xlab = "Time", ylab = "Number of Infected Individuals", main = "Simulated Malaria Data")
+plot(time, infected, 
+     type = "l", 
+     xlab = "Time", 
+     ylab = "Number of Infected Individuals", 
+     main = "Simulated Malaria Data")
 
 ```
 
@@ -114,48 +118,80 @@ plot(time, infected, type = "l", xlab = "Time", ylab = "Number of Infected Indiv
 ```{r}
 #| message: false
 #| warning: false
-#| eval: false
+#| eval: true
 # Load necessary libraries
 library(caret)
+```
 
+1.  Data Preparation
+
+Convert 'time' column to Date format
+
+```{r}
 malaria_data <- data.frame(time=time, infected_cases=infected)
-# 1. Data Preparation
-# Convert 'time' column to Date format
 #malaria_data$time <- as.Date(malaria_data$time)
+```
 
-# 2. Feature Engineering
-# You can create lagged variables if needed
+2.  Feature Engineering
+
+Create lagged variables if needed
+
+```{r}
 malaria_data$lagged_cases <- lag(malaria_data$infected_cases, 1)
+malaria_data <- na.omit(malaria_data)
+```
 
-# 3. Model Selection
-# Define the machine learning model (e.g., Random Forest)
+3.  Model Selection
+
+Define the machine learning model (e.g., Random Forest)
+
+```{r}
+#| message: false
+#| warning: false
 model <- train(
   infected_cases ~ lagged_cases,  # Specify the formula
   data = malaria_data,            # Specify the data
-  method = "rf",                  # Specify the machine learning algorithm (Random Forest)
-  trControl = trainControl(method = "cv"),  # Cross-validation for hyperparameter tuning
-  tuneGrid = expand.grid(mtry = c(2, 3, 4))  # Hyperparameter grid for tuning
+# Specify the machine learning algorithm (Random Forest)
+  method = "rf",        
+# Cross-validation for hyperparameter tuning
+  trControl = trainControl(method = "cv"), 
+# Hyperparameter grid for tuning
+  tuneGrid = expand.grid(mtry = c(2, 3, 4))  
 )
+```
 
-# 4. Model Training (Parameter Calibration)
-# The 'train' function automatically performs parameter calibration (hyperparameter tuning)
+4.  Model Training (Parameter Calibration)
 
-# 5. Evaluation
-# Predict future trends using the trained model
+The 'train' function automatically performs parameter calibration
+(hyperparameter tuning)
+
+5.  Evaluation
+
+Predict future trends using the trained model
+
+```{r}
 predictions <- predict(model, newdata = malaria_data)
+```
 
-# Evaluate the model's performance (e.g., using RMSE)
+Evaluate the model's performance (e.g., using RMSE)
+
+```{r}
 rmse <- sqrt(mean((predictions - malaria_data$infected_cases)^2))
 cat("Root Mean Squared Error (RMSE):", rmse, "\n")
+```
 
-# 6. Iterative Improvement
-# Refine your model by adjusting parameters, feature engineering, etc.
+6.  Iterative Improvement
 
+Refine your model by adjusting parameters, feature engineering, etc.
 
-# 1. Adjusting Parameters
-# You can further fine-tune the model by adjusting parameters such as 'mtry' in Random Forest
-# For example, try different values of 'mtry' and see how it affects model performance
-# Define tuning grid for mtry
+-   Adjusting Parameters, and fine-tune the model by adjusting
+    parameters such as 'mtry' in Random Forest. For example, try
+    different values of 'mtry' and see how it affects model performance.
+    Define tuning grid for mtry:
+
+```{r}
+#| message: false
+#| warning: false
 tuneGrid <- expand.grid(mtry = seq(1, ncol(malaria_data) - 1))
 model <- train(
   infected_cases ~ lagged_cases,
@@ -164,26 +200,38 @@ model <- train(
   trControl = trainControl(method = "cv"),
   tuneGrid = tuneGrid  # Adjust the range of 'mtry'
 )
+```
 
-# 2. Feature Engineering
-# Explore additional features that may improve model performance
-# For example, you can create lagged variables for other relevant features
+-   Feature Engineering by exploring additional features that may
+    improve model performance. For example, create lagged variables for
+    other relevant features or transform existing features to capture
+    non-linear relationships. Add a new feature (e.g., log-transformed
+    feature) and re-train the model:
+
+```{r}
+#| message: false
+#| warning: false
 malaria_data$feature <- log(malaria_data$infected_cases)
 malaria_data$lagged_feature <- lag(malaria_data$feature, 1)
+malaria_data <- na.omit(malaria_data)
 
 # Re-train the model with the new feature
 model <- train(
-  infected_cases ~ lagged_cases + lagged_feature,  # Include the new feature
+ # Include the new feature
+  infected_cases ~ lagged_cases + lagged_feature, 
   data = malaria_data,
   method = "rf",
   trControl = trainControl(method = "cv"),
   tuneGrid = expand.grid(mtry = c(2, 3, 4)) 
 )
+```
 
-# 3. Evaluate Model Performance
-# After making adjustments, evaluate the model's performance again
+-   Evaluate Model Performance, after making adjustments, evaluate the
+    model's performance again.
+
+```{r}
 predictions <- predict(model, newdata = malaria_data)
 rmse <- sqrt(mean((predictions - malaria_data$infected_cases)^2))
-cat("Root Mean Squared Error (RMSE) after Iterative Improvement:", rmse, "\n")
+cat("RMSE after Iterative Improvement:", rmse, "\n")
 
 ```

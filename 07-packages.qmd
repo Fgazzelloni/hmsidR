@@ -46,7 +46,7 @@ analysis and modeling but has also democratized access to advanced
 statistical techniques, making them more accessible to a broader
 audience.
 
-## Useful packages
+## Essential R Packages for Machine Learning
 
 Some of the most used modeling packages available in R that are
 particularly useful for machine learning modeling of the spread of
@@ -103,55 +103,49 @@ often depends on factors such as:
 -   the type of data available
 -   the preferred modeling approach (e.g., frequentist vs. Bayesian).
 
-For example, tidymodels provides a tidy and consistent workflow for
-modeling tasks, while mlr3 offers extensive support for machine learning
-algorithms and hyperparameter tuning.
+For example, `tidymodels` provides a tidy and consistent workflow for
+modeling tasks, while `mlr3` offers extensive support for machine
+learning algorithms and hyperparameter tuning.
 
 It's also worth considering other packages that may be relevant for
-specific aspects of the analysis, such as spatial modeling (e.g., spdep)
-or time series forecasting (e.g., prophet).
+specific aspects of the analysis, such as spatial modeling (e.g.,
+`spdep`) or time series forecasting (e.g., `prophet`).
 
--   [**spdep**](https://cran.r-project.org/web/packages/spdep/index.html):
-    spdep package and its piped interface
-    [**sfdep**](https://cran.r-project.org/package=sfdep) are powerful
-    tools for spatial econometrics and spatial statistics. With a set of
-    functions for analyzing spatial dependence and autocorrelation in
-    spatial data, they can be particularly relevant in infectious
-    disease modeling. By accounting for spatial relationships between
-    geographic units, such as regions or neighborhoods, these packages
-    incorporate spatial effects into models and allow for a better
-    understanding of how infectious diseases spread across space.
--   [**prophet**](https://facebook.github.io/prophet/): prophet package
-    in R is specifically designed for time series forecasting with an
-    emphasis on flexibility and ease of use. Developed by Facebook,
-    prophet can handle various time series patterns, including
-    seasonality, holiday effects, and trend changes, making it suitable
-    for modeling infectious disease trends over time. The package
-    automatically detects and accommodates these patterns, simplifying
-    the modeling process and enabling researchers to generate accurate
-    forecasts with minimal effort.
+-   [**spdep**](https://cran.r-project.org/web/packages/spdep/index.html)
+    is a powerful tools for spatial statistics, it provides a set of
+    functions for analyzing spatial dependencies and autocorrelation in
+    spatial data, particularly relevant in infectious disease modeling.
+    It also incorporates spatial effects into models and allows for a
+    better understanding of how infectious diseases spread across space.
+-   [**prophet**](https://facebook.github.io/prophet/) is specifically
+    designed for time series forecasting with an emphasis on flexibility
+    and ease of use. Developed by Facebook, prophet can handle various
+    time series patterns, including seasonality, holiday effects, and
+    trend changes, making it suitable for modeling infectious disease
+    trends over time.
+-   [keras3](https://keras.posit.co/), the R interface to
+    [Keras](https://keras.io/), is a high-level **neural networks** API
+    written in Python. Designed to enable fast experimentation with deep
+    learning models on top of
+    [TensorFlow](https://tensorflow.rstudio.com/) (an open-source
+    machine learning framework developed by the Google).
 
-Ultimately, the features and capabilities of each package should
-carefully be evaluated in relation to their specific research objectives
-before to choose the one that best meets research needs and objectives.
-Additionally, experimenting with different packages and techniques may
-be beneficial to identify the most effective approach for a given
-analysis.
+The features and capabilities of each package should carefully be
+evaluated in relation to their specific research objectives before to
+choose the one that best meets research needs and objectives. And it is
+worth considering that experimenting with different packages and
+techniques may be beneficial to identify the most effective approach for
+a given analysis.
 
-### Examples
+## Examples
 
-#### Tidymodels
+### Tidymodels
 
 We have already used this package in @sec-05-machine_learning and
-@sec-06-techniques. This meta-package is particulrely useful for testing
-out more models with the help of the workflow_set() function. Here we
-see an example:
+@sec-06-techniques. This meta-package is particularly useful for testing
+out more models with the help of the `workflow_set()` function.
 
-```{r}
-library(tidymodels)
-```
-
-#### mlr3
+### mlr3
 
 This meta-package is particularly useful for benchmarking different
 models. Here we see an example:
@@ -161,7 +155,11 @@ models. Here we see an example:
 #| warning: false
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+```
 
+```{r}
+#| message: false
+#| warning: false
 library(tidyverse)
 data <- hmsidwR::rabies%>%
   select(-upper,-lower)%>%
@@ -170,7 +168,10 @@ data <- hmsidwR::rabies%>%
   rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
   select(-cause)%>%
   mutate(across(where(is.character),as.factor))
+data%>%head
 ```
+
+Load necessary libraries:
 
 ```{r}
 #| message: false
@@ -181,27 +182,35 @@ library(mlr3viz)
 library(mlr3verse)
 library(data.table)
 #library(xgboost)
+```
 
-# Define the task
+Define the task, the learners, and add the preprocessing steps creating
+dummy variables:
+
+```{r}
 task <- TaskRegr$new(id = "dalys_rabies", 
                      backend = data, 
                      target = "dalys_rabies")
 
-# Define the learners
+
 learner_lm <- lrn("regr.lm")
 learner_xgboost <- lrn("regr.xgboost", 
                        nrounds = 1000, 
                        max_depth = 6, 
                        eta = 0.01)
 
-# Add preprocessing steps: creating dummy variables
+
 poe <- po("encode")
 task <- poe$train(list(task))[[1]]
+task$data()%>%head()
+```
 
-# Define a resampling strategy
+Define a resampling strategy, and create a benchmark design:
+
+```{r}
 resampling <- rsmp("cv", folds = 5)
 
-# Create a benchmark design
+
 design <- benchmark_grid(
   tasks = task,
   learners = list(learner_lm, learner_xgboost),
@@ -211,22 +220,73 @@ design <- benchmark_grid(
 design
 ```
 
+Run the benchmark:
+
 ```{r}
 #| message: false
 #| warning: false
 #| output: false
-# Run the benchmark
 set.seed(19052024)
-bmr = benchmark(design, store_models = TRUE)
+bmr = benchmark(design, store_models = TRUE,store_backends = TRUE)
 ```
 
 ```{r}
-# Aggregate the results
-measures <- msrs(c("regr.rmse", "regr.mae"))
-bmr$aggregate(measures)
+bmr$score()[,.(learner_id,task_id, iteration, regr.mse)]
 ```
 
-#### h2o
+```{r}
+#| layout-ncol: 2
+autoplot(bmr,measure = msr("regr.rmse"))
+autoplot(bmr,measure = msr("regr.mae"))
+```
+
+Aggregate the results:
+
+```{r}
+#| message: false
+#| warning: false
+measures <- msrs(c("regr.rmse", "regr.mae"))
+aggr <- bmr$aggregate(measures)
+```
+
+```{r}
+rr1 <- aggr$resample_result[[1]]
+rr2 <- aggr$resample_result[[2]]
+
+dat <- as.data.table(rr1$prediction())%>%
+mutate(learner="regr.lm")%>%
+rbind(as.data.table(rr2$prediction())%>%mutate(learner="regr.xgboost"))%>%
+cbind(task$data())%>%
+select(truth,response,learner,year,location.Asia)
+```
+
+Plot the results:
+
+```{r}
+#| layout-ncol: 2
+dat %>%
+  ggplot(aes(x = truth, y = response,group=learner,color=learner)) +
+  geom_line() +
+  #geom_abline(intercept = 0, slope = 1, color = "red") +
+  labs(x = "Truth", y = "Response") +
+  theme_minimal()
+
+dat %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = response,group=learner,color=learner))+
+  geom_point(aes(y=truth)) +
+  facet_wrap(~location.Asia,
+  # rename the facets based on the location column
+  labeller = as_labeller(c(`1`="Asia",`0`="Global")))+
+  labs(x = "Time(Year)", y = "Response") +
+  theme_minimal()
+```
+
+### h2o
+
+The h20 package is particularly useful for handling large datasets and
+this is not the case here. However, we can use it to compare the results
+with the previous model frameworks.
 
 ```{r}
 #| message: false
@@ -234,8 +294,6 @@ bmr$aggregate(measures)
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
-
-
 
 ```{r}
 #| message: false
@@ -283,9 +341,15 @@ predictors <- setdiff(names(data), response)
 splits <- h2o.splitFrame(h2o_data, ratios = 0.8, seed = 1234)
 train <- splits[[1]]
 test <- splits[[2]]
+```
 
+Train three models: a linear regression model, a GBM model, and a random
+forest model.
 
-# Train a linear regression model
+```{r}
+#| message: false
+#| warning: false
+#| output: false
 model_lm <- h2o.glm(
   x = predictors,
   y = response,
@@ -293,18 +357,18 @@ model_lm <- h2o.glm(
   family = "gaussian"
 )
 
-# Train a GBM model
+
 model_gbm <- h2o.gbm(
   x = predictors,
   y = response,
   training_frame = train,
+  validation_frame = test,
   ntrees = 1000,
   max_depth = 6,
   learn_rate = 0.01,
   seed = 1234
 )
 
-# Train a random forest model
 model_rf <- h2o.randomForest(
   x = predictors,
   y = response,
@@ -316,26 +380,80 @@ model_rf <- h2o.randomForest(
 
 # Evaluate linear regression model
 perf_lm <- h2o.performance(model_lm, newdata = test)
-h2o.rmse(perf_lm);
-h2o.mae(perf_lm)
-```
-
-```{r}
-#| message: false
-#| warning: false
-# Evaluate GBM model
 perf_gbm <- h2o.performance(model_gbm, newdata = test)
-h2o.rmse(perf_gbm);
-h2o.mae(perf_gbm)
+perf_rf <- h2o.performance(model_rf, newdata = test)
 ```
 
 ```{r}
 #| message: false
 #| warning: false
-# Evaluate random forest model
-perf_rf <- h2o.performance(model_rf, newdata = test)
-h2o.rmse(perf_rf);
-h2o.mae(perf_rf)
+#| echo: false
+
+rbind(c(h2o.rmse(perf_lm),h2o.mae(perf_lm)),
+c(h2o.rmse(perf_gbm),h2o.mae(perf_gbm)),
+c(h2o.rmse(perf_rf),h2o.mae(perf_rf)))%>%
+as.data.frame()%>%
+mutate(model=c("lm","gbm","rf"))%>%
+relocate(model)%>%
+rename(rmse=V1,mae=V2)
+```
+
+```{r}
+#| eval: false
+model_gbm@model
+```
+
+```{r}
+#| output: false
+# Predict on test data
+predictions <- h2o.predict(model_rf, newdata = test)
+
+# Convert H2O frames to data frames for ggplot2
+pred_df <- as.data.frame(predictions)
+actual_df <- as.data.frame(test)
+
+# Combine actual and predicted values
+results_df <- data.frame(Actual = actual_df[, response], Predicted = pred_df[, 1])
+
+
+# Plot Actual vs Predicted
+p1 <- ggplot(results_df, aes(x = Actual, y = Predicted)) +
+  geom_point(color = 'blue', alpha = 0.5) +
+  geom_abline(slope = 1, intercept = 0, color = 'red', linetype = 'dashed') +
+  labs(title = "Actual vs Predicted Values", x = "Actual", y = "Predicted") +
+  theme_minimal()
+```
+
+```{r}
+# Calculate residuals
+results_df$Residuals <- results_df$Actual - results_df$Predicted
+
+# Plot Residuals vs Predicted
+p2 <- ggplot(results_df, aes(x = Predicted, y = Residuals)) +
+  geom_point(color = 'blue', alpha = 0.5) +
+  geom_hline(yintercept = 0, color = 'red', linetype = 'dashed') +
+  labs(title = "Residuals vs Predicted Values", x = "Predicted", y = "Residuals") +
+  theme_minimal()
+```
+
+```{r}
+# Assuming there is a time column in your test data
+results_df$Time <- as.Date(actual_df$year)
+
+# Plot Actual vs Predicted over time
+p3 <- ggplot(results_df, aes(x = Time)) +
+  geom_line(aes(y = Actual, color = "Actual"), size = 1) +
+  geom_line(aes(y = Predicted, color = "Predicted"), size = 1, linetype = 'dashed') +
+  labs(title = "Actual vs Predicted Values Over Time", x = "Time", y = "Value") +
+  scale_color_manual(name = "Legend", values = c("Actual" = "blue", "Predicted" = "green")) +
+  theme_minimal()
+```
+
+```{r}
+#| layout-ncol: 2
+#| echo: false
+p1
+p3
 ```
 
 ```{r}
@@ -349,4 +467,162 @@ h2o.shutdown(prompt = FALSE)
 #| warning: false
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+```
+
+### Keras
+
+```{r}
+#| eval: false
+install.packages("keras3")
+keras3::install_keras(backend = "tensorflow")
+```
+
+```{r}
+library(keras3)
+library(deSolve)
+library(ggplot2)
+```
+
+Define the SEIR model:
+
+```{r}
+SEIR <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    # Differential equations
+    dS <- -beta * S * I / N
+    dE <- beta * S * I / N - sigma * E
+    dI <- sigma * E - gamma * I
+    dR <- gamma * I
+    
+    # Return the rates of change
+    list(c(dS, dE, dI, dR))
+  })
+}
+
+# Parameters
+parameters <- c(
+  beta = 0.3,  # Infection rate
+  sigma = 0.2, # Incubation rate
+  gamma = 0.1 # Recovery rate
+)
+
+# Initial state values
+N <- 1000
+initial_state <- c(S = 999, E = 1, I = 0, R = 0)
+
+# Time points
+times <- seq(0, 160, by = 1)
+
+# Solve the model
+output <- ode(y = initial_state, times = times, func = SEIR, parms = parameters)
+
+# Convert output to a data frame
+output <- as.data.frame(output)
+```
+
+Example social media data (features and labels):
+
+```{r}
+set.seed(123)
+n <- 1000  # number of samples
+p <- 10    # number of features
+
+# Generate random features and labels
+social_features <- matrix(rnorm(n * p), nrow = n, ncol = p)
+infection_labels <- sample(0:1, n, replace = TRUE)
+
+# Combine into a data frame
+social_data <- data.frame(social_features)
+social_data$infection <- infection_labels
+```
+
+Define the model
+
+```{r}
+model <- keras_model_sequential(input_shape = c(p)) 
+
+# simple model
+model %>% 
+  layer_dense(units = 1) %>% 
+  layer_activation('relu') %>%
+  #layer_dropout(rate = 0.3) %>%
+  #layer_dense(units = 64) %>% 
+  #layer_activation('relu') %>%
+  #layer_dropout(rate = 0.4) %>%
+  layer_dense( units = 1, activation = 'sigmoid')
+
+
+# Compile the model
+model %>% compile(
+  loss = 'binary_crossentropy',
+  optimizer = optimizer_adam(),
+  metrics = c('accuracy')
+)
+```
+
+```{r}
+#| output: false
+#| message: false
+#| warning: false
+history <- model %>% fit(
+  x = as.matrix(social_data[, 1:p]),
+  y = social_data$infection,
+  epochs = 30, 
+  batch_size = 128, 
+  validation_split = 0.2
+)
+```
+
+```{r}
+#| output: false  
+history2 <- model %>% fit(
+  x = as.matrix(social_data[, 1:p]),
+  y = social_data$infection,
+  epochs = 30/2, 
+  batch_size = 128/2, 
+  validation_split = 0.2
+)
+```
+
+```{r}
+#| layout-ncol: 2
+#| echo: false
+plot(history)
+plot(history2)
+```
+
+Predict infection status for new social media data
+
+```{r}
+new_social_data <- matrix(rnorm(p * 160), nrow = 160, ncol = p)
+predicted_infections <- model %>% predict(new_social_data)
+predicted_infections <- ifelse(predicted_infections > 0.5, 1, 0)
+```
+
+Adjust the SEIR parameters based on predictions, and re-run the model.
+
+```{r}
+adjusted_parameters <- parameters
+adjusted_parameters["beta"] <- 
+  adjusted_parameters["beta"] * (1 + mean(predicted_infections))
+
+
+adjusted_output <- ode(y = initial_state, 
+                       times = times, 
+                       func = SEIR, 
+                       parms = adjusted_parameters)
+
+# Convert output to a data frame
+adjusted_output <- as.data.frame(adjusted_output)
+```
+
+Plot the results:
+
+```{r}
+ggplot() +
+  geom_line(data = output, aes(x = time, y = I, color = "Original Infections")) +
+  geom_line(data = adjusted_output, aes(x = time, y = I, color = "Adjusted Infections")) +
+  labs(y = "Infectious Population", color = "Scenario") +
+  theme_minimal() +
+  ggtitle("SEIR Model with and without Social Media Adjustments")
 ```

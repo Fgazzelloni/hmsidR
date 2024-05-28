@@ -20,8 +20,6 @@ Learning Objectives
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-## Model selection strategies
-
 Selecting the most suitable machine learning model involves
 understanding **the goals of the analysis**, the **nature of the data**,
 and the **statistical and machine learning methods** that best suit the
@@ -137,19 +135,24 @@ homogeneous data. For more information on feature engineering, see
 application, covering various techniques and appropriate use cases,
 focusing on practical understanding and implementation.
 
-## Example 4: Rabies
+## Model selection strategies
+
+### Example 4: Rabies
 
 The `rabies` dataset from the `{hmsidwR}` package contains information
 on death rates and disability-adjusted life years (DALYs) due to rabies
 and all causes mortality in Asia and for the Global region from 1990 to
-2019. Rabies is a fatal viral infection that can infect all mammals
-causing acute encephalitis. It is transmitted to humans through the bite
-of an infected animal, with dogs being the main source of human rabies
-deaths[@hampson2015]. Rabies is defined as neglected tropical disease
-(NTD) that **predominantly affects already marginalized, poor and
-vulnerable populations**. Although effective human vaccines and
-immunoglobulins exist for rabies, these are often not readily available
-or accessible to those in need [@rabies].
+2019. Rabies ([@cdc2024]) is a fatal viral infection, and it is also
+classified as an infectious disease that can infect all mammals causing
+acute encephalitis. Caused by the rabies virus, which belongs to the
+Lyssavirus genus, it is transmitted to humans through the bite of an
+infected animal such as bats, raccoons, skunks, foxes, and obviously
+dogs, which are the main source of human rabies deaths [@hampson2015].
+Rabies defined as neglected tropical disease (NTD) **predominantly
+affects already marginalized, poor and vulnerable populations**.
+Although effective human vaccines and immunoglobulins exist for rabies,
+these are often not readily available or accessible to everyone
+[@rabies].
 
 In this example we consider the number of DALYs due to rabies in Asia
 and the Global region, as our response variable, the dataset is made
@@ -176,7 +179,27 @@ rabies <- hmsidwR::rabies%>%
   filter(cause=="Rabies")%>%
   rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
   select(-cause)
-rabies %>% head
+rabies%>%head
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| eval: false
+breaks <- seq(min(rabies$year), max(rabies$year), by = 10)
+
+rabies %>%
+  mutate(year_10=cut(year, 
+                     breaks= breaks,
+                     right = FALSE,
+                     labels = paste(breaks[-length(breaks)], 
+                                    breaks[-1] - 1, 
+                                    sep = "-")),
+year_10=case_when(is.na(year_10)~"2019",
+                  TRUE~as.factor(year_10)))%>%
+  group_by(location,year_10)%>%
+  summarize(avg_10yrs_dalys=mean(dalys_rabies))
 ```
 
 It can be seen that the number of deaths due to rabies is much lower
@@ -427,6 +450,7 @@ we can use the `juice()` function to extract the processed data.
 rec1 %>%
   prep()%>%
   juice()%>%
+  select(1,2,5)%>%
   head()
 ```
 
@@ -437,6 +461,7 @@ on the `test`\`set with the `bake()` function.
 rec1 %>%
   prep()%>%
   bake(new_data = test) %>%
+  select(1,2,5)%>%
   head()
 ```
 
@@ -491,6 +516,7 @@ rec2 <- rec1 %>%
 rec2 %>%
   prep()%>%
   juice()%>%
+  select(1,2,5)%>%
   head()
 ```
 
@@ -524,7 +550,7 @@ forest**, this choice is due to this type of algorithm which will create
 the original dataset. Each bootstrap sample is used to train a separate
 decision tree.
 
-### Model 1: Random forests
+### Model 1: Random Forest
 
 Rabies death rates may exhibit complex relationships with predictor
 variables. Random forests are capable of capturing non-linear
@@ -560,7 +586,8 @@ rf_res <- tune_grid(object = wkf,
           grid = 5,
           control = control_grid(save_pred = TRUE))
 
-show_best(rf_res, metric = "rmse")
+show_best(rf_res, metric = "rmse")%>%
+  select(-n,-std_err)
 ```
 
 ```{r}
@@ -777,16 +804,20 @@ and compare their performance.
 
 ```{r}
 linear_reg_spec <- 
-   linear_reg(penalty = tune(), mixture = tune()) %>% 
+   linear_reg(penalty = tune(), 
+              mixture = tune()) %>% 
    set_engine("glmnet")
 
 svm_p_spec <- 
-   svm_poly(cost = tune(), degree = tune()) %>% 
+   svm_poly(cost = tune(), 
+            degree = tune()) %>% 
    set_engine("kernlab") %>% 
    set_mode("regression")
 
 knn_spec <- 
-   nearest_neighbor(neighbors = tune(), dist_power = tune(), weight_func = tune()) %>% 
+   nearest_neighbor(neighbors = tune(), 
+                    dist_power = tune(), 
+                    weight_func = tune()) %>% 
    set_engine("kknn") %>% 
    set_mode("regression")
 
@@ -799,8 +830,7 @@ library(rules)
 library(baguette)
 # Combine workflows into a workflow set
 workflow_set <- workflow_set(
-  preproc = list(#basic=rec, 
-                 scaled=rec1, 
+  preproc = list(scaled=rec1, 
                  yeo_johnson=rec2),
   models = list(linear_reg = linear_reg_spec, 
                 svm = svm_p_spec,
@@ -848,7 +878,8 @@ autoplot(
    metric = "rmse",       # <- which metric to visualize
    select_best = TRUE     # <- one point per workflow
 ) +
-   geom_text(aes(y = mean - 0.1, label = wflow_id), angle = 90, hjust = 1,size=3) +
+   geom_text(aes(y = mean - 0.1, label = wflow_id), 
+             angle = 90, hjust = 1,size=3) +
    lims(y = c(-1, 0.9)) +
    theme(legend.position = "none")
 ```

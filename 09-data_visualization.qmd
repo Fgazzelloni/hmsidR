@@ -7,51 +7,174 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 One of my favorite topics to practice with for understanding more about
-data to be analysed is visualization. Through visualizing data we can
+data analysis is visualization. Through visualizing data, we can
 summarize the information contained in it, tell a story about the
-interaction of key variables in the data, represent statistical values
-and finally design the background of the story.
+interaction of key variables, represent statistical values, and
+ultimately design the background of the story. This chapter will focus
+on the basics of data visualization, how to customize a plot, and how to
+tell a story with data.
 
-If you'd like to practice making data visualization there many
-free-available channels that allow you to gain information on how to do
-it as well as improve abilities by practicing and sharing final results.
-Received feed-back might be harsh, world is bad, you may feel sick but
-you'll get better is you don't give up.
+## Practicing Data Visualization
 
-Taking part to competions such as #TidyTuesday #30DayCharChallenge, even
-practicing making map, that we will see more closely in the Spatial
-chapter of this book will help getting better. At some point you'll feel
-healthy!
+To practice making data visualizations, there are many free channels
+available that allow to gain information on how to do it and how to
+improve abilities by practicing and sharing final results. Received
+feedback might be harsh, as the world can be tough, but you will improve
+if you don't give up.
 
-### History of Data Visualization
+By participating in competitions such as `#TidyTuesday` and
+`#30DayChartChallenge`, or the `#30DayMapChallenge` practicing making
+maps (which we will explore further in the @sec-11-spatials chapter of
+this book), will help to get better. At some point, you'll feel
+proficient!
 
-The history of data visualization spans over centuries, the roots of
-data visualization can be traced back to ancient times with rudimentary
-visual representations, its modern form began to take shape with the
+## History of Data Visualization
+
+The history of data visualization spans centuries. The roots of data
+visualization can be traced back to ancient times with rudimentary
+visual representations, but its modern form began to take shape with the
 growth of statistics and graphical methods in the 17th and 18th
-centuries. One notable milestone was the publication of *William
-Playfair*'s "Commercial and Political Atlas" in 1786, which introduced
+centuries. One notable milestone was the publication of **William
+Playfair**'s "Commercial and Political Atlas" in 1786, which introduced
 innovative graphical techniques like the line graph, bar chart, and pie
-chart. Throughout the 19th and 20th centuries, pioneers such as
-*Florence Nightingale*, *John Snow*, and *Jacques Bertin* further
-advanced the field, using visualizations to communicate complex data and
-uncover insights.
+chart.
 
-The digital revolution of the late 20th century with the advent of
-powerful computing technologies enabled the creation of interactive and
-dynamic visualizations. Today, data visualization plays a crucial role
-in fields of Data Science from business analytics and scientific
-research to journalism and public policy, serving as a potent tool for
-summarising, communicating, and interpreting data.
+Throughout the 19th and 20th centuries, pioneers such as **Florence
+Nightingale** (1820-1910), **John Snow** (1813-1858), and **Jacques
+Bertin** further advanced the field, using visualizations to communicate
+complex data and uncover insights.
 
-### The Grammar of Graphics
+Data visualization was largely done manually or with the help of basic
+plotting tools. One example are the hand-drown visualizations made by
+**W.E.B. Du Bois** (1868-1963) in the early 20th century to illustrate
+the social and economic conditions of African Americans in the United
+States. These visualizations are now considered iconic examples of data
+visualization and have been widely studied and digitally reproduced.
 
-The `plot()` function and its competitor `ggplot()` are tools.
+## The Digital Revolution
 
-### Colors and Palette
+The digital revolution of the late 20th century, with the advent of
+powerful computing technologies, enabled the creation of interactive and
+dynamic visualizations. Early programming languages like Fortran and
+BASIC were used to create simple plots, then the development of
+specialized software like SAS and SPSS provided more robust tools for
+data analysis and visualization.
 
-### Legend and Giudes
+The emergence of the internet and web technologies in the 1990s led to
+the introduction of more sophisticated statistical software and
+programming environments. Tools like R, Python, and JavaScript, along
+with libraries like ggplot2, matplotlib, and D3.js, revolutionized the
+field of data visualization, making it more accessible and powerful.
 
-### Plots layouts
+Today, data visualization plays a crucial role in fields like data
+science, business analytics, scientific research, journalism, and public
+policy. It serves as a potent tool for summarizing, communicating, and
+interpreting data. In particular, in public health, tracking disease
+outbreaks, understanding health trends, and communicating findings to
+policymakers and the public is vital. The COVID-19 pandemic highlighted
+the importance of real-time data visualization. Tools like dashboards
+and interactive maps are used extensively to monitor the spread of the
+virus and the effectiveness of interventions.
+
+## The Grammar of Graphics
+
+One of the fundamental concepts in modern data visualization is the
+**Grammar of Graphics**, which provides a structured approach to
+creating visualizations layer by layer. This concept is clearly
+interpreted in tools like the `{ggplot2}` R package, part of the
+`{tidyverse}` ecosystem, developed by **Hadley Wickham** in 2005.
+
+The Grammar of Graphics allows for the creation of complex
+visualizations by combining simple building blocks such as **data**,
+**aesthetics**, and **geoms** (geometric objects) in a structured
+manner. It provides a flexible framework for customizing visualizations
+and supports the creation of a wide range of plots, from basic scatter
+plots to intricate multi-layered visualizations.
+
+In the previous chapters, we've introduced various types of plots using
+`{ggplot2}`. Now, we'll dig deeper into these visualizations and expand
+on their construction: from customizing the appearance of plots to
+adding annotations, labels, and themes. We'll also explore how to create
+interactive visualizations using the `{plotly}` package and how to
+create maps using the `{sf}` and `{leaflet}` packages.
+
+Example: Visualizing Lung Cancer Deaths by Age in Germany\*\*
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+options(timeout = 600)
+```
+
+```{r}
+library(ggplot2)
+p <- hmsidwR::germany_lungc |>
+  ggplot(aes(x = age, y = dx, group=sex, color=sex)) +
+  geom_line()+
+  geom_point() +
+  labs(title = "Lung Cancer Deaths by Age in Germany",
+       x = "Age",
+       y = "Deaths")
+p
+```
+
+### Colors and Palettes
+
+Choosing the right colors for your visualizations is crucial. Colors can
+highlight important aspects of your data and improve readability. Many
+tools provide built-in color palettes, but you can also customize your
+own to match specific themes or accessibility needs.
+
+```{r}
+# Example: Customizing colors in a bar chart
+p1 <- p +
+  scale_color_manual(values = c("brown", "navy", "orange")) 
+p1
+```
+
+### Legends and Guides
+
+Legends and guides are essential for interpreting visualizations. They
+help the audience understand what different colors, shapes, or sizes
+represent in the plot.
+
+```{r}
+# Customising a legend to a plot
+p2 <- p1 +
+  labs(color = "Sex")
+
+p2
+```
+
+### Plot Layouts
+
+The layout of your plots can significantly impact their effectiveness.
+Arranging multiple plots in a grid can help compare different aspects of
+your data side-by-side.
+
+```{r}
+#| eval: false
+# Example: Arranging multiple plots
+library(gridExtra)
+
+grid.arrange(p, p2, ncol = 2)
+```
+
+```{r}
+#| echo: false
+#| layout-ncol: 2
+p
+p2
+```
+
+
 
 ### Saving as an Image
+
+Once you've created your visualization, you might want to save it as an
+image file for sharing or publication.
+
+```{r}
+#| eval: false
+ggsave("line_plot.png", plot = p2, width = 6, height = 4)
+```

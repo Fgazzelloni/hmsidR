@@ -1,8 +1,7 @@
-# Application of the model results {#sec-10-applications}
+# Interpreting Model Results Through Visualization {#sec-10-applications}
 
 ```{r}
 #| echo: false
-library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
@@ -15,10 +14,61 @@ Learning Objectives
 :::
 
 ::: solutionbox-body
--   Overview of the basic plots
--   How to customize a plot
--   Tell the story with data
+-   Overview of the basic plots for visualizing predictions and outcomes
+-   How to customize a plot using colors, palettes, legends, and guides
+-   Tell the story with data through plot layouts and saving as an image
 :::
 :::
 
-The following examples are to get practiced with Data Visualization.
+This chapter is an essential part of the data visualization section, it
+focus on how to effectively interpret and utilize the results from
+machine learning models in the context of health metrics and infectious
+diseases. The aim is to provide actionable insights, enhance
+decision-making, and communicate findings to various stakeholders.
+
+1.  **Visualizing Predictions and Outcomes**:
+    -   Techniques for visualizing predicted vs. actual values.
+    -   Using scatter plots, line plots, and bar charts to compare
+        predictions and observed data.
+    -   Highlighting discrepancies and trends through residual plots and
+        error distribution charts.
+2.  **Case Studies and Applications**:
+    -   Real-world examples of model results application in public
+        health.
+    -   Case studies demonstrating the impact of machine learning and
+        spatial modeling on health metrics.
+    -   Lessons learned and best practices from successful
+        implementations.
+
+## Practical Insights and Examples
+
+### Example 1: Visualizing COVID-19 Data
+
+Data is from the ECDC (European Centre for Disease Prevention and Control) and is updated daily. The data includes information on the number of deaths for each country. The dataset is available on the ECDC website and can be accessed through the `{covid19.analytics}` package.
+
+
+```{r}
+#| eval: false
+install.packages("covid19.analytics")
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+cfr <- covid19.analytics::covid19.data()%>%
+select(Country_Region,Last_Update,Lat,Long_,Case_Fatality_Ratio)
+
+cfr%>%
+head()
+```
+
+
+### Example 2: Visualizing Predicted vs. Actual DALYs**:
+
+-   Creating scatter plots to compare predicted Disability-Adjusted Life
+    Years (DALYs) with actual values.
+-   Analyzing residuals to identify patterns and areas for model
+    improvement.
+

@@ -235,9 +235,9 @@ model are:
 
 ```{r}
 rf_grid <- grid_regular(
-  # Vary the number of variables randomly sampled as candidates at each split
+# Vary the number of variables randomly sampled as candidates at each split
   mtry(range = c(1, ncol(dat2) - 1)),  
-  # Vary the number of trees in the forest
+# Vary the number of trees in the forest
   trees(range = c(50, 200))  
 )
 ```

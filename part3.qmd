@@ -23,7 +23,7 @@ illustrative examples and practical tips, readers will gain a deeper
 appreciation for the power of visualization in exploring and
 understanding data.
 
-### Chapter 10: Application of the model results
+### Chapter 10: Interpreting Model Results Through Visualization
 
 In this chapter, we explore practical applications of data visualization
 in public health and epidemiology. We delve into case studies and

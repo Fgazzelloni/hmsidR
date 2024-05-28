@@ -32,7 +32,7 @@ yet discussed the components that make up these metrics. In this
 chapter, we will investigate: **life expectancy**, **mortality rates**,
 **incidence and prevalence**, and **disability weights**. These
 components are crucial for understanding the burden of disease and
-injury at both global and population levels.
+injury at both global and population levels.\
 
 ::: {.callout .callout-info}
 These key indicators, used to measure the burden of disease and injury
@@ -44,6 +44,7 @@ reduce the burden of disease and injury. But, **what are the components
 of these health metrics, and how are they calculated?**
 :::
 
+\
 The evaluation of health metrics begins with assessing their components,
 which is crucial because results strongly depend on the types of **life
 tables**, **mortality rates**, and **disability weights** used in the
@@ -236,7 +237,10 @@ gho_lifetables %>%
 
 The mathematical formulation for calculating the expectation of life at
 age x is computed as:\
-$$e(x) = \frac{T(x)}{l(x)}$$
+
+$$
+e(x) = \frac{T(x)}{l(x)}
+$$
 
 where $T(x)$ is the total number of person-years lived by the cohort of
 persons alive at age x, and $l(x)$ is the number of persons alive at age
@@ -640,7 +644,7 @@ descriptions and their professional experience, rating the severity on a
 scale from 0 (no disability) to 1 (equivalent to death).
 
 Computed disability weights methods can vary from applying techniques
-such a **Analytical Hierarchy Process (AHP)**[@analytic2024], method
+such as **Analytical Hierarchy Process (AHP)**[@analytic2024], method
 used where health states are systematically compared in a pairwise
 fashion, and judgments about their relative severity are quantified. Or
 **Combining Results** from different methods and different populations
@@ -775,10 +779,19 @@ disease or injury. These components are:
     quantify the impact of a condition on quality of life, with higher
     weights assigned to more severe conditions.
 
-    Prior 2010 the calculation foresaw an element of discount (between
-    3% to 4%) for discounting weights, the by time the World Health
-    Organization had abandoned the ideas of age weighting and time
-    discounting in favour of considering just the weights. (cit.)
+    Prior to 2010, the calculation of YLDs included elements of
+    discounting and age weighting, with discount rates that typically
+    ranged from 3% to 4% per year. Considering the future years of
+    healthy life valued less than present years, the practice aimed to
+    reflect the economic theory of time preference, where immediate
+    benefits are preferred over future benefits.
+
+    However, due to its complexity and ethical implications, this
+    approach has been criticized. By 2010, the World Health Organization
+    (WHO) and other health organizations began to consider simplifying
+    the methodology. The focus shifted to only the disability weights
+    used to quantify the severity of different health conditions,
+    leaving aside the element of discounting
 
 -   **Age**: The age of the person affected by a disease or injury is
     also considered when calculating YLD. Conditions that occur at an
@@ -815,7 +828,7 @@ resources in preventing or treating a different disease would be more
 efficient in terms of overall health[@disabili2023].
 :::
 
-### Case Study: The German Lung Cancer Study
+### Case Study: Germany Lung Cancer Study
 
 For this case study, we used data from the GBD study for Germany,
 related to the number of deaths due to lung-cancer in 2019. The data is
@@ -874,9 +887,9 @@ from GBD study[@ihmeuw/i2024] are the same as those found in the
 #| label: tbl-disweights2019-lung
 #| tbl-cap: "Lung cancer - Disability Weights"
 
-(lung_dw <- hmsidwR::disweights2019%>%
+lung_dw <- hmsidwR::disweights2019%>%
   filter(str_detect(sequela,"lung"))%>%
-  select(sequela,dw))
+  select(sequela,dw)
 ```
 
 So, 0.451 is the disability weight for the metastatic phase of lung, or
@@ -957,19 +970,18 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|----------------------------------------------|--------------------|-------|-------|
+|----------------------|-----------------|-----------------|-----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
 | Trachea, bronchus and lung cancers (stage 3) | 0.758              | 0.710 | 0.801 |
 | Trachea, bronchus and lung cancers (stage 4) | 0.906              | 0.873 | 0.932 |
 
-Understanding the nuances of how disability weights influence the
-overall calculations of DALYs can guide more informed decisions in
-health care planning and policy-making. It emphasizes the importance of
-comprehensive disease management strategies that address both the
-prevention of disease and the mitigation of its impact throughout all
-stages of its progression.
+Understanding how disability weights influence the overall calculations
+of DALYs can guide more informed decisions in health care planning and
+policy-making. It emphasizes the importance of comprehensive disease
+management strategies that address both the prevention of disease and
+the mitigation of its impact throughout all stages of its progression.
 
 ```{r}
 #| echo: false
