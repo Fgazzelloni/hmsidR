@@ -123,13 +123,10 @@ format:
       - text: | 
           \usepackage{fvextra}
           \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-      - file: latex/preamble.tex
     include-before-body: 
-      - file: latex/before_body.tex 
-    include-after-body:
-      - file: latex/after_body.tex
+      - file: latex/before_body.tex
       
-   
+      
 editor: visual
 editor_options:
   chunk_output_type: inline

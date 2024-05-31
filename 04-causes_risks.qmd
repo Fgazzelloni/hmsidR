@@ -20,7 +20,8 @@ Learning Objectives
 :::
 :::
 
-> "fear is the most pervasive emotion of modern society" - [@bourke2007]
+> "...fear is the most pervasive emotion of modern society..." -
+> [@bourke2007]
 
 What qualifies as a risk is subject to dynamic social change [@li2020] ,
 as well as the perception of risk has evolved over time, influenced by
@@ -83,6 +84,7 @@ risk factors include:
 #| warning: false
 #| echo: false
 #| eval: false
+#| fig-alt: "Causal relationships leading to fueling DALYs value"
 #| fig-cap: "Causal relationships leading to fueling DALYs value"
 # install.packages("devtools")
 # devtools::install_github("r-causal/ggdag")
@@ -256,35 +258,93 @@ considering potential interactions or dependencies between them. This
 approach is generally favorable when exploring complex relationships
 among multiple variables.
 
-To represent the network we can use a Directed Acyclic Graph (DAG), this
-graphs also help identifying the causal relationship between treatments
-or interventions and let understand the action of influence within the
-network.
+To represent the network we can use a **Directed Acyclic Graph (DAG)**
+used for drawing causal relationships between variables, such as the
+relationship between health risks and diseases.
+
+The following code generates a network graph representing the causal
+pathways between different variables, such as smoking, high blood
+pressure, diabetes, obesity, and heart disease. By visualizing the
+relationships between these variables, we can identify potential
+treatments or interventions.
 
 ```{r}
 #| echo: false
+#| fig-width: 7
+#| fig-height: 5
+#| fig-align: "center"
+# Install and load necessary packages
+##install.packages("igraph")
+library(igraph)
+
+# Define the nodes (evidence, risks, co-morbidities, causes of a disease)
+nodes <- c("Smoking", "High Blood Pressure", 
+           "Diabetes", "Obesity", "Heart Disease")
+
+# Define the edges (relationships between the nodes)
+edges <- data.frame(
+  from = c("Smoking", "High Blood Pressure", 
+           "Diabetes", "Obesity", "Smoking", "Obesity"),
+  to = c("Heart Disease", "Heart Disease", 
+         "Heart Disease", "Heart Disease", "Diabetes", "Diabetes")
+)
+
+# Create the graph from the nodes and edges
+g <- graph_from_data_frame(d = edges, 
+                           vertices = nodes, 
+                           directed = TRUE)
+
+# Plot the graph & Customize the layout
+layout <- layout_with_sugiyama(g)
+
+plot(g, 
+     layout = layout$layout, 
+     vertex.label = V(g)$name, 
+     vertex.size = 30,
+     vertex.color = "skyblue", 
+     edge.arrow.size = 0.5, 
+     main = "Directed Acyclic Graph (DAG) - Health Risks and Diseases")
+
+
+```
+
+One more example of a network graph that would be helpful to identify
+the relationship between outcome (O), exposure (E) and different risk
+factors is made with the `{ggdag}` package and the `dagify()` function.
+
+```{r}
+#| echo: true
+#| fig-width: 6
+#| fig-height: 3.2
+#| fig-align: "center"
 # Load the library
 library(ggdag)
 set.seed(555)
 # Define the DAG structure
-dag <- dagify(outcome ~ exposure + c1 + c2 + c3, 
-              exposure ~ c1 + c2 + c3,
+dag <- dagify(y ~ x, 
+              x ~ c1 + c2 + c3,
               c1 ~ c2 + c3,
               c1 ~ c3)
 
 # Plot the DAG
-ggdag(dag)+theme_dag_blank()
+ggdag(dag)+theme_dag_grid()
 
 ```
 
+Here is a simulation of the risk exposure made with the `{dagitty}`
+package to simulate a logistic regression model with a DAG structure.
+The model estimates the probability of an outcome (O) given exposure (E)
+to different risk factors, such as C1, C2, and C3 (confounders). The
+relative risk is calculated based on the estimated probabilities of the
+outcome given exposure and no exposure to the risk factors.
+
 ```{r}
-#| echo: false
+#| echo: true
 # Load necessary libraries
 library(dagitty)
 library(tidyverse)
 
-
-# Create DAG
+# Create DAG structure
 dag <- dagitty('dag {
     E -> O
     C1 -> O
@@ -297,24 +357,32 @@ dat <- dag%>%tidy_dagitty()
 set.seed(123)
 n <- 1000
 data <- simulateLogistic(dag)
+head(data)
+```
 
+```{r}
 # Fit logistic regression model
-model <- glm(O ~ E + C1 + C2 + C3, data = data, 
+model <- glm(O ~ E + C1 + C2 + C3, 
+             data = data, 
              family = "binomial")
 
 # Extract estimated probabilities
-prob_outcome_given_exposure <- predict(model, type = "response")
-prob_outcome_given_no_exposure <- predict(model, newdata = data.frame(E = '1', C1 = data$C1, C2 = data$C2, C3 = data$C3), 
-                                          type = "response")
+prob_outcome_exposure <- predict(model, type = "response")
+prob_outcome_no_exposure <- predict(model, 
+                                    newdata = data.frame(E = '1', 
+                                                         C1 = data$C1, 
+                                                         C2 = data$C2, 
+                                                         C3 = data$C3), 
+                                    type = "response")
 
 # Calculate relative risk
-relative_risk <- prob_outcome_given_exposure / prob_outcome_given_no_exposure
+relative_risk <- prob_outcome_exposure / prob_outcome_no_exposure
 ```
 
 ```{r}
 #| layout-ncol: 2
 #| fig-cap: 
-#|   - "Distribution of Relative Risk"
+#|   - "Histogram of Relative Risk"
 #|   - "Density distribution of Relative Risk"
 #| label: fig-distribution_rr 
 #| echo: false
@@ -323,7 +391,9 @@ data$relative_risk <- relative_risk
 
 # Visualize relative risk distribution
 ggplot(data = data, aes(x =relative_risk)) +
-  geom_histogram(binwidth = 0.2, fill = "#29306c", color = "black") +
+  geom_histogram(binwidth = 0.2, 
+                 fill = "#29306c", 
+                 color = "black") +
   labs(title = "Distribution of Relative Risk",
        x = "Relative Risk",
        y = "Frequency") 
@@ -338,8 +408,8 @@ ggplot(data = data, aes(x = relative_risk)) +
 ### Theoretical minimum-risk exposure levels (TMRELs)
 
 Risk factors associated with a particular health condition are
-considered based on the *Theoretical minimum risk exposure levels
-(TMRELs)* and as a **function of the risk exposure or *relative risk
+considered based on the ***Theoretical minimum risk exposure levels
+(TMRELs)*** and as a **function of the risk exposure or *relative risk
 (RR)* value**. Not all the variables that are thought to be risk factors
 increasing causes for a particular health condition are always the
 driving cause of the condition, for this reason a minimum level of risk
@@ -381,8 +451,8 @@ highly influenced by behavioral, environmental, and occupational risks.
 
 ### Population attributable fractions (PAFs)
 
-The Population Attributable Fraction (PAF) is a measure used to quantify
-the proportion of disease incidence in a population that can be
+The **Population Attributable Fraction (PAF)** is a measure used to
+quantify the proportion of disease incidence in a population that can be
 attributed to a specific risk factor. It represents the proportion of
 risk that would be reduced in a given year if the exposure to a risk
 factor in the past were reduced to an ideal exposure scenario.
