@@ -14,6 +14,7 @@ components_hm_files
 compiler/
 R
 man
+site_libs
 _extensions/
 _site/
 _freeze/
