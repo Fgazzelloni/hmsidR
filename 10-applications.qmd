@@ -44,14 +44,15 @@ decision-making, and communicate findings to various stakeholders.
 
 ### Example 1: Visualizing COVID-19 Data
 
-Data is from the ECDC (European Centre for Disease Prevention and Control) and is updated daily. The data includes information on the number of deaths for each country. The dataset is available on the ECDC website and can be accessed through the `{covid19.analytics}` package.
-
+Data is from the ECDC (European Centre for Disease Prevention and
+Control) and is updated daily. The data includes information on the
+number of deaths for each country. The dataset is available on the ECDC
+website and can be accessed through the `{covid19.analytics}` package.
 
 ```{r}
 #| eval: false
 install.packages("covid19.analytics")
 ```
-
 
 ```{r}
 #| message: false
@@ -64,11 +65,9 @@ cfr%>%
 head()
 ```
 
-
-### Example 2: Visualizing Predicted vs. Actual DALYs**:
+### Example 2: Visualizing Predicted vs. Actual DALYs:
 
 -   Creating scatter plots to compare predicted Disability-Adjusted Life
     Years (DALYs) with actual values.
 -   Analyzing residuals to identify patterns and areas for model
     improvement.
-

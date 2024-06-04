@@ -167,8 +167,6 @@ p
 p2
 ```
 
-
-
 ### Saving as an Image
 
 Once you've created your visualization, you might want to save it as an

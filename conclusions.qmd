@@ -1,4 +1,4 @@
-# Conclusions {#sec-conclusions .unnumbered}
+# Conclusions {.unnumbered}
 
 In conclusion, the modeling technique of transfer learning serves as the
 foundational approach for applying models, demonstrating how to make

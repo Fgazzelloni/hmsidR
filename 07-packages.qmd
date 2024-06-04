@@ -53,44 +53,103 @@ particularly useful for machine learning modeling of the spread of
 infectious diseases and evaluating DALYs variation due to infectious
 disease include:
 
--   [**caret**](https://topepo.github.io/caret/)[@kuhn]: The caret
-    package (short for **C**lassification **A**nd **RE**gression
+### Meta-Packages
+
+1.  [**tidymodels**](https://www.tmwr.org/)[@silge]: tidymodels
+    framework provides a collection of packages for modeling and machine
+    learning tasks, including tidyr, dplyr, and ggplot2. It offers a
+    consistent and tidy workflow for data preprocessing, model building,
+    evaluation, and visualization.
+2.  [**caret**](https://topepo.github.io/caret/)[@kuhn]: The caret
+    framework (short for **C**lassification **A**nd **RE**gression
     **T**raining) provides a unified interface for training and
     evaluating machine learning models. It supports a wide range of
     algorithms and offers convenient functions for hyperparameter tuning
     and model selection.
--   [**tidymodels**](https://www.tmwr.org/)[@silge]: tidymodels provides
-    a collection of packages for modeling and machine learning tasks,
-    including tidyr, dplyr, and ggplot2. It offers a consistent and tidy
-    workflow for data preprocessing, model building, evaluation, and
-    visualization.
--   [**mlr3**](https://mlr3book.mlr-org.com/)[@mlr-org]: mlr3 is a
+3.  [**mlr3**](https://mlr3book.mlr-org.com/)[@mlr-org]: mlr3 is a
     modern and extensible framework for machine learning in R. It
     provides a unified interface for modeling tasks, making it easy to
     train and evaluate a wide range of machine learning algorithms.
--   [**h2o**](https://h2o.ai/) is another powerful machine learning
-    framework that can be used to predict DALYs. **`h2o`** offers a
-    range of machine learning algorithms, including linear models,
-    tree-based models, and ensemble methods, with efficient handling of
-    large datasets and support for parallel computing.
--   [**INLA**](https://www.r-inla.org/what-is-inla)[@r-inlap]:
-    Integrated Nested Laplace Approximations (INLA) is a package for
-    Bayesian inference using the INLA method. It is particularly useful
-    for spatial and spatio-temporal modeling, which can be relevant for
-    studying the spread of infectious diseases.
--   [**fpp3**](https://otexts.com/fpp3/)[@forecast]: The fpp3 package is
+
+### Engines
+
+Engines are the actual implementations of machine learning algorithms.
+They perform the computations necessary to train and evaluate models.
+Engines can be integrated into various meta-packages/frameworks to
+leverage their specific algorithms and computational efficiencies. Each
+engine might have its own set of parameters and functionalities, which
+can be accessed through the high-level interfaces provided by
+meta-packages.
+
+1.  **`randomForest`**: For random forest models.
+2.  **`xgboost`**: An optimized distributed gradient boosting library
+    designed to be highly efficient, flexible, and portable. It
+    implements machine learning algorithms under the gradient boosting
+    framework.
+3.  **`glmnet`**: For lasso and ridge regression. Provides efficient
+    procedures for fitting generalized linear models via penalized
+    maximum likelihood.
+4.  **`nnet`**: For neural networks.
+5.  **`kernlab`**: For kernel-based machine learning methods.
+6.  **`e1071`**: For support vector machines and other functions.
+7.  **`lme4`**: For linear and generalized linear mixed-effects models.
+8.  **`mgcv`**: For generalized additive models.
+9.  **`rpart`**: For recursive partitioning and regression trees.
+10. [**h2o**](https://h2o.ai/) is another powerful machine learning
+    framework that can be used. It can be efficiently integrated with
+    `{tidymodels}`. **`h2o`** offers a range of machine learning
+    algorithms, including linear models, tree-based models, and ensemble
+    methods, with efficient handling of large datasets and support for
+    parallel computing.
+11. [**keras3**](https://keras.posit.co/), the R interface to
+    [Keras](https://keras.io/), is a deep learning technique which
+    provides high-level **neural networks** API written in Python.
+    Designed to enable fast experimentation with deep learning models on
+    top of [TensorFlow](https://tensorflow.rstudio.com/) (an open-source
+    machine learning framework developed by the Google).
+
+#### Time Series Analysis
+
+1.  **`forecast`**: For forecasting functions.
+2.  [**prophet**](https://facebook.github.io/prophet/) is specifically
+    designed for time series forecasting with an emphasis on flexibility
+    and ease of use. Developed by Facebook, prophet can handle various
+    time series patterns, including seasonality, holiday effects, and
+    trend changes, making it suitable for modeling infectious disease
+    trends over time.
+3.  [**fpp3**](https://otexts.com/fpp3/)[@forecast]: The fpp3 package is
     part of the Forecasting: Principles and Practice (3rd edition) book,
     offering tools for forecasting time series data. While not
     specifically focused on machine learning, it provides useful
     functions for time series analysis, which can be relevant for
     modeling disease spread over time.
 
+#### Bayesian Analysis
+
+1.  **`brms`**: For Bayesian generalized multivariate non-linear
+    multilevel models using Stan.
+2.  **`rstan`**: For Bayesian inference using Stan.
+
+#### Specialized Tools
+
+1.  [**spdep**](https://cran.r-project.org/web/packages/spdep/index.html)
+    is a powerful tools for spatial statistics, it provides a set of
+    functions for analyzing spatial dependencies and autocorrelation in
+    spatial data, particularly relevant in infectious disease modeling.
+    It also incorporates spatial effects into models and allows for a
+    better understanding of how infectious diseases spread across space.
+2.  [**INLA**](https://www.r-inla.org/what-is-inla)[@r-inlap]:
+    Integrated Nested Laplace Approximations (INLA) is a package for
+    Bayesian inference using the INLA method. It is particularly useful
+    for spatial and spatio-temporal modeling, which can be relevant for
+    studying the spread of infectious diseases.
+
 These packages offer a diverse set of tools and techniques for modeling
 infectious disease spread and assessing its impact on health metrics
 like DALYs. These packages provide valuable insights into the dynamics
-of infectious diseases and used correctly can be used to inform public
-health interventions and policies. However, whether these packages are
-the most suitable depends on various factors, including:
+of infectious diseases and can be used to inform public health
+interventions and policies. However, whether these packages are the most
+suitable depends on various factors, including:
 
 -   the specific requirements of the analysis
 -   the expertise of the researcher
@@ -110,25 +169,6 @@ learning algorithms and hyperparameter tuning.
 It's also worth considering other packages that may be relevant for
 specific aspects of the analysis, such as spatial modeling (e.g.,
 `spdep`) or time series forecasting (e.g., `prophet`).
-
--   [**spdep**](https://cran.r-project.org/web/packages/spdep/index.html)
-    is a powerful tools for spatial statistics, it provides a set of
-    functions for analyzing spatial dependencies and autocorrelation in
-    spatial data, particularly relevant in infectious disease modeling.
-    It also incorporates spatial effects into models and allows for a
-    better understanding of how infectious diseases spread across space.
--   [**prophet**](https://facebook.github.io/prophet/) is specifically
-    designed for time series forecasting with an emphasis on flexibility
-    and ease of use. Developed by Facebook, prophet can handle various
-    time series patterns, including seasonality, holiday effects, and
-    trend changes, making it suitable for modeling infectious disease
-    trends over time.
--   [keras3](https://keras.posit.co/), the R interface to
-    [Keras](https://keras.io/), is a high-level **neural networks** API
-    written in Python. Designed to enable fast experimentation with deep
-    learning models on top of
-    [TensorFlow](https://tensorflow.rstudio.com/) (an open-source
-    machine learning framework developed by the Google).
 
 The features and capabilities of each package should carefully be
 evaluated in relation to their specific research objectives before to

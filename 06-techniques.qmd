@@ -20,13 +20,13 @@ Learning Objectives
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-Selecting the most suitable machine learning model involves
-understanding **the goals of the analysis**, the **nature of the data**,
-and the **statistical and machine learning methods** that best suit the
-tasks. In @sec-05-machine_learning, we learned about what machine
-learning models are, provided examples for building a model framework,
-and selected common metrics for model performance calibration and
-evaluation.
+Selecting the most suitable machine learning\index{machine learning}
+model involves understanding **the goals of the analysis**, the **nature
+of the data**, and the **statistical and machine learning methods** that
+best suit the tasks. In @sec-05-machine_learning, we learned about what
+machine learning models are, provided examples for building a model
+framework, and selected common metrics for model performance calibration
+and evaluation.
 
 In this chapter, we focus on the strategies for selecting appropriate
 models by leveraging the strengths of different techniques, specifically
@@ -53,10 +53,11 @@ accordingly.
     mortality rates, disease prevalence, and risk factors.
 
 -   **Regression Models:** Regression models, including **linear
-    regression**, **Ridge regression**, and **Lasso regression**, are
-    commonly used to handle these continuous variables and address
-    challenges like correlation and multicollinearity with appropriate
-    techniques such as regularization.
+    regression**, **Ridge regression**\index{ridge regression}, and
+    **Lasso regression**\index{lasso regression}, are commonly used to
+    handle these continuous variables and address challenges like
+    correlation and multicollinearity\index{multicollinearity} with
+    appropriate techniques such as regularization.
 
 **Infectious Disease Data:**
 
@@ -76,7 +77,8 @@ type:**
 
 -   **Seasonality and Trends:** The data may exhibit seasonality or
     trends, necessitating the use of time series analysis models like
-    **ARIMA** or seasonal decomposition to capture these patterns.
+    **ARIMA**\index{ARIMA} or seasonal decomposition to capture these
+    patterns.
 
 -   **Simulation Models:** These models can predict the impact of
     interventions on DALYs and infectious diseases, estimating the
@@ -86,35 +88,37 @@ type:**
     and **sensitivity analyses** help assess the uncertainty associated
     with these predictions.
 
--   **Bayesian Models:** These models can estimate parameters and make
-    predictions based on prior knowledge and observed data,
-    incorporating uncertainty and variability.
+-   **Bayesian Models:**\index{bayesian models} These models can
+    estimate parameters and make predictions based on prior knowledge
+    and observed data, incorporating uncertainty and variability.
 
--   **Predictive Modeling:** Such as **decision trees**, **support
-    vector machines (SVM)**, and **LSTM (Long Short-Term Memory) neural
-    networks**, can predict disease outbreaks, identify high-risk
-    populations, and optimize resource allocation.
+-   **Predictive Modeling:**\index{predictive modeling} Such as
+    **decision trees**\index{decision trees}, **support vector machines
+    (SVM)**\index{SVM}, and **LSTM (Long Short-Term Memory) neural
+    networks**\index{LSTM}, can predict disease outbreaks, identify
+    high-risk populations, and optimize resource allocation.
 
 ## Statistical and machine learning methods
 
 Once the objective of the study is clear and identificated the nature of
 the data, we already a step forward in restricting the range of
 applicable models. The next step involves conducting a thorough
-**exploratory data analysis (EDA)**. This initial exploration helps to
-uncover the underlying structure of the data, the relationships between
-variables, and the way the response variable—which may also be referred
-to as the outcome variable—depends on predictors. This phase is critical
-as it informs the necessity of subsequent data adjustments and
+**exploratory data analysis (EDA)**\index{EDA}. This initial exploration
+helps to uncover the underlying structure of the data, the relationships
+between variables, and the way the response variable—which may also be
+referred to as the outcome variable—depends on predictors. This phase is
+critical as it informs the necessity of subsequent data adjustments and
 transformations.
 
 The importance of data preparation and exploratory data analysis in
 machine learning are the building blocks in the preparation of machine
-learning digestable data. **Feature engineering** is a technique that
-involves creating new features from existing ones based on domain
-knowledge or transformation of data to improve the model's ability to
-discern patterns. For example, creating features like **moving
-averages** or differences between consecutive days can reveal trends and
-cycles that are not immediately apparent from raw data.
+learning digestable data. **Feature
+engineering**\index{feature engineering} is a technique that involves
+creating new features from existing ones based on domain knowledge or
+transformation of data to improve the model's ability to discern
+patterns. For example, creating features like **moving averages** or
+differences between consecutive days can reveal trends and cycles that
+are not immediately apparent from raw data.
 
 Another example is the **standardization** process, which is crucial
 when dealing with variables measured in different units. It involves
@@ -139,20 +143,20 @@ focusing on practical understanding and implementation.
 
 ### Example 4: Rabies
 
-The `rabies` dataset from the `{hmsidwR}` package contains information
-on death rates and disability-adjusted life years (DALYs) due to rabies
-and all causes mortality in Asia and for the Global region from 1990 to
-2019. Rabies ([@cdc2024]) is a fatal viral infection, and it is also
-classified as an infectious disease that can infect all mammals causing
-acute encephalitis. Caused by the rabies virus, which belongs to the
-Lyssavirus genus, it is transmitted to humans through the bite of an
-infected animal such as bats, raccoons, skunks, foxes, and obviously
-dogs, which are the main source of human rabies deaths [@hampson2015].
-Rabies defined as neglected tropical disease (NTD) **predominantly
-affects already marginalized, poor and vulnerable populations**.
-Although effective human vaccines and immunoglobulins exist for rabies,
-these are often not readily available or accessible to everyone
-[@rabies].
+The `rabies`\index{rabies} dataset from the `{hmsidwR}` package contains
+information on death rates and disability-adjusted life years (DALYs)
+due to rabies and all causes mortality in Asia and for the Global region
+from 1990 to 2019. Rabies ([@cdc2024]) is a fatal viral infection, and
+it is also classified as an infectious disease that can infect all
+mammals causing acute encephalitis. Caused by the rabies virus, which
+belongs to the Lyssavirus genus, it is transmitted to humans through the
+bite of an infected animal such as bats, raccoons, skunks, foxes, and
+obviously dogs, which are the main source of human rabies deaths
+[@hampson2015]. Rabies defined as neglected tropical disease (NTD)
+**predominantly affects already marginalized, poor and vulnerable
+populations**. Although effective human vaccines and immunoglobulins
+exist for rabies, these are often not readily available or accessible to
+everyone [@rabies].
 
 In this example we consider the number of DALYs due to rabies in Asia
 and the Global region, as our response variable, the dataset is made
@@ -232,32 +236,37 @@ p2 <- rabies%>%
 #| fig.cap: 
 #|   - "Not scaled"
 #|   - "Scaled and centered"
+#| fig-alt: "DALYs due to Rabies - Not scaled and Scaled and centered"
 #| echo: false
 #| message: false
 #| warning: false
 
 legend_grob <- cowplot::get_legend(
-ggplot(data= rabies%>%
-pivot_longer(cols=c("dx_rabies","dalys_rabies"))%>%
-mutate(name=ifelse(name=="dx_rabies","Deaths","DALYs")),
-aes(x=year, group=name,linewidth=name))+
-geom_line(aes(y=value),color="grey")+labs(linewidth=""))
+  ggplot(data= rabies%>%
+           pivot_longer(cols=c("dx_rabies","dalys_rabies"))%>%
+           mutate(name=ifelse(name=="dx_rabies","Deaths","DALYs")),
+         aes(x=year, group=name,linewidth=name))+
+    geom_line(aes(y=value),
+              color="grey")+
+    labs(linewidth=""))
 
 
 p1 + 
-labs(title = "Dalys and Deaths due to Rabies - Not scaled",
-subtitle = "in Asia and Global Region",
-color = "Location",
-y="Value",x="Time(Year)") +
-scale_color_manual(values = c("orange", "navy"))
+  labs(title = "Dalys and Deaths due to Rabies - Not scaled",
+       subtitle = "in Asia and Global Region",
+       color = "Location",
+       y="Value",x="Time(Year)") +
+  scale_color_manual(values = c("orange", "navy"))
 
 p2 +
-labs(title = "Dalys and Deaths due to Rabies - Scaled and centered",
-subtitle = "in Asia and Global Region",
-color = "Location",
-y="Value",x="Time(Year)") +
-scale_color_manual(values = c("orange", "navy"))+
-annotation_custom(legend_grob, xmin = 2010, xmax = 2015, ymin = 1, ymax = 2)
+  labs(title = "Dalys and Deaths due to Rabies - Scaled and centered",
+       subtitle = "in Asia and Global Region",
+       color = "Location",
+       y="Value",x="Time(Year)") +
+  scale_color_manual(values = c("orange", "navy"))+
+  annotation_custom(legend_grob, 
+                    xmin = 2010, xmax = 2015, 
+                    ymin = 1, ymax = 2)
 ```
 
 Creating new features from existing ones provide additional predictive
@@ -311,44 +320,51 @@ p4 <- dat%>%
 #| layout-ncol: 2
 #| label: fig-deaths-dalys-std
 #| fig.cap: "Scaled and centered"
+#| fig-alt: "Deaths and DALYs due to Rabies and All Causes - Scaled and centered"
 #| echo: false
 #| message: false
 #| warning: false
 
 legend_grob2 <- cowplot::get_legend(
-ggplot(data= dat%>%
-  select(-year,-location)%>%
-  scale()%>%
-  cbind(dat%>%select(year,location))%>%
-pivot_longer(cols=c("dx_rabies","dx_allcauses"))%>%
-mutate(name=ifelse(name=="dx_rabies","Rabies","All Causes")),
-aes(x=year, group=name,linewidth=name))+
-geom_line(aes(y=value),color="grey")+labs(linewidth=""))
+  ggplot(data= dat%>%
+           select(-year,-location)%>%
+           scale()%>%
+           cbind(dat%>%select(year,location))%>%
+           pivot_longer(cols=c("dx_rabies","dx_allcauses"))%>%
+           mutate(name=ifelse(name=="dx_rabies","Rabies","All Causes")),
+         aes(x=year, group=name,linewidth=name))+
+    geom_line(aes(y=value),color="grey")+
+    labs(linewidth=""))
 
 p3 + 
-labs(title = "Deaths due to Rabies and All Causes",
-subtitle = "in Asia and Global Region",
-color = "Location",
-y="Value",x="Time(Year)") +
-scale_color_manual(values = c("orange", "navy"))+
-annotation_custom(legend_grob2, xmin = 2010, xmax = 2015, ymin = 1, ymax = 2)
+  labs(title = "Deaths due to Rabies and All Causes",
+       subtitle = "in Asia and Global Region",
+       color = "Location",
+       y="Value",x="Time(Year)") +
+  scale_color_manual(values = c("orange", "navy"))+
+  annotation_custom(legend_grob2, 
+                    xmin = 2010, xmax = 2015, 
+                    ymin = 1, ymax = 2)
 
 p4 +
-labs(title = "Dalys due to Rabies and All Causes",
-subtitle = "in Asia and Global Region",
-color = "Location",
-y="Value",x="Time(Year)") +
-scale_color_manual(values = c("orange", "navy"))+
-annotation_custom(legend_grob2, xmin = 2010, xmax = 2015, ymin = 1, ymax = 2)
+  labs(title = "Dalys due to Rabies and All Causes",
+       subtitle = "in Asia and Global Region",
+       color = "Location",
+       y="Value",x="Time(Year)") +
+  scale_color_manual(values = c("orange", "navy"))+
+  annotation_custom(legend_grob2, 
+                    xmin = 2010, xmax = 2015, 
+                    ymin = 1, ymax = 2)
 ```
 
-For this task, we will use the `{tidymodels}` meta-package, as it
-provides a consistent interface for modeling and machine learning tasks.
-In particular, we define and execute modeling workflows, to create
-tailored data pre-processing tasks on various modelling specification,
-and evaluate the performance using resampling techniques, to eventually
-select the best model. A more detailed explanation of the `{tidymodels}`
-framework can be found in the book [@silge].
+For this task, we will use the `{tidymodels}`\index{tidymodels}
+meta-package, as it provides a consistent interface for modeling and
+machine learning tasks. In particular, we define and execute modeling
+workflows, to create tailored data pre-processing tasks on various
+modelling specification, and evaluate the performance using resampling
+techniques, to eventually select the best model. A more detailed
+explanation of the `{tidymodels}` framework can be found in the book
+[@silge].
 
 ### Training Data and Resampling Techniques
 
@@ -371,23 +387,24 @@ test <- testing(split)
 
 After that, it is important to create a set of folds, which means a set
 of subgroups of the original data by grouping following specific
-directions based on the type of **resampling technique**. Resampling
-techniques are used to evaluate the model's performance and estimate its
-generalization error. There are various types of resampling techniques,
-it depends on the specific characteristics of your dataset, and the
-goals of your analysis. Some of the most common resampling techniques
-include:
+directions based on the type of **resampling
+technique**\index{resampling}. Resampling techniques are used to
+evaluate the model's performance and estimate its generalization error.
+There are various types of resampling techniques, it depends on the
+specific characteristics of your dataset, and the goals of your
+analysis. Some of the most common resampling techniques include:
 
--   **k-Fold Cross-Validation** for general model evaluation and
-    hyperparameter tuning.
--   **Bootstrap Resampling** to estimate the variability of your model
-    and for smaller datasets.
--   **Time Series Cross-Validation** for time-dependent data to preserve
-    temporal structure.
--   **Spatial Resampling** for spatially correlated data to account for
-    spatial dependencies.
--   **Stratified Resampling** when dealing with imbalanced datasets to
-    ensure proper representation of all classes.
+-   **k-Fold Cross-Validation**\index{cross validation} for general
+    model evaluation and hyperparameter tuning.
+-   **Bootstrap Resampling**\index{bootstrap resampling} to estimate the
+    variability of your model and for smaller datasets.
+-   **Time Series Cross-Validation**\index{time series cross validation}
+    for time-dependent data to preserve temporal structure.
+-   **Spatial Resampling**\index{spatial resampling} for spatially
+    correlated data to account for spatial dependencies.
+-   **Stratified Resampling**\index{stratified resampling} when dealing
+    with imbalanced datasets to ensure proper representation of all
+    classes.
 
 In this case, we will use **k-Fold Cross-Validation** to evaluate the
 model's performance. The `vfold_cv()` function creates a set of folds
@@ -477,10 +494,11 @@ can apply:
     transformation that can handle both positive and negative values:
     $((DALYs+1)^p-1)/p$.
 
-Let's apply the **Yeo-Johnson transformations** to the response variable
-(`dalys_rabies)` and see how the density distribution changes with
-different values of $\lambda$. This is a step that can be tuned with a
-machine learning algorithm.
+Let's apply the **Yeo-Johnson
+transformations**\index{yeo-johnson transformations} to the response
+variable (`dalys_rabies)` and see how the density distribution changes
+with different values of $\lambda$. This is a step that can be tuned
+with a machine learning algorithm.
 
 ```{r}
 #| layout-ncol: 3
@@ -491,19 +509,19 @@ machine learning algorithm.
 #| warning: false
 
 ggplot(dat)+
-geom_density(aes(x=dalys_rabies))+
-scale_x_log10()+
-labs(title = "Log10 transformation")
+  geom_density(aes(x=dalys_rabies))+
+  scale_x_log10()+
+  labs(title = "Log10 transformation")
 
 ggplot(dat)+
-geom_density(aes(x=dalys_rabies))+
-scale_x_continuous(transform = scales::transform_yj(p = -2))+
-labs(title = "Yeo-Johnson transformation p=-2")
+  geom_density(aes(x=dalys_rabies))+
+  scale_x_continuous(transform = scales::transform_yj(p = -2))+
+  labs(title = "Yeo-Johnson transformation p=-2")
 
 ggplot(dat)+
-geom_density(aes(x=dalys_rabies))+
-scale_x_continuous(transform = scales::transform_yj(p = 2))+
-labs(title = "Yeo-Johnson transformation p=2")
+  geom_density(aes(x=dalys_rabies))+
+  scale_x_continuous(transform = scales::transform_yj(p = 2))+
+  labs(title = "Yeo-Johnson transformation p=2")
 ```
 
 Let's now create a third recipe with the `step_YeoJohnson()` function.
@@ -536,10 +554,10 @@ all causes), applying a correlation step that filters out correlated
 variables can be problematic. One way to overcome bias arising from it
 is using regularization techniques like **Ridge Regression** or **Lasso
 Regression** is often the best approach to handle multicollinearity
-without removing any predictors. Alternatively, **PCA** can reduce
-dimensionality while retaining most of the variance. These methods
-ensure all important predictors are included in the model without the
-adverse effects of multicollinearity.
+without removing any predictors. Alternatively, **PCA**\index{PCA} can
+reduce dimensionality while retaining most of the variance. These
+methods ensure all important predictors are included in the model
+without the adverse effects of multicollinearity.
 
 ### Model Specification
 
@@ -553,8 +571,8 @@ decision tree.
 ### Model 1: Random Forest
 
 Rabies death rates may exhibit complex relationships with predictor
-variables. Random forests are capable of capturing non-linear
-relationships between predictors and the target variable.
+variables. Random forests\index{random forests} are capable of capturing
+non-linear relationships between predictors and the target variable.
 
 Also, it handles multicollinearity, missing data, provides variables
 importance and are an ensemble learning method, which means they combine
@@ -614,28 +632,28 @@ rf_fit %>%
 #|   - "Predictions vs. Truth"
 #|   - "Predictions vs. Truth by Year"
 #| echo: false
+
 rf_fit %>% 
-   predict(new_data = test) %>% 
-   bind_cols(test)  %>%
-   ggplot(aes(dalys_rabies, 
-              .pred, 
-              color = location)) +
-   geom_abline(color = "brown") +
-   geom_point(size=2) +
-   scale_color_manual(values = c("orange", "navy")) +
-   coord_fixed() +
-   expand_limits(x = 0, y = 0)+
+  predict(new_data = test) %>% 
+  bind_cols(test)  %>%
+  ggplot(aes(dalys_rabies, .pred, 
+             color = location)) +
+  geom_abline(color = "brown") +
+  geom_point(size=2) +
+  scale_color_manual(values = c("orange", "navy")) +
+  coord_fixed() +
+  expand_limits(x = 0, y = 0)+
   labs(title="Predictions vs. Truth",
        x="Truth",
        y="Predictions")
 
 rf_fit %>% 
-   predict(new_data = test) %>% 
-   bind_cols(test)  %>%
+  predict(new_data = test) %>% 
+  bind_cols(test)  %>%
   ggplot(aes(x=year,
              color = location)) +
-   geom_point(aes(y=dalys_rabies)) +
-   geom_line(aes(y=.pred)) +
+  geom_point(aes(y=dalys_rabies)) +
+  geom_line(aes(y=.pred)) +
   scale_color_manual(values = c("orange", "navy"))+
   labs(title="Predictions vs. Truth by Year",
        x="Time(Year)",
@@ -644,20 +662,20 @@ rf_fit %>%
 
 ### Model 2: Generalized Linear Model (GLM)
 
-Generalized Linear Models (GLMs) involve statistical estimation rather
-than the iterative parameter tuning, common in many machine learning
-techniques. However, adding a machine learning feature through parameter
-calibration can be done using techniques such as cross-validation and
-grid search to find the best model settings.
+Generalized Linear Models (GLMs)\index{GLM} involve statistical
+estimation rather than the iterative parameter tuning, common in many
+machine learning techniques. However, adding a machine learning feature
+through parameter calibration can be done using techniques such as
+cross-validation and grid search to find the best model settings.
 
 To introduce a machine learning feature with parameter calibration into
 our modeling of the rabies data, we can use a technique like
 cross-validation combined with a **regularization method** or an
 algorithm that supports parameter tuning. Here, we can employ a model
-from the `glmnet` package, which fits a generalized linear model via
-**penalized maximum likelihood**. The regularization path is computed
-for the lasso or elastic-net penalty at a grid of values for the
-regularization parameter lambda.
+from the `glmnet`\index{glmnet} package, which fits a generalized linear
+model via **penalized maximum likelihood**. The regularization path is
+computed for the lasso or elastic-net penalty at a grid of values for
+the regularization parameter lambda.
 
 Adding Machine Learning Features with `{glmnet}` and Cross-Validation
 
@@ -755,10 +773,10 @@ data.frame(dalys_rabies =response,predictors,predictions)%>%
              color=factor(locationGlobal)))+
   geom_point(aes(y=dalys_rabies))+
   geom_line(aes(y=predictions),color="brown")+
-scale_color_manual(values = c("orange", "navy"),
-                   labels=c("Asia","Global"))+
+  scale_color_manual(values = c("orange", "navy"),
+                     labels=c("Asia","Global"))+
   labs(title="DALYs due to Rabies Predictions vs Truth",
-subtitle="by Year",
+       subtitle="by Year",
        x="Truth",
        y="Predictions")
 ```
@@ -778,18 +796,18 @@ models that could be used to predict DALYs such as:
     regression tasks. They work by finding the hyperplane that best
     separates the data into different classes or groups.
 
-2.  **Extreme Gradient Boosting (XGBoost)**: Known for its high
-    performance in various prediction tasks, XGBoost can handle missing
-    values and is effective for large datasets.
+2.  **Extreme Gradient Boosting (XGBoost)**\index{XGBoost}: Known for
+    its high performance in various prediction tasks, XGBoost can handle
+    missing values and is effective for large datasets.
 
-3.  **K-Nearest Neighbors (KNN)** models are a type of instance-based
-    learning algorithm that stores all available cases and classifies
-    new cases based on a similarity measure.
+3.  **K-Nearest Neighbors (KNN)**\index{KNN} models are a type of
+    instance-based learning algorithm that stores all available cases
+    and classifies new cases based on a similarity measure.
 
-4.  **Long Short-Term Memory (LSTM) Networks**: For temporal or
-    sequential health data, LSTM networks can capture dependencies over
-    time, making them suitable for time-series prediction of disease
-    progression and outcomes.
+4.  **Long Short-Term Memory (LSTM) Networks**\index{LSTM}: For temporal
+    or sequential health data, LSTM networks can capture dependencies
+    over time, making them suitable for time-series prediction of
+    disease progression and outcomes.
 
 Each of these models has its own strengths and weaknesses, and the
 choice of model will depend on the specific characteristics of the data
@@ -835,7 +853,7 @@ workflow_set <- workflow_set(
   models = list(linear_reg = linear_reg_spec, 
                 svm = svm_p_spec,
                 knn = knn_spec)
-)
+  )
 
 grid_ctrl <-
    control_grid(
@@ -867,17 +885,17 @@ grid_results <- readRDS("data/model-data/grid_results.rds")
 grid_results %>% 
   collect_metrics() %>% 
   arrange(mean)%>%
-select(1,5,7,9)%>%
-head()
+  select(1,5,7,9)%>%
+  head()
 ```
 
 ```{r}
 autoplot(
    grid_results,
-   rank_metric = "rmse",  # <- how to order models
-   metric = "rmse",       # <- which metric to visualize
-   select_best = TRUE     # <- one point per workflow
-) +
+   rank_metric = "rmse",  
+   metric = "rmse",      
+   select_best = TRUE
+   ) +
    geom_text(aes(y = mean - 0.1, label = wflow_id), 
              angle = 90, hjust = 1,size=3) +
    lims(y = c(-1, 0.9)) +

@@ -1,7 +1,8 @@
 # Introduction to Machine Learning {#sec-05-machine_learning}
 
-> "Human beings are not just passive victims of disease. They are active
-> participants in the biological confrontation between man and microbe."
+> **"Human beings are not just passive victims of disease. They are
+> active participants in the biological confrontation between man and
+> microbe."**
 
 ```{r}
 #| echo: false
@@ -9,38 +10,40 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 This chapter will walk you through a basic construction of a machine
-learning model, providing a simple explanation of how to model
-fast-growing phenomena, such as in the case of the spread of infectious
-diseases. Then in the following chapters of this second section you will
-dive deep into different techniques for modeling starting from feature
-engineering to making predictions.
+learning\index{machine learning} model, providing a simple explanation
+of how to model fast-growing phenomena, such as in the case of the
+spread of infectious diseases. Then in the following chapters of this
+second section you will dive deep into different techniques for modeling
+starting from feature engineering to making predictions.
 
 ## Deterministic and Stochastic modeling
 
-The spread of a virus can be seen as a **random process**, since the
-number of individuals who are infected at any given time can change
-randomly. The exact number of individuals who will be infected in the
-future cannot be determined with certainty, as it depends on various
-factors such as the contagiousness of the virus, the behavior of
-individuals, and the efficacy of mitigation measures.
+The spread of a virus can be seen as a **random
+process**\index{random process}, since the number of individuals who are
+infected at any given time can change randomly. The exact number of
+individuals who will be infected in the future cannot be determined with
+certainty, as it depends on various factors such as the contagiousness
+of the virus, the behavior of individuals, and the efficacy of
+mitigation measures.
 
-A **deterministic model**, on the other hand, could be used to model the
-spread of a virus under certain conditions, such as a fixed number of
-individuals, constant contagiousness, and no mitigation measures. This
-type of model can be used to make predictions about the spread of a
-virus under certain assumptions, but it will not account for the
-randomness and uncertainty associated with real-world scenarios.
-
-In general, a **stochastic process**, or random process [@dobrow2016] is
-the type of model which attempt to replicate uncertain outcomes, using
-probabilities. At opposite, in a **deterministic system** the outcome is
-obtained from a given input, and for this reason it is reproducible.
+A **deterministic model**\index{deterministic model}, on the other hand,
+could be used to model the spread of a virus under certain conditions,
+such as a fixed number of individuals, constant contagiousness, and no
+mitigation measures. This type of model can be used to make predictions
+about the spread of a virus under certain assumptions, but it will not
+account for the randomness and uncertainty associated with real-world
+scenarios. In general, a **stochastic process**\index{stochastic process}, or
+random process [@dobrow2016] is the type of model which attempt to
+replicate uncertain outcomes, using probabilities. At opposite, in a
+**deterministic system** the outcome is obtained from a given input, and
+for this reason it is reproducible.
 
 Most models used to study the spread of a virus are a **combination of
-both deterministic and stochastic models**. For example, the SIR
-(Susceptible-Infected-Recovered) model is a deterministic model that
-describes the dynamics of the spread of a virus, but it also includes
-stochastic elements such as random interactions between individuals.
+both deterministic and stochastic models**. For example, the
+SIR\index{SIR model} (Susceptible-Infected-Recovered) model is a
+deterministic model that describes the dynamics of the spread of a
+virus, but it also includes stochastic elements such as random
+interactions between individuals.
 
 ## What is a machine learning model?
 
@@ -56,11 +59,11 @@ traditional statistical models, they are more flexible and adaptable to
 complex data patterns.
 
 **Machine learning (ML)** techniques are identified as subfields of the
-**Artificial Intelligence (AI)** technology, acting by learning
-relationships in the data. Learning from experience (E), ML computes
-tasks (T) to improve performance (P). The origins of ML, dating back to
-the late 1950s, only flourished in the 1990s with the aim of minimizing
-loss on unseen samples [@machine2024].
+**Artificial Intelligence (AI)**\index{AI} technology, acting by
+learning relationships in the data. Learning from experience (E), ML
+computes tasks (T) to improve performance (P). The origins of ML, dating
+back to the late 1950s, only flourished in the 1990s with the aim of
+minimizing loss on unseen samples [@machine2024].
 
 ![Machine Learning cycle](images/ml-image.png){fig-align="center"
 width="404"}
@@ -79,8 +82,8 @@ relationship between humans and microbes is dynamic and influenced by
 various factors, including environmental conditions, human behavior, and
 microbial adaptation*'. The importance of understanding the complex
 interactions between hosts and pathogens in the emergence and spread of
-infectious diseases is described as a dynamic interplay between
-organisms and their environment—**a process of continuous adaptation and
+infectious diseases is described as dynamic interplay between organisms
+and their environment a **process of continuous adaptation and
 interaction**. Organisms continuously respond to changes in their
 surroundings to maintain balance and survival. This is analogous to what
 happens inside a machine learning model environment. It involves
@@ -96,13 +99,13 @@ the future preventing undesired outcomes.
 
 In particular, these types of models are subdivided in:
 
-1.  **Mechanistic Model** For example the SIR model is a **classic
-    compartmental model** used to simulate the spread of infectious
-    diseases. It divides the population into three compartments:
-    susceptible $(S)$, infectious $(I)$, and recovered $(R)$. The
-    equations describe the rate of change of each compartment over time,
-    where $\beta$ represents the transmission rate and $\gamma$
-    represents the recovery rate.
+1.  **Mechanistic Model**\index{mechanistic model}: For example the SIR
+    model is a **classic compartmental model** used to simulate the
+    spread of infectious diseases. It divides the population into three
+    compartments: susceptible $(S)$, infectious $(I)$, and recovered
+    $(R)$. The equations describe the rate of change of each compartment
+    over time, where $\beta$ represents the transmission rate and
+    $\gamma$ represents the recovery rate.
 
 $$ \text{SIR model  } \left\{\begin{matrix}
  \frac{dS}{dt} = - \beta \cdot S \cdot I \\
@@ -110,17 +113,18 @@ $$ \text{SIR model  } \left\{\begin{matrix}
  \frac{dR}{dt} = \gamma \cdot I 
 \end{matrix}\right. $$ {#eq-sir-model-theory}
 
-2.  **Empirically Driven Model**: Empirically driven models do not have
-    explicit mathematical equations like mechanistic models. Instead,
-    they **learn patterns** and relationships directly from data. An
-    example of an empirically driven model is **Random Forest** which is
-    a machine learning algorithm that builds multiple decision trees and
-    combines their predictions to make accurate predictions. It works by
-    splitting the data into subsets and building a decision tree for
-    each subset. The final prediction is made by aggregating the
-    predictions of all decision trees. Unlike mechanistic models, Random
-    Forest does not rely on explicit equations or known relationships
-    but instead learns patterns from the input data.
+2.  **Empirically Driven Model**\index{empirically driven model}:
+    Empirically driven models do not have explicit mathematical
+    equations like mechanistic models. Instead, they **learn patterns**
+    and relationships directly from data. An example of an empirically
+    driven model is **Random Forest** which is a machine learning
+    algorithm that builds multiple decision trees and combines their
+    predictions to make accurate predictions. It works by splitting the
+    data into subsets and building a decision tree for each subset. The
+    final prediction is made by aggregating the predictions of all
+    decision trees. Unlike mechanistic models, Random Forest does not
+    rely on explicit equations or known relationships but instead learns
+    patterns from the input data.
 
 Machine learning models fall under the category of **empirically driven
 models**. Unlike **mechanistic models**, which are based on explicit
@@ -142,18 +146,20 @@ understanding of the modeling procedures.
 ### Learning Methods
 
 There are a variety of models available, and the decision on which model
-to use depends on the type of **learning method**—either **supervised**
-or **unsupervised**. Supervised learning analyzes data by comparing
-observations against a predefined response variable, whereas
-unsupervised learning handles data that do not have a predefined
-response variable.
+to use depends on the type of **learning method** either
+**supervised**\index{supervised learning} or
+**unsupervised**\index{unsupevised learning}. Supervised learning
+analyzes data by comparing observations against a predefined response
+variable, whereas unsupervised learning handles data that do not have a
+predefined response variable.
 
 The **nature of the data** is also fundamental, including whether the
 outcome is continuous or discrete, and whether the number of predictors
 exceeds the number of observations. Models can range from non-linear to
 multilevel, and they can involve more complex combinations. A major
-distinction is made between **regression** and **classification** based
-on whether the outcome variable is continuous.
+distinction is made between **regression**\index{regression} and
+**classification**\index{classification} based on whether the outcome
+variable is continuous.
 
 **Machine learning models** are all that types of models that can be all
 of the above but allow for: **learning from data through model
@@ -164,8 +170,8 @@ Each algorithm has its method of learning.
 ### Parameters and Hyper-parameters
 
 In machine learning and statistical modeling, parameters and
-hyperparameters are two distinct concepts, each playing a crucial role
-in building and tuning models.
+hyperparameters\index{hyperparameters} are two distinct concepts, each
+playing a crucial role in building and tuning models.
 
 **Parameters** are the **internal** coefficients or weights that the
 model learns from the training data. These values are adjusted during
@@ -224,10 +230,11 @@ Here, $f$ represents the relationship between the predictors and the
 response, and $epsilon$ represents the error term, which captures the
 difference between the observed values of $y$ and the values predicted
 by the model. To estimate the coefficients of the model function, we
-employ statistical techniques such as **linear regression** for
-continuous response variables, **logistic regression** for binary
-response variables, and various **machine learning algorithms** that
-include tuning parameters to handle more complex dataset and model
+employ statistical techniques such as **linear
+regression**\index{linear regression} for continuous response variables,
+**logistic regression**\index{logistic regression} for binary response
+variables, and various **machine learning algorithms** that include
+tuning parameters to handle more complex dataset and model
 specifications. These techniques analyze the relationship between the
 predictors and the response in the dataset and determine the optimal
 coefficients that minimize the difference between the observed $(y)$
@@ -250,9 +257,9 @@ The first dataset used is from the `{HistData}` package
 `HistData::CholeraDeaths1849`, made of
 `r dim(HistData::CholeraDeaths1849)[1]` observations and
 `r dim(HistData::CholeraDeaths1849)[2]` variables, with 2 causes of
-deaths cholera and diarrhea. For this example we select just the deaths
-due to cholera within 12 months in 1849. Let's have a look at the first
-6 rows of the dataset:
+deaths cholera\index{cholera} and diarrhea. For this example we select
+just the deaths due to cholera within 12 months in 1849. Let's have a
+look at the first 6 rows of the dataset:
 
 ```{r}
 #| message: false
@@ -287,7 +294,7 @@ to explain the behavior of the variables.
 The following mathematical formulation represent our observed data,
 where $\beta_0$ and $\beta_1$ are the parameters, respectively the
 intercept and the slope allowing the computation of the equivalence
-between $y$ and $x$ [^05-machine_learning-1].\
+between $y$ and $x$ [^05-machine_learning-1].
 
 [^05-machine_learning-1]: We can compare this formulation to a general
     $Y=a+mx$ linear function. In our case $a$ would be the intercept and
@@ -301,7 +308,7 @@ $$ {#eq-lm}
 When a model is attempted, the values of the slope $(\beta_0)$ and the
 intercept $(\beta_1)$ are estimated[^05-machine_learning-2] in order to
 be able to replicate the values $(y)$ of the response by applying $x$ to
-our model function.\
+our model function.
 
 [^05-machine_learning-2]: The hat (\^) on top of the variables indicates
     the values are estimated.
@@ -334,13 +341,14 @@ variable might be useful for educational purposes, as illustrated in the
 data above, scenarios involving more than one predictor are more
 realistic and lead to increased complexity in the model function. This
 situation typically results in a multivariate linear model, often
-referred to as **multiple linear regression**.\
+referred to as **multiple linear
+regression**\index{multiple linear regression}.
 
 $$y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n$$ {#eq-mlm}
 
 In this case more than one predictor is used to investigate the varying
 effects of the response variable. A compact form of the model function
-with more than one predictor can be stated as:\
+with more than one predictor can be stated as:
 
 $$
 y=\beta_0 + \sum_{i=1}^{p}{\beta_ix_i}= \beta_0+\beta X
@@ -467,11 +475,11 @@ visualize the direction of a linear pattern in the data. However, it's
 evident that the data points form a bell-shaped curved as distribution
 of deaths over time, indicating a non-linear relationship between date
 and cholera deaths. In the second layer we used `method= "gam"`,
-**Generalized Additive Models (GAMs)** flexible extensions of linear
-models, the most suitable choice for this data used to model non-linear
-relationships between the response and predictor variables. They are
-particularly useful when the relationship between the variables is
-complex and cannot be adequately captured by linear models.\
+**Generalized Additive Models (GAMs)**\index{GAM} flexible extensions of
+linear models, the most suitable choice for this data used to model
+non-linear relationships between the response and predictor variables.
+They are particularly useful when the relationship between the variables
+is complex and cannot be adequately captured by linear models.
 
 $$
 g(\mu) = \beta_0 + f(x)
@@ -533,11 +541,11 @@ spread in section 4 @sec-13-infectious_diseases.
 
 #### SEIR
 
-In this example we simulate data of an epidemic to build a SEIR
-(susceptible, exposed, infected, recovered) model, a case a little more
-complicated than just making a SIR (susceptible, infected, recovered)
-model (@eq-sir-model-theory) which we will see in more details in
-@sec-14-covid19.
+In this example we simulate data of an epidemic to build a
+SEIR\index{SEIR model} (susceptible, exposed, infected, recovered)
+model, a case a little more complicated than just making a SIR
+(susceptible, infected, recovered) model (@eq-sir-model-theory) which we
+will see in more details in @sec-14-covid19.
 
 So, let's start looking at how our simple linear equation
 $y= \beta_0+\beta_1 x$ can be changed to become a differential equation.
@@ -551,7 +559,7 @@ $$ {#eq-diff-eq}
 
 And this is explained by the variation of the predictors in time, the
 calculation is a derivative. Recall that the derivative of a constant is
-0, in our case $\beta_0$ is the constant.\
+0, in our case $\beta_0$ is the constant.
 
 $$
 \frac{dy}{dt}= \frac{d(\beta_0+\beta_1 x)}{dt}= \beta_1 \frac{dx}{dt}
@@ -559,7 +567,7 @@ $$ {#eq-lin-diff-eq}
 
 This equation describes how $y$ changes with respect to time $t$, taking
 into account the rate of change of $x$ with respect to time $t$, and the
-constant slope $\beta_1$ of the line.\
+constant slope $\beta_1$ of the line.
 
 $$
 y'=\beta_1 \frac{dx}{dt}
@@ -670,9 +678,10 @@ ggplot(simulated_data, aes(x = time)) +
 #### Random Forest
 
 The next step is to calibrate this model by applying a machine learning
-algorithm. A `random forest` model is a type of model that uses an
-algorithm called **ensemble learning** to build multiple decision trees
-and combine their predictions to make accurate predictions. It works by
+algorithm. A `random forest`\index{random forest} model is a type of
+model that uses an algorithm called **ensemble
+learning**\index{ensemble learning} to build multiple decision trees and
+combine their predictions to make accurate predictions. It works by
 splitting the data into subsets and building a decision tree for each
 subset. The final prediction is made by aggregating the predictions of
 all decision trees. Unlike mechanistic models, Random Forest does not
@@ -682,7 +691,7 @@ patterns from the input data.
 The `randomForest()` function from the `{randomForest}` package is used
 to predict the number of new infections in the simulated data, and train
 the model to which some normally distributed noise is added to the
-simulated data.
+simulated\index{simulation} data.
 
 ```{r}
 simulated_data <- cbind(simulated_data, 
@@ -726,13 +735,13 @@ number of trees, the number of variables to consider at each split, and
 the minimum number of data points required to split a node.
 
 To predict the number of new infections based on the input variables,
-the `predict()` function is used on the test set, and the Root Mean
-Squared Error (RMSE) is then calculated to evaluate the model's
-performance. It quantifies how much the predicted values deviate from
-the actual values. The smaller the RMSE, the closer the predicted values
-are to the actual values, indicating a better predictive model
-performance. Conversely, a higher RMSE indicates a greater error between
-predicted and actual values.
+the `predict()`\index{prediction} function is used on the test set, and
+the Root Mean Squared Error (RMSE)\index{RMSE} is then calculated to
+evaluate the model's performance. It quantifies how much the predicted
+values deviate from the actual values. The smaller the RMSE, the closer
+the predicted values are to the actual values, indicating a better
+predictive model performance. Conversely, a higher RMSE indicates a
+greater error between predicted and actual values.
 
 ```{r}
 # Make predictions on the test set
@@ -752,6 +761,7 @@ the model's performance and identify areas for improvement.
 #| fig-cap:
 #|   - "Prediction of Infections for Epidemic X"
 #|   - "Observed vs Estimated values"
+#| fig-alt: "Prediction of Infections for Epidemic X"
 
 cbind(test_data,pred=predictions)%>%
   ggplot(aes(I,pred))+
@@ -781,11 +791,11 @@ points required to split a node. These hyperparameters can significantly
 impact the model's performance, and tuning them can help improve the
 model's accuracy and generalization to new data.
 
-For this task we use the `{tidymodels}` package, a collection of
-packages for modeling and machine learning using the tidyverse
-principles. The `{tidymodels}` package provides a consistent interface
-for modeling tasks, making it easier to build, tune, and evaluate
-machine learning models.
+For this task we use the `{tidymodels}`\index{tidymodels} package, a
+collection of packages for modeling and machine learning using the
+tidyverse principles. The `{tidymodels}` package provides a consistent
+interface for modeling tasks, making it easier to build, tune, and
+evaluate machine learning models.
 
 ```{r}
 #| message: false
@@ -921,14 +931,14 @@ augumented%>%
 
 #### INLA: an empirical Bayes approach to GAMs
 
-As a valid alternative to Markov chain Monte Carlo (MCMC) methods
-[@markovc1995] - (@sec-appendixB), due to the deterministic nature of
-its approximations, **INLA - integrated nested Laplace approximation**
-[@approxim] is an excellent choice for applications requiring repeated
-model fitting. The INLA approach is particularly useful for fitting
-complex models, such as generalized additive models (GAMs), which
-involve non-linear relationships between predictors and the response
-variable.
+As a valid alternative to Markov chain Monte Carlo (MCMC)\index{MCMC}
+methods [@markovc1995] - (@sec-appendixB), due to the deterministic
+nature of its approximations, **INLA - integrated nested Laplace
+approximation**\index{INLA} [@approxim] is an excellent choice for
+applications requiring repeated model fitting. The INLA approach is
+particularly useful for fitting complex models, such as generalized
+additive models (GAMs), which involve non-linear relationships between
+predictors and the response variable.
 
 The use of a Laplacian approximation is to estimate the individual
 posterior marginals of the model parameters. This allows for faster
@@ -951,7 +961,7 @@ of the model parameters.
 Let's assume new `epidemic_data` with columns `day`, `cases`, and
 `temperature.` To model the number of cases as a function of time and
 temperature, considering a non-linear effect of time using a **random
-walk model** and a linear effect of temperature:
+walk model**\index{random walk} and a linear effect of temperature:
 
 ```{r}
 #| eval: false
@@ -1013,15 +1023,15 @@ ggplot(plot_data, aes(x = Day)) +
 The `inla()` function allows a model specification, in this case a
 `Poisson` is used and a formula. The non-linear effect is a second-order
 random walk `model = "rw2"`, a statistical modeling approach used to
-represent a type of prior commonly used in Bayesian modeling for time
-series or spatial data where you expect smoothness and some degree of
-continuity between adjacent observations. In particular, GAMs are used
-to capture non-linear trends by fitting smooth, flexible functions to
-the data. These functions can be represented through various basis
-functions, and a second-order random walk is one such basis function.
-The random walk model assumes that the values of the response variable
-are correlated with their neighbors, creating a smooth, continuous
-effect over time.
+represent a type of prior commonly used in Bayesian
+modeling\index{bayesian modeling} for time series or spatial data where
+you expect smoothness and some degree of continuity between adjacent
+observations. In particular, GAMs are used to capture non-linear trends
+by fitting smooth, flexible functions to the data. These functions can
+be represented through various basis functions, and a second-order
+random walk is one such basis function. The random walk model assumes
+that the values of the response variable are correlated with their
+neighbors, creating a smooth, continuous effect over time.
 
 ## Measures of Machine Learning Models
 
@@ -1037,9 +1047,10 @@ improvement.
 ### Loss Functions
 
 ::: {.callout .success}
-The **loss function** is a method for evaluating how well a machine
-learning algorithm models featured a dataset. The **cost function** is
-the average of all loss function values.
+The **loss function**\index{loss function} is a method for evaluating
+how well a machine learning algorithm models featured a dataset. The
+**cost function**\index{cost function} is the average of all loss
+function values.
 :::
 
 The accuracy of predictive models is checked with **loss functions**,
@@ -1052,48 +1063,52 @@ Models are trained to a specific loss function that guides the
 optimization process and quantify the model performance. The most common
 loss functions are:
 
-1.  **Regression Loss Functions:** For regression tasks where the
-    prediction involves continuous numbers, several loss functions are
-    commonly used:
+1.  **Regression Loss Functions:**\index{regression loss functions} For
+    regression tasks where the prediction involves continuous numbers,
+    several loss functions are commonly used:
 
--   **Mean Squared Error (MSE):** MSE calculates the average of the
-    squares of the errors, i.e., the average squared difference between
-    the estimated values and the actual value. This loss function is
-    sensitive to outliers as it squares the errors before averaging
-    them.
+-   **Mean Squared Error (MSE):**\index{MSE} MSE calculates the average
+    of the squares of the errors, i.e., the average squared difference
+    between the estimated values and the actual value. This loss
+    function is sensitive to outliers as it squares the errors before
+    averaging them.
 
 $$MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{Y_i}-Y_i)^2}$$
 
--   **Mean Absolute Error (MAE):** MAE measures the average magnitude of
-    the errors in a set of predictions, without considering their
-    direction (i.e., it averages the absolute differences between
+-   **Mean Absolute Error (MAE):**\index{MAE} MAE measures the average
+    magnitude of the errors in a set of predictions, without considering
+    their direction (i.e., it averages the absolute differences between
     predictions and actual outcomes). Unlike MSE, MAE is not overly
     sensitive to outliers, making it suitable for datasets with
     anomalies.
 
 $$MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{Y_i}-Y_i|}$$
 
--   **Mean Squared Logarithmic Error (MSLE):** MSLE is useful when
-    targeting a regression model to predict exponential growth. By
-    taking the log of the predictions and actual values, MSLE transforms
-    the target variable to reduce the skew of the distribution, which
-    can lead to more stable predictions across a range of values.
+-   **Mean Squared Logarithmic Error (MSLE):**\index{MSLE} MSLE is
+    useful when targeting a regression model to predict exponential
+    growth. By taking the log of the predictions and actual values, MSLE
+    transforms the target variable to reduce the skew of the
+    distribution, which can lead to more stable predictions across a
+    range of values.
 
 $$MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{Y_i}+1)-log(Y_i+1))^2}$$
 
-2.  **Classification Loss Functions:** For classification tasks, where
-    the output is categorical, typical loss functions include:
+2.  **Classification Loss
+    Functions:**\index{classification loss functions} For classification
+    tasks, where the output is categorical, typical loss functions
+    include:
 
--   **Binary Cross-Entropy:** Also known as log loss, this function
-    measures the performance of a classification model whose output is a
-    probability value between 0 and 1. It is particularly useful for
-    binary classification tasks.
+-   **Binary Cross-Entropy:**\index{binary cross-entropy} Also known as
+    log loss, this function measures the performance of a classification
+    model whose output is a probability value between 0 and 1. It is
+    particularly useful for binary classification tasks.
 
 $$L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}$$
 
--   **Hinge Loss:** Often used with Support Vector Machines (SVMs),
-    hinge loss evaluates the margin of classification errors, providing
-    a penalty for miss-classified points to improve model accuracy.
+-   **Hinge Loss:**\index{hinge loss} Often used with Support Vector
+    Machines (SVMs), hinge loss evaluates the margin of classification
+    errors, providing a penalty for miss-classified points to improve
+    model accuracy.
 
 $$
 L=max(0,1-y*f(x))
@@ -1108,17 +1123,19 @@ many outliers, MSLE or MAE could be more effective.
 
 The choice of a loss function is not merely a technical decision but a
 strategic one, affecting how a model learns and performs on unseen data.
-Each loss function has its strengths and trade-offs, making it vital for
-practitioners to understand their implications thoroughly. Understanding
-these measures and how they influence model training and predictions can
-greatly enhance the effectiveness of machine learning applications.
+Each loss function has its strengths and trade-offs\index{trade-offs},
+making it vital for practitioners to understand their implications
+thoroughly. Understanding these measures and how they influence model
+training and predictions can greatly enhance the effectiveness of
+machine learning applications.
 
 ### Evaluation Metrics
 
 While loss functions are used during the training process to guide the
-optimization of the model parameters, **evaluation metrics** measure how
-well the model's predictions align with the actual outcomes, providing a
-signal to adjust the model.
+optimization of the model parameters, **evaluation
+metrics**\index{evaluation metrics} measure how well the model's
+predictions align with the actual outcomes, providing a signal to adjust
+the model.
 
 1.  **Regression Evaluation Metrics**: For regression tasks, the
     following metrics are commonly used to assess the model's predictive
@@ -1132,17 +1149,18 @@ signal to adjust the model.
 
 $$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y_i})^2}$$
 
--   **R-squared (R2):** A statistical measure of how well the model fits
-    the data, indicating the proportion of variance in the dependent
-    variable that is explained by the independent variables. It ranges
-    from 0 to 1, with higher values indicating a better fit.
+-   **R-squared (R2):**\index{R2} A statistical measure of how well the
+    model fits the data, indicating the proportion of variance in the
+    dependent variable that is explained by the independent variables.
+    It ranges from 0 to 1, with higher values indicating a better fit.
 
 $$R^2 = 1 - \frac{SS_{residual}}{SS_{total}}$$
 
--   **Adjusted R-squared:** A modified version of R-squared that adjusts
-    for the number of predictors in the model, providing a more accurate
-    measure of the model's goodness of fit. It penalizes the addition of
-    unnecessary predictors that do not improve the model's performance.
+-   **Adjusted R-squared:**\index{adjusted r-squared} A modified version
+    of R-squared that adjusts for the number of predictors in the model,
+    providing a more accurate measure of the model's goodness of fit. It
+    penalizes the addition of unnecessary predictors that do not improve
+    the model's performance.
 
 $$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$
 
@@ -1150,50 +1168,50 @@ $$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$
     following metrics are commonly used to evaluate the model's
     performance:
 
--   **Accuracy:** The proportion of correctly classified instances out
-    of the total instances in the dataset. It is a simple and intuitive
-    measure of a model's performance, but it may not be suitable for
-    imbalanced datasets.
+-   **Accuracy:**\index{accuracy} The proportion of correctly classified
+    instances out of the total instances in the dataset. It is a simple
+    and intuitive measure of a model's performance, but it may not be
+    suitable for imbalanced datasets.
 
 $$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$
 
--   **Precision:** The proportion of true positive predictions out of
-    all positive predictions made by the model. It is a measure of the
-    model's ability to avoid false positives.
+-   **Precision:**\index{precision} The proportion of true positive
+    predictions out of all positive predictions made by the model. It is
+    a measure of the model's ability to avoid false positives.
 
 $$Precision = \frac{TP}{TP + FP}$$
 
--   **Recall (Sensitivity):** The proportion of true positive
-    predictions out of all actual positive instances in the dataset. It
-    is a measure of the model's ability to identify all positive
-    instances.
+-   **Recall (Sensitivity):**\index{sesitivity} The proportion of true
+    positive predictions out of all actual positive instances in the
+    dataset. It is a measure of the model's ability to identify all
+    positive instances.
 
 $$Recall = \frac{TP}{TP + FN}$$
 
--   **Confusion Matrix:** A table that summarizes the performance of a
-    classification model, showing the number of true positive (TP), true
-    negative (TN), false positive (FP), and false negative (FN)
-    predictions. It is used to calculate metrics such as accuracy,
-    precision, recall, and specificity.
+-   **Confusion Matrix:**\index{confusion matrix} A table that
+    summarizes the performance of a classification model, showing the
+    number of true positive (TP), true negative (TN), false positive
+    (FP), and false negative (FN) predictions. It is used to calculate
+    metrics such as accuracy, precision, recall, and specificity.
 
--   **F1 Score:** The harmonic mean of precision and recall, providing a
-    balanced measure of a model's performance. It is particularly useful
-    when dealing with imbalanced datasets.
+-   **F1 Score:**\index{F1} The harmonic mean of precision and recall,
+    providing a balanced measure of a model's performance. It is
+    particularly useful when dealing with imbalanced datasets.
 
 $$F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}$$
 
--   **Receiver Operating Characteristic (ROC) Curve:** A graphical
-    representation of the trade-off between true positive rate
+-   **Receiver Operating Characteristic (ROC) Curve:**\index{ROC} A
+    graphical representation of the trade-off between true positive rate
     (sensitivity) and false positive rate (1-specificity) across
     different threshold values. It is used to evaluate the performance
     of binary classification models.
 
 $$TPR = \frac{TP}{TP + FN}; \text{ }FPR = \frac{FP}{FP + TN}$$
 
--   **Area Under the Curve (AUC):** The area under the ROC curve, which
-    provides a single value to summarize the model's performance. An AUC
-    of 0.5 indicates a random classifier, while an AUC of 1.0 indicates
-    a perfect classifier.
+-   **Area Under the Curve (AUC):**\index{AUC} The area under the ROC
+    curve, which provides a single value to summarize the model's
+    performance. An AUC of 0.5 indicates a random classifier, while an
+    AUC of 1.0 indicates a perfect classifier.
 
 $$AUC = \int_{0}^{1} TPR(FPR) dFPR$$
 
@@ -1212,10 +1230,11 @@ population.
 
 The most common analyses methods are[@hult2021]:
 
--   cost-utility, using quality-adjusted life years (QALY)
+-   cost-utility\index{cost-utility}, using quality-adjusted life years
+    (QALY)
 
--   cost-effectiveness, for specific outcomes, such as life expectancy
-    or medical outcomes.
+-   cost-effectiveness\index{cost-effectiveness}, for specific outcomes,
+    such as life expectancy or medical outcomes.
 
 As mentioned in the history of health metrics
 (@sec-01-metrics_evaluation), the cost-utility framework has been

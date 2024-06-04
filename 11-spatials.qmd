@@ -32,7 +32,6 @@ number of people between infected and non infected in a population.
 library(tidyverse)
 ```
 
-
 ```{r}
 # creating empty dataframe template
 df = as.data.frame(matrix(nrow=1000,ncol=4))
@@ -176,6 +175,7 @@ mapObj
 #### Map with leaflet
 
 Import `{leaflet}` and `{leaflet.extras}` to make a heatmap:
+
 ```{r}
 library(leaflet)
 library(leaflet.extras)
@@ -194,16 +194,13 @@ heatmap = df %>%
   addMarkers(lng=as.numeric(com[1]),lat=as.numeric(com[2]))
 ```
 
-
 ```{r}
 #| eval: false
 # webshot::install_phantomjs()
 mapview::mapshot(heatmap, file = "images/heatmap.png")
 ```
 
-<center>
-![](images/heatmap.png)
-</center>
+<center>![](images/heatmap.png)</center>
 
 ### The Euclidean distance
 

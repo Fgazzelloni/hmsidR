@@ -4,15 +4,15 @@
 > precisely because it is conditioned by the personal view of
 > happiness." René Dubos[@dubos1976]**
 
-The health metrics are key variables to understand more about the state
-of health of a population. In this first section of the book we'll learn
-about the history of the metrics, how to calculate them, and how to take
-consideration of their variation due to causes and risks. In particular,
-we will have a look at the metrics components and the challenges in
-providing standardized values for a global comparison. Moreover in the
-following sections we will see how to build a model, evaluate the effect
-of the spread of infectious disease on the health metrics and how if
-affects the overall state of health of a population.
+The health\index{health} metrics are key variables to understand more
+about the state of health of a population. In this first section of the
+book we'll learn about the history of the metrics, how to calculate
+them, and how to take consideration of their variation due to causes and
+risks. In particular, we will have a look at the metrics components and
+the challenges in providing standardized values for a global comparison.
+Moreover in the following sections we will see how to build a model,
+evaluate the effect of the spread of infectious disease on the health
+metrics and how if affects the overall state of health of a population.
 
 ## The history of health metrics
 

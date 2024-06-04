@@ -87,10 +87,10 @@ specification about the components of YLL are provided in the next
 relative estimations of the life expectancy can be found in
 @sec-appendixA.
 
-In general, the Global Burden of Diseases studies (GBD) utilize standard
-life tables, enabling the measurement of the impact of different
-diseases at a consistent level. This standardization is crucial for
-comparative studies, particularly cross-country comparisons
+In general, the **Global Burden of Diseases studies (GBD)** utilize
+standard life tables, enabling the measurement of the impact of
+different diseases at a consistent level. This standardization is
+crucial for comparative studies, particularly cross-country comparisons
 [@devleesschauwer2020]. Additionally, country-specific life expectancies
 are valuable for investigating premature deaths resulting from
 health-related causes, such as fatal diseases. Moreover, certain types
@@ -112,12 +112,9 @@ the Years of Life Lost (YLLs) attributable to stroke in the year 2019.
 
 ```{r}
 #| eval: false
-#| warning: false
-#| message: false
 # install.packages("devtools")
 devtools::install_github("Fgazzelloni/hmsidwR")
 ```
-
 
 ```{r}
 #| warning: false
@@ -130,6 +127,7 @@ library(hmsidwR)
 
 ```{r}
 #| eval: false
+
 hmsidwR::deaths2019
 ```
 
@@ -145,7 +143,7 @@ deaths_stroke <- hmsidwR::deaths2019 %>%
 deaths_stroke %>% head()
 ```
 
-Among the indicators available in the hmsidwR::gho_lifetables dataset,
+Among the indicators available in the `hmsidwR::gho_lifetables` dataset,
 we specifically focus on the indicator denoted as $ex$, which represents
 the expectation of life at age x.
 
@@ -153,6 +151,7 @@ the expectation of life at age x.
 #| label: tbl-indicators
 #| tbl-cap: "Life Table Indicators"
 #| echo: false
+
 hmsidwR::gho_lifetables%>%
   count(indicator)%>%
   select(-n)%>%
@@ -166,7 +165,7 @@ hmsidwR::gho_lifetables%>%
   knitr::kable()
 ```
 
-The **expectation of life at age x** ($ex$) refers to the life
+The **expectation of life at age x (**`$ex$`**)** refers to the life
 expectancy at age x. Typically, life expectancy represents the maximum
 number of years a person can live. For example, if we consider the
 Japanese life expectancy at birth, which is measured in total years,
@@ -179,6 +178,7 @@ groups for both females and males, indicated by the `le`.
 ```{r}
 #| label: tbl-ex2019
 #| tbl-cap: "Expectation of life at age x - 2019"
+
 ex2019 <- hmsidwR::gho_lifetables%>%
           filter(year==2019,
                  indicator=="ex")%>%
@@ -192,6 +192,7 @@ ex2019 %>%
 ```{r}
 #| label: tbl-YLL_global_stroke
 #| tbl-cap: "Global Stroke YLLs"
+
 YLL_global_stroke <- deaths_stroke %>%
   select(-upper,-lower)%>%
   full_join(ex2019)%>%
@@ -208,11 +209,25 @@ YLL_global_stroke%>%
 #| message: false
 #| label: fig-YLL_global_stroke
 #| fig-cap: "YLLs due to stroke in the Global region"
+#| fig-alt: "YLLs due to stroke in the Global region"
 #| echo: false
 #| eval: true
 
 dat <- YLL_global_stroke%>%
   filter(!sex=="both")
+
+
+legend_grob <- cowplot::get_legend(
+  ggplot(data=dat,aes(x=age))+
+  geom_point(aes(y=YLL,color=sex),
+             size=3)+
+    scale_color_manual(values=c("pink","darkgreen"))+
+    theme(legend.direction = "horizontal",
+          legend.background = element_blank(),
+          legend.position = "right",
+          legend.title = element_blank(),
+          legend.key= element_blank(),
+          legend.text = element_text(size=8)))
 
 dat %>%  
   ggplot(aes(x=age))+
@@ -226,13 +241,15 @@ dat %>%
   geom_smooth(aes(y=YLL,group=1),
               se=F,color="#29306c")+
   scale_y_continuous(labels = scales::label_comma(scale = 1/1000))+
-  labs(title="Global region: Years of Life Lost (YLLs) due to stroke",
+  annotation_custom(legend_grob,ymax = max(dat$YLL)*2+10^6)+ 
+  labs(title="Global Region : Years of Life Lost (YLLs) due to stroke",
        subtitle="Year 2019",
-       caption = "DataSource: WHO life expectancy & IHME results Stroke data | YLLs Values in Thousands",x="Age Group",y="YLLs")+
-  ggplot2::theme_minimal()+
+       caption = "DataSource: WHO life expectancy & IHME results Stroke data | YLLs Values in Thousands",
+       x="Age Group",y="YLLs")+
   theme(axis.text.x = element_text(size=7,
                                    angle = 45,
                                    vjust = 0.5),
+        plot.title = element_text(size=12),
         plot.caption = element_text(size=8))
 ```
 
@@ -261,10 +278,10 @@ the most updated approach based on values of prevalence estimated by the
 GBD2019 which are here summarized in the `hmsidwR::g7_hmetrics` data
 set.
 
-#### Calculation
+#### Prevalence-based Calculation
 
 $$
-YLD=p*DW
+YLD_p=p*DW
 $$ {#eq-yld}
 
 in @eq-yld, $p$ is the prevalence, $DW$ are the disability weights. The
@@ -272,6 +289,15 @@ prevalence is the incidence times the duration of the condition. In
 other words, it involves the number of cases of a disease or health
 condition present in the population (prevalence) and the impact of the
 health condition's severity on quality of life (disability weight).
+
+#### Incidence-based Calculation
+
+$$
+YLD_i=I*DW*L
+$$ {#eq-yldi}
+
+where $I$ is the incidence of the condition, $DW$ is the disability
+weight, and $L$ is the average duration of the condition.
 
 Since the release of the GBD 2010 and WHO have decided to switch to a
 prevalence-based approach to calculation of YLDs. The major impact of
@@ -290,11 +316,13 @@ in 2019.
 
 ```{r}
 #| eval: false
+
 hmsidwR::disweights2019
 ```
 
 ```{r}
 #| echo: false
+
 hmsidwR::disweights2019%>%
   select(specification,cause1,severity,dw) %>%
   drop_na()%>%
@@ -360,6 +388,7 @@ inc_prev_stroke_as
 ```{r}
 #| label: tbl-YLD_global_stroke_as
 #| tbl-cap: "Global YLD due to stroke age standardized"
+
 YLD_global_stroke_as <- merge(inc_prev_stroke_as,dw_stroke) %>%
   group_by(sex)%>%
   mutate(YLD_p=round(Prevalence*severity_n*avg_dw*100,3),
@@ -391,6 +420,7 @@ inc_prev_stroke_5y %>%
 ```{r}
 #| label: tbl-YLD_global_stroke
 #| tbl-cap: "Global YLD due to stroke 5Yrs"
+
 YLD_global_stroke <- merge(inc_prev_stroke_5y,dw_stroke)%>%
   group_by(sex,age) %>%
   reframe(YLD_p=sum(Prevalence*severity_n*avg_dw*100),
@@ -405,6 +435,7 @@ YLD_global_stroke %>%
 #| eval: true
 #| label: fig-YLD_global_stroke
 #| fig-cap: "YLDs due to stroke in the Global region"
+#| fig-alt: "YLDs due to stroke in the Global region"
 
 dat <- YLD_global_stroke %>%  
   filter(!sex=="both")
@@ -418,14 +449,16 @@ dat %>%
              color="darkgreen")+
   geom_smooth(aes(group=1), 
               se=F, color="#29306c")+
-  scale_y_continuous(labels = scales::label_comma(scale = 1*1000,
-                                                  accuracy = 0.1))+
+  scale_y_continuous(labels = scales::label_comma(scale = 1*1000))+
+  annotation_custom(legend_grob)+ 
   labs(title="Global region: Years Lived with Disabilities (YLDs) due to stroke",
        subtitle="Year 2019",
        caption = "DataSource: IHME results Stroke data | YLDs Values X 1000",
        x="Age Group",y="YLDs")+
   theme(axis.text.x = element_text(size=7,
+                                   angle = 45,
                                    vjust = 0.5),
+        plot.title = element_text(size=12),
         plot.caption = element_text(size=8))
 ```
 
@@ -475,7 +508,9 @@ DALY_global_stroke%>%
 #| echo: false
 #| eval: true
 #| label: fig-DALY_global_stroke
-#| fig-cap: "DALYs due to stroke in the Global region"
+#| fig-cap: "DALYs due to stroke in the Global region. The blue line represents the DALYs, YLLs and YLDs are pink for females and green for males."
+#| fig-alt: "DALYs due to stroke in the Global region"
+
 dat <- DALY_global_stroke %>% 
   select(sex,age,YLL,YLD_p,DALY_p)%>%
   filter(!sex=="both")%>%
@@ -487,10 +522,8 @@ dat %>%
   geom_smooth(aes(y=DALY_p,group=1),
               se=F, color="#29306c") +
   geom_line(aes(y=YLL,group=sex,color=sex),
-            #color="grey",
             linewidth=0.2)+
   geom_line(aes(y=YLD_p,group=sex,color=sex),
-            #color="darkred",
             linewidth=0.2)+
   scale_color_manual(values=c("pink","darkgreen"))+
   geom_point(data=dat%>%filter(sex=="female"),
@@ -501,14 +534,13 @@ dat %>%
              aes(y=YLD_p),color="pink")+
   geom_point(data=dat%>%filter(sex=="male"),
              aes(y=YLD_p),color="darkgreen")+
-  scale_y_continuous(labels = scales::label_comma(scale = 1*1000,
-                                                  accuracy = 0.1))+
+  scale_y_continuous(labels = scales::label_comma(scale = 1*1000))+
   labs(title="Global region: Disability Adjusted Life Years (DALYs) due to stroke",
        subtitle="Year 2019",
        caption = "DataSource: IHME results Stroke data | DALYs Values ",
        x="Age Group",y="DALYs") +
   theme(axis.text.x = element_text(size=7,angle = 45,vjust = 0.5),
-        plot.title = element_text(size=12),
+        plot.title = element_text(size=11),
         plot.caption = element_text(size=8),
         legend.position = "bottom")
 ```
@@ -735,6 +767,9 @@ HALE2 <- calculate_HALE(age_intervals,
 ```{r}
 #| echo: false
 #| eval: true
+#| fig-cap: "Health Adjusted Life Expectancy (HALE) by Age. The blue line represents the HALE for the simulated life table data, the brown line represents the HALE for the adjusted life table data."
+#| fig-alt: "Health Adjusted Life Expectancy (HALE) by Age"
+
 data.frame(age_intervals, HALE1,HALE2)%>% 
   pivot_longer(cols=c(HALE1,HALE2),
                names_to="HALE",

@@ -20,12 +20,13 @@ Learning Objectives
 :::
 :::
 
-> "...fear is the most pervasive emotion of modern society..." -
+> **"...fear is the most pervasive emotion of modern society..."** -
 > [@bourke2007]
 
-What qualifies as a risk is subject to dynamic social change [@li2020] ,
-as well as the perception of risk has evolved over time, influenced by
-factors such as media coverage and sociopolitical dynamics.
+What qualifies as a risk\index{risk} is subject to dynamic social change
+[@li2020] , as well as the perception of risk has evolved over time,
+influenced by factors such as media coverage and sociopolitical
+dynamics.
 
 Historically, major risks included starvation, infections, and violent
 conflicts, while modern risks are often associated with lifestyle
@@ -42,10 +43,11 @@ Furthermore, tools like topic modeling and sentiment analysis help
 identify how the public perceives various risks and how these
 perceptions evolve [@li2020] over time.
 
-In the field of public health, the latest GBD results reveal significant
-insights into the causes and risks associated with health metrics and
-infectious diseases. The primary risks identified include behavioral,
-environmental, occupational, and metabolic factors.
+In the field of public health, the latest GBD\index{GBD} results reveal
+significant insights into the causes\index{causes} and risks associated
+with health metrics\index{health metrics} and infectious
+diseases\\index{infectious diseases. The primary risks identified
+include behavioral, environmental, occupational, and metabolic factors.
 
 ## Conditions and injuries
 
@@ -58,9 +60,9 @@ risk factors include:
     chronic diseases and injuries, including heart disease, stroke,
     cancer, and liver disease.
 
--   **Environmental factors**: Exposure to pollutants, such as air
-    pollution and toxic chemicals, can increase the risk of certain
-    diseases and injuries.
+-   **Environmental factors**\index{environmental factors}: Exposure to
+    pollutants, such as air pollution and toxic chemicals, can increase
+    the risk of certain diseases and injuries.
 
 -   **Infections**: Many diseases, such as tuberculosis, HIV/AIDS, and
     malaria, are caused by infectious agents.
@@ -69,15 +71,16 @@ risk factors include:
     health problems due to limited access to healthcare, healthy food,
     and safe living conditions.
 
--   **Aging**: As people get older, they are at an increased risk of
-    many health problems, including chronic diseases and disabilities.
+-   **Aging**\index{aging}: As people get older, they are at an
+    increased risk of many health problems, including chronic diseases
+    and disabilities.
 
 -   **Genetics**: Some diseases and injuries are caused by genetic
     factors, such as a genetic predisposition to certain cancers.
 
--   **Injuries**: Injuries, such as falls, road traffic accidents, and
-    violence, can also contribute to the burden of diseases and
-    injuries.
+-   **Injuries**\index{injuries}: Injuries, such as falls, road traffic
+    accidents, and violence, can also contribute to the burden of
+    diseases and injuries.
 
 ```{r}
 #| message: false
@@ -86,6 +89,7 @@ risk factors include:
 #| eval: false
 #| fig-alt: "Causal relationships leading to fueling DALYs value"
 #| fig-cap: "Causal relationships leading to fueling DALYs value"
+
 # install.packages("devtools")
 # devtools::install_github("r-causal/ggdag")
 library(ggdag)
@@ -101,14 +105,15 @@ dag <- dagify(
 ggdag(dag)+theme_dag_blank()
 ```
 
-A particular health condition can have multiple causes (co-morbidities)
-and risk factors. For instance, a poverty status and the lack of access
-to healthcare facilities, is proven to be increasing the risk of
-infectious diseases, while poor diet and physical inactivity can
-increase the risk of chronic diseases. Acting in favor of addressing the
-*underlying causes and risk factors* for diseases and injuries is
-crucial for prompt public health interventions and can help reduce the
-overall burden of disease.
+A particular health condition can have multiple causes
+(co-morbidities)\index{comorbidity} and risk factors. For instance, a
+poverty status and the lack of access to healthcare facilities, is
+proven to be increasing the risk of infectious diseases, while poor diet
+and physical inactivity can increase the risk of chronic diseases.
+Acting in favor of addressing the *underlying causes and risk
+factors*\index{risk factors} for diseases and injuries is crucial for
+prompt public health interventions and can help reduce the overall
+burden of disease.
 
 ## Risk Measures
 
@@ -117,13 +122,13 @@ different risk factors on population health and guide effective public
 health strategies to mitigate these risks, key measures are used to
 assess risks and their impact on health outcomes:
 
--   Risk-specific exposures
+-   Risk-specific exposures\index{risk-specific exposures}
 
--   Relative risks (RRs)
+-   Relative risks (RRs)\index{relative risks}
 
--   Theoretical minimum-risk exposure levels (TMRELs)
+-   Theoretical minimum-risk exposure levels (TMRELs)\index{TMRELs}
 
--   Population attributable fractions (PAFs)
+-   Population attributable fractions (PAFs)\index{PAFs}
 
 ### Risk-specific exposures
 
@@ -137,45 +142,47 @@ effects.
 Risk combinations can be **additive** (the occurrence of a least one
 event, A or B), **multiplicative** (the occurrence of both of two
 events, A and B) or just **interactive,** acting to influence other
-pairs, this action is generally identified as possible **confounding**,
-to be distinguished by factors in the causal pathway between exposure
-and outcome.
+pairs, this action is generally identified as possible
+**confounding**\index{confounding}, to be distinguished by factors in
+the causal pathway between exposure and outcome.
 
 To have an idea of the impact of different risk factors on a cause of
-illness, the **Socio-demographic Index (SDI)** provide insights into the
-potential magnitude of social, cultural and demographic factors looking
-at the risk exposures and possible paths for policy interventions. The
-Life Expectancy level is closely correlated to the level of the SDI
-indicator as it is based on average income per person, educational
-attainment, and total fertility rate (TFR). Higher SDI values typically
-indicate better socio-economic conditions, including improved access to
-healthcare, education, and sanitation, which can mitigate various health
-risks. Conversely, lower SDI values are associated with higher risk
-exposure due to limited access to healthcare, poorer living conditions,
-and other socio-economic challenges.
+illness, the **Socio-demographic Index (SDI)**\index{SDI} provide
+insights into the potential magnitude of social, cultural and
+demographic factors looking at the risk exposures and possible paths for
+policy interventions. The Life Expectancy level is closely correlated to
+the level of the SDI indicator as it is based on average income per
+person, educational attainment, and total fertility rate
+(TFR)\index{TFR}. Higher SDI values typically indicate better
+socio-economic conditions, including improved access to healthcare,
+education, and sanitation, which can mitigate various health risks.
+Conversely, lower SDI values are associated with higher risk exposure
+due to limited access to healthcare, poorer living conditions, and other
+socio-economic challenges.
 
 One more element to take into consideration is the **Comparative Risk
-Assessment (CRA)**[@stanaway2018] divided into attributable and
-avoidable burden. Considering as the objective the potential reduction
-of future disease burden, four types of **minimum risk exposure**
-distributions are identified:
+Assessment (CRA)**[@stanaway2018]\index{CRA} divided into attributable
+and avoidable burden. Considering as the objective the potential
+reduction of future disease burden, four types of **minimum risk
+exposure**\index{minimum risk exposure} distributions are identified:
 
--   theoretical
--   plausible
--   feasible
--   cost-effective
+-   theoretical\index{theoretical}
+-   plausible\index{plausible}
+-   feasible\index{feasible}
+-   cost-effective\index{cost-effective}
 
 The following provide a high level overview on quantifying attributable
 burden by using the theoretical minimum risk.
 
 ### Relative Risks (RRs)
 
-The Relative Risk (or Risk Ratio) for the risk-outcome pairs, mortality
-and morbidity calculation passes through the decomposition of the
-attributable burden to a risk. The sum of all-risk exposure effect is
-accounted for location, age, sex, and mediation-cause. And as said the
-exposure of all-risks for a disease is split in metabolic, behavioral
-and environmental risks. Each factor contributes to the overall change.
+The Relative Risk (or Risk Ratio)\index{relative risk} for the
+risk-outcome pairs, mortality and morbidity calculation passes through
+the decomposition of the attributable burden to a risk. The sum of
+all-risk exposure effect is accounted for location, age, sex, and
+mediation-cause. And as said the exposure of all-risks for a disease is
+split in metabolic, behavioral and environmental risks. Each factor
+contributes to the overall change.
 
 The relative risk is the ratio between the proportions of exposed and
 unexposed groups.
@@ -248,19 +255,20 @@ relative_risk_d
 
 #### Relative Risks and Network Analysis
 
-In some cases, relative risks can be modeled using **network analysis**,
-a specialized approach within statistical modeling which extend the
-concept of mixed effects to compare multiple treatments while accounting
-for various factors and dependencies.
+In some cases, relative risks can be modeled using **network
+analysis**\index{network analysis}, a specialized approach within
+statistical modeling which extend the concept of mixed effects to
+compare multiple treatments while accounting for various factors and
+dependencies.
 
 The relationship between variables, represented by nodes and edges
 considering potential interactions or dependencies between them. This
 approach is generally favorable when exploring complex relationships
 among multiple variables.
 
-To represent the network we can use a **Directed Acyclic Graph (DAG)**
-used for drawing causal relationships between variables, such as the
-relationship between health risks and diseases.
+To represent the network we can use a **Directed Acyclic Graph
+(DAG)**\index{DAG} for drawing causal relationships between variables,
+such as the relationship between health risks and diseases.
 
 The following code generates a network graph representing the causal
 pathways between different variables, such as smoking, high blood
@@ -273,6 +281,10 @@ treatments or interventions.
 #| fig-width: 7
 #| fig-height: 5
 #| fig-align: "center"
+#| fig-label: fig-networkgraph1
+#| fig-cap: "DAG of the causal pathways between smoking, high blood pressure, diabetes, obesity, and heart disease."
+#| fig-alt: "Network graph representing the causal pathways between smoking, high blood pressure, diabetes, obesity, and heart disease."
+
 # Install and load necessary packages
 ##install.packages("igraph")
 library(igraph)
@@ -317,6 +329,10 @@ factors is made with the `{ggdag}` package and the `dagify()` function.
 #| fig-width: 6
 #| fig-height: 3.2
 #| fig-align: "center"
+#| fig-label: fig-networkgraph2
+#| fig-cap: "DAG between outcome (O), exposure (E) and different risk factors."
+#| fig-alt: "Network graph to identify the relationship between outcome (O), exposure (E) and different risk factors."
+
 # Load the library
 library(ggdag)
 set.seed(555)
@@ -367,16 +383,16 @@ model <- glm(O ~ E + C1 + C2 + C3,
              family = "binomial")
 
 # Extract estimated probabilities
-prob_outcome_exposure <- predict(model, type = "response")
-prob_outcome_no_exposure <- predict(model, 
-                                    newdata = data.frame(E = '1', 
-                                                         C1 = data$C1, 
-                                                         C2 = data$C2, 
-                                                         C3 = data$C3), 
-                                    type = "response")
+pr_outcome_exp <- predict(model, type = "response")
+pr_outcome_no_exp <- predict(model, 
+                             newdata = data.frame(E = '1', 
+                                                  C1 = data$C1, 
+                                                  C2 = data$C2, 
+                                                  C3 = data$C3), 
+                             type = "response")
 
 # Calculate relative risk
-relative_risk <- prob_outcome_exposure / prob_outcome_no_exposure
+relative_risk <- pr_outcome_exp / pr_outcome_no_exp
 ```
 
 ```{r}
@@ -408,20 +424,20 @@ ggplot(data = data, aes(x = relative_risk)) +
 ### Theoretical minimum-risk exposure levels (TMRELs)
 
 Risk factors associated with a particular health condition are
-considered based on the ***Theoretical minimum risk exposure levels
-(TMRELs)*** and as a **function of the risk exposure or *relative risk
-(RR)* value**. Not all the variables that are thought to be risk factors
+considered based on the **Theoretical minimum risk exposure levels
+(TMRELs)** and as a function of the risk exposure or **relative risk
+(RR)** value. Not all the variables that are thought to be risk factors
 increasing causes for a particular health condition are always the
 driving cause of the condition, for this reason a minimum level of risk
 exposure is established for the risk to be considered involved as
 effective in the outcome.
 
 Moreover, disease attributable to a particular risk factor or
-combination of risk factors need to be ascertain investigating the
-risk-outcome relationship. Risk factors can also act indirectly on the
-outcome via intermediate risks, such as the association of low fruit
-consumption and heart disease influenced by systolic blood pressure
-which acts as mediator between the two.
+combination of risk factors\index{risk factors} need to be ascertain
+investigating the risk-outcome relationship. Risk factors can also act
+indirectly on the outcome via intermediate risks, such as the
+association of low fruit consumption and heart disease influenced by
+systolic blood pressure which acts as mediator between the two.
 
 ```{r}
 #| echo: false
@@ -442,9 +458,9 @@ rethinking::drawdag(fhp)
 As an example of risk factors which met the minimum level (TMRELs) are
 **particulate matter air pollution**, **high systolic blood pressure**,
 and **smoking**, these factors are expected to be the *leading
-contributors* to the overall burden of diseases (cit.ihme). Although, it
-is not always the case when looking closer at a more specific type of
-disease; the outcome varies based on location, sex, and age.
+contributors* to the overall burden of diseases. Although, it is not
+always the case when looking closer at a more specific type of disease;
+the outcome varies based on location, sex, and age.
 
 In terms of DALYs, the level of the disability adjusted life years is
 highly influenced by behavioral, environmental, and occupational risks.
@@ -459,7 +475,7 @@ factor in the past were reduced to an ideal exposure scenario.
 
 PAF is calculated based on the prevalence of the risk factor in the
 population and the relative risk associated with that risk factor. The
-formula for calculating PAF is as follows:\
+formula for calculating PAF is as follows:
 
 $$
 PAF = \frac{{P_e \times (RR - 1)}}{{1 + P_e \times (RR - 1)}}
@@ -486,16 +502,17 @@ and improve overall health outcomes.
 
 ## Causal inference
 
-Causality concerns the relationship between two variables, where one
-variable (the cause) influences or determines the other variable (the
-effect). For example, regular exercise leads to improved cardiovascular
-health, or adequate sleep contributes to better cognitive function.
-However, it's essential to distinguish causality from correlation, which
-denotes the statistical association between two variables. For instance,
-the correlation between watching television and obesity rates does not
-imply a causal link. To establish causality, one must systematically
-consider alternative explanations or confounding factors that may
-influence both the cause and the effect.
+Causality\index{causality} concerns the relationship between two
+variables, where one variable (the cause) influences or determines the
+other variable (the effect). For example, regular exercise leads to
+improved cardiovascular health, or adequate sleep contributes to better
+cognitive function. However, it's essential to distinguish causality
+from correlation\index{correlation}, which denotes the statistical
+association between two variables. For instance, the correlation between
+watching television and obesity rates does not imply a causal link. To
+establish causality, one must systematically consider alternative
+explanations or confounding factors that may influence both the cause
+and the effect.
 
 As the foundation of prediction, causal inference investigates on the
 underlining causes of a condition or a phenomenon. These causes might
@@ -503,15 +520,16 @@ not immediately visible but need to be discovered passing through
 various steps of data analysis of the observed data to reveal the hidden
 threads of cause.
 
-Performing casual inference requires a settlement of an experiment,
-where there are **treatment** and **outcome** elements. The treatment is
-the action taken to the data, in the example of regular exercise leads
-to improved cardiovascular health, to state that this statement is true,
-an intervention is done to the data, simulating the intervening of
-another factor variable on the relationship. The formal name of an
-intervention is "treatment", and to investigate the relationship between
-exercise and the improvement of cardiovascular health, a treatment would
-be seeing how data can change if regular portions of fruits is eaten.
+Performing casual inference\index{causal inference} requires a
+settlement of an experiment, where there are **treatment** and
+**outcome** elements. The treatment is the action taken to the data, in
+the example of regular exercise leads to improved cardiovascular health,
+to state that this statement is true, an intervention is done to the
+data, simulating the intervening of another factor variable on the
+relationship. The formal name of an intervention is "treatment", and to
+investigate the relationship between exercise and the improvement of
+cardiovascular health, a treatment would be seeing how data can change
+if regular portions of fruits is eaten.
 
 So, now the elements factor of the investigation are exercise and potion
 of fruits, and this is done to see how the combination of the two would

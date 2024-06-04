@@ -21,9 +21,33 @@ Learning Objectives
 :::
 :::
 
-## Covid19 spread of infection as a cause for increased DALY for selected countries
+## What is Covid19
+
+COVID-19 is a respiratory illness caused by a novel coronavirus known as
+SARS-CoV-2. The disease was first identified in Wuhan, China, in
+December 2019 and has since spread globally, leading to a pandemic.
+COVID-19 is characterized by symptoms such as fever, cough, and
+shortness of breath, and can range from mild to severe, with some cases
+resulting in death.
 
 ## The spread of COVID-19
+
+COVID-19 is primarily spread through respiratory droplets produced when
+an infected person coughs, sneezes, or talks. The virus can also spread
+by touching surfaces contaminated with the virus and then touching the
+face. The incubation period for COVID-19 is typically 2-14 days, during
+which an infected person may be asymptomatic but still contagious.
+
+## Mapping Covid19 outbreaks
+
+Mapping COVID-19 outbreaks can help identify hotspots of infection,
+track the spread of the virus, and inform public health interventions.
+Geographic Information Systems (GIS) and spatial analysis techniques can
+be used to visualize and analyze COVID-19 data, such as the number of
+cases, deaths, and recoveries, at the local, regional, and global
+levels.
+
+## Example: Modeling the spread of COVID-19
 
 Here is a model example of the spread of COVID-19 using a stochastic
 process. In this example, we'll use a simple SEIR
@@ -83,14 +107,36 @@ the spread of a virus is much more complex and influenced by many
 factors such as human behavior, government policies, and healthcare
 systems.
 
-### Covid19 modeling
+### Modeling Covid19 with Bayesian Analysis
 
-The Bayesian Analysis of Infectious Diseases: COVID-19 and Beyond book
-is a comprehensive resource that covers the use of Bayesian analysis in
-the modeling of infectious diseases, including COVID-19.
+The use of Bayesian analysis in the modeling of infectious diseases,
+such as COVID-19[@broemeling2021] offers several advantages in
+understanding and predicting the dynamics of the spread.
 
-In the context of modeling COVID-19 in R, the following steps can be
-taken:
+Bayesian analysis allows the incorporation of **prior knowledge** or
+expert opinion into the model. Particularly useful in the early stages
+of an outbreak when data might be sparse. Priors can be based on
+historical data from similar diseases or on preliminary studies of the
+current outbreak. This incorporation helps to inform the model and
+improve its accuracy, especially when real-time data is limited or
+noisy.
+
+Furthermore, Bayesian methods provide a natural framework for
+quantifying uncertainty. Unlike classical methods, which typically
+provide point estimates, Bayesian analysis produces a full posterior
+distribution for each parameter. This comprehensive quantification of
+uncertainty allows for better risk assessment and decision-making, as
+policymakers can consider the range of possible outcomes and their
+probabilities.
+
+Complex hierarchical models, spatial and temporal correlations, and
+non-linear relationships can be implemented into Bayesian models to
+capture interactions in the dynamics of infectious diseases that
+classical compartmental models might oversimplify.
+
+Collect data: The next step is to collect relevant data on the spread of
+the disease. This might include the number of confirmed cases, the
+number of hospitalizations, and the number of deaths.
 
 Define the model structure: The first step is to define the model
 structure, which involves specifying the underlying mechanisms of
@@ -105,10 +151,6 @@ prior beliefs about the values of the parameters based on available data
 and expert knowledge. In the case of COVID-19, this might include prior
 beliefs about the rate of disease transmission, the incubation period,
 and the rate of recovery.
-
-Collect data: The next step is to collect relevant data on the spread of
-the disease. This might include the number of confirmed cases, the
-number of hospitalizations, and the number of deaths.
 
 Implement the model in R: Once the model structure and prior
 distributions have been specified, the model can be implemented in R
@@ -139,8 +181,7 @@ individuals, I represents the number of infected individuals, and R
 represents the number of recovered individuals. The model structure can
 be described as follows:\
 
-$$dS/dt = -beta * S * I / N$$ 
-
+$$dS/dt = -beta * S * I / N$$
 
 $$dI/dt = beta * S * I / N - gamma * I$$
 

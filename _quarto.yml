@@ -87,8 +87,10 @@ book:
 appendix-style: default     
 search: true    
    
-bibliography: [references.bib, packages.bib]
-biblio-style: chicago
+bibliography: references.bib
+csl: chicago-fullnote-bibliography-16th-edition.csl
+
+
 
 format:
   html:
@@ -119,14 +121,22 @@ format:
     documentclass: krantz
     classoption: [krantz2]
     keep-tex: true
+    toc-title: Contents
+    number-sections: true
+    pdf-engine: xelatex
+    linestretch: 1.5
+    papersize: a4
+    output-dir: _book
+    colorlinks: true
     include-in-header: 
-      - text: | 
-          \usepackage{fvextra}
-          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+      - file: latex/preamble.tex
     include-before-body: 
       - file: latex/before_body.tex
-      
-      
+    include-after-body:
+      - file: latex/after_body.tex
+    bibliography: [references.bib]
+    citation-style: chicago-fullnote-bibliography-16th-edition.csl
+
 editor: visual
 editor_options:
   chunk_output_type: inline
@@ -148,11 +158,3 @@ knitr:
     comment: "#>" 
     R.options:
       knitr.graphics.auto_pdf: true  
-
-  
-
-              
-              
-  
-
-  

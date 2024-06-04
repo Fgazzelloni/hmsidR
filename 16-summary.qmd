@@ -1,4 +1,4 @@
-# Summary: the State of Health {#sec-16-summary}
+# Summary: The State of Health {#sec-16-summary}
 
 ```{r}
 #| echo: false
