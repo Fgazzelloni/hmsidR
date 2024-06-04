@@ -32,6 +32,8 @@ _book/
 *.blg
 *.ilg
 *.ind
+*.glo
+*.ist
 *.run.xml
 *.*_cache/
 *.*_files/
