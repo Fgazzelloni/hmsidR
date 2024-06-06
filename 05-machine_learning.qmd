@@ -996,7 +996,6 @@ result <- inla(formula,
 
 # Summary of the results
 summary(result)
-
 ```
 
 ```{r}

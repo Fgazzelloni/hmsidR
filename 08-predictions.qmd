@@ -26,20 +26,21 @@ In the dynamic landscape of public health, the ability to forecast and
 predict future trends is essential for effective decision-making and the
 implementation of timely interventions. In this chapter there is an
 overview of predictive modelling, in particular the use of **time series
-analysis** and **mixed models**\index{mixed models} to anticipate the trajectory of
-infectious diseases and health metrics. By exploring the underlying
-patterns analyzing historical data to provide an estimation of the
-disease burden, and evaluate the impact of interventions on population
-health. We demonstrate how time series analysis and mixed models can be
-tailored to address specific research questions, such as predicting
-disease outbreaks, estimating disease burden, and assessing the impact
-of interventions on population health.
+analysis** and **mixed models**\index{mixed models} to anticipate the
+trajectory of infectious diseases and health metrics. By exploring the
+underlying patterns analyzing historical data to provide an estimation
+of the disease burden, and evaluate the impact of interventions on
+population health. We demonstrate how time series analysis and mixed
+models can be tailored to address specific research questions, such as
+predicting disease outbreaks, estimating disease burden, and assessing
+the impact of interventions on population health.
 
-Time series\index{time series} analysis serves as a tool for understanding and forecasting
-temporal patterns in health data. Techniques such as **ARIMA
-(AutoRegressive Integrated Moving Average)** models offer a systematic
-approach to modelling time-dependent data, capturing seasonal
-variations, trends, and irregularities to generate accurate forecasts.
+Time series\index{time series} analysis serves as a tool for
+understanding and forecasting temporal patterns in health data.
+Techniques such as **ARIMA (AutoRegressive Integrated Moving Average)**
+models offer a systematic approach to modelling time-dependent data,
+capturing seasonal variations, trends, and irregularities to generate
+accurate forecasts.
 
 Mixed models provide a versatile framework for incorporating various
 sources of variability and correlation within the data. By combining
@@ -54,60 +55,65 @@ offers valuable insights into the future of global health.
 
 ## Social Demographic Index (SDI)
 
-The **Social Demographic Index (SDI)**\index{SDI} is an index that considers the
-social and economic background conditions influencing health outcomes in
-specific locations. It is composed of the geometric mean of the total
-fertility rate (TFR) for those younger than 25 years old (TFU25), the
-mean education for those 15 years old and older (EDU15+), and
-lag-distributed income (LDI) per capita. It ranges from 0 to 1 but it is
-usually multiplied by 100 for a scale of 0 to 100.
+The **Social Demographic Index (SDI)**\index{SDI} is an index that
+considers the social and economic background conditions influencing
+health outcomes in specific locations. It is composed of the geometric
+mean of the total fertility rate (TFR) for those younger than 25 years
+old (TFU25), the mean education for those 15 years old and older
+(EDU15+), and lag-distributed income (LDI) per capita. It ranges from 0
+to 1 but it is usually multiplied by 100 for a scale of 0 to 100.
 
 We use the **Social Demographic Index (SDI)** as predictor in our model:
 
-$$logit(y) = \alpha + \beta SDI$$
+$$logit(y) = \alpha + \beta SDI$$ {#eq-logit-sdi}
+
+where $y$ is the outcome variable, $\alpha$ is the intercept, $\beta$ is
+the coefficient for SDI, and $SDI$ is the Social Demographic Index.
 
 ## Time Series Analysis
 
 To analyze temporal data, where observations are collected at regular
-intervals over time, time series analysis involves studying the
-patterns, trends, and dependencies present in the data to make forecasts
-or infer relationships. Time series data often exhibit inherent
-characteristics such as trend, seasonality, cyclic patterns, and
-irregular fluctuations, which can be explored using various methods such
-as decomposition, smoothing, and modelling. This analysis is widely used
-in fields like economics, finance, epidemiology, and environmental
+intervals over time, time series analysis\index{time series} involves
+studying the patterns, trends, and dependencies present in the data to
+make forecasts or infer relationships. Time series data often exhibit
+inherent characteristics such as trend, seasonality, cyclic patterns,
+and irregular fluctuations, which can be explored using various methods
+such as decomposition, smoothing, and modelling. This analysis is widely
+used in fields like economics, finance, epidemiology, and environmental
 science to understand and predict future trends, identify anomalies, and
 make informed decisions based on historical patterns.
 
-**Decomposition methods** play a crucial role in time series analysis by
-unraveling the underlying structure of temporal data. By decomposing a
-time series into its constituent components, such as trend, seasonality,
-and random fluctuations, these methods enable researchers to gain deeper
-insights into the underlying patterns and dynamics driving the data.
-Understanding the trend allows for the identification of long-term
-changes or shifts in the data, while detecting seasonal patterns helps
-uncover recurring fluctuations that may follow seasonal or cyclical
-patterns. By separating these components, decomposition methods provide
-a clearer understanding of the temporal dynamics within the data,
-facilitating more accurate forecasting and predictive modelling.
-Moreover, decomposing time series data can aid in anomaly detection,
-trend analysis, and seasonal adjustment, making it an indispensable tool
-for studying and interpreting complex temporal phenomena.
+**Decomposition methods**\index{decomposition} play a crucial role in
+time series analysis by unraveling the underlying structure of temporal
+data. By decomposing a time series into its constituent components, such
+as trend, seasonality, and random fluctuations, these methods enable
+researchers to gain deeper insights into the underlying patterns and
+dynamics driving the data. Understanding the trend allows for the
+identification of long-term changes or shifts in the data, while
+detecting seasonal patterns helps uncover recurring fluctuations that
+may follow seasonal or cyclical patterns. By separating these
+components, decomposition methods provide a clearer understanding of the
+temporal dynamics within the data, facilitating more accurate
+forecasting and predictive modelling. Moreover, decomposing time series
+data can aid in anomaly detection, trend analysis, and seasonal
+adjustment, making it an indispensable tool for studying and
+interpreting complex temporal phenomena.
 
 Modelling time series data often requires a combination of techniques to
-capture its complex nature. **Mixed models**, **splines**, and **ARIMA**
-(AutoRegressive Integrated Moving Average) are powerful tools commonly
-used for this purpose. Mixed models, also known as hierarchical models,
-allow for the incorporation of both fixed and random effects, making
-them flexible in capturing various sources of variability in the data.
-Splines provide a flexible way to capture nonlinear relationships and
-smooth out the data, which is particularly useful for capturing trends
-or seasonal patterns. ARIMA models, on the other hand, are adept at
-capturing the autocorrelation structure present in the data, including
-both short-term and long-term dependencies. By integrating these
-techniques, analysts can build comprehensive models that account for
-different aspects of the time series data, leading to more accurate
-forecasts and insights into underlying trends and patterns.
+capture its complex nature. **Mixed models**\index{mixed models},
+**splines**\index{splines}, and **ARIMA**\index{ARIMA} (AutoRegressive
+Integrated Moving Average) are powerful tools commonly used for this
+purpose. Mixed models, also known as hierarchical models, allow for the
+incorporation of both fixed and random effects, making them flexible in
+capturing various sources of variability in the data. Splines provide a
+flexible way to capture nonlinear relationships and smooth out the data,
+which is particularly useful for capturing trends or seasonal patterns.
+ARIMA models, on the other hand, are adept at capturing the
+autocorrelation structure present in the data, including both short-term
+and long-term dependencies. By integrating these techniques, analysts
+can build comprehensive models that account for different aspects of the
+time series data, leading to more accurate forecasts and insights into
+underlying trends and patterns.
 
 -   time series analysis with mixed effect model, spline interpolation
     and ARIMA(1,0,0)
@@ -139,6 +145,13 @@ sdi_fr |> head() |> str()
 ```
 
 ```{r}
+#| fig-cap: "Social Demographic Index (SDI) in France"
+#| fig-subcap: "Time Series Plot"
+#| fig-alt: "Social Demographic Index (SDI) in France"
+#| label: fig-sdi-france
+#| fig-width: 5
+#| fig-height: 3
+
 library(tsibble)
 sdi_fr_ts <- tsibble::as_tsibble(sdi_fr,index = year)
 
@@ -153,24 +166,29 @@ dcmp <- sdi_fr_ts |>
 components(dcmp)|> head()
 ```
 
-> "three types of time series patterns: trend, seasonality and cycles.
-> When we decompose a time series into components, we usually combine
-> the trend and cycle into a single trend-cycle component (often just
-> called the trend for simplicity). Thus we can think of a time series
-> as comprising three components: a trend-cycle component, a seasonal
-> component, and a remainder component (containing anything else in the
-> time series). (https://otexts.com/fpp3/decomposition.html)"
+> "...three types of time series patterns: trend, seasonality and
+> cycles. When we decompose a time series into components, we usually
+> combine the trend and cycle into a single trend-cycle component (often
+> just called the trend for simplicity). Thus we can think of a time
+> series as comprising three components: a trend-cycle component, a
+> seasonal component, and a remainder component (containing anything
+> else in the time series). *Rob J Hyndman*"
 
-$$y_t=S_t+T_t+R_t$$
-
-$$y_t=S_t*T_t*R_t--->log(y_t)=log(S_t)+log(T_t)+log(R_t)$$
+$$y_t=S_t+T_t+R_t$$ {#eq-additive}
+$$y_t=S_t*T_t*R_t$$ {#eq-multiplicative}
+$$log(y_t)=log(S_t)+log(T_t)+log(R_t)$$ {#eq-log-decomposition}
 
 The **remainder** component shown in the bottom panel is what is left
 over when the seasonal and trend-cycle components have been subtracted
-from the data.(https://otexts.com/fpp3/components.html)
+from the data.
 
 ```{r}
 #| layout-ncol: 2
+#| label: fig-decomposition
+#| fig-cap: 
+#|   - "Components of SDI in France"
+#|   - "Trend line of SDI in France"
+#| fig-alt: "Components of SDI in France"
 
 components(dcmp) |> autoplot()
 
@@ -186,6 +204,12 @@ Time series that show *no autocorrelation* are called white noise. In
 this case we have autocorrelation. So, no white noise.
 
 ```{r}
+#| fig-cap: "Autocorrelation Function of SDI in France"
+#| fig-alt: "Autocorrelation Function of SDI in France"
+#| label: fig-acf
+#| fig-width: 5
+#| fig-height: 3
+
 sdi_fr_ts |>
   ACF(value) |> 
   autoplot()
@@ -218,6 +242,12 @@ fit|>
 ```
 
 ```{r}
+#| fig-width: 5
+#| fig-height: 3
+#| fig-cap: "Forecast of SDI in France"
+#| fig-alt: "Forecast of SDI in France"
+#| label: fig-forecast
+
 fit |>
   forecast(h=10) |>
   ggplot(aes(x=year,y=.mean))+
@@ -230,6 +260,10 @@ fit |>
 
 ```{r}
 #| layout-ncol: 2
+#| fig-cap: "Partial Autocorrelations of SDI in France"
+#| fig-alt: "Partial Autocorrelations of SDI in France"
+#| label: fig-pacf
+
 sdi_fr_ts|>
   PACF(value) |>
   autoplot()
@@ -241,15 +275,16 @@ sdi_fr_ts|>
 ### Model Ensembles
 
 To improve the predictive performance, predictions of multiple single
-learners can be aggregated to a **model ensemble**\index{model ensemble} by combining the
-forecasts of individual models. Ensemble methods can reduce the variance
-and bias of the predictions, leading to more accurate and reliable
-results. Ensemble techniques such as bagging\index{bagging}, boosting\index{boosting}, and stacking\index{stacking}
-leverage the diversity of individual models to create a stronger
-collective model that outperforms its components. These methods are
-widely used in machine learning and predictive modelling to enhance the
-predictive power of the model and achieve better generalization
-performance on unseen data.
+learners can be aggregated to a **model ensemble**\index{model ensemble}
+by combining the forecasts of individual models. Ensemble methods can
+reduce the variance and bias of the predictions, leading to more
+accurate and reliable results. Ensemble techniques such as
+bagging\index{bagging}, boosting\index{boosting}, and
+stacking\index{stacking} leverage the diversity of individual models to
+create a stronger collective model that outperforms its components.
+These methods are widely used in machine learning and predictive
+modelling to enhance the predictive power of the model and achieve
+better generalization performance on unseen data.
 
 ```{r}
 caf_fit <- sdi_fr_ts|>
@@ -273,7 +308,13 @@ glance(caf_fit) |> arrange(AICc) |> select(.model:BIC)
 Best ARIMA model selected is ARIMA(1,1,0):
 
 ```{r}
-#| layout.ncol: 2
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Residuals of ARIMA Models"
+#|   - "Forecast of SDI in France"
+#| fig-alt: "Residuals of ARIMA Models"
+#| label: fig-residuals
+
 caf_fit |>
   select(search) |>
   gg_tsresiduals()
@@ -307,13 +348,13 @@ within clinics, repeated measures over time) and account for both fixed
 effects (e.g., age, gender) and random effects (e.g., variability
 between patients or clinics).
 
-**Fixed Effects**\index{fixed effects: These are the primary effects of interest and include
-variables such as age, gender, year, and specific interventions or
-treatments.
+**Fixed Effects**\\index{fixed effects}: These are the primary effects of
+interest and include variables such as age, gender, year, and specific
+interventions or treatments.
 
-**Random Effects**\index{random effects}: These capture the variability that is not explained
-by the fixed effects, such as differences between patients, clinics, or
-regions.
+**Random Effects**\index{random effects}: These capture the variability
+that is not explained by the fixed effects, such as differences between
+patients, clinics, or regions.
 
 By using mixed-effects models, we can better account for the
 within-subject and between-subject variability, providing more accurate
@@ -374,28 +415,39 @@ library(lme4)
 library(tidyverse)
 
 data <- hmsidwR::g7_hmetrics%>%
-filter(measure%in%c("Incidence","Prevalence","YLDs","Deaths"),
-str_detect(cause,"tuberculosis"),
-metric=="Rate",
-#location=="Global",
-sex=="both")%>%
-select(-metric,
--sex,-cause,-upper,-lower)%>%
-pivot_wider(names_from = measure,values_from = val)
+  filter(measure%in%c("Incidence",
+                      "Prevalence",
+                      "YLDs","Deaths"),
+         str_detect(cause,"tuberculosis"),
+         metric=="Rate",
+         sex=="both")%>%
+  select(-metric,-sex,
+         -cause,-upper,-lower)%>%
+  pivot_wider(names_from = measure,
+              values_from = val)
 data%>% head
 ```
 
 ```{r}
-ggplot(data, aes(x=fct_reorder(location,YLDs),y=YLDs,group=year,
-fill=factor(year)))+
-geom_col(position="dodge")+
-scale_fill_viridis_d()
+#| fig-cap: "YLDs for Tuberculosis by Location and Year"
+#| fig-alt: "YLDs for Tuberculosis by Location and Year"
+#| label: fig-hist-tuberculosis
+#| fig-width: 5
+#| fig-height: 3
+
+ggplot(data, 
+       aes(x=fct_reorder(location,YLDs),
+           y=YLDs,group=year,
+           fill=factor(year)))+
+  geom_col(position="dodge")+
+  scale_fill_viridis_d()+
+  labs(x="Location",fill="Year")
 ```
 
 ```{r}
 hmsidwR::disweights2019%>%
-filter(str_detect(sequela,"tuberculosis"))%>%
-select(cause1,severity,dw)
+  filter(str_detect(sequela,"tuberculosis"))%>%
+  select(cause1,severity,dw)
 ```
 
 The disability weights is 0.333 for tuberculosis, and the duration
@@ -410,9 +462,7 @@ formula <- YLDs ~ Prevalence + year + (1 | location)
 
 # Fit the mixed-effects model
 model <- lmer(formula, data = data)
-
-# Summarize the model
-summary(model)
+model
 ```
 
 ```{r}
@@ -433,34 +483,44 @@ new_data <- data.frame(
   Prevalence = c(25000, 12000, 50000),
   year = c(2020,2021,2022),
   location = c("Japan","UK","US")
-)
+  )
 
 # Predict YLDs for new data
-predictions <- predict(model, new_data, allow.new.levels = TRUE)
+predictions <- predict(model, new_data, 
+                       allow.new.levels = TRUE)
 ```
 
 ```{r}
+#| fig-cap: "Predicted YLDs for Tuberculosis"
+#| fig-alt: "Predicted YLDs for Tuberculosis"
+#| label: fig-moderes-tuberculosis
+#| fig-width: 5
+#| fig-height: 3
+
 # Predict YLDs for new data
-predictions <- predict(model, data, allow.new.levels = TRUE)
+predictions <- predict(model, data, 
+                       allow.new.levels = TRUE)
 data$predicted_YLD <- predictions
 
-ggplot(data%>%filter(year==2019), aes(x = YLDs,y=predicted_YLD,group=location)) +
+ggplot(data%>%filter(year==2019), 
+       aes(x = YLDs,y=predicted_YLD,
+           group=location)) +
   geom_point(aes(color=factor(location))) +
   geom_abline()+
   labs(title = "YLDs Predicted vs Estimated",
        x = "YLDs",
        y = "Predicted YLD",
-color="Location") +
-  theme_minimal()
+       color="Location") 
 ```
 
 ## Ensemble Learning
 
 A machine learning technique that combines multiple models could be used
-to improve predictive performance is **ensemble learning**\index{ensemble learning}. It leverages
-the diversity of individual models to make more accurate predictions and
-reduce overfitting. Common ensemble methods include bagging, boosting,
-and stacking.
+to improve predictive performance is **ensemble
+learning**\index{ensemble learning}. It leverages the diversity of
+individual models to make more accurate predictions and reduce
+overfitting. Common ensemble methods include bagging, boosting, and
+stacking.
 
 -   Bagging (Bootstrap Aggregating) creates multiple models by training
     each model on a random subset of the data and then aggregating their

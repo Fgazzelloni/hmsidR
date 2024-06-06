@@ -1,0 +1,280 @@
+# Formulary
+
+## Statistical Distributions
+
+### Normal (Gaussian) Distribution
+
+-   **Formula**: $$
+    f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
+    $$
+-   **Description**: The normal distribution is a continuous probability
+    distribution characterized by a bell-shaped curve. It is defined by
+    the mean ($\mu$) and standard deviation ($\sigma$).
+
+### Binomial Distribution
+
+-   **Formula**: $$
+    P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}
+    $$
+-   **Description**: The binomial distribution represents the number of
+    successes in a fixed number of independent Bernoulli trials, with a
+    constant probability of success $p$ in each trial. Here, $n$ is the
+    number of trials and $k$ is the number of successes.
+
+### Poisson Distribution
+
+-   **Formula**: $$
+    P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+    $$
+-   **Description**: The Poisson distribution represents the probability
+    of a given number of events occurring in a fixed interval of time or
+    space, given the average number of times the event occurs over that
+    interval. Here, $\lambda$ is the average number of events, $k$ is
+    the number of occurrences, and $e$ is Euler's number.
+
+### Exponential Distribution
+
+-   **Formula**: $$
+    f(x) = \lambda e^{-\lambda x} \quad \text{for } x \ge 0
+    $$
+-   **Description**: The exponential distribution represents the time
+    between events in a Poisson process. It is defined by the rate
+    parameter $\lambda$.
+
+### Uniform Distribution
+
+-   **Formula**: $$
+    f(x) = \begin{cases} 
+    \frac{1}{b - a} & a \le x \le b \\
+    0 & \text{otherwise}
+    \end{cases}
+    $$
+-   **Description**: The uniform distribution describes an equal
+    probability for all values in the interval $[a, b]$. It is a
+    continuous distribution.
+
+### Bernoulli Distribution
+
+-   **Formula**: $$
+    P(X = x) = p^x (1 - p)^{1-x} \quad \text{for } x \in \{0, 1\}
+    $$
+-   **Description**: The Bernoulli distribution is a discrete
+    distribution representing the outcome of a single binary experiment
+    with success probability $p$.
+
+### Beta Distribution
+
+-   **Formula**: $$
+    f(x) = \frac{x^{\alpha-1} (1-x)^{\beta-1}}{B(\alpha, \beta)} \quad \text{for } 0 \le x \le 1
+    $$
+-   **Description**: The beta distribution is a continuous distribution
+    defined on the interval \[0, 1\], parameterized by $\alpha$ and
+    $\beta$, and is useful in Bayesian statistics.
+
+### Gamma Distribution
+
+-   **Formula**: $$
+    f(x) = \frac{\beta^\alpha x^{\alpha-1} e^{-\beta x}}{\Gamma(\alpha)} \quad \text{for } x \ge 0
+    $$
+-   **Description**: The gamma distribution is a continuous distribution
+    defined by shape parameter $\alpha$ and rate parameter $\beta$. It
+    generalizes the exponential distribution.
+
+### Chi-Squared Distribution
+
+-   **Formula**: $$
+    f(x) = \frac{1}{2^{k/2} \Gamma(k/2)} x^{k/2 - 1} e^{-x/2} \quad \text{for } x \ge 0
+    $$
+-   **Description**: The chi-squared distribution is a special case of
+    the gamma distribution with $\alpha = k/2$ and $\beta = 1/2$, often
+    used in hypothesis testing and confidence intervals.
+
+### Student's t-Distribution
+
+-   **Formula**: $$
+    f(t) = \frac{\Gamma\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi} \Gamma\left(\frac{\nu}{2}\right)} \left(1 + \frac{t^2}{\nu}\right)^{-\frac{\nu+1}{2}}
+    $$
+-   **Description**: The t-distribution is used to estimate population
+    parameters when the sample size is small and the population variance
+    is unknown. It is defined by the degrees of freedom $\nu$.
+
+### F-Distribution
+
+-   **Formula**: $$
+    f(x) = \frac{\left(\frac{d_1}{d_2}\right)^{d_1/2} x^{d_1/2 - 1}}{B\left(\frac{d_1}{2}, \frac{d_2}{2}\right) \left(1 + \frac{d_1}{d_2} x\right)^{(d_1 + d_2)/2}}
+    $$
+-   **Description**: The F-distribution is used to compare two variances
+    and is defined by two degrees of freedom, $d_1$ and $d_2$.
+
+### Multinomial Distribution
+
+-   **Formula**: $$
+    P(X_1 = x_1, \ldots, X_k = x_k) = \frac{n!}{x_1! \cdots x_k!} p_1^{x_1} \cdots p_k^{x_k}
+    $$
+-   **Description**: The multinomial distribution generalizes the
+    binomial distribution to more than two outcomes. It describes the
+    probabilities of counts among categories.
+
+### Geometric Distribution
+
+-   **Formula**: $$
+    P(X = k) = (1 - p)^{k-1} p \quad \text{for } k \in \{1, 2, 3, \ldots\}
+    $$
+-   **Description**: The geometric distribution represents the number of
+    trials needed to get the first success in a sequence of independent
+    Bernoulli trials with success probability $p$.
+
+### Hypergeometric Distribution
+
+-   **Formula**: $$
+    P(X = k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}}
+    $$
+-   **Description**: The hypergeometric distribution describes the
+    probability of $k$ successes in $n$ draws from a finite population
+    of size $N$ containing $K$ successes, without replacement.
+
+### Log-Normal Distribution
+
+-   **Formula**: $$
+    f(x) = \frac{1}{x\sigma\sqrt{2\pi}} e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}} \quad \text{for } x > 0
+    $$
+-   **Description**: The log-normal distribution describes a variable
+    whose logarithm is normally distributed. It is useful in modeling
+    positively skewed data.
+
+## Machine Learning Models
+
+### Linear Regression
+
+-   **Formula**: $$
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \epsilon
+    $$
+-   **Description**: Predicts a continuous target variable based on
+    linear relationships between the target and one or more predictor
+    variables.
+
+### Logistic Regression
+
+-   **Formula**: $$
+    \text{logit}(P(Y=1)) = \ln\left(\frac{P(Y=1)}{1 - P(Y=1)}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n
+    $$
+-   **Description**: Predicts a binary outcome based on linear
+    relationships between the predictor variables and the log-odds of
+    the outcome.
+
+### Decision Tree
+
+-   **Formula**: Recursive binary splitting
+-   **Description**: Splits the data into subsets based on the value of
+    input features. Each internal node represents a "test" on an
+    attribute, each branch represents the outcome of the test, and each
+    leaf node represents a class label or continuous value.
+
+### Random Forest
+
+-   **Formula**: Aggregated decision trees
+-   **Description**: Combines the predictions of multiple decision trees
+    to improve accuracy and control over-fitting. Each tree is trained
+    on a bootstrapped sample of the data and uses a random subset of
+    features.
+
+### Support Vector Machine (SVM)
+
+-   **Formula**: $$
+    f(x) = \text{sign}(\mathbf{w} \cdot \mathbf{x} + b)
+    $$
+-   **Description**: Finds the hyperplane that best separates the
+    classes in the feature space. The formula represents the decision
+    boundary, where $\mathbf{w}$ is the weight vector and $b$ is the
+    bias.
+
+### K-Nearest Neighbors (KNN)
+
+-   **Formula**: $$
+    \hat{y} = \frac{1}{k} \sum_{i=1}^{k} y_i
+    $$
+-   **Description**: Classifies a data point based on the majority class
+    among its $k$ nearest neighbors. For regression, it predicts the
+    average of the $k$ nearest neighbors' values.
+
+### Naive Bayes
+
+-   **Formula**: $$
+    P(Y|X) = \frac{P(X|Y)P(Y)}{P(X)}
+    $$
+-   **Description**: Assumes independence between predictors. It uses
+    Bayes' theorem to predict the probability of a class given the
+    predictors.
+
+### Principal Component Analysis (PCA)
+
+-   **Formula**: $$
+    Z = XW
+    $$
+-   **Description**: Reduces the dimensionality of the data by
+    transforming the original variables into new uncorrelated variables
+    (principal components), ordered by the amount of variance they
+    capture.
+
+### K-Means Clustering
+
+-   **Formula**: $$
+    \arg \min_S \sum_{i=1}^{k} \sum_{x \in S_i} \| x - \mu_i \|^2
+    $$
+-   **Description**: Partitions the data into $k$ clusters by minimizing
+    the sum of squared distances between the data points and the cluster
+    centroids $\mu_i$.
+
+### Neural Networks
+
+-   **Formula**: $$
+    a^{(l)} = \sigma(z^{(l)})
+    $$ $$
+    z^{(l)} = W^{(l)}a^{(l-1)} + b^{(l)}
+    $$
+-   **Description**: Composed of layers of interconnected nodes
+    (neurons). Each neuron's output is a weighted sum of its inputs
+    passed through an activation function $\sigma$. The parameters
+    $W^{(l)}$ and $b^{(l)}$ are the weights and biases of layer $l$.
+
+### Convolutional Neural Networks (CNN)
+
+-   **Formula**: $$
+    (f * g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t - \tau) \, d\tau
+    $$
+-   **Description**: Uses convolutional layers to apply filters to the
+    input, which helps in capturing spatial hierarchies in data,
+    particularly useful for image and video processing.
+
+### Recurrent Neural Networks (RNN)
+
+-   **Formula**: $$
+    h_t = \sigma(W_h h_{t-1} + W_x x_t + b)
+    $$
+-   **Description**: Designed to recognize patterns in sequences of data
+    by maintaining a hidden state $h_t$ that captures information from
+    previous time steps.
+
+### Gradient Boosting Machines (GBM)
+
+-   **Formula**: $$
+    F_m(x) = F_{m-1}(x) + \eta \cdot h_m(x)
+    $$
+-   **Description**: Builds an additive model in a forward stage-wise
+    manner. Each base learner $h_m$ is trained to reduce the residual
+    error of the ensemble's previous predictions.
+
+### Long Short-Term Memory Networks (LSTM)
+
+-   **Formula**: $$
+    \begin{aligned}
+    f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \\
+    i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \\
+    \tilde{C}_t &= \tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \\
+    C_t &= f_t * C_{t-1} + i_t * \tilde{C}_t \\
+    o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \\
+    h_t &= o_t * \tanh(C_t)
+    \end{aligned}
+    $$
+-   **Description**: A type of RNN that can learn long-term dependencies
+    by using gates to control the flow of information.

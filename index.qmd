@@ -18,9 +18,10 @@ This book will teach you about health metrics such as Disability
 Adjusted Life Years (DALYs), Years of Life Lost (YLLs), Years Lived with
 Disabilities (YLDs), and others. It explains how to calculate these
 metrics and discusses their components in detail. You will explore the
-influence of infectious disease dynamics on trends in these metrics and
-learn how to apply machine learning models. The book equips you with all
-the necessary tools for data collection, analysis, and modeling.
+machine learning framework and learn how to apply the influence of
+infectious disease dynamics on trends in these metrics . The book equips
+you with all the necessary tools for data collection, analysis,
+visualization and modeling.
 
 Think of it as a toolbox for assessing the health of a country and
 comparing it with others. You will also learn how to select the best
@@ -29,7 +30,7 @@ data, and working with maps in the R programming language.
 
 Consider this book your guide to understanding the health status of a
 population at both global and country levels, leveraging expertise in
-managing various statistical tools
+managing various statistical tools.
 
 ## Audience and Utility of the Book
 

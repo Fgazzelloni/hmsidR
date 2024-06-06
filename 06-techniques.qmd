@@ -838,8 +838,6 @@ knn_spec <-
                     weight_func = tune()) %>% 
    set_engine("kknn") %>% 
    set_mode("regression")
-
-
 ```
 
 ```{r}
@@ -890,6 +888,10 @@ grid_results %>%
 ```
 
 ```{r}
+#| fig-cap: "Model Performance"
+#| fig-alt: "Model Performance"
+#| label: fig-model-performance
+
 autoplot(
    grid_results,
    rank_metric = "rmse",  

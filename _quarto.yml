@@ -76,7 +76,8 @@ book:
         - 15-malaria.qmd
         - 16-summary.qmd  
     - conclusions.qmd
-    - references.qmd   
+    - references.qmd
+    - glossary.qmd 
   appendices:
     - appendixA.qmd
     - appendixB.qmd 
@@ -89,8 +90,6 @@ search: true
    
 bibliography: references.bib
 csl: chicago-fullnote-bibliography-16th-edition.csl
-
-
 
 format:
   html:
@@ -122,11 +121,7 @@ format:
     classoption: [krantz2]
     keep-tex: true
     toc-title: Contents
-    number-sections: true
-    pdf-engine: xelatex
-    linestretch: 1.5
-    papersize: a4
-    output-dir: _book
+    latex-output-dir: _book
     colorlinks: true
     include-in-header: 
       - file: latex/preamble.tex

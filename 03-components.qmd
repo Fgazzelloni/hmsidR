@@ -248,7 +248,7 @@ age x is computed as:
 
 $$
 e(x) = \frac{T(x)}{l(x)}
-$$
+$$ {#eq-ex}
 
 where $T(x)$ is the total number of person-years\index{Tx} lived by the
 cohort of persons alive at age x, and $l(x)$ is the number of persons
@@ -393,11 +393,11 @@ health care are needed.
 #### Example: Deaths Counts derived by Mortality Rates
 
 Let's simulate\index{simulation} **malaria**\index{malaria} death counts
-in an African population with a **case fatality rate**\index{case fatality rate} ranging
-from 0.01% to 0.40%, and a case-incidence of 59.4 per 1000 population
-annually[@worldma]. Calculate the number of expected malaria cases and
-the resulting deaths based on this rate for a simulated population of
-100,000 individuals over a year.
+in an African population with a **case fatality
+rate**\index{case fatality rate} ranging from 0.01% to 0.40%, and a
+case-incidence of 59.4 per 1000 population annually[@worldma]. Calculate
+the number of expected malaria cases and the resulting deaths based on
+this rate for a simulated population of 100,000 individuals over a year.
 
 -   Define the Population: Assume a total population of 100,000.
 -   Set the Malaria Incidence Rate: 59.4 per 1000 population annually.
@@ -545,20 +545,37 @@ days <- 365  # Number of days
 set.seed(123)
 dates <- seq(as.Date("2019-01-01"),
              as.Date("2019-12-31"), by = "day")
+```
 
+Cases and recovered are simulated using a `Poisson distribution`\index{poisson} with $\lambda$ of 0.2 and 0.05, respectively. To model the count of rare events in a large population happening within a fixed interval of time or space, the Poisson distribution is particularly useful. It suits the initial spread of COVID-19 in many regions, and assumes that the events (new cases) occur independently of each other, which can be a reasonable approximation in the context of infection spread over short periods.
+
+To apply the Poisson distribution, we use the `rpois()` function in R, which generates random numbers from a Poisson distribution with a specified rate parameter $\lambda$. The probability mass function of the Poisson distribution is given by:
+
+$$
+  P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+$$
+where $X$ is the random variable representing the number of events, $k$ is the number of events, $\lambda$ is the rate parameter, and $e$ is the base of the natural logarithm.
+
+```{r}
 cases <- rpois(length(dates), lambda = 0.2)
-recovered <- rpois(length(dates), lambda = 0.05)  
+recovered <- rpois(length(dates), lambda = 0.05)
+```
 
+The simulated data is then combined into a data frame with the date, number of cases, and number of recovered individuals.
+```{r}
 covid_data <- data.frame(Date = dates, 
                          Cases = cases, 
                          Recovered = recovered)
+```
 
+Let's have a look at the first few rows of the dataset:
+```{r}
+#| echo: false
 covid_data%>%
   head()
 ```
 
 Calculate the cumulative incidence and prevalence over time:
-
 ```{r}
 #| label: tbl-covid19-inc-prev-synthetic
 #| tbl-cap: "COVID-19 Incidence and Prevalence - simulate data"
@@ -573,7 +590,11 @@ covid_data <-
   transform(covid_data, 
             Incidence = (Cum_Cases /population_size)*1000,
             Prevalence = ((Cum_Cases-Cum_Recovered) / population_size)*1000)
+```
 
+
+```{r}
+#| echo: false
 covid_data%>%
   select(-Cases,-Recovered)%>%
   head()
@@ -987,7 +1008,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-------------------|------------------|------------------|------------------|
+|-----------------------------------|-------------|-------------|-------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
