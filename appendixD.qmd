@@ -1,4 +1,4 @@
-# Tips on converting to Python {#sec-appendixD}
+# Tips on Converting to Python {#sec-appendixD}
 
 Translating R code into Python can be a smooth transition with the right
 approach. Let's start with the basics, from installing packages to
@@ -77,7 +77,7 @@ including the popular tidyverse in R and its counterparts in Python.
         ```
 
     -   **scikit-learn:** Provides tools for data preprocessing,
-        modeling, and evaluation, resembling some functionalities of
+        modelling, and evaluation, resembling some functionalities of
         tidyverse packages like modelr.
 
         ``` python
@@ -185,9 +185,9 @@ flexibility you need for your projects.
 While the syntax and libraries may differ slightly, the overall process
 remains conceptually similar. By understanding these comparisons, you
 can effectively transition between R and Python for data analysis and
-modeling tasks.
+modelling tasks.
 
-### Example of a Model Workflow
+## Example of a Model Workflow
 
 1.  **Data Preprocessing**:
 

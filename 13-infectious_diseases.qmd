@@ -6,70 +6,145 @@ library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
+The advent of machine learning (ML) has revolutionized the field of
+**infectious disease**\index{infectious disease} research by providing
+robust tools for predicting disease outbreaks and understanding their
+spread. In this chapter, we delve into the application of machine
+learning techniques discussed in @sec-05-machine_learning to assess and
+predict infectious diseases. We will explore how integrating ML models
+can enhance our understanding of these diseases and their effects on
+Disability-Adjusted Life Years (DALYs). By leveraging ML, we aim to
+improve the accuracy of disease burden estimations and provide valuable
+insights into the impact of infectious diseases on public health.
+
+## Infectious Diseases the invisible enemies
+
 Emerging infectious diseases are a global concern, causing millions of
 deaths annually. Understanding their behavior and predicting outbreaks
-is crucial for public health. Accurate predictions help plan
-interventions and mitigate impacts, including economic ones. However,
-predicting new diseases is challenging due to limited data and complex
-factors. Reliable computational tools, like machine learning and
-mathematical models, are needed to understand disease dynamics and aid
-decision-making. While no model is perfect, they provide valuable
-insights for planning resources and policies, particularly during
-outbreaks. Combining various models and data sources enhances prediction
-accuracy. Overall, these tools are essential for managing infectious
-diseases and making informed decisions.
-
-Transfer learning involves utilizing knowledge gained from one
-predictive task to address another. It utilizes a model initially
-trained for a specific task in a particular area to tackle a different
-task or extend its capabilities to a distinct domain. The potential of
-transfer learning in the context of infectious disease research has been
-relatively under-investigated [@roster2022].
-
-### Infectious Diseases the invisible enemies
+is fundamental not only for public health but also for advancing
+prediction techniques that can be applied in other fields.
 
 The infective agent begins to thrive and multiply throughout the body
-[@broemeling2021]. Its proliferation can be fast or slow depending on
-the type of organism. Every infectious disease has an incubation period,
-the length of time the pathogen is established until appearance of
-symptoms of the disease.
+[@broemeling2021]. The rate of proliferation varies depending on the
+type of organism, with each infectious disease having an incubation
+period—the time between the pathogen's establishment and the appearance
+of symptoms.
 
-Factors influencing infection
+Several factors influence infection, including:
 
--   quantity of invading germs (dose of the infection)
--   the virulence of the infection
--   the condition of the body's immune system
--   contact with source of infection for contagious diseases
+-   The dose of the infection (quantity of invading germs)
+-   The virulence of the infection
+-   The condition of the body's immune system
+-   Contact with the source of infection for contagious diseases
 
-Microorganisms adapt far more rapidly than humans as the scene shifts. A
-bacterial generation ranges from 20-30 minutes, for viruses it's much
-smaller.
+Microorganisms adapt much more rapidly than humans. A bacterial
+generation can be as short as 20-30 minutes, and for viruses, it's even
+shorter.
 
-> Who is going to adapt to whom?
+> **Who adapts to whom?**
 
-Virus means **poisonous substance** ranging from 20 to 400 nm in
-diameter can be observed only with a electron microscope. Outside of a
-living cell is a dormant particle of strange shapes. When manage to get
-inside the cell it starts replicating killing the cell or skewing its
-functions.
+**Viruses**\index{virus}, named from the Latin word for **"poisonous
+substance,"** range from 20 to 400 nm in diameter and can only be
+observed with an electron microscope. Outside of a living cell, a virus
+is a dormant particle of various shapes. Once inside a cell, it
+replicates, often killing the cell or altering its functions.
 
-### The impact on DALYs
+> **"Several infectious diseases are emerging and threatening human
+> health worldwide. The burden of infectious diseases is undeniably a
+> global issue, causing millions of deaths annually."[@santangelo2023]**
 
-To understand the magnitude of impacts on DALYs caused by infectious
-diseases we use big data analytics with machine learning analysis to
-classify the patterns of global disease burden by human development
-index (HDI) to have a better understanding of DALYs caused by COVID19
-given different levels of HDI.
+The following seven diseases are all caused by an infectious agent such
+as virus or bacteria, generally cause acute symptoms, ranging from mild
+to severe, and require prompt medical attention to prevent complications
+and further spread.
 
-::: callout
-The HDI considers the level of [life
-expectancy](https://en.wikipedia.org/wiki/Life_expectancy "Life expectancy"),
-[education](https://en.wikipedia.org/wiki/Education_Index "Education Index")
-(mean years of schooling completed), and [per capita
-income](https://en.wikipedia.org/wiki/Per_capita_income "Per capita income")
-indicators, which is used to rank countries into four tiers of [human
-development](https://en.wikipedia.org/wiki/Human_development_(humanity) "Human development (humanity)")
-[@humande2024].
-:::
+1.  Acute Respiratory Infection (ARI)
+2.  COVID-19
+3.  Dengue
+4.  Influenza/Influenza-Like Illness (ILI)
+5.  Malaria
+6.  West Nile Virus
+7.  Zika
 
-COVID-19
+These diseases are transmitted through various means and can be grouped
+by **transmission methods**:
+
+-   **Vector-Borne**: Dengue, Malaria, West Nile Virus, and Zika are
+    primarily spread through mosquito bites.
+-   **Respiratory Droplets**: ARI, COVID-19, and Influenza/ILI are
+    transmitted via respiratory droplets when infected individuals cough
+    or sneeze.
+
+That underline the importance of integrated approaches in surveillance,
+management and prevention to safeguard global health. The use of machine
+learning algorithms such as **decision trees**, **random forests**,
+**support vector machines**, and **deep-learning networks** such as Long
+short-term memory (LSTM)\index{LSTM} models, effectively improve the
+identification of patterns and trends that may not be obvious with
+mechanistic type of models.
+
+These models are able to improve prediction accuracy working smoothly
+with large datasets.
+
+Combining models and data sources enhances prediction accuracy, various
+models and techniques can be applied to reduce bias and the risk of
+overfitting. For instance, **ensemble
+learning**\index{ensemble learning} combines the predictions of multiple
+models to improve accuracy. In this context, we will explore how machine
+learning can predict infectious disease outbreaks and their impacts on
+human health, ultimately aiming to reduce the burden of disease.
+
+Another significant aspect to consider is the emerging use of **transfer
+learning**\index{transfer learning}, which involves applying knowledge
+gained from one predictive task to another. This approach is especially
+useful when data is limited and models need to be adapted. Although
+relatively under-explored in infectious disease research, transfer
+learning holds significant promise for improving predictions in areas
+with scarce data. By leveraging information from related tasks, this
+technique can enhance model performance, leading to more accurate and
+reliable predictions in public health scenarios [@roster2022].
+
+## The impact on DALYs
+
+To understand the magnitude of impacts on DALYs\index{DALY} caused by
+one or more infectious diseases we can simply consider the DALYs rate of
+change. The percentage change in DALYs due to infectious diseases can be
+calculated as:
+
+$$
+\text{Percent change in DALYs} = \frac{\text{DALYs due to Infectious Diseases}}{\text{Total DALYs}} \times 100
+$$
+
+Where the $DALYs = \sum_{i=1}^{n}{(YLD_i + YLL_i)}$, $YLD$ and $YLL$ are
+the years lived with disability and the years of life lost respectively.
+
+This percentage change provides a measure of the impact of infectious
+diseases on the overall burden of disease.
+
+Furthermore, the use machine learning models is used to predict the
+variation of number of DALYs due to infectious diseases over time. Two
+approaches can be valued:
+
+1.  DALYs as a function of the **socio-demographic index
+    (SDI)**\index{SDI}: A composite index of the average income per
+    person, educational attainment, and total fertility rate. The model
+    function can be expressed as: $$DALY_{id}= f(SDI)+\epsilon$$ where
+    is the number of $DALYs$ is the response variable, $SDI$ the
+    socio-demographic index acting as predictor, $f(.)$ is the function
+    that relates the number of DALYs to the socio-demographic index, and
+    $\epsilon$ is the error term.
+
+2.  DALYs as a function of the **human development index
+    (HDI)**\index{HDI}: A composite index of life expectancy, education,
+    and per capita income indicators. The model function can be
+    expressed as:$$DALY_{id}= f(HDI)+\epsilon$$ where is the number of
+    $DALYs$ is the response variable, $HDI$ the socio-demographic index
+    acting as predictor, $f(.)$ is the function that relates the number
+    of DALYs to the socio-demographic index, and $\epsilon$ is the error
+    term. Big data analytics with machine learning analysis are used to
+    classify the patterns of global disease burden by human development
+    index (HDI) to have a better understanding of DALYs caused by
+    infectious diseases such as COVID19 given different levels of HDI.
+
+This can help us to understand the trends and patterns of infectious
+diseases and their impact on global health.

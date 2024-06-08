@@ -121,9 +121,9 @@ be used to visualize and analyze COVID-19 data, such as the number of
 cases, deaths, and recoveries, at the local, regional, and global
 levels.
 
-## Example: Modeling the spread of COVID-19
+## Example: modelling the spread of COVID-19
 
-Spatiotemporal modeling of COVID-19 outbreaks[@niraula2022] can provide
+Spatiotemporal modelling of COVID-19 outbreaks[@niraula2022] can provide
 valuable insights into the dynamics of the pandemic and help guide
 public health responses. In this example, we'll use R to model the
 spread of COVID-19 using a Susceptible-Infected-Recovered (SIR) model, a
@@ -203,7 +203,7 @@ systems, vaccination campaigns, human contact, etc.
 
 ### Bayesian Analysis
 
-The use of Bayesian analysis\index{bayesian analysis} in modeling of
+The use of Bayesian analysis\index{bayesian analysis} in modelling of
 infectious diseases, such as COVID-19[@broemeling2021] offers several
 advantages in understanding and predicting the dynamics of the spread.
 We implement a **Bayesian regression model** in R using the `brms`
@@ -306,14 +306,14 @@ ggplot(data, aes(x = date)) +
   theme_minimal()
 ```
 
-### Ensemble Modeling
+### Ensemble modelling
 
-Ensemble modeling\index{ensemble modeling} is a technique that combines
-the predictions of multiple models to improve the overall accuracy and
-robustness of the predictions. In the context of infectious disease
-modeling, ensemble modeling can help account for uncertainties and
-variability in the data and provide more reliable estimates of disease
-spread.
+Ensemble modelling\index{ensemble modelling} is a technique that
+combines the predictions of multiple models to improve the overall
+accuracy and robustness of the predictions. In the context of infectious
+disease modelling, ensemble modelling can help account for uncertainties
+and variability in the data and provide more reliable estimates of
+disease spread.
 
 ```{r}
 library(deSolve)

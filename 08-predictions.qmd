@@ -335,7 +335,7 @@ Mixed models are a powerful statistical tool for analyzing data with a
 hierarchical or nested structure, where observations are grouped within
 higher-level units. By incorporating both fixed and random effects,
 mixed models can account for the variability within and between groups,
-providing a flexible framework for modeling complex data structures.
+providing a flexible framework for modelling complex data structures.
 Mixed models are widely used in various fields, and particularly useful
 in fields like healthcare and infectious diseases where data might be
 collected across different subjects or time points.
@@ -348,9 +348,9 @@ within clinics, repeated measures over time) and account for both fixed
 effects (e.g., age, gender) and random effects (e.g., variability
 between patients or clinics).
 
-**Fixed Effects**\\index{fixed effects}: These are the primary effects of
-interest and include variables such as age, gender, year, and specific
-interventions or treatments.
+**Fixed Effects**\\index{fixed effects}: These are the primary effects
+of interest and include variables such as age, gender, year, and
+specific interventions or treatments.
 
 **Random Effects**\index{random effects}: These capture the variability
 that is not explained by the fixed effects, such as differences between

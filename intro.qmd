@@ -1,8 +1,8 @@
-# Introduction {#sec-intro .unnumbered}
+# Introduction {.unnumbered .unlisted}
 
 \
 
-## The concept of Health
+## The Concept of Health
 
 The concept of being "well" has evolved over the years and is not solely
 confined to physical health. Traditionally, health metrics focused on
@@ -51,7 +51,7 @@ one's community, can significantly impact both health and happiness.
 These behaviors can be universal, yet their interpretation and emphasis
 might vary based on cultural contexts.
 
-### A Global perspective
+### A Global Perspective
 
 In essence, achieving global standardization in well-being requires a
 multi-faceted approach that includes education, social support systems,
@@ -76,7 +76,7 @@ The hope is to provide insights for health researchers and policymakers.
 To be more specific, the book compares the metrics used to summarize the
 health status of a population across different locations. It tests
 prediction levels using key models. The initial tools are `{tidymodels}`
-and `{INLA}` for modeling, but other machine learning packages like
+and `{INLA}` for modelling, but other machine learning packages like
 `{mlr3}` and `{caret}` are also tested as alternative tools.
 
 In practice, the data will include information about humanity such as
@@ -97,7 +97,7 @@ connections that could lead to an increase in the number of DALYs for
 specific populations. Additionally, it looks at providing suggestions
 for public health policy and practice[@GBD2020].
 
-## The structure of the book
+## The Structure of the Book
 
 The book is structured with an alternation of text and chunks of code,
 primarily in the R programming language; hints for translations in
@@ -162,13 +162,13 @@ to fill gaps to provide a comprehensive view of general trends. The
 second chapter, Techniques for Machine Learning Applications, provides
 an overview of different types of models suitable for use. The third
 chapter, Essential R Packages for Machine Learning, lists recommended R
-packages for modeling. The final chapter focuses on Predictive Modeling
-and Beyond.
+packages for modelling. The final chapter focuses on Predictive
+modelling and Beyond.
 
 **Third Section** - Dedicated entirely to Data Visualization, this
 section covers its history and application in R. The second chapter
 discusses Interpreting Model Results Through Visualization; the third
-chapter addresses Spatial Data Modeling and Visualization, teaching the
+chapter addresses Spatial Data modelling and Visualization, teaching the
 use of these tools. The fourth chapter provides tailored Examples to
 enhance the knowledge acquired.
 

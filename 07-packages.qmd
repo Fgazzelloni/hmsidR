@@ -17,7 +17,7 @@ Learning Objectives
 
 ## Inside and outside of the library boxes
 
-This book provides all data analysis, visualization, and modeling in R
+This book provides all data analysis, visualization, and modelling in R
 (a hint to Python translations can be found in @sec-appendixC); the
 universe of available packages is vast. How do you untangle among all of
 them? Which one to choose? Sometimes, it is rather favorable to start by
@@ -26,24 +26,24 @@ in the built-in packages inside a fresh R installation.
 
 On the contrary, life has become easier with the advent of wrapping
 functions and the reduction of lines of code through the use of
-functions found in packages. In the past, data analysis and modeling in
+functions found in packages. In the past, data analysis and modelling in
 R required extensive coding, often involving repetitive tasks and
 lengthy scripts. However, with the introduction of packages containing
 pre-built functions for common tasks, such as data manipulation,
-visualization, and statistical modeling, the process has been
+visualization, and statistical modelling, the process has been
 streamlined. These packages offer a wide range of functions that can be
 easily applied to perform complex analyses with just a few lines of
 code. As a result, users can achieve sophisticated results more
 efficiently, without the need to write lengthy and intricate scripts
 from scratch. This shift has not only simplified the process of data
-analysis and modeling but has also democratized access to advanced
+analysis and modelling but has also democratized access to advanced
 statistical techniques, making them more accessible to a broader
 audience.
 
 ## Essential R Packages for Machine Learning
 
-Some of the most used modeling packages available in R that are
-particularly useful for machine learning modeling of the spread of
+Some of the most used modelling packages available in R that are
+particularly useful for machine learning modelling of the spread of
 infectious diseases and evaluating DALYs variation due to infectious
 disease include:
 
@@ -51,7 +51,7 @@ disease include:
 
 1.  [**tidymodels**](https://www.tmwr.org/)[@silge]:
     tidymodels\index{tidymodels} framework provides a collection of
-    packages for modeling and machine learning tasks, including tidyr,
+    packages for modelling and machine learning tasks, including tidyr,
     dplyr, and ggplot2. It offers a consistent and tidy workflow for
     data preprocessing, model building, evaluation, and visualization.
 2.  [**caret**](https://topepo.github.io/caret/)[@kuhn]: The caret
@@ -62,7 +62,7 @@ disease include:
     and model selection.
 3.  [**mlr3**](https://mlr3book.mlr-org.com/)[@mlr-org]: mlr3 is a
     modern and extensible framework for machine learning in R. It
-    provides a unified interface for modeling tasks, making it easy to
+    provides a unified interface for modelling tasks, making it easy to
     train and evaluate a wide range of machine learning algorithms.
 
 ### Engines
@@ -111,12 +111,12 @@ meta-packages.
     an emphasis on flexibility and ease of use. Developed by Facebook,
     prophet can handle various time series patterns, including
     seasonality, holiday effects, and trend changes, making it suitable
-    for modeling infectious disease trends over time.
+    for modelling infectious disease trends over time.
 3.  `{fpp3}`[@forecast]: The fpp3 package is part of the Forecasting:
     Principles and Practice (3rd edition) book, offering tools for
     forecasting time series data. While not specifically focused on
     machine learning, it provides useful functions for time series
-    analysis, which can be relevant for modeling disease spread over
+    analysis, which can be relevant for modelling disease spread over
     time.
 
 #### Bayesian Analysis
@@ -130,16 +130,16 @@ meta-packages.
 1.  `{spdep}` is a powerful tools for spatial statistics, it provides a
     set of functions for analyzing spatial dependencies and
     autocorrelation in spatial data, particularly relevant in infectious
-    disease modeling. It also incorporates spatial effects into models
+    disease modelling. It also incorporates spatial effects into models
     and allows for a better understanding of how infectious diseases
     spread across space.
 2.  [INLA](https://www.r-inla.org/)[@r-inlap]: Integrated Nested Laplace
     Approximations (INLA) is a package for Bayesian inference using the
     INLA method. It is particularly useful for spatial and
-    spatio-temporal modeling, which can be relevant for studying the
+    spatio-temporal modelling, which can be relevant for studying the
     spread of infectious diseases.
 
-These packages offer a diverse set of tools and techniques for modeling
+These packages offer a diverse set of tools and techniques for modelling
 infectious disease spread and assessing its impact on health metrics
 like DALYs. These packages provide valuable insights into the dynamics
 of infectious diseases and can be used to inform public health
@@ -153,16 +153,16 @@ suitable depends on various factors, including:
 Each package has its strengths and weaknesses, and the choice of package
 often depends on factors such as:
 
--   the complexity of the modeling task
+-   the complexity of the modelling task
 -   the type of data available
--   the preferred modeling approach (e.g., frequentist vs. Bayesian).
+-   the preferred modelling approach (e.g., frequentist vs. Bayesian).
 
 For example, `tidymodels` provides a tidy and consistent workflow for
-modeling tasks, while `mlr3` offers extensive support for machine
+modelling tasks, while `mlr3` offers extensive support for machine
 learning algorithms and hyperparameter tuning.
 
 It's also worth considering other packages that may be relevant for
-specific aspects of the analysis, such as spatial modeling (e.g.,
+specific aspects of the analysis, such as spatial modelling (e.g.,
 `spdep`) or time series forecasting (e.g., `prophet`).
 
 The features and capabilities of each package should carefully be

@@ -1,4 +1,4 @@
-# Overview {#sec-part2 .unnumbered}
+# Part II {.unnumbered .unlisted}
 
 ## Machine Learning
 
@@ -9,7 +9,7 @@ models are designed with the broader scope of being utilized in transfer
 learning, enabling their application to diverse health data and other
 domains beyond infectious diseases.
 
-### Chapter 5: Introduction to Machine Learning
+**Chapter 5: Introduction to Machine Learning**
 
 This introductory chapter serves as a gateway to the world of machine
 learning within the context of infectious disease modeling. It offers a
@@ -28,7 +28,7 @@ affecting the global perspective. More specifically, it examines the
 evolution of infection in specific countries and how this influences the
 overall level of health metrics.
 
-### Chapter 6: Techniques for Machine Learning Applications
+**Chapter 6: Techniques for Machine Learning Applications**
 
 In this chapter, the focus shifts to the application of machine learning
 techniques in infectious disease modeling. Readers are introduced to a
@@ -39,7 +39,7 @@ strategies. By elucidating the nuances of when to utilize time series
 analysis versus logistic regression or random forests, readers are
 equipped with the tools to make informed modeling decisions.
 
-### Chapter 7: Essential R Packages for Machine Learning
+**Chapter 7: Essential R Packages for Machine Learning**
 
 This chapter is dedicated to exploring the essential R packages tailored
 for machine learning applications in infectious disease modeling. From
@@ -50,7 +50,7 @@ tutorials and practical demonstrations, readers learn how to harness the
 power of these packages to streamline their modeling workflows and
 achieve meaningful insights.
 
-### Chapter 8: Predictive Modeling and Beyond
+**Chapter 8: Predictive Modeling and Beyond**
 
 The final chapter represents the culmination of the section, focusing on
 predictive modeling and its broader implications. Building upon the

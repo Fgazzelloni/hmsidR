@@ -514,11 +514,11 @@ reasons:
     recovery or death. This is because prevalence captures both existing
     and new cases during the period of measurement.
 -   **Complexity of Disease Models**: Many chronic diseases or
-    conditions with long durations are better captured through
-    prevalence data. This approach simplifies the modeling by avoiding
-    the need for complex calculations that would otherwise be required
-    to estimate the duration of each new case (from incidence data) and
-    its progression over time.
+    conditions with long duration are better captured through prevalence
+    data. This approach simplifies the modelling by avoiding the need
+    for complex calculations that would otherwise be required to
+    estimate the duration of each new case (from incidence data) and its
+    progression over time.
 
 The choice of prevalence over incidence in the calculation of YLDs thus
 reflects a pragmatic approach to capturing the current impact of
@@ -547,21 +547,34 @@ dates <- seq(as.Date("2019-01-01"),
              as.Date("2019-12-31"), by = "day")
 ```
 
-Cases and recovered are simulated using a `Poisson distribution`\index{poisson} with $\lambda$ of 0.2 and 0.05, respectively. To model the count of rare events in a large population happening within a fixed interval of time or space, the Poisson distribution is particularly useful. It suits the initial spread of COVID-19 in many regions, and assumes that the events (new cases) occur independently of each other, which can be a reasonable approximation in the context of infection spread over short periods.
+Cases and recovered are simulated using a
+`Poisson distribution`\index{poisson} with $\lambda$ of 0.2 and 0.05,
+respectively. To model the count of rare events in a large population
+happening within a fixed interval of time or space, the Poisson
+distribution is particularly useful. It suits the initial spread of
+COVID-19 in many regions, and assumes that the events (new cases) occur
+independently of each other, which can be a reasonable approximation in
+the context of infection spread over short periods.
 
-To apply the Poisson distribution, we use the `rpois()` function in R, which generates random numbers from a Poisson distribution with a specified rate parameter $\lambda$. The probability mass function of the Poisson distribution is given by:
+To apply the Poisson distribution, we use the `rpois()` function in R,
+which generates random numbers from a Poisson distribution with a
+specified rate parameter $\lambda$. The probability mass function of the
+Poisson distribution is given by:
 
 $$
   P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
-$$
-where $X$ is the random variable representing the number of events, $k$ is the number of events, $\lambda$ is the rate parameter, and $e$ is the base of the natural logarithm.
+$$ where $X$ is the random variable representing the number of events,
+$k$ is the number of events, $\lambda$ is the rate parameter, and $e$ is
+the base of the natural logarithm.
 
 ```{r}
 cases <- rpois(length(dates), lambda = 0.2)
 recovered <- rpois(length(dates), lambda = 0.05)
 ```
 
-The simulated data is then combined into a data frame with the date, number of cases, and number of recovered individuals.
+The simulated data is then combined into a data frame with the date,
+number of cases, and number of recovered individuals.
+
 ```{r}
 covid_data <- data.frame(Date = dates, 
                          Cases = cases, 
@@ -569,6 +582,7 @@ covid_data <- data.frame(Date = dates,
 ```
 
 Let's have a look at the first few rows of the dataset:
+
 ```{r}
 #| echo: false
 covid_data%>%
@@ -576,6 +590,7 @@ covid_data%>%
 ```
 
 Calculate the cumulative incidence and prevalence over time:
+
 ```{r}
 #| label: tbl-covid19-inc-prev-synthetic
 #| tbl-cap: "COVID-19 Incidence and Prevalence - simulate data"
@@ -591,7 +606,6 @@ covid_data <-
             Incidence = (Cum_Cases /population_size)*1000,
             Prevalence = ((Cum_Cases-Cum_Recovered) / population_size)*1000)
 ```
-
 
 ```{r}
 #| echo: false
@@ -1008,7 +1022,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------------------|-------------|-------------|-------------|
+|-----------------------------|---------------|---------------|---------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

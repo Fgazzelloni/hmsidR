@@ -1,4 +1,4 @@
-# The case of Malaria {#sec-15-malaria}
+# The Case of Malaria {#sec-15-malaria}
 
 ```{r}
 #| echo: false
@@ -113,7 +113,7 @@ plot(time, infected,
 
 ```
 
-### Modeling with caret
+### modelling with caret
 
 ```{r}
 #| message: false

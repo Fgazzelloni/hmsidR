@@ -1,4 +1,4 @@
-# Tools used to make this book {#sec-appendixC}
+# Tools Used to Make This Book {#sec-appendixC}
 
 To set up the environment for replicating the code used in this book the
 R language is needed as well as R and Rstudio IDE environments. The

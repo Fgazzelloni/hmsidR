@@ -1,4 +1,4 @@
-# Overview {#sec-part1 .unnumbered}
+# Part I {.unnumbered .unlisted}
 
 ## Metrics Evaluation
 
@@ -10,7 +10,7 @@ implications. Through practical examples and case studies, we highlight
 the importance of robust metrics evaluation in guiding effective health
 interventions and policy decisions.
 
-### Chapter 1: Introduction to Metrics Evaluation
+**Chapter 1: Introduction to Metrics Evaluation**
 
 The Introduction to Metrics Evaluation chapter is a foundational
 exploration into the world of health metrics, tracing its historical
@@ -20,7 +20,7 @@ metrics used in assessing population health, including DALYs
 (Disability-Adjusted Life Years), HALYs (Healthy Adjusted Life Years),
 and various other key indicators.
 
-### Chapter 2: Health Metrics
+**Chapter 2: Health Metrics**
 
 The Health Metrics chapter provides an in-depth analysis of key health
 indicators, including DALYs (Disability-Adjusted Life Years) and HALYs
@@ -30,7 +30,7 @@ role in informing health policy. Through discussions and real-world
 examples, we aim to elucidate the significance of health metrics in
 measuring population health and guiding resource allocation.
 
-### Chapter 3: Components of the Health Metrics
+**Chapter 3: Components of the Health Metrics**
 
 In this chapter, we break down the components that contribute to health
 metrics such as DALYs, focusing on understanding the underlying factors
@@ -42,7 +42,7 @@ comprehensive analysis and case studies, this chapter aims at providing
 a simple explanation at how to build the components of the health
 metrics.
 
-### Chapter 4: Causes and Risks
+**Chapter 4: Causes and Risks**
 
 The Causes and Risks chapter investigates the multifaceted nature of
 health outcomes, exploring the underlying causes and risk factors

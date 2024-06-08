@@ -36,7 +36,7 @@ decision-making, and communicate findings to various stakeholders.
     -   Real-world examples of model results application in public
         health.
     -   Case studies demonstrating the impact of machine learning and
-        spatial modeling on health metrics.
+        spatial modelling on health metrics.
     -   Lessons learned and best practices from successful
         implementations.
 

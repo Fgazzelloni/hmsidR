@@ -1,4 +1,4 @@
-# Overview {#sec-part3 .unnumbered}
+# Part III {.unnumbered .unlisted}
 
 ## Data Visualization
 
@@ -11,7 +11,7 @@ over time to comparing geographical variations, we demonstrate how data
 visualization can enhance understanding and decision-making in public
 health.
 
-### Chapter 9: Introduction to Data Visualization
+**Chapter 9: Introduction to Data Visualization**
 
 The Introduction to Data Visualization chapter dives into world of
 visual representation in data analysis with R. It offers insights into
@@ -23,7 +23,7 @@ illustrative examples and practical tips, readers will gain a deeper
 appreciation for the power of visualization in exploring and
 understanding data.
 
-### Chapter 10: Interpreting Model Results Through Visualization
+**Chapter 10: Interpreting Model Results Through Visualization**
 
 In this chapter, we explore practical applications of data visualization
 in public health and epidemiology. We delve into case studies and
@@ -33,7 +33,7 @@ initiatives. Through hands-on demonstrations and tutorials, we equip
 readers with the skills and tools necessary to create impactful
 visualizations that drive action and improve health outcomes.
 
-### Chapter 11: Spatial data modeling and Visualization
+**Chapter 11: Spatial Data Modeling and Visualization**
 
 The Spatials chapter focuses on the spatial analysis of health data,
 examining the geographical distribution of disease burden and health
@@ -44,7 +44,7 @@ spatial visualization, we elucidate the spatial epidemiology of
 infectious diseases and its implications for targeted intervention
 strategies and resource allocation.
 
-### Chapter 12: More Examples
+**Chapter 12: Advanced Data Visualization Techniques**
 
 In this chapter, we showcase practical examples and case studies of data
 visualization and spatial analysis in public health research and

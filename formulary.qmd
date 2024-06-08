@@ -1,8 +1,8 @@
-# Formulary
+# Formulary {.unnumbered .unlisted}
 
 ## Statistical Distributions
 
-### Normal (Gaussian) Distribution
+### Normal (Gaussian) Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
@@ -11,7 +11,7 @@
     distribution characterized by a bell-shaped curve. It is defined by
     the mean ($\mu$) and standard deviation ($\sigma$).
 
-### Binomial Distribution
+### Binomial Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}
@@ -21,7 +21,7 @@
     constant probability of success $p$ in each trial. Here, $n$ is the
     number of trials and $k$ is the number of successes.
 
-### Poisson Distribution
+### Poisson Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
@@ -32,7 +32,7 @@
     interval. Here, $\lambda$ is the average number of events, $k$ is
     the number of occurrences, and $e$ is Euler's number.
 
-### Exponential Distribution
+### Exponential Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \lambda e^{-\lambda x} \quad \text{for } x \ge 0
@@ -41,7 +41,7 @@
     between events in a Poisson process. It is defined by the rate
     parameter $\lambda$.
 
-### Uniform Distribution
+### Uniform Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \begin{cases} 
@@ -53,7 +53,7 @@
     probability for all values in the interval $[a, b]$. It is a
     continuous distribution.
 
-### Bernoulli Distribution
+### Bernoulli Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     P(X = x) = p^x (1 - p)^{1-x} \quad \text{for } x \in \{0, 1\}
@@ -62,7 +62,7 @@
     distribution representing the outcome of a single binary experiment
     with success probability $p$.
 
-### Beta Distribution
+### Beta Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \frac{x^{\alpha-1} (1-x)^{\beta-1}}{B(\alpha, \beta)} \quad \text{for } 0 \le x \le 1
@@ -71,7 +71,7 @@
     defined on the interval \[0, 1\], parameterized by $\alpha$ and
     $\beta$, and is useful in Bayesian statistics.
 
-### Gamma Distribution
+### Gamma Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \frac{\beta^\alpha x^{\alpha-1} e^{-\beta x}}{\Gamma(\alpha)} \quad \text{for } x \ge 0
@@ -80,7 +80,7 @@
     defined by shape parameter $\alpha$ and rate parameter $\beta$. It
     generalizes the exponential distribution.
 
-### Chi-Squared Distribution
+### Chi-Squared Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \frac{1}{2^{k/2} \Gamma(k/2)} x^{k/2 - 1} e^{-x/2} \quad \text{for } x \ge 0
@@ -89,7 +89,7 @@
     the gamma distribution with $\alpha = k/2$ and $\beta = 1/2$, often
     used in hypothesis testing and confidence intervals.
 
-### Student's t-Distribution
+### Student's t-Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(t) = \frac{\Gamma\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi} \Gamma\left(\frac{\nu}{2}\right)} \left(1 + \frac{t^2}{\nu}\right)^{-\frac{\nu+1}{2}}
@@ -98,7 +98,7 @@
     parameters when the sample size is small and the population variance
     is unknown. It is defined by the degrees of freedom $\nu$.
 
-### F-Distribution
+### F-Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \frac{\left(\frac{d_1}{d_2}\right)^{d_1/2} x^{d_1/2 - 1}}{B\left(\frac{d_1}{2}, \frac{d_2}{2}\right) \left(1 + \frac{d_1}{d_2} x\right)^{(d_1 + d_2)/2}}
@@ -106,7 +106,7 @@
 -   **Description**: The F-distribution is used to compare two variances
     and is defined by two degrees of freedom, $d_1$ and $d_2$.
 
-### Multinomial Distribution
+### Multinomial Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     P(X_1 = x_1, \ldots, X_k = x_k) = \frac{n!}{x_1! \cdots x_k!} p_1^{x_1} \cdots p_k^{x_k}
@@ -115,7 +115,7 @@
     binomial distribution to more than two outcomes. It describes the
     probabilities of counts among categories.
 
-### Geometric Distribution
+### Geometric Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     P(X = k) = (1 - p)^{k-1} p \quad \text{for } k \in \{1, 2, 3, \ldots\}
@@ -124,7 +124,7 @@
     trials needed to get the first success in a sequence of independent
     Bernoulli trials with success probability $p$.
 
-### Hypergeometric Distribution
+### Hypergeometric Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     P(X = k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}}
@@ -133,7 +133,7 @@
     probability of $k$ successes in $n$ draws from a finite population
     of size $N$ containing $K$ successes, without replacement.
 
-### Log-Normal Distribution
+### Log-Normal Distribution {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \frac{1}{x\sigma\sqrt{2\pi}} e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}} \quad \text{for } x > 0
@@ -144,7 +144,7 @@
 
 ## Machine Learning Models
 
-### Linear Regression
+### Linear Regression {.unnumbered .unlisted}
 
 -   **Formula**: $$
     y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n + \epsilon
@@ -153,7 +153,7 @@
     linear relationships between the target and one or more predictor
     variables.
 
-### Logistic Regression
+### Logistic Regression {.unnumbered .unlisted}
 
 -   **Formula**: $$
     \text{logit}(P(Y=1)) = \ln\left(\frac{P(Y=1)}{1 - P(Y=1)}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n
@@ -162,7 +162,33 @@
     relationships between the predictor variables and the log-odds of
     the outcome.
 
-### Decision Tree
+### Generalized Linear Model (GLM) {.unnumbered .unlisted}
+
+-   **Formula**: $$
+    g(E(Y)) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n x_n
+    $$
+-   **Description**: A generalized linear model is a flexible
+    generalization of ordinary linear regression that allows for the
+    dependent variable $Y$ to have a distribution other than normal. The
+    link function $g$ relates the expected value of the response
+    variable $E(Y)$ to the linear predictors. $\beta_0$ is the
+    intercept, and $\beta_i$ are the coefficients for the predictor
+    variables $x_i$.
+
+### Generalized Additive Model (GAM) {.unnumbered .unlisted}
+
+-   **Formula**: $$
+    g(E(Y)) = \beta_0 + f_1(x_1) + f_2(x_2) + \cdots + f_n(x_n)
+    $$
+-   **Description**: A generalized additive model is an extension of
+    generalized linear models where the linear predictor depends
+    linearly on unknown smooth functions of some predictor variables,
+    and it allows for non-linear relationships between the dependent and
+    independent variables. Here, $g$ is the link function, $E(Y)$ is the
+    expected value of the response variable $Y$, $\beta_0$ is the
+    intercept
+
+### Decision Tree {.unnumbered .unlisted}
 
 -   **Formula**: Recursive binary splitting
 -   **Description**: Splits the data into subsets based on the value of
@@ -170,7 +196,7 @@
     attribute, each branch represents the outcome of the test, and each
     leaf node represents a class label or continuous value.
 
-### Random Forest
+### Random Forest {.unnumbered .unlisted}
 
 -   **Formula**: Aggregated decision trees
 -   **Description**: Combines the predictions of multiple decision trees
@@ -178,7 +204,7 @@
     on a bootstrapped sample of the data and uses a random subset of
     features.
 
-### Support Vector Machine (SVM)
+### Support Vector Machine (SVM) {.unnumbered .unlisted}
 
 -   **Formula**: $$
     f(x) = \text{sign}(\mathbf{w} \cdot \mathbf{x} + b)
@@ -188,7 +214,7 @@
     boundary, where $\mathbf{w}$ is the weight vector and $b$ is the
     bias.
 
-### K-Nearest Neighbors (KNN)
+### K-Nearest Neighbors (KNN) {.unnumbered .unlisted}
 
 -   **Formula**: $$
     \hat{y} = \frac{1}{k} \sum_{i=1}^{k} y_i
@@ -197,7 +223,7 @@
     among its $k$ nearest neighbors. For regression, it predicts the
     average of the $k$ nearest neighbors' values.
 
-### Naive Bayes
+### Naive Bayes {.unnumbered .unlisted}
 
 -   **Formula**: $$
     P(Y|X) = \frac{P(X|Y)P(Y)}{P(X)}
@@ -206,7 +232,7 @@
     Bayes' theorem to predict the probability of a class given the
     predictors.
 
-### Principal Component Analysis (PCA)
+### Principal Component Analysis (PCA) {.unnumbered .unlisted}
 
 -   **Formula**: $$
     Z = XW
@@ -216,7 +242,7 @@
     (principal components), ordered by the amount of variance they
     capture.
 
-### K-Means Clustering
+### K-Means Clustering {.unnumbered .unlisted}
 
 -   **Formula**: $$
     \arg \min_S \sum_{i=1}^{k} \sum_{x \in S_i} \| x - \mu_i \|^2
@@ -225,7 +251,7 @@
     the sum of squared distances between the data points and the cluster
     centroids $\mu_i$.
 
-### Neural Networks
+### Neural Networks {.unnumbered .unlisted}
 
 -   **Formula**: $$
     a^{(l)} = \sigma(z^{(l)})
@@ -237,7 +263,7 @@
     passed through an activation function $\sigma$. The parameters
     $W^{(l)}$ and $b^{(l)}$ are the weights and biases of layer $l$.
 
-### Convolutional Neural Networks (CNN)
+### Convolutional Neural Networks (CNN) {.unnumbered .unlisted}
 
 -   **Formula**: $$
     (f * g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t - \tau) \, d\tau
@@ -246,7 +272,7 @@
     input, which helps in capturing spatial hierarchies in data,
     particularly useful for image and video processing.
 
-### Recurrent Neural Networks (RNN)
+### Recurrent Neural Networks (RNN) {.unnumbered .unlisted}
 
 -   **Formula**: $$
     h_t = \sigma(W_h h_{t-1} + W_x x_t + b)
@@ -255,7 +281,7 @@
     by maintaining a hidden state $h_t$ that captures information from
     previous time steps.
 
-### Gradient Boosting Machines (GBM)
+### Gradient Boosting Machines (GBM) {.unnumbered .unlisted}
 
 -   **Formula**: $$
     F_m(x) = F_{m-1}(x) + \eta \cdot h_m(x)
@@ -264,7 +290,7 @@
     manner. Each base learner $h_m$ is trained to reduce the residual
     error of the ensemble's previous predictions.
 
-### Long Short-Term Memory Networks (LSTM)
+### Long Short-Term Memory Networks (LSTM) {.unnumbered .unlisted}
 
 -   **Formula**: $$
     \begin{aligned}

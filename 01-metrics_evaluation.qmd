@@ -14,7 +14,7 @@ Moreover in the following sections we will see how to build a model,
 evaluate the effect of the spread of infectious disease on the health
 metrics and how if affects the overall state of health of a population.
 
-## The history of health metrics
+## The History of Health Metrics
 
 The history of health metrics is a fascinating journey that spans
 centuries, evolving from rudimentary observations to sophisticated
@@ -77,8 +77,8 @@ timeline %>%
   theme_void()
 ```
 
-![Health Metrics development
-timeline](images/01_timeline.png){#fig-timeline
+![Health Metrics Development
+Timeline](images/01_timeline.png){#fig-timeline
 fig-align="center" width="90%"}
 
 One of the earliest forms of health metrics can be traced back to the
@@ -353,7 +353,7 @@ number of years lived in good health, policymakers can target
 interventions to prevent and manage chronic diseases and disabilities
 effectively.
 
-## How the metrics are used in global health
+## How the Metrics are Used in Global Health
 
 These metrics are used alone or in combination with other health metrics
 in global health assessments conducted by organizations such as the

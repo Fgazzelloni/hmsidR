@@ -92,7 +92,7 @@ type:**
     estimate parameters and make predictions based on prior knowledge
     and observed data, incorporating uncertainty and variability.
 
--   **Predictive Modeling:**\index{predictive modeling} Such as
+-   **Predictive modelling:**\index{predictive modelling} Such as
     **decision trees**\index{decision trees}, **support vector machines
     (SVM)**\index{SVM}, and **LSTM (Long Short-Term Memory) neural
     networks**\index{LSTM}, can predict disease outbreaks, identify
@@ -131,7 +131,7 @@ Furthermore, the application of transformations, such as **logarithmic**
 scaling or the application of **spline** functions can help in managing
 skewed data or enhancing model ability to capture non-linear
 relationships, which result particularly useful in complex data
-modelings. In addition, tailored adjustments, and more sophisticated
+modellings. In addition, tailored adjustments, and more sophisticated
 manipulations have been implemented over time to allow estimation of
 missing values in order to obtain customized, flexible, and more
 homogeneous data. For more information on feature engineering, see
@@ -358,8 +358,8 @@ p4 +
 ```
 
 For this task, we will use the `{tidymodels}`\index{tidymodels}
-meta-package, as it provides a consistent interface for modeling and
-machine learning tasks. In particular, we define and execute modeling
+meta-package, as it provides a consistent interface for modelling and
+machine learning tasks. In particular, we define and execute modelling
 workflows, to create tailored data pre-processing tasks on various
 modelling specification, and evaluate the performance using resampling
 techniques, to eventually select the best model. A more detailed
@@ -562,7 +562,7 @@ without the adverse effects of multicollinearity.
 ### Model Specification
 
 The next step is to define the model specification. There are various
-type of modeling that can be used, let's get started with a **random
+type of modelling that can be used, let's get started with a **random
 forest**, this choice is due to this type of algorithm which will create
 **multiple bootstrap samples** (random samples with replacement) from
 the original dataset. Each bootstrap sample is used to train a separate
@@ -669,7 +669,7 @@ through parameter calibration can be done using techniques such as
 cross-validation and grid search to find the best model settings.
 
 To introduce a machine learning feature with parameter calibration into
-our modeling of the rabies data, we can use a technique like
+our modelling of the rabies data, we can use a technique like
 cross-validation combined with a **regularization method** or an
 algorithm that supports parameter tuning. Here, we can employ a model
 from the `glmnet`\index{glmnet} package, which fits a generalized linear

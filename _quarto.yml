@@ -77,7 +77,7 @@ book:
         - 16-summary.qmd  
     - conclusions.qmd
     - references.qmd
-    - glossary.qmd 
+    - formulary.qmd 
   appendices:
     - appendixA.qmd
     - appendixB.qmd 

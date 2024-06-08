@@ -545,42 +545,39 @@ dat %>%
         legend.position = "bottom")
 ```
 
-#### How the DALYs are used
+#### How the DALYs are Used
 
 The health metrics of DALY, YLL, and YLD can be used in several ways to
 help prioritize public health interventions, evaluate the impact of
 diseases and injuries, and inform public health decision-making. Some
 common uses of these metrics include:
 
-**Prioritizing public health interventions**: By calculating the overall
-burden of disease in a population, public health practitioners can
-prioritize which diseases and injuries to address first. This helps
-allocate resources and target interventions to the areas of greatest
-need.
-
-**Evaluating the impact of diseases and injuries**: These metrics can be
-used to measure the impact of diseases and injuries on individuals and
-populations and to track changes over time. This information can help
-inform public health decision-making and allocate resources more
-effectively.
-
-**Comparing the burden of disease across populations**: DALY, YLL, and
-YLD can be used to compare the burden of disease across populations and
-between different regions. This information can help identify
-disparities in health outcomes and inform targeted public health
-interventions.
-
-**Evaluating the effectiveness of public health programs**: These
-metrics can be used to evaluate the impact of public health programs and
-to assess the effectiveness of public health interventions. This
-information can help public health practitioners identify areas for
-improvement and make necessary changes to ensure that programs are
-achieving their goals.
-
-**Monitoring global health trends**: DALY, YLL, and YLD can also be used
-to monitor global health trends and track changes in the burden of
-disease over time. This information can be used to inform global health
-policies and allocate resources to address emerging health threats.
+-   **Prioritizing public health interventions**: By calculating the
+    overall burden of disease in a population, public health
+    practitioners can prioritize which diseases and injuries to address
+    first. This helps allocate resources and target interventions to the
+    areas of greatest need.
+-   **Evaluating the impact of diseases and injuries**: These metrics
+    can be used to measure the impact of diseases and injuries on
+    individuals and populations and to track changes over time. This
+    information can help inform public health decision-making and
+    allocate resources more effectively.
+-   **Comparing the burden of disease across populations**: DALY, YLL,
+    and YLD can be used to compare the burden of disease across
+    populations and between different regions. This information can help
+    identify disparities in health outcomes and inform targeted public
+    health interventions.
+-   **Evaluating the effectiveness of public health programs**: These
+    metrics can be used to evaluate the impact of public health programs
+    and to assess the effectiveness of public health interventions. This
+    information can help public health practitioners identify areas for
+    improvement and make necessary changes to ensure that programs are
+    achieving their goals.
+-   **Monitoring global health trends**: DALY, YLL, and YLD can also be
+    used to monitor global health trends and track changes in the burden
+    of disease over time. This information can be used to inform global
+    health policies and allocate resources to address emerging health
+    threats.
 
 Overall, the health metrics of DALY, YLL, and YLD provide valuable
 information for public health practitioners, researchers, and policy
@@ -590,7 +587,7 @@ diseases and injuries, and inform public health decision-making.
 #### General application of DALYs
 
 As an example here is shown how the DALY metric can be used for
-prevention:
+prevention.
 
 Suppose we have data on the number of cases of a particular disease, as
 well as the average number of years of life lost due to this disease. We

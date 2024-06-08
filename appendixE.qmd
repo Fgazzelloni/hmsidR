@@ -1,20 +1,18 @@
-# Collecting data {#sec-appendixE}
-
-## Collecting Data with APIs
+# Collecting Data with APIs {#sec-appendixE}
 
 Collecting data to use in a research analysis involves a selection of
 sources and methods to use for optimizing computational time when
 downloading and reading the files. Once data is set and ready to use a
 further step is required to make the data suitable for the selected
-model.The source of data is an important variable. Generally, data can
+model. The source of data is an important variable. Generally, data can
 be downloaded by using an API (application programming interface) which
 allow the user to get access to data directly from source, with the use
 of specified back-end computations. There are alternatives at using an
 API; data can be obtained by downloading it directly into the
 computer,or loaded through library packages. Usually, available files
-are provided under various forms such as delimited type of files,
-.csv,.xls, .json, and other types.Here is an example of how to use an
-API for downloading a file directly onto your computer.
+are provided under various forms such as delimited type of files, .csv,
+.xls, .json, and other types. Here is an example of how to use an API
+for downloading a file directly onto your computer.
 
 ```{r}
 #| eval: false
@@ -23,9 +21,7 @@ url <- ""
 httr::GET(url = url)
 ```
 
-### Download Data with APIs
-
-#### IHME Data API
+### Download IHME Data with APIs
 
 ```{r}
 #| warning: false

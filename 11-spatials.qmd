@@ -1,4 +1,4 @@
-# Spatial data modeling and Visualization {#sec-11-spatials}
+# Spatial Data Modelling and Visualization {#sec-11-spatials}
 
 ```{r}
 #| echo: false
@@ -19,6 +19,8 @@ Learning Objectives
 -   Map the results
 :::
 :::
+
+This chapter is dedicated to spatial modelling and visualization.
 
 ## Locate infections with Montecarlo simulations
 
@@ -204,7 +206,7 @@ mapview::mapshot(heatmap, file = "images/heatmap.png")
 
 ### The Euclidean distance
 
-In infectious disease modeling is very helpful to understand how
+In infectious disease modelling is very helpful to understand how
 infections spread through populations for making strategic plans for
 disease control and prevention. The Euclidean distance serves as a
 fundamental tool in spatial epidemiology, it represents the shortest
@@ -365,13 +367,13 @@ public health measures or vaccination campaigns.
 -   How much higher could the costs and losses be, compared to the
     baseline scenario?
 
-I can apply Monte Carlo simulation by repeating the experiment, modeling
-the distribution of transmission rates and infection outcomes. I will
-repeat the scenario of infection spread (i.e., the distribution of
-transmission rates and infection outcomes) 1,000 times. For each run, I
-will calculate the resulting costs and losses associated with the spread
-of infections, and I will store the results of each run in a results
-dataframe.
+I can apply Monte Carlo simulation by repeating the experiment,
+modelling the distribution of transmission rates and infection outcomes.
+I will repeat the scenario of infection spread (i.e., the distribution
+of transmission rates and infection outcomes) 1,000 times. For each run,
+I will calculate the resulting costs and losses associated with the
+spread of infections, and I will store the results of each run in a
+results dataframe.
 
 ```{r}
 # dataframe for storing Monte-carlo simulation results

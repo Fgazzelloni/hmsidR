@@ -1,4 +1,4 @@
-# Overview {#sec-part4 .unnumbered}
+# Part IV {.unnumbered .unlisted}
 
 ## Infectious Diseases
 
@@ -11,7 +11,7 @@ and their public health implications. From emerging pathogens to endemic
 diseases, we delve into the latest research and developments in
 infectious disease control and management.
 
-### Chapter 13: Introduction to Infectious Diseases
+**Chapter 13: Introduction to Infectious Diseases**
 
 The Introduction to Infectious Diseases chapter offers a concise yet
 comprehensive overview of the field, providing readers with a
@@ -23,7 +23,7 @@ outbreaks to modern-day pandemics, we explore the dynamic interplay
 between pathogens, hosts, and the environment, setting the stage for a
 deeper exploration into the complexities of infectious disease dynamics.
 
-### Chapter 14: Covid19 Outbreaks
+**Chapter 14: Covid19 Outbreaks**
 
 In this chapter, we focus specifically on the COVID-19 pandemic and its
 multifaceted impact on global health and society. We examine the
@@ -33,7 +33,7 @@ implemented worldwide. Through case studies, data analysis, and expert
 insights, we seek to provide a comprehensive overview of the COVID-19
 pandemic and its implications for public health policy and practice.
 
-### Chapter 15: The case of Malaria
+**Chapter 15: The Case of Malaria**
 
 The Malaria chapter zooms in on one of the most significant infectious
 diseases globally: malaria. We explore the biology of the malaria
@@ -45,7 +45,7 @@ By examining successes and challenges in malaria control, we aim to
 inform future interventions and accelerate progress towards malaria
 eradication.
 
-### Chapter 16: Summary: the State of Health
+**Chapter 16: Summary: the State of Health**
 
 In the Summary chapter, we synthesize key findings and insights from the
 preceding sections, providing a comprehensive overview of the book's

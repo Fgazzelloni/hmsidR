@@ -13,10 +13,10 @@ This chapter will walk you through a basic construction of a machine
 learning\index{machine learning} model, providing a simple explanation
 of how to model fast-growing phenomena, such as in the case of the
 spread of infectious diseases. Then in the following chapters of this
-second section you will dive deep into different techniques for modeling
-starting from feature engineering to making predictions.
+second section you will dive deep into different techniques for
+modelling starting from feature engineering to making predictions.
 
-## Deterministic and Stochastic modeling
+## Deterministic and Stochastic modelling
 
 The spread of a virus can be seen as a **random
 process**\index{random process}, since the number of individuals who are
@@ -32,11 +32,11 @@ such as a fixed number of individuals, constant contagiousness, and no
 mitigation measures. This type of model can be used to make predictions
 about the spread of a virus under certain assumptions, but it will not
 account for the randomness and uncertainty associated with real-world
-scenarios. In general, a **stochastic process**\index{stochastic process}, or
-random process [@dobrow2016] is the type of model which attempt to
-replicate uncertain outcomes, using probabilities. At opposite, in a
-**deterministic system** the outcome is obtained from a given input, and
-for this reason it is reproducible.
+scenarios. In general, a **stochastic
+process**\index{stochastic process}, or random process [@dobrow2016] is
+the type of model which attempt to replicate uncertain outcomes, using
+probabilities. At opposite, in a **deterministic system** the outcome is
+obtained from a given input, and for this reason it is reproducible.
 
 Most models used to study the spread of a virus are a **combination of
 both deterministic and stochastic models**. For example, the
@@ -51,7 +51,7 @@ And how it differs from statistical models (deterministic and
 stochastic) is all a matter of parameter calibration. Understanding the
 differences between deterministic and stochastic models is crucial for
 effectively applying machine learning techniques, as it informs the
-selection of the appropriate modeling approach based on the data
+selection of the appropriate modelling approach based on the data
 characteristics and analysis goals. Machine learning models learn from
 data to automatically adjust their parameters, optimizing them to
 minimize errors or maximize performance on a given task. Compared to
@@ -99,19 +99,23 @@ the future preventing undesired outcomes.
 
 In particular, these types of models are subdivided in:
 
-1.  **Mechanistic Model**\index{mechanistic model}: For example the SIR
-    model is a **classic compartmental model** used to simulate the
-    spread of infectious diseases. It divides the population into three
-    compartments: susceptible $(S)$, infectious $(I)$, and recovered
-    $(R)$. The equations describe the rate of change of each compartment
-    over time, where $\beta$ represents the transmission rate and
-    $\gamma$ represents the recovery rate.
+1.  **Mechanistic Model**\index{mechanistic model}: For example the
+    SIR\index{SIR} model is a **classic compartmental model** used to
+    simulate the spread of infectious diseases. It divides the
+    population into three compartments: susceptible $(S)$, infectious
+    $(I)$, and recovered $(R)$. The equations describe the rate of
+    change of each compartment over time, where $\beta$ represents the
+    transmission rate and $\gamma$ represents the recovery rate.
 
-$$ \text{SIR model  } \left\{\begin{matrix}
- \frac{dS}{dt} = - \beta \cdot S \cdot I \\
- \frac{dI}{dt} = \beta \cdot S \cdot I - \gamma \cdot I \\ 
- \frac{dR}{dt} = \gamma \cdot I 
-\end{matrix}\right. $$ {#eq-sir-model-theory}
+$$
+\text{SIR model } \left\{\begin{matrix}
+ \begin{aligned}
+ \frac{dS}{dt} =& - \beta \cdot S \cdot I \\
+ \frac{dI}{dt} =& \beta \cdot S \cdot I - \gamma \cdot I \\
+ \frac{dR}{dt} =& \gamma \cdot I 
+ \end{aligned}
+\end{matrix}\right. 
+$$ {#eq-sir-model-theory}
 
 2.  **Empirically Driven Model**\index{empirically driven model}:
     Empirically driven models do not have explicit mathematical
@@ -129,7 +133,7 @@ $$ \text{SIR model  } \left\{\begin{matrix}
 Machine learning models fall under the category of **empirically driven
 models**. Unlike **mechanistic models**, which are based on explicit
 equations and known relationships between variables (such as the
-differential equations used in infectious disease modeling), machine
+differential equations used in infectious disease modelling), machine
 learning models derive patterns and relationships directly from data
 without explicit knowledge of the underlying mechanisms. Therefore,
 while both mechanistic and empirically driven models are used for
@@ -140,8 +144,8 @@ prediction, they operate on different principles:
 
 Before delving deep into machine learning techniques for analyzing
 health data and metrics, it's essential to proceed step by step in
-building a modeling framework. This approach begins with a thorough
-understanding of the modeling procedures.
+building a modelling framework. This approach begins with a thorough
+understanding of the modelling procedures.
 
 ### Learning Methods
 
@@ -169,7 +173,7 @@ Each algorithm has its method of learning.
 
 ### Parameters and Hyper-parameters
 
-In machine learning and statistical modeling, parameters and
+In machine learning and statistical modelling, parameters and
 hyperparameters\index{hyperparameters} are two distinct concepts, each
 playing a crucial role in building and tuning models.
 
@@ -245,7 +249,7 @@ to predict future values of $y$ for new values of predictor variables
 $x_i$. This allows us to simulate the effect of different scenarios or
 make predictions about future outcomes based on the relationships
 identified in the data. Overall, the model development process is a
-crucial step in the modeling framework, as it sets the foundation for
+crucial step in the modelling framework, as it sets the foundation for
 understanding and analyzing the relationships between variables in a
 given system. It enables us to extract insights from the data, make
 predictions, and inform decision-making in various fields, including
@@ -280,6 +284,12 @@ from 1849-01-01 to 1849-12-31. Let's visualize our data by using the
 `{ggplot2}` package with `geom_line()` as layer.
 
 ```{r}
+#| fig-cap: "Deaths due to Cholera in London (1849)"
+#| fig-alt: "Deaths due to Cholera in London (1849)"
+#| fig-lab: fig-cholera1849
+#| fig-width: 6
+#| fig-height: 4
+
 cholera %>%
   ggplot(aes(x=date,y=deaths))+
   geom_line()+
@@ -429,8 +439,11 @@ ggplot(cholera, aes(x=date,y=deaths))+
 #| message: false
 #| warning: false
 #| echo: false
-#| label: fig-cholera1849
-#| fig-cap: "Deaths due to Cholera in London (1849)"
+#| label: fig-cholera1849-gam
+#| fig-cap: "Deaths due to Cholera in London (1849)-GAM"
+#| fig-alt: "Deaths due to Cholera in London (1849)"
+#| fig-width: 6
+#| fig-height: 4
 
 ggplot(cholera,aes(x=date,y=deaths))+
   geom_line(linetype="dashed",linewidth=0.2)+
@@ -496,7 +509,7 @@ What is happening here is a transformation of the predictors through the
 application of a function: $x \sim f(x)$. The smooth functions are
 estimated using non-parametric techniques such as splines (polynomial
 transformations) or kernel functions. These smooth functions allow for
-flexible modeling of the relationship between the predictor variables
+flexible modelling of the relationship between the predictor variables
 and the response variable, capturing non-linearities and complex
 patterns in the data. The link function $g()$ is typically chosen based
 on the distributional characteristics of the response variable, to
@@ -663,6 +676,12 @@ individuals increases before eventually decreasing as individuals
 recover from the infection.
 
 ```{r}
+#| label: fig-seir-simulation
+#| fig-cap: "Simulation of SEIR Model: Susceptible, Exposed, Infectious, and Recovered individuals over Time interact with each other determining the scenario of the Epidemic. With the increase of the number of exposed and infectious individuals, the number of susceptible individuals decreases over time. The number of exposed and infectious individuals increases before eventually decreasing as individuals recover from the infection."
+#| fig-alt: "Simulation of SEIR Model"
+#| fig-width: 5
+#| fig-height: 3
+
 # Plot simulated data
 ggplot(simulated_data, aes(x = time)) +
   geom_line(aes(y = S, color = "Susceptible")) +
@@ -670,9 +689,8 @@ ggplot(simulated_data, aes(x = time)) +
   geom_line(aes(y = I, color = "Infectious")) +
   geom_line(aes(y = R, color = "Recovered")) +
   labs(title = "Simulation of SEIR Model", x = "Time", y = "Population") +
-  scale_color_manual(values = c("Susceptible" = "blue", "Exposed" = "orange",
-                                 "Infectious" = "red", "Recovered" = "green")) 
-
+  scale_color_manual(values = c("Susceptible" = "navy", "Exposed" = "orange",
+                                 "Infectious" = "brown", "Recovered" = "darkgreen")) 
 ```
 
 #### Random Forest
@@ -708,14 +726,19 @@ performance.
 ```{r}
 #| message: false
 #| warning: false
-#| fig.cap: "Tree of Random Forest Model for Epidemic X"
-#| fig.height: 4
+#| fig.cap: "Tree of Random Forest Model for Epidemic X: The model splits the sample by determining the most probable number of infected individuals, using multiple decision trees to enhance accuracy. Each tree in the forest evaluates different features and criteria to make predictions, combining their outputs to form a consensus estimate. This approach helps to reduce overfitting and improve the robustness of the model in predicting the spread and impact of the epidemic."
+#| fig-alt: "Tree of Random Forest Model for Epidemic X"
+#| fig-width: 6
+#| fig-height: 4
+
 # Load required packages
 library(randomForest)
 
 # Split the data into training and testing sets
-set.seed(123)  # Set seed for reproducibility
-train_index <- sample(nrow(simulated_data), 0.8 * nrow(simulated_data))
+set.seed(123) 
+train_index <- sample(
+  nrow(simulated_data), 0.8 * nrow(simulated_data)
+  )
 train_data <- simulated_data[train_index, ]
 test_data <- simulated_data[-train_index, ]
 
@@ -748,7 +771,9 @@ greater error between predicted and actual values.
 predictions <- predict(rf_model, newdata = test_data)
 
 # Calculate Root Mean Squared Error (RMSE)
-(rmse <- sqrt(mean((test_data$I - predictions)^2,na.rm = T)))
+(rmse <- sqrt(
+  mean((test_data$I - predictions)^2, na.rm = T))
+  )
 ```
 
 This means that the model's predictions deviate from the actual values
@@ -792,9 +817,9 @@ impact the model's performance, and tuning them can help improve the
 model's accuracy and generalization to new data.
 
 For this task we use the `{tidymodels}`\index{tidymodels} package, a
-collection of packages for modeling and machine learning using the
+collection of packages for modelling and machine learning using the
 tidyverse principles. The `{tidymodels}` package provides a consistent
-interface for modeling tasks, making it easier to build, tune, and
+interface for modelling tasks, making it easier to build, tune, and
 evaluate machine learning models.
 
 ```{r}
@@ -826,7 +851,7 @@ rf_ranger_model <-
   rand_forest( 
       trees = tune(),
       min_n = tune()
-  ) %>% 
+      ) %>% 
   set_engine('ranger') %>%
   set_mode('regression')
 ```
@@ -866,9 +891,13 @@ displays the best hyperparameters based on the optimization results.
 ```{r}
 # Summarize the tuning results
 show_best(bayes_results, metric = "rmse")
+```
 
-# Extract the best parameters
-best_bayes <- select_best(bayes_results, metric = "rmse")
+Extract the best parameters:
+
+```{r}
+best_bayes <- select_best(bayes_results, 
+                          metric = "rmse")
 best_bayes
 ```
 
@@ -881,7 +910,8 @@ evaluate the model's performance.
 
 ```{r}
 # Final model with best parameters
-final_bayes_model <- finalize_model(rf_ranger_model, best_bayes)
+final_bayes_model <- finalize_model(rf_ranger_model,
+                                    best_bayes)
 final_fit <- fit(final_bayes_model, 
                  formula = I ~ ., 
                  data = train_data)
@@ -910,6 +940,8 @@ print(paste("RMSE:", rmse))
 #| fig-cap:
 #|   - "Prediction of Infections for Epidemic X"
 #|   - "Observed vs Estimated values"
+#| fig-alt: "Prediction of Infections for Epidemic X"
+
 augumented%>%
    ggplot(aes(I,.pred))+
    geom_point()+
@@ -937,19 +969,17 @@ nature of its approximations, **INLA - integrated nested Laplace
 approximation**\index{INLA} [@approxim] is an excellent choice for
 applications requiring repeated model fitting. The INLA approach is
 particularly useful for fitting complex models, such as generalized
-additive models (GAMs), which involve non-linear relationships between
-predictors and the response variable.
+additive models (GAMs)\index{GAM}, which involve non-linear
+relationships between predictors and the response variable.
 
 The use of a Laplacian approximation is to estimate the individual
 posterior marginals of the model parameters. This allows for faster
 computation and more efficient estimation of the posterior distribution,
 making it a popular choice for Bayesian inference in large-scale
-applications.
-
-However, it's worth noting that for very complex models or those with
-multi-modal posteriors, MCMC might still be preferred due to its
-flexibility and ability to characterize the entire posterior
-distribution.
+applications. However, it's worth noting that for very complex models or
+those with multi-modal posteriors, MCMC\index{MCMC} might still be
+preferred due to its flexibility and ability to characterize the entire
+posterior distribution.
 
 In INLA, each of GAMs components are treated as random effects with
 specific prior distributions (typically Gaussian). The smoothness of
@@ -961,7 +991,8 @@ of the model parameters.
 Let's assume new `epidemic_data` with columns `day`, `cases`, and
 `temperature.` To model the number of cases as a function of time and
 temperature, considering a non-linear effect of time using a **random
-walk model**\index{random walk} and a linear effect of temperature:
+walk model**\index{random walk} (`model = "rw2"`) and a linear effect of
+temperature:
 
 ```{r}
 #| eval: false
@@ -983,7 +1014,8 @@ set.seed(123)
 epidemic_data <- data.frame(
   day = 1:100,
   temperature = rnorm(100, mean = 20, sd = 5),
-  cases = rpois(100, lambda = 10 + sin(1:100 / 20) * 10 + rnorm(100, sd = 5))
+  cases = rpois(100, 
+                lambda = 10 + sin(1:100 / 20) * 10 + rnorm(100, sd = 5))
 )
 
 # Define the model formula
@@ -999,6 +1031,12 @@ summary(result)
 ```
 
 ```{r}
+#| fig-cap: "Fitted GAM for Epidemic Y: The plot shows the fitted values of the GAM model for epidemic Y, with the shaded area representing the 95% credible interval around the mean estimate. The blue line represents the mean estimate of the number of cases over time, capturing the non-linear trend in the data."
+#| fig-alt: "Fitted GAM for Epidemic Y"
+#| fig-width: 5
+#| fig-height: 3
+#| label: fig-epidemic-y
+
 # Extracting the fitted values and the effect of time
 time_effect <- result$summary.random$day
 fitted_values <- result$summary.fitted.values
@@ -1013,24 +1051,27 @@ plot_data <- data.frame(
 
 # Plotting the results
 ggplot(plot_data, aes(x = Day)) +
-  geom_ribbon(aes(ymin = Lower, ymax = Upper), fill = "lightblue", alpha = 0.4) +
-  geom_line(aes(y = FittedCases), color = "blue") +
-  labs(title = "Fitted GAM for Epidemic Y", x = "Day", y = "Fitted number of cases")
-
+  geom_ribbon(aes(ymin = Lower, ymax = Upper), 
+              fill = "lightblue", 
+              alpha = 0.4) +
+  geom_line(aes(y = FittedCases), 
+            color = "blue") +
+  labs(title = "Fitted GAM for Epidemic Y", 
+       x = "Day", y = "Fitted number of cases")
 ```
 
 The `inla()` function allows a model specification, in this case a
 `Poisson` is used and a formula. The non-linear effect is a second-order
-random walk `model = "rw2"`, a statistical modeling approach used to
+random walk `model = "rw2"`, a statistical modelling approach used to
 represent a type of prior commonly used in Bayesian
-modeling\index{bayesian modeling} for time series or spatial data where
-you expect smoothness and some degree of continuity between adjacent
-observations. In particular, GAMs are used to capture non-linear trends
-by fitting smooth, flexible functions to the data. These functions can
-be represented through various basis functions, and a second-order
-random walk is one such basis function. The random walk model assumes
-that the values of the response variable are correlated with their
-neighbors, creating a smooth, continuous effect over time.
+modelling\index{bayesian modelling} for time series or spatial data
+where you expect smoothness and some degree of continuity between
+adjacent observations. In particular, GAMs are used to capture
+non-linear trends by fitting smooth, flexible functions to the data.
+These functions can be represented through various basis functions, and
+a second-order random walk is one such basis function. The random walk
+model assumes that the values of the response variable are correlated
+with their neighbors, creating a smooth, continuous effect over time.
 
 ## Measures of Machine Learning Models
 
@@ -1045,18 +1086,15 @@ improvement.
 
 ### Loss Functions
 
-::: {.callout .success}
-The **loss function**\index{loss function} is a method for evaluating
-how well a machine learning algorithm models featured a dataset. The
-**cost function**\index{cost function} is the average of all loss
-function values.
-:::
+> The **loss function** is a method for evaluating how well a machine
+> learning algorithm models featured a dataset. The **cost function** is
+> the average of all loss function values.
 
-The accuracy of predictive models is checked with **loss functions**,
-which measure the discrepancy between the predicted outcomes and the
-actual values. This adjustment the model learning process is performed
-through iterative adjustments of the model parameters with the objective
-to improve the model's performance.
+The accuracy of predictive models is checked with **loss
+functions**\index{loss function}, which measure the discrepancy between
+the predicted outcomes and the actual values. This adjustment the model
+learning process is performed through iterative adjustments of the model
+parameters with the objective to improve the model's performance.
 
 Models are trained to a specific loss function that guides the
 optimization process and quantify the model performance. The most common

@@ -2,7 +2,7 @@
 engine: knitr
 ---
 
-# Welcome {.unnumbered}
+# Welcome {.unnumbered .unlisted}
 
 ::: {.content-visible when-format="html"}
 *Last updated:
@@ -21,7 +21,7 @@ metrics and discusses their components in detail. You will explore the
 machine learning framework and learn how to apply the influence of
 infectious disease dynamics on trends in these metrics . The book equips
 you with all the necessary tools for data collection, analysis,
-visualization and modeling.
+visualization and modelling.
 
 Think of it as a toolbox for assessing the health of a country and
 comparing it with others. You will also learn how to select the best
@@ -46,16 +46,16 @@ while it recommends deprecating others. It will be interesting to
 discover which methods are most valuable for making predictions and
 which are better suited for evaluating data consistency.
 
-### Prerequisites
+## Prerequisites
 
 Before delving into the book, it is beneficial for readers to have a
 basic understanding of health concepts and terminologies. Familiarity
 with fundamental statistical concepts can aid in comprehending the
 metrics discussed. Additionally, a grasp of basic epidemiological
 principles and awareness of global health challenges will enhance the
-reader's engagement. However, it's important to note that if this
-knowledge is not already in place, there is a dedicated section in the
-book that provides the necessary background.
+reader's engagement. However, it is important to note that if this
+knowledge is not already in place, a dedicated section in the book
+provides the necessary background.
 
 A basic knowledge of R programming language is required for those
 interested in the technical aspects of health data analysis, which cover

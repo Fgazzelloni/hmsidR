@@ -1,4 +1,4 @@
-# Life tables and Life expectancy {#sec-appendixA}
+# Life Tables and Life Expectancy {#sec-appendixA}
 
 ```{r}
 #| echo: false

@@ -39,7 +39,7 @@ combination of quantitative analyses and public health interventions,
 tracking changes in risk-related discourse and identifying key risk
 topics over time.
 
-Furthermore, tools like topic modeling and sentiment analysis help
+Furthermore, tools like topic modelling and sentiment analysis help
 identify how the public perceives various risks and how these
 perceptions evolve [@li2020] over time.
 
@@ -82,7 +82,7 @@ risk factors include:
 #| fig-cap: "Causal relationships leading to fueling DALYs value"
 #| label: fig-daly_dag
 #| fig-width: 5
-#| fig-height: 3
+#| fig-height: 3.2
 
 library(ggdag)
 dag <- dagify(
@@ -246,7 +246,7 @@ relative_risk_d
 
 In some cases, relative risks can be modeled using **network
 analysis**\index{network analysis}, a specialized approach within
-statistical modeling which extend the concept of mixed effects to
+statistical modelling which extend the concept of mixed effects to
 compare multiple treatments while accounting for various factors and
 dependencies.
 
