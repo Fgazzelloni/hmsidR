@@ -6,27 +6,46 @@ library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-One of my favorite topics to practice with for understanding more about
-data analysis is visualization. Through visualizing data, we can
-summarize the information contained in it, tell a story about the
-interaction of key variables, represent statistical values, and
-ultimately design the background of the story. This chapter will focus
-on the basics of data visualization, how to customize a plot, and how to
-tell a story with data.
+One of my favorite topics to practice for gaining a deeper understanding
+of data analysis is visualization. Data visualization is a powerful tool
+that allows us to transform complex data sets into comprehensible and
+insightful graphical representations. Through visualizing data, we can
+summarize the information contained within it, highlight important
+patterns and trends, and uncover hidden insights that might not be
+apparent from raw data alone.
+
+Visualization helps us to tell a compelling story about the interaction
+of key variables, represent statistical values clearly, and ultimately
+design the narrative behind the data. This chapter will focus on the
+fundamentals of data visualization, including the basic principles and
+techniques that are essential for creating effective and informative
+visualizations. We will explore various types of plots and charts,
+understanding when and how to use each type to best represent different
+kinds of data.
+
+We will also delve into customization techniques that can enhance the
+clarity and aesthetic appeal of your plots. This includes modifying
+colors, labels, scales, and other elements to ensure your visualizations
+are not only accurate but also engaging and easy to interpret.
 
 ## Practicing Data Visualization
 
-To practice making data visualizations, there are many free channels
-available that allow to gain information on how to do it and how to
-improve abilities by practicing and sharing final results. Received
-feedback might be harsh, as the world can be tough, but you will improve
-if you don't give up.
+To practice making data visualizations, there are numerous free
+resources available that provide valuable information and opportunities
+to enhance your skills. By engaging with these platforms, you can
+practice your abilities, share your final results, and receive feedback
+from the community. While the feedback may sometimes be critical, it is
+an essential part of the learning process and will help you improve if
+you stay persistent.
 
-By participating in competitions such as `#TidyTuesday` and
-`#30DayChartChallenge`, or the `#30DayMapChallenge` practicing making
-maps (which we will explore further in the @sec-11-spatials chapter of
-this book), will help to get better. At some point, you'll feel
-proficient!
+Participating in competitions and challenges such as **#TidyTuesday**,
+**#30DayChartChallenge**, and **#30DayMapChallenge** offers a great way
+to refine your skills. These competitions encourage you to create and
+share visualizations on various themes, pushing you to experiment with
+different techniques and styles. By consistently participating in these
+challenges and actively seeking feedback, you will steadily enhance your
+proficiency. Over time, you will find yourself becoming more adept and
+confident in your data visualization skills.
 
 ## History of Data Visualization
 
@@ -98,12 +117,31 @@ adding annotations, labels, and themes. We'll also explore how to create
 interactive visualizations using the `{plotly}` package and how to
 create maps using the `{sf}` and `{leaflet}` packages.
 
-Example: Visualizing Lung Cancer Deaths by Age in Germany\*\*
+## Types of Plots
+
+There are many types of plots that can be used to visualize different types of data. Here are some common types of plots:
+
+- **Scatter Plots**: Used to show the relationship between two variables.
+- **Line Plots**: Used to show trends over time or across categories.
+- **Bar Plots**: Used to compare values across categories.
+- **Histograms**: Used to show the distribution of a single variable.
+- **Box Plots**: Used to show the distribution of a variable across categories.
+- **Heatmaps**: Used to show the relationship between two categorical variables.
+- **Network Diagrams**: Used to show the relationships between nodes in a network.
+- **Choropleth Maps**: Used to show the distribution of a variable across geographic regions.
+- **Sankey Diagrams**: Used to show the flow of data between different categories.
+- **Treemaps**: Used to show hierarchical data as a series of nested rectangles.
+
+
+## Example: Visualizing Lung Cancer Deaths by Age in Germany
+
+This is an example of visualizing lung cancer deaths by age in Germany. It is a line plot showing the number of deaths by age group. We have already seen how to create a line plot using `{ggplot2}` in previous chapters. Here, we will focus on customizing the plot to make it more visually appealing and informative.
+
+This is a basic output, and we will enhance it by customizing the colors, adding a legend, and adjusting the plot layout. We will also explore how to save the plot as an image file for sharing or publication.
 
 ```{r}
 #| echo: false
 ggplot2::theme_set(ggplot2::theme_minimal())
-options(timeout = 600)
 ```
 
 ```{r}
@@ -123,7 +161,9 @@ p
 Choosing the right colors for your visualizations is crucial. Colors can
 highlight important aspects of your data and improve readability. Many
 tools provide built-in color palettes, but you can also customize your
-own to match specific themes or accessibility needs.
+own. Here we just add the `scale_color_manual()` function to customize the original plot, with a new color palette.
+
+By typing `?scale_color_manual()` in the R console, you can access the documentation and explore other options for customizing colors. 
 
 ```{r}
 # Example: Customizing colors in a bar chart
@@ -132,16 +172,26 @@ p1 <- p +
 p1
 ```
 
-### Legends and Guides
+### Theme, Legends and Guides
 
 Legends and guides are essential for interpreting visualizations. They
 help the audience understand what different colors, shapes, or sizes
-represent in the plot.
+represent in the plot. Here we have just changed the title of the legend, but much more can be done, such as changing the position, and labels. To change the position of the legend we can use the `theme()` function as shown below.
+
+In the R console, typing `?theme()` will provide more information on customizing the appearance of your plots. In this case is useful to adjust the angle of the text in the x-axis, and even this can be done specifying the `angle` parameter in the `theme()` function.
+
+The `guides()` function can be used to customize the legend, such as reversing the order of the legend items.
 
 ```{r}
 # Customising a legend to a plot
 p2 <- p1 +
-  labs(color = "Sex")
+  labs(color = "Sex",
+       subtitle="Line Plot",
+       caption="DataSource: hmsidwR::germany_lungc")+
+  guides(color = guide_legend(reverse = TRUE))+
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5,face="bold"))
 
 p2
 ```
@@ -150,20 +200,21 @@ p2
 
 The layout of your plots can significantly impact their effectiveness.
 Arranging multiple plots in a grid can help compare different aspects of
-your data side-by-side.
+your data side-by-side. We can use the `grid.arrange()` function from the `gridExtra` package to arrange multiple plots in a grid layout. Or, we can use the `layout()` function to specify the layout of the plots. There are other packages that can be used such as `patchwork` and `cowplot`, which provide additional functionalities for arranging plots.
 
 ```{r}
 #| eval: false
 # Example: Arranging multiple plots
 library(gridExtra)
 
-grid.arrange(p, p2, ncol = 2)
+grid.arrange(p, p1, p2, ncol = 3)
 ```
 
 ```{r}
 #| echo: false
-#| layout-ncol: 2
+#| layout-ncol: 3
 p
+p1
 p2
 ```
 
@@ -176,3 +227,6 @@ image file for sharing or publication.
 #| eval: false
 ggsave("line_plot.png", plot = p2, width = 6, height = 4)
 ```
+
+
+

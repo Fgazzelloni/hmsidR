@@ -6,6 +6,10 @@ library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
+> **"Several infectious diseases are emerging and threatening human
+> health worldwide. The burden of infectious diseases is undeniably a
+> global issue, causing millions of deaths annually."[@santangelo2023]**
+
 The advent of machine learning (ML) has revolutionized the field of
 **infectious disease**\index{infectious disease} research by providing
 robust tools for predicting disease outbreaks and understanding their
@@ -24,11 +28,26 @@ deaths annually. Understanding their behavior and predicting outbreaks
 is fundamental not only for public health but also for advancing
 prediction techniques that can be applied in other fields.
 
-The infective agent begins to thrive and multiply throughout the body
-[@broemeling2021]. The rate of proliferation varies depending on the
-type of organism, with each infectious disease having an incubation
-period—the time between the pathogen's establishment and the appearance
-of symptoms.
+Microorganisms adapt much more rapidly than humans. A **bacterial**
+generation can be as short as 20-30 minutes, and for **viruses**, it's
+even shorter. This rapid adaptation allows **pathogens** to evolve
+quickly, developing resistance to treatments and evading the **host**'s
+immune system.
+
+Once the **infective agent** begins to thrive and multiply throughout
+the body [@broemeling2021], the process of infection starts. The rate at
+which the pathogen proliferates varies significantly depending on the
+type of organism involved. Each infectious disease has a unique
+**incubation period**, which is the interval between the initial
+establishment of the pathogen in the host and the onset of symptoms.
+
+The incubation period can range from a few hours to several months,
+influenced by factors such as the pathogen's growth rate, the host's
+immune response, and the route of transmission. For example, the
+incubation period for the influenza virus is typically 1 to 4 days,
+whereas for diseases like hepatitis B, it can be as long as 6 months.
+Understanding the incubation period helps in identifying the time frame
+for potential exposure.
 
 Several factors influence infection, including:
 
@@ -37,10 +56,6 @@ Several factors influence infection, including:
 -   The condition of the body's immune system
 -   Contact with the source of infection for contagious diseases
 
-Microorganisms adapt much more rapidly than humans. A bacterial
-generation can be as short as 20-30 minutes, and for viruses, it's even
-shorter.
-
 > **Who adapts to whom?**
 
 **Viruses**\index{virus}, named from the Latin word for **"poisonous
@@ -48,10 +63,6 @@ substance,"** range from 20 to 400 nm in diameter and can only be
 observed with an electron microscope. Outside of a living cell, a virus
 is a dormant particle of various shapes. Once inside a cell, it
 replicates, often killing the cell or altering its functions.
-
-> **"Several infectious diseases are emerging and threatening human
-> health worldwide. The burden of infectious diseases is undeniably a
-> global issue, causing millions of deaths annually."[@santangelo2023]**
 
 The following seven diseases are all caused by an infectious agent such
 as virus or bacteria, generally cause acute symptoms, ranging from mild
@@ -76,12 +87,56 @@ by **transmission methods**:
     or sneeze.
 
 That underline the importance of integrated approaches in surveillance,
-management and prevention to safeguard global health. The use of machine
-learning algorithms such as **decision trees**, **random forests**,
-**support vector machines**, and **deep-learning networks** such as Long
-short-term memory (LSTM)\index{LSTM} models, effectively improve the
-identification of patterns and trends that may not be obvious with
-mechanistic type of models.
+management and prevention to safeguard global health.
+
+The application of mathematical models to infectious diseases dates back
+over a century, with significant contributions from pioneers such as
+*Kermack* and *McKendrick*, who established the foundations of the
+subject[@keeling2009]. Their work introduced the concept of categorizing
+individuals based on their epidemiological status: susceptible,
+infected, and recovered (the SIR\index{SIR} model). This model laid the
+groundwork for understanding how diseases spread and what factors
+influence their transmission.
+
+**The SIR Model and Its Implications**
+
+The SIR model is one of the simplest and most fundamental
+epidemiological models. It describes the flow of individuals through
+three classes: susceptible (S), infected (I), and recovered (R). The
+model relies on estimating two key parameters: the infection rate and
+the recovery rate. These parameters help predict the epidemic’s
+progression, showing how the number of susceptible individuals decreases
+as the number of infected individuals increases, eventually leading to
+recovery and a decline in new infections.
+
+**Key Predictions of the SIR Model**
+
+1.  **Basic Reproductive Ratio (R0)**: This parameter is crucial for
+    understanding the epidemic potential of a disease. It represents the
+    average number of secondary cases produced by a single infectious
+    individual in a completely susceptible population. If R0 is greater
+    than 1, an epidemic is likely; if less than 1, the disease will
+    eventually die out.
+
+2.  **Herd Immunity**: The model predicts that not everyone needs to be
+    vaccinated to prevent an epidemic. By reducing the pool of
+    susceptible individuals, the spread of the disease can be
+    controlled, protecting the entire population indirectly.
+
+3.  **Epidemic Dynamics**: The model illustrates how an epidemic grows
+    and eventually declines. Initially, the number of cases rises
+    exponentially, but as the susceptible population is depleted, the
+    growth rate slows, leading to a peak and subsequent decline.
+    
+### Advancements and Extensions    
+
+Mathematical modelling has evolved to include more complex factors such as age structure, stochasticity, and spatial dynamics. Age-structured models, for example, consider how different age groups interact and contribute to the spread of diseases, which is particularly important for diseases like measles or COVID-19. Stochastic models account for random events that can influence the course of an epidemic, such as the introduction of the disease into a new population.
+
+The use of machine learning algorithms such as **decision trees**,
+**random forests**, **support vector machines**, and **deep-learning
+networks** such as Long short-term memory (LSTM)\index{LSTM} models,
+effectively improve the identification of patterns and trends that may
+not be obvious with mechanistic type of models.
 
 These models are able to improve prediction accuracy working smoothly
 with large datasets.

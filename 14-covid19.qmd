@@ -1,57 +1,43 @@
 # Covid19 Outbreaks {#sec-14-covid19}
 
+In this chapter, we explore the dynamics of Covid19 disease outbreaks in
+more details. We examine the results of various model's applications
+that simulates the spread of the virus.
+
+## Coronavirus Disease 2019 (COVID-19)
+
 ```{r}
 #| echo: false
-library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-::: solutionbox
-::: solutionbox-header
-::: solutionbox-icon
-:::
-
-Learning Objectives
-:::
-
-::: solutionbox-body
--   What is Covid19
--   How does it spread
--   Map Covid19 outbreaks
-:::
-:::
-
-## Coronavirus Disease 2019 (Covid19)
-
-COVID-19\index{covid19}, short for "Coronavirus Disease 2019," is an
-infectious disease caused by the novel coronavirus SARS-CoV-2. It was
-first identified in December 2019 in the city of Wuhan, Hubei province,
-China. The World Health Organization (WHO)\index{WHO} declared the
-outbreak a Public Health Emergency of International Concern on January
-30, 2020, and later a pandemic\index{pandemic} on March 11, 2020.
+COVID-19, short for **"Coronavirus Disease 2019,"** is an infectious
+disease caused by the novel coronavirus SARS-CoV-2. It was first
+identified in December 2019 in the city of Wuhan, Hubei province, China.
+The **World Health Organization (WHO)** declared the outbreak a Public
+Health Emergency of International Concern on January 30, 2020, and later
+a pandemic on March 11, 2020.
 
 COVID-19 is a respiratory illness characterized by symptoms such as
-fever, cough, and shortness of breath, and can range from mild to
+fever, cough, and shortness of breath, which can range from mild to
 severe, with some cases resulting in death. The pandemic has led to
 widespread healthcare challenges, economic disruptions, and significant
 changes to daily life, including social distancing measures, lockdowns,
 and travel restrictions.
 
-COVID-19, caused by the SARS-CoV-2 virus, has resulted in multiple
-outbreaks since it was first identified. The World Health Organization
-(WHO) has tracked and reported on these outbreaks, noting significant
-waves of infections globally. As of May 2024, there have been over 775
-million confirmed cases and more than seven million deaths worldwide.
-The pandemic has seen varying intensities of outbreaks across different
-regions, influenced by factors such as virus variants, public health
-responses, and vaccination rates.
+Since its identification, COVID-19 has caused multiple outbreaks
+globally. The WHO has tracked and reported on these outbreaks, noting
+significant waves of infections. As of May 2024, there have been over
+775 million confirmed cases and more than seven million deaths
+worldwide. The pandemic's impact has varied across regions, influenced
+by factors such as virus variants, public health responses, and
+vaccination rates.
 
-Countries around the world implemented various levels of stringent
-measure implemented by authorities to restrict movement and activities
-in a specific area to control the spread called **lockdowns**.
-
-In particular, several countries implemented diversified level of
-lockdowns to control the spread of COVID-19, including:
+Countries around the world have implemented various levels of stringent
+measures to control the spread of COVID-19, often referred to as
+**lockdowns**. These measures restricted movement and activities in
+specific areas, aiming to curb the virus's transmission. Some notable
+examples include:
 
 -   **China**: The initial epicenter in Wuhan experienced strict
     lockdowns, with entire cities quarantined and movement heavily
@@ -61,9 +47,9 @@ lockdowns to control the spread of COVID-19, including:
     Italy imposed nationwide lockdowns in March 2020, closing schools,
     businesses, and restricting travel.
 -   **United States**: Lockdown measures varied by state, with
-    significant restrictions in place during the early waves of the
-    pandemic. These included stay-at-home orders, business closures, and
-    mask mandates.
+    significant restrictions during the early waves of the pandemic.
+    These included stay-at-home orders, business closures, and mask
+    mandates.
 -   **India**: Implemented one of the world's largest lockdowns in March
     2020, affecting millions of people and including strict travel bans
     and business closures.
@@ -74,27 +60,28 @@ lockdowns to control the spread of COVID-19, including:
     nationwide lockdown in early 2021, along with tiered restrictions
     based on regional infection rates.
 
-## The spread of COVID-19
+## How the COVID-19 Virus Spreads
 
-COVID-19 is primarily spread through respiratory droplets produced when
-an infected person coughs, sneezes, or talks. The virus can also spread
-by touching surfaces contaminated with the virus and then touching the
+COVID-19 primarily spreads through respiratory droplets produced when an
+infected person coughs, sneezes, or talks. The virus can also spread by
+touching surfaces contaminated with the virus and then touching the
 face. The incubation period for COVID-19 is typically 2-14 days, during
 which an infected person may be asymptomatic but still contagious.
 
-To prevent the spread of COVID-19, public health measures such as:
+To prevent the spread of COVID-19, several public health measures have
+been implemented:
 
--   **Diagnostic tests**: such as PCR (polymerase chain reaction) tests
-    and rapid antigen tests are used to detect active infections.
-    Antibody tests determine past infections.
+-   **Diagnostic Tests**: PCR (polymerase chain reaction) tests and
+    rapid antigen tests are used to detect active infections, while
+    antibody tests determine past infections.
 -   **Treatment**: While there is no specific antiviral treatment for
     COVID-19, supportive care, including oxygen therapy and mechanical
     ventilation, is used for severe cases. Some antiviral medications
     and therapies have been repurposed or developed specifically for
     COVID-19.
--   **Vaccination**\index{vaccination}: Vaccines have been developed and
-    distributed globally to prevent COVID-19. These vaccines, including
-    mRNA vaccines (Pfizer-BioNTech and Moderna), viral vector vaccines
+-   **Vaccination**: Vaccines have been developed and distributed
+    globally to prevent COVID-19. These vaccines, including mRNA
+    vaccines (Pfizer-BioNTech and Moderna), viral vector vaccines
     (AstraZeneca and Johnson & Johnson), and inactivated virus vaccines
     (Sinovac and Sinopharm), have shown high efficacy in preventing
     severe disease and reducing transmission.
@@ -104,47 +91,48 @@ daily life. Efforts to combat the pandemic have involved unprecedented
 levels of international cooperation, scientific research, and public
 health initiatives. Ongoing vaccination campaigns and adherence to
 public health guidelines are critical in controlling the spread of the
-virus and preventing further outbreaks. Concerns specific to COVID-19
-vaccines by the anti-vaccine movement have also been a significant
-challenge in achieving widespread vaccination coverage. Despite the
-development of effective vaccines, the speed of their development, and
-potential long-term effects led to vaccine hesitancy and resistance in
-some populations. Achieving global vaccination coverage remains a
-significant challenge.
+virus and preventing further outbreaks. However, vaccine hesitancy and
+resistance, driven by concerns about the speed of development and
+potential long-term effects, remain significant challenges in achieving
+widespread vaccination coverage.
 
-## Mapping Covid19 outbreaks
+## Mapping COVID-19 Outbreaks
 
-Mapping COVID-19 outbreaks can help identify hotspots of infection,
-track the spread of the virus, and inform public health interventions.
-Geographic Information Systems (GIS) and spatial analysis techniques can
-be used to visualize and analyze COVID-19 data, such as the number of
-cases, deaths, and recoveries, at the local, regional, and global
-levels.
+Mapping COVID-19 outbreaks helps identify infection hotspots, track the
+virus's spread, and inform public health interventions. Geographic
+Information Systems (GIS) and spatial analysis techniques can visualize
+and analyze COVID-19 data, such as the number of cases, deaths, and
+recoveries, at local, regional, and global levels.
 
-## Example: modelling the spread of COVID-19
+## Example: Modelling the Spread of COVID-19
 
-Spatiotemporal modelling of COVID-19 outbreaks[@niraula2022] can provide
-valuable insights into the dynamics of the pandemic and help guide
-public health responses. In this example, we'll use R to model the
-spread of COVID-19 using a Susceptible-Infected-Recovered (SIR) model, a
-common compartmental model used in epidemiology to simulate the spread
-of infectious diseases. A Bayesian machine learning approach is used to
+Spatiotemporal modelling of COVID-19 outbreaks can provide valuable
+insights into the pandemic's dynamics and help guide public health
+responses. In this example, we'll use R to model the spread of COVID-19
+using a \***Susceptible-Infected-Recovered (SIR)** model, a common
+compartmental model used in epidemiology to simulate the spread of
+infectious diseases. A **Bayesian machine learning approach** is used to
 predict the spread of the virus over time and across different regions.
-Bayesian methods have the advantages of handling uncertainties and allow
-for accounting of prior information into the model.
+Bayesian methods handle uncertainties and allow for the integration of
+prior information into the model.
 
 First, we'll load the necessary packages and define some parameters for
-our model. We can use the Susceptible-Infected-Recovered (SIR) model to
-describe the spread of the disease, where S represents the number of
-susceptible individuals, I represents the number of infected
-individuals, and R represents the number of recovered individuals. The
-model structure can be described as follows:
+our model. We can use the SIR model to describe the spread of the
+disease, where S represents the number of susceptible individuals, I
+represents the number of infected individuals, and R represents the
+number of recovered individuals. The model structure can be described as
+follows:
 
-$$dS/dt = -beta * S * I / N$$ $$dI/dt = beta * S * I / N - gamma * I$$
-$$dR/dt = gamma * I$$
+$$
+\begin{aligned}
+\frac{dS}{dt} &= -\beta \frac{S I}{N} \\
+\frac{dI}{dt} &= \beta \frac{S I}{N} - \gamma I \\
+\frac{dR}{dt} &= \gamma I
+\end{aligned}
+$$
 
-where beta is the rate of transmission, gamma is the rate of recovery,
-and N is the total population.
+where (\beta) is the rate of transmission, (\gamma) is the rate of
+recovery, and (N) is the total population.
 
 ```{r}
 library(deSolve)
@@ -198,24 +186,21 @@ ggplot(as.data.frame(result), aes(time, I, color = "Infected")) +
 
 In this example, many factors are not taken into account. In reality,
 the spread of a virus is much more complex and influenced by many
-factors such as human behavior, government policies, and healthcare
-systems, vaccination campaigns, human contact, etc.
+factors such as human behavior, government policies, healthcare systems,
+vaccination campaigns, and human contact.
 
 ### Bayesian Analysis
 
-The use of Bayesian analysis\index{bayesian analysis} in modelling of
-infectious diseases, such as COVID-19[@broemeling2021] offers several
-advantages in understanding and predicting the dynamics of the spread.
-We implement a **Bayesian regression model** in R using the `brms`
-package, which interfaces with **Stan** for Bayesian analysis.
+The use of Bayesian analysis in modelling infectious diseases, such as
+COVID-19, offers several advantages in understanding and predicting the
+dynamics of the spread. We implement a Bayesian regression model in R
+using the `brms` package, which interfaces with **Stan** for Bayesian
+analysis.
 
-The incorporation of **prior knowledge** on which the Bayesian framework
-is based allows for the integration of expert knowledge. For new
-viruses, the lack of historical information might lead to misjudgments,
-for this reason the expert knowledge plays a crucial role. New viruses
-might have strengths of similarities with other viruses or be generated
-by mutations. This type of reasoning can help improve the accuracy of
-the model and reduce uncertainty in the estimates.
+The incorporation of prior knowledge allows for the integration of
+expert insights, which is particularly valuable for new viruses where
+historical data may be limited. Expert knowledge can improve model
+accuracy and reduce uncertainty in the estimates.
 
 We can specify the prior distributions for beta and gamma using expert
 knowledge and available data. For example, we might specify a gamma
@@ -224,16 +209,16 @@ beta, and a gamma distribution with a mean of 0.05 and a standard
 deviation of 0.02 for gamma.
 
 ```{r}
+#| message: false
+#| warning: false
+
 library(brms)
 library(tidyverse)
-```
 
-Convert simulate data to have the date column to Date type and add
-additional predictors:
-
-```{r}
+# Load the data
 data <- as.data.frame(result)
 
+# Convert simulate data to have the date column to Date type and add additional predictors
 data <- data %>%
   mutate(date = as.Date(time, origin = "2022-01-01"),
          day_of_week = wday(date, label = TRUE),
@@ -242,13 +227,11 @@ data <- data %>%
          lag_1_cases = lag(I, 1),
          lag_7_cases = lag(I, 7)) %>%
   drop_na()
-
 ```
-
-Define the Bayesian regression model using the brms package:
 
 ```{r}
 #| eval: false
+# Define the Bayesian regression model
 bayesian_model <- brm(
   I ~ day_of_week + week_of_year + month + lag_1_cases + lag_7_cases,
   data = data,
@@ -264,10 +247,17 @@ bayesian_model <- brm(
 )
 ```
 
-Plot the model diagnostics by using the `plot()` function:
+```{r}
+#| echo: false
+bayesian_model <- readRDS("data/model-data/bayesian_model.rds")
+```
+
+After fitting the model, we can plot the model diagnostics to assess its
+performance:
 
 ```{r}
 #| eval: false
+# Plot the model diagnostics
 plot(bayesian_model)
 ```
 
@@ -277,28 +267,22 @@ plot(bayesian_model)
 
 </center>
 
-Extract the posterior samples from the model to make predictions on the
-original data:
+To make predictions, we extract the posterior samples from the model and
+apply them to the original data:
 
 ```{r}
-bayesian_model <- readRDS("data/model-data/bayesian_model.rds")
-```
-
-```{r}
+# Make predictions
 predictions <- predict(bayesian_model, newdata = data)
 predictions <- as_tibble(predictions)
-head(predictions)
-```
-
-Plot the actual vs. predicted values:
-
-```{r}
 data <- data %>%
-  mutate(predicted_cases =predictions$Estimate)
+  mutate(predicted_cases = predictions$Estimate)
 
+# Plot actual vs. predicted values
 ggplot(data, aes(x = date)) +
-  geom_line(aes(y = I, color = "Actual")) +
-  geom_line(aes(y = predicted_cases, color = "Predicted")) +
+  geom_point(aes(y = I, 
+                 color = "Actual")) +
+  geom_line(aes(y = predicted_cases, 
+                color = "Predicted")) +
   labs(title = "Actual vs. Predicted COVID-19 Cases",
        x = "Date",
        y = "Cases",
@@ -306,88 +290,79 @@ ggplot(data, aes(x = date)) +
   theme_minimal()
 ```
 
-### Ensemble modelling
+### Ensemble Modelling
 
-Ensemble modelling\index{ensemble modelling} is a technique that
-combines the predictions of multiple models to improve the overall
-accuracy and robustness of the predictions. In the context of infectious
-disease modelling, ensemble modelling can help account for uncertainties
-and variability in the data and provide more reliable estimates of
-disease spread.
+Ensemble modelling combines the predictions of multiple models to
+improve the overall accuracy and robustness of predictions. This
+technique is particularly useful in infectious disease modelling to
+account for uncertainties and variability in data, providing more
+reliable estimates of disease spread.
 
 ```{r}
-library(deSolve)
 library(caret)
-library(forecast)
-library(e1071)
 library(randomForest)
-library(keras)
 library(xgboost)
-```
+library(e1071)
 
-```{r}
-#| eval: false
 # Scale the cases data
 data <- data %>%
   mutate(cases_scaled = scale(I))
 
 # Split the data into training and testing sets
 set.seed(42)
-train_index <- createDataPartition(data$cases_scaled, 
-                                   p = 0.8, 
-                                   list = FALSE)
+train_index <- createDataPartition(data$cases_scaled, p = 0.8, list = FALSE)
 train_data <- data[train_index, ]
 test_data <- data[-train_index, ]
 
 # Define the predictors for the model
-predictors <- c("day_of_week", "week_of_year", 
-                "month", "lag_1_cases", 
-                "lag_7_cases")
+predictors <- c("day_of_week", "week_of_year", "month", "lag_1_cases", "lag_7_cases")
+```
 
+```{r}
+#| eval: false
+#| echo: false
 # Train ARIMA model (note: ARIMA traditionally does not handle exogenous variables directly in caret)
 arima_fit <- train(cases_scaled ~ date, 
                    data = train_data, 
-                   method = auto_arima_model(), 
+                   method = "auto_arima", 
                    trControl = trainControl(method = "cv", 
                                             number = 5))
 
 # Train Random Forest model with additional predictors
 rf_fit <- train(cases_scaled ~ ., 
-                data = train_data[, c(predictors, 
-                                      "cases_scaled")],
+                data = train_data[, c(predictors, "cases_scaled")], 
                 method = "rf", 
                 trControl = trainControl(method = "cv", 
                                          number = 5))
 
 # Train XGBoost model with additional predictors
 xgb_fit <- train(cases_scaled ~ ., 
-                 data = train_data[, c(predictors, 
-                                       "cases_scaled")], 
-                 method = "xgbTree", 
-                 trControl = trainControl(method = "cv", 
-                                          number = 5))
+                 data = train_data[, c(predictors, "cases_scaled")], method = "xgbTree", trControl = trainControl(method = "cv", number = 5))
 
 # Combine the models into an ensemble
-ensemble_model <- caretStack(list(arima = arima_fit, 
-                                  rf = rf_fit, 
-                                  xgb = xgb_fit), 
-                             method = "glm")
+ensemble_model <- caretStack(list(arima = arima_fit, rf = rf_fit, xgb = xgb_fit), method = "glm")
+```
 
+```{r}
+#| eval: false
 # Make predictions on the test set
-predictions <- predict(ensemble_model, newdata = test_data[, predictors])
+predictions <- predict(ensemble_model, 
+                       newdata = test_data[, predictors])
 
 # Invert scaling for predictions and actual values
-predictions <- predictions * attr(data$cases_scaled, 
-                                  "scaled:scale") + 
-  attr(data$cases_scaled, "scaled:center")
-
+predictions <- predictions * attr(data$cases_scaled, "scaled:scale") + attr(data$cases_scaled, "scaled:center")
 actual <- test_data$cases
 
 # Plot the results
-plot(test_data$date, actual, 
-     type = "l", col = "blue", xlab = "Date", ylab = "Cases")
+plot(test_data$date, actual, type = "l", col = "blue", xlab = "Date", ylab = "Cases")
 lines(test_data$date, predictions, col = "red")
 
-legend("topleft", legend = c("Actual", "Predicted"), 
-       col = c("blue", "red"), lty = 1)
+legend("topleft", legend = c("Actual", "Predicted"), col = c("blue", "red"), lty = 1)
 ```
+
+In summary, integrating machine learning models and advanced statistical
+techniques such as Bayesian analysis and ensemble modelling can
+significantly enhance our ability to predict and understand the spread
+of infectious diseases like COVID-19. These models provide critical
+insights that can inform public health responses and help mitigate the
+impact of pandemics.
