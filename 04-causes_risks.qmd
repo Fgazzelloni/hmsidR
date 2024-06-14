@@ -94,7 +94,7 @@ dag <- dagify(
   coords=time_ordered_coords()
 )
 
-ggdag(dag)+theme_dag_blank()
+ggdag(dag)+theme_dag_grid()
 ```
 
 A particular health condition can have multiple causes

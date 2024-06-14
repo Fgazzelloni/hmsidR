@@ -49,18 +49,18 @@ disease include:
 
 ### Meta-Packages
 
-1.  [**tidymodels**](https://www.tmwr.org/)[@silge]:
-    tidymodels\index{tidymodels} framework provides a collection of
-    packages for modelling and machine learning tasks, including tidyr,
-    dplyr, and ggplot2. It offers a consistent and tidy workflow for
-    data preprocessing, model building, evaluation, and visualization.
-2.  [**caret**](https://topepo.github.io/caret/)[@kuhn]: The caret
+1.  [**`{tidymodels}`**](https://www.tmwr.org/)[@silge]:
+    This\index{tidymodels} framework provides a collection of packages
+    for modelling and machine learning tasks, including tidyr, dplyr,
+    and ggplot2. It offers a consistent and tidy workflow for data
+    preprocessing, model building, evaluation, and visualization.
+2.  [**`{caret}`**](https://topepo.github.io/caret/)[@kuhn]: The caret
     framework (short for **C**lassification **A**nd **RE**gression
     **T**raining) provides a unified interface for training and
     evaluating machine learning models. It supports a wide range of
     algorithms and offers convenient functions for hyperparameter tuning
     and model selection.
-3.  [**mlr3**](https://mlr3book.mlr-org.com/)[@mlr-org]: mlr3 is a
+3.  [**`{mlr3}`**](https://mlr3book.mlr-org.com/)[@mlr-org]: This is a
     modern and extensible framework for machine learning in R. It
     provides a unified interface for modelling tasks, making it easy to
     train and evaluate a wide range of machine learning algorithms.
@@ -75,67 +75,75 @@ engine might have its own set of parameters and functionalities, which
 can be accessed through the high-level interfaces provided by
 meta-packages.
 
-1.  `{randomForest}`: For random forest models.
-2.  `{xgboost}`: An optimized distributed gradient boosting library
-    designed to be highly efficient, flexible, and portable. It
-    implements machine learning algorithms under the gradient boosting
-    framework.
-3.  `{glmnet}`: For lasso and ridge regression. Provides efficient
-    procedures for fitting generalized linear models via penalized
-    maximum likelihood.
-4.  `{nnet}`: For neural networks.
-5.  [kernlab](https://cran.r-project.org/web/packages/kernlab/kernlab.pdf):
+1.  [`{randomForest}`](https://www.stat.berkeley.edu/~breiman/RandomForests/):
+    For random forest models.
+2.  [`{xgboost}`](https://github.com/dmlc/xgboost): An optimized
+    distributed gradient boosting library designed to be highly
+    efficient, flexible, and portable. It implements machine learning
+    algorithms under the gradient boosting framework.
+3.  [`{glmnet}`](https://glmnet.stanford.edu/): For lasso and ridge
+    regression. Provides efficient procedures for fitting generalized
+    linear models via penalized maximum likelihood.
+4.  [`{nnet}`](http://www.stats.ox.ac.uk/pub/MASS4/): For neural
+    networks.
+5.  [`{kernlab}`](https://cran.r-project.org/web/packages/kernlab/index.html):
     For kernel-based machine learning methods.
-6.  [e1071](https://cran.r-project.org/web/packages/e1071/e1071.pdf):
+6.  [`{e1071}`](https://cran.r-project.org/web/packages/e1071/index.html):
     For support vector machines and other functions.
-7.  `{lme4}`: For linear and generalized linear mixed-effects models.
-8.  [mgcv](https://cran.r-project.org/web/packages/mgcv/index.html): For
-    generalized additive models.
-9.  `{rpart}`: For recursive partitioning and regression trees.
-10. `{h2o}`: A powerful machine learning framework that can be used. It
-    can be efficiently integrated with `{tidymodels}`. `{h2o}` offers a
-    range of machine learning algorithms, including linear models,
-    tree-based models, and ensemble methods, with efficient handling of
-    large datasets and support for parallel computing.
-11. `{keras3}`, the R interface to [Keras](https://keras.io/), is a deep
-    learning technique which provides high-level **neural networks** API
-    written in Python. Designed to enable fast experimentation with deep
-    learning models on top of
-    [`TensorFlow`](https://tensorflow.rstudio.com/) (an open-source
-    machine learning framework developed by the Google).
+7.  [`{lme4}`](https://github.com/lme4/lme4/): For linear and
+    generalized linear mixed-effects models.
+8.  [`{mgcv}`](https://cran.r-project.org/web/packages/mgcv/index.html):
+    For generalized additive models.
+9.  [`{rpart}`](https://github.com/bethatkinson/rpart): For recursive
+    partitioning and regression trees.
+10. [`{h2o}`](https://github.com/h2oai/h2o-3): A powerful machine
+    learning framework that can be efficiently integrated with
+    `{tidymodels}`. `{h2o}` offers a range of machine learning
+    algorithms, including linear models, tree-based models, and ensemble
+    methods, with efficient handling of large datasets and support for
+    parallel computing.
+11. [`{keras3}`](https://keras.posit.co/), the R interface to
+    [Keras](https://keras.io/), is a deep learning technique which
+    provides high-level **neural networks** API written in Python.
+    Designed to enable fast experimentation with deep learning models on
+    top of [`{tensorflow}`](https://github.com/rstudio/tensorflow) (an
+    open-source machine learning framework developed by the Google).
 
 #### Time Series Analysis
 
-1.  `{forecast}`: For forecasting functions.
-2.  `{prophet}`: Specifically designed for time series forecasting with
-    an emphasis on flexibility and ease of use. Developed by Facebook,
-    prophet can handle various time series patterns, including
-    seasonality, holiday effects, and trend changes, making it suitable
-    for modelling infectious disease trends over time.
-3.  `{fpp3}`[@forecast]: The fpp3 package is part of the Forecasting:
-    Principles and Practice (3rd edition) book, offering tools for
-    forecasting time series data. While not specifically focused on
-    machine learning, it provides useful functions for time series
-    analysis, which can be relevant for modelling disease spread over
-    time.
+1.  [`{forecast}`](https://pkg.robjhyndman.com/forecast/): For
+    forecasting functions.
+2.  [`{prophet}`](https://github.com/facebook/prophet): Specifically
+    designed for time series forecasting with an emphasis on flexibility
+    and ease of use. Developed by Facebook, prophet can handle various
+    time series patterns, including seasonality, holiday effects, and
+    trend changes, making it suitable for modelling infectious disease
+    trends over time.
+3.  [`{fpp3}`](https://github.com/robjhyndman/fpp3package)[@forecast]:
+    This package is part of the Forecasting: Principles and Practice
+    (3rd edition) book, offering data and tools for forecasting time
+    series data, such as the import of the
+    [`{fable}`](https://fable.tidyverts.org/) package with the `ARIMA()`
+    model which is relevant for modelling disease spread over time.
 
 #### Bayesian Analysis
 
-1.  `{brms}`: For Bayesian generalized multivariate non-linear
-    multilevel models using Stan.
-2.  `{rstan}`: For Bayesian inference using Stan.
+1.  [`{brms}`](https://github.com/paul-buerkner/brms): For Bayesian
+    generalized multivariate non-linear multilevel models using Stan.
+2.  [`{rstan}`](https://mc-stan.org/rstan/): For Bayesian inference
+    using Stan.
 
 #### Specialized Tools
 
-1.  `{spdep}` is a powerful tools for spatial statistics, it provides a
-    set of functions for analyzing spatial dependencies and
-    autocorrelation in spatial data, particularly relevant in infectious
-    disease modelling. It also incorporates spatial effects into models
-    and allows for a better understanding of how infectious diseases
-    spread across space.
-2.  [INLA](https://www.r-inla.org/)[@r-inlap]: Integrated Nested Laplace
-    Approximations (INLA) is a package for Bayesian inference using the
-    INLA method. It is particularly useful for spatial and
+1.  [`{spdep}`](https://github.com/r-spatial/spdep/) is a powerful tools
+    for spatial statistics, it provides a set of functions for analyzing
+    spatial dependencies and autocorrelation in spatial data,
+    particularly relevant in infectious disease modelling. It also
+    incorporates spatial effects into models and allows for a better
+    understanding of how infectious diseases spread across space.
+2.  [`{INLA}`](https://www.r-inla.org/)[@r-inlap]: Integrated Nested
+    Laplace Approximations (INLA) is a package for Bayesian inference
+    using the INLA method. It is particularly useful for spatial and
     spatio-temporal modelling, which can be relevant for studying the
     spread of infectious diseases.
 
@@ -180,9 +188,9 @@ We have already used this package in @sec-05-machine_learning and
 @sec-06-techniques. This meta-package is particularly useful for testing
 out more models with the help of the `workflow_map()` function.
 
-### mlr3
+### Applied Machine Learning Using mlr3
 
-This meta-package is particularly useful is syntax as it guides the user
+This meta-package is particularly useful, the syntax guides the user
 through the machine learning steps for benchmarking different models.
 Here we see an example:
 
@@ -321,11 +329,13 @@ dat %>%
 theme(legend.position = "none")
 ```
 
-### h2o
+### H2O.ai
 
-The h20 package is particularly useful for handling large datasets and
-this is not the case here. However, we can use it to compare the results
-with the previous model frameworks.
+The following example shows how to use the `{h20}` r package for running
+[**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via
+its REST API. It is particularly useful for handling large datasets.
+However, this is not the case seen the size of the rabies dataset, we
+can use it to compare the results with the previous model frameworks.
 
 ```{r}
 #| message: false
@@ -356,8 +366,16 @@ data <- hmsidwR::rabies%>%
 ```{r}
 #| message: false
 #| warning: false
+#| eval: false
 options(timeout = 6000)
-# install.packages("h2o")
+install.packages("h2o")
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| eval: false
 library(h2o)
 ```
 
@@ -365,23 +383,31 @@ library(h2o)
 #| message: false
 #| warning: false
 #| output: false
+#| eval: false
 # Initialize the H2O cluster
 h2o.init()
-Sys.sleep(10)
 ```
 
 ```{r}
 #| message: false
 #| warning: false
 #| output: false
+#| eval: false
 # Upload data to H2O
 h2o_data <- as.h2o(data)
-
+```
+```{r}
 response <- "dalys_rabies"
+```
+
+
+```{r}
+#| eval: false
 predictors <- setdiff(names(data), response)
 # Split data into training and testing sets
 splits <- h2o.splitFrame(h2o_data, 
-                         ratios = 0.8, seed = 1234)
+                         ratios = 0.8, 
+                         seed = 1234)
 train <- splits[[1]]
 test <- splits[[2]]
 ```
@@ -393,6 +419,7 @@ forest model.
 #| message: false
 #| warning: false
 #| output: false
+#| eval: false
 model_lm <- h2o.glm(
   x = predictors,
   y = response,
@@ -417,18 +444,30 @@ model_rf <- h2o.randomForest(
   max_depth = 20,
   seed = 1234
   )
-# Evaluate linear regression model
+```
+
+Evaluate the models:
+
+```{r}
+#| eval: false  
 perf_lm <- h2o.performance(model_lm, newdata = test)
 perf_gbm <- h2o.performance(model_gbm, newdata = test)
 perf_rf <- h2o.performance(model_rf, newdata = test)
 ```
 
+Then extract the RMSE and MAE metrics:
+
+    h2o.rmse(<model>)
+    h2o.mae(<model>)
+
+
 ```{r}
 #| message: false
 #| warning: false
 #| echo: false
+#| eval: false
 
-rbind(c(h2o.rmse(perf_lm),
+h20.rabies.metrics <- rbind(c(h2o.rmse(perf_lm),
         h2o.mae(perf_lm)),
       c(h2o.rmse(perf_gbm),
         h2o.mae(perf_gbm)),
@@ -438,7 +477,24 @@ rbind(c(h2o.rmse(perf_lm),
   mutate(model=c("lm","gbm","rf"))%>%
   relocate(model)%>%
   rename(rmse=V1,mae=V2)
+
+saveRDS(h20.rabies.metrics,"data/model-data/h20.rabies.metrics.rds")
 ```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| eval: true
+h20.rabies.metrics <- readRDS("data/model-data/h20.rabies.metrics.rds")
+```
+
+```{r}
+#| echo: false
+h20.rabies.metrics
+```
+
 
 ```{r}
 #| eval: false
@@ -447,12 +503,50 @@ model_gbm@model
 
 ```{r}
 #| output: false
+#| eval: false
 # Predict on test data
 predictions <- h2o.predict(model_rf, 
                            newdata = test)
-# Convert H2O frames to data frames for ggplot2
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+saveRDS(predictions,"data/model-data/h20.rabies.predictions.rds")
+```
+
+```{r}
+#| eval: true
+#| echo: false
+predictions <- readRDS("data/model-data/h20.rabies.predictions.rds")
+```
+
+
+Convert H2O frames to data frames for ggplot2, it requires the h2o library to be loaded and initiated:
+```{r}
+#| eval: false
 pred_df <- as.data.frame(predictions)
 actual_df <- as.data.frame(test)
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+saveRDS(pred_df,"data/model-data/h20.rabies.pred_df.rds")
+saveRDS(actual_df,"data/model-data/h20.rabies.actual_df.rds")
+```
+
+```{r}
+#| eval: true
+#| echo: false
+pred_df <- readRDS("data/model-data/h20.rabies.pred_df.rds")
+actual_df <- readRDS("data/model-data/h20.rabies.actual_df.rds")
+```
+
+
+```{r}
 # Combine actual and predicted values
 results_df <- data.frame(Actual = actual_df[, response], 
                          Predicted = pred_df[, 1])
@@ -485,10 +579,12 @@ results_df$Time <- as.Date(actual_df$year)
 # Plot Actual vs Predicted over time
 p3 <- ggplot(results_df, aes(x = Time)) +
   geom_line(aes(y = Actual, 
-                color = "Actual"), size = 1) +
+                color = "Actual"), 
+                linetype = 1) +
   geom_line(aes(y = Predicted, 
                 color = "Predicted"), 
-            size = 1, linetype = 'dashed') +
+                linewidth = 1, 
+                linetype = 'dashed') +
   labs(title = "Actual vs Predicted Values Over Time", 
        x = "Time", y = "Value") +
   scale_color_manual(name = "Legend", 
@@ -513,6 +609,7 @@ p3+theme_minimal()
 #| message: false
 #| warning: false
 #| output: false
+#| eval: false
 h2o.shutdown(prompt = FALSE)
 ```
 

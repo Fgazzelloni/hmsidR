@@ -106,7 +106,7 @@ df_com
 ### Mapping infections
 
 There are various ways to map infections, here we'll see three type of
-maps made with `{ggplot2}`, `{ggmap}`, and `{laeflet}`.
+maps made with `{ggplot2}`, `{ggmap}`, and `{leaflet}`.
 
 Also for specific location we can use the `{worldmet}` package.
 
