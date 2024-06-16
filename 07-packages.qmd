@@ -20,7 +20,7 @@ machine learning. It also discusses the combination of packages and
 functions to achieve the desired results. Additionally, it explores how
 to find new R-packages and evaluate their suitability for a given task.
 
-## Inside and outside of the library boxes
+## Inside and Outside of the Library Boxes
 
 When it comes to R, the possibilities are endless. With over 15,000
 packages available on CRAN (Comprehensive R Archive Network) and
@@ -115,7 +115,7 @@ meta-packages.
     top of [`{tensorflow}`](https://github.com/rstudio/tensorflow) (an
     open-source machine learning framework developed by the Google).
 
-#### Time Series Analysis
+### Time Series Analysis
 
 1.  [`{forecast}`](https://pkg.robjhyndman.com/forecast/): For
     forecasting functions.
@@ -132,14 +132,14 @@ meta-packages.
     [`{fable}`](https://fable.tidyverts.org/) package with the `ARIMA()`
     model which is relevant for modelling disease spread over time.
 
-#### Bayesian Analysis
+### Bayesian Analysis
 
 1.  [`{brms}`](https://github.com/paul-buerkner/brms): For Bayesian
     generalized multivariate non-linear multilevel models using Stan.
 2.  [`{rstan}`](https://mc-stan.org/rstan/): For Bayesian inference
     using Stan.
 
-#### Specialized Tools
+### Specialized Tools
 
 1.  [`{spdep}`](https://github.com/r-spatial/spdep/) is a powerful tools
     for spatial statistics, it provides a set of functions for analyzing
@@ -803,11 +803,11 @@ ggplot() +
   geom_line(data = adjusted_output, 
             aes(x = time, y = I, 
                 color = "Adjusted Infections")) +
-  labs(y = "Infectious Population", 
+  labs(title= "SEIR Model with and without Social Media Adjustments",
+       y = "Infectious Population", 
        color = "Scenario") +
 scale_color_manual(values = c("Original Infections" = "navy", 
-                              "Adjusted Infections" = "orange")) +
-  ggtitle("SEIR Model with and without Social Media Adjustments")
+                              "Adjusted Infections" = "orange")) 
 ```
 
 ## How to Find a New R-Package
@@ -846,7 +846,6 @@ We search for packages related to *"excess of mortality"* and
 
 ```{r}
 excessPkg<-pkg_search(query="excess of mortality",size=200)
-excessPkg%>%glimpse()%>%head()
 ```
 
 ```{r}
@@ -871,7 +870,8 @@ excess_downloads <- cran_stats(excess_shortList)
 
 ```{r}
 ggplot(excess_downloads, 
-       aes(end, downloads, group=package, color=package)) +
+       aes(end, downloads, 
+           group=package, color=package)) +
   geom_line() + 
   geom_point(aes(shape=package)) +
   scale_y_continuous(trans = 'log2')
@@ -909,7 +909,8 @@ package_db <- readRDS("data/model-data/package_db.rds")
 
 ```{r}
 package_db %>%
-select(package,description,title)%>%
-filter(grepl("infectious diseases",
-description,ignore.case = TRUE))
+  filter(grepl("infectious diseases",
+               description,
+               ignore.case = TRUE))%>%
+  select(package)
 ```
