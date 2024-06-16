@@ -34,17 +34,15 @@ managing various statistical tools.
 
 ## Audience and Utility of the Book
 
-This book serves both as a manual and a textbook for introductory
+This book serves as both a manual and a textbook for introductory
 courses in health metrics data analysis. Additionally, it provides
-valuable source code for practitioners and data scientists alike. This
-book offers a comprehensive set of tools for analyzing various types of
-data, specifically tailored for health data such as the burden of
-diseases to assess population's health status.
-
-It evaluates techniques that are most appropriate for certain analyses,
-while it recommends deprecating others. It will be interesting to
-discover which methods are most valuable for making predictions and
-which are better suited for evaluating data consistency.
+valuable source code for practitioners and data scientists. The book
+offers a comprehensive set of tools for analyzing various models through
+tailored case studies. It focuses on health data, providing an overview
+of the burden of diseases to facilitate comparisons between populations'
+health status. By combining theoretical insights with practical
+applications, the book aims to equip readers with the necessary skills
+to conduct health data analyses and make informed decisions.
 
 ## Prerequisites
 
@@ -101,10 +99,16 @@ The author of this book is *Federica Gazzelloni*[^index-1], Actuary and
 Statistician by education and training. She is also a
 collaborator[^index-2] at the *Institute for Health Metrics and
 Evaluation (IHME)*, which inspired this work to serve as a manual
-providing formulas and code for working with health metrics. It guides
-on how to calculate metrics, analyze the state of health of a
-population, and deal with data related to the spread of infectious
-diseases.
+providing formulas and code for working with health metrics. Federica
+began focusing on modeling health data, particularly infectious
+diseases, following the Covid-19 outbreak, when this deadly disease was
+rapidly spreading worldwide. Before that, she briefly worked in
+corporate and academic environments, serving as a research practitioner
+actuary and teaching mathematics to high school students and computer
+science to university students. She is actively involved with the open
+source tech community, collaborating with organizations such as Actex
+learning, The Carpentries, Bioconductor, and the R Consortium. More
+about her ongoing projects here: <https://federicagazzelloni.com/>
 
 [^index-1]: To learn more about the author's ongoing projects, please
     visit here: <https://www.federicagazzelloni.com>

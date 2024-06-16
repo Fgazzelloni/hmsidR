@@ -117,27 +117,54 @@ adding annotations, labels, and themes. We'll also explore how to create
 interactive visualizations using the `{plotly}` package and how to
 create maps using the `{sf}` and `{leaflet}` packages.
 
-## Types of Plots
+## General Guidelines for Data Visualization
 
-There are many types of plots that can be used to visualize different types of data. Here are some common types of plots:
+There are many types of plots that can be used to visualize different
+types of data, such as cross tabulations for categorical variables,
+scatter plots for continuous variables, side-by-side box plots, and
+other summaries.
 
-- **Scatter Plots**: Used to show the relationship between two variables.
-- **Line Plots**: Used to show trends over time or across categories.
-- **Bar Plots**: Used to compare values across categories.
-- **Histograms**: Used to show the distribution of a single variable.
-- **Box Plots**: Used to show the distribution of a variable across categories.
-- **Heatmaps**: Used to show the relationship between two categorical variables.
-- **Network Diagrams**: Used to show the relationships between nodes in a network.
-- **Choropleth Maps**: Used to show the distribution of a variable across geographic regions.
-- **Sankey Diagrams**: Used to show the flow of data between different categories.
-- **Treemaps**: Used to show hierarchical data as a series of nested rectangles.
+Here are some specifications about the usage of common types of plots:
 
+-   **Scatter Plots**: Used to show the relationship between two
+    variables.
+
+-   **Line Plots**: Used to show trends over time or across categories.
+
+-   **Bar Plots**: Used to compare values across categories.
+
+-   **Histograms**: Used to show the distribution of a single variable.
+
+-   **Box Plots**: Used to show the distribution of a variable across
+    categories.
+
+-   **Heatmaps**: Used to show the relationship between two categorical
+    variables.
+
+-   **Network Diagrams**: Used to show the relationships between nodes
+    in a network.
+
+-   **Choropleth Maps**: Used to show the distribution of a variable
+    across geographic regions.
+
+-   **Sankey Diagrams**: Used to show the flow of data between different
+    categories.
+
+-   **Treemaps**: Used to show hierarchical data as a series of nested
+    rectangles.
 
 ## Example: Visualizing Lung Cancer Deaths by Age in Germany
 
-This is an example of visualizing lung cancer deaths by age in Germany. It is a line plot showing the number of deaths by age group. We have already seen how to create a line plot using `{ggplot2}` in previous chapters. Here, we will focus on customizing the plot to make it more visually appealing and informative.
+This is an example of visualizing lung cancer deaths by age in Germany.
+It is a line plot showing the number of deaths by age group. We have
+already seen how to create a line plot using `{ggplot2}` in previous
+chapters. Here, we will focus on customizing the plot to make it more
+visually appealing and informative.
 
-This is a basic output, and we will enhance it by customizing the colors, adding a legend, and adjusting the plot layout. We will also explore how to save the plot as an image file for sharing or publication.
+This is a basic output, and we will enhance it by customizing the
+colors, adding a legend, and adjusting the plot layout. We will also
+explore how to save the plot as an image file for sharing or
+publication.
 
 ```{r}
 #| echo: false
@@ -161,9 +188,11 @@ p
 Choosing the right colors for your visualizations is crucial. Colors can
 highlight important aspects of your data and improve readability. Many
 tools provide built-in color palettes, but you can also customize your
-own. Here we just add the `scale_color_manual()` function to customize the original plot, with a new color palette.
+own. Here we just add the `scale_color_manual()` function to customize
+the original plot, with a new color palette.
 
-By typing `?scale_color_manual()` in the R console, you can access the documentation and explore other options for customizing colors. 
+By typing `?scale_color_manual()` in the R console, you can access the
+documentation and explore other options for customizing colors.
 
 ```{r}
 # Example: Customizing colors in a bar chart
@@ -176,11 +205,18 @@ p1
 
 Legends and guides are essential for interpreting visualizations. They
 help the audience understand what different colors, shapes, or sizes
-represent in the plot. Here we have just changed the title of the legend, but much more can be done, such as changing the position, and labels. To change the position of the legend we can use the `theme()` function as shown below.
+represent in the plot. Here we have just changed the title of the
+legend, but much more can be done, such as changing the position, and
+labels. To change the position of the legend we can use the `theme()`
+function as shown below.
 
-In the R console, typing `?theme()` will provide more information on customizing the appearance of your plots. In this case is useful to adjust the angle of the text in the x-axis, and even this can be done specifying the `angle` parameter in the `theme()` function.
+In the R console, typing `?theme()` will provide more information on
+customizing the appearance of your plots. In this case is useful to
+adjust the angle of the text in the x-axis, and even this can be done
+specifying the `angle` parameter in the `theme()` function.
 
-The `guides()` function can be used to customize the legend, such as reversing the order of the legend items.
+The `guides()` function can be used to customize the legend, such as
+reversing the order of the legend items.
 
 ```{r}
 # Customising a legend to a plot
@@ -200,7 +236,11 @@ p2
 
 The layout of your plots can significantly impact their effectiveness.
 Arranging multiple plots in a grid can help compare different aspects of
-your data side-by-side. We can use the `grid.arrange()` function from the `gridExtra` package to arrange multiple plots in a grid layout. Or, we can use the `layout()` function to specify the layout of the plots. There are other packages that can be used such as `patchwork` and `cowplot`, which provide additional functionalities for arranging plots.
+your data side-by-side. We can use the `grid.arrange()` function from
+the `gridExtra` package to arrange multiple plots in a grid layout. Or,
+we can use the `layout()` function to specify the layout of the plots.
+There are other packages that can be used such as `patchwork` and
+`cowplot`, which provide additional functionalities for arranging plots.
 
 ```{r}
 #| eval: false
@@ -227,6 +267,3 @@ image file for sharing or publication.
 #| eval: false
 ggsave("line_plot.png", plot = p2, width = 6, height = 4)
 ```
-
-
-

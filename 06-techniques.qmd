@@ -34,7 +34,7 @@ for health metrics and for infectious diseases. We will explore various
 considerations involved in addressing potential biases, and discuss
 actions to prevent them.
 
-## Goals of the analysis and nature of data
+## Goals of the Analysis and Nature of Data
 
 The identification of the primary goal of the analysis is fundamental.
 Whether it involves trend analysis, investigating the relationships
@@ -98,7 +98,7 @@ type:**
     networks**\index{LSTM}, can predict disease outbreaks, identify
     high-risk populations, and optimize resource allocation.
 
-## Statistical and machine learning methods
+## Statistical and Machine Learning Methods
 
 Once the objective of the study is clear and identificated the nature of
 the data, we already a step forward in restricting the range of
@@ -139,7 +139,7 @@ homogeneous data. For more information on feature engineering, see
 application, covering various techniques and appropriate use cases,
 focusing on practical understanding and implementation.
 
-## Model selection strategies
+## Model Selection Strategies
 
 ### Example 4: Rabies
 

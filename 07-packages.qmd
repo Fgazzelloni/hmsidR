@@ -15,30 +15,36 @@ Learning Objectives
 :::
 :::
 
+This chapter provides an overview of the most suitable R-packages for
+machine learning. It also discusses the combination of packages and
+functions to achieve the desired results. Additionally, it explores how
+to find new R-packages and evaluate their suitability for a given task.
+
 ## Inside and outside of the library boxes
 
-This book provides all data analysis, visualization, and modelling in R
-(a hint to Python translations can be found in @sec-appendixC); the
-universe of available packages is vast. How do you untangle among all of
-them? Which one to choose? Sometimes, it is rather favorable to start by
-working out of the library boxes, which means using functions provided
-in the built-in packages inside a fresh R installation.
+When it comes to R, the possibilities are endless. With over 15,000
+packages available on CRAN (Comprehensive R Archive Network) and
+countless others on GitHub and other repositories, universe of available
+packages is vast. How to untangle among all of them? Which one to
+choose? Sometimes, it is rather favorable to start by working out of the
+library boxes, which means using functions provided in the built-in
+packages inside a fresh R installation.
 
-On the contrary, life has become easier with the advent of wrapping
-functions and the reduction of lines of code through the use of
-functions found in packages. In the past, data analysis and modelling in
-R required extensive coding, often involving repetitive tasks and
-lengthy scripts. However, with the introduction of packages containing
-pre-built functions for common tasks, such as data manipulation,
-visualization, and statistical modelling, the process has been
-streamlined. These packages offer a wide range of functions that can be
-easily applied to perform complex analyses with just a few lines of
-code. As a result, users can achieve sophisticated results more
-efficiently, without the need to write lengthy and intricate scripts
-from scratch. This shift has not only simplified the process of data
-analysis and modelling but has also democratized access to advanced
-statistical techniques, making them more accessible to a broader
-audience.
+However, the vast majority of the time, the best way to start is by
+using the packages that are already available in the R ecosystem. These
+packages are designed to make your life easier by providing pre-built
+functions for common tasks. They can help you save time and effort by
+automating repetitive tasks and streamlining complex analyses.
+
+Life has become easier with the advent of wrapping functions and the
+reduction of lines of code through the use of functions found in
+packages. In the past, data analysis and modelling in R required
+extensive coding, often involving repetitive tasks and lengthy scripts.
+As a result, users can achieve sophisticated results more efficiently,
+without the need to write lengthy and intricate scripts from scratch.
+This shift has not only simplified the process of data analysis and
+modelling but has also democratized access to advanced statistical
+techniques, making them more accessible to a broader audience.
 
 ## Essential R Packages for Machine Learning
 
@@ -331,12 +337,6 @@ theme(legend.position = "none")
 
 ### H2O.ai
 
-The following example shows how to use the `{h20}` r package for running
-[**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via
-its REST API. It is particularly useful for handling large datasets.
-However, this is not the case seen the size of the rabies dataset, we
-can use it to compare the results with the previous model frameworks.
-
 ```{r}
 #| message: false
 #| warning: false
@@ -348,6 +348,12 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 #| echo: false
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
+
+The following example shows how to use the `{h20}` r package for running
+[**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via
+its REST API. It is particularly useful for handling large datasets.
+However, this is not the case seen the size of the rabies dataset, we
+can use it to compare the results with the previous model frameworks.
 
 ```{r}
 #| message: false
@@ -370,7 +376,6 @@ data <- hmsidwR::rabies%>%
 options(timeout = 6000)
 install.packages("h2o")
 ```
-
 
 ```{r}
 #| message: false
@@ -396,10 +401,10 @@ h2o.init()
 # Upload data to H2O
 h2o_data <- as.h2o(data)
 ```
+
 ```{r}
 response <- "dalys_rabies"
 ```
-
 
 ```{r}
 #| eval: false
@@ -457,9 +462,10 @@ perf_rf <- h2o.performance(model_rf, newdata = test)
 
 Then extract the RMSE and MAE metrics:
 
-    h2o.rmse(<model>)
-    h2o.mae(<model>)
-
+```         
+h2o.rmse(<model>)
+h2o.mae(<model>)
+```
 
 ```{r}
 #| message: false
@@ -481,7 +487,6 @@ h20.rabies.metrics <- rbind(c(h2o.rmse(perf_lm),
 saveRDS(h20.rabies.metrics,"data/model-data/h20.rabies.metrics.rds")
 ```
 
-
 ```{r}
 #| message: false
 #| warning: false
@@ -494,7 +499,6 @@ h20.rabies.metrics <- readRDS("data/model-data/h20.rabies.metrics.rds")
 #| echo: false
 h20.rabies.metrics
 ```
-
 
 ```{r}
 #| eval: false
@@ -509,7 +513,6 @@ predictions <- h2o.predict(model_rf,
                            newdata = test)
 ```
 
-
 ```{r}
 #| echo: false
 #| eval: false
@@ -522,14 +525,14 @@ saveRDS(predictions,"data/model-data/h20.rabies.predictions.rds")
 predictions <- readRDS("data/model-data/h20.rabies.predictions.rds")
 ```
 
+Convert H2O frames to data frames for ggplot2, it requires the h2o
+library to be loaded and initiated:
 
-Convert H2O frames to data frames for ggplot2, it requires the h2o library to be loaded and initiated:
 ```{r}
 #| eval: false
 pred_df <- as.data.frame(predictions)
 actual_df <- as.data.frame(test)
 ```
-
 
 ```{r}
 #| echo: false
@@ -544,7 +547,6 @@ saveRDS(actual_df,"data/model-data/h20.rabies.actual_df.rds")
 pred_df <- readRDS("data/model-data/h20.rabies.pred_df.rds")
 actual_df <- readRDS("data/model-data/h20.rabies.actual_df.rds")
 ```
-
 
 ```{r}
 # Combine actual and predicted values
@@ -561,23 +563,32 @@ p1 <- ggplot(results_df,
 ```
 
 ```{r}
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Residuals vs Predicted Values"
+#|   - "Normality Test of the Residulas"
+#| fig-alt: "Residuals Distribution"
+#| label: fig-h20-residuals
 # Calculate residuals
 results_df$Residuals <- results_df$Actual - results_df$Predicted
 # Plot Residuals vs Predicted
-p2 <- ggplot(results_df, 
+ggplot(results_df, 
              aes(x = Predicted, y = Residuals)) +
   geom_point(color = 'navy', alpha = 0.5) +
   geom_hline(yintercept = 0, 
              color = 'orange', linetype = 'dashed') +
   labs(title = "Residuals vs Predicted Values", 
-       x = "Predicted", y = "Residuals") 
+       x = "Predicted", y = "Residuals")
+# Normality Test of the Residuals
+qqnorm(results_df$Residuals); 
+qqline(results_df$Residuals, col = 2)
 ```
 
 ```{r}
 # Assuming there is a time column in your test data
 results_df$Time <- as.Date(actual_df$year)
 # Plot Actual vs Predicted over time
-p3 <- ggplot(results_df, aes(x = Time)) +
+p2 <- ggplot(results_df, aes(x = Time)) +
   geom_line(aes(y = Actual, 
                 color = "Actual"), 
                 linetype = 1) +
@@ -602,7 +613,7 @@ p3 <- ggplot(results_df, aes(x = Time)) +
 #| echo: false
 
 p1+theme_minimal()
-p3+theme_minimal()
+p2+theme_minimal()
 ```
 
 ```{r}
@@ -612,6 +623,13 @@ p3+theme_minimal()
 #| eval: false
 h2o.shutdown(prompt = FALSE)
 ```
+
+### Keras
+
+The following example shows how to use the `{keras}` r package for deep
+learning. It is particularly useful for handling large datasets.
+However, this is not the case seen the size of the rabies dataset, we
+can use it to compare the results with the previous model frameworks.
 
 ```{r}
 #| message: false
@@ -624,8 +642,6 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 #| echo: false
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
-
-### Keras
 
 ```{r}
 #| eval: false
@@ -745,7 +761,8 @@ plot(history)
 plot(history2)
 ```
 
-Predict infection status for new social media data
+Predict infection status for new social media data and adjust the SEIR
+parameters based on predictions.
 
 ```{r}
 new_social_data <- matrix(rnorm(p * 160), 
@@ -769,7 +786,8 @@ adjusted_output <- ode(y = initial_state,
 adjusted_output <- as.data.frame(adjusted_output)
 ```
 
-Plot the results:
+Plot the results of the SEIR model with and without social media
+adjustments.
 
 ```{r}
 #| fig-cap: "SEIR Model with and without Social Media Adjustments"
@@ -790,4 +808,108 @@ ggplot() +
 scale_color_manual(values = c("Original Infections" = "navy", 
                               "Adjusted Infections" = "orange")) +
   ggtitle("SEIR Model with and without Social Media Adjustments")
+```
+
+## How to Find a New R-Package
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
+Finding a new R-package can be a daunting task, given the vast number of
+packages available on CRAN and other repositories. A strategy to
+identify relevant packages for your specific needs would be to use some
+prebuilt packages which provide search functionalities.
+
+For example, the `package_search()` function from the `{pkgsearch}`
+package takes a text string as input and uses basic text mining
+techniques to search all of CRAN.
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)  # for data manipulation
+library(dlstats)    # for package download stats
+library(pkgsearch)  # for searching packages
+```
+
+We search for packages related to *"excess of mortality"* and
+"infectious diseases":
+
+```{r}
+excessPkg<-pkg_search(query="excess of mortality",size=200)
+excessPkg%>%glimpse()%>%head()
+```
+
+```{r}
+head(excessPkg$maintainer_name)
+```
+
+```{r}
+excessPkgShort <- excessPkg %>% 
+  filter(maintainer_name != "ORPHANED", score > 100) %>%
+  select(score, package, downloads_last_month) %>%
+  arrange(desc(downloads_last_month))
+head(excessPkgShort)
+```
+
+```{r}
+excess_shortList <- excessPkgShort$package
+```
+
+```{r}
+excess_downloads <- cran_stats(excess_shortList)
+```
+
+```{r}
+ggplot(excess_downloads, 
+       aes(end, downloads, group=package, color=package)) +
+  geom_line() + 
+  geom_point(aes(shape=package)) +
+  scale_y_continuous(trans = 'log2')
+```
+
+Another example is the `{cranly}` package, which provides a simple
+interface to search for packages on CRAN. The package provides
+comprehensive methods for cleaning up and organizing the information in
+the CRAN package database, making it easier to find relevant packages
+for your specific needs.
+
+```{r}
+#| message: false
+#| warning: false
+#| eval: false
+
+library(cranly)
+p_db <- tools::CRAN_package_db()
+package_db <- clean_CRAN_db(p_db)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+saveRDS(p_db,"data/model-data/p_db.rds")
+saveRDS(package_db,"data/model-data/package_db.rds")
+```
+
+```{r}
+#| eval: true
+#| echo: false
+p_db <- readRDS("data/model-data/p_db.rds")
+package_db <- readRDS("data/model-data/package_db.rds")
+```
+
+```{r}
+package_db %>%
+select(package,description,title)%>%
+filter(grepl("infectious diseases",
+description,ignore.case = TRUE))
 ```

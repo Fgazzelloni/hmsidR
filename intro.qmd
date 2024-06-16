@@ -86,7 +86,7 @@ most dangerous infectious disease on the values of health metrics of a
 population, and this is done to practice the variation to eventually
 predict through model transfer techniques same pattern procedure on
 other countries. It's not the only application; more examples of model
-transfer applications are needed in research. (cit)
+transfer applications are needed in research[@roster2022].
 
 A focus on the impact of recent infectious disease outbreaks, such as
 SARS-Covid19, on the state of health of the population, will be provided

@@ -45,7 +45,7 @@ deterministic model that describes the dynamics of the spread of a
 virus, but it also includes stochastic elements such as random
 interactions between individuals.
 
-## What is a machine learning model?
+## What is a Machine Learning Model?
 
 And how it differs from statistical models (deterministic and
 stochastic) is all a matter of parameter calibration. Understanding the
@@ -204,7 +204,7 @@ diseases, the focus is on how variables will evolve over time. For this
 reason, selecting the appropriate model requires an understanding of the
 underlying patterns and dynamics of growth.
 
-## The steps of building a model
+## The Steps of Building a Model
 
 The process of constructing a model that would be able to explain the
 relationships between dependent and independent variables in a given
@@ -552,7 +552,7 @@ spread in section 4 @sec-13-infectious_diseases.
 
 ### Example 2: Epidemic X
 
-#### SEIR
+#### SEIR Model
 
 In this example we simulate data of an epidemic to build a
 SEIR\index{SEIR model} (susceptible, exposed, infected, recovered)
@@ -963,30 +963,58 @@ augumented%>%
 
 #### INLA: an empirical Bayes approach to GAMs
 
-As a valid alternative to Markov chain Monte Carlo (MCMC)\index{MCMC}
-methods [@markovc1995] - (@sec-appendixB), due to the deterministic
-nature of its approximations, **INLA - integrated nested Laplace
-approximation**\index{INLA} [@approxim] is an excellent choice for
+In this example is a simulation of an epidemic in 100 days based on
+temperature level and number of cases simulated with a random poisson
+distribution.
+
+The model used is the **INLA - integrated nested Laplace
+approximation**\index{INLA} [@approxim] model, an excellent choice for
 applications requiring repeated model fitting. The INLA approach is
 particularly useful for fitting complex models, such as generalized
 additive models (GAMs)\index{GAM}, which involve non-linear
 relationships between predictors and the response variable.
 
-The use of a Laplacian approximation is to estimate the individual
-posterior marginals of the model parameters. This allows for faster
-computation and more efficient estimation of the posterior distribution,
-making it a popular choice for Bayesian inference in large-scale
-applications. However, it's worth noting that for very complex models or
-those with multi-modal posteriors, MCMC\index{MCMC} might still be
-preferred due to its flexibility and ability to characterize the entire
-posterior distribution.
+$$
+y_i=\beta_0+\sum_{j=1}^n{f_j(x_{i,j})}+\epsilon_i
+$$ {#eq-inla-model}
+
+$$
+f_j(x_{i,j})=\sum_{k=1}^p\beta_{j,k}B_{j,k}(x_{i,j})
+$$ {#eq-inla-smooth}
+
+where $y_i$ represent the response vector of observations,
+$f_j(x_{i,j})$ the smooth function of the predictors (random effects),
+$B_{j,k}$ basis function such as splines, $\beta_0$ and $\beta_j$ the
+intercept and the coefficients respectively. While $\epsilon_i$ is the
+error term with a Gaussian distribution
+$\epsilon_i \sim Norm(0,\sigma^2)$.
+
+Used as:
+
+```{r}
+#| eval: false
+INLA::inla(y ~ x1 + x2 + ... + xn, data = data)
+```
+
+It is also a valid alternative to **Markov chain Monte Carlo
+(MCMC)**\index{MCMC} methods used to compute the joint posterior
+distribution of the model parameters [@markovc1995] - (@sec-appendixB).
+Due to the deterministic nature of its approximations, the use of a
+**Laplacian approximation** to estimate the individual posterior
+marginals of the model parameters, allows for faster computation, and
+more efficient estimation of the posterior distribution, making it a
+popular choice for Bayesian inference in large-scale applications.
+However, it's worth noting that for very complex models or those with
+multi-modal posteriors, MCMC\index{MCMC} might still be preferred due to
+its flexibility and ability to characterize the entire posterior
+distribution.
 
 In INLA, each of GAMs components are treated as random effects with
 specific prior distributions (typically Gaussian). The smoothness of
 these effects is controlled by hyperparameters, which INLA estimates
-from the data. The model is then fitted using the INLA package, which
-provides a fast and efficient way to estimate the posterior distribution
-of the model parameters.
+from the data. The model is then fitted using the `{INLA}` package,
+which provides a fast and efficient way to estimate the posterior
+distribution of the model parameters.
 
 Let's assume new `epidemic_data` with columns `day`, `cases`, and
 `temperature.` To model the number of cases as a function of time and
@@ -1031,7 +1059,7 @@ summary(result)
 ```
 
 ```{r}
-#| fig-cap: "Fitted GAM for Epidemic Y: The plot shows the fitted values of the GAM model for epidemic Y, with the shaded area representing the 95% credible interval around the mean estimate. The blue line represents the mean estimate of the number of cases over time, capturing the non-linear trend in the data."
+#| fig-cap: "Fitted GAM for Epidemic Y: The plot shows the fitted values of the GAM model for Epidemic Y, with the shaded area representing the 95% credible interval around the mean estimate. The blue line represents the mean estimate of the number of cases over time, capturing the non-linear trend in the data."
 #| fig-alt: "Fitted GAM for Epidemic Y"
 #| fig-width: 5
 #| fig-height: 3
@@ -1256,7 +1284,7 @@ These are only a few of the most common loss functions and evaluation
 metrics able to provide insights into the model's performance to
 generalize to new data and make accurate predictions.
 
-### Public health loss functions
+### Public Health Loss Functions
 
 > "The public may be less interested in environmental quality than in
 > economic prosperity." Dubos
