@@ -127,14 +127,10 @@ library(hmsidwR)
 
 ```{r}
 #| eval: false
-
 hmsidwR::deaths2019
 ```
 
 ```{r}
-#| label: tbl-deaths_stroke
-#| tbl-cap: "Deaths due to Stroke"
-
 deaths_stroke <- hmsidwR::deaths2019 %>%
   filter(
     location == "Global",
@@ -180,34 +176,22 @@ Here, we use the estimated value of the expected life for a 5-year age
 groups for both females and males, indicated by the `le`.
 
 ```{r}
-#| label: tbl-ex2019
-#| tbl-cap: "Expectation of life at age x - 2019"
-
 ex2019 <- hmsidwR::gho_lifetables %>%
-  filter(
-    year == 2019,
-    indicator == "ex"
-  ) %>%
+  filter( year == 2019, indicator == "ex") %>%
   select(-indicator, -year) %>%
   rename(le = value)
 
-ex2019 %>%
-  head()
+ex2019 %>% head()
 ```
 
 ```{r}
-#| label: tbl-YLL_global_stroke
-#| tbl-cap: "Global Stroke YLLs"
-
 YLL_global_stroke <- deaths_stroke %>%
   select(-upper, -lower) %>%
   full_join(ex2019) %>%
   group_by(age, sex) %>%
   reframe(YLL = dx * le)
 
-
-YLL_global_stroke %>%
-  head()
+YLL_global_stroke %>% head()
 ```
 
 ```{r}
@@ -221,7 +205,6 @@ YLL_global_stroke %>%
 
 dat <- YLL_global_stroke %>%
   filter(!sex == "both")
-
 
 legend_grob <- cowplot::get_legend(
   ggplot(data = dat, aes(x = age)) +
@@ -337,13 +320,11 @@ in 2019.
 
 ```{r}
 #| eval: false
-
 hmsidwR::disweights2019
 ```
 
 ```{r}
 #| echo: false
-
 hmsidwR::disweights2019 %>%
   select(specification, cause1, severity, dw) %>%
   drop_na() %>%
@@ -369,8 +350,7 @@ dwsev2019 <- hmsidwR::disweights2019 %>%
     severity == "severe" ~ 0.75
   ))
 
-dwsev2019 %>%
-  head()
+dwsev2019 %>% head()
 ```
 
 The values for disability weights and severity are here considered for
@@ -441,9 +421,7 @@ inc_prev_stroke_5y <- hmsidwR::g7_inc_prev_CVD2019 %>%
   select(measure, sex, age, val) %>%
   pivot_wider(names_from = "measure", values_from = "val")
 
-
-inc_prev_stroke_5y %>%
-  head()
+inc_prev_stroke_5y %>% head()
 ```
 
 ```{r}
@@ -457,8 +435,7 @@ YLD_global_stroke <- merge(inc_prev_stroke_5y, dw_stroke) %>%
     YLD_i = sum(Incidence * severity_n * avg_dw * 100)
   )
 
-YLD_global_stroke %>%
-  head()
+YLD_global_stroke %>% head()
 ```
 
 ```{r}
