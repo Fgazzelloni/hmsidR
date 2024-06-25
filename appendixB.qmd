@@ -13,29 +13,29 @@ code is from Dobrow - Bayesian analisis of infectious diseases book
 
 ```{r}
 set.seed(000)
-markov <- function(init,mat,n,labels) {
-  if(missing(labels)) labels <- 1:length(init)
-  simlist <- numeric(n+1)
+markov <- function(init, mat, n, labels) {
+  if (missing(labels)) labels <- 1:length(init)
+  simlist <- numeric(n + 1)
   states <- 1:length(init)
   simlist[1] <- sample(states, 1, prob = init)
-  
-  for (i in 2:(n+1)) {
-    simlist[i] <- sample(states,1,prob = mat[simlist[i-1],])
+
+  for (i in 2:(n + 1)) {
+    simlist[i] <- sample(states, 1, prob = mat[simlist[i - 1], ])
   }
-  
+
   labels[simlist]
 }
-
 ```
 
 ```{r}
-P <- matrix(c(.51,.49,.49,.51),
-            nrow = 2,ncol = 2,byrow = TRUE)
-init <- c(1,0)
+P <- matrix(c(.51, .49, .49, .51),
+  nrow = 2, ncol = 2, byrow = TRUE
+)
+init <- c(1, 0)
 ```
 
 ```{r}
-markov(init = init,mat = P, n=100)
+markov(init = init, mat = P, n = 100)
 ```
 
 ```{r}
@@ -46,8 +46,10 @@ n_transitions <- 10000
 simulated_chain <- markov(init, P, n_transitions)
 
 # Calculate the transition probabilities
-transition_counts <- table(simulated_chain[-1], 
-                           simulated_chain[-(n_transitions + 1)])
+transition_counts <- table(
+  simulated_chain[-1],
+  simulated_chain[-(n_transitions + 1)]
+)
 transition_probabilities <- transition_counts / rowSums(transition_counts)
 transition_probabilities
 ```
@@ -57,7 +59,7 @@ transition_probabilities
 prior_probabilities <- table(simulated_chain[-n_transitions]) / n_transitions
 
 # Calculate posterior probabilities
-posterior_probabilities <- transition_probabilities%*%prior_probabilities 
+posterior_probabilities <- transition_probabilities %*% prior_probabilities
 
 # Print prior probabilities
 print("Prior probabilities:")
@@ -66,5 +68,4 @@ print(prior_probabilities)
 # Print posterior probabilities
 print("Posterior probabilities:")
 print(posterior_probabilities)
-
 ```

@@ -186,7 +186,10 @@ worth considering that experimenting with different packages and
 techniques may be beneficial to identify the most effective approach for
 a given analysis.
 
-## Examples
+## Model Framework Application Examples
+
+In this section we provide an example of the application of different
+model frameworks. The data used, as introduced in @sec-06-techniques is from the `hmsidwR` package. The data is used to demonstrate the application of `mlr3`, `h2o`, and `keras` packages for machine learning modelling.
 
 ### Tidymodels
 
@@ -209,14 +212,14 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 #| message: false
 #| warning: false
 library(tidyverse)
-data <- hmsidwR::rabies%>%
-  select(-upper,-lower)%>%
-  pivot_wider(names_from = measure,values_from = val)%>%
-  filter(cause=="Rabies")%>%
-  rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
-  select(-cause)%>%
-  mutate(across(where(is.character),as.factor))
-data%>%head
+data <- hmsidwR::rabies %>%
+  select(-upper, -lower) %>%
+  pivot_wider(names_from = measure, values_from = val) %>%
+  filter(cause == "Rabies") %>%
+  rename(dx_rabies = Deaths, dalys_rabies = DALYs) %>%
+  select(-cause) %>%
+  mutate(across(where(is.character), as.factor))
+data %>% head()
 ```
 
 Load necessary libraries:
@@ -229,24 +232,27 @@ library(mlr3learners)
 library(mlr3viz)
 library(mlr3verse)
 library(data.table)
-#library(xgboost)
+# library(xgboost)
 ```
 
 Define the task, the learners, and add the preprocessing steps creating
 dummy variables:
 
 ```{r}
-task <- TaskRegr$new(id = "dalys_rabies", 
-                     backend = data, 
-                     target = "dalys_rabies")
+task <- TaskRegr$new(
+  id = "dalys_rabies",
+  backend = data,
+  target = "dalys_rabies"
+)
 learner_lm <- lrn("regr.lm")
-learner_xgboost <- lrn("regr.xgboost", 
-                       nrounds = 1000, 
-                       max_depth = 6, 
-                       eta = 0.01)
+learner_xgboost <- lrn("regr.xgboost",
+  nrounds = 1000,
+  max_depth = 6,
+  eta = 0.01
+)
 poe <- po("encode")
 task <- poe$train(list(task))[[1]]
-task$data()%>%head()
+task$data() %>% head()
 ```
 
 Define a resampling strategy, and create a benchmark design:
@@ -257,7 +263,7 @@ design <- benchmark_grid(
   tasks = task,
   learners = list(learner_lm, learner_xgboost),
   resamplings = resampling
-  )
+)
 design
 ```
 
@@ -268,28 +274,31 @@ Run the benchmark:
 #| warning: false
 #| output: false
 set.seed(19052024)
-bmr = benchmark(design, 
-                store_models = TRUE,
-                store_backends = TRUE)
+bmr <- benchmark(design,
+  store_models = TRUE,
+  store_backends = TRUE
+)
 ```
 
 ```{r}
-bmr$score()[,.(learner_id,
-               task_id, 
-               iteration, 
-               regr.mse)]
+bmr$score()[, .(
+  learner_id,
+  task_id,
+  iteration,
+  regr.mse
+)]
 ```
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap: 
+#| fig-cap:
 #|   - "BMR Regression RMSE"
 #|   - "BMR Regression MAE"
-#| fig-alt: "BMR Regression"  
-#| label: fig-bmr-egression 
+#| fig-alt: "BMR Regression"
+#| label: fig-bmr-egression
 
-autoplot(bmr,measure = msr("regr.rmse"))
-autoplot(bmr,measure = msr("regr.mae"))
+autoplot(bmr, measure = msr("regr.rmse"))
+autoplot(bmr, measure = msr("regr.mae"))
 ```
 
 Aggregate the results:
@@ -304,35 +313,39 @@ aggr <- bmr$aggregate(measures)
 ```{r}
 rr1 <- aggr$resample_result[[1]]
 rr2 <- aggr$resample_result[[2]]
-dat <- as.data.table(rr1$prediction())%>%
-  mutate(learner="regr.lm")%>%
-  rbind(as.data.table(rr2$prediction())%>%
-          mutate(learner="regr.xgboost"))%>%
-  cbind(task$data())%>%
-  select(truth,response,learner,year,location.Asia)
+dat <- as.data.table(rr1$prediction()) %>%
+  mutate(learner = "regr.lm") %>%
+  rbind(as.data.table(rr2$prediction()) %>%
+    mutate(learner = "regr.xgboost")) %>%
+  cbind(task$data()) %>%
+  select(truth, response, learner, year, location.Asia)
 ```
 
 Plot the results:
 
 ```{r}
-#| fig-cap: 
+#| fig-cap:
 #|   - "Truth vs Response for lm and xgboost"
-#| fig-alt: "Truth vs Response" 
+#| fig-alt: "Truth vs Response"
 #| label: fig-lm_xgboost
 #| fig-width: 5
 #| fig-height: 3
 
 dat %>%
-  ggplot(aes(x = truth, y = response,
-             group=learner)) +
-  geom_abline()+
-  geom_line(aes(color=learner)) +
-  geom_point(aes(color=learner)) +
-  scale_color_manual(values = c("regr.lm" = "navy", 
-                                "regr.xgboost" = "orange")) +
-  facet_wrap(~learner)+
+  ggplot(aes(
+    x = truth, y = response,
+    group = learner
+  )) +
+  geom_abline() +
+  geom_line(aes(color = learner)) +
+  geom_point(aes(color = learner)) +
+  scale_color_manual(values = c(
+    "regr.lm" = "navy",
+    "regr.xgboost" = "orange"
+  )) +
+  facet_wrap(~learner) +
   labs(x = "Truth", y = "Response") +
-theme(legend.position = "none")
+  theme(legend.position = "none")
 ```
 
 ### H2O.ai
@@ -360,13 +373,13 @@ can use it to compare the results with the previous model frameworks.
 #| warning: false
 #| echo: false
 library(tidyverse)
-data <- hmsidwR::rabies%>%
-  select(-upper,-lower)%>%
-  pivot_wider(names_from = measure,values_from = val)%>%
-  filter(cause=="Rabies")%>%
-  rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
-  select(-cause)%>%
-  mutate(across(where(is.character),as.factor))
+data <- hmsidwR::rabies %>%
+  select(-upper, -lower) %>%
+  pivot_wider(names_from = measure, values_from = val) %>%
+  filter(cause == "Rabies") %>%
+  rename(dx_rabies = Deaths, dalys_rabies = DALYs) %>%
+  select(-cause) %>%
+  mutate(across(where(is.character), as.factor))
 ```
 
 ```{r}
@@ -410,9 +423,10 @@ response <- "dalys_rabies"
 #| eval: false
 predictors <- setdiff(names(data), response)
 # Split data into training and testing sets
-splits <- h2o.splitFrame(h2o_data, 
-                         ratios = 0.8, 
-                         seed = 1234)
+splits <- h2o.splitFrame(h2o_data,
+  ratios = 0.8,
+  seed = 1234
+)
 train <- splits[[1]]
 test <- splits[[2]]
 ```
@@ -430,7 +444,7 @@ model_lm <- h2o.glm(
   y = response,
   training_frame = train,
   family = "gaussian"
-  )
+)
 model_gbm <- h2o.gbm(
   x = predictors,
   y = response,
@@ -440,7 +454,7 @@ model_gbm <- h2o.gbm(
   max_depth = 6,
   learn_rate = 0.01,
   seed = 1234
-  )
+)
 model_rf <- h2o.randomForest(
   x = predictors,
   y = response,
@@ -448,13 +462,13 @@ model_rf <- h2o.randomForest(
   ntrees = 100,
   max_depth = 20,
   seed = 1234
-  )
+)
 ```
 
 Evaluate the models:
 
 ```{r}
-#| eval: false  
+#| eval: false
 perf_lm <- h2o.performance(model_lm, newdata = test)
 perf_gbm <- h2o.performance(model_gbm, newdata = test)
 perf_rf <- h2o.performance(model_rf, newdata = test)
@@ -473,18 +487,26 @@ h2o.mae(<model>)
 #| echo: false
 #| eval: false
 
-h20.rabies.metrics <- rbind(c(h2o.rmse(perf_lm),
-        h2o.mae(perf_lm)),
-      c(h2o.rmse(perf_gbm),
-        h2o.mae(perf_gbm)),
-      c(h2o.rmse(perf_rf),
-        h2o.mae(perf_rf)))%>%
-  as.data.frame()%>%
-  mutate(model=c("lm","gbm","rf"))%>%
-  relocate(model)%>%
-  rename(rmse=V1,mae=V2)
+h20.rabies.metrics <- rbind(
+  c(
+    h2o.rmse(perf_lm),
+    h2o.mae(perf_lm)
+  ),
+  c(
+    h2o.rmse(perf_gbm),
+    h2o.mae(perf_gbm)
+  ),
+  c(
+    h2o.rmse(perf_rf),
+    h2o.mae(perf_rf)
+  )
+) %>%
+  as.data.frame() %>%
+  mutate(model = c("lm", "gbm", "rf")) %>%
+  relocate(model) %>%
+  rename(rmse = V1, mae = V2)
 
-saveRDS(h20.rabies.metrics,"data/model-data/h20.rabies.metrics.rds")
+saveRDS(h20.rabies.metrics, "data/model-data/h20.rabies.metrics.rds")
 ```
 
 ```{r}
@@ -509,14 +531,15 @@ model_gbm@model
 #| output: false
 #| eval: false
 # Predict on test data
-predictions <- h2o.predict(model_rf, 
-                           newdata = test)
+predictions <- h2o.predict(model_rf,
+  newdata = test
+)
 ```
 
 ```{r}
 #| echo: false
 #| eval: false
-saveRDS(predictions,"data/model-data/h20.rabies.predictions.rds")
+saveRDS(predictions, "data/model-data/h20.rabies.predictions.rds")
 ```
 
 ```{r}
@@ -537,8 +560,8 @@ actual_df <- as.data.frame(test)
 ```{r}
 #| echo: false
 #| eval: false
-saveRDS(pred_df,"data/model-data/h20.rabies.pred_df.rds")
-saveRDS(actual_df,"data/model-data/h20.rabies.actual_df.rds")
+saveRDS(pred_df, "data/model-data/h20.rabies.pred_df.rds")
+saveRDS(actual_df, "data/model-data/h20.rabies.actual_df.rds")
 ```
 
 ```{r}
@@ -550,21 +573,29 @@ actual_df <- readRDS("data/model-data/h20.rabies.actual_df.rds")
 
 ```{r}
 # Combine actual and predicted values
-results_df <- data.frame(Actual = actual_df[, response], 
-                         Predicted = pred_df[, 1])
+results_df <- data.frame(
+  Actual = actual_df[, response],
+  Predicted = pred_df[, 1]
+)
 # Plot Actual vs Predicted
-p1 <- ggplot(results_df, 
-             aes(x = Actual, y = Predicted)) +
-  geom_point(color = 'blue', alpha = 0.5) +
-  geom_abline(slope = 1, intercept = 0, 
-              color = 'red', linetype = 'dashed') +
-  labs(title = "Actual vs Predicted Values", 
-       x = "Actual", y = "Predicted") 
+p1 <- ggplot(
+  results_df,
+  aes(x = Actual, y = Predicted)
+) +
+  geom_point(color = "blue", alpha = 0.5) +
+  geom_abline(
+    slope = 1, intercept = 0,
+    color = "red", linetype = "dashed"
+  ) +
+  labs(
+    title = "Actual vs Predicted Values",
+    x = "Actual", y = "Predicted"
+  )
 ```
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap: 
+#| fig-cap:
 #|   - "Residuals vs Predicted Values"
 #|   - "Normality Test of the Residulas"
 #| fig-alt: "Residuals Distribution"
@@ -572,15 +603,21 @@ p1 <- ggplot(results_df,
 # Calculate residuals
 results_df$Residuals <- results_df$Actual - results_df$Predicted
 # Plot Residuals vs Predicted
-ggplot(results_df, 
-             aes(x = Predicted, y = Residuals)) +
-  geom_point(color = 'navy', alpha = 0.5) +
-  geom_hline(yintercept = 0, 
-             color = 'orange', linetype = 'dashed') +
-  labs(title = "Residuals vs Predicted Values", 
-       x = "Predicted", y = "Residuals")
+ggplot(
+  results_df,
+  aes(x = Predicted, y = Residuals)
+) +
+  geom_point(color = "navy", alpha = 0.5) +
+  geom_hline(
+    yintercept = 0,
+    color = "orange", linetype = "dashed"
+  ) +
+  labs(
+    title = "Residuals vs Predicted Values",
+    x = "Predicted", y = "Residuals"
+  )
 # Normality Test of the Residuals
-qqnorm(results_df$Residuals); 
+qqnorm(results_df$Residuals)
 qqline(results_df$Residuals, col = 2)
 ```
 
@@ -589,31 +626,45 @@ qqline(results_df$Residuals, col = 2)
 results_df$Time <- as.Date(actual_df$year)
 # Plot Actual vs Predicted over time
 p2 <- ggplot(results_df, aes(x = Time)) +
-  geom_line(aes(y = Actual, 
-                color = "Actual"), 
-                linetype = 1) +
-  geom_line(aes(y = Predicted, 
-                color = "Predicted"), 
-                linewidth = 1, 
-                linetype = 'dashed') +
-  labs(title = "Actual vs Predicted Values Over Time", 
-       x = "Time", y = "Value") +
-  scale_color_manual(name = "Legend", 
-                     values = c("Actual" = "navy", 
-                                "Predicted" = "orange")) 
+  geom_line(
+    aes(
+      y = Actual,
+      color = "Actual"
+    ),
+    linetype = 1
+  ) +
+  geom_line(
+    aes(
+      y = Predicted,
+      color = "Predicted"
+    ),
+    linewidth = 1,
+    linetype = "dashed"
+  ) +
+  labs(
+    title = "Actual vs Predicted Values Over Time",
+    x = "Time", y = "Value"
+  ) +
+  scale_color_manual(
+    name = "Legend",
+    values = c(
+      "Actual" = "navy",
+      "Predicted" = "orange"
+    )
+  )
 ```
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap: 
+#| fig-cap:
 #|   - "Actual vs Predicted Values"
 #|   - "Actual vs Predicted Over Time"
 #| fig-alt: "Actual vs Predicted Values"
-#| label: fig-act-pred  
+#| label: fig-act-pred
 #| echo: false
 
-p1+theme_minimal()
-p2+theme_minimal()
+p1 + theme_minimal()
+p2 + theme_minimal()
 ```
 
 ```{r}
@@ -626,10 +677,9 @@ h2o.shutdown(prompt = FALSE)
 
 ### Keras
 
-The following example shows how to use the `{keras}` r package for deep
-learning. It is particularly useful for handling large datasets.
-However, this is not the case seen the size of the rabies dataset, we
-can use it to compare the results with the previous model frameworks.
+The following example shows how to use the `{keras}` r package for applying the **deep learning** technique, particularly useful for handling network connections. In this case the **SEIR**\index{SEIR} model (susceptible, exposed, infected and recovered) is used, as seen in @sec-05-machine_learning chapter, to simulate the spread of a general infection in a population of 1000 individuals over 160 days. For some type of infections, the latency period is significant as it is the time during which infected individuals are not yet infectious themselves. During this period the individual is in compartment E (for exposed).
+
+Once the simulation of the infected population is done, the kera model is trained on social media data to predict the probability of infection based on social media activity. The model results are then used to adjust the SEIR parameters based on the predicted infection status and re-run again on new data. 
 
 ```{r}
 #| message: false
@@ -643,6 +693,7 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
+
 ```{r}
 #| eval: false
 install.packages("keras3")
@@ -655,7 +706,7 @@ library(deSolve)
 library(ggplot2)
 ```
 
-Define the SEIR model:
+To setup the SEIR compartments we start by defining the differential equations built by considering the rates of change of each compartment $(S,E,I,R)$, the parameters $(\beta,\sigma,\gamma)$, the initial state value of the population $(N)$, and the length of time in days $(t=160)$. Finally the `ode()` function is used to solve the differential equations and provide the output dataset.
 
 ```{r}
 SEIR <- function(time, state, parameters) {
@@ -671,7 +722,7 @@ SEIR <- function(time, state, parameters) {
 }
 # Parameters
 parameters <- c(
-  beta = 0.3,  # Infection rate
+  beta = 0.3, # Infection rate
   sigma = 0.2, # Incubation rate
   gamma = 0.1 # Recovery rate
 )
@@ -681,50 +732,67 @@ initial_state <- c(S = 999, E = 1, I = 0, R = 0)
 # Time points
 times <- seq(0, 160, by = 1)
 # Solve the model
-output <- ode(y = initial_state, 
-              times = times, 
-              func = SEIR, 
-              parms = parameters)
+output <- ode(
+  y = initial_state,
+  times = times,
+  func = SEIR,
+  parms = parameters
+)
 # Convert output to a data frame
 output <- as.data.frame(output)
 ```
 
-Example social media data (features and labels):
+The social media data, composed of features and labels, is obtained by simulating a matrix of 1000 individuals $(n)$ over 10 $(p)$ days for training the model:
 
 ```{r}
 set.seed(123)
-n <- 1000  # number of samples
-p <- 10    # number of features
+n <- 1000 # number of samples
+p <- 10 # number of features
 # Generate random features and labels
-social_features <- matrix(rnorm(n * p), 
-                          nrow = n, ncol = p)
+social_features <- matrix(rnorm(n * p),
+  nrow = n, ncol = p
+)
 infection_labels <- sample(0:1, n, replace = TRUE)
 # Combine into a data frame
 social_data <- data.frame(social_features)
 social_data$infection <- infection_labels
+head(social_data)
 ```
 
-Define the model
+Define the model by using the `keras_model_sequential()` function, and add the layers using the `layer_dense()` and `layer_activation()` functions. Here we use a simple model with one dense layer and a **ReLU activation function**, which is a function that has a specific shape that allows the model to learn complex patterns in the data.
+
+The formula of the ReLU function is $f(x) = max(0,x)$, which means that if the input is greater than zero, the output is equal to the input, and if the input is less than zero, the output is zero. This function is commonly used in deep learning models because it helps the model learn complex patterns in the data by allowing it to capture non-linear relationships between the input and output variables.
+
+Although the `layer_dropout()` is not actually used in this model application, it has been comment out for testing model adjustments. The function is used to prevent overfitting by randomly setting a fraction of input units to zero during training. 
+
+The model concludes with one model `layer_dense()` function used to finally activate the last layer with a tailored function such as a **sigmoid** or **softmax** function. The sigmoid function is used in binary classification problems, where the output is a probability between 0 and 1. The softmax function is used in multi-class classification problems, where the output is a probability distribution over multiple classes.
 
 ```{r}
-model <- keras_model_sequential(input_shape = c(p)) 
+model <- keras_model_sequential(input_shape = c(p))
 # simple model
-model %>% 
-  layer_dense(units = 1) %>% 
-  layer_activation('relu') %>%
-  #layer_dropout(rate = 0.3) %>%
-  #layer_dense(units = 64) %>% 
-  #layer_activation('relu') %>%
-  #layer_dropout(rate = 0.4) %>%
-  layer_dense( units = 1, activation = 'sigmoid')
+model %>%
+  layer_dense(units = 1) %>%
+  layer_activation("relu") %>%
+  # layer_dropout(rate = 0.3) %>%
+  # layer_dense(units = 64) %>%
+  # layer_activation('relu') %>%
+  # layer_dropout(rate = 0.4) %>%
+  layer_dense(units = 1, activation = "sigmoid")
+```
+
+The model is then compiled using the `compile()` function with a loss function, an optimizer, and specified metrics. The loss function is used to measure how well the model is performing, the optimizer is used to update the model's weights during training, and the metrics are used to evaluate the model's performance. 
+```{r}
 # Compile the model
 model %>% compile(
-  loss = 'binary_crossentropy',
+  loss = "binary_crossentropy",
   optimizer = optimizer_adam(),
-  metrics = c('accuracy')
+  metrics = c("accuracy")
 )
 ```
 
+The model is then trained using the `fit()` function with the training data, number of **epochs**, **batch size**, and **validation** split specified. The number of epochs is the number of times the model will go through the training data, the batch size is the number of samples used in each training step, and the validation split is the fraction of the training data that will be used for validation.
+
+A particular object that is created in this type of models is the `history` object, which is used to store the training history of the model. This object contains information about the loss and accuracy of the model on the training and validation data during training. 
 ```{r}
 #| output: false
 #| message: false
@@ -732,62 +800,72 @@ model %>% compile(
 history <- model %>% fit(
   x = as.matrix(social_data[, 1:p]),
   y = social_data$infection,
-  epochs = 30, 
-  batch_size = 128, 
+  epochs = 30,
+  batch_size = 128,
   validation_split = 0.2
-  )
+)
 ```
 
+The subsequent times the `history` object is created, the model is trained with half the number of epochs and batch size. And this specifications can further be adjusted as needed.
 ```{r}
-#| output: false  
+#| output: false
 history2 <- model %>% fit(
   x = as.matrix(social_data[, 1:p]),
   y = social_data$infection,
-  epochs = 30/2, 
-  batch_size = 128/2, 
+  epochs = 30 / 2,
+  batch_size = 128 / 2,
   validation_split = 0.2
-  )
+)
 ```
 
+Here are two attempts of the trained model with different parameters, the first with 30 epochs and a batch size of 128, and the second with 15 epochs and a batch size of 64. The training history of both models is then plotted to compare their performance.
 ```{r}
 #| layout-ncol: 2
-#| fig-cap: 
+#| fig-cap:
 #|   - "Model 1 History"
 #|   - "Model 2 History"
 #| fig-alt: "Model History"
-#| label: fig-model-history   
+#| label: fig-model-history
 #| echo: false
 plot(history)
 plot(history2)
 ```
 
-Predict infection status for new social media data and adjust the SEIR
-parameters based on predictions.
+Now that the model is trained and have provided an idea of how it works on our data, a prediction of infection status is done new social media data. 
+
+The model is then used to predict the probability of infection based on the social media data. The predictions are then converted to binary values using a threshold of 0.5, where values greater than 0.5 are classified as 1 (infected) and values less than or equal to 0.5 are classified as 0 (not infected).
 
 ```{r}
-new_social_data <- matrix(rnorm(p * 160), 
-                          nrow = 160, ncol = p)
-predicted_infections <- model %>% 
+new_social_data <- matrix(rnorm(p * 160),
+  nrow = 160, ncol = p
+)
+predicted_infections <- model %>%
   predict(new_social_data)
 predicted_infections <- ifelse(predicted_infections > 0.5, 1, 0)
 ```
 
-Adjust the SEIR parameters based on predictions, and re-run the model.
+The adjustment is then done on the SEIR parameters based on predictions results. The beta parameter is adjusted by multiplying it by the mean of the predicted infections. 
 
 ```{r}
 adjusted_parameters <- parameters
-adjusted_parameters["beta"] <- 
+adjusted_parameters["beta"] <-
   adjusted_parameters["beta"] * (1 + mean(predicted_infections))
-adjusted_output <- ode(y = initial_state, 
-                       times = times, 
-                       func = SEIR, 
-                       parms = adjusted_parameters)
+```
+
+The SEIR model is then re-run with the adjusted parameters to simulate the spread of the infection in the population. 
+
+```{r}
+adjusted_output <- ode(
+  y = initial_state,
+  times = times,
+  func = SEIR,
+  parms = adjusted_parameters
+)
 # Convert output to a data frame
 adjusted_output <- as.data.frame(adjusted_output)
 ```
 
-Plot the results of the SEIR model with and without social media
-adjustments.
+The output shows the impact of the social media adjustments on the spread of the infection.
 
 ```{r}
 #| fig-cap: "SEIR Model with and without Social Media Adjustments"
@@ -797,18 +875,32 @@ adjustments.
 #| fig-height: 3
 
 ggplot() +
-  geom_line(data = output, 
-            aes(x = time, y = I, 
-                color = "Original Infections")) +
-  geom_line(data = adjusted_output, 
-            aes(x = time, y = I, 
-                color = "Adjusted Infections")) +
-  labs(title= "SEIR Model with and without Social Media Adjustments",
-       y = "Infectious Population", 
-       color = "Scenario") +
-scale_color_manual(values = c("Original Infections" = "navy", 
-                              "Adjusted Infections" = "orange")) 
+  geom_line(
+    data = output,
+    aes(
+      x = time, y = I,
+      color = "Original Infections"
+    )
+  ) +
+  geom_line(
+    data = adjusted_output,
+    aes(
+      x = time, y = I,
+      color = "Adjusted Infections"
+    )
+  ) +
+  labs(
+    title = "SEIR Model - Social Media Adjustments",
+    y = "Infectious Population",
+    color = "Scenario"
+  ) +
+  scale_color_manual(values = c(
+    "Original Infections" = "navy",
+    "Adjusted Infections" = "orange"
+  ))
 ```
+
+This is just a simple example of how the `{keras}` package can be used to train a deep learning model on social media data to predict the probability of infection. The model can tested on using different layers, more specification are found in the [keras documentation](https://keras.io/).
 
 ## How to Find a New R-Package
 
@@ -836,16 +928,16 @@ techniques to search all of CRAN.
 ```{r}
 #| message: false
 #| warning: false
-library(tidyverse)  # for data manipulation
-library(dlstats)    # for package download stats
-library(pkgsearch)  # for searching packages
+library(tidyverse) # for data manipulation
+library(dlstats) # for package download stats
+library(pkgsearch) # for searching packages
 ```
 
 We search for packages related to *"excess of mortality"* and
 "infectious diseases":
 
 ```{r}
-excessPkg<-pkg_search(query="excess of mortality",size=200)
+excessPkg <- pkg_search(query = "excess of mortality", size = 200)
 ```
 
 ```{r}
@@ -853,7 +945,7 @@ head(excessPkg$maintainer_name)
 ```
 
 ```{r}
-excessPkgShort <- excessPkg %>% 
+excessPkgShort <- excessPkg %>%
   filter(maintainer_name != "ORPHANED", score > 100) %>%
   select(score, package, downloads_last_month) %>%
   arrange(desc(downloads_last_month))
@@ -869,12 +961,15 @@ excess_downloads <- cran_stats(excess_shortList)
 ```
 
 ```{r}
-ggplot(excess_downloads, 
-       aes(end, downloads, 
-           group=package, color=package)) +
-  geom_line() + 
-  geom_point(aes(shape=package)) +
-  scale_y_continuous(trans = 'log2')
+ggplot(
+  excess_downloads,
+  aes(end, downloads,
+    group = package, color = package
+  )
+) +
+  geom_line() +
+  geom_point(aes(shape = package)) +
+  scale_y_continuous(trans = "log2")
 ```
 
 Another example is the `{cranly}` package, which provides a simple
@@ -896,8 +991,8 @@ package_db <- clean_CRAN_db(p_db)
 ```{r}
 #| echo: false
 #| eval: false
-saveRDS(p_db,"data/model-data/p_db.rds")
-saveRDS(package_db,"data/model-data/package_db.rds")
+saveRDS(p_db, "data/model-data/p_db.rds")
+saveRDS(package_db, "data/model-data/package_db.rds")
 ```
 
 ```{r}
@@ -910,7 +1005,8 @@ package_db <- readRDS("data/model-data/package_db.rds")
 ```{r}
 package_db %>%
   filter(grepl("infectious diseases",
-               description,
-               ignore.case = TRUE))%>%
+    description,
+    ignore.case = TRUE
+  )) %>%
   select(package)
 ```

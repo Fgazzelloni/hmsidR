@@ -131,17 +131,19 @@ hmsidwR::sdi90_19 |> head()
 ```
 
 ```{r}
-sdi90_19|>
-  group_by(location)|>
-  reframe(avg=round(mean(value),3))|>
-  filter(location%in%c("Global","Italy","France","Germany"))
+sdi90_19 |>
+  group_by(location) |>
+  reframe(avg = round(mean(value), 3)) |>
+  filter(location %in% c("Global", "Italy", "France", "Germany"))
 ```
 
 ```{r}
 sdi_fr <- sdi90_19 |>
-  filter(location=="France")
+  filter(location == "France")
 
-sdi_fr |> head() |> str()
+sdi_fr |>
+  head() |>
+  str()
 ```
 
 ```{r}
@@ -153,9 +155,9 @@ sdi_fr |> head() |> str()
 #| fig-height: 3
 
 library(tsibble)
-sdi_fr_ts <- tsibble::as_tsibble(sdi_fr,index = year)
+sdi_fr_ts <- tsibble::as_tsibble(sdi_fr, index = year)
 
-sdi_fr_ts|>
+sdi_fr_ts |>
   autoplot()
 ```
 
@@ -163,7 +165,7 @@ sdi_fr_ts|>
 dcmp <- sdi_fr_ts |>
   model(stl = STL(value))
 
-components(dcmp)|> head()
+components(dcmp) |> head()
 ```
 
 > "...three types of time series patterns: trend, seasonality and
@@ -185,7 +187,7 @@ from the data.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-decomposition
-#| fig-cap: 
+#| fig-cap:
 #|   - "Components of SDI in France"
 #|   - "Trend line of SDI in France"
 #| fig-alt: "Components of SDI in France"
@@ -194,8 +196,8 @@ components(dcmp) |> autoplot()
 
 components(dcmp) |>
   as_tsibble() |>
-  autoplot(value, colour="gray") +
-  geom_line(aes(y=trend), colour = "#D55E00") 
+  autoplot(value, colour = "gray") +
+  geom_line(aes(y = trend), colour = "#D55E00")
 ```
 
 ### Autocorrelation function
@@ -211,22 +213,24 @@ this case we have autocorrelation. So, no white noise.
 #| fig-height: 3
 
 sdi_fr_ts |>
-  ACF(value) |> 
+  ACF(value) |>
   autoplot()
 ```
 
 ```{r}
-sdi_fr_ts|>
-  features(value, 
-           features = unitroot_kpss)
+sdi_fr_ts |>
+  features(value,
+    features = unitroot_kpss
+  )
 ```
 
 Seasonal difference is not required
 
 ```{r}
-sdi_fr_ts|>
-  features(value, 
-           features = unitroot_nsdiffs)
+sdi_fr_ts |>
+  features(value,
+    features = unitroot_nsdiffs
+  )
 ```
 
 **Auto-ARIMA** model is used to establish the best fit:
@@ -234,10 +238,10 @@ sdi_fr_ts|>
 if needed `install.packages("urca")`
 
 ```{r}
-fit <- sdi_fr_ts|>
-   model(ARIMA(value))
+fit <- sdi_fr_ts |>
+  model(ARIMA(value))
 
-fit|>
+fit |>
   report()
 ```
 
@@ -249,11 +253,13 @@ fit|>
 #| label: fig-forecast
 
 fit |>
-  forecast(h=10) |>
-  ggplot(aes(x=year,y=.mean))+
-  geom_line(data=sdi_fr_ts,
-            aes(y=value))+
-  geom_line(color="purple")
+  forecast(h = 10) |>
+  ggplot(aes(x = year, y = .mean)) +
+  geom_line(
+    data = sdi_fr_ts,
+    aes(y = value)
+  ) +
+  geom_line(color = "purple")
 ```
 
 ### Partial Autocorrelations
@@ -264,12 +270,12 @@ fit |>
 #| fig-alt: "Partial Autocorrelations of SDI in France"
 #| label: fig-pacf
 
-sdi_fr_ts|>
+sdi_fr_ts |>
   PACF(value) |>
   autoplot()
 
-sdi_fr_ts|>
-  gg_tsdisplay(y = value,plot_type = "partial")
+sdi_fr_ts |>
+  gg_tsdisplay(y = value, plot_type = "partial")
 ```
 
 ### Model Ensembles
@@ -287,29 +293,35 @@ modelling to enhance the predictive power of the model and achieve
 better generalization performance on unseen data.
 
 ```{r}
-caf_fit <- sdi_fr_ts|>
-  model(arima210 = ARIMA(value ~ pdq(2,1,0)),
-        arima013 = ARIMA(value ~ pdq(0,1,3)),
-        stepwise = ARIMA(value),
-        search = ARIMA(value, stepwise=FALSE))
+caf_fit <- sdi_fr_ts |>
+  model(
+    arima210 = ARIMA(value ~ pdq(2, 1, 0)),
+    arima013 = ARIMA(value ~ pdq(0, 1, 3)),
+    stepwise = ARIMA(value),
+    search = ARIMA(value, stepwise = FALSE)
+  )
 ```
 
 ```{r}
-caf_fit |> 
-  pivot_longer(cols=everything(),
-               names_to = "Model name",
-               values_to = "Orders")
+caf_fit |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "Model name",
+    values_to = "Orders"
+  )
 ```
 
 ```{r}
-glance(caf_fit) |> arrange(AICc) |> select(.model:BIC)
+glance(caf_fit) |>
+  arrange(AICc) |>
+  select(.model:BIC)
 ```
 
 Best ARIMA model selected is ARIMA(1,1,0):
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap: 
+#| fig-cap:
 #|   - "Residuals of ARIMA Models"
 #|   - "Forecast of SDI in France"
 #| fig-alt: "Residuals of ARIMA Models"
@@ -321,12 +333,14 @@ caf_fit |>
 
 
 caf_fit |>
-  forecast(h=5) |>
-  filter(.model=='search') |>
-  ggplot(aes(x=year,y=.mean))+
-  geom_line(data=sdi_fr_ts,
-            aes(y=value))+
-  geom_line(color="purple")
+  forecast(h = 5) |>
+  filter(.model == "search") |>
+  ggplot(aes(x = year, y = .mean)) +
+  geom_line(
+    data = sdi_fr_ts,
+    aes(y = value)
+  ) +
+  geom_line(color = "purple")
 ```
 
 ## Mixed Models
@@ -414,18 +428,26 @@ demonstrate the estimation of YLDs using mixed-effects models.
 library(lme4)
 library(tidyverse)
 
-data <- hmsidwR::g7_hmetrics%>%
-  filter(measure%in%c("Incidence",
-                      "Prevalence",
-                      "YLDs","Deaths"),
-         str_detect(cause,"tuberculosis"),
-         metric=="Rate",
-         sex=="both")%>%
-  select(-metric,-sex,
-         -cause,-upper,-lower)%>%
-  pivot_wider(names_from = measure,
-              values_from = val)
-data%>% head
+data <- hmsidwR::g7_hmetrics %>%
+  filter(
+    measure %in% c(
+      "Incidence",
+      "Prevalence",
+      "YLDs", "Deaths"
+    ),
+    str_detect(cause, "tuberculosis"),
+    metric == "Rate",
+    sex == "both"
+  ) %>%
+  select(
+    -metric, -sex,
+    -cause, -upper, -lower
+  ) %>%
+  pivot_wider(
+    names_from = measure,
+    values_from = val
+  )
+data %>% head()
 ```
 
 ```{r}
@@ -435,19 +457,23 @@ data%>% head
 #| fig-width: 5
 #| fig-height: 3
 
-ggplot(data, 
-       aes(x=fct_reorder(location,YLDs),
-           y=YLDs,group=year,
-           fill=factor(year)))+
-  geom_col(position="dodge")+
-  scale_fill_viridis_d()+
-  labs(x="Location",fill="Year")
+ggplot(
+  data,
+  aes(
+    x = fct_reorder(location, YLDs),
+    y = YLDs, group = year,
+    fill = factor(year)
+  )
+) +
+  geom_col(position = "dodge") +
+  scale_fill_viridis_d() +
+  labs(x = "Location", fill = "Year")
 ```
 
 ```{r}
-hmsidwR::disweights2019%>%
-  filter(str_detect(sequela,"tuberculosis"))%>%
-  select(cause1,severity,dw)
+hmsidwR::disweights2019 %>%
+  filter(str_detect(sequela, "tuberculosis")) %>%
+  select(cause1, severity, dw)
 ```
 
 The disability weights is 0.333 for tuberculosis, and the duration
@@ -481,13 +507,14 @@ random_effects
 # Create new data for prediction
 new_data <- data.frame(
   Prevalence = c(25000, 12000, 50000),
-  year = c(2020,2021,2022),
-  location = c("Japan","UK","US")
-  )
+  year = c(2020, 2021, 2022),
+  location = c("Japan", "UK", "US")
+)
 
 # Predict YLDs for new data
-predictions <- predict(model, new_data, 
-                       allow.new.levels = TRUE)
+predictions <- predict(model, new_data,
+  allow.new.levels = TRUE
+)
 ```
 
 ```{r}
@@ -498,19 +525,26 @@ predictions <- predict(model, new_data,
 #| fig-height: 3
 
 # Predict YLDs for new data
-predictions <- predict(model, data, 
-                       allow.new.levels = TRUE)
+predictions <- predict(model, data,
+  allow.new.levels = TRUE
+)
 data$predicted_YLD <- predictions
 
-ggplot(data%>%filter(year==2019), 
-       aes(x = YLDs,y=predicted_YLD,
-           group=location)) +
-  geom_point(aes(color=factor(location))) +
-  geom_abline()+
-  labs(title = "YLDs Predicted vs Estimated",
-       x = "YLDs",
-       y = "Predicted YLD",
-       color="Location") 
+ggplot(
+  data %>% filter(year == 2019),
+  aes(
+    x = YLDs, y = predicted_YLD,
+    group = location
+  )
+) +
+  geom_point(aes(color = factor(location))) +
+  geom_abline() +
+  labs(
+    title = "YLDs Predicted vs Estimated",
+    x = "YLDs",
+    y = "Predicted YLD",
+    color = "Location"
+  )
 ```
 
 ## Ensemble Learning

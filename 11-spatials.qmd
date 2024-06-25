@@ -36,30 +36,38 @@ library(tidyverse)
 
 ```{r}
 # creating empty dataframe template
-df = as.data.frame(matrix(nrow=1000,ncol=4))
+df <- as.data.frame(matrix(nrow = 1000, ncol = 4))
 # naming dataframe headers
-colnames(df) = c("longitude",
-                 "latitude",
-                 "number",
-                 "type")
+colnames(df) <- c(
+  "longitude",
+  "latitude",
+  "number",
+  "type"
+)
 # First 500 entries are non infected, the other 500 entries are infected
-for(i in 1:1000){
-  if(i > 500){
-    df$type[i] = "infected"
-  }else{
-    df$type[i] = "non_infected"
+for (i in 1:1000) {
+  if (i > 500) {
+    df$type[i] <- "infected"
+  } else {
+    df$type[i] <- "non_infected"
   }
   # coordinates
-  df$latitude[i] = rnorm(n=1,
-                         mean = 46.8705,
-                         sd = 1)[1]
-  df$longitude[i] = rnorm(n=1,
-                          mean=3.834,
-                          sd=1)[1]
+  df$latitude[i] <- rnorm(
+    n = 1,
+    mean = 46.8705,
+    sd = 1
+  )[1]
+  df$longitude[i] <- rnorm(
+    n = 1,
+    mean = 3.834,
+    sd = 1
+  )[1]
   # infections
-  df$number[i] = rnorm(n=1,
-                    mean=100,
-                    sd=25)[1]
+  df$number[i] <- rnorm(
+    n = 1,
+    mean = 100,
+    sd = 25
+  )[1]
 }
 ```
 
@@ -79,16 +87,16 @@ Calculate the coordinates of the center of mass for the infections, even
 called **epicenter** of the infections.
 
 ```{r}
-center_of_mass = function(df) {
-  longitude = sum(df$number * df$longitude) / sum(df$number)
-  latitude = sum(df$number * df$latitude) / sum(df$number)
+center_of_mass <- function(df) {
+  longitude <- sum(df$number * df$longitude) / sum(df$number)
+  latitude <- sum(df$number * df$latitude) / sum(df$number)
   return(c(as.numeric(longitude), as.numeric(latitude)))
 }
 ```
 
 ```{r}
 # coordinates of the center of mass
-com = center_of_mass(df)
+com <- center_of_mass(df)
 com <- as.double(com)
 com
 ```
@@ -113,24 +121,36 @@ Also for specific location we can use the `{worldmet}` package.
 #### Map with ggplot2
 
 ```{r}
-ggplot() + 
-  geom_point(data = df, 
-             mapping = aes(x = longitude, 
-                           y = latitude,
-                           color = type,
-                           size = number),
-             alpha=0.1) +
-  geom_point(data=df_com, 
-             mapping = aes(x=longitude,
-                           y=latitude,
-                           size=number),color="black") +
-  scale_color_manual(values=c("infected"="#a60845",
-                              "non_infected"="grey20")) +
+ggplot() +
+  geom_point(
+    data = df,
+    mapping = aes(
+      x = longitude,
+      y = latitude,
+      color = type,
+      size = number
+    ),
+    alpha = 0.1
+  ) +
+  geom_point(
+    data = df_com,
+    mapping = aes(
+      x = longitude,
+      y = latitude,
+      size = number
+    ), color = "black"
+  ) +
+  scale_color_manual(values = c(
+    "infected" = "#a60845",
+    "non_infected" = "grey20"
+  )) +
   xlab("Longitude") +
   ylab("Latitude") +
   ggtitle("Center of mass") +
-  labs(color = "Type", 
-       size = "Magnitude of Infection")+
+  labs(
+    color = "Type",
+    size = "Magnitude of Infection"
+  ) +
   theme_minimal()
 ```
 
@@ -141,36 +161,50 @@ ggplot() +
 #| message: false
 #| warning: false
 library(ggmap)
-bbox = c(left = -1.099, 
-         bottom = 44.559,
-         right = 8.767, 
-         top = 49.182)
+bbox <- c(
+  left = -1.099,
+  bottom = 44.559,
+  right = 8.767,
+  top = 49.182
+)
 
-mapObj = get_stadiamap( bbox,
-                        maptype = "stamen_terrain",
-                        zoom=6)
+mapObj <- get_stadiamap(bbox,
+  maptype = "stamen_terrain",
+  zoom = 6
+)
 
-mapatt = attributes(mapObj)
-mapObj = matrix(adjustcolor(mapObj, alpha.f = 0.2), 
-                nrow = nrow(mapObj))
-attributes(mapObj) = mapatt
-mapObj = ggmap(mapObj)
-mapObj = mapObj + 
-  geom_point(data = df, mapping = aes(x = longitude, 
-                           y = latitude,
-                           color = type,
-                           size = number),alpha=0.05) +
-  geom_point(data=df_com, 
-             mapping = aes(x=longitude,
-                           y=latitude,
-                           size=number),color="black") +
-  scale_color_manual(values=c("infected"="#a60845",
-                              "non_infected"="grey20")) +
+mapatt <- attributes(mapObj)
+mapObj <- matrix(adjustcolor(mapObj, alpha.f = 0.2),
+  nrow = nrow(mapObj)
+)
+attributes(mapObj) <- mapatt
+mapObj <- ggmap(mapObj)
+mapObj <- mapObj +
+  geom_point(data = df, mapping = aes(
+    x = longitude,
+    y = latitude,
+    color = type,
+    size = number
+  ), alpha = 0.05) +
+  geom_point(
+    data = df_com,
+    mapping = aes(
+      x = longitude,
+      y = latitude,
+      size = number
+    ), color = "black"
+  ) +
+  scale_color_manual(values = c(
+    "infected" = "#a60845",
+    "non_infected" = "grey20"
+  )) +
   xlab("Longitude") +
   ylab("Latitude") +
   ggtitle("Center of mass") +
-  labs(color = "Type", 
-       size = "Magnitude of Infection")
+  labs(
+    color = "Type",
+    size = "Magnitude of Infection"
+  )
 mapObj
 ```
 
@@ -182,18 +216,20 @@ Import `{leaflet}` and `{leaflet.extras}` to make a heatmap:
 library(leaflet)
 library(leaflet.extras)
 # define center of map
-lat_center = com[2]
-long_center = com[1]
-# creating intensity heat map 
-heatmap = df %>%
-  leaflet() %>% 
-  addTiles() %>% 
-  setView(long_center,lat_center,4.5) %>%
-  addHeatmap(lng=~longitude,lat=~latitude,
-             intensity=~number,
-             max=100,radius=13,blur=20) %>% 
-# parameter to set 
-  addMarkers(lng=as.numeric(com[1]),lat=as.numeric(com[2]))
+lat_center <- com[2]
+long_center <- com[1]
+# creating intensity heat map
+heatmap <- df %>%
+  leaflet() %>%
+  addTiles() %>%
+  setView(long_center, lat_center, 4.5) %>%
+  addHeatmap(
+    lng = ~longitude, lat = ~latitude,
+    intensity = ~number,
+    max = 100, radius = 13, blur = 20
+  ) %>%
+  # parameter to set
+  addMarkers(lng = as.numeric(com[1]), lat = as.numeric(com[2]))
 ```
 
 ```{r}
@@ -240,9 +276,10 @@ locations.
 
 library(ggdag)
 dagify(y ~ x,
-       exposure = "x",
-       outcome = "y",
-       coords=time_ordered_coords()) %>% 
+  exposure = "x",
+  outcome = "y",
+  coords = time_ordered_coords()
+) %>%
   ggdag() + theme_dag_blank()
 ```
 
@@ -251,10 +288,10 @@ the distance between the center of mass and the infection coordinates.
 
 ```{r}
 # helper function for calculating euclidean distance metric
-euclidean_distance = function(longitude,latitude,long_com,lat_com){
-  long_distances = (longitude-long_com[1])^2
-  lat_distances = (latitude-lat_com[1])^2
-  return((long_distances+lat_distances)*0.5)
+euclidean_distance <- function(longitude, latitude, long_com, lat_com) {
+  long_distances <- (longitude - long_com[1])^2
+  lat_distances <- (latitude - lat_com[1])^2
+  return((long_distances + lat_distances) * 0.5)
 }
 ```
 
@@ -311,7 +348,7 @@ A simple example would be considering:
 -   Threshold distance beyond which loss occurs
 
 ```{r}
-distance <- 5 
+distance <- 5
 threshold <- 3
 ```
 
@@ -320,11 +357,11 @@ threshold <- 3
 ```{r}
 loss_function <- function(distance, threshold) {
   if (distance <= threshold) {
-# No loss if distance is within threshold    
-    return(0)  
+    # No loss if distance is within threshold
+    return(0)
   } else {
-# Loss increases linearly with distance beyond threshold    
-    return(distance - threshold)  
+    # Loss increases linearly with distance beyond threshold
+    return(distance - threshold)
   }
 }
 ```
@@ -336,20 +373,22 @@ loss
 
 ```{r}
 # cost calculation function
-cost_function = function(df){
-  long_com = df$longitude[nrow(df)]
-  lat_com = df$latitude[nrow(df)]
-  euclideans = euclidean_distance(df$latitude[-nrow(df)],
-                                  df$latitude[-nrow(df)],
-                                  long_com,lat_com)
+cost_function <- function(df) {
+  long_com <- df$longitude[nrow(df)]
+  lat_com <- df$latitude[nrow(df)]
+  euclideans <- euclidean_distance(
+    df$latitude[-nrow(df)],
+    df$latitude[-nrow(df)],
+    long_com, lat_com
+  )
   # implementation of the cost function
-  costs = euclideans*df$number[-nrow(df)]
+  costs <- euclideans * df$number[-nrow(df)]
   return(sum(costs))
 }
 ```
 
 ```{r}
-cost_function(df)/1000000
+cost_function(df) / 1000000
 ```
 
 Applying Monte Carlo simulation to assess the cost and loss associated
@@ -377,32 +416,39 @@ results dataframe.
 
 ```{r}
 # dataframe for storing Monte-carlo simulation results
-results = as.data.frame(matrix(nrow=10000,ncol=2))
-colnames(results) = c("iteration","costs")
+results <- as.data.frame(matrix(nrow = 10000, ncol = 2))
+colnames(results) <- c("iteration", "costs")
 ```
 
 Execute 10,000 iterations of the Monte-carlo simulation to assess cost
 uncertainty / cost sensitivity.
 
 ```{r}
-for(i in 1:10000){
-  df$number[-1001] = rnorm(n=1000,
-                    mean=100,
-                    sd=25)
-  results$iteration[i] = i
-  results$costs[i] = cost_function(df)/1000000
+for (i in 1:10000) {
+  df$number[-1001] <- rnorm(
+    n = 1000,
+    mean = 100,
+    sd = 25
+  )
+  results$iteration[i] <- i
+  results$costs[i] <- cost_function(df) / 1000000
 }
 ```
 
 Plot results of Monte-carlo simulation in the form of a histogram:
 
 ```{r}
-ggplot() + geom_histogram(data = results, 
-                          mapping = aes(x=costs),
-                          fill = alpha("#a60845",alpha = 0.5),
-                          bins = 25) +
-  labs(title="Simulated infection sensitivity",
-subtitle="at center of gravity (center of mass)") + 
+ggplot() +
+  geom_histogram(
+    data = results,
+    mapping = aes(x = costs),
+    fill = alpha("#a60845", alpha = 0.5),
+    bins = 25
+  ) +
+  labs(
+    title = "Simulated infection sensitivity",
+    subtitle = "at center of gravity (center of mass)"
+  ) +
   xlab("Simulated loss") +
   ylab("Absolute frequency")
 ```

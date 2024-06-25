@@ -165,9 +165,11 @@ The **`hmsidwR::gho_lifetables`** dataset contains five variables:
 #| tbl-cap: "Global Health Observatory Life Tables"
 
 gho_lifetables %>%
-  filter(indicator == "ex",
-         sex=="both")%>%
-  select(-indicator,-sex)%>%
+  filter(
+    indicator == "ex",
+    sex == "both"
+  ) %>%
+  select(-indicator, -sex) %>%
   head()
 ```
 
@@ -201,46 +203,57 @@ be found in the @sec-09-data_visualization chapter of this book.
 #| message: false
 #| layout-ncol: 2
 #| label: fig-expectation-life
-#| fig-cap: 
+#| fig-cap:
 #|   - "ex - expectation of life at age x"
 #|   - "GHO Life Tables"
 #| fig-alt: "ex - expectation of life at age x and Global Health Observatory Life Tables - Expectation of Life"
 
 gho_lifetables %>%
-  filter(indicator == "ex",
-         sex=="both") %>%
-  mutate(age10= case_when(
-    age %in% c("-01","01-04","05-09") ~ "0-09",
-    age %in% c("10-14","15-19") ~ "10-19",
-    age %in% c("20-24","25-29") ~ "20-29",
-    age %in% c("30-34","35-39") ~ "30-39",
-    age %in% c("40-44","45-49") ~ "40-49",
-    age %in% c("50-54","55-59") ~ "50-59",
-    age %in% c("60-64","65-69") ~ "60-69",
-    age %in% c("85+","80-84","75-79","70-74") ~ "70+",
-    TRUE ~ age)) %>%
-  group_by(age10,year) %>%
+  filter(
+    indicator == "ex",
+    sex == "both"
+  ) %>%
+  mutate(age10 = case_when(
+    age %in% c("-01", "01-04", "05-09") ~ "0-09",
+    age %in% c("10-14", "15-19") ~ "10-19",
+    age %in% c("20-24", "25-29") ~ "20-29",
+    age %in% c("30-34", "35-39") ~ "30-39",
+    age %in% c("40-44", "45-49") ~ "40-49",
+    age %in% c("50-54", "55-59") ~ "50-59",
+    age %in% c("60-64", "65-69") ~ "60-69",
+    age %in% c("85+", "80-84", "75-79", "70-74") ~ "70+",
+    TRUE ~ age
+  )) %>%
+  group_by(age10, year) %>%
   summarize("value" = round(mean(value), 3)) %>%
-  ggplot(aes(year, value, group = age10, color = age10))+
+  ggplot(aes(year, value, group = age10, color = age10)) +
   geom_line(show.legend = F) +
   scale_color_manual(values = rainbow(20)) +
-  labs(title = "ex - expectation of life at age x",
-       caption = "DataSource: WHO GHO data repository",
-       x="Year",y="Value")+
-  theme(axis.text.x = element_text(size=7,
-                                   vjust = 0.5),
-        plot.caption = element_text(size=8))
+  labs(
+    title = "ex - expectation of life at age x",
+    caption = "DataSource: WHO GHO data repository",
+    x = "Year", y = "Value"
+  ) +
+  theme(
+    axis.text.x = element_text(
+      size = 7,
+      vjust = 0.5
+    ),
+    plot.caption = element_text(size = 8)
+  )
 
 
 gho_lifetables %>%
   filter(indicator == "ex") %>%
-  group_by(year)%>%
-  summarize(value=mean(value))%>%
-  ggplot(aes(year, value)) + 
-  geom_line(linewidth=1) +
-  labs(title="Global expectation of life (all ages avg value)",
-       subtitle="for the years 2000, 2005, 2010, 2015, and 2019",
-       caption="DataSource: WHO GHO data repository")
+  group_by(year) %>%
+  summarize(value = mean(value)) %>%
+  ggplot(aes(year, value)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Global expectation of life (all ages avg value)",
+    subtitle = "for the years 2000, 2005, 2010, 2015, and 2019",
+    caption = "DataSource: WHO GHO data repository"
+  )
 ```
 
 The mathematical formulation for calculating the expectation of life at
@@ -268,22 +281,29 @@ conditions on the longevity and health of populations.
 #| warning: false
 #| message: false
 
-pyramid <- gho_lifetables %>% 
-  mutate(value = ifelse(sex == 'female', 
-                        as.integer(value * -1), 
-                        as.integer(value)))%>%
-  filter(!sex=="both",
-         indicator=="ex")%>%
-ggplot(aes(x = age, y = value, fill = sex)) +
-  geom_bar(stat = 'identity')+
-  scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99")) +
-  coord_flip()+
-  labs(title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
-       subtitle ="",
-       y = "Age",
-       caption = "Data Source: WHO | Graphic: @fgazzelloni") +
-  theme(axis.text.x = element_blank(),
-        axis.title = element_blank())
+pyramid <- gho_lifetables %>%
+  mutate(value = ifelse(sex == "female",
+    as.integer(value * -1),
+    as.integer(value)
+  )) %>%
+  filter(
+    !sex == "both",
+    indicator == "ex"
+  ) %>%
+  ggplot(aes(x = age, y = value, fill = sex)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("#CC6666", "#9999CC", "#66CC99")) +
+  coord_flip() +
+  labs(
+    title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
+    subtitle = "",
+    y = "Age",
+    caption = "Data Source: WHO | Graphic: @fgazzelloni"
+  ) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.title = element_blank()
+  )
 # pyramid
 ```
 
@@ -291,15 +311,16 @@ ggplot(aes(x = age, y = value, fill = sex)) +
 #| eval: false
 #| echo: false
 library(gganimate)
-pyramid_gif <- pyramid+
-  transition_states(year,transition_length = 1,state_length = 2) + 
+pyramid_gif <- pyramid +
+  transition_states(year, transition_length = 1, state_length = 2) +
   enter_fade() +
-  exit_fade() + 
-  ease_aes('cubic-in-out')
+  exit_fade() +
+  ease_aes("cubic-in-out")
 
 animate(pyramid_gif,
-        fps = 40,duration = 5,width = 1200,height = 1400,res = 120,
-        renderer = gifski_renderer('images/gho_pyramid.gif'))
+  fps = 40, duration = 5, width = 1200, height = 1400, res = 120,
+  renderer = gifski_renderer("images/gho_pyramid.gif")
+)
 ```
 
 ::: {.content-visible when-format="html"}
@@ -417,8 +438,8 @@ incidence_rate <- 59.4
 total_cases <- (incidence_rate / 1000) * total_population
 
 # Case fatality rates (min and max)
-cfr_min <- 0.0001  # 0.01%
-cfr_max <- 0.004   # 0.40%
+cfr_min <- 0.0001 # 0.01%
+cfr_max <- 0.004 # 0.40%
 
 # Calculate estimated deaths for the minimum and maximum case fatality rates
 deaths_min_cfr <- total_cases * cfr_min
@@ -537,14 +558,16 @@ of 1/20=0.05 (5%)
 #| label: tbl-covid19-synthetic
 #| tbl-cap: "COVID-19 Cases and Recovered - simulate data"
 
-library(tidyverse,quietly = T)
+library(tidyverse, quietly = T)
 
-population_size <- 100000  # Number of individuals
-days <- 365  # Number of days
+population_size <- 100000 # Number of individuals
+days <- 365 # Number of days
 
 set.seed(123)
 dates <- seq(as.Date("2019-01-01"),
-             as.Date("2019-12-31"), by = "day")
+  as.Date("2019-12-31"),
+  by = "day"
+)
 ```
 
 Cases and recovered are simulated using a
@@ -576,16 +599,18 @@ The simulated data is then combined into a data frame with the date,
 number of cases, and number of recovered individuals.
 
 ```{r}
-covid_data <- data.frame(Date = dates, 
-                         Cases = cases, 
-                         Recovered = recovered)
+covid_data <- data.frame(
+  Date = dates,
+  Cases = cases,
+  Recovered = recovered
+)
 ```
 
 Let's have a look at the first few rows of the dataset:
 
 ```{r}
 #| echo: false
-covid_data%>%
+covid_data %>%
   head()
 ```
 
@@ -595,22 +620,24 @@ Calculate the cumulative incidence and prevalence over time:
 #| label: tbl-covid19-inc-prev-synthetic
 #| tbl-cap: "COVID-19 Incidence and Prevalence - simulate data"
 
-covid_data <- 
-  transform(covid_data, 
-            Cum_Cases = cumsum(Cases),
-            Cum_Recovered = cumsum(Recovered))
+covid_data <-
+  transform(covid_data,
+    Cum_Cases = cumsum(Cases),
+    Cum_Recovered = cumsum(Recovered)
+  )
 
 # Calculate daily incidence and prevalence per 100,000 population
-covid_data <- 
-  transform(covid_data, 
-            Incidence = (Cum_Cases /population_size)*1000,
-            Prevalence = ((Cum_Cases-Cum_Recovered) / population_size)*1000)
+covid_data <-
+  transform(covid_data,
+    Incidence = (Cum_Cases / population_size) * 1000,
+    Prevalence = ((Cum_Cases - Cum_Recovered) / population_size) * 1000
+  )
 ```
 
 ```{r}
 #| echo: false
-covid_data%>%
-  select(-Cases,-Recovered)%>%
+covid_data %>%
+  select(-Cases, -Recovered) %>%
   head()
 ```
 
@@ -622,7 +649,7 @@ total_recoveries <- sum(covid_data$Recovered)
 #### Incidence and Prevalence rates for the year
 
 ```{r}
-(incidence_rate <- total_cases / population_size);
+(incidence_rate <- total_cases / population_size)
 (prevalence_rate <- (total_cases - total_recoveries) / population_size)
 ```
 
@@ -638,13 +665,17 @@ total_recoveries <- sum(covid_data$Recovered)
 ggplot(covid_data, aes(x = Date)) +
   geom_line(aes(y = Incidence, color = "Incidence"), size = 1.5) +
   geom_line(aes(y = Prevalence, color = "Prevalence"), size = 1.5) +
-  scale_color_manual(values = c("Incidence" = "#29306c", 
-                                "Prevalence" = "#a60845")) +
-  labs(title = "Incidence and Prevalence COVID-19 Cases",
-       caption="Data: synthetic",
-       x = "Date",
-       y = "Number per 100,000 Population",
-       color = "Metric") +
+  scale_color_manual(values = c(
+    "Incidence" = "#29306c",
+    "Prevalence" = "#a60845"
+  )) +
+  labs(
+    title = "Incidence and Prevalence COVID-19 Cases",
+    caption = "Data: synthetic",
+    x = "Date",
+    y = "Number per 100,000 Population",
+    color = "Metric"
+  ) +
   theme(legend.position = "bottom")
 ```
 
@@ -739,8 +770,8 @@ weights for the year 2019 for 204 countries and territories.
 #| label: tbl-disability-weights
 #| tbl-cap: "Disability Weights"
 
-disability_weights %>% 
-  select(specification,severity,dw)%>%
+disability_weights %>%
+  select(specification, severity, dw) %>%
   head()
 ```
 
@@ -761,7 +792,7 @@ library(hmsidwR)
 disability_weights <- hmsidwR::disweights2019
 
 disability_weights %>%
-  filter(cause1=="Infectious disease")%>%
+  filter(cause1 == "Infectious disease") %>%
   group_by(severity) %>%
   summarize(dw = mean(dw))
 ```
@@ -899,8 +930,8 @@ to calculate the YLLs, the YLDs and finally the DALYs.
 #| label: tbl-germany_lungc
 #| tbl-cap: "Germany lungcancer"
 
-germany_lungc %>% 
-  select(age,sex,prevalence,dx)%>%
+germany_lungc %>%
+  select(age, sex, prevalence, dx) %>%
   head()
 ```
 
@@ -912,17 +943,19 @@ YLLs for the lung cancer\index{lung cancer} deaths in Germany in 2019.
 #| message: false
 #| warning: false
 
-gelung_YLL <- germany_lungc%>%
-  filter(sex=="both")%>%
-  left_join(gho_lifetables%>%
-              filter(year==2019,
-                     indicator=="ex")%>%
-              select(-indicator,-year)%>%
-              rename(life_expectancy=value))%>%
-  group_by(age)%>%
-  reframe(dx,life_expectancy,YLL=dx*life_expectancy)
+gelung_YLL <- germany_lungc %>%
+  filter(sex == "both") %>%
+  left_join(gho_lifetables %>%
+    filter(
+      year == 2019,
+      indicator == "ex"
+    ) %>%
+    select(-indicator, -year) %>%
+    rename(life_expectancy = value)) %>%
+  group_by(age) %>%
+  reframe(dx, life_expectancy, YLL = dx * life_expectancy)
 
-gelung_YLL%>%
+gelung_YLL %>%
   head()
 ```
 
@@ -939,9 +972,9 @@ from GBD study[@ihmeuw/i2024] are the same as those found in the
 #| label: tbl-disweights2019-lung
 #| tbl-cap: "Lung cancer - Disability Weights"
 
-lung_dw <- hmsidwR::disweights2019%>%
-  filter(str_detect(sequela,"lung"))%>%
-  select(sequela,dw)
+lung_dw <- hmsidwR::disweights2019 %>%
+  filter(str_detect(sequela, "lung")) %>%
+  select(sequela, dw)
 ```
 
 So, 0.451 is the disability weight for the metastatic phase of lung, or
@@ -957,11 +990,11 @@ prevalence and the disability weight for each age group.
 #| message: false
 #| warning: false
 
-prev_germany_lungc <- germany_lungc%>%
-  filter(sex=="both")%>%
-  select(age,prevalence)
+prev_germany_lungc <- germany_lungc %>%
+  filter(sex == "both") %>%
+  select(age, prevalence)
 
-prev_germany_lungc %>%head()
+prev_germany_lungc %>% head()
 ```
 
 ```{r}
@@ -971,18 +1004,20 @@ prev_germany_lungc %>%head()
 #| tbl-cap: "Lung Cancer Cases in Germany 2019"
 
 gelung_YLD <- prev_germany_lungc %>%
-  mutate(dw=0.451,
-         YLD=prevalence*dw)
+  mutate(
+    dw = 0.451,
+    YLD = prevalence * dw
+  )
 
-gelung_YLD%>%
+gelung_YLD %>%
   head()
 ```
 
 ```{r}
-gelung_YLL%>%
-  select(age,YLL)%>%
-  left_join(gelung_YLD%>%select(age,YLD))%>%
-  mutate(DALY=YLL+YLD)
+gelung_YLL %>%
+  select(age, YLL) %>%
+  left_join(gelung_YLD %>% select(age, YLD)) %>%
+  mutate(DALY = YLL + YLD)
 ```
 
 ```{r}
@@ -998,7 +1033,7 @@ of the population, combining the years of life lost due to premature
 death with the years lived with disability.
 
 ```{r}
-DALYs/1000 # DALYs per 1000 population
+DALYs / 1000 # DALYs per 1000 population
 ```
 
 The value of the metrics changes when different disability weights are
@@ -1038,9 +1073,11 @@ the mitigation of its impact throughout all stages of its progression.
 ```{r}
 #| echo: false
 #| eval: false
-gelung_YLD%>%
-  mutate(dw_korea_lc1=0.600,
-         dw_korea_lc2=0.738,
-         dw_korea_lc3=0.758,
-         dw_korea_lc4=0.906)
+gelung_YLD %>%
+  mutate(
+    dw_korea_lc1 = 0.600,
+    dw_korea_lc2 = 0.738,
+    dw_korea_lc3 = 0.758,
+    dw_korea_lc4 = 0.906
+  )
 ```

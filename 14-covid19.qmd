@@ -138,10 +138,10 @@ recovery, and (N) is the total population.
 library(deSolve)
 
 # Define parameters
-N <- 1e6  # Total population
-beta <- 0.5  # Transmission rate
-gamma <- 0.1  # Recovery rate
-t_exp <- 5  # Latent period
+N <- 1e6 # Total population
+beta <- 0.5 # Transmission rate
+gamma <- 0.1 # Recovery rate
+t_exp <- 5 # Latent period
 
 # Initial conditions
 init <- c(S = N - 1, E = 1, I = 0, R = 0)
@@ -181,7 +181,7 @@ ggplot(as.data.frame(result), aes(time, I, color = "Infected")) +
   geom_line(aes(time, S, color = "Susceptible")) +
   geom_line(aes(time, E, color = "Exposed")) +
   scale_color_discrete(name = "Compartment") +
-  labs(x = "Time (days)", y = "Number of individuals") 
+  labs(x = "Time (days)", y = "Number of individuals")
 ```
 
 In this example, many factors are not taken into account. In reality,
@@ -220,12 +220,14 @@ data <- as.data.frame(result)
 
 # Convert simulate data to have the date column to Date type and add additional predictors
 data <- data %>%
-  mutate(date = as.Date(time, origin = "2022-01-01"),
-         day_of_week = wday(date, label = TRUE),
-         week_of_year = week(date),
-         month = month(date),
-         lag_1_cases = lag(I, 1),
-         lag_7_cases = lag(I, 7)) %>%
+  mutate(
+    date = as.Date(time, origin = "2022-01-01"),
+    day_of_week = wday(date, label = TRUE),
+    week_of_year = week(date),
+    month = month(date),
+    lag_1_cases = lag(I, 1),
+    lag_7_cases = lag(I, 7)
+  ) %>%
   drop_na()
 ```
 
@@ -279,14 +281,20 @@ data <- data %>%
 
 # Plot actual vs. predicted values
 ggplot(data, aes(x = date)) +
-  geom_point(aes(y = I, 
-                 color = "Actual")) +
-  geom_line(aes(y = predicted_cases, 
-                color = "Predicted")) +
-  labs(title = "Actual vs. Predicted COVID-19 Cases",
-       x = "Date",
-       y = "Cases",
-       color = "Legend") +
+  geom_point(aes(
+    y = I,
+    color = "Actual"
+  )) +
+  geom_line(aes(
+    y = predicted_cases,
+    color = "Predicted"
+  )) +
+  labs(
+    title = "Actual vs. Predicted COVID-19 Cases",
+    x = "Date",
+    y = "Cases",
+    color = "Legend"
+  ) +
   theme_minimal()
 ```
 
@@ -322,22 +330,29 @@ predictors <- c("day_of_week", "week_of_year", "month", "lag_1_cases", "lag_7_ca
 #| eval: false
 #| echo: false
 # Train ARIMA model (note: ARIMA traditionally does not handle exogenous variables directly in caret)
-arima_fit <- train(cases_scaled ~ date, 
-                   data = train_data, 
-                   method = "auto_arima", 
-                   trControl = trainControl(method = "cv", 
-                                            number = 5))
+arima_fit <- train(cases_scaled ~ date,
+  data = train_data,
+  method = "auto_arima",
+  trControl = trainControl(
+    method = "cv",
+    number = 5
+  )
+)
 
 # Train Random Forest model with additional predictors
-rf_fit <- train(cases_scaled ~ ., 
-                data = train_data[, c(predictors, "cases_scaled")], 
-                method = "rf", 
-                trControl = trainControl(method = "cv", 
-                                         number = 5))
+rf_fit <- train(cases_scaled ~ .,
+  data = train_data[, c(predictors, "cases_scaled")],
+  method = "rf",
+  trControl = trainControl(
+    method = "cv",
+    number = 5
+  )
+)
 
 # Train XGBoost model with additional predictors
-xgb_fit <- train(cases_scaled ~ ., 
-                 data = train_data[, c(predictors, "cases_scaled")], method = "xgbTree", trControl = trainControl(method = "cv", number = 5))
+xgb_fit <- train(cases_scaled ~ .,
+  data = train_data[, c(predictors, "cases_scaled")], method = "xgbTree", trControl = trainControl(method = "cv", number = 5)
+)
 
 # Combine the models into an ensemble
 ensemble_model <- caretStack(list(arima = arima_fit, rf = rf_fit, xgb = xgb_fit), method = "glm")
@@ -346,8 +361,9 @@ ensemble_model <- caretStack(list(arima = arima_fit, rf = rf_fit, xgb = xgb_fit)
 ```{r}
 #| eval: false
 # Make predictions on the test set
-predictions <- predict(ensemble_model, 
-                       newdata = test_data[, predictors])
+predictions <- predict(ensemble_model,
+  newdata = test_data[, predictors]
+)
 
 # Invert scaling for predictions and actual values
 predictions <- predictions * attr(data$cases_scaled, "scaled:scale") + attr(data$cases_scaled, "scaled:center")

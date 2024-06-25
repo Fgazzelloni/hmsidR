@@ -58,11 +58,11 @@ install.packages("covid19.analytics")
 #| message: false
 #| warning: false
 library(tidyverse)
-cfr <- covid19.analytics::covid19.data()%>%
-select(Country_Region,Last_Update,Lat,Long_,Case_Fatality_Ratio)
+cfr <- covid19.analytics::covid19.data() %>%
+  select(Country_Region, Last_Update, Lat, Long_, Case_Fatality_Ratio)
 
-cfr%>%
-head()
+cfr %>%
+  head()
 ```
 
 ### Example 2: Visualizing Predicted vs. Actual DALYs:

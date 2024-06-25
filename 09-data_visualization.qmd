@@ -174,12 +174,14 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 ```{r}
 library(ggplot2)
 p <- hmsidwR::germany_lungc |>
-  ggplot(aes(x = age, y = dx, group=sex, color=sex)) +
-  geom_line()+
+  ggplot(aes(x = age, y = dx, group = sex, color = sex)) +
+  geom_line() +
   geom_point() +
-  labs(title = "Lung Cancer Deaths by Age in Germany",
-       x = "Age",
-       y = "Deaths")
+  labs(
+    title = "Lung Cancer Deaths by Age in Germany",
+    x = "Age",
+    y = "Deaths"
+  )
 p
 ```
 
@@ -197,7 +199,7 @@ documentation and explore other options for customizing colors.
 ```{r}
 # Example: Customizing colors in a bar chart
 p1 <- p +
-  scale_color_manual(values = c("brown", "navy", "orange")) 
+  scale_color_manual(values = c("brown", "navy", "orange"))
 p1
 ```
 
@@ -221,13 +223,17 @@ reversing the order of the legend items.
 ```{r}
 # Customising a legend to a plot
 p2 <- p1 +
-  labs(color = "Sex",
-       subtitle="Line Plot",
-       caption="DataSource: hmsidwR::germany_lungc")+
-  guides(color = guide_legend(reverse = TRUE))+
-  theme(legend.position = "top",
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        plot.title = element_text(hjust = 0.5,face="bold"))
+  labs(
+    color = "Sex",
+    subtitle = "Line Plot",
+    caption = "DataSource: hmsidwR::germany_lungc"
+  ) +
+  guides(color = guide_legend(reverse = TRUE)) +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
 
 p2
 ```

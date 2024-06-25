@@ -141,33 +141,50 @@ focusing on practical understanding and implementation.
 
 ## Model Selection Strategies
 
-### Example 4: Rabies
+In developing predictive models for health metrics and infectious
+diseases, selecting the appropriate model is critical to ensure accurate
+and reliable forecasts. Here are outlined sample strategies employed in
+the model selection process, we introduce the **Rabies** dataset used
+for our discussion and demonstrate the selection of a suitable model for
+analyzing its impact. Rabies, although nearly 100% fatal once symptoms
+appear, presents a unique challenge due to the relative rarity of cases
+and limited availability of comprehensive data. This scarcity
+complicates efforts to model the disease accurately and develop
+effective public health strategies.
+
+To address these challenges, we explore advanced modeling techniques
+that can enhance the robustness of our analyses despite data
+limitations, which involves evaluating multiple models based on their
+performance and selecting the best-fitting models to achieve the most
+accurate predictions.
+
+## Example 4: Rabies
 
 The `rabies`\index{rabies} dataset from the `{hmsidwR}` package contains
 information on death rates and disability-adjusted life years (DALYs)
-due to rabies and all causes mortality in Asia and for the Global region
-from 1990 to 2019. Rabies ([@cdc2024]) is a fatal viral infection, and
-it is also classified as an infectious disease that can infect all
-mammals causing acute encephalitis. Caused by the rabies virus, which
-belongs to the Lyssavirus genus, it is transmitted to humans through the
-bite of an infected animal such as bats, raccoons, skunks, foxes, and
-obviously dogs, which are the main source of human rabies deaths
-[@hampson2015]. Rabies defined as neglected tropical disease (NTD)
-**predominantly affects already marginalized, poor and vulnerable
-populations**. Although effective human vaccines and immunoglobulins
-exist for rabies, these are often not readily available or accessible to
-everyone [@rabies].
+per 100,000 inhabitants due to rabies and all causes mortality in Asia
+and for the Global region from 1990 to 2019. Rabies ([@cdc2024]) is a
+fatal viral infection, and it is also classified as an infectious
+disease that can infect all mammals causing acute encephalitis. Caused
+by the rabies virus, which belongs to the Lyssavirus genus, it is
+transmitted to humans through the bite of an infected animal such as
+bats, raccoons, skunks, foxes, and obviously dogs, which are the main
+source of human rabies deaths [@hampson2015]. Rabies defined as
+**neglected tropical disease (NTD)** predominantly affects already
+marginalized, poor and vulnerable populations. Although effective human
+vaccines and immunoglobulins exist for rabies, these are often not
+readily available or accessible to everyone [@rabies].
 
-In this example we consider the number of DALYs due to rabies in Asia
-and the Global region, as our response variable, the dataset is made
-available in the `{hmsidwR}` package. It is composed of 240 observations
-and 7 variables: `measure`, `location`, `cause`, `year`, `val`, `upper`,
-`lower`.
+In this example we consider the number of DALYs per 100,000 inhabitants
+due to rabies in Asia and the Global region, as our response variable,
+the dataset is made available in the `{hmsidwR}` package. It is composed
+of 240 observations and 7 variables: `measure`, `location`, `cause`,
+`year`, `val`, `upper`, `lower`.
 
 ```{r}
 library(tidyverse)
-hmsidwR::rabies%>%
-  select(-upper,-lower) %>%
+hmsidwR::rabies %>%
+  select(-upper, -lower) %>%
   head()
 ```
 
@@ -177,13 +194,13 @@ respectively.
 
 ```{r}
 library(tidyverse)
-rabies <- hmsidwR::rabies%>%
-  select(-upper,-lower)%>%
-  pivot_wider(names_from = measure,values_from = val)%>%
-  filter(cause=="Rabies")%>%
-  rename(dx_rabies=Deaths,dalys_rabies=DALYs)%>%
+rabies <- hmsidwR::rabies %>%
+  select(-upper, -lower) %>%
+  pivot_wider(names_from = measure, values_from = val) %>%
+  filter(cause == "Rabies") %>%
+  rename(dx_rabies = Deaths, dalys_rabies = DALYs) %>%
   select(-cause)
-rabies%>%head
+rabies %>% head()
 ```
 
 ```{r}
@@ -194,16 +211,22 @@ rabies%>%head
 breaks <- seq(min(rabies$year), max(rabies$year), by = 10)
 
 rabies %>%
-  mutate(year_10=cut(year, 
-                     breaks= breaks,
-                     right = FALSE,
-                     labels = paste(breaks[-length(breaks)], 
-                                    breaks[-1] - 1, 
-                                    sep = "-")),
-year_10=case_when(is.na(year_10)~"2019",
-                  TRUE~as.factor(year_10)))%>%
-  group_by(location,year_10)%>%
-  summarize(avg_10yrs_dalys=mean(dalys_rabies))
+  mutate(
+    year_10 = cut(year,
+      breaks = breaks,
+      right = FALSE,
+      labels = paste(breaks[-length(breaks)],
+        breaks[-1] - 1,
+        sep = "-"
+      )
+    ),
+    year_10 = case_when(
+      is.na(year_10) ~ "2019",
+      TRUE ~ as.factor(year_10)
+    )
+  ) %>%
+  group_by(location, year_10) %>%
+  summarize(avg_10yrs_dalys = mean(dalys_rabies))
 ```
 
 It can be seen that the number of deaths due to rabies is much lower
@@ -215,25 +238,27 @@ scale and center the numeric variables to make them more comparable.
 #| message: false
 #| warning: false
 
-p1 <- rabies%>%
-  ggplot(aes(x=year, group=location,color=location))+
-  geom_line(aes(y=dx_rabies),
-            linewidth=1)+
-  geom_line(aes(y=dalys_rabies))
-  
-p2 <- rabies%>%
+p1 <- rabies %>%
+  ggplot(aes(x = year, group = location, color = location)) +
+  geom_line(aes(y = dx_rabies),
+    linewidth = 1
+  ) +
+  geom_line(aes(y = dalys_rabies))
+
+p2 <- rabies %>%
   # apply a scale transformation to the numeric variables
-  mutate(across(where(is.double),scale))%>%
-  ggplot(aes(x=year, group=location,color=location))+
-  geom_line(aes(y=dx_rabies),
-            linewidth=1)+
-  geom_line(aes(y=dalys_rabies)) 
+  mutate(across(where(is.double), scale)) %>%
+  ggplot(aes(x = year, group = location, color = location)) +
+  geom_line(aes(y = dx_rabies),
+    linewidth = 1
+  ) +
+  geom_line(aes(y = dalys_rabies))
 ```
 
 ```{r}
 #| layout-ncol: 2
 #| label: fig-rabies-deaths-dalys
-#| fig.cap: 
+#| fig.cap:
 #|   - "Not scaled"
 #|   - "Scaled and centered"
 #| fig-alt: "DALYs due to Rabies - Not scaled and Scaled and centered"
@@ -242,31 +267,40 @@ p2 <- rabies%>%
 #| warning: false
 
 legend_grob <- cowplot::get_legend(
-  ggplot(data= rabies%>%
-           pivot_longer(cols=c("dx_rabies","dalys_rabies"))%>%
-           mutate(name=ifelse(name=="dx_rabies","Deaths","DALYs")),
-         aes(x=year, group=name,linewidth=name))+
-    geom_line(aes(y=value),
-              color="grey")+
-    labs(linewidth=""))
+  ggplot(
+    data = rabies %>%
+      pivot_longer(cols = c("dx_rabies", "dalys_rabies")) %>%
+      mutate(name = ifelse(name == "dx_rabies", "Deaths", "DALYs")),
+    aes(x = year, group = name, linewidth = name)
+  ) +
+    geom_line(aes(y = value),
+      color = "grey"
+    ) +
+    labs(linewidth = "")
+)
 
 
-p1 + 
-  labs(title = "Dalys and Deaths due to Rabies - Not scaled",
-       subtitle = "in Asia and Global Region",
-       color = "Location",
-       y="Value",x="Time(Year)") +
+p1 +
+  labs(
+    title = "Dalys and Deaths due to Rabies - Not scaled",
+    subtitle = "in Asia and Global Region",
+    color = "Location",
+    y = "Value", x = "Time(Year)"
+  ) +
   scale_color_manual(values = c("orange", "navy"))
 
 p2 +
-  labs(title = "Dalys and Deaths due to Rabies - Scaled and centered",
-       subtitle = "in Asia and Global Region",
-       color = "Location",
-       y="Value",x="Time(Year)") +
-  scale_color_manual(values = c("orange", "navy"))+
-  annotation_custom(legend_grob, 
-                    xmin = 2010, xmax = 2015, 
-                    ymin = 1, ymax = 2)
+  labs(
+    title = "Dalys and Deaths due to Rabies - Scaled and centered",
+    subtitle = "in Asia and Global Region",
+    color = "Location",
+    y = "Value", x = "Time(Year)"
+  ) +
+  scale_color_manual(values = c("orange", "navy")) +
+  annotation_custom(legend_grob,
+    xmin = 2010, xmax = 2015,
+    ymin = 1, ymax = 2
+  )
 ```
 
 Creating new features from existing ones provide additional predictive
@@ -275,15 +309,15 @@ death rates due to rabies and all causes, scale and center the numeric
 variables to obtain homogeneous data to use in the model.
 
 ```{r}
-all_causes <- hmsidwR::rabies%>%
-  select(-upper,-lower)%>%
-  pivot_wider(names_from = measure,values_from = val)%>%
-  filter(!cause=="Rabies")%>%
-  rename(dx_allcauses=Deaths,dalys_allcauses=DALYs)%>%
+all_causes <- hmsidwR::rabies %>%
+  select(-upper, -lower) %>%
+  pivot_wider(names_from = measure, values_from = val) %>%
+  filter(!cause == "Rabies") %>%
+  rename(dx_allcauses = Deaths, dalys_allcauses = DALYs) %>%
   select(-cause)
 
 dat <- rabies %>%
-  full_join(all_causes,by=c("location","year"))
+  full_join(all_causes, by = c("location", "year"))
 
 dat %>% head()
 ```
@@ -295,25 +329,29 @@ standardize the data as shown above.
 ```{r}
 #| message: false
 #| warning: false
-p3 <- dat%>%
-  select(-year,-location)%>%
-  scale()%>%
-  cbind(dat%>%select(year,location))%>%
-  ggplot(aes(x=year,group=location,color=location))+
-  geom_line(aes(y=dx_rabies),
-            linewidth=1)+
-  geom_line(aes(y=dx_allcauses))
+p3 <- dat %>%
+  select(-year, -location) %>%
+  scale() %>%
+  cbind(dat %>% select(year, location)) %>%
+  ggplot(aes(x = year, group = location, color = location)) +
+  geom_line(aes(y = dx_rabies),
+    linewidth = 1
+  ) +
+  geom_line(aes(y = dx_allcauses))
 
-p4 <- dat%>%
-  select(-year,-location)%>%
-  scale()%>%
-  cbind(dat%>%select(year,location))%>%
-  ggplot(aes(x=year,
-  group=location,
-  color=location))+
-  geom_line(aes(y=dalys_rabies),
-            linewidth=1)+
-  geom_line(aes(y=dalys_allcauses))
+p4 <- dat %>%
+  select(-year, -location) %>%
+  scale() %>%
+  cbind(dat %>% select(year, location)) %>%
+  ggplot(aes(
+    x = year,
+    group = location,
+    color = location
+  )) +
+  geom_line(aes(y = dalys_rabies),
+    linewidth = 1
+  ) +
+  geom_line(aes(y = dalys_allcauses))
 ```
 
 ```{r}
@@ -326,35 +364,44 @@ p4 <- dat%>%
 #| warning: false
 
 legend_grob2 <- cowplot::get_legend(
-  ggplot(data= dat%>%
-           select(-year,-location)%>%
-           scale()%>%
-           cbind(dat%>%select(year,location))%>%
-           pivot_longer(cols=c("dx_rabies","dx_allcauses"))%>%
-           mutate(name=ifelse(name=="dx_rabies","Rabies","All Causes")),
-         aes(x=year, group=name,linewidth=name))+
-    geom_line(aes(y=value),color="grey")+
-    labs(linewidth=""))
+  ggplot(
+    data = dat %>%
+      select(-year, -location) %>%
+      scale() %>%
+      cbind(dat %>% select(year, location)) %>%
+      pivot_longer(cols = c("dx_rabies", "dx_allcauses")) %>%
+      mutate(name = ifelse(name == "dx_rabies", "Rabies", "All Causes")),
+    aes(x = year, group = name, linewidth = name)
+  ) +
+    geom_line(aes(y = value), color = "grey") +
+    labs(linewidth = "")
+)
 
-p3 + 
-  labs(title = "Deaths due to Rabies and All Causes",
-       subtitle = "in Asia and Global Region",
-       color = "Location",
-       y="Value",x="Time(Year)") +
-  scale_color_manual(values = c("orange", "navy"))+
-  annotation_custom(legend_grob2, 
-                    xmin = 2010, xmax = 2015, 
-                    ymin = 1, ymax = 2)
+p3 +
+  labs(
+    title = "Deaths due to Rabies and All Causes",
+    subtitle = "in Asia and Global Region",
+    color = "Location",
+    y = "Value", x = "Time(Year)"
+  ) +
+  scale_color_manual(values = c("orange", "navy")) +
+  annotation_custom(legend_grob2,
+    xmin = 2010, xmax = 2015,
+    ymin = 1, ymax = 2
+  )
 
 p4 +
-  labs(title = "Dalys due to Rabies and All Causes",
-       subtitle = "in Asia and Global Region",
-       color = "Location",
-       y="Value",x="Time(Year)") +
-  scale_color_manual(values = c("orange", "navy"))+
-  annotation_custom(legend_grob2, 
-                    xmin = 2010, xmax = 2015, 
-                    ymin = 1, ymax = 2)
+  labs(
+    title = "Dalys due to Rabies and All Causes",
+    subtitle = "in Asia and Global Region",
+    color = "Location",
+    y = "Value", x = "Time(Year)"
+  ) +
+  scale_color_manual(values = c("orange", "navy")) +
+  annotation_custom(legend_grob2,
+    xmin = 2010, xmax = 2015,
+    ymin = 1, ymax = 2
+  )
 ```
 
 For this task, we will use the `{tidymodels}`\index{tidymodels}
@@ -431,7 +478,7 @@ basic one which include all variables and does not perform any data
 transformation.
 
 ```{r}
-rec <- recipe(dalys_rabies ~. , data=training)
+rec <- recipe(dalys_rabies ~ ., data = training)
 ```
 
 The second recipe includes some key steps to transform the data into a
@@ -451,9 +498,9 @@ Global) into a numeric vector, and a second step to normalize (or
 standardize) all predictors.
 
 ```{r}
-rec1 <- recipe(dalys_rabies ~. , data=training)%>%
+rec1 <- recipe(dalys_rabies ~ ., data = training) %>%
   # convert nominal variables to dummy variables
-  step_dummy(all_nominal_predictors())%>% 
+  step_dummy(all_nominal_predictors()) %>%
   # scale the numeric variables
   step_normalize(all_numeric_predictors())
 ```
@@ -465,9 +512,9 @@ we can use the `juice()` function to extract the processed data.
 
 ```{r}
 rec1 %>%
-  prep()%>%
-  juice()%>%
-  select(1,2,5)%>%
+  prep() %>%
+  juice() %>%
+  select(1, 2, 5) %>%
   head()
 ```
 
@@ -476,9 +523,9 @@ on the `test`\`set with the `bake()` function.
 
 ```{r}
 rec1 %>%
-  prep()%>%
+  prep() %>%
   bake(new_data = test) %>%
-  select(1,2,5)%>%
+  select(1, 2, 5) %>%
   head()
 ```
 
@@ -508,19 +555,19 @@ with a machine learning algorithm.
 #| message: false
 #| warning: false
 
-ggplot(dat)+
-  geom_density(aes(x=dalys_rabies))+
-  scale_x_log10()+
+ggplot(dat) +
+  geom_density(aes(x = dalys_rabies)) +
+  scale_x_log10() +
   labs(title = "Log10 transformation")
 
-ggplot(dat)+
-  geom_density(aes(x=dalys_rabies))+
-  scale_x_continuous(transform = scales::transform_yj(p = -2))+
+ggplot(dat) +
+  geom_density(aes(x = dalys_rabies)) +
+  scale_x_continuous(transform = scales::transform_yj(p = -2)) +
   labs(title = "Yeo-Johnson transformation p=-2")
 
-ggplot(dat)+
-  geom_density(aes(x=dalys_rabies))+
-  scale_x_continuous(transform = scales::transform_yj(p = 2))+
+ggplot(dat) +
+  geom_density(aes(x = dalys_rabies)) +
+  scale_x_continuous(transform = scales::transform_yj(p = 2)) +
   labs(title = "Yeo-Johnson transformation p=2")
 ```
 
@@ -532,9 +579,9 @@ rec2 <- rec1 %>%
   step_YeoJohnson(dalys_rabies)
 
 rec2 %>%
-  prep()%>%
-  juice()%>%
-  select(1,2,5)%>%
+  prep() %>%
+  juice() %>%
+  select(1, 2, 5) %>%
   head()
 ```
 
@@ -590,22 +637,28 @@ example.
 ```{r}
 #| message: false
 #| warning: false
-rf_mod <- rand_forest(mtry = tune(),
-                      trees = tune(),
-                      min_n = tune(),
-                      mode = "regression",
-                      engine = "ranger")
+rf_mod <- rand_forest(
+  mtry = tune(),
+  trees = tune(),
+  min_n = tune(),
+  mode = "regression",
+  engine = "ranger"
+)
 
-wkf <- workflow(preprocessor = rec,
-                spec = rf_mod)
+wkf <- workflow(
+  preprocessor = rec,
+  spec = rf_mod
+)
 
-rf_res <- tune_grid(object = wkf,
-          resamples = folds,
-          grid = 5,
-          control = control_grid(save_pred = TRUE))
+rf_res <- tune_grid(
+  object = wkf,
+  resamples = folds,
+  grid = 5,
+  control = control_grid(save_pred = TRUE)
+)
 
-show_best(rf_res, metric = "rmse")%>%
-  select(-n,-std_err)
+show_best(rf_res, metric = "rmse") %>%
+  select(-n, -std_err)
 ```
 
 ```{r}
@@ -614,15 +667,16 @@ rf_res_tuned
 ```
 
 ```{r}
-rf_fit <- wkf %>% 
-  finalize_workflow(select_best(rf_res, 
-                                metric = "rmse")) %>%
+rf_fit <- wkf %>%
+  finalize_workflow(select_best(rf_res,
+    metric = "rmse"
+  )) %>%
   fit(training)
 
-rf_fit %>% 
-   predict(new_data = test) %>% 
-   bind_cols(test) %>% 
-   rmse(truth = dalys_rabies, estimate = .pred)
+rf_fit %>%
+  predict(new_data = test) %>%
+  bind_cols(test) %>%
+  rmse(truth = dalys_rabies, estimate = .pred)
 ```
 
 ```{r}
@@ -633,31 +687,38 @@ rf_fit %>%
 #|   - "Predictions vs. Truth by Year"
 #| echo: false
 
-rf_fit %>% 
-  predict(new_data = test) %>% 
-  bind_cols(test)  %>%
-  ggplot(aes(dalys_rabies, .pred, 
-             color = location)) +
+rf_fit %>%
+  predict(new_data = test) %>%
+  bind_cols(test) %>%
+  ggplot(aes(dalys_rabies, .pred,
+    color = location
+  )) +
   geom_abline(color = "brown") +
-  geom_point(size=2) +
+  geom_point(size = 2) +
   scale_color_manual(values = c("orange", "navy")) +
   coord_fixed() +
-  expand_limits(x = 0, y = 0)+
-  labs(title="Predictions vs. Truth",
-       x="Truth",
-       y="Predictions")
+  expand_limits(x = 0, y = 0) +
+  labs(
+    title = "Predictions vs. Truth",
+    x = "Truth",
+    y = "Predictions"
+  )
 
-rf_fit %>% 
-  predict(new_data = test) %>% 
-  bind_cols(test)  %>%
-  ggplot(aes(x=year,
-             color = location)) +
-  geom_point(aes(y=dalys_rabies)) +
-  geom_line(aes(y=.pred)) +
-  scale_color_manual(values = c("orange", "navy"))+
-  labs(title="Predictions vs. Truth by Year",
-       x="Time(Year)",
-       y="Values")
+rf_fit %>%
+  predict(new_data = test) %>%
+  bind_cols(test) %>%
+  ggplot(aes(
+    x = year,
+    color = location
+  )) +
+  geom_point(aes(y = dalys_rabies)) +
+  geom_line(aes(y = .pred)) +
+  scale_color_manual(values = c("orange", "navy")) +
+  labs(
+    title = "Predictions vs. Truth by Year",
+    x = "Time(Year)",
+    y = "Values"
+  )
 ```
 
 ### Model 2: Generalized Linear Model (GLM)
@@ -681,7 +742,7 @@ Adding Machine Learning Features with `{glmnet}` and Cross-Validation
 
 ```{r}
 #| message: false
-#| warning: false  
+#| warning: false
 if (!require(glmnet)) install.packages("glmnet")
 library(glmnet)
 ```
@@ -691,8 +752,9 @@ create matrices for the independent variables (predictors) and the
 dependent variable (response).
 
 ```{r}
-predictors <- model.matrix(dalys_rabies ~ ., 
-  data = dat)[,-1]  # Remove intercept
+predictors <- model.matrix(dalys_rabies ~ .,
+  data = dat
+)[, -1] # Remove intercept
 response <- dat$dalys_rabies
 ```
 
@@ -704,9 +766,10 @@ the strength of the regularization:
 set.seed(123)
 
 # Fit the model with cross-validation
-cv_model <- cv.glmnet(predictors, 
-                      response, 
-                      family = "gaussian")
+cv_model <- cv.glmnet(predictors,
+  response,
+  family = "gaussian"
+)
 cv_model
 ```
 
@@ -727,15 +790,17 @@ Then, fitting the final model with the selected best lambda, we can
 predict and evaluate the model.
 
 ```{r}
-final_model <- glmnet(predictors, 
-                      response, 
-                      family = "gaussian", 
-                      lambda = best_lambda)
+final_model <- glmnet(predictors,
+  response,
+  family = "gaussian",
+  lambda = best_lambda
+)
 
 # Predict using the final model
-predictions <- predict(final_model, 
-                       s = best_lambda, 
-                       newx = predictors)
+predictions <- predict(final_model,
+  s = best_lambda,
+  newx = predictors
+)
 
 # Calculate Mean Squared Error
 rmse <- sqrt(mean((response - predictions)^2))
@@ -760,25 +825,33 @@ machine learning methodologies.
 #| fig.cap: "Predictions vs. Truth"
 
 # plot the predictions
-data.frame(dalys_rabies =response,predictors,predictions)%>%
-  ggplot(aes(x=dalys_rabies,y=predictions))+
-  geom_point()+
-  geom_abline(color="brown")+
-  labs(title="Predictions vs Truth",
-       x="Truth",
-       y="Predictions")
+data.frame(dalys_rabies = response, predictors, predictions) %>%
+  ggplot(aes(x = dalys_rabies, y = predictions)) +
+  geom_point() +
+  geom_abline(color = "brown") +
+  labs(
+    title = "Predictions vs Truth",
+    x = "Truth",
+    y = "Predictions"
+  )
 
-data.frame(dalys_rabies =response,predictors,predictions)%>%
-  ggplot(aes(x=year,group=factor(locationGlobal),
-             color=factor(locationGlobal)))+
-  geom_point(aes(y=dalys_rabies))+
-  geom_line(aes(y=predictions),color="brown")+
-  scale_color_manual(values = c("orange", "navy"),
-                     labels=c("Asia","Global"))+
-  labs(title="DALYs due to Rabies Predictions vs Truth",
-       subtitle="by Year",
-       x="Truth",
-       y="Predictions")
+data.frame(dalys_rabies = response, predictors, predictions) %>%
+  ggplot(aes(
+    x = year, group = factor(locationGlobal),
+    color = factor(locationGlobal)
+  )) +
+  geom_point(aes(y = dalys_rabies)) +
+  geom_line(aes(y = predictions), color = "brown") +
+  scale_color_manual(
+    values = c("orange", "navy"),
+    labels = c("Asia", "Global")
+  ) +
+  labs(
+    title = "DALYs due to Rabies Predictions vs Truth",
+    subtitle = "by Year",
+    x = "Truth",
+    y = "Predictions"
+  )
 ```
 
 ### Testing Multiple Models
@@ -821,23 +894,29 @@ Machine (SVM)**, and a **K-Nearest Neighbors (KNN) model** to the data
 and compare their performance.
 
 ```{r}
-linear_reg_spec <- 
-   linear_reg(penalty = tune(), 
-              mixture = tune()) %>% 
-   set_engine("glmnet")
+linear_reg_spec <-
+  linear_reg(
+    penalty = tune(),
+    mixture = tune()
+  ) %>%
+  set_engine("glmnet")
 
-svm_p_spec <- 
-   svm_poly(cost = tune(), 
-            degree = tune()) %>% 
-   set_engine("kernlab") %>% 
-   set_mode("regression")
+svm_p_spec <-
+  svm_poly(
+    cost = tune(),
+    degree = tune()
+  ) %>%
+  set_engine("kernlab") %>%
+  set_mode("regression")
 
-knn_spec <- 
-   nearest_neighbor(neighbors = tune(), 
-                    dist_power = tune(), 
-                    weight_func = tune()) %>% 
-   set_engine("kknn") %>% 
-   set_mode("regression")
+knn_spec <-
+  nearest_neighbor(
+    neighbors = tune(),
+    dist_power = tune(),
+    weight_func = tune()
+  ) %>%
+  set_engine("kknn") %>%
+  set_mode("regression")
 ```
 
 ```{r}
@@ -846,29 +925,33 @@ library(rules)
 library(baguette)
 # Combine workflows into a workflow set
 workflow_set <- workflow_set(
-  preproc = list(scaled=rec1, 
-                 yeo_johnson=rec2),
-  models = list(linear_reg = linear_reg_spec, 
-                svm = svm_p_spec,
-                knn = knn_spec)
+  preproc = list(
+    scaled = rec1,
+    yeo_johnson = rec2
+  ),
+  models = list(
+    linear_reg = linear_reg_spec,
+    svm = svm_p_spec,
+    knn = knn_spec
   )
+)
 
 grid_ctrl <-
-   control_grid(
-      save_pred = TRUE,
-      parallel_over = "everything",
-      save_workflow = TRUE
-   )
+  control_grid(
+    save_pred = TRUE,
+    parallel_over = "everything",
+    save_workflow = TRUE
+  )
 
 # Fit and evaluate the models with hyperparameter tuning
 grid_results <-
-   workflow_set %>%
-   workflow_map(
-      seed = 1503,
-      resamples = folds,
-      grid = 5,
-      control = grid_ctrl
-   )
+  workflow_set %>%
+  workflow_map(
+    seed = 1503,
+    resamples = folds,
+    grid = 5,
+    control = grid_ctrl
+  )
 ```
 
 ```{r}
@@ -880,10 +963,10 @@ grid_results <- readRDS("data/model-data/grid_results.rds")
 
 ```{r}
 # Show the results
-grid_results %>% 
-  collect_metrics() %>% 
-  arrange(mean)%>%
-  select(1,5,7,9)%>%
+grid_results %>%
+  collect_metrics() %>%
+  arrange(mean) %>%
+  select(1, 5, 7, 9) %>%
   head()
 ```
 
@@ -893,18 +976,19 @@ grid_results %>%
 #| label: fig-model-performance
 
 autoplot(
-   grid_results,
-   rank_metric = "rmse",  
-   metric = "rmse",      
-   select_best = TRUE
-   ) +
-   geom_text(aes(y = mean - 0.1, label = wflow_id), 
-             angle = 90, hjust = 1,size=3) +
-   lims(y = c(-1, 0.9)) +
-   theme(legend.position = "none")
+  grid_results,
+  rank_metric = "rmse",
+  metric = "rmse",
+  select_best = TRUE
+) +
+  geom_text(aes(y = mean - 0.1, label = wflow_id),
+    angle = 90, hjust = 1, size = 3
+  ) +
+  lims(y = c(-1, 0.9)) +
+  theme(legend.position = "none")
 ```
 
-### Summary
+## Summary
 
 The integration of machine learning techniques into public health data
 analysis can significantly enhance the predictive power and robustness

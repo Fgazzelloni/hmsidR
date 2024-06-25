@@ -48,14 +48,14 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(fpp3)
   library(tsibble)
-  })
+})
 
 data(rabies)
 ```
 
 ```{r}
 hmsidwR::rabies %>%
-  head %>%
+  head() %>%
   knitr::kable()
 ```
 
@@ -66,52 +66,62 @@ rabies %>%
 
 ```{r}
 ts_rabies <- rabies %>%
-  filter(measure=="DALYs",
-         location=="Asia",
-         cause=="Rabies")%>%
-  select(year,val)%>%
-  as_tsibble(index="year")
+  filter(
+    measure == "DALYs",
+    location == "Asia",
+    cause == "Rabies"
+  ) %>%
+  select(year, val) %>%
+  as_tsibble(index = "year")
 
 
 ts_rabies %>%
-  autoplot(.vars = val)+
-  labs(title="DALYs trend of Rabies in Asia",
-       subtitle = "1990 to 2020",y="DALYs")#+
-  #theme_hmsid()
+  autoplot(.vars = val) +
+  labs(
+    title = "DALYs trend of Rabies in Asia",
+    subtitle = "1990 to 2020", y = "DALYs"
+  ) #+
+# theme_hmsid()
 ```
 
 ```{r}
-ts_rabies%>%
-  model(stl = STL(val))%>%
+ts_rabies %>%
+  model(stl = STL(val)) %>%
   components() %>%
-   autoplot() 
+  autoplot()
 ```
 
 ```{r}
-ts_rabies%>%
-  model(stl = STL(val))%>%
+ts_rabies %>%
+  model(stl = STL(val)) %>%
   components() %>%
   as_tsibble() |>
-  autoplot(val, colour="gray") +
-  geom_line(aes(y=trend), colour = "#D55E00") 
+  autoplot(val, colour = "gray") +
+  geom_line(aes(y = trend), colour = "#D55E00")
 ```
 
 ```{r}
-ts_rabies%>%  
-  gg_tsdisplay(y = val,
-               plot_type = "partial")
+ts_rabies %>%
+  gg_tsdisplay(
+    y = val,
+    plot_type = "partial"
+  )
 ```
 
 ```{r}
 rabies %>%
-  filter(measure=="DALYs",
-         #location=="Asia",
-         cause=="Rabies")%>%
-  select(location,year,val)%>%
-  ggplot(aes(x=year,y=val,group=location,color=location))+
-  geom_line()+
-  labs(title="DALYs trend of Rabies",
-     subtitle = "1990 to 2020",y="DALYs")
+  filter(
+    measure == "DALYs",
+    # location=="Asia",
+    cause == "Rabies"
+  ) %>%
+  select(location, year, val) %>%
+  ggplot(aes(x = year, y = val, group = location, color = location)) +
+  geom_line() +
+  labs(
+    title = "DALYs trend of Rabies",
+    subtitle = "1990 to 2020", y = "DALYs"
+  )
 ```
 
 Assume the estimates made by the IHME are now our observed values, apply
@@ -128,22 +138,25 @@ The relationship is clearly linear, so we apply a linear model.
 
 ```{r}
 dat <- rabies %>%
-  filter(measure=="DALYs",
-         location=="Asia",
-         cause=="Rabies")%>%
-  select(year,val)
+  filter(
+    measure == "DALYs",
+    location == "Asia",
+    cause == "Rabies"
+  ) %>%
+  select(year, val)
 
-mod1 <- lm(val ~., data=dat)
+mod1 <- lm(val ~ ., data = dat)
 summary(mod1)
 ```
 
 ```{r}
 cbind(
-  dat,pred=predict(mod1, dat)
-  )%>%
-  ggplot(aes(x=year))+
-  geom_line(aes(y=val,), color="grey")+
-  geom_line(aes(y=pred),color="red")
+  dat,
+  pred = predict(mod1, dat)
+) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = val, ), color = "grey") +
+  geom_line(aes(y = pred), color = "red")
 ```
 
 Our basic regression model explains \~ 90% of the variability in the
@@ -156,15 +169,15 @@ Let's make a random forest model
 #| message: false
 #| warning: false
 library(randomForest)
-myrf<- randomForest::randomForest(formula= val ~.,data= dat)
+myrf <- randomForest::randomForest(formula = val ~ ., data = dat)
 
 cbind(
-  dat,pred=predict(myrf, dat)
-  )%>%
-  ggplot(aes(x=year))+
-  geom_line(aes(y=val,), color="grey")+
-  geom_line(aes(y=pred),color="red")
-
+  dat,
+  pred = predict(myrf, dat)
+) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = val, ), color = "grey") +
+  geom_line(aes(y = pred), color = "red")
 ```
 
 Now we add some other predictors and parameters, death rates (`deaths`)
@@ -172,26 +185,27 @@ due to rabies and location.
 
 ```{r}
 dat2 <- rabies %>%
-  filter(cause=="Rabies")%>%
-  select(-upper,-lower,-cause)%>%
-  pivot_wider(names_from = measure,values_from = val)%>%
-  rename(deaths=Deaths,dalys=DALYs)
+  filter(cause == "Rabies") %>%
+  select(-upper, -lower, -cause) %>%
+  pivot_wider(names_from = measure, values_from = val) %>%
+  rename(deaths = Deaths, dalys = DALYs)
 
-dat2 %>%head
+dat2 %>% head()
 ```
 
 ```{r}
 #| fig.align: center
 
-mod_rf2<- randomForest::randomForest(formula= dalys ~.,data= dat2)
+mod_rf2 <- randomForest::randomForest(formula = dalys ~ ., data = dat2)
 
 cbind(
-  dat2,pred=predict(mod_rf2, dat2)
-  )%>%
-  ggplot(aes(x=year))+
-  geom_line(aes(y=dalys,group=location,color=location))+
-  geom_line(aes(y=pred,group=location),color="red")+
-  scale_color_manual(values=c("#29306c","#f8bc05"))
+  dat2,
+  pred = predict(mod_rf2, dat2)
+) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = dalys, group = location, color = location)) +
+  geom_line(aes(y = pred, group = location), color = "red") +
+  scale_color_manual(values = c("#29306c", "#f8bc05"))
 ```
 
 ### Machine Learning
@@ -201,7 +215,9 @@ Parameters estimation with `{tidymodels}`, we use techniques such as
 you can do it:
 
 ```{r}
-suppressPackageStartupMessages({library(tidymodels)})
+suppressPackageStartupMessages({
+  library(tidymodels)
+})
 tidymodels_prefer()
 ```
 
@@ -209,19 +225,22 @@ Define the recipe for data preprocessing
 
 ```{r}
 data_recipe <- recipe(dalys ~ ., data = dat2) %>%
-  step_dummy(location)%>%
+  step_dummy(location) %>%
   step_scale(all_predictors()) %>%
   step_center(all_predictors())
 
-data_recipe%>%prep()%>%juice()%>%head
+data_recipe %>%
+  prep() %>%
+  juice() %>%
+  head()
 ```
 
 Define the model specification
 
 ```{r}
-rf_spec <- rand_forest(mtry = tune(),trees = tune()) %>%
+rf_spec <- rand_forest(mtry = tune(), trees = tune()) %>%
   set_mode("regression") %>%
-  set_engine("ranger")  # Use the ranger engine for faster computation
+  set_engine("ranger") # Use the ranger engine for faster computation
 ```
 
 Define the tuning grid The parameters to be tuned for a `randomforest`
@@ -235,10 +254,10 @@ model are:
 
 ```{r}
 rf_grid <- grid_regular(
-# Vary the number of variables randomly sampled as candidates at each split
-  mtry(range = c(1, ncol(dat2) - 1)),  
-# Vary the number of trees in the forest
-  trees(range = c(50, 200))  
+  # Vary the number of variables randomly sampled as candidates at each split
+  mtry(range = c(1, ncol(dat2) - 1)),
+  # Vary the number of trees in the forest
+  trees(range = c(50, 200))
 )
 ```
 
@@ -292,11 +311,11 @@ predictions <- predict(final_rf_model, dat2)
 Visualize the results
 
 ```{r}
-cbind(dat2,predictions)%>%
-  ggplot(aes(x=year))+
-  geom_line(aes(y=dalys,group=location,color=location))+
-  geom_line(aes(y=.pred,group=location),color="red")+
-  scale_color_manual(values=c("#29306c","#f8bc05"))
+cbind(dat2, predictions) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = dalys, group = location, color = location)) +
+  geom_line(aes(y = .pred, group = location), color = "red") +
+  scale_color_manual(values = c("#29306c", "#f8bc05"))
 ```
 
 ## Health metrics countries comparison
@@ -306,5 +325,4 @@ to date assessment of health metrics across countries. Let's compare the
 levels of health metrics in different countries.
 
 ```{r}
-
 ```

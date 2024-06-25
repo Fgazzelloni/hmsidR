@@ -30,21 +30,21 @@ library(httr)
 library(jsonlite)
 library(tidyverse)
 
-# `SDG query input:- GetGoal - GetIndicator - GetTarget - GetLocation - GetAgeGroup - GetScenario - GetSexSDG 
-# query input for results:- GetResultsByTarget - GetResultsByIndicator - GetResultsByLocation - 
+# `SDG query input:- GetGoal - GetIndicator - GetTarget - GetLocation - GetAgeGroup - GetScenario - GetSexSDG
+# query input for results:- GetResultsByTarget - GetResultsByIndicator - GetResultsByLocation -
 # GetResultsByYear`
 
 
 # url="https://api.healthdata.org/sdg/v1/"key="YOUR-KEY-HERE"
 
-get_data <- function(url,key,sdg) {  
-library(httr)  
-library(jsonlite)  
-url <- paste0(url,"/",sdg)  
-headers <- c('Authorization'=key)  
-res <- GET(url, add_headers(headers))  
-data = fromJSON(rawToChar(res$content))  
-data = data$results
+get_data <- function(url, key, sdg) {
+  library(httr)
+  library(jsonlite)
+  url <- paste0(url, "/", sdg)
+  headers <- c("Authorization" = key)
+  res <- GET(url, add_headers(headers))
+  data <- fromJSON(rawToChar(res$content))
+  data <- data$results
 }
 ```
 
@@ -54,13 +54,15 @@ Build the query to download results by adding specification of the data.
 
 ```{r}
 #| echo: false
-key="8ym9ht687svohiwtqiinfjd3gxq7vihc"
+key <- "8ym9ht687svohiwtqiinfjd3gxq7vihc"
 ```
 
 ```{r}
 #| eval: false
-data <- get_data(url="https://api.healthdata.org/sdg/v1",
-         key=key,
-         sdg="GetResultsByLocation?location_id=86&indicator_id=1002&year=2019")
+data <- get_data(
+  url = "https://api.healthdata.org/sdg/v1",
+  key = key,
+  sdg = "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
+)
 data
 ```

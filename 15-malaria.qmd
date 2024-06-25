@@ -77,8 +77,8 @@ n_steps <- 12
 initial_infected <- 10
 
 # Parameters for malaria transmission dynamics
-transmission_rate <- 0.2  # Rate of malaria transmission
-recovery_rate <- 0.1      # Rate of recovery from malaria
+transmission_rate <- 0.2 # Rate of malaria transmission
+recovery_rate <- 0.1 # Rate of recovery from malaria
 
 # Initialize vectors to store data
 time <- 1:n_steps
@@ -91,13 +91,13 @@ infected[1] <- initial_infected
 for (i in 2:n_steps) {
   # Calculate the number of new infections
   new_infections <- rbinom(1, infected[i - 1], transmission_rate)
-  
+
   # Calculate the number of recoveries
   recoveries <- rbinom(1, infected[i - 1], recovery_rate)
-  
+
   # Update the number of infected individuals
   infected[i] <- infected[i - 1] + new_infections - recoveries
-  
+
   # Ensure that the number of infected individuals is non-negative
   if (infected[i] < 0) {
     infected[i] <- 0
@@ -105,12 +105,12 @@ for (i in 2:n_steps) {
 }
 
 # Plot the simulated malaria data
-plot(time, infected, 
-     type = "l", 
-     xlab = "Time", 
-     ylab = "Number of Infected Individuals", 
-     main = "Simulated Malaria Data")
-
+plot(time, infected,
+  type = "l",
+  xlab = "Time",
+  ylab = "Number of Infected Individuals",
+  main = "Simulated Malaria Data"
+)
 ```
 
 ### modelling with caret
@@ -128,8 +128,8 @@ library(caret)
 Convert 'time' column to Date format
 
 ```{r}
-malaria_data <- data.frame(time=time, infected_cases=infected)
-#malaria_data$time <- as.Date(malaria_data$time)
+malaria_data <- data.frame(time = time, infected_cases = infected)
+# malaria_data$time <- as.Date(malaria_data$time)
 ```
 
 2.  Feature Engineering
@@ -149,14 +149,14 @@ Define the machine learning model (e.g., Random Forest)
 #| message: false
 #| warning: false
 model <- train(
-  infected_cases ~ lagged_cases,  # Specify the formula
-  data = malaria_data,            # Specify the data
-# Specify the machine learning algorithm (Random Forest)
-  method = "rf",        
-# Cross-validation for hyperparameter tuning
-  trControl = trainControl(method = "cv"), 
-# Hyperparameter grid for tuning
-  tuneGrid = expand.grid(mtry = c(2, 3, 4))  
+  infected_cases ~ lagged_cases, # Specify the formula
+  data = malaria_data, # Specify the data
+  # Specify the machine learning algorithm (Random Forest)
+  method = "rf",
+  # Cross-validation for hyperparameter tuning
+  trControl = trainControl(method = "cv"),
+  # Hyperparameter grid for tuning
+  tuneGrid = expand.grid(mtry = c(2, 3, 4))
 )
 ```
 
@@ -198,7 +198,7 @@ model <- train(
   data = malaria_data,
   method = "rf",
   trControl = trainControl(method = "cv"),
-  tuneGrid = tuneGrid  # Adjust the range of 'mtry'
+  tuneGrid = tuneGrid # Adjust the range of 'mtry'
 )
 ```
 
@@ -217,12 +217,12 @@ malaria_data <- na.omit(malaria_data)
 
 # Re-train the model with the new feature
 model <- train(
- # Include the new feature
-  infected_cases ~ lagged_cases + lagged_feature, 
+  # Include the new feature
+  infected_cases ~ lagged_cases + lagged_feature,
   data = malaria_data,
   method = "rf",
   trControl = trainControl(method = "cv"),
-  tuneGrid = expand.grid(mtry = c(2, 3, 4)) 
+  tuneGrid = expand.grid(mtry = c(2, 3, 4))
 )
 ```
 
@@ -233,5 +233,4 @@ model <- train(
 predictions <- predict(model, newdata = malaria_data)
 rmse <- sqrt(mean((predictions - malaria_data$infected_cases)^2))
 cat("RMSE after Iterative Improvement:", rmse, "\n")
-
 ```

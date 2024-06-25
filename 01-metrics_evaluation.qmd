@@ -27,23 +27,29 @@ statistical methods, as illustrated by @fig-timeline.
 #| warning: false
 #| output: false
 library(tidyverse)
-timeline <- tibble(id=seq(1,8,1),
-                   type=c("Ancient Observations",
-              "John Graunt (17th Century)",
-              "Life Tables (19th Century)",
-              "Quality-Adjusted Life Years (QALYs)",
-              "Global Burden of Disease Study (1990)",
-              "Disability-Adjusted Life Years (DALYs)",
-              "Advancements in Technology and Data",
-              "Current Landscape"),
-text=c("The concept of health metrics can be traced back to ancient civilizations where observations on life expectancy, birth rates, and mortality were made. However, these were often anecdotal and lacked systematic measurement.",
-       "In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analyzed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
-       "The 19th century saw the development of life tables, providing a systematic approach to analyzing mortality and life expectancy. This period marked a transition from descriptive observations to more structured methods in health metrics.",
-       "QALYs, another important health metric, emerged in the late 20th century as a measure combining both the quality and quantity of life lived. QALYs are commonly used in health economics and healthcare decision-making.",
-       "A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health Organization (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
-       "The GBD Study introduced DALYs as a metric in 1990. DALYs combine years of life lost due to premature mortality and years lived with disability, providing a comprehensive measure of disease burden. This metric became instrumental in assessing the overall health impact of different conditions.",
-       "With advancements in technology, including computing power and big data analytics, health metrics have become more sophisticated. Real-time tracking, machine learning applications, and global health databases contribute to a more dynamic understanding of population health.",
-       "Today, health metrics encompass a wide range of measures, including traditional mortality rates, disease-specific metrics, and broader indicators like well-being and social determinants of health. These metrics play a crucial role in shaping public health policies, healthcare interventions, and global health assessments."))
+timeline <- tibble(
+  id = seq(1, 8, 1),
+  type = c(
+    "Ancient Observations",
+    "John Graunt (17th Century)",
+    "Life Tables (19th Century)",
+    "Quality-Adjusted Life Years (QALYs)",
+    "Global Burden of Disease Study (1990)",
+    "Disability-Adjusted Life Years (DALYs)",
+    "Advancements in Technology and Data",
+    "Current Landscape"
+  ),
+  text = c(
+    "The concept of health metrics can be traced back to ancient civilizations where observations on life expectancy, birth rates, and mortality were made. However, these were often anecdotal and lacked systematic measurement.",
+    "In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analyzed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
+    "The 19th century saw the development of life tables, providing a systematic approach to analyzing mortality and life expectancy. This period marked a transition from descriptive observations to more structured methods in health metrics.",
+    "QALYs, another important health metric, emerged in the late 20th century as a measure combining both the quality and quantity of life lived. QALYs are commonly used in health economics and healthcare decision-making.",
+    "A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health Organization (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
+    "The GBD Study introduced DALYs as a metric in 1990. DALYs combine years of life lost due to premature mortality and years lived with disability, providing a comprehensive measure of disease burden. This metric became instrumental in assessing the overall health impact of different conditions.",
+    "With advancements in technology, including computing power and big data analytics, health metrics have become more sophisticated. Real-time tracking, machine learning applications, and global health databases contribute to a more dynamic understanding of population health.",
+    "Today, health metrics encompass a wide range of measures, including traditional mortality rates, disease-specific metrics, and broader indicators like well-being and social determinants of health. These metrics play a crucial role in shaping public health policies, healthcare interventions, and global health assessments."
+  )
+)
 ```
 
 ```{r}
@@ -53,27 +59,29 @@ text=c("The concept of health metrics can be traced back to ancient civilization
 #| fig-cap: "Health Metrics development timeline"
 #| fig-alt: "Health Metrics development timeline"
 timeline %>%
-  ggplot(aes(x=id,y=0.5))+
-  geom_segment(aes(x=id,xend=id,y=0.5,yend=0.8),linewidth=0.3)+
-  geom_segment(aes(x=id,xend=id,y=0.5,yend=-1),linewidth=0.1)+
-  geom_point()+
-  geom_line(group=1,linewidth=1)+
-  ggtext::geom_textbox(aes(label=type,y=1),
-                       fontface="bold",
-                       width = unit(0.13, "npc"),
-                       box.size=0,
-                       fill=NA,
-                       hjust=0.5,
-                       size=2)+
-    ggtext::geom_textbox(aes(label=text,y=-1),
-                       width = unit(0.13, "npc"),
-                       box.size=0,
-                       fill="white",
-                       hjust=0.5,
-                       size=2)+
-  ylim(-3,2)+
-  xlim(0.8,8.2)+
-  coord_cartesian()+
+  ggplot(aes(x = id, y = 0.5)) +
+  geom_segment(aes(x = id, xend = id, y = 0.5, yend = 0.8), linewidth = 0.3) +
+  geom_segment(aes(x = id, xend = id, y = 0.5, yend = -1), linewidth = 0.1) +
+  geom_point() +
+  geom_line(group = 1, linewidth = 1) +
+  ggtext::geom_textbox(aes(label = type, y = 1),
+    fontface = "bold",
+    width = unit(0.13, "npc"),
+    box.size = 0,
+    fill = NA,
+    hjust = 0.5,
+    size = 2
+  ) +
+  ggtext::geom_textbox(aes(label = text, y = -1),
+    width = unit(0.13, "npc"),
+    box.size = 0,
+    fill = "white",
+    hjust = 0.5,
+    size = 2
+  ) +
+  ylim(-3, 2) +
+  xlim(0.8, 8.2) +
+  coord_cartesian() +
   theme_void()
 ```
 
