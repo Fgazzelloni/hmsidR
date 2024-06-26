@@ -24,15 +24,15 @@ Learning Objectives
 
 ## Cause-specific or Population-wide
 
-In @sec-02-health_metrics, we discussed the importance of health metrics
-in assessing the overall health status of a population and guiding the
-allocation of health resources. We have seen how to calculate key
-metrics by providing direct calculations of each of them, but haven't
-yet discussed the components\index{components} that make up these
-metrics. In this chapter, we will investigate: **life expectancy**,
-**mortality rates**, **incidence and prevalence**, and **disability
-weights**. These components are crucial for understanding the burden of
-disease and injury at both global and population levels.
+In @sec-02-method_calculation, we discussed the importance of health
+metrics in assessing the overall health status of a population and
+guiding the allocation of health resources. We have seen how to
+calculate key metrics by providing direct calculations of each of them,
+but haven't yet discussed the components\index{components} that make up
+these metrics. In this chapter, we will investigate: **life
+expectancy**, **mortality rates**, **incidence and prevalence**, and
+**disability weights**. These components are crucial for understanding
+the burden of disease and injury at both global and population levels.
 
 These key indicators, used to measure the burden of disease and injury
 on a population, provide a comprehensive view of the impact of diseases
@@ -59,19 +59,18 @@ When calculating **YLLs**, **YLDs**, and **DALYs** for
 **cause-specific** analyses, various factors are considered, including
 **causes of deaths** and/or **disabilities** at specific points in time,
 across all ages or specific age groups, and for both sexes or only
-females or males.
+females or males. Additionally, weights used for calculating disability
+levels can vary depending on the type of disability and other
+parameters. While, for **population-wide** analyses, the focus is on the
+overall health status of the population, considering all causes of
+deaths and disabilities, and using general life tables, mortality rates,
+and disability weights.
 
-Additionally, weights used for calculating disability levels can vary
-depending on the type of disability and other parameters. While, for
-**population-wide** analyses, the focus is on the overall health status
-of the population, considering all causes of deaths and disabilities,
-and using general life tables, mortality rates, and disability weights.
-
-In this chapter, we will provide practical examples and case studies to
-illustrate the process of applying the components. By understanding the
-structure of the components of the metrics, you will be better equipped
-to analyze and interpret health data and make informed decisions about
-health policy and resource allocation.
+In this chapter, practical examples and case studies are provided to
+illustrate the process of applying the components to the metrics. By
+understanding the structure of the components, you will be better
+equipped to analyze and interpret health data and make informed
+decisions about health policy and resource allocation.
 
 ## Life tables and Life expectancy
 
@@ -82,8 +81,8 @@ expectancy** is in the @sec-appendixA. As a key parameter in the
 calculation of health metrics, life expectancy is essential for
 estimating the number of years lost due to premature death.
 
-The **life expectancy** is defined as the average number of years a
-person is expected to live based on current mortality rates, an
+The **standard** **life expectancy** is defined as the average number of
+years a person is expected to live based on current mortality rates, an
 important indicator of the overall health status of a population used to
 compare the health outcomes of different populations over time. It is
 calculated based on the **probability of
@@ -92,7 +91,7 @@ account the **mortality rates**\index{mortality rates} for that age
 group.
 
 In life tables, the probability of survival and the mortality rates
-across different age groups are essential for estimating the number of
+across different age groups are used for estimating the number of
 remaining expected life years. These tables provide crucial insights
 into the longevity patterns within a population, enabling researchers
 and policymakers to predict life expectancy trends and to assess public
@@ -1057,7 +1056,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|----------------------------------------------|--------------------|-------|-------|
+|-----------------------------|---------------|---------------|---------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

@@ -1,4 +1,4 @@
-# Health Metrics {#sec-01-metrics_evaluation}
+# Health Metrics {#sec-01-health_metrics}
 
 > **"The concept of health also has highly subjective connotations,
 > precisely because it is conditioned by the personal view of
@@ -274,9 +274,9 @@ outcomes. It adjusts overall life expectancy by the amount of time lived
 in less than perfect health. This is calculated by subtracting from the
 life expectancy a figure which is the number of years lived with
 disability multiplied by a weighting to represent the effect of the
-disability[^01-metrics_evaluation-1][@healthy].
+disability[^01-health_metrics-1][@healthy].
 
-[^01-metrics_evaluation-1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
+[^01-health_metrics-1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
 
 ### Healthy Life Years (HLY)
 

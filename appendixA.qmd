@@ -1,10 +1,13 @@
-# Life Tables and Life Expectancy {#sec-appendixA}
+# Life Tables, Markov Chain and APIs {#sec-appendixA}
 
 ```{r}
 #| echo: false
 library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
+
+
+## Life Tables and Life Expectancy
 
 Back in the 1700s the Swiss mathematician and physicist Daniel Bernoulli
 (1700 - 1782) developed the use of a life table model by differentiating
@@ -131,7 +134,7 @@ hmsidwR::gho_lifetables %>%
   head()
 ```
 
-## Life expectancy
+### Life expectancy
 
 Life expectancy is the expected number of years a person will live,
 based on current age and prevailing mortality rates. There are several
@@ -175,3 +178,170 @@ Here are some key references for calculating life expectancy:
     such as the North American Actuarial Journal or Demographic
     Research, often provide in-depth coverage of the latest research and
     methods for calculating life expectancy.
+
+## Markov Chain
+
+```{r}
+#| echo: false
+library(tidyverse)
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
+A Markov chain is a stochastic model describing a sequence of possible
+events in which the probability of each event depends only on the state
+attained in the previous event. The state space of a Markov chain is the
+set of all possible states of the system. The transition probabilities
+are the probabilities of moving from one state to another. The
+transition matrix is a square matrix that describes the transition
+probabilities between states.
+
+The code for this replication of the **Markov Chain** is from Dobrow -
+**Bayesian analysis of infectious diseases** book (chapter4). It shows
+clearly how to create a Markov chain and calculate the transition
+probabilities.
+
+```{r}
+set.seed(000)
+markov <- function(init, mat, n, labels) {
+  if (missing(labels)) labels <- 1:length(init)
+  simlist <- numeric(n + 1)
+  states <- 1:length(init)
+  simlist[1] <- sample(states, 1, prob = init)
+
+  for (i in 2:(n + 1)) {
+    simlist[i] <- sample(states, 1, prob = mat[simlist[i - 1], ])
+  }
+
+  labels[simlist]
+}
+```
+
+```{r}
+P <- matrix(c(.51, .49, .49, .51),
+  nrow = 2, ncol = 2, byrow = TRUE
+)
+init <- c(1, 0)
+```
+
+```{r}
+markov(init = init, mat = P, n = 100)
+```
+
+```{r}
+# Define the number of transitions
+n_transitions <- 10000
+
+# Simulate Markov chain
+simulated_chain <- markov(init, P, n_transitions)
+
+# Calculate the transition probabilities
+transition_counts <- table(
+  simulated_chain[-1],
+  simulated_chain[-(n_transitions + 1)]
+)
+transition_probabilities <- transition_counts / rowSums(transition_counts)
+transition_probabilities
+```
+
+```{r}
+# Calculate prior probabilities
+prior_probabilities <- table(simulated_chain[-n_transitions]) / n_transitions
+
+# Calculate posterior probabilities
+posterior_probabilities <- transition_probabilities %*% prior_probabilities
+
+# Print prior probabilities
+print("Prior probabilities:")
+print(prior_probabilities)
+
+# Print posterior probabilities
+print("Posterior probabilities:")
+print(posterior_probabilities)
+```
+
+## Collecting Data with APIs
+
+Collecting data to use in a research analysis involves a selection of
+sources and methods to use for optimizing computational time when
+downloading and reading the files. Once data is set and ready to use a
+further step is required to make the data suitable for the selected
+model. The source of data is an important variable. Generally, data can
+be downloaded by using an API (application programming interface) which
+allow the user to get access to data directly from source, with the use
+of specified back-end computations. There are alternatives at using an
+API; data can be obtained by downloading it directly into the
+computer,or loaded through library packages. Usually, available files
+are provided under various forms such as delimited type of files, .csv,
+.xls, .json, and other types. Here is an example of how to use an API
+for downloading a file directly onto your computer.
+
+```{r}
+#| eval: false
+library(httr)
+url <- ""
+httr::GET(url = url)
+```
+
+### Download Data with APIs
+
+#### IHME Data APIs
+
+```{r}
+#| warning: false
+#| message: false
+library(httr)
+library(jsonlite)
+library(tidyverse)
+```
+
+-   SDG Query Input:
+
+    -   GetGoal
+    -   GetIndicator
+    -   GetTarget
+    -   GetLocation
+    -   GetAgeGroup
+    -   GetScenario
+    -   GetSexSDG
+
+-   Query Input for Results:
+
+    -   GetResultsByTarget
+    -   GetResultsByIndicator
+    -   GetResultsByLocation
+    -   GetResultsByYear
+
+Use the function `get_data` to download data from the IHME API. The
+function requires the following arguments:
+
+```         
+url = "https://api.healthdata.org/sdg/v1
+key = "YOUR-KEY"
+sdg = "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
+```
+
+```{r}
+get_data <- function(url, key, sdg) {
+  library(httr)
+  library(jsonlite)
+  url <- paste0(url, "/", sdg)
+  headers <- c("Authorization" = key)
+  res <- GET(url, add_headers(headers))
+  data <- fromJSON(rawToChar(res$content))
+  data <- data$results
+}
+```
+
+Build the query to download results by adding specification of the data.
+
+`GetResultsByLocation?location_id=86&indicator_id=1002&year=2019? location_id & indicator_id ...`
+
+```{r}
+#| eval: false
+data <- get_data(
+  url = "https://api.healthdata.org/sdg/v1",
+  key = YourKeyHere,
+  sdg = "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
+)
+data
+```

@@ -1357,13 +1357,12 @@ The most common analyses methods are[@hult2021]:
 -   cost-effectiveness\index{cost-effectiveness}, for specific outcomes,
     such as life expectancy or medical outcomes.
 
-As mentioned in the history of health metrics
-(@sec-01-metrics_evaluation), the cost-utility framework has been
-employed for calculating QALY. Over time, this measure has been
-criticized for potentially discriminating against certain disabilities
-in the population by assigning costs that were perceived as either too
-high or too low, and for failing to capture the full spectrum of human
-health conditions.
+As mentioned in the history of health metrics (@sec-01-health_metrics),
+the cost-utility framework has been employed for calculating QALY. Over
+time, this measure has been criticized for potentially discriminating
+against certain disabilities in the population by assigning costs that
+were perceived as either too high or too low, and for failing to capture
+the full spectrum of human health conditions.
 
 Moreover, comprehensive tools that assess the impacts through
 cost-effectiveness measures to estimate the effectiveness of health

@@ -1,72 +1,180 @@
-# Markov Chain {#sec-appendixB}
+# Tools Used to Make This Book {#sec-appendixB}
 
-```{r}
-#| echo: false
-library(tidyverse)
-ggplot2::theme_set(ggplot2::theme_minimal())
+To set up the environment for replicating the code used in this book the
+R language is needed as well as R and Rstudio IDE environments. The
+following sections contain the directions for installing **R** and
+**RStudio**, how to set up a book with **quarto** and how to use
+**GitHub** as a version saver source.
+
+## RStudio installation
+
+Download and install R and RStudio Desktop:
+<https://posit.co/download/rstudio-desktop/>
+
+## How to setup this project with quarto
+
+[**Quarto**](https://quarto.org/) is the new version of
+[**Rmarkdown**](https://rmarkdown.rstudio.com/), it can be used for
+making notes, presentations, websites, books and more.
+
+In this project the book has been made in quarto and version saved on
+github.
+
+For more information about how to publish a quarto book have a look
+here: [Quarto
+publishing](https://quarto.org/docs/publishing/github-pages.html)
+
+### GitHub useful commands
+
+You can do the same using the command line. In RStudio create a new
+project on a new directory, add git, and select `quarto book project`
+
+The automated process will create a `_quarto.yml` file, the top of the
+file will look like this one:
+
+``` r
+---
+project:
+        type: book
+---
 ```
 
-## Overview
+On terminal type: `quarto preview`, it will create a folder `_book`.
 
-A Markov chain is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event. The state space of a Markov chain is the set of all possible states of the system. The transition probabilities are the probabilities of moving from one state to another. The transition matrix is a square matrix that describes the transition probabilities between states.
+#### Add Github afterwords
 
-The code for this replication of the **Markov Chain** is from Dobrow - **Bayesian analysis of infectious diseases** book (chapter4). It shows clearly how to create a Markov chain and calculate the transition probabilities.
+[existing-github-last](https://happygitwithr.com/existing-github-last.html)
+to connect with github create a github repo with the same name of your
+project then type
 
-```{r}
-set.seed(000)
-markov <- function(init, mat, n, labels) {
-  if (missing(labels)) labels <- 1:length(init)
-  simlist <- numeric(n + 1)
-  states <- 1:length(init)
-  simlist[1] <- sample(states, 1, prob = init)
-
-  for (i in 2:(n + 1)) {
-    simlist[i] <- sample(states, 1, prob = mat[simlist[i - 1], ])
-  }
-
-  labels[simlist]
-}
+``` r
+usethis::use_git()
 ```
 
-```{r}
-P <- matrix(c(.51, .49, .49, .51),
-  nrow = 2, ncol = 2, byrow = TRUE
-)
-init <- c(1, 0)
+It asks you to commit all files in the RStudio project. This pushes all
+files in R to a remote folder designed to head to the github repo.
+
+In terminal connect with the github repo:
+
+``` r
+# on terminal type
+
+git init 
+git remote add origin
 ```
 
-```{r}
-markov(init = init, mat = P, n = 100)
+https://github.com/Fgazzelloni/infectious.git
+
+``` r
+# on terminal type
+
+git branch -M main 
+git push -u origin main 
 ```
 
-```{r}
-# Define the number of transitions
-n_transitions <- 10000
+### Publish your book on github pages
 
-# Simulate Markov chain
-simulated_chain <- markov(init, P, n_transitions)
+change the `quarto.yml` file into:
 
-# Calculate the transition probabilities
-transition_counts <- table(
-  simulated_chain[-1],
-  simulated_chain[-(n_transitions + 1)]
-)
-transition_probabilities <- transition_counts / rowSums(transition_counts)
-transition_probabilities
+``` r
+---
+project: 
+  type: book 
+  output-dir: docs 
+---
 ```
 
-```{r}
-# Calculate prior probabilities
-prior_probabilities <- table(simulated_chain[-n_transitions]) / n_transitions
+add a .nojekyll file, type in terminal:
 
-# Calculate posterior probabilities
-posterior_probabilities <- transition_probabilities %*% prior_probabilities
+``` r
+# on terminal type
 
-# Print prior probabilities
-print("Prior probabilities:")
-print(prior_probabilities)
-
-# Print posterior probabilities
-print("Posterior probabilities:")
-print(posterior_probabilities)
+touch .nojekyll 
 ```
+
+then type
+
+``` r
+# on terminal type
+
+quarto render 
+```
+
+some issues might arise if more than one calculation is made inside a
+single chunks split the chunks!
+
+quarto render creates a folder `docs`
+
+------------------------------------------------------------------------
+
+## Add a package
+
+``` r
+devtools::create("yourpkg")
+```
+
+Now that you have your book done, you might need to add some customized
+data to use within your analysis.
+
+In order to do that, you'll need to just add data in the way that is
+usually done when inside a package.
+
+### Building blocks of the R package inside the quarto book
+
+#### Add data to the package
+
+set the data from the original source and tidy appropriately
+
+``` r
+usethis::use_data_raw()
+```
+
+it creates a .R script where to put the steps for get the data ready
+
+once data are ready
+
+``` r
+usethis::use_data(yourdata)
+```
+
+It creates the R folder where the .R scripts of data documentation is
+located
+
+``` r
+usethis::use_r("yourdataset")
+```
+
+read how to document your work
+
+``` r
+vignette("rd-other") # for datasets
+vignette("rd")
+
+devtools::document()
+devtools::load_all(".")
+```
+
+#### Add package information
+
+so the ? (NAMESPACE) works
+
+``` r
+usethis::use_package_doc()
+devtools::document()
+```
+
+#### Add data information
+
+``` r
+usethis::use_r("yourdataset")
+devtools::document()
+```
+
+when filling the data .R script for explaining what's inside the dataset
+a specific structure needs to be used (see examples)
+
+when new data are added
+
+Build tab and ---\> More ---\> clean and install (this is not there
+anymore when you start with `devtools::create("yourpkg")`) to add the
+new data to NAMESPACE

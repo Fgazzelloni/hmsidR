@@ -1,4 +1,4 @@
-# Methods and Calculations {#sec-02-health_metrics}
+# Methods and Calculations {#sec-02-method_calculation}
 
 ```{r}
 #| echo: false
@@ -22,7 +22,7 @@ Learning Objectives
 
 The objective of this chapter is to provide a first level calculation of
 the burden of diseases, focusing on disability and premature mortality,
-which are captured by DALYs and HALE. In @sec-01-metrics_evaluation, we
+which are captured by DALYs and HALE. In @sec-01-health_metrics, we
 defined the metrics to establish the theoretical framework for
 constructing them. In this chapter, we will proceed with a general
 calculation of YLLs and YLDs to obtain the DALYs. This step is essential
@@ -46,7 +46,7 @@ First mentioned in 1947 by Mary Dempsey[@dempsey2019] to measure the
 burden of tuberculosis, it is built to identify areas where improvement
 is needed to reduce the loss in health status and reduce the probability
 of death [@reiner2022]. This metric was first calculated in late 1940s
-(@sec-01-metrics_evaluation), then defined as **Standardized Rate for
+(@sec-01-health_metrics), then defined as **Standardized Rate for
 Mortality in units of Lost Years of Life** by *William Haenszel*
 [@haenszel1950]. The investigation into the leading causes of death led
 to the development of a measurement that considered the age at death and

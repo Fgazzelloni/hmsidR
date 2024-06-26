@@ -1,12 +1,12 @@
 project:
   type: book
   output-dir: _book
-  
+
 book:
   title: "Health Metrics and the Spread of Infectious Diseases"
   subtitle: "Machine Learning Applications and Spatial Modelling Analysis with R"
   #abstract: "A walk through a comprehensive exploration of health metrics, their calculation, modeling, and cross-country comparisons. This book spans the intricate landscape of public health analysis, offering a practical examination of various methodologies and approaches. From the fundamentals of health metrics calculation to providing an overview of modeling techniques, it equips readers with the knowledge and tools essential for understanding and interpreting health data, gaining valuable insights into global disparities and factors influencing health outcomes. In addition to providing the R code necessary to produce the analysis, the book teaches how to create appropriate data visualizations and maps. In compliance with the principles of transparency and reproducibility, all datasets utilized in this book have been organized into an R package called [{hmsidwR}](https://fgazzelloni.github.io/hmsidwR/). This integration ensures that readers have easy access to the necessary data, thereby facilitating the replication of the analyses presented throughout the text."
-  author: 
+  author:
     name: Federica Gazzelloni
     orcid: 0000-0002-4285-611X
   cookie-consent:
@@ -15,7 +15,7 @@ book:
     palette: dark
   google-analytics:
     tracking-id: "G-J9YVQPL7W9"
-    anonymize-ip: true  
+    anonymize-ip: true
   site-url: https://fgazzelloni.quarto.pub/hmsidr/
   repo-url: https://github.com/Fgazzelloni/hmsidR
   repo-branch: origin
@@ -50,8 +50,8 @@ book:
     - part: "**Metrics Evaluation**"
       chapters:
         - part1.qmd
-        - 01-metrics_evaluation.qmd
-        - 02-health_metrics.qmd
+        - 01-health_metrics.qmd
+        - 02-method_calculation.qmd
         - 03-components.qmd
         - 04-causes_risks.qmd
     - part: "**Machine Learning**"
@@ -67,38 +67,36 @@ book:
         - 09-data_visualization.qmd
         - 10-applications.qmd
         - 11-spatials.qmd
-        - 12-examples.qmd 
+        - 12-examples.qmd
     - part: "**Infectious Diseases**"
       chapters:
         - part4.qmd
         - 13-infectious_diseases.qmd
         - 14-covid19.qmd
         - 15-malaria.qmd
-        - 16-summary.qmd  
+        - 16-summary.qmd
     - conclusions.qmd
     - references.qmd
-    - formulary.qmd 
+    - formulary.qmd
   appendices:
     - appendixA.qmd
-    - appendixB.qmd 
-    - appendixC.qmd 
-    - appendixD.qmd
-    - appendixE.qmd
-    
-appendix-style: default     
-search: true    
-   
+    - appendixB.qmd
+    - appendixC.qmd
+
+appendix-style: default
+search: true
+
 bibliography: references.bib
 csl: chicago-fullnote-bibliography-16th-edition.csl
 
 format:
   html:
-    theme: 
+    theme:
       - pulse
       - hmsid.scss
     html-math-method: katex
-    include-in-header: 
-      text: | 
+    include-in-header:
+      text: |
         <script defer data-domain="" src=""></script>
         <link rel = "shortcut icon" href = "favicon.ico" />
     code-overflow: wrap
@@ -106,16 +104,16 @@ format:
     code-copy: true
     fig-align: center
     fig-cap-location: bottom
-    link-external-newwindow: true 
-    callout-appearance: simple   
+    link-external-newwindow: true
+    callout-appearance: simple
     author-meta: "Federica Gazzelloni"
     toc: true
     toc-title: Contents
     toc-location: right
     toc-depth: 3
-    mermaid: 
-      theme: neutral 
-      
+    mermaid:
+      theme: neutral
+
   pdf:
     documentclass: krantz
     classoption: [krantz2]
@@ -123,9 +121,9 @@ format:
     toc-title: Contents
     latex-output-dir: _book
     colorlinks: true
-    include-in-header: 
+    include-in-header:
       - file: latex/preamble.tex
-    include-before-body: 
+    include-before-body:
       - file: latex/before_body.tex
     include-after-body:
       - file: latex/after_body.tex
@@ -135,21 +133,21 @@ format:
 editor: visual
 editor_options:
   chunk_output_type: inline
-  
-execute: 
+
+execute:
   echo: true
   message: false
   warning: false
-  freeze: auto 
+  freeze: auto
   cache: false
   fig.align: 'center'
- 
-tbl-cap-location: top 
+
+tbl-cap-location: top
 tbl-align: center
 
 knitr:
-  opts_chunk: 
+  opts_chunk:
     collapse: true
-    comment: "#>" 
+    comment: "#>"
     R.options:
-      knitr.graphics.auto_pdf: true  
+      knitr.graphics.auto_pdf: true

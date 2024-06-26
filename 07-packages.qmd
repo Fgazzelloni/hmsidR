@@ -680,15 +680,20 @@ h2o.shutdown(prompt = FALSE)
 
 ### Keras
 
-The following example shows how to use the `{keras}`, a package that facilitates the creation and training of **neural networks** and **deep learning** models in R. It provides a user-friendly interface to build models, whether they are simple neural networks or complex deep learning architectures, particularly useful for handling network connections. More detailed explanation of how a neural network works can be found in 
+The following example shows how to use the `{keras}`, a package that
+facilitates the creation and training of **neural networks** and **deep
+learning** models in R. It provides a user-friendly interface to build
+models, whether they are simple neural networks or complex deep learning
+architectures, particularly useful for handling network connections.
+More detailed explanation of how a neural network works can be found in
 
-In this case the **SEIR**\index{SEIR}
-model (susceptible, exposed, infected and recovered) is used, as seen in
-@sec-05-machine_learning chapter, to simulate the spread of a general
-infection in a population of 1000 individuals over 160 days. For some
-type of infections, the latency period is significant as it is the time
-during which infected individuals are not yet infectious themselves.
-During this period the individual is in compartment E (for exposed).
+In this case the **SEIR**\index{SEIR} model (susceptible, exposed,
+infected and recovered) is used, as seen in @sec-05-machine_learning
+chapter, to simulate the spread of a general infection in a population
+of 1000 individuals over 160 days. For some type of infections, the
+latency period is significant as it is the time during which infected
+individuals are not yet infectious themselves. During this period the
+individual is in compartment E (for exposed).
 
 Once the simulation of the infected population is done, the **deep
 learning** model acts by training social media data to predict the
@@ -762,8 +767,8 @@ output <- as.data.frame(output)
 ```
 
 The social media data, composed of features and labels, is obtained by
-simulating a matrix of 1000 individuals $(n)$ over 10 $(p)$ days used for
-training the model:
+simulating a matrix of 1000 individuals $(n)$ over 10 $(p)$ days used
+for training the model:
 
 ```{r}
 set.seed(123)
@@ -781,22 +786,29 @@ head(social_data)
 ```
 
 Define the model by using the `keras_model_sequential()` function, and
-add layers with the `layer_dense()` and `layer_activation()`
-functions. On each layer the model will apply a transformation to the input data, and the activation function will introduce non-linearity to the model.
+add layers with the `layer_dense()` and `layer_activation()` functions.
+On each layer the model will apply a transformation to the input data,
+and the activation function will introduce non-linearity to the model.
 
-Here we use a simple model with just two layers and a **ReLU** and a **Sigmoid** as   activation functions. These functions have specific shapes that allows the model to learn complex patterns in the data. Any time one layer is done the output is passed to the next layer.
+Here we use a simple model with just two layers and a **ReLU** and a
+**Sigmoid** as activation functions. These functions have specific
+shapes that allows the model to learn complex patterns in the data. Any
+time one layer is done the output is passed to the next layer.
 
-Although the `layer_dropout()` is not actually used in this application, but only commented out for testing model adjustments, it could be added to the model as a layer that drops out output results under specified requirements. The
-function is used to prevent overfitting by randomly setting a fraction
-of input units to zero during training.
+Although the `layer_dropout()` is not actually used in this application,
+but only commented out for testing model adjustments, it could be added
+to the model as a layer that drops out output results under specified
+requirements. The function is used to prevent overfitting by randomly
+setting a fraction of input units to zero during training.
 
-The model concludes with one more `layer_dense()` with `activation` used to
-finally activate the output with a tailored function. In this case a
-**sigmoid**, but also a **softmax** function could be used. 
+The model concludes with one more `layer_dense()` with `activation` used
+to finally activate the output with a tailored function. In this case a
+**sigmoid**, but also a **softmax** function could be used.
 
-The **sigmoid** function is used in binary classification problems, where the output is a probability between 0 and 1. The **softmax** function is used in multi-class
-classification problems, where the output is a probability distribution
-over multiple classes.
+The **sigmoid** function is used in binary classification problems,
+where the output is a probability between 0 and 1. The **softmax**
+function is used in multi-class classification problems, where the
+output is a probability distribution over multiple classes.
 
 Given an input vector $x=[x_1,x_2,...,x_p]$
 
@@ -815,18 +827,17 @@ $$
 a^{(1)}=ReLu(z^{(1)})=max(0,z^{(1)})
 $$ {#eq-first_activation}
 
-3. **Second Dense Layer Transformation**:
+3.  **Second Dense Layer Transformation**:
 
 $$
 z^{(2)}=\sum_{i=1}^p{W_i^{(2)} x_i+b^{(2)}}
 $$ {#eq-second_layer}
 
-4. **Output Activation (Sigmoid)**:
+4.  **Output Activation (Sigmoid)**:
 
 $$
 a^{(2)}=Sigmoid(z^{(2)})= \frac{1} {1+e^{-z^{(2)}}}
 $$ {#eq-second-activation}
-
 
 ```{r}
 model <- keras_model_sequential(input_shape = c(p))
@@ -841,20 +852,29 @@ model %>%
   layer_dense(units = 1, activation = "sigmoid")
 ```
 
-The model is then compiled using the `compile()` function which with the use of a **loss function** optimizes the results matching them against a minimum required value, and specified metrics to reduce the error.
+The model is then compiled using the `compile()` function which with the
+use of a **loss function** optimizes the results matching them against a
+minimum required value, and specified metrics to reduce the error.
 
 $$
 y= \hat{y} + \epsilon
 $$
 
-The loss function is used to measure how well the model is performing, in this case a **binary crossentropy** loss function is used, to match the differenc between orginal data and the model output, and apply model adjustments in case the difference is too high. The formula for binary crossentropy is:
+The loss function is used to measure how well the model is performing,
+in this case a **binary crossentropy** loss function is used, to match
+the differenc between orginal data and the model output, and apply model
+adjustments in case the difference is too high. The formula for binary
+crossentropy is:
 
 $$
 L(y,\hat{y})=-\frac{1}{n}\sum_{i=1}^n{y_i \log(\hat{y}_i)+(1-y_i) \log(1-\hat{y}_i)}
-$$
-The `optimizer_adam()` function, used to update the model's weights during training, in Keras specifies the use of the **Adaptive Moment Estimation (Adam)** optimization algorithm for training a neural network. It updates the parameters of the neural network. 
+$$ The `optimizer_adam()` function, used to update the model's weights
+during training, in Keras specifies the use of the **Adaptive Moment
+Estimation (Adam)** optimization algorithm for training a neural
+network. It updates the parameters of the neural network.
 
-Then finally, the model is evaluated on performance with the **accuracy** metric.
+Then finally, the model is evaluated on performance with the
+**accuracy** metric.
 
 ```{r}
 # Compile the model
@@ -865,9 +885,13 @@ model %>% compile(
 )
 ```
 
-Once the model is defined and compiled, the model is then trained using the `fit()` function with the training data, number of **epochs**, **batch size**, and **validation** split specified. The number of epochs is the number of times the model will go through the training data, the batch size is the number of samples used
-in each training step, and the validation split is the fraction of the
-training data that will be used for validation.
+Once the model is defined and compiled, the model is then trained using
+the `fit()` function with the training data, number of **epochs**,
+**batch size**, and **validation** split specified. The number of epochs
+is the number of times the model will go through the training data, the
+batch size is the number of samples used in each training step, and the
+validation split is the fraction of the training data that will be used
+for validation.
 
 A particular object that is created in this type of models is the
 `history` object, which is used to store the training history of the

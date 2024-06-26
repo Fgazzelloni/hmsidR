@@ -101,9 +101,9 @@ for public health policy and practice[@GBD2020].
 
 The book is structured with an alternation of text and chunks of code,
 primarily in the R programming language; hints for translations in
-python is in appendix C. Including R code allows readers to actively
-engage with real-world case studies on the topic. This approach enables
-readers to become practitioners by applying the concepts learned
+python are in @sec-appendixC. Including R code allows readers to
+actively engage with real-world case studies on the topic. This approach
+enables readers to become practitioners by applying the concepts learned
 directly to practical scenarios.
 
 The material supports full exploratory data analysis and model data
@@ -116,71 +116,66 @@ understanding of both spatial and health metrics.
 The book is foreseen for practitioners at early stages and graduated
 students in STEM, but it will be useful for experts in the field who
 would love to have all the tools in one place to scan through as needed.
-
 The purpose of this book is to contribute to the scientific development
-of the field of metrics and evaluation [@murray2008]. It is divided in
-four main sections, each containing four chapters. The first section
-**Metrics and Evaluation** is introductory explaining the health metrics
-definition at first level, the second section **Machine Learning** goes
-a bit more inside the topic looking at the tools available for the
-investigation, the third section **Data Visualization** provides the
-user with the tools for being able to visualize the results of the
-analysis, and finally the fourth section makes the things going into
-practice providing **Case Studies**.
+of the field of metrics and evaluation [@murray2008].
 
 ### Navigating the Chapters and Key Concepts
 
-**First Section** - The first chapter of the book provides an overview
-of Metrics Evaluations, detailing the history, development, and their
-usage over time.
+**First Section**: **Metrics and Evaluation** is introductory explaining
+the health metrics definition at first level. The
+@sec-01-health_metrics, **Health Metrics** provides an overview of the
+metrics, history, development, and usage over time.
 
-In the second chapter, Health Metrics, there is a deep dive into various
-types of metrics, including Disability Adjusted Life Years (DALYs) and
-its components: Years of Life Lost (YLLs) and Years Lived with
-Disabilities (YLDs). This chapter also introduces a fourth metric,
-Health Adjusted Life Years (HALY), which represents a further
-improvement in the development of health metrics and in evaluating the
-health status of a population.
+In the @sec-02-method_calculation, **Methods and Calculations**, there
+is a first level calculation of the metrics, including Disability
+Adjusted Life Years (DALYs) and its components: Years of Life Lost
+(YLLs) and Years Lived with Disabilities (YLDs), and HALE. which
+represents a further improvement in the development of health metrics
+and in evaluating the health status of a population.
 
-The third chapter, Metrics Components, examines the key building blocks
-of health metrics, which are crucial for ensuring consistency and for
-accurately depicting the real health status of a population. This
-includes life tables, life expectancy, mortality levels, incidence and
+The @sec-03-components, **Metrics Components**, examines the key
+building blocks of the health metrics, crucial for ensuring consistency
+in the calculation of the health status of a population. This includes
+life tables, life expectancy, mortality levels, incidence and
 prevalence, and disability weights. This chapter is supplemented by
-Appendix A, where the underlying calculations are further explained.
+@sec-appendixA, where the underlying calculations are further explained.
 
-The fourth chapter evaluates the Causes and Risks that influence the
-metrics, identifying major threats that contribute to an increase in the
-number of years of life lost or lived with disabilities. This discussion
-encourages the exploration of alternative solutions for prevention and
-health policy development.
+The @sec-04-causes_risks evaluates the **Causes and Risks** that
+influence the metrics, identifying major threats that contribute to an
+increase in the number of years of life lost or lived with disabilities.
+This discussion encourages the exploration of alternative solutions for
+prevention and health policy development.
 
-**Second Section** - This section offers a more in-depth exploration of
-metrics evaluation through Machine Learning. It presents tools for
-analyzing trends and phenomena, addressing missing values, and efforts
-to fill gaps to provide a comprehensive view of general trends. The
-second chapter, Techniques for Machine Learning Applications, provides
-an overview of different types of models suitable for use. The third
-chapter, Essential R Packages for Machine Learning, lists recommended R
-packages for modelling. The final chapter focuses on Predictive
-modelling and Beyond.
+**Second Section:** **Machine Learning** offers a more in-depth
+exploration of metrics evaluation through modeling techniques and
+R-packages overivews. @sec-05-machine_learning, **Introduction to
+Machine Learning** guide the reader to the use of ML models.
+@sec-06-techniques, **Techniques for Machine Learning Applications**,
+provides an overview of different types of models suitable for use.
+@sec-07-packages, **Essential R Packages for Machine Learning**, lists
+recommended R packages for modelling while providing application to case
+studies. The @sec-08-predictions focuses on **Predictive modelling and
+Beyond**.
 
-**Third Section** - Dedicated entirely to Data Visualization, this
-section covers its history and application in R. The second chapter
-discusses Interpreting Model Results Through Visualization; the third
-chapter addresses Spatial Data modelling and Visualization, teaching the
-use of these tools. The fourth chapter provides tailored Examples to
-enhance the knowledge acquired.
+**Third Section: Data Visualization** equipes the user with the tools
+for being able to customize plots and maps. @sec-09-data_visualization,
+**Introduction to Data Visualization** covers the history of data
+visualization and application in R. The @sec-10-applications discusses
+**Interpreting Model Results Through Visualization**. The
+@sec-11-spatials addresses **Spatial Data modelling and Visualization**,
+teaching the use of these tools. The @sec-12-examples provides
+**Advanced Data Visualization Techniques.**
 
-**Fourth Section** - The Infectious Diseases section begins with an
-Introduction to infectious diseases, followed by two case studies: one
-on COVID-19 and the other on Malaria. The final chapter, Summary: The
-State of Health, illustrates how these two infectious diseases affect
-population health metrics.
+**Fourth Section: Infectious Diseases** begins with an Introduction to
+infectious diseases, followed by two case studies: one on
+@sec-14-covid19 **Covid19 Outbreaks** and the other @sec-15-malaria on
+**The Case of Malaria**. The final @sec-16-summary, **Summary: The State
+of Health**, illustrates how infectious diseases affect population
+health metrics.
 
 **Conclusion** - The tools introduced in this book act as a powerful
 key, unlocking the structures of unknown patterns through the
-application of transfer learning techniques. By repurposing models
-designed for one phenomenon to predict another, this approach enables
-users to navigate and understand previously uncharted territories in a
-diverse range of scenarios.
+application of transfer learning techniques by using models designed for
+one phenomenon to predict another, this approach enables users to
+navigate and understand previously uncharted territories in a diverse
+range of scenarios.

@@ -1,180 +1,242 @@
-# Tools Used to Make This Book {#sec-appendixC}
+# Tips on Converting to Python {#sec-appendixC}
 
-To set up the environment for replicating the code used in this book the
-R language is needed as well as R and Rstudio IDE environments. The
-following sections contain the directions for installing **R** and
-**RStudio**, how to set up a book with **quarto** and how to use
-**GitHub** as a version saver source.
+Translating R code into Python can be a smooth transition with the right
+approach. Let's start with the basics, from installing packages to
+loading libraries, and compare the equivalents between R and Python,
+including the popular tidyverse in R and its counterparts in Python.
 
-## RStudio installation
+## Packages and Libraries
 
-Download and install R and RStudio Desktop:
-<https://posit.co/download/rstudio-desktop/>
+1.  **Installing Packages:**
 
-## How to setup this project with quarto
+    -   **R:**
 
-[**Quarto**](https://quarto.org/) is the new version of
-[**Rmarkdown**](https://rmarkdown.rstudio.com/), it can be used for
-making notes, presentations, websites, books and more.
+        ``` r
+        install.packages("package_name")
+        ```
 
-In this project the book has been made in quarto and version saved on
-github.
+    -   **Python (using pip):**
 
-For more information about how to publish a quarto book have a look
-here: [Quarto
-publishing](https://quarto.org/docs/publishing/github-pages.html)
+        ``` python
+        !pip install package_name
+        ```
 
-### GitHub useful commands
+    -   **Python (using conda):**
 
-You can do the same using the command line. In RStudio create a new
-project on a new directory, add git, and select `quarto book project`
+        ``` python
+        !conda install package_name
+        ```
 
-The automated process will create a `_quarto.yml` file, the top of the
-file will look like this one:
+2.  **Loading Libraries:**
 
-``` r
----
-project:
-        type: book
----
-```
+    -   **R:**
 
-On terminal type: `quarto preview`, it will create a folder `_book`.
+        ``` r
+        library(package_name)
+        ```
 
-#### Add Github afterwords
+    -   **Python:**
 
-[existing-github-last](https://happygitwithr.com/existing-github-last.html)
-to connect with github create a github repo with the same name of your
-project then type
+        ``` python
+        import package_name
+        ```
 
-``` r
-usethis::use_git()
-```
+## Comparing tidyverse with its Python equivalents
 
-It asks you to commit all files in the RStudio project. This pushes all
-files in R to a remote folder designed to head to the github repo.
+-   **tidyverse (R):** tidyverse is a collection of R packages designed
+    for data science, including dplyr for data manipulation, ggplot2 for
+    data visualization, tidyr for data tidying, etc.
 
-In terminal connect with the github repo:
+    ``` r
+    library(tidyverse)
+    ```
 
-``` r
-# on terminal type
+-   **Python Equivalents:**
 
-git init 
-git remote add origin
-```
+    -   **pandas:** Similar to dplyr, pandas provides powerful data
+        manipulation tools.
 
-https://github.com/Fgazzelloni/infectious.git
+        ``` python
+        import pandas as pd
+        ```
 
-``` r
-# on terminal type
+    -   **matplotlib/seaborn:** Comparable to ggplot2, these libraries
+        are used for data visualization.
 
-git branch -M main 
-git push -u origin main 
-```
+        ``` python
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        ```
 
-### Publish your book on github pages
+    -   **numpy:** While not a direct equivalent to tidyr, numpy offers
+        functionalities for array manipulation and numerical computing,
+        which can be handy for data tidying tasks.
 
-change the `quarto.yml` file into:
+        ``` python
+        import numpy as np
+        ```
 
-``` r
----
-project: 
-  type: book 
-  output-dir: docs 
----
-```
+    -   **scikit-learn:** Provides tools for data preprocessing,
+        modelling, and evaluation, resembling some functionalities of
+        tidyverse packages like modelr.
 
-add a .nojekyll file, type in terminal:
+        ``` python
+        from sklearn import ...
+        ```
 
-``` r
-# on terminal type
+    -   **tidyverse-like package:** There isn't a single package in
+        Python that encompasses the entire functionality of tidyverse,
+        but you can combine pandas, matplotlib/seaborn, numpy, and
+        scikit-learn to achieve similar results.
 
-touch .nojekyll 
-```
+By understanding these equivalences and leveraging the rich ecosystem of
+Python libraries, you can effectively translate your R code into Python,
+ensuring a smooth transition while retaining the analytical power and
+flexibility you need for your projects.
 
-then type
+## Creating data making statistics
 
-``` r
-# on terminal type
+1.  **Creating Basic Data:**
 
-quarto render 
-```
+    -   **R:**
 
-some issues might arise if more than one calculation is made inside a
-single chunks split the chunks!
+        ``` r
+        # Create a data frame
+        data <- data.frame(
+          x = c(1, 2, 3, 4, 5),
+          y = c(2, 3, 4, 5, 6)
+        )
+        ```
 
-quarto render creates a folder `docs`
+    -   **Python (using pandas):**
 
-------------------------------------------------------------------------
+        ``` python
+        import pandas as pd
 
-## Add a package
+        # Create a DataFrame
+        data = pd.DataFrame({
+            'x': [1, 2, 3, 4, 5],
+            'y': [2, 3, 4, 5, 6]
+        })
+        ```
 
-``` r
-devtools::create("yourpkg")
-```
+2.  **Basic Statistics:**
 
-Now that you have your book done, you might need to add some customized
-data to use within your analysis.
+    -   **R:**
 
-In order to do that, you'll need to just add data in the way that is
-usually done when inside a package.
+        ``` r
+        # Summary statistics
+        summary(data)
+        ```
 
-### Building blocks of the R package inside the quarto book
+    -   **Python (using pandas):**
 
-#### Add data to the package
+        ``` python
+        # Summary statistics
+        print(data.describe())
+        ```
 
-set the data from the original source and tidy appropriately
+## Building a Linear Regression Model
 
-``` r
-usethis::use_data_raw()
-```
+-   **R:**
 
-it creates a .R script where to put the steps for get the data ready
+    ``` r
+    # Load the lm function from the stats package
+    library(stats)
 
-once data are ready
+    # Fit a linear regression model
+    lm_model <- lm(y ~ x, data = data)
 
-``` r
-usethis::use_data(yourdata)
-```
+    # Summary of the model
+    summary(lm_model)
+    ```
 
-It creates the R folder where the .R scripts of data documentation is
-located
+-   **Python (using statsmodels):**
 
-``` r
-usethis::use_r("yourdataset")
-```
+    ``` python
+    import statsmodels.api as sm
 
-read how to document your work
+    # Add a constant term for intercept
+    X = sm.add_constant(data['x'])
 
-``` r
-vignette("rd-other") # for datasets
-vignette("rd")
+    # Fit a linear regression model
+    lm_model = sm.OLS(data['y'], X).fit()
 
-devtools::document()
-devtools::load_all(".")
-```
+    # Summary of the model
+    print(lm_model.summary())
+    ```
 
-#### Add package information
+-   **Python (using scikit-learn):**
 
-so the ? (NAMESPACE) works
+    ``` python
+    from sklearn.linear_model import LinearRegression
 
-``` r
-usethis::use_package_doc()
-devtools::document()
-```
+    # Initialize the model
+    lm_model = LinearRegression()
 
-#### Add data information
+    # Fit the model
+    lm_model.fit(data[['x']], data['y'])
 
-``` r
-usethis::use_r("yourdataset")
-devtools::document()
-```
+    # Coefficients
+    print("Intercept:", lm_model.intercept_)
+    print("Coefficient:", lm_model.coef_)
+    ```
 
-when filling the data .R script for explaining what's inside the dataset
-a specific structure needs to be used (see examples)
+While the syntax and libraries may differ slightly, the overall process
+remains conceptually similar. By understanding these comparisons, you
+can effectively transition between R and Python for data analysis and
+modelling tasks.
 
-when new data are added
+## Example of a Model Workflow
 
-Build tab and ---\> More ---\> clean and install (this is not there
-anymore when you start with `devtools::create("yourpkg")`) to add the
-new data to NAMESPACE
+1.  **Data Preprocessing**:
+
+    ``` python
+    import pandas as pd
+    from sklearn.preprocessing import StandardScaler
+    data = pd.read_csv('data.csv')
+    data.fillna(method='ffill', inplace=True)  # Forward fill missing values
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(
+      data[['feature1', 'feature2', 'feature3']]
+      )
+    ```
+
+2.  **Model Selection and Training**:
+
+    ``` python
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LinearRegression
+    from sklearn.metrics import mean_squared_error
+
+    X = data[['feature1', 'feature2', 'feature3']]
+    y = data['DALYs']
+    X_train, 
+    X_test, 
+    y_train, 
+    y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+
+    mse = mean_squared_error(y_test, y_pred)
+    print(f'Mean Squared Error: {mse}')
+    ```
+
+3.  **Time Series Forecasting Example**:
+
+    ``` python
+    from fbprophet import Prophet
+    ts_data = data[['date', 'DALYs']]
+    ts_data.rename(columns={'date': 'ds', 'DALYs': 'y'}, inplace=True)
+    model = Prophet()
+    model.fit(ts_data)
+    future = model.make_future_dataframe(periods=365)
+    forecast = model.predict(future)
+    model.plot(forecast)
+    ```
+
+By following these steps, you can analyze DALYs and infectious diseases,
+drawing trends, understanding relationships, and predicting future
+outcomes effectively.
