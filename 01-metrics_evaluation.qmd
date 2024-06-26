@@ -1,4 +1,4 @@
-# Introduction to Health Metrics {#sec-01-metrics_evaluation}
+# Health Metrics {#sec-01-metrics_evaluation}
 
 > **"The concept of health also has highly subjective connotations,
 > precisely because it is conditioned by the personal view of
@@ -334,7 +334,7 @@ contemporary health priorities. This approach reflects a growing
 recognition that health metrics should account for physical and clinical
 indicators and consider psychological and overall well-being.
 
-## Conclusion
+## Summary
 
 Health metrics play a crucial role in understanding and improving
 population health. From John Graunt’s early work in the 17th century to
