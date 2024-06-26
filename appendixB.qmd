@@ -6,10 +6,11 @@ library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-## Markov Chain
+## Overview
 
-code is from Dobrow - Bayesian analisis of infectious diseases book
-(chapter4)
+A Markov chain is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event. The state space of a Markov chain is the set of all possible states of the system. The transition probabilities are the probabilities of moving from one state to another. The transition matrix is a square matrix that describes the transition probabilities between states.
+
+The code for this replication of the **Markov Chain** is from Dobrow - **Bayesian analysis of infectious diseases** book (chapter4). It shows clearly how to create a Markov chain and calculate the transition probabilities.
 
 ```{r}
 set.seed(000)

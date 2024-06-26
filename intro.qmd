@@ -82,9 +82,9 @@ and `{INLA}` for modelling, but other machine learning packages like
 In practice, the data will include information about humanity such as
 age, sex, life expectancy, mortality, and risk levels. The interesting
 part is related to the identification of the influence of some of the
-most dangerous infectious disease on the values of health metrics of a
+most dangerous infectious diseases on the values of health metrics of a
 population, and this is done to practice the variation to eventually
-predict through model transfer techniques same pattern procedure on
+predict through model transfer techniques the same pattern procedure on
 other countries. It's not the only application; more examples of model
 transfer applications are needed in research[@roster2022].
 

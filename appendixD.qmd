@@ -197,7 +197,9 @@ modelling tasks.
     data = pd.read_csv('data.csv')
     data.fillna(method='ffill', inplace=True)  # Forward fill missing values
     scaler = StandardScaler()
-    scaled_data = scaler.fit_transform(data[['feature1', 'feature2', 'feature3']])
+    scaled_data = scaler.fit_transform(
+      data[['feature1', 'feature2', 'feature3']]
+      )
     ```
 
 2.  **Model Selection and Training**:
@@ -209,7 +211,10 @@ modelling tasks.
 
     X = data[['feature1', 'feature2', 'feature3']]
     y = data['DALYs']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, 
+    X_test, 
+    y_train, 
+    y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     model = LinearRegression()
     model.fit(X_train, y_train)

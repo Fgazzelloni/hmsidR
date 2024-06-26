@@ -413,7 +413,7 @@ techniques, to eventually select the best model. A more detailed
 explanation of the `{tidymodels}` framework can be found in the book
 [@silge].
 
-### Training Data and Resampling Techniques
+### Training Data and Resampling
 
 Splitting data into training and test allows the model to train a
 subsection of the data and then test the its performance on the
@@ -463,7 +463,7 @@ set.seed(04052024)
 folds <- vfold_cv(training, v = 10)
 ```
 
-### Data Preprocessing & Featuring Engineering
+### Data Preprocessing and Featuring Engineering
 
 As already seen in the exploratory phase, preprocessing data is a
 crucial step in machine learning, this process can include techniques
@@ -608,12 +608,12 @@ without the adverse effects of multicollinearity.
 
 ### Model Specification
 
-The next step is to define the model specification. There are various
-type of modelling that can be used, let's get started with a **random
-forest**, this choice is due to this type of algorithm which will create
-**multiple bootstrap samples** (random samples with replacement) from
-the original dataset. Each bootstrap sample is used to train a separate
-decision tree.
+The next step is to outline the model specification. There are various
+type of models that can be used. We start with a **random forest**. This
+choice is tipically done due to the algorithm's features, which is able
+to create **multiple bootstrap samples** (random samples with
+replacement) from the original dataset. Each bootstrap sample is used to
+train a separate decision tree.
 
 ### Model 1: Random Forest
 

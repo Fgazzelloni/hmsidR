@@ -29,14 +29,35 @@ httr::GET(url = url)
 library(httr)
 library(jsonlite)
 library(tidyverse)
+```
 
-# `SDG query input:- GetGoal - GetIndicator - GetTarget - GetLocation - GetAgeGroup - GetScenario - GetSexSDG
-# query input for results:- GetResultsByTarget - GetResultsByIndicator - GetResultsByLocation -
-# GetResultsByYear`
+-   SDG Query Input:
 
+    -   GetGoal
+    -   GetIndicator
+    -   GetTarget
+    -   GetLocation
+    -   GetAgeGroup
+    -   GetScenario
+    -   GetSexSDG
 
-# url="https://api.healthdata.org/sdg/v1/"key="YOUR-KEY-HERE"
+-   Query Input for Results:
 
+    -   GetResultsByTarget
+    -   GetResultsByIndicator
+    -   GetResultsByLocation
+    -   GetResultsByYear
+
+Use the function `get_data` to download data from the IHME API. The
+function requires the following arguments:
+
+```         
+url = "https://api.healthdata.org/sdg/v1
+key = "YOUR-KEY"
+sdg = "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
+```
+
+```{r}
 get_data <- function(url, key, sdg) {
   library(httr)
   library(jsonlite)
@@ -53,15 +74,10 @@ Build the query to download results by adding specification of the data.
 `GetResultsByLocation?location_id=86&indicator_id=1002&year=2019? location_id & indicator_id ...`
 
 ```{r}
-#| echo: false
-key <- "8ym9ht687svohiwtqiinfjd3gxq7vihc"
-```
-
-```{r}
 #| eval: false
 data <- get_data(
   url = "https://api.healthdata.org/sdg/v1",
-  key = key,
+  key = YourKeyHere,
   sdg = "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
 )
 data

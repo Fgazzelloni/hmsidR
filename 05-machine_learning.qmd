@@ -577,10 +577,11 @@ spread in section 4 @sec-13-infectious_diseases.
 #### SEIR Model
 
 In this example we simulate data of an epidemic to build a
-SEIR\index{SEIR model} (susceptible, exposed, infected, recovered)
-model, a case a little more complicated than just making a SIR
-(susceptible, infected, recovered) model (@eq-sir-model-theory) which we
-will see in more details in @sec-14-covid19.
+SEIR\index{SEIR} (susceptible, exposed, infected, recovered) model, a
+case a little more complicated than just making a SIR (susceptible,
+infected, recovered) model (@eq-sir-model-theory). More about the
+compartmental models will be shown in @sec-07-packages and in
+@sec-14-covid19.
 
 So, let's start looking at how our simple linear equation
 $y= \beta_0+\beta_1 x$ can be changed to become a differential equation.
@@ -624,7 +625,7 @@ $\beta$ is the transmission rate, $\sigma$ the rate of latent
 individuals becoming infectious, and $\gamma$ the rate of recovery.
 
 ```{r}
-seir_model <- function(time, state, parameters) {
+SEIR <- function(time, state, parameters) {
   # variables need to be in a list
   with(as.list(c(state, parameters)), {
     # Parameters
@@ -670,7 +671,7 @@ we created above.
 output <- deSolve::ode(
   y = initial_state,
   times = times,
-  func = seir_model,
+  func = SEIR,
   parms = c(
     beta = beta,
     sigma = sigma,
