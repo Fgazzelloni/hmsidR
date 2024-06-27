@@ -20,13 +20,10 @@ Learning Objectives
 :::
 :::
 
-## Prediction about the Future
-
 In the dynamic landscape of public health, the ability to forecast and
 predict future trends is essential for effective decision-making and the
 implementation of timely interventions. In this chapter there is an
-overview of predictive modelling, in particular the use of **time series
-analysis** and **mixed models**\index{mixed models} to anticipate the
+overview of predictive modelling, in particular the use of **time series analysis** and **mixed models**\index{mixed models} to anticipate the
 trajectory of infectious diseases and health metrics. By exploring the
 underlying patterns analyzing historical data to provide an estimation
 of the disease burden, and evaluate the impact of interventions on
@@ -35,6 +32,10 @@ models can be tailored to address specific research questions, such as
 predicting disease outbreaks, estimating disease burden, and assessing
 the impact of interventions on population health.
 
+## Prediction about the Future
+
+The previous chapters provided an attempt at estimating future outcomes based on the application of various type of statistical and machine learning techniques. One important side of the analysis is that to consider the evolution of the phenomenon in time. We can do this by using time series analysis and mixed models.
+
 Time series\index{time series} analysis serves as a tool for
 understanding and forecasting temporal patterns in health data.
 Techniques such as **ARIMA (AutoRegressive Integrated Moving Average)**
@@ -42,8 +43,7 @@ models offer a systematic approach to modelling time-dependent data,
 capturing seasonal variations, trends, and irregularities to generate
 accurate forecasts.
 
-Mixed models provide a versatile framework for incorporating various
-sources of variability and correlation within the data. By combining
+Mixed models, on the other side, provide a versatile framework for incorporating various sources of variability and correlation within the data. By combining
 fixed effects with random effects, mixed models accommodate complex data
 structures, such as hierarchical or longitudinal data, while accounting
 for individual-level and group-level factors that may influence the
@@ -51,29 +51,22 @@ outcome of interest.
 
 From forecasting the trajectory of emerging pathogens to evaluating the
 long-term implications of public health policies, predictive modelling
-offers valuable insights into the future of global health.
+offers valuable insights into the future of global health. As seen in @sec-04-causes_risks, the consideration of other factors such as the **Social Demographic Index (SDI)**\index{SDI} can provide a comprehensive understanding of the impact social and economic determinants can have on health outcomes. 
 
-## Social Demographic Index (SDI)
+As an index, SDI is composed of the geometric mean of the total fertility rate (TFR) for those younger than 25 years old (TFU25), the mean education for those 15 years old and older (EDU15+), and lag-distributed income (LDI) per capita. It ranges from 0 to 1 but it is usually multiplied by 100 for a scale of 0 to 100.
 
-The **Social Demographic Index (SDI)**\index{SDI} is an index that
-considers the social and economic background conditions influencing
-health outcomes in specific locations. It is composed of the geometric
-mean of the total fertility rate (TFR) for those younger than 25 years
-old (TFU25), the mean education for those 15 years old and older
-(EDU15+), and lag-distributed income (LDI) per capita. It ranges from 0
-to 1 but it is usually multiplied by 100 for a scale of 0 to 100.
-
-We use the **Social Demographic Index (SDI)** as predictor in our model:
+In general, the level of this index helps identify key drivers in the development of health outcomes. SDI can be used as a predictor in predictive models to estimate the burden of diseases, mortality rates, and other health metrics. For example, the relationship between SDI and the incidence of a disease can be modeled using a logistic regression model:
 
 $$logit(y) = \alpha + \beta SDI$$ {#eq-logit-sdi}
 
 where $y$ is the outcome variable, $\alpha$ is the intercept, $\beta$ is
 the coefficient for SDI, and $SDI$ is the Social Demographic Index.
 
+
 ## Time Series Analysis
 
 To analyze temporal data, where observations are collected at regular
-intervals over time, time series analysis\index{time series} involves
+intervals over time, time series analysis\index{time series} allows for
 studying the patterns, trends, and dependencies present in the data to
 make forecasts or infer relationships. Time series data often exhibit
 inherent characteristics such as trend, seasonality, cyclic patterns,
@@ -110,13 +103,11 @@ flexible way to capture nonlinear relationships and smooth out the data,
 which is particularly useful for capturing trends or seasonal patterns.
 ARIMA models, on the other hand, are adept at capturing the
 autocorrelation structure present in the data, including both short-term
-and long-term dependencies. By integrating these techniques, analysts
-can build comprehensive models that account for different aspects of the
-time series data, leading to more accurate forecasts and insights into
-underlying trends and patterns.
+and long-term dependencies. 
 
--   time series analysis with mixed effect model, spline interpolation
-    and ARIMA(1,0,0)
+## Example: SDI Time Series Analysis with Mixed Effect Models
+
+In this example we use the SDI values from 1990 to 2019, for 3 location plus the Global region and evaluate the difference in SDI average across the time. 
 
 ```{r}
 #| message: false
@@ -137,6 +128,8 @@ sdi90_19 |>
   filter(location %in% c("Global", "Italy", "France", "Germany"))
 ```
 
+Then selecting only France as location to analyze the time series using spline interpolation and ARIMA(1,0,0), we can decompose the time series into its components and analyze the autocorrelation function.
+
 ```{r}
 sdi_fr <- sdi90_19 |>
   filter(location == "France")
@@ -153,6 +146,8 @@ sdi_fr |>
 #| label: fig-sdi-france
 #| fig-width: 5
 #| fig-height: 3
+#| message: false
+#| warning: false
 
 library(tsibble)
 sdi_fr_ts <- tsibble::as_tsibble(sdi_fr, index = year)
@@ -415,14 +410,11 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 
 In R, mixed-effects models can integrated with Eigen, a C++ template
 library for linear algebra which significantly speed up the computations
-involved in fitting mixed-effects models. To estimate Years Lived with
-Disability (YLDs) using mixed-effects models in R, we can use the `lme4`
-package which provides functions to fit linear and generalized linear
-mixed-effects models. We will create a hypothetical example of how to
-estimate YLDs with mixed-effects models. We use the **Respiratory
-infections and tuberculosis** dataset found in `{hmsidwR}` package
-containing YLDs, deaths, incidence and prevalence for 2010 and 2019 to
-demonstrate the estimation of YLDs using mixed-effects models.
+involved in fitting mixed-effects models. 
+
+## Example: Tuberculosis YLDs Estimation Using Mixed-Effects Models
+
+To estimate Years Lived with Disability (YLDs) using mixed-effects models in R, we can use the `lme4` package which provides functions to fit linear and generalized linear mixed-effects models. We will create a hypothetical example of how to estimate YLDs with mixed-effects models. We use the **Respiratory infections and tuberculosis** dataset found in `{hmsidwR}` package containing YLDs, deaths, incidence and prevalence for 2010 and 2019 to demonstrate the estimation of YLDs using mixed-effects models.
 
 ```{r}
 library(lme4)
