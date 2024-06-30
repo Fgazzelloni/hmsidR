@@ -1,4 +1,4 @@
-# Introduction {.unnumbered .unlisted}
+# Introduction
 
 \
 
@@ -122,36 +122,44 @@ of the field of metrics and evaluation [@murray2008].
 ### Navigating the Chapters and Key Concepts
 
 **First Section**: **Metrics and Evaluation** is introductory explaining
-the health metrics definition at first level. @sec-01-health_metrics provides an overview of the metrics, history, development, and usage over time. In @sec-02-method_calculation there
-is a first level calculation of the metrics, including Disability
-Adjusted Life Years (DALYs) and its components: Years of Life Lost
-(YLLs) and Years Lived with Disabilities (YLDs), and HALE. which
-represents a further improvement in the development of health metrics
-and in evaluating the health status of a population. @sec-03-components examines the key
+the health metrics definition at first level. @sec-01-health_metrics
+provides an overview of the metrics, history, development, and usage
+over time. In @sec-02-method_calculation there is a first level
+calculation of the metrics, including Disability Adjusted Life Years
+(DALYs) and its components: Years of Life Lost (YLLs) and Years Lived
+with Disabilities (YLDs), and HALE. which represents a further
+improvement in the development of health metrics and in evaluating the
+health status of a population. @sec-03-components examines the key
 building blocks of the health metrics, crucial for ensuring consistency
 in the calculation of the health status of a population. This includes
 life tables, life expectancy, mortality levels, incidence and
 prevalence, and disability weights. This chapter is supplemented by
-@sec-appendixA, where the underlying calculations are further explained. @sec-04-causes_risks evaluates the that influence the metrics, identifying major threats that contribute to an
-increase in the number of years of life lost or lived with disabilities.
-This discussion encourages the exploration of alternative solutions for
-prevention and health policy development.
+@sec-appendixA, where the underlying calculations are further explained.
+@sec-04-causes_risks evaluates the that influence the metrics,
+identifying major threats that contribute to an increase in the number
+of years of life lost or lived with disabilities. This discussion
+encourages the exploration of alternative solutions for prevention and
+health policy development.
 
 **Second Section:** **Machine Learning** offers a more in-depth
 exploration of metrics evaluation through modeling techniques and
-R-packages overviews. @sec-05-machine_learning guide the reader to the use of ML models.
-@sec-06-techniques provides an overview of different types of models suitable for use.
-@sec-07-packages lists recommended R packages for modelling while providing application to case
-studies. And @sec-08-predictions focuses on predictive modelling.
+R-packages overviews. @sec-05-machine_learning guide the reader to the
+use of ML models. @sec-06-techniques provides an overview of different
+types of models suitable for use. @sec-07-packages lists recommended R
+packages for modelling while providing application to case studies. And
+@sec-08-predictions focuses on predictive modelling.
 
-**Third Section: Data Visualization** equips the user with the tools
-for being able to customize plots and maps. @sec-09-data_visualization covers the history of data
-visualization and application in R. @sec-10-applications discusses more about customizing visualizations. @sec-11-spatials teaches how to make a map. @sec-12-examples provides
+**Third Section: Data Visualization** equips the user with the tools for
+being able to customize plots and maps. @sec-09-data_visualization
+covers the history of data visualization and application in R.
+@sec-10-applications discusses more about customizing visualizations.
+@sec-11-spatials teaches how to make a map. @sec-12-examples provides
 more examples.
 
 **Fourth Section: Infectious Diseases** begins with an Introduction to
-infectious diseases, followed by two case studies: @sec-14-covid19 and the @sec-15-malaria. The final @sec-16-summary illustrates how infectious diseases affect population
-health metrics.
+infectious diseases, followed by two case studies: @sec-14-covid19 and
+the @sec-15-malaria. The final @sec-16-summary illustrates how
+infectious diseases affect population health metrics.
 
 **Conclusion** - The tools introduced in this book act as a powerful
 key, unlocking the structures of unknown patterns through the

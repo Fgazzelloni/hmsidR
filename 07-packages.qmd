@@ -188,23 +188,20 @@ a given analysis.
 
 ## Model Framework Application Examples
 
-In this section we provide an example of the application of different
-model frameworks. The data used, as introduced in @sec-06-techniques is
-from the `hmsidwR` package. The data is used to demonstrate the
-application of `mlr3`, `h2o`, and `keras` packages for machine learning
-modelling.
+In this section we provide some examples of the application of different
+model frameworks. The data is used, as introduced in @sec-06-techniques,
+to demonstrate the application of model frameworks such as `mlr3`,
+`h2o`, and `keras` for machine learning tasks.
 
-### Tidymodels
+We have already shown an application of the `{tidymodels}` meta-package
+in @sec-05-machine_learning and @sec-06-techniques, particularly useful
+for testing out different types of models with the help of key functions
+such as the `workflow()`, `workflow_set()`, and `workflow_map()`.
 
-We have already used this package in @sec-05-machine_learning and
-@sec-06-techniques. This meta-package is particularly useful for testing
-out more models with the help of the `workflow_map()` function.
+### Example: DALYs due to Dengue with mlr3
 
-### Applied Machine Learning Using mlr3
 
-This meta-package is particularly useful, the syntax guides the user
-through the machine learning steps for benchmarking different models.
-Here we see an example:
+The dataset used is from the `{hmsidwR}` package, which contains data on DALYs (Disability-Adjusted Life Years) due to infectious diseases. The data is filtered to include only DALYs due to Dengue, in five locations over a period of 20 years. The data is then preprocessed to remove missing values, the values of DALYs only appeared in 1990.
 
 ```{r}
 #| echo: false
@@ -215,17 +212,64 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 #| message: false
 #| warning: false
 library(tidyverse)
-data <- hmsidwR::rabies %>%
-  select(-upper, -lower) %>%
-  pivot_wider(names_from = measure, values_from = val) %>%
-  filter(cause == "Rabies") %>%
-  rename(dx_rabies = Deaths, dalys_rabies = DALYs) %>%
-  select(-cause) %>%
-  mutate(across(where(is.character), as.factor))
-data %>% head()
+hmsidwR::infectious_diseases %>% 
+filter(cause_name=="Dengue")%>%
+count(location_name)
 ```
 
-Load necessary libraries:
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| layout-ncol: 3
+#| fig-cap: 
+#|  - "YLLs due to Dengue"
+#|  - "YLDs due to Dengue"
+#|  - "DALYs due to Dengue"
+
+hmsidwR::infectious_diseases %>% 
+filter(cause_name=="Dengue")%>%
+group_by(location_name)%>%
+ggplot(aes(x=year,y=YLLs))+
+geom_line(aes(linetype=location_name))+
+labs(title="YLLs due to Dengue from 1980 to 2021")
+
+hmsidwR::infectious_diseases %>% 
+filter(cause_name=="Dengue")%>%
+drop_na()%>%
+group_by(location_name)%>%
+ggplot(aes(x=year,y=YLDs))+
+geom_line(aes(linetype=location_name))+
+labs(title="YLDs due to Dengue from 1990 to 2021")
+
+
+hmsidwR::infectious_diseases %>% 
+filter(cause_name=="Dengue")%>%
+drop_na()%>%
+group_by(location_name)%>%
+ggplot(aes(x=year,y=DALYs))+
+geom_line(aes(linetype=location_name))+
+labs(title="DALYs due to Dengue from 1990 to 2021")
+```
+
+The `location_name` is removed for simplicity, and considered only the `location_id`.
+
+```{r}
+dalys_dengue <- hmsidwR::infectious_diseases %>% 
+filter(cause_name=="Dengue")%>%
+drop_na()%>%
+group_by(location_id)%>%
+select(-location_name,-cause_name)
+
+dalys_dengue%>%
+head()
+```
+
+The `{mlr3}` is a meta-package particularly useful for its syntax, as it
+guides the user through the machine learning steps by providing a
+consistent naming convention. It is also useful for benchmarking
+different models.
+
 
 ```{r}
 #| message: false
@@ -238,15 +282,17 @@ library(data.table)
 # library(xgboost)
 ```
 
+
 Define the task, the learners, and add the preprocessing steps creating
 dummy variables:
 
 ```{r}
 task <- TaskRegr$new(
-  id = "dalys_rabies",
-  backend = data,
-  target = "dalys_rabies"
+  id = "DALYs",
+  backend = dalys_dengue,
+  target = "DALYs"
 )
+
 learner_lm <- lrn("regr.lm")
 learner_xgboost <- lrn("regr.xgboost",
   nrounds = 1000,
@@ -316,12 +362,22 @@ aggr <- bmr$aggregate(measures)
 ```{r}
 rr1 <- aggr$resample_result[[1]]
 rr2 <- aggr$resample_result[[2]]
-dat <- as.data.table(rr1$prediction()) %>%
+```
+
+Create a data frame with the results, for plotting with ggplot2, consider the data are shuffled in the resampling process, and need to be reordered:
+
+```{r}
+regr.lm <- as.data.table(rr1$prediction()) %>%
   mutate(learner = "regr.lm") %>%
-  rbind(as.data.table(rr2$prediction()) %>%
-    mutate(learner = "regr.xgboost")) %>%
-  cbind(task$data()) %>%
-  select(truth, response, learner, year, location.Asia)
+# order data to match the original order
+cbind(rr1$task$data()[rr1$prediction()$row_ids])
+
+regr.xgboost <- as.data.table(rr2$prediction()) %>%
+    mutate(learner = "regr.xgboost")%>%
+cbind(rr2$task$data()[rr2$prediction()$row_ids])
+  
+
+dat <- rbind(regr.lm,regr.xgboost)
 ```
 
 Plot the results:
@@ -340,7 +396,6 @@ dat %>%
     group = learner
   )) +
   geom_abline() +
-  geom_line(aes(color = learner)) +
   geom_point(aes(color = learner)) +
   scale_color_manual(values = c(
     "regr.lm" = "navy",
@@ -351,7 +406,36 @@ dat %>%
   theme(legend.position = "none")
 ```
 
-### H2O.ai
+```{r}
+hmsidwR::infectious_diseases %>% 
+filter(cause_name=="Dengue")%>%
+drop_na()%>%
+group_by(location_id)%>%
+distinct(location_name)
+```
+
+
+```{r}
+dat%>%
+  group_by(location_id,learner)%>%
+  ggplot(aes(x=year))+
+  geom_point(aes(y=truth),
+             size=0.2)+
+  geom_line(aes(y=response,
+                linetype=learner),
+            linewidth=0.1)+
+ # create facets for each location and rename the location_id with the location_name with the labeller function
+  facet_wrap(vars(location_id),
+labeller=as_labeller(c(`197`="Eswatini",
+`182`="Malawi",
+`191`="Zambia",
+`194`="Lesotho",
+`169`="Central African Republic")))+ 
+  labs(title="DALYs over the years",x="Year",y="DALYs")
+```
+
+
+### Example: H2O.ai
 
 ```{r}
 #| message: false
@@ -1022,13 +1106,10 @@ ggplot() +
   ))
 ```
 
-This is just a simple example of how the `{keras}` package can be used
-to train a deep learning model on social media data to predict the
-probability of infection. The model can tested on using different
-layers, more specification are found in the [keras
-documentation](https://keras.io/).
+This is just a simple example of how the `{keras}` package can be used to train a deep learning model on social media data to predict the probability of infection. The model can tested on using different layers, more specification are found in the [keras documentation](https://keras.io/).
 
 ## How to Find a New R-Package
+
 
 ```{r}
 #| message: false
