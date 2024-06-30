@@ -200,8 +200,11 @@ such as the `workflow()`, `workflow_set()`, and `workflow_map()`.
 
 ### Example: DALYs due to Dengue with mlr3
 
-
-The dataset used is from the `{hmsidwR}` package, which contains data on DALYs (Disability-Adjusted Life Years) due to infectious diseases. The data is filtered to include only DALYs due to Dengue, in five locations over a period of 20 years. The data is then preprocessed to remove missing values, the values of DALYs only appeared in 1990.
+The dataset used is from the `{hmsidwR}` package, which contains data on
+DALYs (Disability-Adjusted Life Years) due to infectious diseases. The
+data is filtered to include only DALYs due to Dengue, in five locations
+over a period of 20 years. The data is then preprocessed to remove
+missing values, the values of DALYs only appeared in 1990.
 
 ```{r}
 #| echo: false
@@ -212,9 +215,9 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 #| message: false
 #| warning: false
 library(tidyverse)
-hmsidwR::infectious_diseases %>% 
-filter(cause_name=="Dengue")%>%
-count(location_name)
+hmsidwR::infectious_diseases %>%
+  filter(cause_name == "Dengue") %>%
+  count(location_name)
 ```
 
 ```{r}
@@ -222,54 +225,70 @@ count(location_name)
 #| warning: false
 #| echo: false
 #| layout-ncol: 3
-#| fig-cap: 
+#| fig-label: fig-dengue-ylls-ylds-dalys
+#| fig-cap:
 #|  - "YLLs due to Dengue"
 #|  - "YLDs due to Dengue"
 #|  - "DALYs due to Dengue"
+#| fig-alt: "Health Metrics due to Dengue"
 
-hmsidwR::infectious_diseases %>% 
-filter(cause_name=="Dengue")%>%
-group_by(location_name)%>%
-ggplot(aes(x=year,y=YLLs))+
-geom_line(aes(linetype=location_name))+
-labs(title="YLLs due to Dengue from 1980 to 2021")
+hmsidwR::infectious_diseases %>%
+  filter(cause_name == "Dengue") %>%
+  group_by(location_name) %>%
+  ggplot(aes(x = year, y = YLLs)) +
+  geom_line(aes(linetype = location_name)) +
+  labs(title = "YLLs due to Dengue from 1980 to 2021")
 
-hmsidwR::infectious_diseases %>% 
-filter(cause_name=="Dengue")%>%
-drop_na()%>%
-group_by(location_name)%>%
-ggplot(aes(x=year,y=YLDs))+
-geom_line(aes(linetype=location_name))+
-labs(title="YLDs due to Dengue from 1990 to 2021")
+hmsidwR::infectious_diseases %>%
+  filter(cause_name == "Dengue") %>%
+  drop_na() %>%
+  group_by(location_name) %>%
+  ggplot(aes(x = year, y = YLDs)) +
+  geom_line(aes(linetype = location_name)) +
+  labs(title = "YLDs due to Dengue from 1990 to 2021")
 
 
-hmsidwR::infectious_diseases %>% 
-filter(cause_name=="Dengue")%>%
-drop_na()%>%
-group_by(location_name)%>%
-ggplot(aes(x=year,y=DALYs))+
-geom_line(aes(linetype=location_name))+
-labs(title="DALYs due to Dengue from 1990 to 2021")
+hmsidwR::infectious_diseases %>%
+  filter(cause_name == "Dengue") %>%
+  drop_na() %>%
+  group_by(location_name) %>%
+  ggplot(aes(x = year, y = DALYs)) +
+  geom_line(aes(linetype = location_name)) +
+  labs(title = "DALYs due to Dengue from 1990 to 2021")
 ```
 
-The `location_name` is removed for simplicity, and considered only the `location_id`.
+The `location_name` is removed for simplicity, and considered only the
+`location_id`.
 
 ```{r}
-dalys_dengue <- hmsidwR::infectious_diseases %>% 
-filter(cause_name=="Dengue")%>%
-drop_na()%>%
-group_by(location_id)%>%
-select(-location_name,-cause_name)
+dalys_dengue <- hmsidwR::infectious_diseases %>%
+  filter(cause_name == "Dengue",
+         !location_name %in% c("Eswatini", "Lesotho")
+         ) %>%
+  drop_na() %>%
+  group_by(location_id) %>%
+  select(-location_name, -cause_name)
 
-dalys_dengue%>%
-head()
+dalys_dengue %>%
+  head()
 ```
 
 The `{mlr3}` is a meta-package particularly useful for its syntax, as it
 guides the user through the machine learning steps by providing a
 consistent naming convention. It is also useful for benchmarking
-different models.
+different models. In addition to the `{mlr3}` package, the
+`{mlr3learners}`, `{mlr3viz}`, and `{mlr3verse}`, and `{data.table}`
+packages are also loaded. Each of these packages provides additional
+functionality for machine learning tasks. More information on these
+packages can be found in the respective documentation, and further
+details can be found in the [mlr3 book](https://mlr3book.mlr-org.com/).
+In this example we use two types of models:
 
+-   `regr.cv_glmnet`: A cross-validated glmnet model with an alpha of
+    0.5 and a lambda of 0.1.
+-   `regr.xgboost`: An xgboost model with 1000 rounds, a maximum depth
+    of 6, and an eta of 0.01. For this model the `{xgboost}` package is
+    required.
 
 ```{r}
 #| message: false
@@ -282,37 +301,44 @@ library(data.table)
 # library(xgboost)
 ```
 
-
-Define the task, the learners, and add the preprocessing steps creating
-dummy variables:
+Define the task, where the "id", "backend", and "target" are specified.
+The backend is the data that will be used for training the models. The
+task is the interface between the data and the learners; in this usecase
+the preprocessing steps are done before hand.
 
 ```{r}
-task <- TaskRegr$new(
-  id = "DALYs",
-  backend = dalys_dengue,
-  target = "DALYs"
-)
+task <- TaskRegr$new(id = "DALYs",
+                     backend = dalys_dengue,
+                     target = "DALYs"
+                     )
 
-learner_lm <- lrn("regr.lm")
-learner_xgboost <- lrn("regr.xgboost",
-  nrounds = 1000,
-  max_depth = 6,
-  eta = 0.01
-)
-poe <- po("encode")
-task <- poe$train(list(task))[[1]]
 task$data() %>% head()
 ```
 
-Define a resampling strategy, and create a benchmark design:
+The learners are the models specifications, with the function
+`as.data.table(mlr_learners)` a full list of learners can be obtained.
+
+```{r}
+learner_cv_glmnet <- lrn("regr.cv_glmnet", 
+                         alpha = 0.5, s = 0.1)
+learner_xgboost <- lrn("regr.xgboost",
+                       nrounds = 1000,
+                       max_depth = 6,
+                       eta = 0.01)
+```
+
+Define a *resampling strategy* to estimate the generalization
+performance, then create a benchmark design to compare different
+learners:
 
 ```{r}
 resampling <- rsmp("cv", folds = 5)
-design <- benchmark_grid(
-  tasks = task,
-  learners = list(learner_lm, learner_xgboost),
-  resamplings = resampling
-)
+
+design <- benchmark_grid(tasks = task,
+                         learners = list(learner_cv_glmnet,
+                                         learner_xgboost),
+                         resamplings = resampling
+                         )
 design
 ```
 
@@ -324,19 +350,27 @@ Run the benchmark:
 #| output: false
 set.seed(19052024)
 bmr <- benchmark(design,
-  store_models = TRUE,
-  store_backends = TRUE
-)
+                 store_models = TRUE,
+                 store_backends = TRUE
+                 )
 ```
 
+To access the content of an object such as `bmr`, use the `$` operator,
+or for more options use the `View()` function.
+
+The `score()` function is used to extract the performance metrics of the
+models, in this case the mean squared error (MSE) is used.
+
 ```{r}
-bmr$score()[, .(
-  learner_id,
-  task_id,
-  iteration,
-  regr.mse
-)]
+bmr$score()[, .(learner_id,
+                task_id,
+                iteration,
+                regr.mse)]
 ```
+
+Here we see the results of the benchmark, the `regr.mse` is the mean
+squared error of the models. The `regr.rmse` and `regr.mae` are also
+available.
 
 ```{r}
 #| layout-ncol: 2
@@ -345,7 +379,7 @@ bmr$score()[, .(
 #|   - "BMR Regression MAE"
 #| fig-alt: "BMR Regression"
 #| label: fig-bmr-egression
-
+set.seed(349)
 autoplot(bmr, measure = msr("regr.rmse"))
 autoplot(bmr, measure = msr("regr.mae"))
 ```
@@ -364,41 +398,42 @@ rr1 <- aggr$resample_result[[1]]
 rr2 <- aggr$resample_result[[2]]
 ```
 
-Create a data frame with the results, for plotting with ggplot2, consider the data are shuffled in the resampling process, and need to be reordered:
+Create a data frame with the results, for plotting with ggplot2,
+consider the data are shuffled in the resampling process, and need to be
+reordered:
 
 ```{r}
-regr.lm <- as.data.table(rr1$prediction()) %>%
-  mutate(learner = "regr.lm") %>%
-# order data to match the original order
-cbind(rr1$task$data()[rr1$prediction()$row_ids])
+regr.cv_glmnet <- as.data.table(rr1$prediction()) %>%
+  mutate(learner = "regr.cv_glmnet") %>%
+  # order data to match the original order
+  cbind(rr1$task$data()[rr1$prediction()$row_ids])
 
 regr.xgboost <- as.data.table(rr2$prediction()) %>%
-    mutate(learner = "regr.xgboost")%>%
-cbind(rr2$task$data()[rr2$prediction()$row_ids])
-  
+  mutate(learner = "regr.xgboost") %>%
+  # order data to match the original order
+  cbind(rr2$task$data()[rr2$prediction()$row_ids])
 
-dat <- rbind(regr.lm,regr.xgboost)
+
+dat <- rbind(regr.cv_glmnet, regr.xgboost)
 ```
 
 Plot the results:
 
 ```{r}
 #| fig-cap:
-#|   - "Truth vs Response for lm and xgboost"
+#|   - "Truth vs Response for cv.glmnet and xgboost"
 #| fig-alt: "Truth vs Response"
-#| label: fig-lm_xgboost
+#| label: fig-glmnet_xgboost
 #| fig-width: 5
 #| fig-height: 3
 
 dat %>%
-  ggplot(aes(
-    x = truth, y = response,
-    group = learner
-  )) +
+  ggplot(aes(x = truth, y = response,
+             group = learner)) +
   geom_abline() +
   geom_point(aes(color = learner)) +
   scale_color_manual(values = c(
-    "regr.lm" = "navy",
+    "regr.cv_glmnet" = "navy",
     "regr.xgboost" = "orange"
   )) +
   facet_wrap(~learner) +
@@ -407,35 +442,44 @@ dat %>%
 ```
 
 ```{r}
-hmsidwR::infectious_diseases %>% 
-filter(cause_name=="Dengue")%>%
-drop_na()%>%
-group_by(location_id)%>%
-distinct(location_name)
+hmsidwR::infectious_diseases %>%
+  filter(cause_name == "Dengue") %>%
+  drop_na() %>%
+  group_by(location_id) %>%
+  distinct(location_name)
 ```
-
 
 ```{r}
-dat%>%
-  group_by(location_id,learner)%>%
-  ggplot(aes(x=year))+
-  geom_point(aes(y=truth),
-             size=0.2)+
-  geom_line(aes(y=response,
-                linetype=learner),
-            linewidth=0.1)+
- # create facets for each location and rename the location_id with the location_name with the labeller function
+#| fig-label: fig-dengue-daly
+#| fig-cap: "DALYs due to Dengue 1990-2021"
+#| fig-alt: "DALYs due to Dengue"
+#| fig-width: 8
+#| fig-height: 4
+dat %>%
+  group_by(location_id, learner) %>%
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = truth),
+             size = 0.2) +
+  geom_line(aes(y = response,
+                linetype = learner),
+            linewidth = 0.3) +
+  # create facets for each location and
+  # rename the location_id with the location_name
+  # with the labeller function
   facet_wrap(vars(location_id),
-labeller=as_labeller(c(`197`="Eswatini",
-`182`="Malawi",
-`191`="Zambia",
-`194`="Lesotho",
-`169`="Central African Republic")))+ 
-  labs(title="DALYs over the years",x="Year",y="DALYs")
+    labeller = as_labeller(c(
+      `182` = "Malawi",
+      `191` = "Zambia",
+      `169` = "Central African Republic"
+      )),
+    scales = "free") +
+  labs(title = "DALYs due to Dengue 1990-2021",
+       caption = "Scale Free - Dots represent the truth values",
+       x = "Year", y = "DALYs", linetype = "Model") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
-
-### Example: H2O.ai
+### Example: DALYs due to Rabies with H2O
 
 ```{r}
 #| message: false
@@ -511,9 +555,8 @@ response <- "dalys_rabies"
 predictors <- setdiff(names(data), response)
 # Split data into training and testing sets
 splits <- h2o.splitFrame(h2o_data,
-  ratios = 0.8,
-  seed = 1234
-)
+                         ratios = 0.8,
+                         seed = 1234)
 train <- splits[[1]]
 test <- splits[[2]]
 ```
@@ -526,30 +569,24 @@ forest model.
 #| warning: false
 #| output: false
 #| eval: false
-model_lm <- h2o.glm(
-  x = predictors,
-  y = response,
-  training_frame = train,
-  family = "gaussian"
-)
-model_gbm <- h2o.gbm(
-  x = predictors,
-  y = response,
-  training_frame = train,
-  validation_frame = test,
-  ntrees = 1000,
-  max_depth = 6,
-  learn_rate = 0.01,
-  seed = 1234
-)
-model_rf <- h2o.randomForest(
-  x = predictors,
-  y = response,
-  training_frame = train,
-  ntrees = 100,
-  max_depth = 20,
-  seed = 1234
-)
+model_lm <- h2o.glm(x = predictors,
+                    y = response,
+                    training_frame = train,
+                    family = "gaussian")
+model_gbm <- h2o.gbm(x = predictors,
+                     y = response,
+                     training_frame = train,
+                     validation_frame = test,
+                     ntrees = 1000,
+                     max_depth = 6,
+                     learn_rate = 0.01,
+                     seed = 1234)
+model_rf <- h2o.randomForest(x = predictors,
+                             y = response,
+                             training_frame = train,
+                             ntrees = 100,
+                             max_depth = 20,
+                             seed = 1234)
 ```
 
 Evaluate the models:
@@ -574,20 +611,13 @@ h2o.mae(<model>)
 #| echo: false
 #| eval: false
 
-h20.rabies.metrics <- rbind(
-  c(
-    h2o.rmse(perf_lm),
-    h2o.mae(perf_lm)
-  ),
-  c(
-    h2o.rmse(perf_gbm),
-    h2o.mae(perf_gbm)
-  ),
-  c(
-    h2o.rmse(perf_rf),
-    h2o.mae(perf_rf)
-  )
-) %>%
+h20.rabies.metrics <- rbind(c(h2o.rmse(perf_lm),
+                              h2o.mae(perf_lm)),
+                            c(h2o.rmse(perf_gbm),
+                              h2o.mae(perf_gbm)),
+                            c(h2o.rmse(perf_rf),
+                              h2o.mae(perf_rf))
+                            ) %>%
   as.data.frame() %>%
   mutate(model = c("lm", "gbm", "rf")) %>%
   relocate(model) %>%
@@ -619,8 +649,7 @@ model_gbm@model
 #| eval: false
 # Predict on test data
 predictions <- h2o.predict(model_rf,
-  newdata = test
-)
+                           newdata = test)
 ```
 
 ```{r}
@@ -660,24 +689,16 @@ actual_df <- readRDS("data/model-data/h20.rabies.actual_df.rds")
 
 ```{r}
 # Combine actual and predicted values
-results_df <- data.frame(
-  Actual = actual_df[, response],
-  Predicted = pred_df[, 1]
-)
+results_df <- data.frame(Actual = actual_df[, response],
+                         Predicted = pred_df[, 1])
 # Plot Actual vs Predicted
-p1 <- ggplot(
-  results_df,
-  aes(x = Actual, y = Predicted)
-) +
+p1 <- ggplot(results_df,
+             aes(x = Actual, y = Predicted)) +
   geom_point(color = "blue", alpha = 0.5) +
-  geom_abline(
-    slope = 1, intercept = 0,
-    color = "red", linetype = "dashed"
-  ) +
-  labs(
-    title = "Actual vs Predicted Values",
-    x = "Actual", y = "Predicted"
-  )
+  geom_abline(slope = 1, intercept = 0,
+              color = "red", linetype = "dashed") +
+  labs(title = "Actual vs Predicted Values",
+       x = "Actual", y = "Predicted")
 ```
 
 ```{r}
@@ -690,19 +711,13 @@ p1 <- ggplot(
 # Calculate residuals
 results_df$Residuals <- results_df$Actual - results_df$Predicted
 # Plot Residuals vs Predicted
-ggplot(
-  results_df,
-  aes(x = Predicted, y = Residuals)
-) +
+ggplot(results_df,
+       aes(x = Predicted, y = Residuals)) +
   geom_point(color = "navy", alpha = 0.5) +
-  geom_hline(
-    yintercept = 0,
-    color = "orange", linetype = "dashed"
-  ) +
-  labs(
-    title = "Residuals vs Predicted Values",
-    x = "Predicted", y = "Residuals"
-  )
+  geom_hline(yintercept = 0,
+             color = "orange", linetype = "dashed") +
+  labs(title = "Residuals vs Predicted Values",
+       x = "Predicted", y = "Residuals")
 # Normality Test of the Residuals
 qqnorm(results_df$Residuals)
 qqline(results_df$Residuals, col = 2)
@@ -713,32 +728,19 @@ qqline(results_df$Residuals, col = 2)
 results_df$Time <- as.Date(actual_df$year)
 # Plot Actual vs Predicted over time
 p2 <- ggplot(results_df, aes(x = Time)) +
-  geom_line(
-    aes(
-      y = Actual,
-      color = "Actual"
-    ),
-    linetype = 1
-  ) +
-  geom_line(
-    aes(
-      y = Predicted,
-      color = "Predicted"
-    ),
-    linewidth = 1,
-    linetype = "dashed"
-  ) +
-  labs(
-    title = "Actual vs Predicted Values Over Time",
-    x = "Time", y = "Value"
-  ) +
-  scale_color_manual(
-    name = "Legend",
-    values = c(
-      "Actual" = "navy",
-      "Predicted" = "orange"
-    )
-  )
+  geom_line(aes(y = Actual,
+                color = "Actual"),
+            linetype = 1) +
+  geom_line(aes(y = Predicted,
+                color = "Predicted"),
+            linewidth = 1,
+            linetype = "dashed") +
+  labs(title = "Actual vs Predicted Values Over Time",
+       x = "Time", y = "Value") +
+  scale_color_manual(name = "Legend",
+                     values = c("Actual" = "navy",
+                                "Predicted" = "orange")
+                     )
 ```
 
 ```{r}
@@ -762,7 +764,7 @@ p2 + theme_minimal()
 h2o.shutdown(prompt = FALSE)
 ```
 
-### Keras
+### Example: General Infection with Keras
 
 The following example shows how to use the `{keras}`, a package that
 facilitates the creation and training of **neural networks** and **deep
@@ -946,14 +948,14 @@ $$
 
 The loss function is used to measure how well the model is performing,
 in this case a **binary crossentropy** loss function is used, to match
-the differenc between orginal data and the model output, and apply model
-adjustments in case the difference is too high. The formula for binary
-crossentropy is:
+the difference between original data and the model output, and apply
+model adjustments in case the difference is too high. The formula for
+binary crossentropy is:
 
 $$
 L(y,\hat{y})=-\frac{1}{n}\sum_{i=1}^n{y_i \log(\hat{y}_i)+(1-y_i) \log(1-\hat{y}_i)}
 $$ The `optimizer_adam()` function, used to update the model's weights
-during training, in Keras specifies the use of the **Adaptive Moment
+during training, in **Keras** specifies the use of the **Adaptive Moment
 Estimation (Adam)** optimization algorithm for training a neural
 network. It updates the parameters of the neural network.
 
@@ -1081,35 +1083,28 @@ spread of the infection.
 #| fig-height: 3
 
 ggplot() +
-  geom_line(
-    data = output,
-    aes(
-      x = time, y = I,
-      color = "Original Infections"
-    )
-  ) +
-  geom_line(
-    data = adjusted_output,
-    aes(
-      x = time, y = I,
-      color = "Adjusted Infections"
-    )
-  ) +
-  labs(
-    title = "SEIR Model - Social Media Adjustments",
-    y = "Infectious Population",
-    color = "Scenario"
-  ) +
+  geom_line(data = output,
+            aes(x = time, y = I,
+                color = "Original Infections")) +
+  geom_line(data = adjusted_output,
+            aes(x = time, y = I,
+                color = "Adjusted Infections")) +
+  labs(title = "SEIR Model - Social Media Adjustments",
+       y = "Infectious Population",
+       color = "Scenario") +
   scale_color_manual(values = c(
     "Original Infections" = "navy",
     "Adjusted Infections" = "orange"
   ))
 ```
 
-This is just a simple example of how the `{keras}` package can be used to train a deep learning model on social media data to predict the probability of infection. The model can tested on using different layers, more specification are found in the [keras documentation](https://keras.io/).
+This is just a simple example of how the `{keras}` package can be used
+to train a deep learning model on social media data to predict the
+probability of infection. The model can tested on using different
+layers, more specification are found in the [keras
+documentation](https://keras.io/).
 
 ## How to Find a New R-Package
-
 
 ```{r}
 #| message: false
