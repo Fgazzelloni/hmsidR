@@ -10,7 +10,7 @@ Learning Objectives
 
 ::: solutionbox-body
 -   Overview of the most suitable R-packages
--   Combination of packages and functions
+-   Apply different model frameworks
 -   How to find a new R-package
 :::
 :::
@@ -200,11 +200,9 @@ such as the `workflow()`, `workflow_set()`, and `workflow_map()`.
 
 ### Example: DALYs due to Dengue with mlr3
 
-The dataset used is from the `{hmsidwR}` package, which contains data on
-DALYs (Disability-Adjusted Life Years) due to infectious diseases. The
-data is filtered to include only DALYs due to Dengue, in five locations
-over a period of 20 years. The data is then preprocessed to remove
-missing values, the values of DALYs only appeared in 1990.
+The dataset for this example is from the `{hmsidwR}` package, which
+contains data on Deaths, DALYs, YLDs, YLLs, Prevalence, and Incidence
+due to selected infectious diseases from 1980 to 2021.
 
 ```{r}
 #| echo: false
@@ -215,17 +213,25 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 #| message: false
 #| warning: false
 library(tidyverse)
+hmsidwR::infectious_diseases %>% names
+```
+
+Let's have a look at the locations where Dengue has been reported:
+
+```{r}
 hmsidwR::infectious_diseases %>%
   filter(cause_name == "Dengue") %>%
-  count(location_name)
+  distinct(location_name)
 ```
+
+And look at how the health metrics shape up over the years for Dengue:
 
 ```{r}
 #| message: false
 #| warning: false
 #| echo: false
 #| layout-ncol: 3
-#| fig-label: fig-dengue-ylls-ylds-dalys
+#| label: fig-dengue-metrics
 #| fig-cap:
 #|  - "YLLs due to Dengue"
 #|  - "YLDs due to Dengue"
@@ -257,12 +263,26 @@ hmsidwR::infectious_diseases %>%
   labs(title = "DALYs due to Dengue from 1990 to 2021")
 ```
 
-The `location_name` is removed for simplicity, and considered only the
-`location_id`.
+@fig-dengue-metrics shows the trend of the metrics in some locations is
+quite flat ranging around zero, while in others it is more evident. YLLs
+are the leading cause of DALYs, but YLDs are also contributing to the
+burden of disease.
+
+We will focus on DALYs due to `Dengue` in three locations, Malawi,
+Zambia, and Central African Republic from 1990 to 2016 (26 years). The
+data from 2017 to 2021 is not included in the analysis and held out to
+be used as new data for testing the model's performance, as shown in
+@sec-08-predictions.
+
+Data is preprocessed to remove missing values, the values of DALYs only
+appeared in 1990, and then grouped by location id; the location name is
+removed.
 
 ```{r}
 dalys_dengue <- hmsidwR::infectious_diseases %>%
+arrange(year) %>%
   filter(cause_name == "Dengue",
+         year<=2016,
          !location_name %in% c("Eswatini", "Lesotho")
          ) %>%
   drop_na() %>%
@@ -284,9 +304,9 @@ packages can be found in the respective documentation, and further
 details can be found in the [mlr3 book](https://mlr3book.mlr-org.com/).
 In this example we use two types of models:
 
--   `regr.cv_glmnet`: A cross-validated glmnet model with an alpha of
+-   `regr.cv_glmnet`: A cross-validated `glmnet` model with an alpha of
     0.5 and a lambda of 0.1.
--   `regr.xgboost`: An xgboost model with 1000 rounds, a maximum depth
+-   `regr.xgboost`: An `xgboost` model with 1000 rounds, a maximum depth
     of 6, and an eta of 0.01. For this model the `{xgboost}` package is
     required.
 
@@ -301,10 +321,11 @@ library(data.table)
 # library(xgboost)
 ```
 
-Define the task, where the "id", "backend", and "target" are specified.
-The backend is the data that will be used for training the models. The
-task is the interface between the data and the learners; in this usecase
-the preprocessing steps are done before hand.
+Define the task, where the `id`, `backend`, and `target` are specified.
+The `backend` is the data that will be used for training the models. The
+`task` is the interface between the data and the learners; in this
+usecase the preprocessing steps are done before hand, by removing
+missing and categorical values.
 
 ```{r}
 task <- TaskRegr$new(id = "DALYs",
@@ -315,20 +336,21 @@ task <- TaskRegr$new(id = "DALYs",
 task$data() %>% head()
 ```
 
-The learners are the models specifications, with the function
-`as.data.table(mlr_learners)` a full list of learners can be obtained.
+The learners are the models specifications. A full list of learners can
+be obtained with the function `as.data.table(mlr_learners)`.
 
 ```{r}
 learner_cv_glmnet <- lrn("regr.cv_glmnet", 
-                         alpha = 0.5, s = 0.1)
+                         alpha = 0.5, 
+                         s = 0.1)
 learner_xgboost <- lrn("regr.xgboost",
                        nrounds = 1000,
                        max_depth = 6,
                        eta = 0.01)
 ```
 
-Define a *resampling strategy* to estimate the generalization
-performance, then create a benchmark design to compare different
+Then define a **resampling strategy** to estimate the generalization
+performance, then create a **benchmark design** to compare different
 learners:
 
 ```{r}
@@ -398,6 +420,13 @@ rr1 <- aggr$resample_result[[1]]
 rr2 <- aggr$resample_result[[2]]
 ```
 
+```{r}
+#| echo: false
+#| eval: false
+saveRDS(rr1, "data/model-data/rr1.rds")
+saveRDS(rr2, "data/model-data/rr2.rds")
+```
+
 Create a data frame with the results, for plotting with ggplot2,
 consider the data are shuffled in the resampling process, and need to be
 reordered:
@@ -442,16 +471,8 @@ dat %>%
 ```
 
 ```{r}
-hmsidwR::infectious_diseases %>%
-  filter(cause_name == "Dengue") %>%
-  drop_na() %>%
-  group_by(location_id) %>%
-  distinct(location_name)
-```
-
-```{r}
-#| fig-label: fig-dengue-daly
-#| fig-cap: "DALYs due to Dengue 1990-2021"
+#| label: fig-dengue-daly
+#| fig-cap: "Models results on observed DALYs due to Dengue 1990-2016; Test Resampled Data with cv.glmnet and xgboost."
 #| fig-alt: "DALYs due to Dengue"
 #| fig-width: 8
 #| fig-height: 4
@@ -473,11 +494,15 @@ dat %>%
       `169` = "Central African Republic"
       )),
     scales = "free") +
-  labs(title = "DALYs due to Dengue 1990-2021",
-       caption = "Scale Free - Dots represent the truth values",
+  labs(title = "Dalys due to Dengue 1990-2016: Truth vs Responses",
+       caption = "Scale Free - Dots represent the Truth Values",
        x = "Year", y = "DALYs", linetype = "Model") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
+
+In the next @sec-08-predictions we will see an application of these two
+models on remaing years from 2017 to 2021, to test the model performance
+as it was on new data.
 
 ### Example: DALYs due to Rabies with H2O
 

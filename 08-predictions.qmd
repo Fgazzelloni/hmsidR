@@ -14,56 +14,204 @@ Learning Objectives
 :::
 
 ::: solutionbox-body
--   How to use the Predict function
--   Evaluate prediction results
--   Improve predictions
+-   How to use models' predictions on new data
+-   Time series analysis
+-   Mixed models
 :::
 :::
 
 In the dynamic landscape of public health, the ability to forecast and
 predict future trends is essential for effective decision-making and the
-implementation of timely interventions. In this chapter there is an
-overview of predictive modelling, in particular the use of **time series analysis** and **mixed models**\index{mixed models} to anticipate the
-trajectory of infectious diseases and health metrics. By exploring the
-underlying patterns analyzing historical data to provide an estimation
-of the disease burden, and evaluate the impact of interventions on
-population health. We demonstrate how time series analysis and mixed
-models can be tailored to address specific research questions, such as
-predicting disease outbreaks, estimating disease burden, and assessing
-the impact of interventions on population health.
+implementation of timely interventions. This chapter provides an
+overview of **predictive modelling**\index{predictive modelling},
+focusing on the challenges of applying predictions to new data, the use
+of **time series analysis**\index{time series}, and **mixed
+models**\index{mixed models} to anticipate the trajectory of infectious
+diseases and health metrics. By exploring the underlying patterns and
+analyzing historical data, we estimate the disease burden and evaluate
+the impact of interventions on population health. We demonstrate how
+time series analysis and mixed models can be tailored to address
+specific research questions, such as predicting disease outbreaks,
+estimating disease burden, and assessing the impact of interventions on
+population health.
 
 ## Prediction about the Future
 
-The previous chapters provided an attempt at estimating future outcomes based on the application of various type of statistical and machine learning techniques. One important side of the analysis is that to consider the evolution of the phenomenon in time. We can do this by using time series analysis and mixed models.
+The previous chapters provided an attempt at estimating future outcomes
+based on the application of various type of statistical and machine
+learning techniques. Here we look at how to use these predictions on new
+data.
 
-Time series\index{time series} analysis serves as a tool for
-understanding and forecasting temporal patterns in health data.
-Techniques such as **ARIMA (AutoRegressive Integrated Moving Average)**
-models offer a systematic approach to modelling time-dependent data,
-capturing seasonal variations, trends, and irregularities to generate
-accurate forecasts.
+When making predictions on new data, it is important to consider the
+**generalizability** of the model. A model that performs well on the
+training data may not necessarily generalize well to new, unseen data.
+To evaluate the performance of the model we used the
+**cross-validation** technique, but there are more such as **hold-out
+validation**, **k-fold cross-validation**, **leave-one-out
+cross-validation**, and **bootstrapping**. These methods help assess the
+model's ability to make accurate predictions on data not used during
+training, providing a more reliable estimate of the model's performance
+in real-world scenarios.
 
-Mixed models, on the other side, provide a versatile framework for incorporating various sources of variability and correlation within the data. By combining
-fixed effects with random effects, mixed models accommodate complex data
-structures, such as hierarchical or longitudinal data, while accounting
-for individual-level and group-level factors that may influence the
-outcome of interest.
+Once the model has been trained and evaluated, it is used to make
+predictions on new data. This process involves applying the model to the
+new data to generate forecasts or estimates of the outcome of interest.
+For example, in the case of infectious diseases, predictive models can
+be used to forecast the trajectory of an outbreak, estimate the number
+of cases, or evaluate the impact of interventions on disease
+transmission. By leveraging historical data and the insights gained from
+the model, we can effectively evaluate the model performance and make
+informed decisions based on the predictions.
 
-From forecasting the trajectory of emerging pathogens to evaluating the
-long-term implications of public health policies, predictive modelling
-offers valuable insights into the future of global health. As seen in @sec-04-causes_risks, the consideration of other factors such as the **Social Demographic Index (SDI)**\index{SDI} can provide a comprehensive understanding of the impact social and economic determinants can have on health outcomes. 
+## Predictive Modelling
 
-As an index, SDI is composed of the geometric mean of the total fertility rate (TFR) for those younger than 25 years old (TFU25), the mean education for those 15 years old and older (EDU15+), and lag-distributed income (LDI) per capita. It ranges from 0 to 1 but it is usually multiplied by 100 for a scale of 0 to 100.
+Predictive modelling is a powerful tool for forecasting future trends.
+Here we test the Dengue's model made with `{mlr3}` meta-package in
+@sec-07-packages. The model was trained on data from 1990 to 2016 and
+now tested for years 2017 to 2019.
 
-In general, the level of this index helps identify key drivers in the development of health outcomes. SDI can be used as a predictor in predictive models to estimate the burden of diseases, mortality rates, and other health metrics. For example, the relationship between SDI and the incidence of a disease can be modeled using a logistic regression model:
+First we load the original data and name it `old_data`.
 
-$$logit(y) = \alpha + \beta SDI$$ {#eq-logit-sdi}
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(data.table)
+```
 
-where $y$ is the outcome variable, $\alpha$ is the intercept, $\beta$ is
-the coefficient for SDI, and $SDI$ is the Social Demographic Index.
+```{r}
+old_data <- hmsidwR::infectious_diseases %>%
+  arrange(year)%>%
+  filter(cause_name == "Dengue",
+         year<=2017,
+         !location_name %in% c("Eswatini", "Lesotho")) %>%
+  drop_na() %>%
+  group_by(location_id) %>%
+  select(-location_name, -cause_name)
+```
 
+Then, we load Dengue data from 2017 to 2021 and name it `new_data`.
+
+```{r}
+new_data <- hmsidwR::infectious_diseases %>%
+  arrange(year)%>%
+  filter(cause_name == "Dengue",
+         year>=2017,
+         !location_name %in% c("Eswatini", "Lesotho")) %>%
+  drop_na() %>%
+  group_by(location_id) %>%
+  select(-location_name, -cause_name)
+```
+
+```{r}
+#| echo: false
+rr1 <- readRDS("data/model-data/rr1.rds")
+rr2 <- readRDS("data/model-data/rr2.rds")
+```
+
+In the next step, we use the trained models from @sec-07-packages to
+make predictions on the new data. The predictions are stored in
+`new_pred_regr.cv_glmnet` and `new_pred_regr.xgboost`. The resampling
+results: `rr1$learners` and `rr2$learners`, contain the trained models,
+in particular the first of 5 folds cross validation sample is used for
+the predictions.
+
+```{r}
+new_pred_regr.cv_glmnet <- 
+  rr1$learners[[1]]$predict_newdata(new_data, task = rr1$task)
+```
+
+We notice that the models are doing well, when old data is compared to
+the new data. The predictions are close to the actual values. Much more
+can be done to improve the models, such as **hyperparameter tuning**,
+**feature engineering**, and **model ensembles**, but this is a good
+point to start. We could also look at the confidence intervals of the
+predictions, to see how certain we are about the predictions, and so on.
+
+This is the result of the `cv_glmnet` application on new data:
+
+```{r}
+#| fig-cap: "Dengue Predictions for 2017-2019: cv_glmnet"
+#| fig-alt: "Dengue Predictions for 2017-2019: cv_glmnet"
+#| label: fig-dengue-predictions-cv-glmnet
+#| fig-width: 8
+#| fig-height: 4
+regr.cv_glmnet_new <- as.data.table(new_pred_regr.cv_glmnet) %>%
+  mutate(learner = "regr.cv_glmnet") %>%
+  cbind(new_data) 
+
+regr.cv_glmnet_new %>%
+  ggplot(aes(x = year)) +
+  geom_line(data=old_data,aes(y = DALYs))+
+  geom_line(aes(y = DALYs),color="brown") +
+  geom_line(aes(y = response), linetype="dashed") +
+  facet_wrap(vars(location_id),
+             labeller = as_labeller(c(
+               `182` = "Malawi",
+               `191` = "Zambia",
+               `169` = "Central African Republic")),
+             scales = "free_y") +
+  labs(title = "Dengue Predictions for 2017-2019: cv_glmnet")
+```
+
+The same steps are taken for the `xgboost`, and the result is shown
+below.
+
+```{r}
+new_pred_regr.xgboost <- 
+  rr2$learners[[1]]$predict_newdata(new_data, task = rr2$task)
+```
+
+```{r}
+#| fig-cap: "Dengue Predictions for 2017-2019: xgboost"
+#| fig-alt: "Dengue Predictions for 2017-2019: xgboost"
+#| label: fig-dengue-predictions-xgboost  
+#| fig-width: 8
+#| fig-height: 4
+regr.xgboost_new <- as.data.table(new_pred_regr.xgboost) %>%
+  mutate(learner = "regr.xgboost") %>%
+  cbind(new_data) 
+
+regr.xgboost_new %>%
+  ggplot(aes(x = year)) +
+  geom_line(data=old_data,aes(y = DALYs))+
+  geom_line(aes(y = DALYs),color="brown") +
+  geom_line(aes(y = response), linetype="dashed") +
+  facet_wrap(vars(location_id),
+             labeller = as_labeller(c(
+               `182` = "Malawi",
+               `191` = "Zambia",
+               `169` = "Central African Republic")),
+             scales = "free_y") +
+  labs(title = "Dengue Predictions for 2017-2019: xgboost")
+```
+
+In conclusion, predictive modelling is a valuable tool for forecasting
+future trends and making informed decisions based on historical data. By
+leveraging the insights gained from the models, we can anticipate the
+trajectory of infectious diseases, estimate disease burden, and evaluate
+the impact of interventions on population health. The models can be
+further refined and optimized to improve their predictive performance
+and provide more accurate forecasts. By combining predictive modelling
+with time series analysis and mixed models, we can gain a comprehensive
+understanding of the complex dynamics of public health and make
+data-driven decisions to improve population health outcomes.
 
 ## Time Series Analysis
+
+One important side of the analysis is that to consider the evolution of
+the phenomenon in time. We can do this by using time as a factor in the
+model. **Time series**\index{time series} analysis serves as a tool for
+understanding and forecasting temporal patterns. Techniques such as
+**ARIMA (AutoRegressive Integrated Moving Average)** models offer a
+systematic approach to modelling time-dependent data, capturing seasonal
+variations, trends, and irregularities to generate accurate forecasts.
+
+**Mixed models**, on the other side, provide a versatile framework for
+incorporating various sources of variability and correlation within the
+data. Also known as **hierarchical models**, **multilevel models**, or
+**random effects models**, are a type of statistical model that include
+both fixed effects and random effects. By combining fixed effects with random effects, mixed models accommodate complex data structures, such as hierarchical or longitudinal data, while accounting for individual-level and group-level factors that may influence the outcome of interest.
 
 To analyze temporal data, where observations are collected at regular
 intervals over time, time series analysis\index{time series} allows for
@@ -71,43 +219,99 @@ studying the patterns, trends, and dependencies present in the data to
 make forecasts or infer relationships. Time series data often exhibit
 inherent characteristics such as trend, seasonality, cyclic patterns,
 and irregular fluctuations, which can be explored using various methods
-such as decomposition, smoothing, and modelling. This analysis is widely
-used in fields like economics, finance, epidemiology, and environmental
-science to understand and predict future trends, identify anomalies, and
-make informed decisions based on historical patterns.
+such as **decomposition**, **smoothing**, and **modelling**. This
+analysis is widely used in fields like economics, finance, epidemiology,
+and environmental science to understand and predict future trends,
+identify anomalies, and make informed decisions based on historical
+patterns.
 
-**Decomposition methods**\index{decomposition} play a crucial role in
-time series analysis by unraveling the underlying structure of temporal
-data. By decomposing a time series into its constituent components, such
-as trend, seasonality, and random fluctuations, these methods enable
-researchers to gain deeper insights into the underlying patterns and
-dynamics driving the data. Understanding the trend allows for the
-identification of long-term changes or shifts in the data, while
-detecting seasonal patterns helps uncover recurring fluctuations that
-may follow seasonal or cyclical patterns. By separating these
-components, decomposition methods provide a clearer understanding of the
-temporal dynamics within the data, facilitating more accurate
-forecasting and predictive modelling. Moreover, decomposing time series
-data can aid in anomaly detection, trend analysis, and seasonal
-adjustment, making it an indispensable tool for studying and
+**Decomposition methods**\index{decomposition} play a crucial role by
+pulling out the underlying structure of temporal data. The components of
+a time series are `trend`, `seasonality`, and `random fluctuations`.
+Understanding the trend allows for the identification of long-term
+changes or shifts in the data, while detecting seasonal patterns helps
+uncover recurring fluctuations that may follow seasonal or cyclical
+patterns. By separating these components, through decomposition methods,
+it is possible to discover the temporal dynamics within the data,
+facilitating more accurate forecasting and predictive modelling.
+Moreover, decomposing time series data can aid in anomaly detection,
+trend analysis, and seasonal adjustment, making it fundamental tool for
 interpreting complex temporal phenomena.
 
 Modelling time series data often requires a combination of techniques to
 capture its complex nature. **Mixed models**\index{mixed models},
-**splines**\index{splines}, and **ARIMA**\index{ARIMA} (AutoRegressive
-Integrated Moving Average) are powerful tools commonly used for this
-purpose. Mixed models, also known as hierarchical models, allow for the
-incorporation of both fixed and random effects, making them flexible in
-capturing various sources of variability in the data. Splines provide a
-flexible way to capture nonlinear relationships and smooth out the data,
-which is particularly useful for capturing trends or seasonal patterns.
-ARIMA models, on the other hand, are adept at capturing the
-autocorrelation structure present in the data, including both short-term
-and long-term dependencies. 
+**splines**\index{splines}, and **ARIMA**\index{ARIMA} are powerful
+tools commonly used for this purpose. Splines provide a flexible way to
+capture nonlinear relationships and smooth out the data, which is
+particularly useful for capturing trends or seasonal patterns. ARIMA
+models, on the other hand, are adept at capturing the autocorrelation
+structure present in the data, including both short-term and long-term
+dependencies.
+
+Time series analysis can also be performed on estimated values produced by a machine learning model. This involves using vectors of estimates, actual values (ground truth), and time (such as years) to apply a time series model. By incorporating these elements, the time series analysis can help identify trends, seasonal patterns, and other temporal structures within the data. This approach enhances the robustness and accuracy of the predictions by combining the strengths of machine learning models with traditional time series techniques.
 
 ## Example: SDI Time Series Analysis with Mixed Effect Models
 
-In this example we use the SDI values from 1990 to 2019, for 3 location plus the Global region and evaluate the difference in SDI average across the time. 
+From forecasting the trajectory of emerging pathogens to evaluating the
+long-term implications of public health policies, predictive modelling
+offers valuable insights into the future of global health. As seen in
+@sec-04-causes_risks, the consideration of other factors such as the
+**Social Demographic Index (SDI)**\index{SDI} can provide a
+comprehensive understanding of the impact social and economic
+determinants can have on health outcomes.
+
+As an index, SDI is composed of the geometric mean of the total
+fertility rate (TFR) for those younger than 25 years old (TFU25), the
+mean education for those 15 years old and older (EDU15+), and
+lag-distributed income (LDI) per capita. It ranges from 0 to 1 but it is
+usually multiplied by 100 for a scale of 0 to 100.
+
+**Standard Calculation of TFR**
+
+$$\text{TFR} = \sum (\text{ASFR}_i \times 5)$$ {#eq-tfr}
+
+where $\text{ASFR}_i$ represents the age-specific fertility rates for
+age group $i$ , and the sum is typically calculated over all
+childbearing age groups (often 5-year intervals from ages 15-49).
+
+**Standard Calculation of SDI**
+
+The SDI is calculated as the geometric mean of these three components:
+
+$$SDI = \sqrt[3]{TFU25 \times EDU15+ \times LDI}$$ {#eq-sdi}
+
+Each component (TFU25, EDU15+, and LDI) is normalized before taking the
+geometric mean to ensure they are on a comparable scale.
+
+In summary, the TFR formula is specific to calculating fertility rates,
+while the SDI formula incorporates a specific subset of the TFR (TFU25)
+along with education and income metrics to create a broader
+socio-demographic index.
+
+In general, the level of this index helps identify key drivers in the
+development of health outcomes. SDI can be used as a predictor in
+predictive models to estimate the burden of diseases, mortality rates,
+and other health metrics. For example, the relationship between SDI and
+the incidence of a disease can be modeled using a logistic regression
+model:
+
+$$ \log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 \times \text{SDI} + \beta_2 \times X_2 + \cdots + \beta_k \times X_k$$ {#eq-logit-sdi}
+
+Where, $p$ is the probability of the incidence of the disease,
+$\log \left( \frac{p}{1 - p} \right)$ is the log-odds (logit) of the
+disease incidence, $\beta_0$ is the intercept term,
+$\beta_1, \beta_2, \ldots, \beta_k$ are the coefficients for the
+predictor variables, and $X_2, \ldots, X_k$ are other potential
+predictor variables that might influence the disease incidence.
+
+To convert the `log-odds` back to the probability of disease incidence
+given the value of SDI:
+
+$$p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \times \text{SDI})}}$$ {#eq-prob-sdi}
+
+In this example we use the SDI values from 1990 to 2019, for 3 location
+plus the Global region and evaluate the difference in SDI average across
+the time.
 
 ```{r}
 #| message: false
@@ -123,12 +327,27 @@ hmsidwR::sdi90_19 |> head()
 
 ```{r}
 sdi90_19 |>
+  filter(location %in% c("Global", "Italy", 
+                         "France", "Germany")) |>
+  ggplot(aes(x = year, y = value, 
+             linetype = location)) +
+  geomtextpath::geom_textline(aes(label = location), 
+                              hjust = 0, vjust = 0) +
+  labs(title = "Social Demographic Index (SDI) from 1990 to 2019")+
+  theme(legend.position = "none")
+  
+```
+
+```{r}
+sdi90_19 |>
   group_by(location) |>
   reframe(avg = round(mean(value), 3)) |>
   filter(location %in% c("Global", "Italy", "France", "Germany"))
 ```
 
-Then selecting only France as location to analyze the time series using spline interpolation and ARIMA(1,0,0), we can decompose the time series into its components and analyze the autocorrelation function.
+Then selecting only France as location to analyze the time series using
+spline interpolation and ARIMA(1,0,0), we can decompose the time series
+into its components and analyze the autocorrelation function.
 
 ```{r}
 sdi_fr <- sdi90_19 |>
@@ -191,8 +410,10 @@ components(dcmp) |> autoplot()
 
 components(dcmp) |>
   as_tsibble() |>
-  autoplot(value, colour = "gray") +
-  geom_line(aes(y = trend), colour = "#D55E00")
+  autoplot(value) +
+  geom_line(aes(y = trend), 
+            linetype="dashed")+
+labs(title = "Trend line of SDI in France")
 ```
 
 ### Autocorrelation function
@@ -215,8 +436,7 @@ sdi_fr_ts |>
 ```{r}
 sdi_fr_ts |>
   features(value,
-    features = unitroot_kpss
-  )
+           features = unitroot_kpss)
 ```
 
 Seasonal difference is not required
@@ -224,8 +444,7 @@ Seasonal difference is not required
 ```{r}
 sdi_fr_ts |>
   features(value,
-    features = unitroot_nsdiffs
-  )
+           features = unitroot_nsdiffs)
 ```
 
 **Auto-ARIMA** model is used to establish the best fit:
@@ -236,8 +455,7 @@ if needed `install.packages("urca")`
 fit <- sdi_fr_ts |>
   model(ARIMA(value))
 
-fit |>
-  report()
+fit |> report()
 ```
 
 ```{r}
@@ -250,11 +468,10 @@ fit |>
 fit |>
   forecast(h = 10) |>
   ggplot(aes(x = year, y = .mean)) +
-  geom_line(
-    data = sdi_fr_ts,
-    aes(y = value)
-  ) +
-  geom_line(color = "purple")
+  geom_line(data = sdi_fr_ts,
+            aes(y = value)) +
+  geom_line(color = "purple")+
+  labs(title = "Forecast of SDI in France")
 ```
 
 ### Partial Autocorrelations
@@ -277,7 +494,11 @@ sdi_fr_ts |>
 
 To improve the predictive performance, predictions of multiple single
 learners can be aggregated to a **model ensemble**\index{model ensemble}
-by combining the forecasts of individual models. Ensemble methods can
+by combining the forecasts of individual models.
+
+**Ensemble learning**\index{ensemble learning} is a machine learning
+technique, that leverages the diversity of individual models to make
+more accurate predictions and reduce overfitting. Ensemble methods can
 reduce the variance and bias of the predictions, leading to more
 accurate and reliable results. Ensemble techniques such as
 bagging\index{bagging}, boosting\index{boosting}, and
@@ -294,7 +515,7 @@ caf_fit <- sdi_fr_ts |>
     arima013 = ARIMA(value ~ pdq(0, 1, 3)),
     stepwise = ARIMA(value),
     search = ARIMA(value, stepwise = FALSE)
-  )
+    )
 ```
 
 ```{r}
@@ -303,7 +524,7 @@ caf_fit |>
     cols = everything(),
     names_to = "Model name",
     values_to = "Orders"
-  )
+    )
 ```
 
 ```{r}
@@ -331,10 +552,8 @@ caf_fit |>
   forecast(h = 5) |>
   filter(.model == "search") |>
   ggplot(aes(x = year, y = .mean)) +
-  geom_line(
-    data = sdi_fr_ts,
-    aes(y = value)
-  ) +
+  geom_line(data = sdi_fr_ts,
+            aes(y = value)) +
   geom_line(color = "purple")
 ```
 
@@ -410,11 +629,18 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 
 In R, mixed-effects models can integrated with Eigen, a C++ template
 library for linear algebra which significantly speed up the computations
-involved in fitting mixed-effects models. 
+involved in fitting mixed-effects models.
 
 ## Example: Tuberculosis YLDs Estimation Using Mixed-Effects Models
 
-To estimate Years Lived with Disability (YLDs) using mixed-effects models in R, we can use the `lme4` package which provides functions to fit linear and generalized linear mixed-effects models. We will create a hypothetical example of how to estimate YLDs with mixed-effects models. We use the **Respiratory infections and tuberculosis** dataset found in `{hmsidwR}` package containing YLDs, deaths, incidence and prevalence for 2010 and 2019 to demonstrate the estimation of YLDs using mixed-effects models.
+To estimate Years Lived with Disability (YLDs) using mixed-effects
+models in R, we can use the `lme4` package which provides functions to
+fit linear and generalized linear mixed-effects models. We will create a
+hypothetical example of how to estimate YLDs with mixed-effects models.
+We use the **Respiratory infections and tuberculosis** dataset found in
+`{hmsidwR}` package containing YLDs, deaths, incidence and prevalence
+for 2010 and 2019 to demonstrate the estimation of YLDs using
+mixed-effects models.
 
 ```{r}
 library(lme4)
@@ -422,23 +648,17 @@ library(tidyverse)
 
 data <- hmsidwR::g7_hmetrics %>%
   filter(
-    measure %in% c(
-      "Incidence",
-      "Prevalence",
-      "YLDs", "Deaths"
-    ),
+    measure %in% c("Incidence",
+                   "Prevalence",
+                   "YLDs", "Deaths"),
     str_detect(cause, "tuberculosis"),
     metric == "Rate",
-    sex == "both"
-  ) %>%
-  select(
-    -metric, -sex,
-    -cause, -upper, -lower
-  ) %>%
-  pivot_wider(
-    names_from = measure,
-    values_from = val
-  )
+    sex == "both") %>%
+  select(-metric, -sex,
+         -cause, -upper, -lower) %>%
+  pivot_wider(names_from = measure,
+              values_from = val)
+
 data %>% head()
 ```
 
@@ -449,17 +669,17 @@ data %>% head()
 #| fig-width: 5
 #| fig-height: 3
 
-ggplot(
-  data,
-  aes(
-    x = fct_reorder(location, YLDs),
-    y = YLDs, group = year,
-    fill = factor(year)
-  )
-) +
-  geom_col(position = "dodge") +
-  scale_fill_viridis_d() +
-  labs(x = "Location", fill = "Year")
+library(ggpattern)
+ggplot(data,
+       aes(x = fct_reorder(location, YLDs),
+                y = YLDs, group = year)) +
+  ggpattern::geom_col_pattern(aes(pattern = factor(year)),
+                              position = "dodge",
+                              fill= 'white',
+                              colour= 'black') +
+  labs(title="YLDs for Tuberculosis by Location and Year",
+       x = "Location", pattern = "Year")
+    
 ```
 
 ```{r}
@@ -518,43 +738,31 @@ predictions <- predict(model, new_data,
 
 # Predict YLDs for new data
 predictions <- predict(model, data,
-  allow.new.levels = TRUE
-)
+                       allow.new.levels = TRUE)
+
 data$predicted_YLD <- predictions
 
-ggplot(
-  data %>% filter(year == 2019),
-  aes(
-    x = YLDs, y = predicted_YLD,
-    group = location
-  )
-) +
-  geom_point(aes(color = factor(location))) +
+ggplot(data %>% filter(year == 2019,
+                       !location=="Global"),
+       aes(x = YLDs, y = predicted_YLD,
+       group = location)) +
+  geom_point(aes(shape = factor(location))) +
   geom_abline() +
-  labs(
-    title = "YLDs Predicted vs Estimated",
-    x = "YLDs",
-    y = "Predicted YLD",
-    color = "Location"
-  )
+  labs(title = "YLDs Predicted vs Estimated",
+       x = "YLDs",
+       y = "Predicted YLD",
+       shape = "Location")
 ```
 
-## Ensemble Learning
+## Summary
 
-A machine learning technique that combines multiple models could be used
-to improve predictive performance is **ensemble
-learning**\index{ensemble learning}. It leverages the diversity of
-individual models to make more accurate predictions and reduce
-overfitting. Common ensemble methods include bagging, boosting, and
-stacking.
-
--   Bagging (Bootstrap Aggregating) creates multiple models by training
-    each model on a random subset of the data and then aggregating their
-    predictions.
--   Boosting builds a sequence of models, where each model focuses on
-    the errors of the previous model to improve prediction accuracy.
--   Stacking combines the predictions of multiple models using a
-    meta-learner to generate the final prediction.
-
-By combining the strengths of different models, ensemble learning can
-enhance predictive performance and provide more robust results.
+Predictive modelling is a valuable tool for forecasting future trends
+and making informed decisions based on historical data. By leveraging
+the insights gained from the models, we can anticipate the trajectory of
+infectious diseases, estimate disease burden, and evaluate the impact of
+interventions on population health. The models can be further refined
+and optimized to improve their predictive performance and provide more
+accurate forecasts. By combining predictive modelling with time series
+analysis and mixed models, we can gain a comprehensive understanding of
+the complex dynamics of public health and make data-driven decisions to
+improve population health outcomes.
