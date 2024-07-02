@@ -211,7 +211,11 @@ variations, trends, and irregularities to generate accurate forecasts.
 incorporating various sources of variability and correlation within the
 data. Also known as **hierarchical models**, **multilevel models**, or
 **random effects models**, are a type of statistical model that include
-both fixed effects and random effects. By combining fixed effects with random effects, mixed models accommodate complex data structures, such as hierarchical or longitudinal data, while accounting for individual-level and group-level factors that may influence the outcome of interest.
+both fixed effects and random effects. By combining fixed effects with
+random effects, mixed models accommodate complex data structures, such
+as hierarchical or longitudinal data, while accounting for
+individual-level and group-level factors that may influence the outcome
+of interest.
 
 To analyze temporal data, where observations are collected at regular
 intervals over time, time series analysis\index{time series} allows for
@@ -248,7 +252,14 @@ models, on the other hand, are adept at capturing the autocorrelation
 structure present in the data, including both short-term and long-term
 dependencies.
 
-Time series analysis can also be performed on estimated values produced by a machine learning model. This involves using vectors of estimates, actual values (ground truth), and time (such as years) to apply a time series model. By incorporating these elements, the time series analysis can help identify trends, seasonal patterns, and other temporal structures within the data. This approach enhances the robustness and accuracy of the predictions by combining the strengths of machine learning models with traditional time series techniques.
+Time series analysis can also be performed on estimated values produced
+by a machine learning model. This involves using vectors of estimates,
+actual values (ground truth), and time (such as years) to apply a time
+series model. By incorporating these elements, the time series analysis
+can help identify trends, seasonal patterns, and other temporal
+structures within the data. This approach enhances the robustness and
+accuracy of the predictions by combining the strengths of machine
+learning models with traditional time series techniques.
 
 ## Example: SDI Time Series Analysis with Mixed Effect Models
 

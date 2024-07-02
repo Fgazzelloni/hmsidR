@@ -6,46 +6,22 @@ library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-One of my favorite topics to practice for gaining a deeper understanding
-of data analysis is visualization. Data visualization is a powerful tool
-that allows us to transform complex data sets into comprehensible and
-insightful graphical representations. Through visualizing data, we can
-summarize the information contained within it, highlight important
-patterns and trends, and uncover hidden insights that might not be
-apparent from raw data alone.
+A powerful tool that allows the transformation of complex data sets into
+comprehensible and insightful graphical representations. Data
+visualization is an important step of the data analysis called
+**Exploratory Data Analysis (EDA)**. The information contained within
+data highlights important patterns and trends, and uncover hidden
+insights that might not be apparent from raw data alone. In the context
+of health metrics and infectious diseases, data visualization plays a
+critical role in tracking disease outbreaks, understanding health
+trends, and communicating findings to policymakers and the public.
 
-Visualization helps us to tell a compelling story about the interaction
-of key variables, represent statistical values clearly, and ultimately
-design the narrative behind the data. This chapter will focus on the
-fundamentals of data visualization, including the basic principles and
-techniques that are essential for creating effective and informative
-visualizations. We will explore various types of plots and charts,
-understanding when and how to use each type to best represent different
-kinds of data.
-
-We will also delve into customization techniques that can enhance the
-clarity and aesthetic appeal of your plots. This includes modifying
-colors, labels, scales, and other elements to ensure your visualizations
-are not only accurate but also engaging and easy to interpret.
-
-## Practicing Data Visualization
-
-To practice making data visualizations, there are numerous free
-resources available that provide valuable information and opportunities
-to enhance your skills. By engaging with these platforms, you can
-practice your abilities, share your final results, and receive feedback
-from the community. While the feedback may sometimes be critical, it is
-an essential part of the learning process and will help you improve if
-you stay persistent.
-
-Participating in competitions and challenges such as **#TidyTuesday**,
-**#30DayChartChallenge**, and **#30DayMapChallenge** offers a great way
-to refine your skills. These competitions encourage you to create and
-share visualizations on various themes, pushing you to experiment with
-different techniques and styles. By consistently participating in these
-challenges and actively seeking feedback, you will steadily enhance your
-proficiency. Over time, you will find yourself becoming more adept and
-confident in your data visualization skills.
+We have already seen how to create various types of plots using the
+`{ggplot2}` package in R. In this chapter, we will discuss the history
+and evolution of data visualization, delve deeper into the topic,
+introducing the concept of the **Grammar of Graphics**, exploring
+techniques for customizing plots, adding annotations, labels, and
+themes, and creating interactive visualizations.
 
 ## History of Data Visualization
 
@@ -70,7 +46,7 @@ the social and economic conditions of African Americans in the United
 States. These visualizations are now considered iconic examples of data
 visualization and have been widely studied and digitally reproduced.
 
-## The Digital Revolution
+**The Digital Revolution**
 
 The digital revolution of the late 20th century, with the advent of
 powerful computing technologies, enabled the creation of interactive and
@@ -110,13 +86,6 @@ manner. It provides a flexible framework for customizing visualizations
 and supports the creation of a wide range of plots, from basic scatter
 plots to intricate multi-layered visualizations.
 
-In the previous chapters, we've introduced various types of plots using
-`{ggplot2}`. Now, we'll dig deeper into these visualizations and expand
-on their construction: from customizing the appearance of plots to
-adding annotations, labels, and themes. We'll also explore how to create
-interactive visualizations using the `{plotly}` package and how to
-create maps using the `{sf}` and `{leaflet}` packages.
-
 ## General Guidelines for Data Visualization
 
 There are many types of plots that can be used to visualize different
@@ -126,32 +95,172 @@ other summaries.
 
 Here are some specifications about the usage of common types of plots:
 
--   **Scatter Plots**: Used to show the relationship between two
-    variables.
+```{r}
+#| echo: false
+#| eval: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(gridExtra)
+library(gt)
 
--   **Line Plots**: Used to show trends over time or across categories.
+# Sample data for plots
+df <- hmsidwR::infectious_diseases %>%
+  filter(year>=1990)%>%
+  group_by(year,location_name)%>%
+  reframe(x=mean(Deaths,na.rm=T), y= mean(DALYs,na.rm=T))
 
--   **Bar Plots**: Used to compare values across categories.
+ggplot2::theme_set(ggplot2::theme_void())
 
--   **Histograms**: Used to show the distribution of a single variable.
+# Scatter Plot
+scatter_plot <- ggplot(df, aes(x, y)) + 
+  geom_point() + 
+  ggtitle("Scatter Plot")
 
--   **Box Plots**: Used to show the distribution of a variable across
-    categories.
+# Line Plot
+line_plot <- ggplot(df, aes(year, y,group=location_name)) + 
+  geom_line() + 
+  ggtitle("Line Plot")
 
--   **Heatmaps**: Used to show the relationship between two categorical
-    variables.
+# Bar Plot
+bar_plot <- ggplot(df, 
+                   aes(x = factor(location_name), y = y)) + 
+  geom_col() + 
+  ggtitle("Bar Plot")
 
--   **Network Diagrams**: Used to show the relationships between nodes
-    in a network.
+# Histogram
+histogram_plot <- df %>%
+  ggplot(aes(x = y)) + 
+  geom_histogram() + 
+  ggtitle("Histogram")
 
--   **Choropleth Maps**: Used to show the distribution of a variable
-    across geographic regions.
+# Box Plot
+box_plot <- ggplot(df, 
+                   aes(x = factor(location_name), y = y)) + 
+  geom_boxplot() + 
+  ggtitle("Box Plot")
 
--   **Sankey Diagrams**: Used to show the flow of data between different
-    categories.
+# Heatmap (using geom_tile for illustration purposes)
+heatmap_plot <- ggplot(df, 
+                       aes(x = factor(year), y = factor(location_name), 
+                           fill = y)) + 
+  geom_tile() +
+  ggtitle("Heatmap")
 
--   **Treemaps**: Used to show hierarchical data as a series of nested
-    rectangles.
+# Network graph
+library(ggnet)
+library(network)
+library(sna)
+net = rgraph(10, mode = "graph", tprob = 0.5)
+net = network(net, directed = FALSE)
+network_plot <-ggnet2(net)+ 
+  ggtitle("Network Diagram")
+
+# Choropleth Map 
+map <- map_data("world")
+choropleth_plot <- ggplot(map, 
+                          aes(x = long, y = lat, group = group,
+                              fill = region)) + 
+  geom_polygon(show.legend = F) + 
+  coord_sf()+
+  ggtitle("Choropleth Map")
+
+# Sankey Diagram 
+library(ggsankey)
+sankey_plot <- df %>% 
+  group_by(location_name) %>%
+  reframe(x=mean(x),y=mean(y)) %>%
+  make_long(x,y) %>%
+  ggplot(aes(x = x, 
+               next_x = next_x, 
+               node = node, 
+               next_node = next_node,
+               fill = factor(node))) +
+  geom_sankey(show.legend = F) +
+  ggtitle("Sankey Diagram")
+
+# Treemap
+library(treemapify)
+treemap_plot <- df %>% 
+  group_by(location_name) %>%
+  reframe(x=mean(x),y=mean(y)) %>%
+ggplot(aes(area = y, fill = location_name)) +
+  geom_treemap()+
+  ggtitle("Treemap")
+
+# Save plots as images
+ggsave("images/dataviz_gt_table/scatter_plot.png", scatter_plot)
+ggsave("images/dataviz_gt_table/line_plot.png", line_plot)
+ggsave("images/dataviz_gt_table/bar_plot.png", bar_plot)
+ggsave("images/dataviz_gt_table/histogram_plot.png", histogram_plot)
+ggsave("images/dataviz_gt_table/box_plot.png", box_plot)
+ggsave("images/dataviz_gt_table/heatmap_plot.png", heatmap_plot)
+ggsave("images/dataviz_gt_table/network_plot.png", network_plot)
+ggsave("images/dataviz_gt_table/choropleth_plot.png", choropleth_plot)
+ggsave("images/dataviz_gt_table/sankey_plot.png", sankey_plot)
+ggsave("images/dataviz_gt_table/treemap_plot.png", treemap_plot)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+#| message: false
+#| warning: false
+library(gt)
+
+# Data for the gt table
+plot_data <- data.frame(
+  plot = c("images/dataviz_gt_table/scatter_plot.png", 
+           "images/dataviz_gt_table/line_plot.png", 
+           "images/dataviz_gt_table/bar_plot.png", 
+           "images/dataviz_gt_table/histogram_plot.png", 
+           "images/dataviz_gt_table/box_plot.png", 
+           "images/dataviz_gt_table/heatmap_plot.png", 
+           "images/dataviz_gt_table/network_plot.png", 
+           "images/dataviz_gt_table/choropleth_plot.png", 
+           "images/dataviz_gt_table/sankey_plot.png", 
+           "images/dataviz_gt_table/treemap_plot.png"),
+  type_of_plot = c("Scatter Plots", "Line Plots", 
+                   "Bar Plots", "Histograms", 
+                   "Box Plots", "Heatmaps", 
+                   "Network Diagrams", "Choropleth Maps", 
+                   "Sankey Diagrams", "Treemaps"),
+  description = c("Used to show the relationship between two variables.",
+                  "Used to show trends over time or across categories.",
+                  "Used to compare values across categories.",
+                  "Used to show the distribution of a single variable.",
+                  "Used to show the distribution of a variable across categories.",
+                  "Used to show the relationship between two categorical variables.",
+                  "Used to show the relationships between nodes in a network.",
+                  "Used to show the distribution of a variable across geographic regions.",
+                  "Used to show the flow of data between different categories.",
+                  "Used to show hierarchical data as a series of nested rectangles.")
+)
+
+# Create the gt table
+gt_table <- gt(plot_data) %>%
+  text_transform(
+    locations = cells_body(c(plot)),
+    fn = function(x) {
+      lapply(x, function(path) {
+        local_image(filename = path, height = px(100))
+      })
+    }
+  ) %>%
+  cols_label(
+    plot = "Plot",
+    type_of_plot = "Type of Plot",
+    description = "Description"
+  ) %>%
+  tab_options(
+    table.width = pct(100)
+  )
+
+# Save the gt table as an image
+gt::gtsave(gt_table, "images/09_gt_table.png")
+```
+
+![Basic Data Viz Rules](images/09_gt_table.png){fig-align="center"}
 
 ## Example: Visualizing Lung Cancer Deaths by Age in Germany
 
@@ -173,16 +282,42 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 
 ```{r}
 library(ggplot2)
-p <- hmsidwR::germany_lungc |>
-  ggplot(aes(x = age, y = dx, group = sex, color = sex)) +
-  geom_line() +
+library(ggpattern)
+
+scatterplot <- hmsidwR::germany_lungc |>
+  ggplot(aes(x = prevalence, y = dx)) +
+  geom_point(aes(shape =sex)) + 
+  labs(title = "Lung Cancer Deaths by Age in Germany",
+       x = "Prevalence",
+       y = "Deaths")
+
+barplot <- hmsidwR::germany_lungc |>
+  ggplot(aes(x = age, y = dx, group = sex))  +
+  ggpattern::geom_col_pattern(aes(pattern=sex),
+                              position="stack",
+                              fill= 'white',
+                              colour= 'black') +
+  labs(title = "Lung Cancer Deaths by Age in Germany",
+       x = "Age",
+       y = "Deaths")
+
+lineplot <- hmsidwR::germany_lungc |>
+  ggplot(aes(x = age, y = dx, group = sex)) +
+  geom_line(aes(linetype=sex)) +
   geom_point() +
   labs(
     title = "Lung Cancer Deaths by Age in Germany",
     x = "Age",
     y = "Deaths"
   )
-p
+```
+
+```{r}
+#| layout-ncol: 3
+#| echo: false
+scatterplot
+barplot
+lineplot
 ```
 
 ### Colors and Palettes
@@ -197,10 +332,10 @@ By typing `?scale_color_manual()` in the R console, you can access the
 documentation and explore other options for customizing colors.
 
 ```{r}
+#| eval: false
 # Example: Customizing colors in a bar chart
-p1 <- p +
+lineplot +
   scale_color_manual(values = c("brown", "navy", "orange"))
-p1
 ```
 
 ### Theme, Legends and Guides
@@ -222,20 +357,25 @@ reversing the order of the legend items.
 
 ```{r}
 # Customising a legend to a plot
-p2 <- p1 +
+lineplot1 <- lineplot +
   labs(
-    color = "Sex",
-    subtitle = "Line Plot",
+    linetype = "Sex",
+    subtitle = "Year 2019",
     caption = "DataSource: hmsidwR::germany_lungc"
   ) +
-  guides(color = guide_legend(reverse = TRUE)) +
+  guides(linetype = guide_legend(reverse = TRUE)) +
   theme(
     legend.position = "top",
     axis.text.x = element_text(angle = 45, hjust = 1),
     plot.title = element_text(hjust = 0.5, face = "bold")
   )
 
-p2
+lineplot2 <- lineplot1 + 
+  scale_y_log10() + 
+  coord_cartesian(clip = "off") +
+  annotate("text", x = Inf, y=Inf, 
+           hjust = 1, vjust = 0,
+           label = "Log Scale")
 ```
 
 ### Plot Layouts
@@ -259,9 +399,9 @@ grid.arrange(p, p1, p2, ncol = 3)
 ```{r}
 #| echo: false
 #| layout-ncol: 3
-p
-p1
-p2
+lineplot
+lineplot1
+lineplot2
 ```
 
 ### Saving as an Image
@@ -271,5 +411,24 @@ image file for sharing or publication.
 
 ```{r}
 #| eval: false
-ggsave("line_plot.png", plot = p2, width = 6, height = 4)
+ggsave("lineplot.png", plot = p2, width = 6, height = 4)
 ```
+
+## Practicing Data Visualization
+
+To practice making data visualizations, there are numerous free
+resources available that provide valuable information and opportunities
+to enhance your skills. By engaging with these platforms, you can
+practice your abilities, share your final results, and receive feedback
+from the community. While the feedback may sometimes be critical, it is
+an essential part of the learning process and will help you improve if
+you stay persistent.
+
+Participating in competitions and challenges such as **#TidyTuesday**,
+**#30DayChartChallenge**, and **#30DayMapChallenge** offers a great way
+to refine your skills. These competitions encourage you to create and
+share visualizations on various themes, pushing you to experiment with
+different techniques and styles. By consistently participating in these
+challenges and actively seeking feedback, you will steadily enhance your
+proficiency. Over time, you will find yourself becoming more adept and
+confident in your data visualization skills.
