@@ -1,22 +1,15 @@
----
-editor: 
-  markdown: 
-    wrap: 72
-bibliography: references.bib
----
-
 # COVID-19 Outbreaks {#sec-14-covid19}
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
 
 In this chapter, we explore the dynamics of **COVID-19** disease
 outbreaks in more details. We examine the results of various model's
 applications that simulate the spread of the virus.
 
 ## Epidemiology
-
-```{r}
-#| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
-```
 
 COVID-19, short for **"Coronavirus Disease 2019,"** is an infectious
 disease caused by the novel coronavirus SARS-CoV-2, a type of virus that
@@ -418,9 +411,11 @@ includes the number of confirmed cases, deaths, and recovered cases for
 each country and region. We will calculate the DALYs for the US, China,
 United Kingdom, and Canada.
 
-cases <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
+cases \<-
+read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 
-deaths <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
+deaths \<-
+read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
 
 ```{r}
 #| echo: false
@@ -491,7 +486,9 @@ Selected countries are the US, China, United Kingdom, and Canada.
 
 ```{r}
 #| layout-ncol: 2
-#| fig.cap: "COVID-19 Cases and Deaths by Country"
+#| fig.cap: 
+#|  - "COVID-19 Cases by Country"
+#|  - "COVID-19 Deaths by Country"
 #| label: fig-cases-deaths
 #| warning: false
 #| message: false
@@ -608,7 +605,8 @@ The difference in the number of cases and deaths between the US and
 China is striking. The US has the highest number of cases and deaths,
 while China has the lowest number of cases and deaths. The United
 Kingdom and Canada have a similar number of cases and deaths, but the
-United Kingdom has a higher **case fatality rate (CFR)**\index{CFR} than Canada.
+United Kingdom has a higher **case fatality rate (CFR)**\index{CFR} than
+Canada.
 
 Let's now calculate the DALYs for COVID-19, starting with the YLLs. We
 know that the simplified formula for YLLs is the number of deaths
@@ -791,7 +789,6 @@ COVID19_dalys %>%
   theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
 
 To explain the magnitude of difference between ylls and ylds,
 

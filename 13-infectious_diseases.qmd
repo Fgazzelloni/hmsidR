@@ -2,7 +2,6 @@
 
 ```{r}
 #| echo: false
-library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
@@ -11,15 +10,17 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 > global issue, causing millions of deaths annually."[@santangelo2023]**
 
 The advent of machine learning (ML) has revolutionized the field of
-**infectious disease**\index{infectious disease} research by providing
-robust tools for predicting disease outbreaks and understanding their
-spread. In this chapter, we delve into the application of machine
-learning techniques discussed in @sec-05-machine_learning to assess and
-predict infectious diseases. We will explore how integrating ML models
-can enhance our understanding of these diseases and their effects on
-Disability-Adjusted Life Years (DALYs). By leveraging ML, we aim to
-improve the accuracy of disease burden estimations and provide valuable
-insights into the impact of infectious diseases on public health.
+**infectious disease research**\index{infectious disease} by providing
+robust tools for predicting outbreaks and understanding the dynamics of
+spread. In this chapter, we will enhance our understanding of these
+diseases and look at the effects on Disability-Adjusted Life Years
+(DALYs) by applying **machine learning** and **data visualization**
+techniques learned in previous chapters (@sec-05-machine_learning and
+@sec-09-data_visualization). To further improve the knowledge of the
+impact of infectious diseases on global health, we will explore how
+integrating ML models can improve the accuracy of disease burden
+estimations and provide valuable insights into the impact of infectious
+diseases on public health.
 
 ## Infectious Diseases the Invisible Enemies
 
@@ -44,10 +45,10 @@ establishment of the pathogen in the host and the onset of symptoms.
 The incubation period can range from a few hours to several months,
 influenced by factors such as the pathogen's growth rate, the host's
 immune response, and the route of transmission. For example, the
-incubation period for the influenza virus is typically 1 to 4 days,
-whereas for diseases like hepatitis B, it can be as long as 6 months.
-Understanding the incubation period helps in identifying the time frame
-for potential exposure.
+incubation period for the **influenza virus** is typically 1 to 4 days,
+whereas for diseases like **hepatitis B**, it can be as long as 6
+months. Understanding the incubation period helps in identifying the
+time frame for potential exposure.
 
 Several factors influence infection, including:
 
@@ -67,7 +68,7 @@ replicates, often killing the cell or altering its functions.
 The following seven diseases are all caused by an infectious agent such
 as virus or bacteria, generally cause acute symptoms, ranging from mild
 to severe, and require prompt medical attention to prevent complications
-and further spread.
+and further spread:
 
 1.  Acute Respiratory Infection (ARI)
 2.  COVID-19
@@ -86,47 +87,68 @@ by **transmission methods**:
     transmitted via respiratory droplets when infected individuals cough
     or sneeze.
 
-That underline the importance of integrated approaches in surveillance,
-management and prevention to safeguard global health.
+## The SIR Model
 
 The application of mathematical models to infectious diseases dates back
 over a century, with significant contributions from pioneers such as
 *Kermack* and *McKendrick*, who established the foundations of the
 subject[@keeling2009]. Their work introduced the concept of categorizing
-individuals based on their epidemiological status: susceptible,
-infected, and recovered (the SIR\index{SIR} model). This model laid the
-groundwork for understanding how diseases spread and what factors
-influence their transmission.
+individuals based on their epidemiological status: **susceptible**,
+**infected**, and **recovered**.
 
-**The SIR Model and Its Implications**
+One of the simplest and most fundamental epidemiological models, the
+**SIR model**\index{SIR}, to which we had a quick look in the previous
+chapters (@sec-05-machine_learning and @sec-06-techniques), is based on
+these three compartments. The model estimates two key parameters: the
+**infection rate** and the **recovery rate**. These parameters help
+predict the epidemic’s progression, showing how the number of
+susceptible individuals decreases as the number of infected individuals
+increases, eventually leading to recovery and a decline in new
+infections, as shown in @eq-sir-model-theory.
 
-The SIR model is one of the simplest and most fundamental
-epidemiological models. It describes the flow of individuals through
-three classes: susceptible (S), infected (I), and recovered (R). The
-model relies on estimating two key parameters: the infection rate and
-the recovery rate. These parameters help predict the epidemic’s
-progression, showing how the number of susceptible individuals decreases
-as the number of infected individuals increases, eventually leading to
-recovery and a decline in new infections.
+**The Reproduction Ratio (R0)**
 
-**Key Predictions of the SIR Model**
+To understand the epidemic potential of an infectious disease, the
+average number of secondary cases generated by a single infectious
+individual in a completely susceptible population is calculated using
+the **reproduction ratio (R0)**. As the ratio of the transmission rate
+to the recovery rate, R0 provides a measure of the disease's ability to
+spread.
 
-1.  **Basic Reproductive Ratio (R0)**: This parameter is crucial for
-    understanding the epidemic potential of a disease. It represents the
-    average number of secondary cases produced by a single infectious
-    individual in a completely susceptible population. If R0 is greater
-    than 1, an epidemic is likely; if less than 1, the disease will
-    eventually die out.
+$$
+R0 = \frac{\beta}{\gamma}
+$$
 
-2.  **Herd Immunity**: The model predicts that not everyone needs to be
-    vaccinated to prevent an epidemic. By reducing the pool of
-    susceptible individuals, the spread of the disease can be
-    controlled, protecting the entire population indirectly.
+where $\beta$ is the transmission rate and $\gamma$ is the recovery
+rate. The value of R0 determines the epidemic threshold:
 
-3.  **Epidemic Dynamics**: The model illustrates how an epidemic grows
-    and eventually declines. Initially, the number of cases rises
-    exponentially, but as the susceptible population is depleted, the
-    growth rate slows, leading to a peak and subsequent decline.
+$$
+\text{If R0 = } \left\{\begin{matrix}
+ \begin{aligned}
+ >1 = &  \text{Epidemic}\\
+ <1 =& \text{End of Infection Transmission}
+ \end{aligned}
+\end{matrix}\right. 
+$$
+
+To accounts for changes in the population's immunity, the **effective
+reproduction number (**$R_{eff}$) is calculated on a susceptible
+population which is not completely susceptible, and value of $R_{eff}$
+results less than $R0$ due to the presence of immune individuals in the
+population.
+
+Another critical concept in infectious disease is the **herd immunity**,
+which refers to the indirect protection from infectious diseases that
+occurs when a large percentage of a population becomes immune to the
+infection, either through vaccination or previous infections. The herd
+immunity is reached when the effective reproduction number is less than
+1, and the disease stops spreading.
+
+The SIR model shows the dynamics of an epidemic by looking at how it
+grows and eventually declines. Initially, the number of cases rises
+exponentially, leading to a peak, but as the susceptible population
+start reducing in number due to various factors, the growth rate slows
+with subsequent decline.
 
 ### Advancements and Extensions
 
@@ -142,10 +164,8 @@ The use of machine learning algorithms such as **decision trees**,
 **random forests**, **support vector machines**, and **deep-learning
 networks** such as Long short-term memory (LSTM)\index{LSTM} models,
 effectively improve the identification of patterns and trends that may
-not be obvious with mechanistic type of models.
-
-These models are able to improve prediction accuracy working smoothly
-with large datasets.
+not be obvious with mechanistic type of models. These models are able to
+improve prediction accuracy working smoothly with large datasets.
 
 Combining models and data sources enhances prediction accuracy, various
 models and techniques can be applied to reduce bias and the risk of
