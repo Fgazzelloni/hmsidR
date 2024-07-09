@@ -1,10 +1,17 @@
-# Covid19 Outbreaks {#sec-14-covid19}
+---
+editor: 
+  markdown: 
+    wrap: 72
+bibliography: references.bib
+---
 
-In this chapter, we explore the dynamics of Covid19 disease outbreaks in
-more details. We examine the results of various model's applications
-that simulates the spread of the virus.
+# COVID-19 Outbreaks {#sec-14-covid19}
 
-## Coronavirus Disease 2019 (COVID-19)
+In this chapter, we explore the dynamics of **COVID-19** disease
+outbreaks in more details. We examine the results of various model's
+applications that simulate the spread of the virus.
+
+## Epidemiology
 
 ```{r}
 #| echo: false
@@ -12,32 +19,56 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
 COVID-19, short for **"Coronavirus Disease 2019,"** is an infectious
-disease caused by the novel coronavirus SARS-CoV-2. It was first
-identified in December 2019 in the city of Wuhan, Hubei province, China.
-The **World Health Organization (WHO)** declared the outbreak a Public
-Health Emergency of International Concern on January 30, 2020, and later
-a pandemic on March 11, 2020.
+disease caused by the novel coronavirus SARS-CoV-2, a type of virus that
+is part of the **Coronaviridae**[@coronavi] family of viruses that can
+cause illness in animals and humans alike. The disease was first
+identified in December 2019 in Wuhan, Hubei province, China, and has
+since then spread globally, leading to a **pandemic**[@pandemic].
 
-COVID-19 is a respiratory illness characterized by symptoms such as
-fever, cough, and shortness of breath, which can range from mild to
-severe, with some cases resulting in death. The pandemic has led to
-widespread healthcare challenges, economic disruptions, and significant
-changes to daily life, including social distancing measures, lockdowns,
-and travel restrictions.
+The origin of the virus is still under investigation[@who-conv], but it
+is believed to have **zoonotic**[@zoonosis]\index{zoonotic} origins,
+with **bats** being the most likely reservoir. The virus has also been
+linked to **pangolins**[@huang2023], mammals that are illegally
+trafficked for their scales and meat. The virus is thought to have
+jumped from animals to humans, possibly through a wet market in Wuhan
+where live animals were sold.
 
-Since its identification, COVID-19 has caused multiple outbreaks
-globally. The WHO has tracked and reported on these outbreaks, noting
-significant waves of infections. As of May 2024, there have been over
-775 million confirmed cases and more than seven million deaths
-worldwide. The pandemic's impact has varied across regions, influenced
-by factors such as virus variants, public health responses, and
-vaccination rates.
+::: {.callout .callout-info}
+Examples of Zoonotic Viruses:
 
-Countries around the world have implemented various levels of stringent
-measures to control the spread of COVID-19, often referred to as
-**lockdowns**. These measures restricted movement and activities in
-specific areas, aiming to curb the virus's transmission. Some notable
-examples include:
+1.  Influenza (Flu) Viruses: Avian (bird) flu and swine (pig) flu.
+2.  Coronavirus: SARS, MERS, and COVID-19 from fruit bats, pangolins.
+3.  Ebola Virus: Likely originated from fruit bats.
+4.  HIV/AIDS: Believed to have originated from non-human primates
+    (chimpanzees).
+5.  Rabies: Spread from infected animals like dogs, bats, and raccoons.
+:::
+
+On January 30, 2020, The **World Health Organization (WHO)** declared
+the **outbreak** a Public Health Emergency of International Concern and
+a worldwide investigation started to understand more about the virus and
+its effects on humans. This challenge involved the unprecedented
+identification of this type of virus, requiring thorough testing and
+confirmation of the incubation period, recovery rate, and infection rate
+through the collection of cases globally.
+
+The virus spreads primarily through respiratory droplets. Symptoms can
+include loss of taste and smell, fatigue, muscle aches, and
+gastrointestinal issues, with fever, cough, and shortness of breath.
+Severe cases can lead to **pneumonia**, **acute respiratory distress
+syndrome (ARDS)**, and **death**. The emergency was primarily due to the
+high number of deaths occurring without a known pharmacological
+intervention to contain it.
+
+Various preventive measures were established, but the presence of
+asymptomatic and symptomatic cases created challenges in identifying the
+incubation time, leading governments to impose restrictions through
+lockdowns of entire cities and regions in affected countries. These
+measures restricted movement and activities to curb the virus’s
+transmission.
+
+::: {.callout .callout-info}
+Some notable examples of lockdown measures include:
 
 -   **China**: The initial epicenter in Wuhan experienced strict
     lockdowns, with entire cities quarantined and movement heavily
@@ -59,17 +90,23 @@ examples include:
 -   **United Kingdom**: Imposed several lockdowns, including a strict
     nationwide lockdown in early 2021, along with tiered restrictions
     based on regional infection rates.
+:::
 
-## How the COVID-19 Virus Spreads
+The pandemic has led to widespread healthcare challenges, economic
+disruptions, and significant changes to daily life, including social
+distancing measures, lockdowns, and travel restrictions.
 
-COVID-19 primarily spreads through respiratory droplets produced when an
-infected person coughs, sneezes, or talks. The virus can also spread by
-touching surfaces contaminated with the virus and then touching the
-face. The incubation period for COVID-19 is typically 2-14 days, during
-which an infected person may be asymptomatic but still contagious.
+Since its identification, COVID-19 has caused multiple outbreaks
+globally. The incubation period ranges from 2 to 14 days, during which
+an infected person may be asymptomatic but still contagious. On March
+11, 2020, it was declared a pandemic. As of May 2024, there have been
+over 775 million confirmed cases and more than seven million deaths
+worldwide. The impact of the pandemic has varied across regions,
+influenced by factors such as virus variants, public health responses,
+and vaccination rates.
 
-To prevent the spread of COVID-19, several public health measures have
-been implemented:
+::: {.callout .callout-warning}
+Public Health COVID-19 Prevention Measures:
 
 -   **Diagnostic Tests**: PCR (polymerase chain reaction) tests and
     rapid antigen tests are used to detect active infections, while
@@ -85,6 +122,7 @@ been implemented:
     (AstraZeneca and Johnson & Johnson), and inactivated virus vaccines
     (Sinovac and Sinopharm), have shown high efficacy in preventing
     severe disease and reducing transmission.
+:::
 
 COVID-19 has had a profound impact on global health, economies, and
 daily life. Efforts to combat the pandemic have involved unprecedented
@@ -99,7 +137,7 @@ widespread vaccination coverage.
 ## Mapping COVID-19 Outbreaks
 
 Mapping COVID-19 outbreaks helps identify infection hotspots, track the
-virus's spread, and inform public health interventions. Geographic
+virus’s spread, and inform public health interventions. Geographic
 Information Systems (GIS) and spatial analysis techniques can visualize
 and analyze COVID-19 data, such as the number of cases, deaths, and
 recoveries, at local, regional, and global levels.
@@ -109,30 +147,19 @@ recoveries, at local, regional, and global levels.
 Spatiotemporal modelling of COVID-19 outbreaks can provide valuable
 insights into the pandemic's dynamics and help guide public health
 responses. In this example, we'll use R to model the spread of COVID-19
-using a \***Susceptible-Infected-Recovered (SIR)** model, a common
+using a **Susceptible-Infected-Recovered (SIR)** model, a common
 compartmental model used in epidemiology to simulate the spread of
 infectious diseases. A **Bayesian machine learning approach** is used to
 predict the spread of the virus over time and across different regions.
 Bayesian methods handle uncertainties and allow for the integration of
 prior information into the model.
 
-First, we'll load the necessary packages and define some parameters for
-our model. We can use the SIR model to describe the spread of the
-disease, where S represents the number of susceptible individuals, I
-represents the number of infected individuals, and R represents the
-number of recovered individuals. The model structure can be described as
-follows:
-
-$$
-\begin{aligned}
-\frac{dS}{dt} &= -\beta \frac{S I}{N} \\
-\frac{dI}{dt} &= \beta \frac{S I}{N} - \gamma I \\
-\frac{dR}{dt} &= \gamma I
-\end{aligned}
-$$
-
-where (\beta) is the rate of transmission, (\gamma) is the rate of
-recovery, and (N) is the total population.
+First, we use the **SIR model** function to simulate the spread of the
+disease. The model compartments are: the number of susceptible (S), the
+number of infected (I), and R represents the number of recovered
+individuals. The parameters of the model are the transmission rate
+$(\beta)$ and the recovery rate $(\gamma)$, and (N) is the total
+population.
 
 ```{r}
 library(deSolve)
@@ -158,9 +185,9 @@ seir_model <- function(t, y, parameters) {
 }
 ```
 
-Next, we'll use the `ode()` function from the `{deSolve}` package to
-solve the ordinary differential equations (ODEs) and simulate the spread
-of the virus over a period of 365 days:
+As seen previously, we'll use the `ode()` function from the `{deSolve}`
+package to solve the ordinary differential equations (ODEs) and simulate
+the spread of the virus over a period of 365 days:
 
 ```{r}
 #| fig-width: 5
@@ -184,10 +211,9 @@ ggplot(as.data.frame(result), aes(time, I, color = "Infected")) +
   labs(x = "Time (days)", y = "Number of individuals")
 ```
 
-In this example, many factors are not taken into account. In reality,
-the spread of a virus is much more complex and influenced by many
-factors such as human behavior, government policies, healthcare systems,
-vaccination campaigns, and human contact.
+In reality, the spread of a virus is much more complex and influenced by
+many factors such as human behavior, government policies, healthcare
+systems, vaccination campaigns, and human contact.
 
 ### Bayesian Analysis
 
@@ -265,7 +291,7 @@ plot(bayesian_model)
 
 <center>
 
-![Bayesian Model diagnostics](images/bayesian_model_diagnostics.png)
+![Bayesian Model diagnostics](images/14_bayesian_model_diagnostics.png)
 
 </center>
 
@@ -298,7 +324,7 @@ ggplot(data, aes(x = date)) +
   theme_minimal()
 ```
 
-### Ensemble Modelling
+### Ensemble Modelling - Combining Multiple Models
 
 Ensemble modelling combines the predictions of multiple models to
 improve the overall accuracy and robustness of predictions. This
@@ -382,3 +408,398 @@ significantly enhance our ability to predict and understand the spread
 of infectious diseases like COVID-19. These models provide critical
 insights that can inform public health responses and help mitigate the
 impact of pandemics.
+
+## COVID-19 & DALYs
+
+The influence of COVID-19 on global health can be measured using the
+DALYs. We use the data from the JHU official GitHub repository
+**CSSEGISandData** to calculate the DALYs for COVID-19. The data
+includes the number of confirmed cases, deaths, and recovered cases for
+each country and region. We will calculate the DALYs for the US, China,
+United Kingdom, and Canada.
+
+cases <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
+
+deaths <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
+
+```{r}
+#| echo: false
+library(tidyverse)
+cases <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
+deaths <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
+```
+
+```{r}
+cases1 <- cases %>%
+  pivot_longer(cols = starts_with("X"),
+               names_to = "date",
+               values_to = "cases") %>%
+  mutate(date = gsub("X", "", date),
+         date = as.Date(date, format = "%m.%d.%y")) %>%
+  janitor::clean_names()
+
+cases1 %>% head()
+```
+
+```{r}
+deaths1 <- deaths %>%
+  pivot_longer(cols = starts_with("X"),
+               names_to = "date",
+               values_to = "deaths") %>%
+  mutate(date = gsub("X", "", date),
+         date = as.Date(date, format = "%m.%d.%y")) %>%
+  janitor::clean_names()
+
+deaths1 %>% head()
+```
+
+```{r}
+COVID19 <- cases1 %>%
+  left_join(deaths1, 
+            by = c("province_state", 
+                   "country_region", 
+                   "lat", "long", "date")) %>%
+  mutate(cases = ifelse(is.na(cases), 0, cases),
+         deaths = ifelse(is.na(deaths), 0, deaths)) %>%
+  group_by(country_region, date) %>%
+  mutate(cases = sum(cases),
+         deaths = sum(deaths),
+         cfr = round(deaths / cases, 3)) %>%
+  filter(cases > 0) %>%
+  arrange(country_region, date)
+
+COVID19 %>%
+  arrange(desc(date)) %>%
+  head()
+```
+
+```{r}
+#| echo: false
+#| eval: false
+# saveRDS(COVID-19, "COVID-19.rds")
+```
+
+```{r}
+COVID19_4countries <- COVID19 %>%
+  filter(country_region %in%
+    c("US", "China", "United Kingdom", "Canada"))
+
+COVID19_4countries %>% head()
+```
+
+Selected countries are the US, China, United Kingdom, and Canada.
+
+```{r}
+#| layout-ncol: 2
+#| fig.cap: "COVID-19 Cases and Deaths by Country"
+#| label: fig-cases-deaths
+#| warning: false
+#| message: false
+COVID19 %>%
+  ggplot(aes(x = date, y = cases,
+  group = country_region)) +
+  geom_line(color = "grey", 
+            linewidth = 0.2) +
+  geomtextpath::geom_textline(
+  data = COVID19_4countries,
+  aes(label = country_region),
+      show.legend = F) +
+  scale_y_log10() +
+  labs(title = "COVID-19 Cases by Country",
+       x = "Date",
+       y = "Cases") +
+  theme_minimal()
+
+COVID19 %>%
+  ggplot(aes(x = date, y = deaths,
+             group = country_region)) +
+  geom_line(color = "grey", 
+            linewidth = 0.2) +
+  geomtextpath::geom_textline(
+    data = COVID19_4countries,
+    aes(label = country_region),
+        show.legend = F) +
+  scale_y_log10() +
+  labs(title = "COVID-19 Deaths by Country",
+       x = "Date",
+       y = "Deaths") +
+  theme_minimal()
+```
+
+```{r}
+worldmap <- map_data("world") %>%
+  filter(!region == "Antarctica")
+
+centroids <- COVID19 %>%
+  group_by(country_region, lat, long) %>%
+  reframe(tot_cases = sum(cases),
+          tot_deaths = sum(deaths),
+          avg_cfr = round(mean(cfr), 3)) %>%
+  distinct()
+```
+
+```{r}
+options(scipen = 999)
+```
+
+```{r}
+#| message: false
+#| warning: false
+ggplot() +
+  geom_polygon(
+    data = worldmap,
+    aes(x = long, y = lat, group = group),
+        fill = "grey",
+        color = "white") +
+  geom_point(data = centroids,
+    aes(x = long, y = lat,
+        size = tot_cases,
+        color = log(avg_cfr)), 
+        alpha = 0.5) +
+  scale_size_continuous(
+        labels = scales::unit_format(unit = "M", 
+                                     scale = 1e-6)) +
+  scale_color_viridis_c() +
+  coord_quickmap() +
+  labs(title = "COVID-19 Cases by Country",
+       caption = "Circle size: total cases, Color: average CFR", 
+      size= "Total cases (M)",
+      color= "Average CFR (log scale)",
+      x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text = element_blank(),
+        plot.subtitle = element_text(size = 8))
+```
+
+The same graph made with selected countries only.
+
+```{r}
+#| message: false
+#| warning: false
+ggplot() +
+  geom_polygon(data = worldmap,
+               aes(x = long, y = lat, group = group),
+               fill = "grey",
+               color = "white") +
+  geom_point(data = centroids %>%
+             filter(country_region %in%
+             c("US", "China","United Kingdom", "Canada")),
+             aes(x = long, y = lat,
+                 size = tot_cases,
+                 color = log(avg_cfr)), 
+                 alpha = 0.5) +
+  scale_size_continuous(
+            labels = scales::unit_format(unit = "M", 
+                                         scale = 1e-6)) +
+  scale_color_viridis_c() +
+  coord_quickmap() +
+  labs(title = "COVID-19 Cases by Country",
+       caption = "Circle size: total cases, Color: average CFR",
+       subtitle = "US, China, United Kingdom, Canada",
+       size= "Total cases (M)",
+       color= "Average CFR (log scale)",
+       x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text = element_blank(),
+        plot.subtitle = element_text(size = 8))
+```
+
+The difference in the number of cases and deaths between the US and
+China is striking. The US has the highest number of cases and deaths,
+while China has the lowest number of cases and deaths. The United
+Kingdom and Canada have a similar number of cases and deaths, but the
+United Kingdom has a higher **case fatality rate (CFR)**\index{CFR} than Canada.
+
+Let's now calculate the DALYs for COVID-19, starting with the YLLs. We
+know that the simplified formula for YLLs is the number of deaths
+multiplied by the standard life expectancy at the age of death. The
+standard life expectancy for these countries varies, but we can use the
+global average of 72.6 years.
+
+Also, we group the date by 4 months cycles to calculate the YLLs.
+
+```{r}
+COVID19_yll_4months <- COVID19_4countries %>%
+  mutate(month = as.numeric(format(date, "%m")),
+         year = as.numeric(format(date, "%Y")),
+         month_cycle = case_when(month %in% 1:4 ~ "Jan-Apr",
+                                 month %in% 5:8 ~ "May-Aug",
+                                 month %in% 9:12 ~ "Sep-Dec")) %>%
+  group_by(country_region, year, month_cycle) %>%
+  summarise(cases = sum(cases),
+            deaths = sum(deaths),
+            cfr = round(deaths / cases, 3)) %>%
+  mutate(ylls = deaths * 72.6) %>%
+  arrange(year, month_cycle, ylls)
+
+COVID19_yll_4months %>%
+  select(year, month_cycle, ylls) %>%
+  head()
+```
+
+And then plot the YLLs by country and month cycle, with the y axis
+representing the YLLs formatted in millions.
+
+```{r}
+COVID19_yll_4months %>%
+  ggplot() +
+  geom_col(aes(x = month_cycle, y = ylls, 
+               fill = country_region)) +
+  scale_y_continuous(
+         labels = scales::unit_format(unit = "M", 
+                                      scale = 1e-6)) +
+  labs(title = "YLLs by Country and Month Cycle",
+       fill = "Country",
+       x = "4-Month cycle",
+       y = "YLLs") +
+  facet_wrap(~year) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+The majority of YLLs are in the United Kingdom, followed by the US,
+Canada, and China. The YLLs are highest in the first 4-month cycle
+(Jan-Apr) and decrease in the following cycles.
+
+Let's now calculate the YLDs for COVID-19. The YLDs are calculated by
+multiplying the number of cases by the disability weight. The Disability
+Weight applied is that for low respiratory diseases which is 0.133. As
+of 2020, the Global Burden of Disease Study 2019 estimated that the
+DALYs for lower respiratory diseases was 1,000,000. We can use the
+`{hmsidwR}` package to get the disability weight for lower respiratory
+diseases.
+
+```{r}
+hmsidwR::disweights2019 %>%
+  filter(str_detect(sequela, "lower respiratory")) %>%
+  select(sequela, dw)
+```
+
+We know that the simplified formula for YLDs is the prevalence of the
+disease multiplied by the disability weight. To calculate the
+prevalence, we need the population of each country. For this task we use
+the `{wpp2022}` package, which provides the population data from the
+2022 revision of the United Nations World Population Prospects (WPP
+2022). It includes both historical estimates and projections of
+demographic indicators such as population counts and fertility rates,
+accommodating the challenges brought on by events like the COVID-19
+pandemic and transitioning from five-year to one-year data intervals.
+
+```{r}
+#| eval: false
+# library(devtools)
+# options(timeout = 600)
+# install_github("PPgp/wpp2022")
+```
+
+```{r}
+#| message: false
+#| warning: false
+library(wpp2022)
+# data(package = "wpp2022")
+```
+
+```{r}
+data(pop1dt)
+pop_4countries <- pop1dt %>%
+  filter(
+    year %in% c(2020, 2021),
+    name %in% c(
+      "United States of America",
+      "China",
+      "United Kingdom",
+      "Canada")) %>%
+  mutate(name = ifelse(name == "United States of America", "US", name)) %>%
+  select(name, year, pop) %>%
+  arrange(year, name)
+
+pop_4countries %>% head()
+```
+
+Calculate the prevalence of COVID-19 cases per 1,000,000 people.
+
+$$prevalence = \frac{cases}{population} * 1,000,000$$
+
+```{r}
+COVID19_dalys <- COVID19_yll_4months %>%
+  full_join(pop_4countries, 
+            by = c("country_region" = "name", "year")) %>%
+  mutate(prevalence = cases / pop * 1000000,
+         dw = 0.133,
+         ylds = prevalence * dw,
+         dalys = ylls + ylds) %>%
+  arrange(year, month_cycle, prevalence) %>%
+  select(country_region, year, 
+         month_cycle, ylls, ylds, dalys)
+
+
+COVID19_dalys %>%
+  head()
+```
+
+If we calculate the YLDs with the incidence instead of prevalence, we
+get the same results, because the incidence is the number of new cases
+in a given period, while the prevalence is the number of existing cases
+in a given period. So, we should consider the cumulative number of cases
+to calculate the prevalence. In order to calculate the cumulative number
+of cases, we need to group the data by year and month cycle.
+
+And then plot the YLDs by country and month cycle, with the y axis
+representing the YLDs formatted in millions.
+
+```{r}
+#| message: false
+#| warning: false
+COVID19_dalys %>%
+  filter(year %in% c(2020, 2021)) %>%
+  ggplot() +
+  geom_col(aes(x = month_cycle, y = ylds, 
+               fill = country_region)) +
+  scale_y_continuous(
+            labels = scales::unit_format(unit = "M", 
+                                         scale = 1e-6)) +
+  labs(title = "YLDs by Country and Month Cycle",
+       fill = "Country",
+       x = "4-Month Cycle", y = "YLDs") +
+  facet_wrap(~year) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+We can see that the YLDs are highest in the United Kingdom, followed by
+the US, Canada, and China. The YLDs are highest in the first 4-month
+cycle (Jan-Apr) and decrease in the following cycles.
+
+Finally, let's plot the DALYs by country and month cycle, with the y
+axis representing the DALYs formatted in millions.
+
+```{r}
+#| message: false
+#| warning: false
+COVID19_dalys %>%
+  filter(year %in% c(2020, 2021)) %>%
+  ggplot() +
+  geom_col(aes(x = month_cycle, y = dalys, 
+               fill = country_region)) +
+  scale_y_continuous(
+            labels = scales::unit_format(unit = "M", 
+                                         scale = 1e-6)) +
+  labs(title = "DALYs by Country and Month Cycle",
+       fill = "Country",
+       x = "4-Month Cycle", y = "DALYs") +
+  facet_wrap(~year) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+To explain the magnitude of difference between ylls and ylds,
+
+prevalence as the proportion of cases at baseline among the total number
+of enrolled participants who completed baseline visits.
+(https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8992269/)
+
+cumulative incidence as the number of incident cases divided by the
+total follow-up time per 100 person-years and assumed a uniform
+incidence distribution across the 6-month follow-up time.
+(https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8992269/)

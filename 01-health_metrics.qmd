@@ -1,4 +1,4 @@
-# Health Metrics {#sec-01-health_metrics}
+# Introduction to Health Metrics {#sec-01-health_metrics}
 
 > **"The concept of health also has highly subjective connotations,
 > precisely because it is conditioned by the personal view of

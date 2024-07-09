@@ -100,23 +100,19 @@ type:**
 
 ## Statistical and Machine Learning Methods
 
-Once the objective of the study is clear and identificated the nature of
-the data, we already a step forward in restricting the range of
-applicable models. The next step involves conducting a thorough
-**exploratory data analysis (EDA)**\index{EDA}. This initial exploration
-helps to uncover the underlying structure of the data, the relationships
-between variables, and the way the response variable—which may also be
-referred to as the outcome variable—depends on predictors. This phase is
-critical as it informs the necessity of subsequent data adjustments and
+The choice of model depends on the type of data, the relationships between variables, and the goals of the analysis. Once we have these factors well identified, we are a step forward in restricting the range of applicable models.
+
+The next step involves conducting a thorough **exploratory data analysis
+(EDA)**\index{EDA}. This initial exploration helps to uncover the
+underlying structure of the data, the relationships between variables,
+and the way the response variable—which may also be referred to as the
+outcome variable—depends on predictors. This phase is critical as it
+informs the necessity of subsequent data adjustments and
 transformations.
 
 The importance of data preparation and exploratory data analysis in
 machine learning are the building blocks in the preparation of machine
-learning digestable data. **Feature
-engineering**\index{feature engineering} is a technique that involves
-creating new features from existing ones based on domain knowledge or
-transformation of data to improve the model's ability to discern
-patterns. For example, creating features like **moving averages** or
+learning digestible data. **Feature engineering**\index{feature engineering} is a technique that involves creating new features from existing ones based on domain knowledge or transformation of data to improve the model's ability to discern patterns. For example, creating features like **moving averages** or
 differences between consecutive days can reveal trends and cycles that
 are not immediately apparent from raw data.
 

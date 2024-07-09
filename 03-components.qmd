@@ -645,7 +645,7 @@ total_cases <- sum(covid_data$Cases)
 total_recoveries <- sum(covid_data$Recovered)
 ```
 
-#### Incidence and Prevalence rates for the year
+#### Incidence and Prevalence Rates for the Year
 
 ```{r}
 (incidence_rate <- total_cases / population_size)
@@ -678,7 +678,7 @@ ggplot(covid_data, aes(x = Date)) +
   theme(legend.position = "bottom")
 ```
 
-## Disability weights and Severity levels
+## Disability Weights and Severity Levels
 
 The **disability weights**\index{disability weights} measure the
 **severity**\index{severity} of the health loss associated with specific
@@ -712,7 +712,7 @@ lower weights are assigned to less severe conditions. Hence, the
 disability weights are calculated based on the severity of the condition
 and the impact on an individual's quality of life.
 
-### Methodology for Disability Weights:
+### Methodology for Disability Weights
 
 The disability weights can be derived or computed, depending on data
 availability. Often derived through large-scale population surveys, or
@@ -736,7 +736,7 @@ disability weights that reflect a consensus view. Statistical models
 might be used to aggregate these results and ensure that they are
 consistent across different scales.
 
-#### Disability Weights data:
+#### Disability Weights Data
 
 Here is a table containing the disability weights for twelve
 combinations of different conditions such as Infectious disease,
@@ -796,23 +796,11 @@ disability_weights %>%
   summarize(dw = mean(dw))
 ```
 
-## YLLs, YLDs, and DALYs
+## Summary of the DALYs' Components
 
-The calculation of YLLs, YLDs, and DALYs requires certain
-epidemiological parameters such as: prevalence, incidence, case-fatality
-rate, relative risk\index{RR}, odds ratio, hazard ratio, mean, incidence
-ratio, severity, duration\index{duration}, and remission. These
-parameters are used to estimate the impact of diseases and injuries on
-the health status of a population and to identify areas where
-improvements in health care are needed.
+### YLLs
 
-By combining these metrics, policymakers and public health officials can
-make informed decisions about how to improve the health outcomes of a
-population and reduce the burden of disease and injury.
-
-### YLLs' components
-
-The components of YLL (Years of Life Lost) include several factors that
+The components of YLLs include several factors that
 contribute to the calculation of premature death due to a disease or
 injury. These components are:
 
@@ -839,7 +827,7 @@ injury. These components are:
     calculating YLL, as different causes may have different impacts on
     potential years of life lost.
 
-### YLDs' components
+### YLDs
 
 The estimation of YLDs requires certain epidemiological parameters such
 as prevalence, incidence, case-fatality rate, relative risk, odds ratio,
@@ -893,9 +881,9 @@ disease or injury. These components are:
     period of time will have a greater impact on the number of years
     lived with disability.
 
-### DALYs' components
+### DALYs
 
-Both YLL and YLD are components\index{components} of the
+Both YLLs and YLDs are components\index{components} of the
 DALY\index{DALY} and are used to provide a comprehensive assessment of
 the impact of disease and injury on a population. By combining YLL and
 YLD, the DALY takes into account both premature death and the impact of
@@ -912,7 +900,7 @@ other treatments for other diseases, to determine whether investing
 resources in preventing or treating a different disease would be more
 efficient in terms of overall health[@disabili2023].
 
-### Case Study: Germany Lung Cancer Study
+## Case Study: Germany Lung Cancer Study
 
 For this case study, we used data from the GBD study for Germany,
 related to the number of deaths due to lung-cancer in 2019. The data is
@@ -1056,7 +1044,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------------|---------------|---------------|---------------|
+|-------------------------|----------------|----------------|----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

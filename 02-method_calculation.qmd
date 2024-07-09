@@ -95,7 +95,7 @@ expectancy, primarily attributed to significantly low mortality rates
 from ischemic heart disease and cancer, which are the leading causes of
 death in most countries, as indicated by the GBD study.
 
-### Example: YLLs due to Stroke in 2019
+### Example: YLLs due to Stroke
 
 As an initial step, we use the deaths data from the GBD 2019 study,
 which is stored in the `{hmsidwR}` package. This dataset comprises

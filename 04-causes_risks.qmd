@@ -49,7 +49,7 @@ with health metrics\index{health metrics} and infectious
 diseases\\index{infectious diseases. The primary risks identified
 include behavioral, environmental, occupational, and metabolic factors.
 
-## Conditions and injuries
+## Conditions and Injuries
 
 Conditions and injuries associated with the burden of disease and injury
 vary according to specific causes and risks. In this book causes and
@@ -426,7 +426,7 @@ ggplot(data = data, aes(x = relative_risk)) +
   )
 ```
 
-### Theoretical minimum-risk exposure levels (TMRELs)
+### Theoretical Minimum-Risk Exposure Levels (TMRELs)
 
 Risk factors associated with a particular health condition are
 considered based on the **Theoretical minimum risk exposure levels
@@ -476,7 +476,7 @@ the outcome varies based on location, sex, and age.
 In terms of DALYs, the level of the disability adjusted life years is
 highly influenced by behavioral, environmental, and occupational risks.
 
-### Population attributable fractions (PAFs)
+### Population Attributable Fractions (PAFs)
 
 The **Population Attributable Fraction (PAF)** is a measure used to
 quantify the proportion of disease incidence in a population that can be
@@ -511,7 +511,7 @@ interventions to reduce exposure to the risk factor, public health
 efforts can effectively reduce the burden of disease in the population
 and improve overall health outcomes.
 
-## Causal inference
+## Causal Inference
 
 Causality\index{causality} concerns the relationship between two
 variables, where one variable (the cause) influences or determines the
@@ -552,7 +552,7 @@ control procedure to
 It is useful, especially when the result of an intervention is uncertain
 to apply a **counter-factual** scenario.
 
-## Summarizing the relationship between risk and outcome
+## Summarizing the Relationship Between Risk and Outcome
 
 The relationship between risk and outcome in epidemiology is fundamental
 for understanding the causes and prevention of disease. It involves

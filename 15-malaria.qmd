@@ -21,7 +21,7 @@ Learning Objectives
 :::
 :::
 
-## Malaria description
+## Epidemiology
 
 Malaria is a mosquito-borne infectious disease that affects humans and
 other animals. It is caused by parasitic protozoans belonging to the
@@ -30,8 +30,6 @@ Anopheles mosquitoes. The symptoms of malaria typically include fever,
 fatigue, vomiting, and headaches. If left untreated, malaria can be
 fatal. Malaria is a major public health concern in many tropical and
 subtropical regions, particularly in Africa.
-
-## Malaria transmission dynamics
 
 Malaria transmission dynamics are influenced by various factors,
 including the prevalence of infected individuals, the density of
@@ -43,7 +41,7 @@ characteristic symptoms of malaria. The parasites can be transmitted
 back to mosquitoes when they feed on infected individuals, completing
 the transmission cycle.
 
-## Mapping Malaria outbreaks
+## Mapping Malaria Outbreaks
 
 Mapping Malaria outbreaks can help identify high-risk areas and guide
 public health interventions. Geographic Information Systems (GIS) can be
@@ -53,7 +51,7 @@ in relation to environmental factors such as temperature, humidity, and
 vegetation cover, researchers can gain insights into the factors driving
 Malaria transmission and develop targeted control strategies.
 
-## Example: Simulating Malaria transmission dynamics
+## Example: Simulating Malaria Transmission Dynamics
 
 In this example, we will simulate Malaria transmission dynamics using a
 simple mathematical model. We will generate synthetic data representing
@@ -62,7 +60,7 @@ predict future trends. We will demonstrate the process of data
 preparation, feature engineering, model selection, training, evaluation,
 and iterative improvement.
 
-## Synthetic data
+Synthetic data are used in this example to illustrate the modeling and prediction process. In practice, real-world data on Malaria cases, environmental factors, and other relevant variables would be used to develop more accurate models.
 
 ```{r}
 #| message: false
@@ -113,7 +111,7 @@ plot(time, infected,
 )
 ```
 
-### modelling with caret
+### Modelling with caret
 
 ```{r}
 #| message: false

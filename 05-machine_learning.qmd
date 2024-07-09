@@ -45,18 +45,18 @@ deterministic model that describes the dynamics of the spread of a
 virus, but it also includes stochastic elements such as random
 interactions between individuals.
 
-## What is a Machine Learning Model?
+## Machine Learning Models
 
-And how it differs from statistical models (deterministic and
-stochastic) is all a matter of parameter calibration. Understanding the
-differences between deterministic and stochastic models is crucial for
-effectively applying machine learning techniques, as it informs the
-selection of the appropriate modelling approach based on the data
-characteristics and analysis goals. Machine learning models learn from
-data to automatically adjust their parameters, optimizing them to
-minimize errors or maximize performance on a given task. Compared to
-traditional statistical models, they are more flexible and adaptable to
-complex data patterns.
+What a Machine Learning model is and how it differs from statistical
+models (deterministic and stochastic) is all a matter of parameter
+calibration. Understanding the differences between deterministic and
+stochastic models is crucial for effectively applying machine learning
+techniques, as it informs the selection of the appropriate modelling
+approach based on the data characteristics and analysis goals. Machine
+learning models learn from data to automatically adjust their
+parameters, optimizing them to minimize errors or maximize performance
+on a given task. Compared to traditional statistical models, they are
+more flexible and adaptable to complex data patterns.
 
 **Machine learning (ML)** techniques are identified as subfields of the
 **Artificial Intelligence (AI)**\index{AI} technology, acting by
@@ -91,7 +91,7 @@ continuous parameter learning and adjustment achieved through a
 technique called tuning or parameter calibration, resulting in a range
 of possible alternative scenarios and simulations of the observed data.
 
-## Empirically Driven Models
+### Empirically Driven Models
 
 To locate machine learning models within the models framework, we can
 think about the scope of the analysis, which in this case is predicting
@@ -147,7 +147,7 @@ health data and metrics, it's essential to proceed step by step in
 building a modelling framework. This approach begins with a thorough
 understanding of the modelling procedures.
 
-## Learning Methods
+### Learning Methods
 
 There are a variety of models available, and the decision on which model
 to use depends on the type of **learning method** either
@@ -171,7 +171,7 @@ parameters auto-calibration**. Learning from data is a process where an
 algorithm adjusts its parameters to minimize the errors in predictions.
 Each algorithm has its method of learning.
 
-## Parameters and Hyper-parameters
+### Parameters and Hyper-parameters
 
 In machine learning and statistical modelling, parameters and
 hyperparameters\index{hyperparameters} are two distinct concepts, each

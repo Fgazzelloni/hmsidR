@@ -233,9 +233,9 @@ And look at how the health metrics shape up over the years for Dengue:
 #| layout-ncol: 3
 #| label: fig-dengue-metrics
 #| fig-cap:
-#|  - "YLLs due to Dengue"
-#|  - "YLDs due to Dengue"
-#|  - "DALYs due to Dengue"
+#|  - "YLLs"
+#|  - "YLDs"
+#|  - "DALYs"
 #| fig-alt: "Health Metrics due to Dengue"
 
 hmsidwR::infectious_diseases %>%
@@ -263,7 +263,7 @@ hmsidwR::infectious_diseases %>%
   labs(title = "DALYs due to Dengue from 1990 to 2021")
 ```
 
-@fig-dengue-metrics shows the trend of the metrics in some locations is
+The trend of the metrics in some locations is
 quite flat ranging around zero, while in others it is more evident. YLLs
 are the leading cause of DALYs, but YLDs are also contributing to the
 burden of disease.

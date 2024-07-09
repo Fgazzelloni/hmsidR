@@ -47,7 +47,7 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - part: "**Metrics Evaluation**"
+    - part: "**Health Metrics**"
       chapters:
         - 01-health_metrics.qmd
         - 02-method_calculation.qmd
