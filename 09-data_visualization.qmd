@@ -2,8 +2,10 @@
 
 ```{r}
 #| echo: false
-library(tidyverse)
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 A powerful tool that allows the transformation of complex data sets into
@@ -58,11 +60,17 @@ data analysis and visualization.
 The emergence of the internet and web technologies in the 1990s led to
 the introduction of more sophisticated statistical software and
 programming environments. Tools like R, Python, and JavaScript, along
-with libraries like `ggplot2`, `matplotlib`, and `D3.js`, revolutionized the field of data visualization, making it more accessible and powerful.
+with libraries like `ggplot2`, `matplotlib`, and `D3.js`, revolutionized
+the field of data visualization, making it more accessible and powerful.
 
 In summary, data visualization plays a crucial role in fields like data
 science, business analytics, scientific research, journalism, and public
-policy. It serves as a potent tool for communicating data while visualizing patterns, trends, and relationships that might not be apparent from raw data alone. For instance, in public health, tracking disease outbreaks in real time, such as with COVID19, tools like dashboards and interactive maps are used extensively to monitor the spread of the virus and communicating effectiveness of interventions.
+policy. It serves as a potent tool for communicating data while
+visualizing patterns, trends, and relationships that might not be
+apparent from raw data alone. For instance, in public health, tracking
+disease outbreaks in real time, such as with COVID19, tools like
+dashboards and interactive maps are used extensively to monitor the
+spread of the virus and communicating effectiveness of interventions.
 
 ## The Grammar of Graphics
 
@@ -264,14 +272,9 @@ chapters, the focus here is on customizing the plot to make it more
 visually appealing and informative.
 
 This is a basic output, and we will enhance it by customizing patterns,
-colors, legend, and adjusting the layout. We will also
-explore how to save the plot as an image file for sharing or
-publication.
+colors, legend, and adjusting the layout. We will also explore how to
+save the plot as an image file for sharing or publication.
 
-```{r}
-#| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
-```
 
 ```{r}
 library(ggplot2)
@@ -301,8 +304,7 @@ lineplot <- hmsidwR::germany_lungc |>
   labs(
     title = "Lung Cancer Deaths by Age in Germany",
     x = "Age",
-    y = "Deaths"
-  )
+    y = "Deaths")
 ```
 
 ```{r}
@@ -313,24 +315,28 @@ barplot
 lineplot
 ```
 
-All of these three plots have a grammar of graphic structure, which means that they are built using layers of data, aesthetics, and geometric objects. The `ggplot()` function initializes the plot, and then we add layers using `geom_point()`, `geom_line()`, and `geom_col()`, (or `geom_col_pattern()` in this particular example), to create the visualizations. We can further customize these plots by adding titles, labels, and adjusting the appearance of the plot elements.
-
+All of these three plots have a grammar of graphic structure, which
+means that they are built using layers of data, aesthetics, and
+geometric objects. The `ggplot()` function initializes the plot, and
+then we add layers using `geom_point()`, `geom_line()`, and
+`geom_col()`, (or `geom_col_pattern()` in this particular example), to
+create the visualizations. We can further customize these plots by
+adding titles, labels, and adjusting the appearance of the plot
+elements.
 
 ```{r}
+#| eval: false
 ggplot()
 ```
 
-
 ```{r}
+#| eval: false
 ggplot()+
   geom_point()+
   ggtitle("Scatter Plot")
 ```
 
-
-
-
-### Colors and Palettes
+### Colors and Patterns
 
 Choosing the right colors for your visualizations is crucial. Colors can
 highlight important aspects of your data and improve readability. Many

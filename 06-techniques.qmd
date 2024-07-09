@@ -17,7 +17,10 @@ Learning Objectives
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 Selecting the most suitable machine learning\index{machine learning}
@@ -100,7 +103,10 @@ type:**
 
 ## Statistical and Machine Learning Methods
 
-The choice of model depends on the type of data, the relationships between variables, and the goals of the analysis. Once we have these factors well identified, we are a step forward in restricting the range of applicable models.
+The choice of model depends on the type of data, the relationships
+between variables, and the goals of the analysis. Once we have these
+factors well identified, we are a step forward in restricting the range
+of applicable models.
 
 The next step involves conducting a thorough **exploratory data analysis
 (EDA)**\index{EDA}. This initial exploration helps to uncover the
@@ -112,7 +118,11 @@ transformations.
 
 The importance of data preparation and exploratory data analysis in
 machine learning are the building blocks in the preparation of machine
-learning digestible data. **Feature engineering**\index{feature engineering} is a technique that involves creating new features from existing ones based on domain knowledge or transformation of data to improve the model's ability to discern patterns. For example, creating features like **moving averages** or
+learning digestible data. **Feature
+engineering**\index{feature engineering} is a technique that involves
+creating new features from existing ones based on domain knowledge or
+transformation of data to improve the model's ability to discern
+patterns. For example, creating features like **moving averages** or
 differences between consecutive days can reveal trends and cycles that
 are not immediately apparent from raw data.
 
@@ -196,6 +206,7 @@ rabies <- hmsidwR::rabies %>%
   filter(cause == "Rabies") %>%
   rename(dx_rabies = Deaths, dalys_rabies = DALYs) %>%
   select(-cause)
+
 rabies %>% head()
 ```
 
@@ -207,20 +218,14 @@ rabies %>% head()
 breaks <- seq(min(rabies$year), max(rabies$year), by = 10)
 
 rabies %>%
-  mutate(
-    year_10 = cut(year,
-      breaks = breaks,
-      right = FALSE,
-      labels = paste(breaks[-length(breaks)],
-        breaks[-1] - 1,
-        sep = "-"
-      )
-    ),
-    year_10 = case_when(
-      is.na(year_10) ~ "2019",
-      TRUE ~ as.factor(year_10)
-    )
-  ) %>%
+  mutate(year_10 = cut(year,
+                       breaks = breaks,
+                       right = FALSE,
+                       labels = paste(breaks[-length(breaks)],
+                                      breaks[-1] - 1,
+                                      sep = "-")),
+         year_10 = case_when(is.na(year_10) ~ "2019",
+                             TRUE ~ as.factor(year_10))) %>%
   group_by(location, year_10) %>%
   summarize(avg_10yrs_dalys = mean(dalys_rabies))
 ```
@@ -237,8 +242,7 @@ scale and center the numeric variables to make them more comparable.
 p1 <- rabies %>%
   ggplot(aes(x = year, group = location, color = location)) +
   geom_line(aes(y = dx_rabies),
-    linewidth = 1
-  ) +
+            linewidth = 1) +
   geom_line(aes(y = dalys_rabies))
 
 p2 <- rabies %>%
@@ -246,8 +250,7 @@ p2 <- rabies %>%
   mutate(across(where(is.double), scale)) %>%
   ggplot(aes(x = year, group = location, color = location)) +
   geom_line(aes(y = dx_rabies),
-    linewidth = 1
-  ) +
+            linewidth = 1) +
   geom_line(aes(y = dalys_rabies))
 ```
 
@@ -263,17 +266,13 @@ p2 <- rabies %>%
 #| warning: false
 
 legend_grob <- cowplot::get_legend(
-  ggplot(
-    data = rabies %>%
-      pivot_longer(cols = c("dx_rabies", "dalys_rabies")) %>%
-      mutate(name = ifelse(name == "dx_rabies", "Deaths", "DALYs")),
-    aes(x = year, group = name, linewidth = name)
-  ) +
+  ggplot(data = rabies %>%
+           pivot_longer(cols = c("dx_rabies", "dalys_rabies")) %>%
+           mutate(name = ifelse(name == "dx_rabies", "Deaths", "DALYs")),
+         aes(x = year, group = name, linewidth = name)) +
     geom_line(aes(y = value),
-      color = "grey"
-    ) +
-    labs(linewidth = "")
-)
+              color = "grey") +
+    labs(linewidth = ""))
 
 
 p1 +
@@ -281,8 +280,7 @@ p1 +
     title = "Dalys and Deaths due to Rabies - Not scaled",
     subtitle = "in Asia and Global Region",
     color = "Location",
-    y = "Value", x = "Time(Year)"
-  ) +
+    y = "Value", x = "Time(Year)") +
   scale_color_manual(values = c("orange", "navy"))
 
 p2 +
@@ -290,13 +288,11 @@ p2 +
     title = "Dalys and Deaths due to Rabies - Scaled and centered",
     subtitle = "in Asia and Global Region",
     color = "Location",
-    y = "Value", x = "Time(Year)"
-  ) +
+    y = "Value", x = "Time(Year)") +
   scale_color_manual(values = c("orange", "navy")) +
   annotation_custom(legend_grob,
     xmin = 2010, xmax = 2015,
-    ymin = 1, ymax = 2
-  )
+    ymin = 1, ymax = 2)
 ```
 
 Creating new features from existing ones provide additional predictive
@@ -331,22 +327,18 @@ p3 <- dat %>%
   cbind(dat %>% select(year, location)) %>%
   ggplot(aes(x = year, group = location, color = location)) +
   geom_line(aes(y = dx_rabies),
-    linewidth = 1
-  ) +
+            linewidth = 1) +
   geom_line(aes(y = dx_allcauses))
 
 p4 <- dat %>%
   select(-year, -location) %>%
   scale() %>%
   cbind(dat %>% select(year, location)) %>%
-  ggplot(aes(
-    x = year,
-    group = location,
-    color = location
-  )) +
+  ggplot(aes(x = year,
+             group = location,
+             color = location)) +
   geom_line(aes(y = dalys_rabies),
-    linewidth = 1
-  ) +
+            linewidth = 1) +
   geom_line(aes(y = dalys_allcauses))
 ```
 
@@ -360,44 +352,37 @@ p4 <- dat %>%
 #| warning: false
 
 legend_grob2 <- cowplot::get_legend(
-  ggplot(
-    data = dat %>%
-      select(-year, -location) %>%
-      scale() %>%
-      cbind(dat %>% select(year, location)) %>%
-      pivot_longer(cols = c("dx_rabies", "dx_allcauses")) %>%
-      mutate(name = ifelse(name == "dx_rabies", "Rabies", "All Causes")),
-    aes(x = year, group = name, linewidth = name)
-  ) +
+  ggplot(data = dat %>%
+           select(-year, -location) %>%
+           scale() %>%
+           cbind(dat %>% select(year, location)) %>%
+           pivot_longer(cols = c("dx_rabies", "dx_allcauses")) %>%
+           mutate(name = ifelse(name == "dx_rabies", "Rabies", "All Causes")),
+         aes(x = year, group = name, linewidth = name)) +
     geom_line(aes(y = value), color = "grey") +
-    labs(linewidth = "")
-)
+    labs(linewidth = ""))
 
 p3 +
   labs(
     title = "Deaths due to Rabies and All Causes",
     subtitle = "in Asia and Global Region",
     color = "Location",
-    y = "Value", x = "Time(Year)"
-  ) +
+    y = "Value", x = "Time(Year)") +
   scale_color_manual(values = c("orange", "navy")) +
   annotation_custom(legend_grob2,
     xmin = 2010, xmax = 2015,
-    ymin = 1, ymax = 2
-  )
+    ymin = 1, ymax = 2)
 
 p4 +
   labs(
     title = "Dalys due to Rabies and All Causes",
     subtitle = "in Asia and Global Region",
     color = "Location",
-    y = "Value", x = "Time(Year)"
-  ) +
+    y = "Value", x = "Time(Year)") +
   scale_color_manual(values = c("orange", "navy")) +
   annotation_custom(legend_grob2,
     xmin = 2010, xmax = 2015,
-    ymin = 1, ymax = 2
-  )
+    ymin = 1, ymax = 2)
 ```
 
 For this task, we will use the `{tidymodels}`\index{tidymodels}
@@ -633,25 +618,19 @@ example.
 ```{r}
 #| message: false
 #| warning: false
-rf_mod <- rand_forest(
-  mtry = tune(),
-  trees = tune(),
-  min_n = tune(),
-  mode = "regression",
-  engine = "ranger"
-)
+rf_mod <- rand_forest(mtry = tune(),
+                      trees = tune(),
+                      min_n = tune(),
+                      mode = "regression",
+                      engine = "ranger")
 
-wkf <- workflow(
-  preprocessor = rec,
-  spec = rf_mod
-)
+wkf <- workflow(preprocessor = rec, 
+                spec = rf_mod)
 
-rf_res <- tune_grid(
-  object = wkf,
-  resamples = folds,
-  grid = 5,
-  control = control_grid(save_pred = TRUE)
-)
+rf_res <- tune_grid(object = wkf,
+                    resamples = folds,
+                    grid = 5,
+                    control = control_grid(save_pred = TRUE))
 
 show_best(rf_res, metric = "rmse") %>%
   select(-n, -std_err)
@@ -659,14 +638,14 @@ show_best(rf_res, metric = "rmse") %>%
 
 ```{r}
 rf_res_tuned <- select_best(rf_res, metric = "rmse")
+
 rf_res_tuned
 ```
 
 ```{r}
 rf_fit <- wkf %>%
   finalize_workflow(select_best(rf_res,
-    metric = "rmse"
-  )) %>%
+                                metric = "rmse")) %>%
   fit(training)
 
 rf_fit %>%
@@ -687,8 +666,7 @@ rf_fit %>%
   predict(new_data = test) %>%
   bind_cols(test) %>%
   ggplot(aes(dalys_rabies, .pred,
-    color = location
-  )) +
+             color = location)) +
   geom_abline(color = "brown") +
   geom_point(size = 2) +
   scale_color_manual(values = c("orange", "navy")) +
@@ -697,24 +675,20 @@ rf_fit %>%
   labs(
     title = "Predictions vs. Truth",
     x = "Truth",
-    y = "Predictions"
-  )
+    y = "Predictions")
 
 rf_fit %>%
   predict(new_data = test) %>%
   bind_cols(test) %>%
-  ggplot(aes(
-    x = year,
-    color = location
-  )) +
+  ggplot(aes(x = year, 
+             color = location)) +
   geom_point(aes(y = dalys_rabies)) +
   geom_line(aes(y = .pred)) +
   scale_color_manual(values = c("orange", "navy")) +
   labs(
     title = "Predictions vs. Truth by Year",
     x = "Time(Year)",
-    y = "Values"
-  )
+    y = "Values")
 ```
 
 ### Model 2: Generalized Linear Model (GLM)
@@ -749,8 +723,7 @@ dependent variable (response).
 
 ```{r}
 predictors <- model.matrix(dalys_rabies ~ .,
-  data = dat
-)[, -1] # Remove intercept
+                           data = dat)[, -1] # Remove intercept
 response <- dat$dalys_rabies
 ```
 
@@ -763,9 +736,8 @@ set.seed(123)
 
 # Fit the model with cross-validation
 cv_model <- cv.glmnet(predictors,
-  response,
-  family = "gaussian"
-)
+                      response,
+                      family = "gaussian")
 cv_model
 ```
 
@@ -787,16 +759,15 @@ predict and evaluate the model.
 
 ```{r}
 final_model <- glmnet(predictors,
-  response,
-  family = "gaussian",
-  lambda = best_lambda
-)
+                      response,
+                      family = "gaussian",
+                      lambda = best_lambda)
 
 # Predict using the final model
 predictions <- predict(final_model,
-  s = best_lambda,
-  newx = predictors
-)
+                       s = best_lambda,
+                       newx = predictors
+                       )
 
 # Calculate Mean Squared Error
 rmse <- sqrt(mean((response - predictions)^2))
@@ -828,26 +799,21 @@ data.frame(dalys_rabies = response, predictors, predictions) %>%
   labs(
     title = "Predictions vs Truth",
     x = "Truth",
-    y = "Predictions"
-  )
+    y = "Predictions")
 
 data.frame(dalys_rabies = response, predictors, predictions) %>%
-  ggplot(aes(
-    x = year, group = factor(locationGlobal),
-    color = factor(locationGlobal)
-  )) +
+  ggplot(aes(x = year, 
+             group = factor(locationGlobal),
+             color = factor(locationGlobal))) +
   geom_point(aes(y = dalys_rabies)) +
   geom_line(aes(y = predictions), color = "brown") +
-  scale_color_manual(
-    values = c("orange", "navy"),
-    labels = c("Asia", "Global")
-  ) +
+  scale_color_manual(values = c("orange", "navy"),
+                     labels = c("Asia", "Global")) +
   labs(
     title = "DALYs due to Rabies Predictions vs Truth",
     subtitle = "by Year",
     x = "Truth",
-    y = "Predictions"
-  )
+    y = "Predictions")
 ```
 
 ### Testing Multiple Models
@@ -890,27 +856,21 @@ Machine (SVM)**, and a **K-Nearest Neighbors (KNN) model** to the data
 and compare their performance.
 
 ```{r}
-linear_reg_spec <-
-  linear_reg(
-    penalty = tune(),
-    mixture = tune()
-  ) %>%
+linear_reg_spec <- 
+  linear_reg(penalty = tune(),
+             mixture = tune()) %>%
   set_engine("glmnet")
 
 svm_p_spec <-
-  svm_poly(
-    cost = tune(),
-    degree = tune()
-  ) %>%
+  svm_poly(cost = tune(),
+           degree = tune()) %>%
   set_engine("kernlab") %>%
   set_mode("regression")
 
 knn_spec <-
-  nearest_neighbor(
-    neighbors = tune(),
-    dist_power = tune(),
-    weight_func = tune()
-  ) %>%
+  nearest_neighbor(neighbors = tune(),
+                   dist_power = tune(),
+                   weight_func = tune()) %>%
   set_engine("kknn") %>%
   set_mode("regression")
 ```
@@ -920,34 +880,22 @@ knn_spec <-
 library(rules)
 library(baguette)
 # Combine workflows into a workflow set
-workflow_set <- workflow_set(
-  preproc = list(
-    scaled = rec1,
-    yeo_johnson = rec2
-  ),
-  models = list(
-    linear_reg = linear_reg_spec,
-    svm = svm_p_spec,
-    knn = knn_spec
-  )
-)
+workflow_set <- workflow_set(preproc = list(scaled = rec1,
+                                            yeo_johnson = rec2),
+                             models = list(linear_reg = linear_reg_spec,
+                                           svm = svm_p_spec,
+                                           knn = knn_spec))
 
-grid_ctrl <-
-  control_grid(
-    save_pred = TRUE,
-    parallel_over = "everything",
-    save_workflow = TRUE
-  )
+grid_ctrl <-control_grid(save_pred = TRUE,
+                         parallel_over = "everything",
+                         save_workflow = TRUE)
 
 # Fit and evaluate the models with hyperparameter tuning
-grid_results <-
-  workflow_set %>%
-  workflow_map(
-    seed = 1503,
-    resamples = folds,
-    grid = 5,
-    control = grid_ctrl
-  )
+grid_results <- workflow_set %>%
+  workflow_map(seed = 1503,
+               resamples = folds,
+               grid = 5,
+               control = grid_ctrl)
 ```
 
 ```{r}
@@ -971,15 +919,13 @@ grid_results %>%
 #| fig-alt: "Model Performance"
 #| label: fig-model-performance
 
-autoplot(
-  grid_results,
-  rank_metric = "rmse",
-  metric = "rmse",
-  select_best = TRUE
-) +
-  geom_text(aes(y = mean - 0.1, label = wflow_id),
-    angle = 90, hjust = 1, size = 3
-  ) +
+autoplot(grid_results,
+         rank_metric = "rmse",
+         metric = "rmse",
+         select_best = TRUE) +
+  geom_text(aes(y = mean - 0.1, 
+                label = wflow_id),
+            angle = 90, hjust = 1, size = 3) +
   lims(y = c(-1, 0.9)) +
   theme(legend.position = "none")
 ```

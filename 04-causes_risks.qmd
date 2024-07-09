@@ -2,7 +2,10 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 ::: solutionbox
@@ -91,8 +94,7 @@ dag <- dagify(
   "W" ~ "Cause", # age, sex, cause
   "YLD" ~ "W", # age, sex, cause, disability weights
   "YLL" ~ "W",
-  coords = time_ordered_coords()
-)
+  coords = time_ordered_coords())
 
 ggdag(dag) + theme_dag_grid()
 ```
@@ -206,7 +208,7 @@ unexposed <- c(20, 5)
 # Calculate the relative risk
 relative_risk <- function(exposed, unexposed) {
   (exposed[1] / sum(exposed)) / (unexposed[1] / sum(unexposed))
-}
+  }
 
 # Print the relative risk
 relative_risk(exposed, unexposed)
@@ -279,39 +281,32 @@ library(igraph)
 # Define the nodes (evidence, risks, co-morbidities, causes of a disease)
 nodes <- c(
   "Smoking", "High Blood Pressure",
-  "Diabetes", "Obesity", "Heart Disease"
-)
+  "Diabetes", "Obesity", "Heart Disease")
 
 # Define the edges (relationships between the nodes)
 edges <- data.frame(
   from = c(
     "Smoking", "High Blood Pressure",
-    "Diabetes", "Obesity", "Smoking", "Obesity"
-  ),
+    "Diabetes", "Obesity", "Smoking", "Obesity"),
   to = c(
     "Heart Disease", "Heart Disease",
-    "Heart Disease", "Heart Disease", "Diabetes", "Diabetes"
-  )
-)
+    "Heart Disease", "Heart Disease", "Diabetes", "Diabetes"))
 
 # Create the graph from the nodes and edges
-g <- graph_from_data_frame(
-  d = edges,
-  vertices = nodes,
-  directed = TRUE
-)
+g <- graph_from_data_frame(d = edges,
+                           vertices = nodes,
+                           directed = TRUE)
 
 # Plot the graph & Customize the layout
 layout <- layout_with_sugiyama(g)
 
 plot(g,
-  layout = layout$layout,
-  vertex.label = V(g)$name,
-  vertex.size = 30,
-  vertex.color = "skyblue",
-  edge.arrow.size = 0.5,
-  main = "Directed Acyclic Graph (DAG) - Health Risks and Diseases"
-)
+     layout = layout$layout,
+     vertex.label = V(g)$name,
+     vertex.size = 30,
+     vertex.color = "skyblue",
+     edge.arrow.size = 0.5,
+     main = "Directed Acyclic Graph (DAG) - Health Risks and Diseases")
 ```
 
 One more example of a network graph that would be helpful to identify
@@ -335,8 +330,7 @@ dag <- dagify(
   y ~ x,
   x ~ c1 + c2 + c3,
   c1 ~ c2 + c3,
-  c1 ~ c3
-)
+  c1 ~ c3)
 
 # Plot the DAG
 ggdag(dag) + theme_dag_grid()
@@ -356,39 +350,34 @@ library(dagitty)
 library(tidyverse)
 
 # Create DAG structure
-dag <- dagitty("dag {
-    E -> O
-    C1 -> O
-    C2 -> O
-    C3 -> O
-}")
+dag <- dagitty("dag { E -> O
+                      C1 -> O
+                      C2 -> O
+                      C3 -> O }")
 
 dat <- dag %>% tidy_dagitty()
 # Generate data
 set.seed(123)
 n <- 1000
 data <- simulateLogistic(dag)
+
 head(data)
 ```
 
 ```{r}
 # Fit logistic regression model
 model <- glm(O ~ E + C1 + C2 + C3,
-  data = data,
-  family = "binomial"
-)
+             data = data,
+             family = "binomial")
 
 # Extract estimated probabilities
 pr_outcome_exp <- predict(model, type = "response")
 pr_outcome_no_exp <- predict(model,
-  newdata = data.frame(
-    E = "1",
-    C1 = data$C1,
-    C2 = data$C2,
-    C3 = data$C3
-  ),
-  type = "response"
-)
+                             newdata = data.frame(E = "1",
+                                                  C1 = data$C1,
+                                                  C2 = data$C2,
+                                                  C3 = data$C3),
+                             type = "response")
 
 # Calculate relative risk
 relative_risk <- pr_outcome_exp / pr_outcome_no_exp
@@ -406,24 +395,20 @@ data$relative_risk <- relative_risk
 
 # Visualize relative risk distribution
 ggplot(data = data, aes(x = relative_risk)) +
-  geom_histogram(
-    binwidth = 0.2,
-    fill = "#29306c",
-    color = "black"
-  ) +
+  geom_histogram(binwidth = 0.2,
+                 fill = "#29306c",
+                 color = "black") +
   labs(
     title = "Distribution of Relative Risk",
     x = "Relative Risk",
-    y = "Frequency"
-  )
+    y = "Frequency")
 
 ggplot(data = data, aes(x = relative_risk)) +
   geom_density(fill = "#29306c", color = "black") +
   labs(
     title = "Density distribution of Relative Risk",
     x = "Relative Risk",
-    y = "Density"
-  )
+    y = "Density")
 ```
 
 ### Theoretical Minimum-Risk Exposure Levels (TMRELs)
@@ -455,14 +440,12 @@ coordinates(fhp) <- list(
   x = c(
     "low fruit" = 0,
     "systolic blood pressure" = 0.5,
-    "heart disease" = 1
-  ),
+    "heart disease" = 1),
   y = c(
     "low fruit" = 0,
     "systolic blood pressure" = 0,
-    "heart disease" = 0
-  )
-)
+    "heart disease" = 0))
+
 rethinking::drawdag(fhp)
 ```
 

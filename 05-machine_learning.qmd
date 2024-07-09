@@ -6,7 +6,10 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 This chapter will walk you through a basic construction of a machine
@@ -295,8 +298,7 @@ cholera %>%
   geom_line() +
   labs(
     title = "Deaths due to Cholera in London (1849)",
-    x = "Date", y = "N. deaths"
-  )
+    x = "Date", y = "N. deaths")
 ```
 
 Now let's observe in mathematical terms what happens when we start
@@ -403,8 +405,7 @@ cholera %>%
   labs(
     title = "Deaths due to Cholera in London (June to August 1849)",
     subtitle = "Linear Model",
-    x = "Date", y = "N. deaths"
-  )
+    x = "Date", y = "N. deaths")
 
 cholera %>%
   filter(date <= "1849-08-01") %>%
@@ -414,8 +415,7 @@ cholera %>%
   labs(
     title = "Deaths due to Cholera in London (January to August 1849)",
     subtitle = "method LOESS",
-    x = "Date", y = "N. deaths"
-  )
+    x = "Date", y = "N. deaths")
 ```
 
 In the case of `CholeraDeaths1849`, and in the context of infectious
@@ -437,10 +437,8 @@ model**.
 ggplot(cholera, aes(x = date, y = deaths)) +
   geom_line() +
   geom_smooth(method = "lm", se = F) +
-  geom_smooth(
-    method = "gam",
-    color = "darkred", se = F
-  )
+  geom_smooth(method = "gam",
+              color = "darkred", se = F)
 ```
 
 ```{r}
@@ -457,19 +455,15 @@ ggplot(cholera, aes(x = date, y = deaths)) +
   geom_line(linetype = "dashed", linewidth = 0.2) +
   geom_point(shape = 21, stroke = 0.5) +
   geom_smooth(method = "lm", se = F) +
-  geom_smooth(
-    method = "gam",
-    color = "darkred", se = F
-  ) +
+  geom_smooth(method = "gam",
+              color = "darkred", se = F) +
   labs(
     title = "Deaths due to Cholera in London (1849)",
-    x = "Date", y = "N. deaths"
-  ) +
+    x = "Date", y = "N. deaths") +
   annotate(
     geom = "text",
     x = mean(cholera$date), y = -10,
-    label = "linear"
-  ) +
+    label = "linear") +
   annotate("curve",
     x = mean(cholera$date) + 20,
     xend = mean(cholera$date) + 30,
@@ -477,15 +471,12 @@ ggplot(cholera, aes(x = date, y = deaths)) +
     arrow = arrow(
       angle = 30,
       length = unit(0.05, "inches"),
-      ends = "last", type = "closed"
-    ),
-    colour = "blue"
-  ) +
+      ends = "last", type = "closed"),
+    colour = "blue") +
   annotate(
     geom = "text",
     x = mean(cholera$date) - 50, y = 400,
-    label = "gam (non-linear)"
-  ) +
+    label = "gam (non-linear)") +
   annotate("curve",
     x = mean(cholera$date) + 20,
     xend = mean(cholera$date) - 20,
@@ -493,10 +484,8 @@ ggplot(cholera, aes(x = date, y = deaths)) +
     arrow = arrow(
       angle = 30,
       length = unit(0.05, "inches"),
-      ends = "first", type = "closed"
-    ),
-    colour = "darkred"
-  )
+      ends = "first", type = "closed"),
+    colour = "darkred")
 ```
 
 #### GAM - Generalized Additive Model
@@ -668,16 +657,12 @@ solving the differential equations in the the SEIR model function that
 we created above.
 
 ```{r}
-output <- deSolve::ode(
-  y = initial_state,
-  times = times,
-  func = SEIR,
-  parms = c(
-    beta = beta,
-    sigma = sigma,
-    gamma = gamma
-  )
-)
+output <- deSolve::ode(y = initial_state,
+                       times = times,
+                       func = SEIR,
+                       parms = c(beta = beta,
+                                 sigma = sigma,
+                                 gamma = gamma))
 ```
 
 The output is class "deSolve", "matrix" :
@@ -692,6 +677,7 @@ epidemic.
 
 ```{r}
 simulated_data <- as.data.frame(output)
+
 head(simulated_data)
 ```
 
@@ -715,11 +701,11 @@ ggplot(simulated_data, aes(x = time)) +
   geom_line(aes(y = E, color = "Exposed")) +
   geom_line(aes(y = I, color = "Infectious")) +
   geom_line(aes(y = R, color = "Recovered")) +
-  labs(title = "Simulation of SEIR Model", x = "Time", y = "Population") +
+  labs(title = "Simulation of SEIR Model", 
+       x = "Time", y = "Population") +
   scale_color_manual(values = c(
     "Susceptible" = "navy", "Exposed" = "orange",
-    "Infectious" = "brown", "Recovered" = "darkgreen"
-  ))
+    "Infectious" = "brown", "Recovered" = "darkgreen"))
 ```
 
 #### Random Forest
@@ -742,10 +728,9 @@ simulated\index{simulation} data.
 
 ```{r}
 simulated_data <- cbind(simulated_data,
-  noise = rnorm(nrow(simulated_data),
-    mean = 0, sd = 5
-  )
-)
+                        noise = rnorm(nrow(simulated_data),
+                                      mean = 0, 
+                                      sd = 5))
 ```
 
 Simulated data is split into **training** and **testing** sets to train
@@ -767,9 +752,8 @@ library(randomForest)
 
 # Split the data into training and testing sets
 set.seed(123)
-train_index <- sample(
-  nrow(simulated_data), 0.8 * nrow(simulated_data)
-)
+train_index <- sample(nrow(simulated_data), 
+                      0.8 * nrow(simulated_data))
 train_data <- simulated_data[train_index, ]
 test_data <- simulated_data[-train_index, ]
 
@@ -804,10 +788,7 @@ greater error between predicted and actual values.
 predictions <- predict(rf_model, newdata = test_data)
 
 # Calculate Root Mean Squared Error (RMSE)
-(rmse <- sqrt(
-  mean((test_data$I - predictions)^2, na.rm = T)
-)
-)
+(rmse <- sqrt(mean((test_data$I - predictions)^2, na.rm = T)))
 ```
 
 This means that the model's predictions deviate from the actual values
@@ -829,8 +810,7 @@ cbind(test_data, pred = predictions) %>%
   labs(
     title = "Prediction of Infections for Epidemic X",
     subtitle = "Simulate Data",
-    x = "Infections", y = "Predicted values"
-  )
+    x = "Infections", y = "Predicted values")
 
 cbind(test_data, pred = predictions) %>%
   ggplot(aes(x = time)) +
@@ -839,8 +819,7 @@ cbind(test_data, pred = predictions) %>%
   labs(
     title = "Prediction of Infections for Epidemic X",
     subtitle = "Simulate Data",
-    x = "Time (Day)", y = "Obesrved vs Estimated values"
-  )
+    x = "Time (Day)", y = "Obesrved vs Estimated values")
 ```
 
 #### Optimization with Tidymodels
@@ -886,10 +865,8 @@ data_recipe <- recipe(I ~ ., data = train_data) %>%
 # Define the Random Forest model
 rf_ranger_model <-
   # tuning parameters - Machine Learning Application
-  rand_forest(
-    trees = tune(),
-    min_n = tune()
-  ) %>%
+  rand_forest(trees = tune(),
+              min_n = tune()) %>%
   set_engine("ranger") %>%
   set_mode("regression")
 ```
@@ -905,15 +882,15 @@ perform the optimization.
 #| eval: false
 # Bayesian optimization
 set.seed(123)
-bayes_results <- tune_bayes(
-  rf_ranger_model,
-  data_recipe,
-  resamples = cv_folds,
-  metrics = metric_set(rmse, rsq),
-  initial = 5, # Number of initial random points
-  iter = 20, # Total iterations including initial points
-  param_info = parameters(rf_ranger_model)
-)
+bayes_results <- tune_bayes(rf_ranger_model,
+                            data_recipe,
+                            resamples = cv_folds,
+                            metrics = metric_set(rmse, rsq),
+                            # Number of initial random points
+                            initial = 5, 
+                            # Total iterations including initial points
+                            iter = 20, 
+                            param_info = parameters(rf_ranger_model))
 ```
 
 ```{r}
@@ -934,9 +911,8 @@ show_best(bayes_results, metric = "rmse")
 Extract the best parameters:
 
 ```{r}
-best_bayes <- select_best(bayes_results,
-  metric = "rmse"
-)
+best_bayes <- select_best(bayes_results, metric = "rmse")
+
 best_bayes
 ```
 
@@ -949,23 +925,19 @@ evaluate the model's performance.
 
 ```{r}
 # Final model with best parameters
-final_bayes_model <- finalize_model(
-  rf_ranger_model,
-  best_bayes
-)
+final_bayes_model <- finalize_model(rf_ranger_model,
+                                    best_bayes)
 final_fit <- fit(final_bayes_model,
-  formula = I ~ .,
-  data = train_data
-)
+                 formula = I ~ .,
+                 data = train_data)
 
 # Predict and evaluate on test data
 predictions <- predict(final_fit, new_data = test_data)
 augumented <- augment(final_fit, new_data = test_data)
-eval_metrics <- metrics(
-  estimate = .pred,
-  truth = I,
-  data = augumented
-)
+eval_metrics <- metrics(estimate = .pred,
+                        truth = I,
+                        data = augumented)
+
 eval_metrics
 ```
 
@@ -993,8 +965,7 @@ augumented %>%
   labs(
     title = "Prediction of Infections for Epidemic X",
     subtitle = "Simulate Data",
-    x = "Infections", y = "Predicted values"
-  )
+    x = "Infections", y = "Predicted values")
 
 augumented %>%
   ggplot(aes(x = time)) +
@@ -1003,8 +974,7 @@ augumented %>%
   labs(
     title = "Prediction of Infections for Epidemic X",
     subtitle = "Simulate Data",
-    x = "Time (Day)", y = "Obesrved vs Estimated values"
-  )
+    x = "Time (Day)", y = "Obesrved vs Estimated values")
 ```
 
 ### Example 3: Epidemic Y
@@ -1074,10 +1044,8 @@ temperature:
 #| eval: false
 install.packages("INLA",
   repos = c(getOption("repos"),
-    INLA = "https://inla.r-inla-download.org/R/stable"
-  ),
-  dep = TRUE
-)
+    INLA = "https://inla.r-inla-download.org/R/stable"),
+  dep = TRUE)
 ```
 
 ```{r}
@@ -1093,18 +1061,16 @@ epidemic_data <- data.frame(
   day = 1:100,
   temperature = rnorm(100, mean = 20, sd = 5),
   cases = rpois(100,
-    lambda = 10 + sin(1:100 / 20) * 10 + rnorm(100, sd = 5)
-  )
-)
+                lambda = 10 + sin(1:100 / 20) * 10 + rnorm(100, 
+                                                           sd = 5)))
 
 # Define the model formula
 formula <- cases ~ f(day, model = "rw2") + temperature
 
 # Fit the model using INLA
 result <- inla(formula,
-  family = "poisson",
-  data = epidemic_data
-)
+               family = "poisson",
+               data = epidemic_data)
 
 # Summary of the results
 summary(result)
@@ -1122,26 +1088,21 @@ time_effect <- result$summary.random$day
 fitted_values <- result$summary.fitted.values
 
 # Creating a data frame for plotting
-plot_data <- data.frame(
-  Day = epidemic_data$day,
-  FittedCases = fitted_values$mean,
-  Lower = fitted_values$`0.025quant`,
-  Upper = fitted_values$`0.975quant`
-)
+plot_data <- data.frame(Day = epidemic_data$day,
+                        FittedCases = fitted_values$mean,
+                        Lower = fitted_values$`0.025quant`,
+                        Upper = fitted_values$`0.975quant`)
 
 # Plotting the results
 ggplot(plot_data, aes(x = Day)) +
   geom_ribbon(aes(ymin = Lower, ymax = Upper),
-    fill = "lightblue",
-    alpha = 0.4
-  ) +
+              fill = "lightblue",
+              alpha = 0.4) +
   geom_line(aes(y = FittedCases),
-    color = "blue"
-  ) +
+            color = "blue") +
   labs(
     title = "Fitted GAM for Epidemic Y",
-    x = "Day", y = "Fitted number of cases"
-  )
+    x = "Day", y = "Fitted number of cases")
 ```
 
 The `inla()` function allows a model specification, in this case a

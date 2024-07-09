@@ -2,7 +2,10 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 In this chapter, we explore the dynamics of **COVID-19** disease
@@ -187,7 +190,7 @@ the spread of the virus over a period of 365 days:
 #| fig-height: 3
 #| fig-cap: "Simulation of the SEIR model for COVID-19"
 #| fig-alt: "Simulation of the SEIR model for COVID-19"
-#| label: fig:seir-simulation
+#| label: fig-seir-simulation
 
 # Solve the ODEs
 times <- seq(0, 365, by = 1)
@@ -239,14 +242,12 @@ data <- as.data.frame(result)
 
 # Convert simulate data to have the date column to Date type and add additional predictors
 data <- data %>%
-  mutate(
-    date = as.Date(time, origin = "2022-01-01"),
-    day_of_week = wday(date, label = TRUE),
-    week_of_year = week(date),
-    month = month(date),
-    lag_1_cases = lag(I, 1),
-    lag_7_cases = lag(I, 7)
-  ) %>%
+  mutate(date = as.Date(time, origin = "2022-01-01"),
+         day_of_week = wday(date, label = TRUE),
+         week_of_year = week(date),
+         month = month(date),
+         lag_1_cases = lag(I, 1),
+         lag_7_cases = lag(I, 7)) %>%
   drop_na()
 ```
 
@@ -257,15 +258,13 @@ bayesian_model <- brm(
   I ~ day_of_week + week_of_year + month + lag_1_cases + lag_7_cases,
   data = data,
   family = gaussian(),
-  prior = c(
-    set_prior("normal(0, 10)", class = "b"),
-    set_prior("cauchy(0, 5)", class = "sigma")
-  ),
+  prior = c(set_prior("normal(0, 10)", class = "b"),
+            set_prior("cauchy(0, 5)", class = "sigma")),
   iter = 2000,
   warmup = 1000,
   chains = 4,
   seed = 42
-)
+  )
 ```
 
 ```{r}
@@ -300,21 +299,15 @@ data <- data %>%
 
 # Plot actual vs. predicted values
 ggplot(data, aes(x = date)) +
-  geom_point(aes(
-    y = I,
-    color = "Actual"
-  )) +
-  geom_line(aes(
-    y = predicted_cases,
-    color = "Predicted"
-  )) +
+  geom_point(aes(y = I, 
+                 color = "Actual")) +
+  geom_line(aes(y = predicted_cases,
+                color = "Predicted")) +
   labs(
     title = "Actual vs. Predicted COVID-19 Cases",
     x = "Date",
     y = "Cases",
-    color = "Legend"
-  ) +
-  theme_minimal()
+    color = "Legend") 
 ```
 
 ### Ensemble Modelling - Combining Multiple Models
@@ -342,7 +335,8 @@ train_data <- data[train_index, ]
 test_data <- data[-train_index, ]
 
 # Define the predictors for the model
-predictors <- c("day_of_week", "week_of_year", "month", "lag_1_cases", "lag_7_cases")
+predictors <- c("day_of_week", "week_of_year", 
+                "month", "lag_1_cases", "lag_7_cases")
 ```
 
 ```{r}
@@ -350,42 +344,43 @@ predictors <- c("day_of_week", "week_of_year", "month", "lag_1_cases", "lag_7_ca
 #| echo: false
 # Train ARIMA model (note: ARIMA traditionally does not handle exogenous variables directly in caret)
 arima_fit <- train(cases_scaled ~ date,
-  data = train_data,
-  method = "auto_arima",
-  trControl = trainControl(
-    method = "cv",
-    number = 5
-  )
-)
+                   data = train_data,
+                   method = "auto_arima",
+                   trControl = trainControl(method = "cv",
+                                            number = 5))
 
 # Train Random Forest model with additional predictors
 rf_fit <- train(cases_scaled ~ .,
-  data = train_data[, c(predictors, "cases_scaled")],
-  method = "rf",
-  trControl = trainControl(
-    method = "cv",
-    number = 5
-  )
-)
+                data = train_data[, c(predictors, "cases_scaled")],
+                method = "rf",
+                trControl = trainControl(method = "cv",
+                                         number = 5))
 
 # Train XGBoost model with additional predictors
 xgb_fit <- train(cases_scaled ~ .,
-  data = train_data[, c(predictors, "cases_scaled")], method = "xgbTree", trControl = trainControl(method = "cv", number = 5)
-)
+                 data = train_data[, c(predictors, "cases_scaled")], 
+                 method = "xgbTree", 
+                 trControl = trainControl(method = "cv", number = 5))
 
 # Combine the models into an ensemble
-ensemble_model <- caretStack(list(arima = arima_fit, rf = rf_fit, xgb = xgb_fit), method = "glm")
+ensemble_model <- caretStack(list(arima = arima_fit, 
+                                  rf = rf_fit, 
+                                  xgb = xgb_fit), 
+                             method = "glm")
 ```
 
 ```{r}
 #| eval: false
+#| echo: false
 # Make predictions on the test set
 predictions <- predict(ensemble_model,
   newdata = test_data[, predictors]
 )
 
 # Invert scaling for predictions and actual values
-predictions <- predictions * attr(data$cases_scaled, "scaled:scale") + attr(data$cases_scaled, "scaled:center")
+predictions <- predictions * 
+  attr(data$cases_scaled, "scaled:scale") + 
+  attr(data$cases_scaled, "scaled:center")
 actual <- test_data$cases
 
 # Plot the results
@@ -406,16 +401,15 @@ impact of pandemics.
 
 The influence of COVID-19 on global health can be measured using the
 DALYs. We use the data from the JHU official GitHub repository
-**CSSEGISandData** to calculate the DALYs for COVID-19. The data
-includes the number of confirmed cases, deaths, and recovered cases for
-each country and region. We will calculate the DALYs for the US, China,
-United Kingdom, and Canada.
+**CSSEGISandData**[^14-covid19-1] to calculate the DALYs for COVID-19.
+The data includes the number of confirmed cases, deaths, and recovered
+cases for each country and region. We will calculate the DALYs for the
+US, China, United Kingdom, and Canada.
 
-cases \<-
-read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
-
-deaths \<-
-read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
+[^14-covid19-1]: cases \<-
+    read.csv("[https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")](https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"))
+    deaths \<-
+    read.csv("[https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")](https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"))
 
 ```{r}
 #| echo: false
@@ -504,8 +498,7 @@ COVID19 %>%
   scale_y_log10() +
   labs(title = "COVID-19 Cases by Country",
        x = "Date",
-       y = "Cases") +
-  theme_minimal()
+       y = "Cases") 
 
 COVID19 %>%
   ggplot(aes(x = date, y = deaths,
@@ -519,8 +512,7 @@ COVID19 %>%
   scale_y_log10() +
   labs(title = "COVID-19 Deaths by Country",
        x = "Date",
-       y = "Deaths") +
-  theme_minimal()
+       y = "Deaths") 
 ```
 
 ```{r}
@@ -563,7 +555,6 @@ ggplot() +
       size= "Total cases (M)",
       color= "Average CFR (log scale)",
       x = "", y = "") +
-  theme_minimal() +
   theme(axis.text = element_blank(),
         plot.subtitle = element_text(size = 8))
 ```
@@ -596,7 +587,6 @@ ggplot() +
        size= "Total cases (M)",
        color= "Average CFR (log scale)",
        x = "", y = "") +
-  theme_minimal() +
   theme(axis.text = element_blank(),
         plot.subtitle = element_text(size = 8))
 ```
@@ -651,7 +641,6 @@ COVID19_yll_4months %>%
        x = "4-Month cycle",
        y = "YLLs") +
   facet_wrap(~year) +
-  theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -760,7 +749,6 @@ COVID19_dalys %>%
        fill = "Country",
        x = "4-Month Cycle", y = "YLDs") +
   facet_wrap(~year) +
-  theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -786,7 +774,6 @@ COVID19_dalys %>%
        fill = "Country",
        x = "4-Month Cycle", y = "DALYs") +
   facet_wrap(~year) +
-  theme_minimal()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 

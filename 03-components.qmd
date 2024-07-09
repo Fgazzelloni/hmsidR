@@ -2,7 +2,10 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 options(scipen = 999)
 ```
 
@@ -164,10 +167,7 @@ The **`hmsidwR::gho_lifetables`** dataset contains five variables:
 #| tbl-cap: "Global Health Observatory Life Tables"
 
 gho_lifetables %>%
-  filter(
-    indicator == "ex",
-    sex == "both"
-  ) %>%
+  filter(indicator == "ex", sex == "both") %>%
   select(-indicator, -sex) %>%
   head()
 ```
@@ -208,10 +208,7 @@ be found in the @sec-09-data_visualization chapter of this book.
 #| fig-alt: "ex - expectation of life at age x and Global Health Observatory Life Tables - Expectation of Life"
 
 gho_lifetables %>%
-  filter(
-    indicator == "ex",
-    sex == "both"
-  ) %>%
+  filter(indicator == "ex", sex == "both") %>%
   mutate(age10 = case_when(
     age %in% c("-01", "01-04", "05-09") ~ "0-09",
     age %in% c("10-14", "15-19") ~ "10-19",
@@ -221,25 +218,19 @@ gho_lifetables %>%
     age %in% c("50-54", "55-59") ~ "50-59",
     age %in% c("60-64", "65-69") ~ "60-69",
     age %in% c("85+", "80-84", "75-79", "70-74") ~ "70+",
-    TRUE ~ age
-  )) %>%
+    TRUE ~ age)) %>%
   group_by(age10, year) %>%
   summarize("value" = round(mean(value), 3)) %>%
-  ggplot(aes(year, value, group = age10, color = age10)) +
-  geom_line(show.legend = F) +
+  ggplot(aes(year, value, group = age10, 
+             color = age10, linetype = age10)) +
+  geom_line(linewidth = 1,show.legend = F) +
   scale_color_manual(values = rainbow(20)) +
   labs(
     title = "ex - expectation of life at age x",
     caption = "DataSource: WHO GHO data repository",
-    x = "Year", y = "Value"
-  ) +
-  theme(
-    axis.text.x = element_text(
-      size = 7,
-      vjust = 0.5
-    ),
-    plot.caption = element_text(size = 8)
-  )
+    x = "Year", y = "Value") +
+  theme(axis.text.x = element_text(size = 7,vjust = 0.5),
+        plot.caption = element_text(size = 8))
 
 
 gho_lifetables %>%
@@ -251,8 +242,7 @@ gho_lifetables %>%
   labs(
     title = "Global expectation of life (all ages avg value)",
     subtitle = "for the years 2000, 2005, 2010, 2015, and 2019",
-    caption = "DataSource: WHO GHO data repository"
-  )
+    caption = "DataSource: WHO GHO data repository")
 ```
 
 The mathematical formulation for calculating the expectation of life at
@@ -282,13 +272,10 @@ conditions on the longevity and health of populations.
 
 pyramid <- gho_lifetables %>%
   mutate(value = ifelse(sex == "female",
-    as.integer(value * -1),
-    as.integer(value)
-  )) %>%
-  filter(
-    !sex == "both",
-    indicator == "ex"
-  ) %>%
+                        as.integer(value * -1),
+                        as.integer(value))) %>%
+  filter(!sex == "both", 
+         indicator == "ex") %>%
   ggplot(aes(x = age, y = value, fill = sex)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = c("#CC6666", "#9999CC", "#66CC99")) +
@@ -297,12 +284,10 @@ pyramid <- gho_lifetables %>%
     title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
     subtitle = "",
     y = "Age",
-    caption = "Data Source: WHO | Graphic: @fgazzelloni"
-  ) +
+    caption = "Data Source: WHO | Graphic: @fgazzelloni") +
   theme(
     axis.text.x = element_blank(),
-    axis.title = element_blank()
-  )
+    axis.title = element_blank())
 # pyramid
 ```
 
@@ -318,8 +303,7 @@ pyramid_gif <- pyramid +
 
 animate(pyramid_gif,
   fps = 40, duration = 5, width = 1200, height = 1400, res = 120,
-  renderer = gifski_renderer("images/gho_pyramid.gif")
-)
+  renderer = gifski_renderer("images/gho_pyramid.gif"))
 ```
 
 ::: {.content-visible when-format="html"}
@@ -564,9 +548,8 @@ days <- 365 # Number of days
 
 set.seed(123)
 dates <- seq(as.Date("2019-01-01"),
-  as.Date("2019-12-31"),
-  by = "day"
-)
+             as.Date("2019-12-31"),
+             by = "day")
 ```
 
 Cases and recovered are simulated using a
@@ -601,8 +584,7 @@ number of cases, and number of recovered individuals.
 covid_data <- data.frame(
   Date = dates,
   Cases = cases,
-  Recovered = recovered
-)
+  Recovered = recovered)
 ```
 
 Let's have a look at the first few rows of the dataset:
@@ -621,16 +603,14 @@ Calculate the cumulative incidence and prevalence over time:
 
 covid_data <-
   transform(covid_data,
-    Cum_Cases = cumsum(Cases),
-    Cum_Recovered = cumsum(Recovered)
-  )
+            Cum_Cases = cumsum(Cases),
+            Cum_Recovered = cumsum(Recovered))
 
 # Calculate daily incidence and prevalence per 100,000 population
 covid_data <-
   transform(covid_data,
-    Incidence = (Cum_Cases / population_size) * 1000,
-    Prevalence = ((Cum_Cases - Cum_Recovered) / population_size) * 1000
-  )
+            Incidence = (Cum_Cases / population_size) * 1000,
+            Prevalence = ((Cum_Cases - Cum_Recovered) / population_size) * 1000)
 ```
 
 ```{r}
@@ -662,20 +642,24 @@ total_recoveries <- sum(covid_data$Recovered)
 #| eval: true
 
 ggplot(covid_data, aes(x = Date)) +
-  geom_line(aes(y = Incidence, color = "Incidence"), size = 1.5) +
-  geom_line(aes(y = Prevalence, color = "Prevalence"), size = 1.5) +
+  geom_line(aes(y = Incidence, 
+                color = "Incidence"), 
+            linetype = "dotted",
+            size = 1) +
+  geom_line(aes(y = Prevalence, 
+                color = "Prevalence"), 
+            size = 1) +
   scale_color_manual(values = c(
     "Incidence" = "#29306c",
-    "Prevalence" = "#a60845"
-  )) +
+    "Prevalence" = "#a60845")) +
   labs(
     title = "Incidence and Prevalence COVID-19 Cases",
-    caption = "Data: synthetic",
+    caption = "Data: Synthetic Data",
     x = "Date",
     y = "Number per 100,000 Population",
-    color = "Metric"
-  ) +
-  theme(legend.position = "bottom")
+    color = "Metric") +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face="bold"))
 ```
 
 ## Disability Weights and Severity Levels
@@ -800,9 +784,9 @@ disability_weights %>%
 
 ### YLLs
 
-The components of YLLs include several factors that
-contribute to the calculation of premature death due to a disease or
-injury. These components are:
+The components of YLLs include several factors that contribute to the
+calculation of premature death due to a disease or injury. These
+components are:
 
 -   **Age at death**: The age at which a person died due to a disease or
     injury is a crucial component of YLL. The earlier the age at death,
@@ -933,10 +917,7 @@ YLLs for the lung cancer\index{lung cancer} deaths in Germany in 2019.
 gelung_YLL <- germany_lungc %>%
   filter(sex == "both") %>%
   left_join(gho_lifetables %>%
-    filter(
-      year == 2019,
-      indicator == "ex"
-    ) %>%
+    filter(year == 2019, indicator == "ex") %>%
     select(-indicator, -year) %>%
     rename(life_expectancy = value)) %>%
   group_by(age) %>%
@@ -991,10 +972,7 @@ prev_germany_lungc %>% head()
 #| tbl-cap: "Lung Cancer Cases in Germany 2019"
 
 gelung_YLD <- prev_germany_lungc %>%
-  mutate(
-    dw = 0.451,
-    YLD = prevalence * dw
-  )
+  mutate(dw = 0.451, YLD = prevalence * dw)
 
 gelung_YLD %>%
   head()
@@ -1044,7 +1022,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-------------------------|----------------|----------------|----------------|
+|--------------------|-----------------|-----------------|-----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
@@ -1061,10 +1039,8 @@ the mitigation of its impact throughout all stages of its progression.
 #| echo: false
 #| eval: false
 gelung_YLD %>%
-  mutate(
-    dw_korea_lc1 = 0.600,
-    dw_korea_lc2 = 0.738,
-    dw_korea_lc3 = 0.758,
-    dw_korea_lc4 = 0.906
-  )
+  mutate(dw_korea_lc1 = 0.600,
+         dw_korea_lc2 = 0.738,
+         dw_korea_lc3 = 0.758,
+         dw_korea_lc4 = 0.906)
 ```

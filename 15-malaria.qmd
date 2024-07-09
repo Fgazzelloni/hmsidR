@@ -2,8 +2,10 @@
 
 ```{r}
 #| echo: false
-library(tidyverse)
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 ::: solutionbox
@@ -60,7 +62,10 @@ predict future trends. We will demonstrate the process of data
 preparation, feature engineering, model selection, training, evaluation,
 and iterative improvement.
 
-Synthetic data are used in this example to illustrate the modeling and prediction process. In practice, real-world data on Malaria cases, environmental factors, and other relevant variables would be used to develop more accurate models.
+Synthetic data are used in this example to illustrate the modeling and
+prediction process. In practice, real-world data on Malaria cases,
+environmental factors, and other relevant variables would be used to
+develop more accurate models.
 
 ```{r}
 #| message: false

@@ -15,6 +15,14 @@ Learning Objectives
 :::
 :::
 
+```{r}
+#| echo: false
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
+```
+
 This chapter provides an overview of the most suitable R-packages for
 machine learning. It also discusses the combination of packages and
 functions to achieve the desired results. Additionally, it explores how
@@ -205,11 +213,6 @@ contains data on Deaths, DALYs, YLDs, YLLs, Prevalence, and Incidence
 due to selected infectious diseases from 1980 to 2021.
 
 ```{r}
-#| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
-```
-
-```{r}
 #| message: false
 #| warning: false
 library(tidyverse)
@@ -263,10 +266,9 @@ hmsidwR::infectious_diseases %>%
   labs(title = "DALYs due to Dengue from 1990 to 2021")
 ```
 
-The trend of the metrics in some locations is
-quite flat ranging around zero, while in others it is more evident. YLLs
-are the leading cause of DALYs, but YLDs are also contributing to the
-burden of disease.
+The trend of the metrics in some locations is quite flat ranging around
+zero, while in others it is more evident. YLLs are the leading cause of
+DALYs, but YLDs are also contributing to the burden of disease.
 
 We will focus on DALYs due to `Dengue` in three locations, Malawi,
 Zambia, and Central African Republic from 1990 to 2016 (26 years). The
@@ -280,11 +282,10 @@ removed.
 
 ```{r}
 dalys_dengue <- hmsidwR::infectious_diseases %>%
-arrange(year) %>%
+  arrange(year) %>%
   filter(cause_name == "Dengue",
          year<=2016,
-         !location_name %in% c("Eswatini", "Lesotho")
-         ) %>%
+         !location_name %in% c("Eswatini", "Lesotho")) %>%
   drop_na() %>%
   group_by(location_id) %>%
   select(-location_name, -cause_name)
@@ -324,7 +325,7 @@ library(data.table)
 Define the task, where the `id`, `backend`, and `target` are specified.
 The `backend` is the data that will be used for training the models. The
 `task` is the interface between the data and the learners; in this
-usecase the preprocessing steps are done before hand, by removing
+use-case the preprocessing steps are done before hand, by removing
 missing and categorical values.
 
 ```{r}
@@ -461,10 +462,8 @@ dat %>%
              group = learner)) +
   geom_abline() +
   geom_point(aes(color = learner)) +
-  scale_color_manual(values = c(
-    "regr.cv_glmnet" = "navy",
-    "regr.xgboost" = "orange"
-  )) +
+  scale_color_manual(values = c("regr.cv_glmnet" = "navy",
+                                "regr.xgboost" = "orange")) +
   facet_wrap(~learner) +
   labs(x = "Truth", y = "Response") +
   theme(legend.position = "none")
@@ -488,11 +487,9 @@ dat %>%
   # rename the location_id with the location_name
   # with the labeller function
   facet_wrap(vars(location_id),
-    labeller = as_labeller(c(
-      `182` = "Malawi",
-      `191` = "Zambia",
-      `169` = "Central African Republic"
-      )),
+    labeller = as_labeller(c(`182` = "Malawi",
+                             `191` = "Zambia",
+                             `169` = "Central African Republic")),
     scales = "free") +
   labs(title = "Dalys due to Dengue 1990-2016: Truth vs Responses",
        caption = "Scale Free - Dots represent the Truth Values",
@@ -515,7 +512,10 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 The following example shows how to use the `{h20}` r package for running
@@ -641,8 +641,7 @@ h20.rabies.metrics <- rbind(c(h2o.rmse(perf_lm),
                             c(h2o.rmse(perf_gbm),
                               h2o.mae(perf_gbm)),
                             c(h2o.rmse(perf_rf),
-                              h2o.mae(perf_rf))
-                            ) %>%
+                              h2o.mae(perf_rf))) %>%
   as.data.frame() %>%
   mutate(model = c("lm", "gbm", "rf")) %>%
   relocate(model) %>%
@@ -764,8 +763,7 @@ p2 <- ggplot(results_df, aes(x = Time)) +
        x = "Time", y = "Value") +
   scale_color_manual(name = "Legend",
                      values = c("Actual" = "navy",
-                                "Predicted" = "orange")
-                     )
+                                "Predicted" = "orange"))
 ```
 
 ```{r}
@@ -821,7 +819,10 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 ```{r}
@@ -856,23 +857,21 @@ SEIR <- function(time, state, parameters) {
   })
 }
 # Parameters
-parameters <- c(
-  beta = 0.3, # Infection rate
-  sigma = 0.2, # Incubation rate
-  gamma = 0.1 # Recovery rate
-)
+parameters <- c(beta = 0.3, # Infection rate
+                sigma = 0.2, # Incubation rate
+                gamma = 0.1 # Recovery rate
+                )
 # Initial state values
 N <- 1000
 initial_state <- c(S = 999, E = 1, I = 0, R = 0)
 # Time points
 times <- seq(0, 160, by = 1)
 # Solve the model
-output <- ode(
-  y = initial_state,
-  times = times,
-  func = SEIR,
-  parms = parameters
-)
+output <- ode(y = initial_state,
+              times = times,
+              func = SEIR,
+              parms = parameters
+              )
 # Convert output to a data frame
 output <- as.data.frame(output)
 ```
@@ -887,12 +886,12 @@ n <- 1000 # number of samples
 p <- 10 # number of features
 # Generate random features and labels
 social_features <- matrix(rnorm(n * p),
-  nrow = n, ncol = p
-)
+                          nrow = n, ncol = p)
 infection_labels <- sample(0:1, n, replace = TRUE)
 # Combine into a data frame
 social_data <- data.frame(social_features)
 social_data$infection <- infection_labels
+
 head(social_data)
 ```
 
@@ -989,11 +988,9 @@ Then finally, the model is evaluated on performance with the
 
 ```{r}
 # Compile the model
-model %>% compile(
-  loss = "binary_crossentropy",
-  optimizer = optimizer_adam(),
-  metrics = c("accuracy")
-)
+model %>% compile(loss = "binary_crossentropy",
+                  optimizer = optimizer_adam(),
+                  metrics = c("accuracy"))
 ```
 
 Once the model is defined and compiled, the model is then trained using
@@ -1013,13 +1010,12 @@ the model on the training and validation data during training.
 #| output: false
 #| message: false
 #| warning: false
-history <- model %>% fit(
-  x = as.matrix(social_data[, 1:p]),
-  y = social_data$infection,
-  epochs = 30,
-  batch_size = 128,
-  validation_split = 0.2
-)
+history <- model %>% fit(x = as.matrix(social_data[, 1:p]),
+                         y = social_data$infection,
+                         epochs = 30,
+                         batch_size = 128,
+                         validation_split = 0.2
+                         )
 ```
 
 The subsequent times the `history` object is created, the model is
@@ -1028,13 +1024,12 @@ specifications can further be adjusted as needed.
 
 ```{r}
 #| output: false
-history2 <- model %>% fit(
-  x = as.matrix(social_data[, 1:p]),
-  y = social_data$infection,
-  epochs = 30 / 2,
-  batch_size = 128 / 2,
-  validation_split = 0.2
-)
+history2 <- model %>% fit(x = as.matrix(social_data[, 1:p]),
+                          y = social_data$infection,
+                          epochs = 30 / 2,
+                          batch_size = 128 / 2,
+                          validation_split = 0.2
+                          )
 ```
 
 Here are two attempts of the trained model with different parameters,
@@ -1066,8 +1061,7 @@ classified as 0 (not infected).
 
 ```{r}
 new_social_data <- matrix(rnorm(p * 160),
-  nrow = 160, ncol = p
-)
+                          nrow = 160, ncol = p)
 predicted_infections <- model %>%
   predict(new_social_data)
 predicted_infections <- ifelse(predicted_infections > 0.5, 1, 0)
@@ -1087,12 +1081,11 @@ The SEIR model is then re-run with the adjusted parameters to simulate
 the spread of the infection in the population.
 
 ```{r}
-adjusted_output <- ode(
-  y = initial_state,
-  times = times,
-  func = SEIR,
-  parms = adjusted_parameters
-)
+adjusted_output <- ode(y = initial_state,
+                       times = times,
+                       func = SEIR,
+                       parms = adjusted_parameters
+                       )
 # Convert output to a data frame
 adjusted_output <- as.data.frame(adjusted_output)
 ```
@@ -1119,8 +1112,7 @@ ggplot() +
        color = "Scenario") +
   scale_color_manual(values = c(
     "Original Infections" = "navy",
-    "Adjusted Infections" = "orange"
-  ))
+    "Adjusted Infections" = "orange"))
 ```
 
 This is just a simple example of how the `{keras}` package can be used
@@ -1140,7 +1132,10 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 Finding a new R-package can be a daunting task, given the vast number of
@@ -1176,6 +1171,7 @@ excessPkgShort <- excessPkg %>%
   filter(maintainer_name != "ORPHANED", score > 100) %>%
   select(score, package, downloads_last_month) %>%
   arrange(desc(downloads_last_month))
+
 head(excessPkgShort)
 ```
 
@@ -1188,12 +1184,9 @@ excess_downloads <- cran_stats(excess_shortList)
 ```
 
 ```{r}
-ggplot(
-  excess_downloads,
-  aes(end, downloads,
-    group = package, color = package
-  )
-) +
+ggplot(excess_downloads, aes(end, downloads,
+                             group = package, 
+                             color = package)) +
   geom_line() +
   geom_point(aes(shape = package)) +
   scale_y_continuous(trans = "log2")
@@ -1232,8 +1225,7 @@ package_db <- readRDS("data/model-data/package_db.rds")
 ```{r}
 package_db %>%
   filter(grepl("infectious diseases",
-    description,
-    ignore.case = TRUE
-  )) %>%
+               description,
+               ignore.case = TRUE)) %>%
   select(package)
 ```

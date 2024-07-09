@@ -2,7 +2,10 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 > **"Several infectious diseases are emerging and threatening human
@@ -162,7 +165,7 @@ introduction of the disease into a new population.
 
 The use of machine learning algorithms such as **decision trees**,
 **random forests**, **support vector machines**, and **deep-learning
-networks** such as Long short-term memory (LSTM)\index{LSTM} models,
+networks** such as **Long short-term memory (LSTM)**\index{LSTM} models,
 effectively improve the identification of patterns and trends that may
 not be obvious with mechanistic type of models. These models are able to
 improve prediction accuracy working smoothly with large datasets.
@@ -187,10 +190,14 @@ reliable predictions in public health scenarios [@roster2022].
 
 ## The Impact on DALYs
 
-To understand the magnitude of impacts on DALYs\index{DALY} caused by
-one or more infectious diseases we can simply consider the DALYs rate of
-change. The percentage change in DALYs due to infectious diseases can be
-calculated as:
+To understand the magnitude of infectious diseases impacts on
+DALYs\index{DALY}, we can simply consider the DALYs rate of change. The
+percentage change in total DALYs and DALYs due to infectious diseases,
+in general or for a specific infective virus such as COVID19, allows us
+to assess the impact on the overall burden of disease. In the case of
+COVID19 for example, the percentage change in DALYs due to COVID19 can
+explain how this virus affected global health and produced excess of
+mortality and morbidity.
 
 $$
 \text{Percent change in DALYs} = \frac{\text{DALYs due to Infectious Diseases}}{\text{Total DALYs}} \times 100

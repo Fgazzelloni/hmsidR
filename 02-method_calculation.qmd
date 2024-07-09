@@ -2,7 +2,10 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 ::: solutionbox
@@ -63,7 +66,7 @@ specific causes of death.
 > the mere sadness for having lost a beloved one but the lost of
 > working-people dying prematurely. It is cost for the entire society.
 
-**General Formula**
+**Standard Formula**
 
 $$
 YLL=N*le
@@ -130,8 +133,7 @@ attributable to stroke in the year 2019 for the Global region.
 deaths_stroke <- hmsidwR::deaths2019 %>%
   filter(
     location == "Global",
-    str_detect(cause, "Stroke")
-  ) %>%
+    str_detect(cause, "Stroke")) %>%
   select(-location, -cause)
 
 deaths_stroke %>% head()
@@ -156,8 +158,7 @@ hmsidwR::gho_lifetables %>%
     "person-years lived between ages x and x+n",
     "age-specific death rate between ages x and x+n",
     "number of people dying between ages x and x+n",
-    "probability of dying between ages x and x+n"
-  )) %>%
+    "probability of dying between ages x and x+n")) %>%
   knitr::kable()
 ```
 
@@ -210,52 +211,36 @@ dat <- YLL_global_stroke %>%
 legend_grob <- cowplot::get_legend(
   ggplot(data = dat, aes(x = age)) +
     geom_point(aes(y = YLL, color = sex),
-      size = 3
-    ) +
+               size = 3) +
     scale_color_manual(values = c("pink", "darkgreen")) +
-    theme(
-      legend.direction = "horizontal",
-      legend.background = element_blank(),
-      legend.position = "right",
-      legend.title = element_blank(),
-      legend.key = element_blank(),
-      legend.text = element_text(size = 8)
-    )
-)
+    theme(legend.direction = "horizontal",
+          legend.background = element_blank(),
+          legend.position = "right",
+          legend.title = element_blank(),
+          legend.key = element_blank(),
+          legend.text = element_text(size = 8)))
 
 dat %>%
   ggplot(aes(x = age)) +
   geom_line(aes(y = YLL)) +
-  geom_point(
-    data = dat %>%
-      filter(sex == "female"),
-    aes(y = YLL), color = "pink"
-  ) +
-  geom_point(
-    data = dat %>%
-      filter(sex == "male"),
-    aes(y = YLL), color = "darkgreen"
-  ) +
+  geom_point(data = dat %>% filter(sex == "female"),
+             aes(y = YLL), color = "pink") +
+  geom_point(data = dat %>% filter(sex == "male"),
+             aes(y = YLL), color = "darkgreen") +
   geom_smooth(aes(y = YLL, group = 1),
-    se = F, color = "#29306c"
-  ) +
+    se = F, color = "#29306c") +
   scale_y_continuous(labels = scales::label_comma(scale = 1 / 1000)) +
   annotation_custom(legend_grob, ymax = max(dat$YLL) * 2 + 10^6) +
   labs(
     title = "Global Region : Years of Life Lost (YLLs) due to stroke",
     subtitle = "Year 2019",
     caption = "DataSource: WHO life expectancy & IHME results Stroke data | YLLs Values in Thousands",
-    x = "Age Group", y = "YLLs"
-  ) +
-  theme(
-    axis.text.x = element_text(
-      size = 7,
-      angle = 45,
-      vjust = 0.5
-    ),
-    plot.title = element_text(size = 12),
-    plot.caption = element_text(size = 8)
-  )
+    x = "Age Group", y = "YLLs") +
+  theme(axis.text.x = element_text(size = 7,
+                                   angle = 45,
+                                   vjust = 0.5),
+        plot.title = element_text(size = 11),
+        plot.caption = element_text(size = 8))
 ```
 
 ## YLDs Calculation
@@ -285,7 +270,7 @@ GBD2019, summarized in the `hmsidwR::g7_hmetrics` dataset.
 
 #### Incidence-based Calculation
 
-**General Formula**
+**Standard Formula**
 
 $$
 YLD_i=I*DW*L
@@ -356,8 +341,7 @@ dwsev2019 <- hmsidwR::disweights2019 %>%
   mutate(severity_n = case_when(
     severity == "mild" ~ 0.2,
     severity == "moderate" ~ 0.45,
-    severity == "severe" ~ 0.75
-  ))
+    severity == "severe" ~ 0.75))
 
 dwsev2019 %>% head()
 ```
@@ -372,6 +356,7 @@ dw_stroke <- dwsev2019 %>%
   filter(cause1 == "Stroke") %>%
   group_by(severity, severity_n) %>%
   reframe(avg_dw = mean(dw))
+
 dw_stroke
 ```
 
@@ -390,10 +375,10 @@ inc_prev_stroke_as <- g7_hmetrics %>%
     location == "Global",
     cause == "Cardiovascular diseases",
     metric == "Percent",
-    year == 2019
-  ) %>%
+    year == 2019) %>%
   select(measure, sex, val) %>%
   pivot_wider(names_from = "measure", values_from = "val")
+
 inc_prev_stroke_as
 ```
 
@@ -402,10 +387,10 @@ YLD_global_stroke_as <- merge(inc_prev_stroke_as, dw_stroke) %>%
   group_by(sex) %>%
   mutate(
     YLD_p = round(Prevalence * severity_n * avg_dw * 100, 3),
-    YLD_i = round(Incidence * severity_n * avg_dw * 100, 3)
-  ) %>%
+    YLD_i = round(Incidence * severity_n * avg_dw * 100, 3)) %>%
   select(sex, YLD_p, YLD_i) %>%
   summarise(YLD_p = sum(YLD_p), YLD_i = sum(YLD_i))
+
 YLD_global_stroke_as
 ```
 
@@ -416,8 +401,7 @@ the year 2019 for 5-year age groups.
 inc_prev_stroke_5y <- hmsidwR::g7_inc_prev_CVD2019 %>%
   filter(
     cause == "Stroke",
-    location == "Global"
-  ) %>%
+    location == "Global") %>%
   select(measure, sex, age, val) %>%
   pivot_wider(names_from = "measure", values_from = "val")
 
@@ -429,8 +413,7 @@ YLD_global_stroke <- merge(inc_prev_stroke_5y, dw_stroke) %>%
   group_by(sex, age) %>%
   reframe(
     YLD_p = sum(Prevalence * severity_n * avg_dw * 100),
-    YLD_i = sum(Incidence * severity_n * avg_dw * 100)
-  )
+    YLD_i = sum(Incidence * severity_n * avg_dw * 100))
 
 YLD_global_stroke %>% head()
 ```
@@ -451,34 +434,24 @@ dat <- YLD_global_stroke %>%
 dat %>%
   ggplot(aes(x = age, y = YLD_p)) +
   geom_line(aes(y = YLD_p)) +
-  geom_point(
-    data = dat %>% filter(sex == "female"),
-    color = "pink"
-  ) +
-  geom_point(
-    data = dat %>% filter(sex == "male"),
-    color = "darkgreen"
-  ) +
+  geom_point(data = dat %>% filter(sex == "female"),
+             color = "pink") +
+  geom_point(data = dat %>% filter(sex == "male"),
+             color = "darkgreen") +
   geom_smooth(aes(group = 1),
-    se = F, color = "#29306c"
-  ) +
+              se = F, color = "#29306c") +
   scale_y_continuous(labels = scales::label_comma(scale = 1 * 1000)) +
   annotation_custom(legend_grob) +
   labs(
     title = "Global region: Years Lived with Disabilities (YLDs) due to stroke",
     subtitle = "Year 2019",
     caption = "DataSource: IHME results Stroke data | YLDs Values X 1000",
-    x = "Age Group", y = "YLDs"
-  ) +
-  theme(
-    axis.text.x = element_text(
-      size = 7,
-      angle = 45,
-      vjust = 0.5
-    ),
-    plot.title = element_text(size = 12),
-    plot.caption = element_text(size = 8)
-  )
+    x = "Age Group", y = "YLDs") +
+  theme(axis.text.x = element_text(size = 7,
+                                   angle = 45,
+                                   vjust = 0.5),
+    plot.title = element_text(size = 11),
+    plot.caption = element_text(size = 8))
 ```
 
 ## DALYs Calculation
@@ -495,7 +468,7 @@ Lost measure (PYLLs)**, which includes the loss of good health. We do
 not consider PYLLs in this book, but more information can be found in
 the references [@globalh].
 
-**General Formula**
+**Standard Formula**
 
 $$
 DALYs=YLLs+YLDs
@@ -537,44 +510,32 @@ dat %>%
   ggplot(aes(x = age)) +
   geom_line(aes(y = DALY_p)) +
   geom_smooth(aes(y = DALY_p, group = 1),
-    se = F, color = "#29306c"
-  ) +
+              se = F, 
+              color = "#29306c") +
   geom_line(aes(y = YLL, group = sex, color = sex),
-    linewidth = 0.2
-  ) +
+            linewidth = 0.2) +
   geom_line(aes(y = YLD_p, group = sex, color = sex),
-    linewidth = 0.2
-  ) +
+            linewidth = 0.2) +
   scale_color_manual(values = c("pink", "darkgreen")) +
-  geom_point(
-    data = dat %>% filter(sex == "female"),
-    aes(y = YLL), color = "pink"
-  ) +
-  geom_point(
-    data = dat %>% filter(sex == "male"),
-    aes(y = YLL), color = "darkgreen"
-  ) +
-  geom_point(
-    data = dat %>% filter(sex == "female"),
-    aes(y = YLD_p), color = "pink"
-  ) +
-  geom_point(
-    data = dat %>% filter(sex == "male"),
-    aes(y = YLD_p), color = "darkgreen"
-  ) +
+  geom_point(data = dat %>% filter(sex == "female"),
+             aes(y = YLL), color = "pink") +
+  geom_point(data = dat %>% filter(sex == "male"),
+             aes(y = YLL), color = "darkgreen") +
+  geom_point(data = dat %>% filter(sex == "female"),
+             aes(y = YLD_p), color = "pink") +
+  geom_point(data = dat %>% filter(sex == "male"),
+             aes(y = YLD_p), color = "darkgreen") +
   scale_y_continuous(labels = scales::label_comma(scale = 1 * 1000)) +
   labs(
     title = "Global region: Disability Adjusted Life Years (DALYs) due to stroke",
     subtitle = "Year 2019",
     caption = "DataSource: IHME results Stroke data | DALYs Values ",
-    x = "Age Group", y = "DALYs"
-  ) +
+    x = "Age Group", y = "DALYs") +
   theme(
     axis.text.x = element_text(size = 7, angle = 45, vjust = 0.5),
     plot.title = element_text(size = 11),
     plot.caption = element_text(size = 8),
-    legend.position = "bottom"
-  )
+    legend.position = "bottom")
 ```
 
 ## How the DALYs are Used
@@ -628,14 +589,14 @@ DALYs lost due to this disease.
 # Create a data frame with the number of cases and average years of life lost
 df <- data.frame(
   YLL = c(5, 10, 15),
-  YLD = c(1, 3, 4)
-)
+  YLD = c(1, 3, 4))
 
 # Calculate the number of DALYs lost
 df <- df %>% mutate(DALY = YLL + YLD)
 
 # Sum the total number of DALYs lost
 total_dalys <- sum(df$DALY)
+
 total_dalys
 ```
 
@@ -669,7 +630,7 @@ measuring the number of years lived in good health, HALE offers a more
 nuanced understanding of population health rather than traditional life
 expectancy measures.
 
-**General Formula**
+**Standard Formula**
 
 $$
 HALE= \text{life expectancy}- YLD
@@ -733,16 +694,15 @@ simulate survival probabilities for each age interval (between 0 and 1).
 set.seed(040424)
 age_intervals <- seq(0, 100, by = 5)
 survival_probabilities <- runif(length(age_intervals),
-  min = 0.5, max = 1
-)
+                                min = 0.5, max = 1)
 ```
 
 ```{r}
 life_table <- data.frame(
   Age = age_intervals,
   Survival_Probability = survival_probabilities,
-  nLx = 100000 - (age_intervals * survival_probabilities)
-)
+  nLx = 100000 - (age_intervals * survival_probabilities))
+
 life_table %>% head()
 ```
 
@@ -753,12 +713,10 @@ interval.
 ```{r}
 # Simulate prevalences
 prevalences <- runif(length(age_intervals),
-  min = 0, max = 0.5
-)
+                     min = 0, max = 0.5)
 # Simulate disability weights
 disability_weights <- runif(length(age_intervals),
-  min = 0, max = 1
-)
+                            min = 0, max = 1)
 # Calculate average health for each age group
 average_health <- 1 - (prevalences * disability_weights)
 
@@ -778,7 +736,7 @@ calculate_HALE <- function(age, px) {
   for (i in 1:length(age)) {
     # Calculate adjusted Tx for the current age group
     adjusted_Tx[i] <- sum(px[i:length(age)])
-  }
+    }
   HALE <- numeric(length(age))
   # Calculate HALE for each age group
   for (i in 1:length(age)) {
@@ -793,14 +751,8 @@ Now, we calculate HALE for the simulated life table data.
 
 ```{r}
 # Calculate HALE for the simulated life table data
-HALE1 <- calculate_HALE(
-  age_intervals,
-  life_table$Survival_Probability
-)
-HALE2 <- calculate_HALE(
-  age_intervals,
-  life_table$adjusted_px
-)
+HALE1 <- calculate_HALE(age_intervals, life_table$Survival_Probability)
+HALE2 <- calculate_HALE(age_intervals, life_table$adjusted_px)
 ```
 
 Finally, we visualize the HALE for both the standard and adjusted life
@@ -815,18 +767,16 @@ table data.
 #| fig-height: 4
 
 data.frame(age_intervals, HALE1, HALE2) %>%
-  pivot_longer(
-    cols = c(HALE1, HALE2),
-    names_to = "HALE",
-    values_to = "Years"
-  ) %>%
+  pivot_longer(cols = c(HALE1, HALE2),
+               names_to = "HALE",
+               values_to = "Years") %>%
   ggplot(aes(x = age_intervals)) +
-  geom_line(aes(y = Years, group = HALE, color = HALE)) +
+  geom_line(aes(y = Years, group = HALE, 
+                color = HALE, linetype = HALE)) +
   scale_color_viridis_d(option = "H") +
   labs(
     title = "Health Adjusted Life Expectancy (HALE) by Age",
-    x = "Age Group (5Yrs)"
-  )
+    x = "Age Group (5Yrs)")
 ```
 
 ## Summary

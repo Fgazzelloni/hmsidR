@@ -2,7 +2,10 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
 ```
 
 ::: solutionbox
@@ -146,10 +149,9 @@ regr.cv_glmnet_new %>%
   geom_line(aes(y = DALYs),color="brown") +
   geom_line(aes(y = response), linetype="dashed") +
   facet_wrap(vars(location_id),
-             labeller = as_labeller(c(
-               `182` = "Malawi",
-               `191` = "Zambia",
-               `169` = "Central African Republic")),
+             labeller = as_labeller(c(`182` = "Malawi",
+                                      `191` = "Zambia",
+                                      `169` = "Central African Republic")),
              scales = "free_y") +
   labs(title = "Dengue Predictions for 2017-2021: cv_glmnet")
 ```
@@ -178,10 +180,9 @@ regr.xgboost_new %>%
   geom_line(aes(y = DALYs),color="brown") +
   geom_line(aes(y = response), linetype="dashed") +
   facet_wrap(vars(location_id),
-             labeller = as_labeller(c(
-               `182` = "Malawi",
-               `191` = "Zambia",
-               `169` = "Central African Republic")),
+             labeller = as_labeller(c(`182` = "Malawi",
+                                      `191` = "Zambia",
+                                      `169` = "Central African Republic")),
              scales = "free_y") +
   labs(title = "Dengue Predictions for 2017-2021: xgboost")
 ```
@@ -382,8 +383,7 @@ sdi_fr |>
 library(tsibble)
 sdi_fr_ts <- tsibble::as_tsibble(sdi_fr, index = year)
 
-sdi_fr_ts |>
-  autoplot()
+sdi_fr_ts |> autoplot()
 ```
 
 ```{r}
@@ -481,7 +481,7 @@ fit |>
   ggplot(aes(x = year, y = .mean)) +
   geom_line(data = sdi_fr_ts,
             aes(y = value)) +
-  geom_line(color = "purple")+
+  geom_line(color = "purple", linetype = "dashed")+
   labs(title = "Forecast of SDI in France")
 ```
 
@@ -531,11 +531,9 @@ caf_fit <- sdi_fr_ts |>
 
 ```{r}
 caf_fit |>
-  pivot_longer(
-    cols = everything(),
-    names_to = "Model name",
-    values_to = "Orders"
-    )
+  pivot_longer(cols = everything(),
+               names_to = "Model name",
+               values_to = "Orders")
 ```
 
 ```{r}
@@ -565,7 +563,7 @@ caf_fit |>
   ggplot(aes(x = year, y = .mean)) +
   geom_line(data = sdi_fr_ts,
             aes(y = value)) +
-  geom_line(color = "purple")
+  geom_line(color = "purple", linetype = "dashed")
 ```
 
 ## Mixed Models
@@ -658,15 +656,14 @@ library(lme4)
 library(tidyverse)
 
 data <- hmsidwR::g7_hmetrics %>%
-  filter(
-    measure %in% c("Incidence",
-                   "Prevalence",
-                   "YLDs", "Deaths"),
-    str_detect(cause, "tuberculosis"),
-    metric == "Rate",
-    sex == "both") %>%
-  select(-metric, -sex,
-         -cause, -upper, -lower) %>%
+  filter(measure %in% c("Incidence",
+                        "Prevalence",
+                        "YLDs", 
+                        "Deaths"),
+         str_detect(cause, "tuberculosis"),
+         metric == "Rate",
+         sex == "both") %>%
+  select(-metric, -sex, -cause, -upper, -lower) %>%
   pivot_wider(names_from = measure,
               values_from = val)
 
@@ -711,33 +708,35 @@ formula <- YLDs ~ Prevalence + year + (1 | location)
 
 # Fit the mixed-effects model
 model <- lmer(formula, data = data)
+
 model
 ```
 
 ```{r}
 # Extract fixed effects
 fixed_effects <- fixef(model)
+
 fixed_effects
 ```
 
 ```{r}
 # Extract random effects
 random_effects <- ranef(model)
+
 random_effects
 ```
 
 ```{r}
 # Create new data for prediction
-new_data <- data.frame(
-  Prevalence = c(25000, 12000, 50000),
-  year = c(2020, 2021, 2022),
-  location = c("Japan", "UK", "US")
-)
+new_data <- data.frame(Prevalence = c(25000, 12000, 50000),
+                       year = c(2020, 2021, 2022),
+                       location = c("Japan", "UK", "US"))
 
 # Predict YLDs for new data
-predictions <- predict(model, new_data,
-  allow.new.levels = TRUE
-)
+predictions <- predict(model, 
+                       new_data, 
+                       allow.new.levels = TRUE
+                       )
 ```
 
 ```{r}
@@ -748,8 +747,10 @@ predictions <- predict(model, new_data,
 #| fig-height: 3
 
 # Predict YLDs for new data
-predictions <- predict(model, data,
-                       allow.new.levels = TRUE)
+predictions <- predict(model, 
+                       data,
+                       allow.new.levels = TRUE
+                       )
 
 data$predicted_YLD <- predictions
 
