@@ -688,13 +688,13 @@ The severity levels can be assigned to be mild, moderate, or high, with
 respective probabilities reflecting the likelihood of each severity
 level occurring within the affected population.
 
-Crucial for determining the disability weights, the severity levels are
-assigned based on the impact of the condition on an individual's quality
-of life. Higher weights are assigned to more severe conditions,
-reflecting the greater impact on an individual's health status, while
-lower weights are assigned to less severe conditions. Hence, the
-disability weights are calculated based on the severity of the condition
-and the impact on an individual's quality of life.
+For determining the disability weights, the severity levels are assigned
+based on the impact of the condition on an individual's quality of life.
+Higher weights are assigned to more severe conditions, reflecting the
+greater impact on an individual's health status, while lower weights are
+assigned to less severe conditions. Hence, the disability weights are
+calculated based on the severity of the condition and the impact on an
+individual's quality of life.
 
 ### Methodology for Disability Weights
 
@@ -703,12 +703,12 @@ availability. Often derived through large-scale population surveys, or
 expert panels through reviews of clinical descriptions and assessment
 scores based on understanding and professional experience. These methods
 involve trade-off exercises, such as time trade-off (TTO)[@lugnér2020]
-or paired comparison tasks[@rehm2013]. Surveys the respondents are asked
-to choose between different health states or to trade life years in
-different health states against a standard of full health. Expert panels
-would assess the severity of different health states based on clinical
-descriptions and their professional experience, rating the severity on a
-scale from 0 (no disability) to 1 (equivalent to death).
+or paired comparison tasks[@rehm2013]. Through surveys the respondents
+are asked to choose between different health states or to trade life
+years in different health states against a standard of full health.
+Expert panels would assess the severity of different health states based
+on clinical descriptions and their professional experience, rating the
+severity on a scale from 0 (no disability) to 1 (equivalent to death).
 
 Computed disability weights methods can vary from applying techniques
 such as **Analytical Hierarchy Process
@@ -1022,7 +1022,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|--------------------|-----------------|-----------------|-----------------|
+|--------------------|------------------|------------------|------------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

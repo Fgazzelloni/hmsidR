@@ -261,7 +261,7 @@ dat %>%
   annotation_custom(legend_grob, ymax = max(dat$YLL) * 2 + 10^6) +
   labs(
     title = "Global Region : Years of Life Lost (YLLs) due to stroke",
-    subtitle = "Year 2019",
+    subtitle = "Year 2019 - Millions",
     caption = "DataSource: WHO life expectancy & IHME results Stroke data | YLLs Values in Thousands",
     x = "Age Group", y = "YLLs") +
   theme(axis.text.x = element_text(size = 7,
@@ -342,8 +342,7 @@ In the following example we use the `disability weights` and the
 dataset `disweights2019` is stored in the `{hmsidwR}` package and is
 made of `r dim(hmsidwR::disweights2019)[1]` observations and
 `r dim(hmsidwR::disweights2019)[2]` variables. It contains the estimated
-values for the disability weights as well as the upper and lower
-estimates.
+values for the disability weights, which are measured on a scale from 0 to 1, where 0 equals a state of full health and 1 equals death. 
 
 ```{r}
 hmsidwR::disweights2019 %>%
@@ -393,13 +392,22 @@ And calculate the YLDs as:
 
 $$ \text{Total YLDs} = \text{YLD}_{\text{mild}} + \text{YLD}_{\text{moderate}} + \text{YLD}_{\text{severe}}$$
 
+For instance, here we use the `g7_inc_prev_CVD2019` and the `dw_stroke`
+datasets to calculate the YLDs due to stroke, and we want to know how
+incidence and prevalence differ. They can be expressed as percent values
+or numbers, so for example:
 
-For instance, here we use the `g7_inc_prev_CVD2019` and the `dw_stroke` datasets to calculate the YLDs due to stroke, and we want to know how incidence and prevalence differ. They can be expressed as percent values or numbers, so for example:
+-   if the prevalence of stroke is 0.58 for male with age between 34-39
+    and it is expressed in percent value (%), it means 0.58% of the
+    population within that age range had a stroke.
+-   if the prevalence of stroke is 1,541,506.96 for male with age
+    between 34-39 and it is expressed in numbers, it means that there
+    are approximately 1,541,507 individuals in the age group 35-39 had a
+    stroke.
 
-- if the prevalence of stroke is 0.58 for male with age between 34-39 and it is expressed in percent value (%), it means 0.58% of the population within that age range had a stroke.
-- if the prevalence of stroke is 1,541,506.96 for male with age between 34-39 and it is expressed in numbers, it means that there are approximately 1,541,507 individuals in the age group 35-39 had a stroke.
-
-The percentage and the number are related by the size of the population in that age group. To convert between these forms, you need to know the total population in the age group 35-39.
+The percentage and the number are related by the size of the population
+in that age group. To convert between these forms, you need to know the
+total population in the age group 35-39.
 
 ```{r}
 inc_prev_stroke_5y <- hmsidwR::g7_inc_prev_CVD2019 %>%
@@ -411,19 +419,29 @@ inc_prev_stroke_5y <- hmsidwR::g7_inc_prev_CVD2019 %>%
 inc_prev_stroke_5y %>% head()
 ```
 
-The calculation of YLDs due to stroke in the Global region with both approaches incidence and prevalence is shown below.
+The calculation of YLDs due to stroke in the Global region with both
+approaches incidence and prevalence is shown below.
 
-While for calculating prevalence-based YLDs, we use the `Prevalence` values, the `severity` and the `average weights`, for incidence-based YLDs, we need to consider the `Incidence` values and the `average duration` of the condition. 
+While for calculating prevalence-based YLDs, we use the `Prevalence`
+values, the `severity` and the `average weights`, for incidence-based
+YLDs, we need to consider the `Incidence` values and the
+`average duration` of the condition.
 
-In particular, for stroke, the average duration of the condition can vary based on:
+In particular, for stroke, the average duration of the condition can
+vary based on:
 
-- duration for acute stroke: up to 28 days
-- duration for chronic stroke: beyond 28 days, often modeled for long-term consequences, sometimes up to the lifetime of the patient depending on the model used.
+-   duration for acute stroke: up to 28 days
+-   duration for chronic stroke: beyond 28 days, often modeled for
+    long-term consequences, sometimes up to the lifetime of the patient
+    depending on the model used.
 
-In this example, we consider the average duration of the condition for 28 days. It does need to be converted to be year-based: 
+In this example, we consider the average duration of the condition for
+28 days. It does need to be converted to be year-based:
 
-$$ \hat{L}_{stroke}= \frac{28}{365} $$
-These values strongly depends on the disability weights and the severity values assigned to the condition. Here we have considered estimated values, which do not necessarily correspond to the real values.
+$$ \hat{L}_{stroke}= \frac{28}{365} $$ These values strongly depends on
+the disability weights and the severity values assigned to the
+condition. Here we have considered estimated values, which do not
+necessarily correspond to the real values.
 
 ```{r}
 options(scipen = 999)
@@ -438,7 +456,8 @@ YLD_global_stroke %>%
 ```
 
 We note the difference in the YLDs if incidence or prevalence is used in
-the calculation. The magnitude of the YLDs is similar, but the values are distributed differently across the age groups.
+the calculation. The magnitude of the YLDs is similar, but the values
+are distributed differently across the age groups.
 
 ```{r}
 #| echo: false
@@ -447,7 +466,6 @@ the calculation. The magnitude of the YLDs is similar, but the values are distri
 dat <- YLD_global_stroke %>%
   filter(!sex == "both")
 ```
-
 
 ```{r}
 #| layout-ncol: 2
@@ -535,9 +553,15 @@ The sum of YLLs and YLDs releases the overall value of DALYs due to
 stroke in the Global region. Here we can see there is no much difference
 in magnitude if incidence or prevalence is used.
 
-Before to sum up the YLLs and YLDs, we need to either way transform the YLLs numbers of years into percent values or the YLDs percent values into numbers. This is necessary to have the same unit of measure for both components.
+Before to sum up the YLLs and YLDs, we need to either way transform the
+YLLs numbers of years into percent values or the YLDs percent values
+into numbers. This is necessary to have the same unit of measure for
+both components.
 
-Let's transform the YLDs into numbers, we need to know the total population for each age group. We use the `data(package = "wpp2022")` which is a collection of population datasets, which contains the estimated population for the year 2019 for the Global region. 
+Let's transform the YLDs into numbers, we need to know the total
+population for each age group. We use the `data(package = "wpp2022")`
+which is a collection of population datasets, which contains the
+estimated population for the year 2019 for the Global region.
 
 ```{r}
 library(wpp2022)
@@ -567,7 +591,6 @@ pop5y2019$age <- factor(pop5y2019$age, levels = age_levels, ordered = TRUE)
 pop5y2019 %>% head()
 ```
 
-
 ```{r}
 YLD_global_stroke_n <- YLD_global_stroke %>%
   select(-YLD_i) %>%
@@ -580,7 +603,8 @@ YLD_global_stroke_n %>%
  # head()  
 ```
 
-214,487.36
+
+
 ```{r}
 DALY_global_stroke <- merge(YLL_global_stroke, YLD_global_stroke_n) %>%
   mutate(DALY = YLL + YLD)
@@ -589,7 +613,6 @@ DALY_global_stroke %>%
   select(sex, age, YLL, YLD, DALY) %>%
   head()
 ```
-
 
 ```{r}
 #| echo: false
@@ -601,7 +624,6 @@ dat <- DALY_global_stroke %>%
   arrange(age) %>%
   mutate_if(is.numeric, scale)
 ```
-
 
 ```{r}
 #| warning: false 
@@ -626,7 +648,6 @@ dat %>%
         legend.position = "bottom")  
  
 ```
-
 
 ## How the DALYs are Used
 
