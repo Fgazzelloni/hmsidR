@@ -41,23 +41,23 @@ effectiveness of public health programs.
 
 The Years of Life Lost (YLLs) is a metric that measures the number of
 years a person would have lived if they had not died prematurely due to
-a disease or injury. YLLs are calculated by subtracting the age at death
-from the expected age at death in a population without the disease or
-injury.
+a disease or injury. **YLLs are calculated by subtracting the age at
+death from the expected age at death in a population without the disease
+or injury**.
 
 First mentioned in 1947 by Mary Dempsey[@dempsey2019] to measure the
-burden of tuberculosis, it is built to identify areas where improvement
-is needed to reduce the loss in health status and reduce the probability
-of death [@reiner2022]. This metric was first calculated in late 1940s
-(@sec-01-health_metrics), then defined as **Standardized Rate for
-Mortality in units of Lost Years of Life** by *William Haenszel*
+burden of tuberculosis,YLLs are built to identify areas where
+improvement is needed to reduce the loss in health status and reduce the
+probability of death [@reiner2022]. This metric was first calculated in
+late 1940s (@sec-01-health_metrics), and defined as **Standardized Rate
+for Mortality in units of Lost Years of Life** by *William Haenszel*
 [@haenszel1950]. The investigation into the leading causes of death led
-to the development of a measurement that considered the age at death and
-compared it with the expected life expectancy. This initially led to the
-understanding that early deaths had a greater impact than those at later
-ages. It was ascertained that accounting for the number of years lost
-for a group of people would help recognize the potential life lost for a
-certain cause. Since this first approach, some adjustments to the
+to the development of a measurement, that considered the age at death
+and compared it with the expected life expectancy. This initially led to
+the understanding that early deaths had a greater impact than those at
+later ages. It was ascertained that accounting for the number of years
+lost for a group of people would help recognize the potential life lost
+for a certain cause. Since this first approach, some adjustments to the
 standard death rates were made, leading to a new calculation that
 considered standardized death rates applied to age-specific factors for
 specific causes of death.
@@ -100,12 +100,19 @@ death in most countries, as indicated by the GBD study.
 
 ### Example: YLLs due to Stroke
 
-As an initial step, we use the deaths data from the GBD 2019 study,
-which is stored in the `{hmsidwR}` package. This dataset comprises
+In the following example, we calculate the YLLs due to stroke in the
+year 2019 for the Global region. We use the data from the Global Burden
+of Disease (GBD) study, which provides estimates of the number of deaths
+due to stroke in different regions. The data can be downloaded from the
+`{hmsidwR}` package, which contains the necessary datasets for this
+calculation. The `deaths2019` dataset comprises
 `r dim(hmsidwR::deaths2019)[1]` observations and
 `r dim(hmsidwR::deaths2019)[2]` variables, containing the estimated
-number of deaths due to 9 causes across 6 regions: Global, France,
-Italy, Germany, the United Kingdom, and the United States.
+number of deaths due to 9 causes, included stroke, across 6 regions:
+Global, France, Italy, Germany, the United Kingdom, and the United
+States. We also use the **Global Health Observatory Life Tables** to
+estimate the life expectancy at different ages, which is used to
+calculate the YLLs due to stroke.
 
 ```{r}
 #| eval: false
@@ -131,12 +138,28 @@ attributable to stroke in the year 2019 for the Global region.
 
 ```{r}
 deaths_stroke <- hmsidwR::deaths2019 %>%
-  filter(
-    location == "Global",
-    str_detect(cause, "Stroke")) %>%
-  select(-location, -cause)
+  arrange(age)%>%
+  filter(location == "Global",
+         str_detect(cause, "Stroke")) %>%
+  select(-location, -cause, -upper, -lower)
 
 deaths_stroke %>% head()
+```
+
+```{r}
+#| label: fig-deaths_stroke
+#| fig-cap: "Boxplots showing male and female deaths variation due to Stroke by Age Group (2019)"
+#| fig-alt: "Deaths due to Stroke by Age Group (2019)"
+
+deaths_stroke %>% 
+  filter(!sex == "both") %>%
+  ggplot(aes(x = age,y = dx)) +
+  geom_boxplot() +
+  labs(title = "Male and Female Deaths due to Stroke",
+       subtitle = "Year 2019",
+       caption = "IHME GBD 2019 Data",
+       x = "Age Group", y = "Deaths") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 Among the indicators available in the `hmsidwR::gho_lifetables` dataset,
@@ -164,15 +187,15 @@ hmsidwR::gho_lifetables %>%
 
 The expectation of life at age x $(ex)$ refers to the life expectancy at
 age $x$. We use the estimated value of the expected life for 5-year age
-groups, such as 0-4, 5-9, 10-14, etc. for both females and males in
-place of the standard life expectancy $(le)$.
+groups, such as \<1,..., 05-09, 10-14, etc. for both females and males
+in place of the standard life expectancy $(le)$.
 
 The standard life expectancy represents the maximum number of years a
-person can live. For example, if we consider the Japanese life
-expectancy at birth, which is measured in total years, according to the
-estimation released in 2021 by the United Nations Population Division
-research, it is approximately 84 years. And so in our case it would not
-be suitable for representing different age groups.
+person can live. For example, if we consider the **Japanese life
+expectancy at birth**, which is measured in total years, according to
+the estimation released in 2021 by the United Nations Population
+Division research, it is approximately 84 years. And so in our case it
+would not be suitable for representing different age groups.
 
 ```{r}
 ex2019 <- hmsidwR::gho_lifetables %>%
@@ -188,10 +211,10 @@ the YLLs due to stroke in the Global region.
 
 ```{r}
 YLL_global_stroke <- deaths_stroke %>%
-  select(-upper, -lower) %>%
   full_join(ex2019) %>%
   group_by(age, sex) %>%
-  reframe(YLL = dx * le)
+  mutate(YLL = dx * le) %>%
+  ungroup()
 
 YLL_global_stroke %>% head()
 ```
@@ -211,7 +234,7 @@ dat <- YLL_global_stroke %>%
 legend_grob <- cowplot::get_legend(
   ggplot(data = dat, aes(x = age)) +
     geom_point(aes(y = YLL, color = sex),
-               size = 3) +
+               size = 4) +
     scale_color_manual(values = c("pink", "darkgreen")) +
     theme(legend.direction = "horizontal",
           legend.background = element_blank(),
@@ -224,12 +247,17 @@ dat %>%
   ggplot(aes(x = age)) +
   geom_line(aes(y = YLL)) +
   geom_point(data = dat %>% filter(sex == "female"),
-             aes(y = YLL), color = "pink") +
+             aes(y = YLL), color = "pink", size = 2) +
   geom_point(data = dat %>% filter(sex == "male"),
-             aes(y = YLL), color = "darkgreen") +
+             aes(y = YLL), color = "darkgreen", size = 2) +
   geom_smooth(aes(y = YLL, group = 1),
     se = F, color = "#29306c") +
-  scale_y_continuous(labels = scales::label_comma(scale = 1 / 1000)) +
+  scale_y_continuous(labels = function(x) 
+                              scales::number(x, 
+                                             scale = 1e-6, 
+                                             accuracy = 0.01, 
+                                             suffix = "M"),
+                   name = "Value (Millions)") +
   annotation_custom(legend_grob, ymax = max(dat$YLL) * 2 + 10^6) +
   labs(
     title = "Global Region : Years of Life Lost (YLLs) due to stroke",
@@ -264,9 +292,10 @@ reported to a year-based value.
 
 Moreover, the calculation of YLDs has been updated over the years,
 shifting from an incidence to a prevalence-based approach. More in-depth
-analyses are in @sec-03-components; for now, we will focus on using the
-most updated approach based on values of prevalence estimated by the
-GBD2019, summarized in the `hmsidwR::g7_hmetrics` dataset.
+analyses are in @sec-03-components; for now, we will show how both types
+of calculations differ, but then we will focus on using the most updated
+approach based on values of prevalence estimated by the GBD2019,
+summarized in the `hmsidwR::g7_hmetrics` dataset.
 
 #### Incidence-based Calculation
 
@@ -286,7 +315,7 @@ lives with the condition.
 
 #### Prevalence-based Calculation
 
-**General Formula**
+**Standard Formula**
 
 $$
 YLD_p=p*DW
@@ -323,9 +352,9 @@ hmsidwR::disweights2019 %>%
   head()
 ```
 
-The level of `severity` is assigned based on the level of disability,
-which is categorized as mild, moderate, or severe. The disability
-weights are assigned as follows:
+The level of `severity` is assigned based on the **level of
+disability**, which is categorized as **mild**, **moderate**, or
+**severe**. The disability weights are assigned as follows:
 
 -   Mild = 20%
 -   Moderate = 45%
@@ -357,94 +386,115 @@ dw_stroke <- dwsev2019 %>%
   group_by(severity, severity_n) %>%
   reframe(avg_dw = mean(dw))
 
-dw_stroke
+dw_stroke 
 ```
 
-In biology the classification of stroke is associated with
-`cardiovascular diseases (CVDs)`. In particular, there are two main
-types of stroke: ischemic stroke and hemorrhagic stroke. We can use the
-age-standardize value of the incidence and prevalence for cardiovascular
-diseases at the global level in the year 2019 in the calculation of the
-YLDs. We can extract the values from the table `hmsidwR::g7_hmetrics`,
-and them multiply these values by the severity and disability weights.
+And calculate the YLDs as:
 
-```{r}
-inc_prev_stroke_as <- g7_hmetrics %>%
-  filter(
-    measure %in% c("Incidence", "Prevalence"),
-    location == "Global",
-    cause == "Cardiovascular diseases",
-    metric == "Percent",
-    year == 2019) %>%
-  select(measure, sex, val) %>%
-  pivot_wider(names_from = "measure", values_from = "val")
+$$ \text{Total YLDs} = \text{YLD}_{\text{mild}} + \text{YLD}_{\text{moderate}} + \text{YLD}_{\text{severe}}$$
 
-inc_prev_stroke_as
-```
 
-```{r}
-YLD_global_stroke_as <- merge(inc_prev_stroke_as, dw_stroke) %>%
-  group_by(sex) %>%
-  mutate(
-    YLD_p = round(Prevalence * severity_n * avg_dw * 100, 3),
-    YLD_i = round(Incidence * severity_n * avg_dw * 100, 3)) %>%
-  select(sex, YLD_p, YLD_i) %>%
-  summarise(YLD_p = sum(YLD_p), YLD_i = sum(YLD_i))
+For instance, here we use the `g7_inc_prev_CVD2019` and the `dw_stroke` datasets to calculate the YLDs due to stroke, and we want to know how incidence and prevalence differ. They can be expressed as percent values or numbers, so for example:
 
-YLD_global_stroke_as
-```
+- if the prevalence of stroke is 0.58 for male with age between 34-39 and it is expressed in percent value (%), it means 0.58% of the population within that age range had a stroke.
+- if the prevalence of stroke is 1,541,506.96 for male with age between 34-39 and it is expressed in numbers, it means that there are approximately 1,541,507 individuals in the age group 35-39 had a stroke.
 
-Then we can calculate the YLDs due to stroke in the Global region for
-the year 2019 for 5-year age groups.
+The percentage and the number are related by the size of the population in that age group. To convert between these forms, you need to know the total population in the age group 35-39.
 
 ```{r}
 inc_prev_stroke_5y <- hmsidwR::g7_inc_prev_CVD2019 %>%
-  filter(
-    cause == "Stroke",
-    location == "Global") %>%
+  filter(cause == "Stroke",
+         location == "Global") %>%
   select(measure, sex, age, val) %>%
   pivot_wider(names_from = "measure", values_from = "val")
 
 inc_prev_stroke_5y %>% head()
 ```
 
+The calculation of YLDs due to stroke in the Global region with both approaches incidence and prevalence is shown below.
+
+While for calculating prevalence-based YLDs, we use the `Prevalence` values, the `severity` and the `average weights`, for incidence-based YLDs, we need to consider the `Incidence` values and the `average duration` of the condition. 
+
+In particular, for stroke, the average duration of the condition can vary based on:
+
+- duration for acute stroke: up to 28 days
+- duration for chronic stroke: beyond 28 days, often modeled for long-term consequences, sometimes up to the lifetime of the patient depending on the model used.
+
+In this example, we consider the average duration of the condition for 28 days. It does need to be converted to be year-based: 
+
+$$ \hat{L}_{stroke}= \frac{28}{365} $$
+These values strongly depends on the disability weights and the severity values assigned to the condition. Here we have considered estimated values, which do not necessarily correspond to the real values.
+
 ```{r}
+options(scipen = 999)
 YLD_global_stroke <- merge(inc_prev_stroke_5y, dw_stroke) %>%
   group_by(sex, age) %>%
-  reframe(
-    YLD_p = sum(Prevalence * severity_n * avg_dw * 100),
-    YLD_i = sum(Incidence * severity_n * avg_dw * 100))
+  reframe(YLD_p = sum(Prevalence* (1 + severity_n) * avg_dw * 100),
+          YLD_i = sum(Incidence * (1 + severity_n) * avg_dw * 28/365 * 100))
 
-YLD_global_stroke %>% head()
+YLD_global_stroke %>% 
+  filter(!sex == "both",
+         age == "35-39")
 ```
 
 We note the difference in the YLDs if incidence or prevalence is used in
-the calculation.
+the calculation. The magnitude of the YLDs is similar, but the values are distributed differently across the age groups.
 
 ```{r}
 #| echo: false
-#| eval: true
-#| label: fig-YLD_global_stroke
-#| fig-cap: "YLDs due to stroke in the Global region"
-#| fig-alt: "YLDs due to stroke in the Global region"
-
+#| message: false
+#| warning: false
 dat <- YLD_global_stroke %>%
   filter(!sex == "both")
+```
 
+
+```{r}
+#| layout-ncol: 2
+#| label: fig-YLD_global_stroke
+#| fig-cap:
+#|  - "YLDs calculated with prevalence"
+#|  - "YLDs calculated with incidence"
+#| fig-alt: "YLDs due to stroke in the Global region"
+#| echo: false
+#| message: false
 dat %>%
   ggplot(aes(x = age, y = YLD_p)) +
   geom_line(aes(y = YLD_p)) +
   geom_point(data = dat %>% filter(sex == "female"),
-             color = "pink") +
+             color = "pink", size = 3) +
   geom_point(data = dat %>% filter(sex == "male"),
-             color = "darkgreen") +
+             color = "darkgreen", size = 3) +
   geom_smooth(aes(group = 1),
               se = F, color = "#29306c") +
   scale_y_continuous(labels = scales::label_comma(scale = 1 * 1000)) +
   annotation_custom(legend_grob) +
   labs(
-    title = "Global region: Years Lived with Disabilities (YLDs) due to stroke",
-    subtitle = "Year 2019",
+    title = "Global region: Prevalence based YLDs due to stroke",
+    subtitle = "Year 2019 - Percent Values",
+    caption = "DataSource: IHME results Stroke data | YLDs Values X 1000",
+    x = "Age Group", y = "YLDs") +
+  theme(axis.text.x = element_text(size = 7,
+                                   angle = 45,
+                                   vjust = 0.5),
+    plot.title = element_text(size = 11),
+    plot.caption = element_text(size = 8))
+
+
+dat %>%
+  ggplot(aes(x = age, y = YLD_i)) +
+  geom_line(aes(y = YLD_i)) +
+  geom_point(data = dat %>% filter(sex == "female"),
+             color = "pink", size = 3) +
+  geom_point(data = dat %>% filter(sex == "male"),
+             color = "darkgreen", size = 3) +
+  geom_smooth(aes(group = 1),
+              se = F, color = "#29306c") +
+  scale_y_continuous(labels = scales::label_comma(scale = 1 * 1000)) +
+  annotation_custom(legend_grob) +
+  labs(
+    title = "Global region: Incidence based YLDs due to stroke",
+    subtitle = "Year 2019. - Percent Values",
     caption = "DataSource: IHME results Stroke data | YLDs Values X 1000",
     x = "Age Group", y = "YLDs") +
   theme(axis.text.x = element_text(size = 7,
@@ -485,58 +535,98 @@ The sum of YLLs and YLDs releases the overall value of DALYs due to
 stroke in the Global region. Here we can see there is no much difference
 in magnitude if incidence or prevalence is used.
 
+Before to sum up the YLLs and YLDs, we need to either way transform the YLLs numbers of years into percent values or the YLDs percent values into numbers. This is necessary to have the same unit of measure for both components.
+
+Let's transform the YLDs into numbers, we need to know the total population for each age group. We use the `data(package = "wpp2022")` which is a collection of population datasets, which contains the estimated population for the year 2019 for the Global region. 
+
 ```{r}
-DALY_global_stroke <- merge(YLL_global_stroke, YLD_global_stroke) %>%
-  mutate(DALY_p = YLL + YLD_p, DALY_i = YLL + YLD_i)
+library(wpp2022)
+# load the data on the population  
+data(popAge1dt) 
+# set the age levels
+age_levels <- c("<1","01-04", "05-09", "10-14", "15-19", "20-24", 
+                "25-29","30-34","35-39", "40-44", "45-49", "50-54", 
+                "55-59", "60-64","65-69", "70-74", "75-79", "80-84", "85+")  
+  
+pop5y2019 <- popAge1dt  %>%
+  filter(name == "World",
+         year == 2019) %>% 
+  select(-country_code, - name, -year) %>%
+  mutate(age = cut_number(age, 
+                          n = 19, 
+                          labels = age_levels, 
+                          right = FALSE))%>%
+  group_by(age) %>%
+  reframe(pop = sum(pop), popM = sum(popM), popF = sum(popF)) %>%
+  rename(male = popM, female = popF, both = pop) %>%
+  pivot_longer(cols = c(male, female, both), 
+               names_to = "sex", values_to = "pop") 
+  
+pop5y2019$age <- factor(pop5y2019$age, levels = age_levels, ordered = TRUE)  
+  
+pop5y2019 %>% head()
+```
+
+
+```{r}
+YLD_global_stroke_n <- YLD_global_stroke %>%
+  select(-YLD_i) %>%
+  inner_join(pop5y2019, by = c("age", "sex")) %>%
+  mutate(YLD = YLD_p * pop) %>%
+  select(-YLD_p)
+
+YLD_global_stroke_n %>% 
+  filter(age=="35-39")
+ # head()  
+```
+
+214,487.36
+```{r}
+DALY_global_stroke <- merge(YLL_global_stroke, YLD_global_stroke_n) %>%
+  mutate(DALY = YLL + YLD)
 
 DALY_global_stroke %>%
-  select(sex, age, YLL, YLD_p, YLD_i, DALY_p, DALY_i) %>%
+  select(sex, age, YLL, YLD, DALY) %>%
   head()
 ```
 
+
 ```{r}
 #| echo: false
-#| eval: true
-#| label: fig-DALY_global_stroke
-#| fig-cap: "DALYs due to stroke in the Global region. The blue line represents the DALYs, YLLs and YLDs are pink for females and green for males."
-#| fig-alt: "DALYs due to stroke in the Global region"
-
+#| message: false
+#| warning: false
 dat <- DALY_global_stroke %>%
-  select(sex, age, YLL, YLD_p, DALY_p) %>%
-  filter(!sex == "both") %>%
+  select(sex, age, YLL, YLD, DALY) %>%
+  filter(sex == "both") %>%
+  arrange(age) %>%
   mutate_if(is.numeric, scale)
+```
+
+
+```{r}
+#| warning: false 
+#| message: false 
+#| echo: false 
+#| eval: true 
+#| label: fig-DALY_global_stroke 
+#| fig-cap: "DALYs due to stroke in the Global region. The blue line represents the DALYs, YLLs and YLDs are pink for females and green for males." 
+#| fig-alt: "DALYs due to stroke in the Global region"  
 
 dat %>%
-  ggplot(aes(x = age)) +
-  geom_line(aes(y = DALY_p)) +
-  geom_smooth(aes(y = DALY_p, group = 1),
-              se = F, 
-              color = "#29306c") +
-  geom_line(aes(y = YLL, group = sex, color = sex),
-            linewidth = 0.2) +
-  geom_line(aes(y = YLD_p, group = sex, color = sex),
-            linewidth = 0.2) +
-  scale_color_manual(values = c("pink", "darkgreen")) +
-  geom_point(data = dat %>% filter(sex == "female"),
-             aes(y = YLL), color = "pink") +
-  geom_point(data = dat %>% filter(sex == "male"),
-             aes(y = YLL), color = "darkgreen") +
-  geom_point(data = dat %>% filter(sex == "female"),
-             aes(y = YLD_p), color = "pink") +
-  geom_point(data = dat %>% filter(sex == "male"),
-             aes(y = YLD_p), color = "darkgreen") +
-  scale_y_continuous(labels = scales::label_comma(scale = 1 * 1000)) +
-  labs(
-    title = "Global region: Disability Adjusted Life Years (DALYs) due to stroke",
-    subtitle = "Year 2019",
-    caption = "DataSource: IHME results Stroke data | DALYs Values ",
-    x = "Age Group", y = "DALYs") +
-  theme(
-    axis.text.x = element_text(size = 7, angle = 45, vjust = 0.5),
-    plot.title = element_text(size = 11),
-    plot.caption = element_text(size = 8),
-    legend.position = "bottom")
+  pivot_longer(cols=c(-sex,-age)) %>%
+  ggplot(aes(x = age, y = value, group = name, linetype = name)) +
+  geom_line() +
+  labs(title = "Global region: Disability Adjusted Life Years (DALYs) due to stroke",
+       subtitle = "Year 2019 - Standardized Values",
+       caption = "DataSource: IHME results Stroke data | DALYs Values ",
+       x = "Age Group", y = "DALYs", linetype = "Metric") +
+  theme(axis.text.x = element_text(size = 7, angle = 45, vjust = 0.5),
+        plot.title = element_text(size = 11),
+        plot.caption = element_text(size = 8),
+        legend.position = "bottom")  
+ 
 ```
+
 
 ## How the DALYs are Used
 
