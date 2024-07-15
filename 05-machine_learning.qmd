@@ -457,9 +457,8 @@ ggplot(cholera, aes(x = date, y = deaths)) +
   geom_smooth(method = "lm", se = F) +
   geom_smooth(method = "gam",
               color = "darkred", se = F) +
-  labs(
-    title = "Deaths due to Cholera in London (1849)",
-    x = "Date", y = "N. deaths") +
+  labs(title = "Deaths due to Cholera in London (1849)",
+       x = "Date", y = "N. deaths") +
   annotate(
     geom = "text",
     x = mean(cholera$date), y = -10,
@@ -1071,10 +1070,21 @@ formula <- cases ~ f(day, model = "rw2") + temperature
 result <- inla(formula,
                family = "poisson",
                data = epidemic_data)
-
-# Summary of the results
-summary(result)
 ```
+
+
+```{r}
+#| eval: false
+# Summary of the results
+result$summary.fixed
+```
+
+The model summary shows the estimated coefficients for the fixed effects of the model, including the intercept and the effect of temperature. The estimated coefficients represent the average effect of each predictor on the response variable, accounting for the non-linear effect of time and the linear effect of temperature. The summary also includes the standard errors and 95% credible intervals for each coefficient, providing a measure of uncertainty around the estimates.
+
+```{r}
+result$summary.hyperpar
+```
+
 
 ```{r}
 #| fig-cap: "Fitted GAM for Epidemic Y: The plot shows the fitted values of the GAM model for Epidemic Y, with the shaded area representing the 95% credible interval around the mean estimate. The blue line represents the mean estimate of the number of cases over time, capturing the non-linear trend in the data."

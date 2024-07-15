@@ -47,10 +47,10 @@ decision-making, and communicate findings to various stakeholders.
 
 ### Example 1: Visualizing COVID-19 Data
 
-Data is from the ECDC (European Centre for Disease Prevention and
-Control) and is updated daily. The data includes information on the
-number of deaths for each country. The dataset is available on the ECDC
-website and can be accessed through the `{covid19.analytics}` package.
+Data is from the **ECDC (European Centre for Disease Prevention and
+Control)**, data is updated daily. The data includes information on the
+number of deaths for each country. The dataset can be accessed through
+the `{covid19.analytics}` package.
 
 ```{r}
 #| eval: false
@@ -61,10 +61,103 @@ install.packages("covid19.analytics")
 #| message: false
 #| warning: false
 library(tidyverse)
-cfr <- covid19.analytics::covid19.data() %>%
+library(covid19.analytics)
+
+covid19.ALL.agg.cases <- covid19.data("aggregated")
+```
+
+
+```{r}
+data <- covid19.ALL.agg.cases %>% 
+  select(Country_Region, Last_Update, 
+         Confirmed, Deaths, Recovered) %>%
+  mutate(Last_Update = as.Date(Last_Update)) 
+
+data %>% 
+  head
+```
+
+```{r}
+data %>%
+  group_by(Last_Update) %>%
+  summarise(across(Confirmed:Recovered, ~ mean(.x, na.rm = TRUE)))
+```
+
+
+```{r}
+data %>%
+  ggplot(aes(x = Confirmed, y = Deaths)) +
+  geom_point() +
+  geom_smooth() +
+  labs(title = "COVID-19 Deaths by Country",
+       x = "Confirmed", y = "Number of Deaths") 
+```
+
+The relationship is linear between the number of confirmed cases and the number of deaths. The model can be fitted using linear regression to predict the number of deaths based on the number of confirmed cases.
+```{r}
+mod <- lm(Deaths ~ Confirmed + Recovered, data = data) 
+
+summary(mod)$coefficients
+```
+
+
+```{r}
+Pred <- predict(mod, newdata = data)
+
+data_pred <- cbind(data %>% select(Confirmed, Deaths),Pred) %>%
+  mutate(Residuals = Deaths - Pred) 
+
+data_pred %>%
+  head()
+```
+
+Let's see the results in a plot:
+```{r}
+#| layout-ncol: 2
+data_pred %>%
+  ggplot(aes(Deaths, Pred)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, color = "red") +
+  geom_segment(aes(xend = Deaths, yend = Pred), alpha = 0.5) +
+  labs(title = "Predicted vs. Actual Deaths",
+       x = "Actual Deaths", y = "Predicted Deaths") 
+
+
+data_pred %>%
+  ggplot(aes(Confirmed, Residuals)) +
+  geom_point() +
+  geom_hline(yintercept = 0, color = "red") +
+  labs(title = "Residuals vs. Confirmed Cases",
+       x = "Confirmed Cases", y = "Residuals") 
+```
+
+```{r}
+#| label: fig-lm-results 
+data_pred %>%
+  ggplot() +
+  geom_point(aes(Confirmed, Deaths)) +
+  geom_line(aes(Confirmed, Pred), linetype = "dashed") +
+  labs(title = "Observed vs. Predicted",
+       x = "Confirmed Cases", y = "Deaths",
+       caption = "Source: ECDC") 
+```
+
+
+```{r}
+cfr <- covid19.ALL.agg.cases %>% 
   select(Country_Region, Last_Update, Lat, Long_, Case_Fatality_Ratio)
 
 cfr %>%
+  head()
+```
+
+```{r}
+covid19.TS.deaths <- covid19.data("ts-deaths")
+covid19.TS.deaths %>% 
+    pivot_longer(cols = c(-Province.State, 
+                          -Country.Region, 
+                          -Lat, -Long),
+               names_to = "Date", values_to = "Deaths") %>%
   head()
 ```
 

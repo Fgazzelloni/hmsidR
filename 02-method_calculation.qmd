@@ -134,7 +134,11 @@ unique(hmsidwR::deaths2019$cause)
 ```
 
 Our specific task is to calculate the Years of Life Lost (YLLs)
-attributable to stroke in the year 2019 for the Global region.
+attributable to stroke in the year 2019 for the Global region. We filter
+the location to be "Global" and the cause to be "Stroke". The use of
+`str_detect()` is to match the cause of death containing a specific
+word, it is very useful when the cause of death is not exactly
+containing just one word.
 
 ```{r}
 deaths_stroke <- hmsidwR::deaths2019 %>%
@@ -145,6 +149,13 @@ deaths_stroke <- hmsidwR::deaths2019 %>%
 
 deaths_stroke %>% head()
 ```
+
+Then, we visualize the number of deaths due to stroke by age group, with
+a `geom_boxplot()`. The boxplot shows the distribution of the number of
+deaths by age group, with the median, quartiles, and outliers. The plot
+is divided by age group and shows the variation in the number of deaths
+due to stroke. We can observe the difference in the number of deaths
+increases for older age groups.
 
 ```{r}
 #| label: fig-deaths_stroke
@@ -163,8 +174,16 @@ deaths_stroke %>%
 ```
 
 Among the indicators available in the `hmsidwR::gho_lifetables` dataset,
-we specifically focus on the indicator denoted as $ex$, which represents
-the expectation of life at age $x$.
+we specifically focus on the indicator denoted as $e_x$, which
+represents the expectation of life at age $x$. This dataset is part of
+the Global Health Observatory (GHO) data repository, which is maintained
+by the World Health Organization (WHO). The dataset also contains life
+table indicators, such as the number of person-years lived above age $x$
+$(l_x)$, the number of person-years lived between ages $x$ and $x+n$
+$(_{n}L_x)$, the age-specific death rate between ages $x$ and $x+n$
+$(_{n}M_x)$, the number of people dying between ages $x$ and $x+n$
+$(_{n}d_x)$, and the probability of dying between ages $x$ and $x+n$
+$(_{n}q_x)$.
 
 ```{r}
 #| label: tbl-indicators
@@ -185,17 +204,22 @@ hmsidwR::gho_lifetables %>%
   knitr::kable()
 ```
 
-The expectation of life at age x $(ex)$ refers to the life expectancy at
-age $x$. We use the estimated value of the expected life for 5-year age
-groups, such as \<1,..., 05-09, 10-14, etc. for both females and males
-in place of the standard life expectancy $(le)$.
+The expectation of life at age x $(e_x)$ refers to the life expectancy
+at age $x$. We use the estimated value of the expected life for 5-year
+age groups, such as \<1, ... , 05-09, 10-14, etc. for both females and
+males.
 
 The standard life expectancy represents the maximum number of years a
-person can live. For example, if we consider the **Japanese life
-expectancy at birth**, which is measured in total years, according to
-the estimation released in 2021 by the United Nations Population
-Division research, it is approximately 84 years. And so in our case it
-would not be suitable for representing different age groups.
+person can live at birth. For example, if we consider the **Japanese
+life expectancy at birth**, which is measured in total years, according
+to the estimation released in 2021 by the United Nations Population
+Division research, it is approximately 84 years.
+
+To calculate the YLLs due to stroke, we need to use the life expectancy
+at different ages. We filter the `gho_lifetables` dataset to year 2019,
+which is the most updated year available for the life expectancy data,
+and select the indicator `ex` to get the life expectancy at different
+ages, renaming it as `le`.
 
 ```{r}
 ex2019 <- hmsidwR::gho_lifetables %>%
@@ -207,7 +231,16 @@ ex2019 %>% head()
 ```
 
 Then we merge the `deaths_stroke` with the `ex2019` data to calculate
-the YLLs due to stroke in the Global region.
+the YLLs due to stroke in the Global region with the `full_join()`
+function, and group the data by age and sex before to create one more
+vector named `YLL`, which is the product of the number of deaths and the
+life expectancy at that age. These YLLs values are expressed in
+millions, and are not necessarily the real values, but estimated values.
+Their values are strongly dependent on the life expectancy and the
+number of deaths due to stroke, also other adjustments can be made to
+the life expectancy values to get more accurate results. In the past,
+the calculation of YLLs included the use of a discount rate, which is no
+longer used in the most recent calculations.
 
 ```{r}
 YLL_global_stroke <- deaths_stroke %>%
@@ -293,8 +326,10 @@ Moreover, the calculation of YLDs has been updated over the years,
 shifting from an incidence to a prevalence-based approach. More in-depth
 analyses are in @sec-03-components; for now, we will show how both types
 of calculations differ, but then we will focus on using the most updated
-approach based on values of prevalence estimated by the GBD2019,
-summarized in the `hmsidwR::g7_hmetrics` dataset.
+approach based on values of prevalence estimated by the GBD2021,
+summarized in the `hmsidwR::incprev_stroke1921` dataset. This dataset
+specifically contains the estimated values for the incidence and
+prevalence of stroke in the Global region for the years 2019 and 2021.
 
 #### Incidence-based Calculation
 
@@ -337,47 +372,53 @@ across all age groups, rather than concentrating them at the age of
 incidence.
 
 In the following example we use the `disability weights` and the
-`severity` levels extracted from a dataset in the GBD 2019 study. The
-dataset `disweights2019` is stored in the `{hmsidwR}` package and is
-made of `r dim(hmsidwR::disweights2019)[1]` observations and
-`r dim(hmsidwR::disweights2019)[2]` variables. It contains the estimated
+`severity` levels extracted from a dataset in the GBD study. The dataset
+`disweights` is stored in the `{hmsidwR}` package and is made of
+`r dim(hmsidwR::disweights)[1]` observations and
+`r dim(hmsidwR::disweights)[2]` variables. It contains the estimated
 values for the disability weights, which are measured on a scale from 0
 to 1, where 0 equals a state of full health and 1 equals death.
 
 ```{r}
-hmsidwR::disweights2019 %>%
-  select(specification, cause1, severity, dw) %>%
-  drop_na() %>%
-  head()
+hmsidwR::disweights %>%
+  filter(year == 2019) %>%
+  group_by(cause1, severity) %>%
+  reframe(dw = mean(dw)) %>%
+  filter(cause1 == "Stroke") 
 ```
 
-The level of `severity` is assigned based on the **level of
-disability**, which is categorized as **mild**, **moderate**, or
-**severe**. The disability weights are assigned as follows:
+The level of `severity` is assigned based on the **level of disability**
+by the **National Institutes of Health Stroke Scale**, or
+[**NIH**](https://en.wikipedia.org/wiki/National_Institutes_of_Health "National Institutes of Health")
+**Stroke Scale** (**NIHSS**). The classification is used by healthcare
+providers to objectively quantify the impairment caused by a
+[stroke](https://en.wikipedia.org/wiki/Stroke "Stroke"). Here is assumed
+a sample population affected by a stroke, categorized as **mild**,
+**moderate**, or **severe** with assigned proportions.
 
--   Mild = 20%
--   Moderate = 45%
--   Severe = 75%
+| Score | Stroke severity | Severity Level | Severity % |
+|-------|-----------------|----------------|------------|
+| 0-4   | Minor stroke    | Mild           | 50.3%      |
+| 5–20  | Moderate stroke | Moderate       | 25.3%      |
+| 21-42 | Severe stroke   | Severe         | 24.4%      |
 
 These levels are general for all ages; the values might vary for other
 specifications of the level of disability [@wyper2020].
 
 ```{r}
-dwsev2019 <- hmsidwR::disweights2019 %>%
+dwsev2019 <- hmsidwR::disweights %>%
   select(cause1, severity, dw) %>%
   drop_na() %>%
   mutate(severity_n = case_when(
-    severity == "mild" ~ 0.2,
-    severity == "moderate" ~ 0.45,
-    severity == "severe" ~ 0.75))
+    severity == "mild" ~ 0.503,
+    severity == "moderate" ~ 0.253,
+    severity == "severe" ~ 0.244))
 
 dwsev2019 %>% head()
 ```
 
 The values for disability weights and severity are considered for all
-ages; generally, the level of disability weights can differ by age for
-different types of stroke, but here, for simplicity, weights are only
-varied based on the severity level of stroke.
+ages; in general, they differ by age, and for different types of stroke.
 
 ```{r}
 dw_stroke <- dwsev2019 %>%
@@ -388,43 +429,61 @@ dw_stroke <- dwsev2019 %>%
 dw_stroke 
 ```
 
-And calculate the YLDs as:
-
-$$ \text{Total YLDs} = \text{YLD}_{\text{mild}} + \text{YLD}_{\text{moderate}} + \text{YLD}_{\text{severe}}$$
+Then, calculate the part of the population affected by a specific level
+of severity considering the prevalence (and/or the incidence) multiplied
+by the severity levels.
 
 For instance, here we use the `incprev_stroke1921` and the `dw_stroke`
 datasets to calculate the YLDs due to stroke, and have a look at how
-incidence and prevalence differ from each other. 
+incidence and prevalence differ from each other.
 
-They can be expressed as percent values or numbers, so for example:
+::: {.callout .callout-info}
+Health metrics values can be expressed as numbers, percents or rates:
 
--   if the prevalence of stroke is 0.58 for male with age between 34-39
-    and it is expressed in percent value (%), it means 0.58% of the
-    population within that age range had a stroke.
 -   if the prevalence of stroke is 1,541,506.96 for male with age
     between 34-39 and it is expressed in numbers, it means that there
     are approximately 1,541,507 individuals in the age group 35-39 had a
     stroke.
+-   if the prevalence of stroke is 0.58 for male with age between 34-39
+    and it is expressed in percent value (%), it means 0.58% of the
+    population within that age range had a stroke.
+-   if the prevalence of stroke is expressed as rate, it is the number
+    of cases of stroke per 100,000 individuals in the population.
 
-The percentage and the number are related by the size of the population
-in that age group. To convert between these forms, you need to know the
-total population in the age group. Let's consider the the incidence and prevalence and multiply these values for the severity levels for stroke in the Global region. In this way we obtain three values for of YLDs, one for each severity level. 
+Percentages and numbers are related by the size of the population in
+that age group. To convert between these forms, you need to know the
+total population in the age group.
+:::
+
+Let's consider the numbers of incidence and prevalence, and assign them
+as two separate vectors in a new dataset named `inc_prev_stroke_5y`. We
+use the `pivot_wider()` function to spread the data into a wider format,
+with the `measure` column as the key column and the `val` column as the
+value column.
+
 ```{r}
 inc_prev_stroke_5y <- hmsidwR::incprev_stroke1921 %>%
   filter(year == 2019) %>%
   select(measure, sex, age, val) %>%
   pivot_wider(names_from = "measure", values_from = "val")
-
-inc_prev_stroke_5y %>% head()
 ```
 
-The calculation of YLDs due to stroke in the Global region with both
-approaches incidence and prevalence is shown below.
+Let's check the values for the age group 35-39.
 
-While for calculating prevalence-based YLDs, we use the `Prevalence`
-values, the `severity` and the `average weights`, for incidence-based
-YLDs, we need to consider the `Incidence` values and the
-`average duration` of the condition.
+```{r}
+inc_prev_stroke_5y %>%
+  arrange(sex) %>%
+  filter(age == "35-39")
+```
+
+Then, multiply these values for the severity levels for stroke in the
+Global region. In this way we obtain three values one for each severity
+level.
+
+For calculating the prevalence-based YLDs, we use the `Prevalence`
+values, the `severity` and the `average weights`, while for
+incidence-based YLDs, we also need to consider the `average duration` of
+the condition.
 
 In particular, for stroke, the average duration of the condition can
 vary based on:
@@ -439,41 +498,65 @@ In this example, we consider the average duration of the condition for
 
 $$ \hat{L}_{stroke}= \frac{28}{365} $$ These values strongly depends on
 the disability weights and the severity values assigned to the
-condition. Here we have considered estimated values, which do not
-necessarily correspond to the real values.
+condition.
 
-```{r}
-options(scipen = 999)
-YLD_global_stroke <- merge(inc_prev_stroke_5y, dw_stroke) %>%
-  group_by(sex, age) %>%
-  reframe(prev_sev = Prevalence*severity_n,
-          inc_sev = Incidence*severity_n,
-          YLD_p = sum(prev_sev* avg_dw),
-          YLD_i = sum(inc_sev* avg_dw * 28/365))
-```
-
-For instance, for a male with age 34-39, the YLDs due to stroke calculated on the population of that age group who has the condition for three different severity levels, are shown below.
 ```{r}
 #| echo: false
-merge(inc_prev_stroke_5y, dw_stroke) %>%
-  group_by(sex, age) %>%
+options(scipen = 999)
+```
+
+```{r}
+YLD_by_severity <- merge(inc_prev_stroke_5y, dw_stroke) %>%
+  group_by(sex, age, avg_dw) %>%
   reframe(prev_sev = Prevalence*severity_n,
           inc_sev = Incidence*severity_n,
-          YLD_p = (prev_sev* avg_dw),
-          YLD_i = (inc_sev* avg_dw * 28/365)) %>% 
+          yld_p = prev_sev* avg_dw,
+          yld_i = inc_sev* avg_dw * 28/365)
+```
+
+Let's check the values for the age group 35-39.
+
+```{r}
+YLD_by_severity %>%
+  filter(age == "35-39")
+```
+
+We can reverse the calculation to check the original values.
+
+```{r}
+YLD_by_severity %>%
+  filter(age == "35-39") %>%
+  group_by(sex, age) %>%
+  reframe(prev=sum(prev_sev),
+          inc=sum(inc_sev))
+```
+
+And, finally calculate the total value for YLDs as:
+
+$$ \text{Total YLDs} = \text{YLD}_{\text{mild}} + \text{YLD}_{\text{moderate}} + \text{YLD}_{\text{severe}}$$
+
+```{r}
+YLD_global_stroke <- YLD_by_severity %>%
+  group_by(sex, age) %>%
+  reframe(YLD_p = sum(yld_p),
+          YLD_i = sum(yld_i))
+```
+
+For instance, for a male with age 34-39, the YLDs due to stroke
+calculated on the population of that age group who has the condition for
+three different severity levels, are shown below.
+
+```{r}
+YLD_global_stroke %>% 
   filter(sex == "male",
          age == "35-39")
 ```
 
-And the total amount of prevalence-based YLDs for the same age group is shown below.
-```{r}
-#| echo: false
-YLD_global_stroke %>% 
-  filter(sex == "male",
-         age == "35-39")%>%
-  distinct(sex,age,YLD_p)
-```
-This value is the sum of the severity levels of prevalence-based YLDs due to stroke, it strongly depends on the disability weights and the severity values assigned to the condition. Here we have considered estimated values, which do not necessarily correspond to the real values.
+This value is the sum of the severity levels of prevalence-based YLDs
+due to stroke, it strongly depends on the disability weights and the
+severity values assigned to the condition. Here we have considered
+estimated values, which do not necessarily correspond to the real
+values.
 
 We note the difference in the YLDs if incidence or prevalence is used in
 the calculation. The magnitude of the YLDs is similar, but the values
@@ -579,7 +662,7 @@ and YLDs in different groups.
 ### Example: DALYs due to Stroke
 
 The sum of YLLs and YLDs releases the overall value of DALYs due to
-stroke in the Global region. 
+stroke in the Global region.
 
 ```{r}
 DALY_global_stroke <- YLL_global_stroke %>%
@@ -593,14 +676,13 @@ DALY_global_stroke <- YLL_global_stroke %>%
 DALY_global_stroke %>%
   head()
 ```
+
 Let's have a closer look at the 35-39 age groups.
 
 ```{r}
 DALY_global_stroke %>%
   filter(age == "35-39")
 ```
-
-
 
 ```{r}
 #| echo: false
@@ -613,7 +695,6 @@ dat <- DALY_global_stroke %>%
   mutate_if(is.numeric, scale)
 ```
 
-
 ```{r}
 #| warning: false 
 #| message: false 
@@ -621,7 +702,8 @@ dat <- DALY_global_stroke %>%
 #| eval: true 
 #| label: fig-DALY_global_stroke 
 #| fig-cap: "DALYs due to stroke in the Global region. The blue line represents the DALYs, YLLs and YLDs are pink for females and green for males." 
-#| fig-alt: "DALYs due to stroke in the Global region"  
+#| fig-alt: "DALYs due to stroke in the Global region" 
+ 
 dat %>%
   pivot_longer(cols=c(-sex,-age)) %>%
   ggplot(aes(x = age, y = value, group = name, linetype = name)) +
@@ -639,10 +721,10 @@ dat %>%
 
 ## How DALYs are Used
 
-DALY, YLL, and YLD can be used in several ways to
-help prioritize public health interventions, evaluate the impact of
-diseases and injuries, and inform public health decision-making. Some
-common uses of these metrics include:
+DALY, YLL, and YLD can be used in several ways to help prioritize public
+health interventions, evaluate the impact of diseases and injuries, and
+inform public health decision-making. Some common uses of these metrics
+include:
 
 -   **Prioritizing public health interventions**: By calculating the
     overall burden of disease in a population, public health
