@@ -87,14 +87,21 @@ manner. It provides a flexible framework for customizing visualizations
 and supports the creation of a wide range of plots, from basic scatter
 plots to intricate multi-layered visualizations.
 
-It starts with the `ggplot()` function, which initializes the plot. The function takes a data frame as its first argument and then additional arguments to specify the aesthetics of the plot, such as the x and y variables, color, shape, and size.
+It starts with the `ggplot()` function, which initializes the plot. The
+function takes a data frame as its first argument and then additional
+arguments to specify the aesthetics of the plot, such as the x and y
+variables, color, shape, and size.
 
 ```{r}
 #| eval: false
 ggplot()
 ```
 
-The aesthetics are defined using the `aes()` function, which maps variables in the data frame to visual properties of the plot, such as x and y coordinates, color, shape, and size. The `aes()` function is the mapping part of the plot, and it can be called with the `mapping` argument in the layers of the plot.
+The aesthetics are defined using the `aes()` function, which maps
+variables in the data frame to visual properties of the plot, such as x
+and y coordinates, color, shape, and size. The `aes()` function is the
+mapping part of the plot, and it can be called with the `mapping`
+argument in the layers of the plot.
 
 ```{r}
 #| eval: false
@@ -103,23 +110,34 @@ ggplot(data = df,
 ```
 
 Data can also be called outside of the `ggplot()` function.
+
 ```{r}
 #| eval: false
 data %>%
    ggplot(aes(x = x, y = y, color = z))
 ```
 
-And then additional layers are added using functions like `geom_point()` for a scatterplot, or `geom_line()` for a line plot, and so on. 
+And then additional layers are added using functions like `geom_point()`
+for a scatterplot, or `geom_line()` for a line plot, and so on. Then, with the `labs()` function, we can add titles, labels, and captions to the plot.
+
 ```{r}
 #| eval: false
 ggplot(data = df, aes(x = x, y = y, color = z))+
   geom_point()+
-  ggtitle("Scatter Plot")
+  labs(title = "Scatter Plot")
 ```
 
-The `{ggplot2}` package provides a wide range of geoms, scales, and themes to customize the appearance of the plot. By combining these elements, you can create visually appealing and informative visualizations that effectively communicate your data. 
+The `{ggplot2}` package provides a wide range of geoms, scales, and
+themes to customize the appearance of the plot. By combining these
+elements, you can create visually appealing and informative
+visualizations that effectively communicate your data.
 
-It allows the user to create complex visualizations by combining simple building blocks, with each layer of the plot allowing for an aesthetic mapping of data to visual properties, such as color, shape, and size, making it easy to create a wide range of visualizations, or even new data.
+It allows the user to create complex visualizations by combining simple
+building blocks, with each layer of the plot allowing for an aesthetic
+mapping of data to visual properties, such as color, fill, shape, and size,
+making it easy to create a wide range of visualizations, or even new
+data. In this example there is also the use of an alternative to the `labs()` function with the `ggtitle()` function, which differs in the way the title is placed in the plot.
+
 ```{r}
 #| eval: false
 ggplot(data = df, aes(x = x, y = y, color = z))+
@@ -128,7 +146,12 @@ ggplot(data = df, aes(x = x, y = y, color = z))+
   ggtitle("Scatter Plot")
 ```
 
-In addition to functions provided by `{ggplot2}`, there are ggplot **extensions**, other functions and packages that can be used to create visualizations in R, such as `{plotly}`, `{ggplotly}`, `{leaflet}`, `{tmap}`, and `{shiny}`. These tools provide additional functionality for creating interactive plots, maps, and dashboards, allowing for more engaging and dynamic data visualizations.
+In addition to functions provided by `{ggplot2}`, there are ggplot
+**extensions**, other functions and packages that can be used to create
+visualizations in R, such as `{plotly}`, `{ggplotly}`, `{leaflet}`,
+`{tmap}`, and `{shiny}`. These tools provide additional functionality
+for creating interactive plots, maps, and dashboards, allowing for more
+engaging and dynamic data visualizations.
 
 ## General Guidelines for Data Visualization
 
@@ -343,15 +366,13 @@ lineplot <- hmsidwR::germany_lungc |>
   ggplot(aes(x = age, y = dx, group = sex)) +
   geom_line(aes(linetype=sex)) +
   geom_point() +
-  labs(
-    title = "Lung Cancer Deaths by Age in Germany",
-    x = "Age",
-    y = "Deaths")
+  labs(title = "Lung Cancer Deaths by Age in Germany",
+       x = "Age",
+       y = "Deaths")
 ```
 
 ```{r}
 #| layout-ncol: 3
-#| label: fig-09-plot-layout
 #| echo: false
 scatterplot
 barplot
@@ -376,7 +397,8 @@ own. Here we just add the `scale_color_manual()` function to customize
 the original plot, with a new color palette.
 
 By typing `?scale_color_manual()` in the R console, you can access the
-documentation and explore other options for customizing colors.
+documentation and explore other options for customizing colors using the
+`scale_<..>_<..>()` functions.
 
 ```{r}
 #| eval: false
@@ -385,7 +407,13 @@ lineplot +
   scale_color_manual(values = c("brown", "navy", "orange"))
 ```
 
-In addition to colors, patterns can be used to differentiate between the groups in the plot. The `{ggpattern}` package provides a variety of patterns that can be used to fill the bars in a bar plot. Here we have used the `geom_col_pattern()` function to add patterns to the bars in the plot. An example is in @fig-09-plot-layout with the barplot. Another way is to use the `linetype` or `shape` aesthetics to differentiate between groups in a line plot or scatter plot.
+In addition to colors, patterns can be used to differentiate between the
+groups in the plot. The `{ggpattern}` package provides a variety of
+patterns that can be used to fill the bars in a bar plot. Here we have
+used the `geom_col_pattern()` function to add patterns to the bars in
+the plot. An example is in show in the plot with the barplot. Another
+way is to use the `linetype` or `shape` aesthetics to differentiate
+between groups in a line plot or scatter plot.
 
 ### Theme, Legends and Guides
 
@@ -432,17 +460,18 @@ lineplot2 <- lineplot1 +
 The layout of your plots can significantly impact their effectiveness.
 Arranging multiple plots in a grid can help compare different aspects of
 your data side-by-side. We can use the `grid.arrange()` function from
-the `gridExtra` package to arrange multiple plots in a grid layout. Or,
+the `{gridExtra}` package to arrange multiple plots in a grid layout. Or,
 we can use the `layout()` function to specify the layout of the plots.
-There are other packages that can be used such as `patchwork` and
-`cowplot`, which provide additional functionalities for arranging plots.
+There are other packages that can be used such as `{patchwork}` and
+`{cowplot}`, which provide additional functionalities for arranging plots.
 
 ```{r}
 #| eval: false
+#| labs: fig-plot-layout
 # Example: Arranging multiple plots
 library(gridExtra)
 
-grid.arrange(p, p1, p2, ncol = 3)
+grid.arrange(lineplot, lineplot1, lineplot2, ncol = 3)
 ```
 
 ```{r}
@@ -453,6 +482,10 @@ lineplot1
 lineplot2
 ```
 
+#### Exercise
+
+Try replicating the plots above, customizing the legend, the axis text, and adding a log scale to the y-axis. You can also add a caption to the plot, specifying the data source.
+
 ### Saving as an Image
 
 Once you've created your visualization, you might want to save it as an
@@ -460,7 +493,7 @@ image file for sharing or publication.
 
 ```{r}
 #| eval: false
-ggsave("lineplot.png", plot = p2, width = 6, height = 4)
+ggsave("lineplot.png", plot = lineplot2, width = 6, height = 4)
 ```
 
 ## Practicing Data Visualization
