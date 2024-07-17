@@ -171,9 +171,66 @@ covid19.TS.deaths %>%
   head()
 ```
 
-### Example 2: Visualizing Predicted vs. Actual DALYs:
+### Example 2: Ischemic Stroke Decision Tree
 
--   Creating scatter plots to compare predicted Disability-Adjusted Life
-    Years (DALYs) with actual values.
--   Analyzing residuals to identify patterns and areas for model
-    improvement.
+In this example we have a look at hoe to visualize the results of a decision tree model for predicting Ischemic Stroke.
+
+Load necessary libraries:
+```{r}
+# Ischemic Stroke decision tree
+library(tidymodels)
+library(rpart)
+library(rpart.plot)
+```
+
+Load the data for the Ischemic Stroke from the GitHub repository of the book: "Feature Engineering and Selection: A Practical Approach for Predictive Models" by Max Kuhn and Kjell Johnson.
+```{r}
+load(url("https://github.com/topepo/FES/blob/master/Data_Sets/Ischemic_Stroke/stroke_data.RData?raw=true"))
+```
+
+Data is already split into training and test sets, we will combine them for the analysis. We just need to select the variables of interest for the analysis with `any_of()`, a function to select the variables of interest for the analysis. 
+
+`?any_of()` 
+
+```{r}
+selected_train <- 
+  stroke_train %>%
+  dplyr::select(any_of(VC_preds), Stroke)
+```
+
+Set up the recipe for the data with the `recipe()` function from the `tidymodels` package. We will use the `step_corr()` function to remove highly correlated predictors, `step_center()` and `step_scale()` to standardize the predictors, `step_YeoJohnson()` to transform the predictors, and `step_zv()` to remove zero variance predictors.
+
+```{r}
+is_recipe <- recipe(Stroke ~ ., data = selected_train) %>%
+  #step_interact(int_form)  %>%
+  step_corr(all_predictors(), threshold = 0.75) %>%
+  step_center(all_predictors()) %>%
+  step_scale(all_predictors()) %>%
+  step_YeoJohnson(all_predictors()) %>%
+  step_zv(all_predictors())
+
+is_recipe%>%prep()%>%bake(new_data=NULL)%>%select(1:5)%>%head(5)
+```
+
+Set up the decision tree model with the `decision_tree()` function from the `tidymodels` package. We will use the `rpart` engine for the decision tree model and set the mode to classification.
+```{r}
+class_tree_spec <- decision_tree() %>%
+  set_engine("rpart") %>%
+  set_mode("classification")
+```
+
+Finally, we will fit the model with the `fit()` function from the `tidymodels` package and visualize the results with the `rpart.plot` package.
+```{r}
+is_wfl <- workflow() %>%
+  add_model(class_tree_spec) %>%
+  add_recipe(is_recipe)
+
+is_dt_fit_wfl <- is_wfl %>%
+  fit(data = selected_train,
+      control = control_workflow())
+
+is_dt_fit_wfl%>%
+  extract_fit_engine() %>%
+  rpart.plot::rpart.plot(roundint = FALSE)
+```
+

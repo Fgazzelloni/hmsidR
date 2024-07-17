@@ -734,7 +734,7 @@ year 2019, as well as the severity level of the condition set as to be
 mild, moderate, severe, and combined for selected communicable, and
 Non-communicable diseases. To access the data:
 
-`hmsidwR::disweights2019`
+`hmsidwR::disweights`
 
 ```{r}
 #| message: false
@@ -742,7 +742,7 @@ Non-communicable diseases. To access the data:
 #| eval: true
 
 library(hmsidwR)
-disability_weights <- hmsidwR::disweights2019
+disability_weights <- hmsidwR::disweights
 ```
 
 The table here shows the first 6 rows of the disability
@@ -754,6 +754,7 @@ weights for the year 2019 for 204 countries and territories.
 #| tbl-cap: "Disability Weights"
 
 disability_weights %>%
+  filter(year == 2019) %>%
   select(specification, severity, dw) %>%
   head()
 ```
@@ -772,10 +773,11 @@ condition on an individual's quality of life.
 #| tbl-cap: "Severity and Disability Weights"
 
 library(hmsidwR)
-disability_weights <- hmsidwR::disweights2019
+disability_weights <- hmsidwR::disweights
 
 disability_weights %>%
-  filter(cause1 == "Infectious disease") %>%
+  filter(year == 2019,
+         cause1 == "Infectious disease") %>%
   group_by(severity) %>%
   summarize(dw = mean(dw))
 ```
@@ -932,7 +934,7 @@ fatal disability status. This can appear in conjunction with other
 conditions, or morbidities, that are not fatal but are acting together
 with the lung-cancer[@porst2022]. The disability weights are available
 from GBD study[@ihmeuw/i2024] are the same as those found in the
-`disweights2019` dataset.
+`disweights` dataset.
 
 ```{r}
 #| message: false
@@ -940,8 +942,9 @@ from GBD study[@ihmeuw/i2024] are the same as those found in the
 #| label: tbl-disweights2019-lung
 #| tbl-cap: "Lung cancer - Disability Weights"
 
-lung_dw <- hmsidwR::disweights2019 %>%
-  filter(str_detect(sequela, "lung")) %>%
+lung_dw <- hmsidwR::disweights %>%
+  filter(year == 2019,
+         str_detect(sequela, "lung")) %>%
   select(sequela, dw)
 ```
 
@@ -1022,7 +1025,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|--------------------|------------------|------------------|------------------|
+|-------------------|------------------|------------------|------------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
