@@ -23,40 +23,144 @@ Learning Objectives
 :::
 :::
 
-This chapter is dedicated to spatial modelling and visualization.
+This chapter is dedicated to spatial modelling and visualization. All
+that we saw in the previous chapters is now applied to spatial data. We will use the `{sf}` package to handle spatial data and the `{ggplot2}` package to make maps. Also, we will see how to make spatial models and how to visualize them.
 
-## Locate infections with Montecarlo simulations
+## Making a Map
 
-In this example we use synthetic data made with a classic technique of a
-for-loop. We build a four vector data-frame with longitude, latitude,
-number of people between infected and non infected in a population.
+In this section, we will learn how to make a map using data from the
+`{rnaturalearth}` package. This package contains various types of
+boundaries of countries in the world. For more information type `?rnaturalearth`. Also for specific location we can use the `{worldmet}` package, which import surface meteorological data from NOAA Integrated Surface Database (ISD).
+
+For this example, we will use the `ne_countries()` function to get the
+boundaries of African countries, with the option `returnclass = "sf"` to
+return the data as **simple features**. The other option is to return
+the data as **spatial data** with the option `returnclass = "sp"`. This
+means that with an `sf` object we obtaining a data frame with the
+geometry of the countries, while with an `sp` object we obtain the
+longitude and latitude of the countries.
 
 ```{r}
 #| message: false
 #| warning: false
 library(tidyverse)
+library(sf)
+library(rnaturalearth)
+
+africa <- ne_countries(continent = "Africa", returnclass = "sf")
+
+africa %>% class()
+```
+
+The `africa` dataset contains `africa` the boundaries of African
+countries as simple features, and other information such as the country
+name, continent, population, and geometry of the country. This is a simple map of Africa, but we can make it more interesting by adding some colors to the countries.
+
+```{r}
+#| layout-ncol: 2
+#| label: fig-simple-africa
+#| fig-cap:
+#|  - "Simple Africa"
+#|  - "Africa with colors"
+#| fig-alt: "Africa Country"
+ggplot(data = africa) +
+  geom_sf() +
+  ggthemes::theme_map()
+
+africa %>%
+  ggplot() +
+  geom_sf(aes(fill=name), show.legend = F) +
+  ggthemes::theme_map()
+```
+
+A sf geometry object can be transformed into spatial coordinates with the `sf::st_coordinates()` function, for polygons, L3 refers to the
+MULTIPOLYGON feature. See `?sf::st_coordinates()` for more information.
+
+```{r}
+africa_df <- africa %>%
+  sf::st_coordinates() %>%
+  as.data.frame() 
+
+africa_df %>%dim
 ```
 
 ```{r}
-# creating empty dataframe template
+#| layout-ncol: 2
+#| label: fig-continous-vs-factor
+#| fig-cap: 
+#|  - "Africa - Continous Values"
+#|  - "Africa - Factor Values"
+#| fig-alt: "Africa Continous vs Factor Values"  
+africa_df %>%
+  ggplot(aes(x = X, y = Y, group=L3)) +
+  geom_polygon(aes(fill= L3), show.legend = F) +
+  coord_sf() +
+  ggthemes::theme_map()
+
+africa_df %>%
+  ggplot(aes(x = X, y = Y, group=L3)) +
+  geom_polygon(aes(fill= factor(L3)), show.legend = F) +
+  coord_sf() +
+  ggthemes::theme_map()
+```
+
+
+## Locate Infections with Montecarlo Simulations
+
+In this example we use synthetic data made with a classic technique of a
+for-loop. We build a four vector data-frame with longitude, latitude, taken from the `africa` data to simulate random infections in **Central African Rep.**, with a further vector specifying the number of people between infected and non infected in the population.
+
+```{r}
+ctr_africa <- africa%>%
+  filter(name == "Central African Rep.")
+```
+
+With the `sf::st_bbox()` we can retrieve the bounding box of the `ctr_africa` object, which is a matrix with the minimum and maximum values of the coordinates.
+```{r}
+ctr_africa %>% sf::st_bbox()
+```
+
+Also, we need the mean values for the longitude and latitude, use the `sf::st_coordinates()` function to extract the coordinates and extract the information with the `summary()` function.
+```{r}
+ctr_africa %>% 
+  sf::st_coordinates() %>% 
+  as.data.frame() %>% 
+  select(X, Y) %>%
+  summary()
+```
+
+Here we can see where the Central African Republic is located in Africa.
+```{r}
+ggplot() +
+ geom_sf(data = africa) +
+ geom_sf(data = ctr_africa, fill = "pink") +
+ ggthemes::theme_map()
+```
+
+Let's now create the synthetic data with the `rnorm()` function, which generates random numbers from a normal distribution. The data frame is made of 1000 individuals, the first 500 entries are non-infected, the other 500 entries are infected. In this case we use the latitude and longitude mean values from the `ctr_africa` object, to randomly generate the coordinates of the infections.
+
+The first step for making a loop is to create an empty dataframe template where to put the data. The `matrix()` function creates a matrix with 500 rows and 4 columns, which are the longitude, latitude, number of people, and type of infection. The `colnames()` function assigns the names to the columns.
+
+```{r}
+set.seed(200724)  
 df <- as.data.frame(matrix(nrow = 1000, ncol = 4))
 # naming dataframe headers
 colnames(df) <- c("longitude",
                   "latitude",
                   "number",
                   "type")
-# First 500 entries are non infected, the other 500 entries are infected
-for (i in 1:1000) { if (i > 500) {
+
+for (i in 1:1000) { if (i > 1000*0.7) {
   df$type[i] <- "infected"
   } else {
     df$type[i] <- "non_infected"
   }
   # coordinates
   df$latitude[i] <- rnorm(n = 1,
-                          mean = 46.8705,
+                          mean = 6.294,
                           sd = 1)[1]
   df$longitude[i] <- rnorm(n = 1,
-                           mean = 3.834,
+                           mean = 20.70,
                            sd = 1)[1]
   # infections
   df$number[i] <- rnorm(n = 1,
@@ -65,17 +169,15 @@ for (i in 1:1000) { if (i > 500) {
   }
 ```
 
+
+Let's see the first rows of the dataframe with the `head()` function.
 ```{r}
 df %>%
   head()
 ```
 
-```{r}
-df %>%
-  summary()
-```
 
-### The epicenter of infection
+## The epicenter of infection
 
 Calculate the coordinates of the center of mass for the infections, even
 called **epicenter** of the infections.
@@ -103,88 +205,54 @@ df_com <- tibble(longitude = com[1],
 df_com
 ```
 
-### Mapping infections
-
-There are various ways to map infections, here we'll see three type of
-maps made with `{ggplot2}`, `{ggmap}`, and `{leaflet}`.
-
-Also for specific location we can use the `{worldmet}` package.
-
-#### Map with ggplot2
+Finally, plot the infections and the center of mass on the map of Africa.
 
 ```{r}
+#| layout-ncol: 2
+#| label: fig-center-of-mass
+#| fig-cap:
+#|  - "Center of Mass"
+#|  - "Location of Infections"  
+#| fig-alt: "Center of Mass"  
 ggplot() +
   geom_point(data = df,
              mapping = aes(x = longitude,
                            y = latitude,
-                           color = type,
-                           size = number),
-             alpha = 0.1) +
+                           group = type,
+                           color = factor(type)),
+                       alpha = 0.5) +
   geom_point(data = df_com,
              mapping = aes(x = longitude,
+                           y = latitude), 
+             size = 4, color = "red") +
+  scale_color_manual(values = c("infected" = "#a60845",
+                                "non_infected" = "grey")) +
+  labs(title = "Center of mass of the infections",
+       color = "Type") 
+  
+ggplot() +
+  geom_sf(data = ctr_africa, fill = alpha("pink",alpha=0.3)) +
+  geom_point(data = df,
+             mapping = aes(x = longitude,
                            y = latitude,
-                           size = number), 
-             color = "black") +
+                           group = type,
+                           color = factor(type)),
+             alpha = 0.5, show.legend = F) +
+  geom_point(data = df_com,
+             mapping = aes(x = longitude,
+                           y = latitude), 
+             size = 4, color = "red") +
   scale_color_manual(values = c("infected" = "#a60845",
-                                "non_infected" = "grey20")) +
-  xlab("Longitude") +
-  ylab("Latitude") +
-  ggtitle("Center of mass") +
-  labs(
-    color = "Type",
-    size = "Magnitude of Infection") +
-  theme_minimal()
+                                "non_infected" = "grey")) +
+  labs(title = "Infections in Central African Rep.") +
+  ggthemes::theme_map()+
+  theme(plot.title = element_text(face = "bold"))
 ```
 
-#### Map with ggmap
 
-```{r}
-#| eval: false
-#| message: false
-#| warning: false
-library(ggmap)
-bbox <- c(left = -1.099,
-          bottom = 44.559,
-          right = 8.767,
-          top = 49.182
-          )
+## Map with leaflet
 
-mapObj <- get_stadiamap(bbox,
-                        maptype = "stamen_terrain",
-                        zoom = 6
-                        )
-
-mapatt <- attributes(mapObj)
-mapObj <- matrix(adjustcolor(mapObj, alpha.f = 0.2),
-  nrow = nrow(mapObj)
-)
-attributes(mapObj) <- mapatt
-mapObj <- ggmap(mapObj)
-mapObj <- mapObj +
-  geom_point(data = df, mapping = aes(x = longitude,
-                                      y = latitude,
-                                      color = type,
-                                      size = number), 
-             alpha = 0.05) +
-  geom_point(data = df_com, mapping = aes(x = longitude,
-                                          y = latitude,
-                                          size = number), 
-             color = "black") +
-  scale_color_manual(values = c("infected" = "#a60845",
-                                "non_infected" = "grey20")) +
-  xlab("Longitude") +
-  ylab("Latitude") +
-  ggtitle("Center of mass") +
-  labs(
-    color = "Type",
-    size = "Magnitude of Infection")
-
-mapObj
-```
-
-#### Map with leaflet
-
-Import `{leaflet}` and `{leaflet.extras}` to make a heatmap:
+Install and load `{leaflet}` and `{leaflet.extras}` to make a `heatmap`:
 
 ```{r}
 library(leaflet)
