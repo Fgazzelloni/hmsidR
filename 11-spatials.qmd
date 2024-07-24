@@ -3,9 +3,9 @@
 ```{r}
 #| echo: false
 library(ggplot2)
-book_theme <- theme_minimal() + 
+map_theme <- ggthemes::theme_map() + 
   theme(plot.title=element_text(face="bold"))
-ggplot2::theme_set(book_theme)
+ggplot2::theme_set(map_theme)
 ```
 
 ::: solutionbox
@@ -31,20 +31,20 @@ we will see how to make spatial models and how to visualize them.
 
 ## Making a Map
 
-In this section, we will learn how to make a map using data from the
-`{rnaturalearth}` package. This package contains various types of
+In this section, we will learn how to make a map using spatial data from
+the `{rnaturalearth}` package. This package contains various types of
 boundaries of countries in the world. For more information type
-`?rnaturalearth`. Also for specific location we can use the `{worldmet}`
-package, which import surface meteorological data from NOAA Integrated
-Surface Database (ISD).
+`?rnaturalearth`. Also for surface meteorological data we use the
+`{worldmet}` package, which import data from NOAA Integrated Surface
+Database (ISD).
 
-For this example, we will use the `ne_countries()` function to get the
-boundaries of African countries, with the option `returnclass = "sf"` to
-return the data as **simple features**. The other option is to return
-the data as **spatial data** with the option `returnclass = "sp"`. This
-means that with an `sf` object we obtaining a data frame with the
-geometry of the countries, while with an `sp` object we obtain the
-longitude and latitude of the countries.
+We use the `rnaturalearth::ne_countries()` function to get the
+boundaries of Africa, with the option `returnclass = "sf"` to return the
+data as **simple features**. The other option is to return the data as
+**spatial data** with the option `returnclass = "sp"`. This means that
+with an `sf` object we obtaining a data frame with the geometry of the
+countries, while with an `sp` object we obtain the longitude and
+latitude of the countries.
 
 ```{r}
 #| message: false
@@ -58,11 +58,12 @@ africa <- ne_countries(continent = "Africa", returnclass = "sf")
 africa %>% class()
 ```
 
-The `africa` dataset contains `africa` the boundaries of African
-countries as simple features, and other information such as the country
-name, continent, population, and geometry of the country. This is a
-simple map of Africa, but we can make it more interesting by adding some
-colors to the countries.
+The `africa` dataset contains the boundaries of African countries as
+simple features, and other information such as the country name,
+continent, population, and geometry of the country. This is a simple map
+of Africa, but we can make it more interesting by adding some colors to
+the countries. A better resolution of the colored map can be found in
+the online version of the book.
 
 ```{r}
 #| layout-ncol: 2
@@ -71,59 +72,29 @@ colors to the countries.
 #|  - "Simple Africa"
 #|  - "Africa with colors"
 #| fig-alt: "Africa Country"
+# Simple Africa  
 ggplot(data = africa) +
-  geom_sf() +
-  ggthemes::theme_map()
-
-africa %>%
-  ggplot() +
-  geom_sf(aes(fill=name), show.legend = F) +
-  ggthemes::theme_map()
-```
-
-A sf geometry object can be transformed into spatial coordinates with
-the `sf::st_coordinates()` function, for polygons, L3 refers to the
-MULTIPOLYGON feature. See `?sf::st_coordinates()` for more information.
-
-```{r}
-africa_df <- africa %>%
-  sf::st_coordinates() %>%
-  as.data.frame() 
-
-africa_df %>%dim
-```
-
-```{r}
-#| layout-ncol: 2
-#| label: fig-continous-vs-factor
-#| fig-cap: 
-#|  - "Africa - Continous Values"
-#|  - "Africa - Factor Values"
-#| fig-alt: "Africa Continous vs Factor Values"  
-
-africa_df %>%
-  ggplot(aes(x = X, y = Y, group=L3)) +
-  geom_polygon(aes(fill= L3), show.legend = F) +
-  coord_sf() +
-  ggthemes::theme_map()
-
-africa_df %>%
-  ggplot(aes(x = X, y = Y, group=L3)) +
-  geom_polygon(aes(fill= factor(L3)), show.legend = F) +
-  coord_sf() +
-  ggthemes::theme_map()
+  geom_sf() 
+# Africa with colors
+ggplot(data = africa) +
+  geom_sf(aes(fill=name), 
+          color= "white", 
+          linewidth = 1,
+          show.legend = F) 
 ```
 
 ## Locate Infections with Montecarlo Simulations
 
-In this example we use synthetic data made with a classic technique of a
-for-loop. We build a four vector data-frame with longitude, latitude,
-taken from the `africa` data to simulate random infections in **Central
-African Rep.**, with a further vector specifying the number of people
-between infected and non infected in the population.
+Now that the map of Africa is ready, we can simulate infections in a
+specific country, such as the Central African Republic. We will create
+synthetic data for the infections, including the number of infected
+people, their location, and other variables such as wind speed,
+temperature, precipitation, and humidity. This data will be used to
+visualize the spatial distribution of infections and assess the risks
+associated with the spread of the disease.
 
 ```{r}
-ctr_africa <- africa%>%
+ctr_africa <- africa %>%
   filter(name == "Central African Rep.")
 ```
 
@@ -132,31 +103,77 @@ With the `sf::st_bbox()` we can retrieve the bounding box of the
 values of the coordinates.
 
 ```{r}
-ctr_africa %>% sf::st_bbox()
+bbox <- ctr_africa %>% st_bbox()
+
+bbox
 ```
 
-Also, we need the mean values for the longitude and latitude, use the
-`sf::st_coordinates()` function to extract the coordinates and extract
-the information with the `summary()` function.
+And retrieve the mean values for the longitude and latitude with the
+`sf::st_coordinates()` function to extract the coordinates and then,
+extract the information with the `summary()` function.
 
 ```{r}
-ctr_africa %>% 
+ctr_africa_coords <- ctr_africa %>% 
   sf::st_coordinates() %>% 
   as.data.frame() %>% 
-  dplyr::select(X, Y) %>%
+  dplyr::select(X, Y) 
+
+ctr_africa_coords %>%
   summary()
 ```
 
-Here we can see where the Central African Republic is located in Africa.
+Then, create a grid of points within the bounding box of the Central
+African Republic, with the `DescTools::PtInPoly()` function. The
+function checks if a point is inside a polygon, which in this case is
+the Central African Republic.
 
 ```{r}
-ggplot() +
- geom_sf(data = africa) +
- geom_sf(data = ctr_africa, fill = "pink") +
- ggthemes::theme_map()
+library(DescTools)
+set.seed(240724) # set seed for reproducibility
+bbox_grid <- expand_grid(x = seq(from = bbox$xmin,
+                                       to = bbox$xmax,
+                                       length.out = 100),
+                               y = seq(from = bbox$ymin,
+                                       to = bbox$ymax,
+                                       length.out = 100))
+ctr_africa_grid <- data.frame(DescTools::PtInPoly(bbox_grid,
+                               ctr_africa_coords)) 
+
+ctr_africa_grid %>% head()
 ```
 
-Let's now create the synthetic data containing not only the number of infections in different locations in Central Africa but also other variables such as wind speed, temperature, precipitation, and humidity. The data frame is made of 100 point locations, with 70% of infected locations and 30% of non-infected locations. The latitude and longitude are generated from a normal distribution with mean values of 6.294 and 20.70, respectively. The number of infected people is generated from a Poisson distribution with a mean value of 10. The wind speed is generated from a Weibull distribution, the temperature from a normal distribution, the precipitation from a gamma distribution, and the humidity from a beta distribution.
+```{r}
+#| layout-ncol: 2
+#| label: fig-grid-africa
+#| fig-cap:
+#|  - "Central Africa"
+#|  - "Central Africa Grid"
+#| fig-alt: "Central Africa Grid"
+# Central Africa
+ggplot() +
+  geom_sf(data = africa) +
+  geom_sf(data = ctr_africa, fill = "grey20") +
+  labs(title = "Central Africa Region")
+# Central Africa Grid
+ggplot(data = ctr_africa_grid) +
+  geom_point(aes(x,y, color = factor(pip)), shape = ".") +
+  scale_color_manual(values = c("1" = "red", "0" = "grey")) +
+  labs(title = "Central Africa Grid",
+       color = "PIP") +
+  theme(legend.position= "top")
+```
+
+Let's now create the synthetic data containing not only the number of
+infections in different locations in Central Africa but also other
+variables such as wind speed, temperature, precipitation, and humidity.
+The data frame is made of 100 point locations, with 70% of infected
+locations and 30% of non-infected locations. The latitude and longitude
+are generated from a normal distribution with mean values of 6.294 and
+20.70, respectively. The number of infected people is generated from a
+Poisson distribution with a mean value of 10. The wind speed is
+generated from a Weibull distribution, the temperature from a normal
+distribution, the precipitation from a gamma distribution, and the
+humidity from a beta distribution.
 
 Set the number of points (simulations):
 
@@ -164,18 +181,25 @@ Set the number of points (simulations):
 num_points <- 100
 ```
 
-Initialize data frame to store the synthetic data, and generate random data for the different variables:
+In particular, for generating random data for the different variables in
+the synthetic data, we use the following functions:
 
-- The `rnorm()` function generates random numbers from a normal distribution for the temperature, and latitude and longitude, considering the mean values of the Central African Republic. 
+-   The `rnorm()` function generates random numbers from a **Normal**
+    distribution for the temperature, and latitude and longitude,
+    considering the mean values of the Central African Republic.
 
-- The `rpois()` function generates random numbers from a Poisson distribution for the number of infected people, with a mean value of lambda equal to 10.
+-   The `rpois()` function generates random numbers from a **Poisson**
+    distribution for the number of infected people, with a mean value of
+    lambda equal to 10.
 
-- The `rweibull()` function generates random numbers from a Weibull distribution for the wind speed.
+-   The `rweibull()` function generates random numbers from a
+    **Weibull** distribution for the wind speed.
 
-- The `rgamma()` function generates random numbers from a gamma distribution for the precipitation.
+-   The `rgamma()` function generates random numbers from a **Gamma**
+    distribution for the precipitation.
 
-- The `rbeta()` function generates random numbers from a beta distribution for the humidity.
-
+-   The `rbeta()` function generates random numbers from a **Beta**
+    distribution for the humidity.
 
 ```{r}
 set.seed(200724) # set seed for reproducibility 
@@ -184,8 +208,8 @@ type <- ifelse(1:num_points > num_points * 0.7, "infected", "non_infected")
 latitude <-  rnorm(n = num_points, mean = 6.294, sd = 1)
 longitude <- rnorm(n = num_points, mean = 20.70, sd = 1)
 number <- ifelse(type == "infected", rpois(n = num_points*0.7, lambda = 10),0)
-wind_speed <- rweibull(n = num_points, shape = 2, scale = 10)
 temperature <- rnorm(n = num_points, mean = 25, sd = 5)
+wind_speed <- rweibull(n = num_points, shape = 2, scale = 10)
 precipitation <- rgamma(n = num_points, shape = 2, scale = 5)
 humidity <- rbeta(n = num_points, shape1 = 2, shape2 = 5) * 100 
 sunlight_hours <- rnorm(n = num_points, mean = 8, sd = 2)
@@ -194,56 +218,112 @@ df <- data.frame(type, latitude, longitude, number,
                  wind_speed, temperature, precipitation, 
                  humidity, sunlight_hours)  
   
-head(df[c(1:4,6)])
+head(df[c(1:5)])
 ```
 
-For the next step, we will create a raster template to plot the temperature data on the map of Central African Republic. The raster template will have the same extent as the Central African Republic boundary and will be used to **rasterize** the **temperature** data. The raster template will be created using the `raster()` function from the `{raster}` package, specifying the number of rows and columns, the minimum and maximum values for the x and y coordinates, and the coordinate reference system (CRS) of the raster.
+Then, we create a raster template to plot the temperature data on the
+map of Central African Republic. The raster template has the same extent
+as the simulated infected locations and will be used to **rasterize**
+the **temperature** data. This means that the temperature data will be
+converted into a raster format, with each cell in the raster grid
+representing a specific temperature value. The rasterized temperature
+data will be visualized as a heatmap on the map, with warmer colors
+indicating higher temperatures.
+
+The raster template is created using the `rast()` function from the
+`{terra}` package, specifying the number of rows and columns, the
+minimum and maximum values for the x and y coordinates, and the
+coordinate reference system (CRS) of the raster. If you want to know
+more about the raster package, type `?terra`.
+
+Transform the `df` data as a simple features object:
 
 ```{r}
 df_sf <- st_as_sf(df,
                   coords = c("longitude", "latitude"),
                   crs = 4326)
 
-df_sf %>%st_bbox()
+df_sf %>% st_bbox()
 # xmin      ymin      xmax      ymax
 # 17.628586  3.676935 23.087899  8.487271
 ```
 
-The raster template will have 18 rows and 36 columns, with the x and y coordinates ranging from 11 to 28 and 2 to 12, respectively. 
-
-Create a template raster:
+The raster template is set to have 18 rows and 36 columns, with the x
+and y coordinates ranging from 11 to 28 and 2 to 12, respectively.
 
 ```{r}
 #| warning: false
 #| message: false
 
-library(raster)  
-raster_template <- raster(nrows = 18, ncols = 36,
-                          xmn = 11, xmx = 28,
-                          ymn = 2, ymx = 12,
+library(terra) # load the terra package 
+raster_template <- terra::rast(nrows = 18, ncols = 36,
+                          xmin = 11, xmax = 28,
+                          ymin = 2, ymax = 12,
                           crs = st_crs(df_sf)$proj4string)
 ```
 
-Rasterize the temperature data using the `rasterize()` function from the `{raster}` package. The rasterize function converts the temperature data from the data frame to a raster format based on the raster template. The temperature data is assigned to the raster cells based on the latitude and longitude coordinates.
+Rasterize the temperature data using the `rasterize()` function from the
+`{raster}` package. The rasterize function converts the temperature data
+from the data frame to a raster format based on the raster template. The
+temperature data is assigned to the raster cells based on the latitude
+and longitude coordinates.
 
 ```{r}
-ctr_africa_raster <- rasterize(df_sf,
+ctr_africa_raster <- terra::rasterize(df_sf,
                           raster_template,
-                          field = "temperature")
+                          field = "temperature",
+                          fun = max)
 ```
 
-Before plotting the rasterized temperature data on the map of Central African Republic, we need to convert the rasterized data to a data frame format. This will allow us to visualize the temperature data as a heatmap on the map. The rasterized data contains the temperature values for each cell in the raster grid, which are assigned based on the latitude and longitude coordinates of the temperature data.
+Before plotting the rasterized temperature data on the map of Central
+African Republic, we need to convert the rasterized data to a data frame
+format. This will allow us to visualize the temperature data as a
+heatmap on the map. The rasterized data contains the temperature values
+for each cell in the raster grid, which are assigned based on the
+latitude and longitude coordinates of the temperature data.
 
 ```{r}
 ctr_africa_raster_df <- as.data.frame(ctr_africa_raster, 
                                       xy = TRUE)
+ctr_africa_raster_df %>% head()
 ```
 
+```{r}
+#| layout-ncol: 2
+#| label: fig-raster-africa
+#| fig-cap:
+#|  - "Temperature Raster"
+#|  - "Central Africa Raster"
+#| fig-alt: "Central Africa Raster"
+# Temperature Raster
+ctr_africa_raster %>%
+  plot(main = "Simulated Temperature in Central African Rep.")
+# Central Africa Raster  
+ggplot() +
+ geom_point(data = ctr_africa_grid %>% 
+                      filter(pip == 1),
+            aes(x,y), shape = ".") +
+ geom_raster(data = ctr_africa_raster_df,
+              aes(x = x, y = y, fill = max)) +
+  scale_fill_gradient(low = "white", high = "black",
+              na.value = "transparent") +
+ labs(title = "Max Temperature in Central African Rep.(Simulated Values)",
+      fill = "Max Temperature") 
+```
+
+In addition, we add the epicenter of the infections to the map to
+visualize the center of mass of the infections.
 
 ## The epicenter of infection
 
-Calculate the coordinates of the center of mass for the infections, even
-called **epicenter** of the infections. The center of mass is the average of the latitude and longitude of the infected individuals, weighted by the number of infected individuals at each location. This provides a central point that represents the spatial distribution of infections in the region. The center of mass is a useful metric for understanding the spatial dynamics of disease spread and identifying critical zones for intervention.
+To calculate the coordinates of the **center of mass** for the infections, even
+called **epicenter** of the infections, we use the `center_of_mass()` function.
+The center of mass is the average of the latitude and longitude of the infected individuals,
+weighted by the number of infected individuals at each location. This
+provides a central point that represents the spatial distribution of
+infections in the region. The center of mass is a useful metric for
+understanding the spatial dynamics of disease spread and identifying
+critical zones for intervention.
 
 ```{r}
 center_of_mass <- function(df) {
@@ -260,43 +340,48 @@ com <- as.double(com)
 com
 ```
 
+Then we create a dataframe `df_com`
 ```{r}
 df_com <- tibble(longitude = com[1],
-                 latitude = com[2],
-                 number = 200,
-                 type = "CoM")
+                 latitude = com[2])
 df_com
 ```
 
+Finally, plot the infections on the map of Central African Republic,
+with the temperature data represented as a raster layer. The temperature
+data is displayed as a **heatmap**, with warmer colors indicating higher
+temperatures. The infections are shown as points on the map, with
+different colors representing infected and non-infected locations.
 
-Finally, plot the infections on the map of Central African Republic, with the temperature data represented as a raster layer. The temperature data is displayed as a **heatmap**, with warmer colors indicating higher temperatures. The infections are shown as points on the map, with different colors representing infected and non-infected locations.
+Note, here a new package is used, the `{ggnewscale}` package, which is a package that allows you to add multiple color scales to a single plot. This is useful when you want to visualize different variables with different color scales in the same plot.
 
 ```{r}
 #| layout-ncol: 2
 #| label: fig-synthetic-data 
 #| fig-cap:
-#|  - "Synthetic Data Visualization"
-#|  - "Infections in Central African Rep."
+#|  - "Location of Infections"
+#|  - "Infections Size on Max Temperature"
 #| fig-alt: "Synthetic Data Visualization"
-   
-ggplot(df, aes(x = longitude, y = latitude, color = type)) +
-  geom_point() +
+# Location of Infections   
+ggplot() +
+  geom_point(data = df, 
+             aes(x = longitude, y = latitude, color = type)) +
+  scale_color_manual(values = c("infected" = "#a60845",
+                                "non_infected" = "grey")) +
   geom_point(data = df_com,
              aes(x = longitude, y = latitude), 
              color = "red", size = 4) +
-  labs(title = "Synthetic Data Visualization",
-       x = "Longitude",
-       y = "Latitude",
-       color = "Infection Status") +
-  theme_minimal()
-  
+  labs(title = "Location of Infections",
+       subtitle = "Synthetic Data",
+       color = "Infection Status") 
+# Infections Size on Max Temperature  
 ggplot() +
   geom_sf(data = ctr_africa,
           fill = alpha("pink",alpha=0.3)) +
   geom_raster(data = ctr_africa_raster_df,
-              aes(x = x, y = y, fill = layer)) +
-  viridis::scale_fill_viridis(name = "Temperature", alpha = 0.7,
-                              na.value = "transparent") +
+              aes(x = x, y = y, fill = max)) +
+  scale_fill_gradient(low = "white", high = "black",
+              na.value = "transparent") +
   # set a new scale color
   ggnewscale::new_scale_color() +
   geom_point(data = df,
@@ -305,26 +390,47 @@ ggplot() +
                            group = type,
                            color = factor(type),
                            size = number),
-             alpha = 0.5, show.legend = F) +
+             alpha = 0.8, show.legend = F) +
   scale_color_manual(values = c("infected" = "#a60845",
                                 "non_infected" = "grey")) +
   geom_point(data = df_com,
-             aes(x = longitude, y = latitude,
-                 size = number, color = type),
-             alpha = 0.5, show.legend = F) +
-  geom_point(data = df_com,
              aes(x = longitude, y = latitude), 
              color = "red", size = 4) +
-  labs(title = "Infections in Central African Rep.") +
-  ggthemes::theme_map()+
+  labs(title = "Infections Size on Max Temperature",
+       subtitle = "Synthetic Data",
+       fill = "Temperature") +
   theme(plot.title = element_text(face = "bold"))
 ```
 
-## Map with leaflet
+:::: {.content-visible when-format="html"}
+::: solutionbox
+**Interactive Maps**
 
-Install and load `{leaflet}` and `{leaflet.extras}` to make a `heatmap`:
+The infections can be visualized with {mapview} or {leaflet}, type of interactive maps, here is a code snippet of how to do it. 
+
+**Map with Mapview:**
+
+This is the interactive map with the max temperatures for the simulated data in Central African Republic. The data represented as a raster points, with warmer colors indicating higher temperatures are shown as points on the map.
 
 ```{r}
+#| label: fig-mapview-heatmap
+#| fig-cap: "Interactive Temperature Raster Points"
+#| fig-alt: "Interactive Temperature"  
+library(mapview)
+
+mapview(df_sf,
+        zcol = "temperature",
+        map.types = "CartoDB.Voyager")
+```
+
+**Map with Leaflet:**
+
+The `{leaflet}` and `{leaflet.extras}` packages are widely explained in the package documentation. Here is shown howe to make a `heatmap` with the infections and the center of mass.
+
+```{r}
+#| label: fig-leaflet-heatmap
+#| fig-cap: "Interactive Heatmap"  
+#| fig-alt: "Interactive Heatmap"
 library(leaflet)
 library(leaflet.extras)
 # define center of map
@@ -332,23 +438,27 @@ lat_center <- com[2]
 long_center <- com[1]
 # creating intensity heat map
 heatmap <- df %>%
-  leaflet() %>%
-  addTiles() %>%
-  setView(long_center, lat_center, 4.5) %>%
-  addHeatmap(lng = ~longitude, lat = ~latitude,
-             intensity = ~number,
-             max = 100, radius = 13, blur = 20) %>%
-  # parameter to set
-  addMarkers(lng = as.numeric(com[1]), lat = as.numeric(com[2]))
+    leaflet() %>%
+    addTiles() %>%
+    setView(long_center, lat_center, 4.5) %>%
+    addHeatmap(lng = ~longitude, lat = ~latitude,
+               intensity = ~number,
+               max = 10, radius = 20, blur = 10) %>%
+    # parameter to set
+    addMarkers(lng = as.numeric(com[1]), 
+               lat = as.numeric(com[2]))
+heatmap
 ```
 
+Then, we can save the map as an image with the `mapshot()` function from the `{mapview}` package.
 ```{r}
 #| eval: false
 # webshot::install_phantomjs()
 mapview::mapshot(heatmap, file = "images/heatmap.png")
 ```
 
-<center>![](images/heatmap.png)</center>
+:::
+::::
 
 ### The Euclidean distance
 
@@ -365,10 +475,9 @@ The Euclidean distance formula:
 
 $$\text{Euclidean Distance} = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
 
-Where: - $(x_1, y_1)$ are the coordinates (e.g., latitude and longitude)
-of the first point (e.g., infected individual). - $(x_2, y_2)$ are the
-coordinates of the second point (e.g., susceptible individual or
-location).
+Where: $(x_1, y_1)$ are the coordinates (e.g., latitude and longitude)
+of the first point (A), e.g., infected individual, and $(x_2, y_2)$ are the coordinates of the second point (B), e.g., susceptible individual or
+location.
 
 It calculates the straight-line distance between two points in a
 two-dimensional space, which can be applied to model the spatial spread
@@ -385,9 +494,9 @@ locations.
 #| fig-cap: "Euclidean Distance representation"
 
 library(ggdag)
-dagify(y ~ x,
-       exposure = "x",
-       outcome = "y",
+dagify(B ~ A,
+       exposure = "B",
+       outcome = "A",
        coords = time_ordered_coords()) %>%
   ggdag() + 
   theme_dag_blank()
@@ -405,7 +514,7 @@ euclidean_distance <- function(longitude, latitude, long_com, lat_com) {
 }
 ```
 
-The Euclidean distance is used to estimate the likelihood of
+The Euclidean distance\index{euclidean distance} is used to estimate the likelihood of
 transmission between individuals based on their spatial proximity.
 Individuals within a certain distance of an infected individual may have
 a higher risk of contracting the infection compared to those farther
@@ -414,10 +523,10 @@ away.
 ### Cost and Loss functions
 
 The simulation of the spread of infectious diseases requires the
-calculation of a **loss function**, which serves as a crucial tool for
+calculation of a **loss function**\index{loss function}, which serves as a crucial tool for
 quantifying the negative consequences associated with the spread of the
 disease. Specifically, the loss function helps delineate the
-**threshold** beyond which adverse outcomes occur, and essentially
+**threshold**\index{threshold} beyond which adverse outcomes occur, and essentially
 assigns a value to different distances, reflecting the **severity** of
 the consequences when individuals are within certain proximity to each
 other. For instance, when the Euclidean distance exceeds a predefined
@@ -454,16 +563,17 @@ to model calibration in machine learning.
 A simple example would be considering:
 
 -   Euclidean distance between infected and susceptible individuals
-
 -   Threshold distance beyond which loss occurs
 
 ```{r}
+# Distance in meters
 distance <- 5
 threshold <- 3
 ```
 
 #### Define the loss function
 
+The loss function calculates the loss incurred when the Euclidean distance between infected and susceptible individuals exceeds the threshold. The loss value increases linearly with the distance beyond the threshold, reflecting the escalating risk of disease transmission as individuals come into closer proximity to each other.
 ```{r}
 loss_function <- function(distance, threshold) {
   if (distance <= threshold) {
@@ -481,6 +591,9 @@ loss <- loss_function(distance, threshold)
 loss
 ```
 
+#### Define the cost function
+
+The **cost function**\index{cost function} calculates the total cost incurred due to the spread of infections, considering the Euclidean distance between infected and susceptible individuals and the number of infected individuals at each location. The cost value is derived from the product of the Euclidean distance and the number of infected individuals, reflecting the **cumulative impact of disease transmission across different locations**. The cost function provides a comprehensive assessment of the economic and social consequences associated with the spread of infections, guiding decision-making on public health interventions and resource allocation.
 ```{r}
 # cost calculation function
 cost_function <- function(df) {
@@ -495,14 +608,15 @@ cost_function <- function(df) {
 }
 ```
 
+Here we calculate the cost of the spread of infections in Central Africa, considering the Euclidean distance between infected and susceptible individuals and the number of infected individuals at each location. The cost value is expressed in millions, reflecting the economic impact of disease transmission in the region.
 ```{r}
 cost_function(df) / 1000000
 ```
 
-Applying Monte Carlo simulation to assess the cost and loss associated
-with the spread of infections. In the context of infectious diseases,
-data on transmission rates, infection severity, and other factors are
-subject to volatility, seasonality, and uncertainty. Monte Carlo
+## Applying Monte Carlo simulation 
+
+In the context of infectious diseases, to assess the cost and loss associated
+with the spread of infections, data on transmission rates, infection severity, and other factors are subject to volatility, seasonality, and uncertainty. Monte Carlo
 simulation, a widely-used technique in epidemiological analysis, is an
 appropriate method for assessing the risks associated with the spread of
 infections. In this case, there is a risk involved in selecting
@@ -514,13 +628,9 @@ public health measures or vaccination campaigns.
 -   How much higher could the costs and losses be, compared to the
     baseline scenario?
 
-I can apply Monte Carlo simulation by repeating the experiment,
-modelling the distribution of transmission rates and infection outcomes.
-I will repeat the scenario of infection spread (i.e., the distribution
-of transmission rates and infection outcomes) 1,000 times. For each run,
-I will calculate the resulting costs and losses associated with the
-spread of infections, and I will store the results of each run in a
-results dataframe.
+We can apply Monte Carlo simulation by repeating the experiment,
+modelling the distribution of transmission rates and infection outcomes. We will repeat the scenario of infection spread (i.e., the distribution
+of transmission rates and infection outcomes) 1,000 times, and for each run, calculate the resulting costs and losses associated with the spread of infections.
 
 ```{r}
 # dataframe for storing Monte-carlo simulation results
@@ -533,26 +643,33 @@ uncertainty / cost sensitivity.
 
 ```{r}
 for (i in 1:10000) {
-  df$number[-1001] <- rnorm(n = 1000,
-                            mean = 100,
-                            sd = 25)
+  df$number[-101] <- rpois(n = num_points * 0.7, lambda = 10)
   results$iteration[i] <- i
   results$costs[i] <- cost_function(df) / 1000000
   }
 ```
 
-Plot results of **Montecarlo** **simulation** in the form of a
-histogram:
+This is the `results` dataframe with the costs of the Monte Carlo simulation.
 
 ```{r}
+results %>% dim()
+results %>% head()
+```
+
+Plot results of **Montecarlo simulation** in the form of a histogram:
+
+```{r}
+#| label: fig-monte-carlo
+#| fig-cap: "Simulated infection sensitivity"
+#| fig-alt: "Simulated infection sensitivity"
 ggplot() +
   geom_histogram(data = results,
                  mapping = aes(x = costs),
                  fill = alpha("#a60845", alpha = 0.5),
                  bins = 25) +
-  labs(
-    title = "Simulated infection sensitivity",
-    subtitle = "at center of gravity (center of mass)") +
+  labs(title = "Simulated infection sensitivity",
+       subtitle = "at center of gravity (center of mass)") +
   xlab("Simulated loss") +
-  ylab("Absolute frequency")
+  ylab("Absolute frequency") +
+  theme_minimal()
 ```
