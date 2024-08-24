@@ -159,7 +159,7 @@ population.
 
 ```{r}
 library(deSolve)
-
+library(tidyverse)
 # Define parameters
 N <- 1e6 # Total population
 beta <- 0.5 # Transmission rate
@@ -197,7 +197,6 @@ times <- seq(0, 365, by = 1)
 result <- ode(y = init, times = times, func = seir_model)
 
 # Plot the results
-library(ggplot2)
 ggplot(as.data.frame(result), aes(time, I, color = "Infected")) +
   geom_line() +
   geom_line(aes(time, R, color = "Recovered")) +
@@ -235,7 +234,6 @@ deviation of 0.02 for gamma.
 #| warning: false
 
 library(brms)
-library(tidyverse)
 
 # Load the data
 data <- as.data.frame(result)
@@ -657,7 +655,7 @@ DALYs for lower respiratory diseases was 1,000,000. We can use the
 diseases.
 
 ```{r}
-hmsidwR::disweights2019 %>%
+hmsidwR::disweights %>%
   filter(str_detect(sequela, "lower respiratory")) %>%
   select(sequela, dw)
 ```

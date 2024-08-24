@@ -519,6 +519,13 @@ These methods are widely used in machine learning and predictive
 modelling to enhance the predictive power of the model and achieve
 better generalization performance on unseen data.
 
+In case is required install the `urca` package:
+```{r}
+#| eval: false
+install.packages("urca")
+```
+
+
 ```{r}
 caf_fit <- sdi_fr_ts |>
   model(
@@ -680,7 +687,7 @@ data %>% head()
 library(ggpattern)
 ggplot(data,
        aes(x = fct_reorder(location, YLDs),
-                y = YLDs, group = year)) +
+           y = YLDs, group = year)) +
   ggpattern::geom_col_pattern(aes(pattern = factor(year)),
                               position = "dodge",
                               fill= 'white',
@@ -691,7 +698,7 @@ ggplot(data,
 ```
 
 ```{r}
-hmsidwR::disweights2019 %>%
+hmsidwR::disweights %>%
   filter(str_detect(sequela, "tuberculosis")) %>%
   select(cause1, severity, dw)
 ```

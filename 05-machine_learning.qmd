@@ -68,10 +68,10 @@ computes tasks (T) to improve performance (P). The origins of ML, dating
 back to the late 1950s, only flourished in the 1990s with the aim of
 minimizing loss on unseen samples [@machine2024].
 
-![Machine Learning cycle](images/ml-image.png){fig-align="center"
+![Machine Learning Cycle](images/ml-image.png){fig-align="center"
 width="404"}
 
-The **Machine Learning cycle** is a continuous process that involves the
+The **Machine Learning Cycle** is a continuous process that involves the
 following steps: data collection, data preprocessing, model selection,
 model training, model evaluation, and model deployment. The cycle is
 iterative, with each step informing the next, and the process is
@@ -1072,19 +1072,23 @@ result <- inla(formula,
                data = epidemic_data)
 ```
 
-
 ```{r}
 #| eval: false
 # Summary of the results
 result$summary.fixed
 ```
 
-The model summary shows the estimated coefficients for the fixed effects of the model, including the intercept and the effect of temperature. The estimated coefficients represent the average effect of each predictor on the response variable, accounting for the non-linear effect of time and the linear effect of temperature. The summary also includes the standard errors and 95% credible intervals for each coefficient, providing a measure of uncertainty around the estimates.
+The model summary shows the estimated coefficients for the fixed effects
+of the model, including the intercept and the effect of temperature. The
+estimated coefficients represent the average effect of each predictor on
+the response variable, accounting for the non-linear effect of time and
+the linear effect of temperature. The summary also includes the standard
+errors and 95% credible intervals for each coefficient, providing a
+measure of uncertainty around the estimates.
 
 ```{r}
 result$summary.hyperpar
 ```
-
 
 ```{r}
 #| fig-cap: "Fitted GAM for Epidemic Y: The plot shows the fitted values of the GAM model for Epidemic Y, with the shaded area representing the 95% credible interval around the mean estimate. The blue line represents the mean estimate of the number of cases over time, capturing the non-linear trend in the data."
