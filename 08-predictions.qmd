@@ -76,8 +76,7 @@ now tested for years 2017 to 2021.
 First we load the original data and name it `old_data`.
 
 ```{r}
-#| message: false
-#| warning: false
+
 library(tidyverse)
 library(data.table)
 ```
@@ -326,8 +325,6 @@ plus the Global region and evaluate the difference in SDI average across
 the time.
 
 ```{r}
-#| message: false
-#| warning: false
 library(tidyverse)
 library(hmsidwR)
 library(fpp3)
@@ -377,10 +374,9 @@ sdi_fr |>
 #| label: fig-sdi-france
 #| fig-width: 5
 #| fig-height: 3
-#| message: false
-#| warning: false
 
 library(tsibble)
+
 sdi_fr_ts <- tsibble::as_tsibble(sdi_fr, index = year)
 
 sdi_fr_ts |> autoplot()
@@ -520,11 +516,11 @@ modelling to enhance the predictive power of the model and achieve
 better generalization performance on unseen data.
 
 In case is required install the `urca` package:
+
 ```{r}
 #| eval: false
 install.packages("urca")
 ```
-
 
 ```{r}
 caf_fit <- sdi_fr_ts |>
@@ -637,8 +633,6 @@ chronic. It provides insight into the chronic nature of a disease and
 the duration that individuals typically live with the disease.
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```

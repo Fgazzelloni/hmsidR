@@ -18,7 +18,6 @@ Learning Objectives
 :::
 :::
 
-
 ## Health metrics countries comparison
 
 The Global Burden of Disease (GBD) study provides a comprehensive and up

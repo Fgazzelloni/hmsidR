@@ -1,133 +1,165 @@
 # Tools Used to Make This Book {#sec-appendixB}
+
 \
-This appendix provides a comprehensive guide to replicating the environment and code used in this book. To get started, you'll need to install the **R programming language** along with **RStudio IDE**. Additionally, we'll walk through the steps for setting up a **Quarto book project**, integrating it with **GitHub** for version control, and ensuring reproducibility with the `{renv}` package. This setup will allow you to restore the project's environment exactly as it was during the book's creation, ensuring that all code examples run seamlessly.
+This appendix provides a comprehensive guide to replicating the
+environment and code used in this book. To get started, you'll need to
+install the **R programming language** along with **RStudio IDE**.
+Additionally, we'll walk through the steps for setting up a **Quarto
+book project**, integrating it with **GitHub** for version control, and
+ensuring reproducibility with the `{renv}` package. This setup will
+allow you to restore the project's environment exactly as it was during
+the book's creation, ensuring that all code examples run seamlessly.
 
 ## RStudio Installation
 
-First, you'll need to download and install R and RStudio Desktop. You can do this by visiting the following link: [RStudio Desktop Download](https://posit.co/download/rstudio-desktop/).
+First, you'll need to download and install R and RStudio Desktop. You
+can do this by visiting the following link: [RStudio Desktop
+Download](https://posit.co/download/rstudio-desktop/).
 
 ## How to Set Up This Project with Quarto
 
-Quarto is the next-generation version of RMarkdown, designed for a wide range of publishing tasks, including creating notes, presentations, websites, and books. This book has been developed using Quarto, with the project versioned on GitHub. For more details on how to publish a Quarto book, refer to the official [Quarto documentation](https://quarto.org/docs/publishing/).
+Quarto is the next-generation version of RMarkdown, designed for a wide
+range of publishing tasks, including creating notes, presentations,
+websites, and books. This book has been developed using Quarto, with the
+project versioned on GitHub. For more details on how to publish a Quarto
+book, refer to the official [Quarto
+documentation](https://quarto.org/docs/publishing/).
 
 To set up your project:
 
-1. In RStudio, create a new project in a new directory.
-2. Enable Git for version control.
-3. Select "Quarto Book Project" as the project type. This will automatically generate a `_quarto.yml` file with the following structure:
+1.  In RStudio, create a new project in a new directory.
+2.  Enable Git for version control.
+3.  Select "Quarto Book Project" as the project type. This will
+    automatically generate a `_quarto.yml` file with the following
+    structure:
 
-```yaml
+``` yaml
 ---
 project:
   type: book
 ---
 ```
 
-4. To preview your book, use the terminal to run `quarto preview`. This command will generate a `_book` directory containing the compiled book files.
+4.  To preview your book, use the terminal to run `quarto preview`. This
+    command will generate a `_book` directory containing the compiled
+    book files.
 
 #### GitHub Useful Commands
 
-You can manage your project using GitHub directly from RStudio or via command line. To connect your project with GitHub:
+You can manage your project using GitHub directly from RStudio or via
+command line. To connect your project with GitHub:
 
-1. After creating your project, initiate a Git repository with:
+1.  After creating your project, initiate a Git repository with:
 
-   ```bash
-   git init
-   git remote add origin https://github.com/yourusername/your-repo.git
-   ```
+    ``` bash
+    git init
+    git remote add origin https://github.com/yourusername/your-repo.git
+    ```
 
-2. Commit your files and push them to the GitHub repository:
+2.  Commit your files and push them to the GitHub repository:
 
-   ```bash
-   git branch -M main
-   git push -u origin main
-   ```
+    ``` bash
+    git branch -M main
+    git push -u origin main
+    ```
 
 #### Publish Your Book on GitHub Pages
 
 To publish your Quarto book on GitHub Pages:
 
-1. Modify the `_quarto.yml` file to specify the output directory as `docs`:
+1.  Modify the `_quarto.yml` file to specify the output directory as
+    `docs`:
 
-   ```yaml
-   ---
-   project:
-     type: book
-     output-dir: docs
-   ---
-   ```
+    ``` yaml
+    ---
+    project:
+      type: book
+      output-dir: docs
+    ---
+    ```
 
-2. Add a `.nojekyll` file to prevent GitHub Pages from ignoring files:
+2.  Add a `.nojekyll` file to prevent GitHub Pages from ignoring files:
 
-   ```bash
-   touch .nojekyll
-   ```
+    ``` bash
+    touch .nojekyll
+    ```
 
-3. Render your book with:
+3.  Render your book with:
 
-   ```bash
-   quarto render
-   ```
+    ``` bash
+    quarto render
+    ```
 
-   This command will create a `docs` folder where the compiled book will be stored.
+    This command will create a `docs` folder where the compiled book
+    will be stored.
 
 #### Adding a Package
 
-If you want to add a custom R package to your book project, follow these steps:
+If you want to add a custom R package to your book project, follow these
+steps:
 
-1. Create a new package using `devtools`:
+1.  Create a new package using `devtools`:
 
-   ```r
-   devtools::create("yourpkg")
-   ```
+    ``` r
+    devtools::create("yourpkg")
+    ```
 
-2. Add raw data processing scripts:
+2.  Add raw data processing scripts:
 
-   ```r
-   usethis::use_data_raw()
-   ```
+    ``` r
+    usethis::use_data_raw()
+    ```
 
-   This command creates a `.R` script in the `data-raw` directory for processing your data.
+    This command creates a `.R` script in the `data-raw` directory for
+    processing your data.
 
-3. Save processed data for use in the package:
+3.  Save processed data for use in the package:
 
-   ```r
-   usethis::use_data(yourdata)
-   ```
+    ``` r
+    usethis::use_data(yourdata)
+    ```
 
-4. Document your package functions and datasets:
+4.  Document your package functions and datasets:
 
-   ```r
-   usethis::use_r("yourdataset")
-   devtools::document()
-   ```
+    ``` r
+    usethis::use_r("yourdataset")
+    devtools::document()
+    ```
 
-   Use vignettes for additional documentation:
+    Use vignettes for additional documentation:
 
-   ```r
-   vignette("rd-other") # For datasets
-   vignette("rd")
-   ```
+    ``` r
+    vignette("rd-other") # For datasets
+    vignette("rd")
+    ```
 
-   Finally, build your package to include all new data and functions:
+    Finally, build your package to include all new data and functions:
 
-   ```r
-   devtools::load_all(".")
-   ```
+    ``` r
+    devtools::load_all(".")
+    ```
 
 #### Ensuring Reproducibility with renv
 
-To ensure that all analyses and code examples in the book are reproducible, we've utilized the **renv** package. This package captures the specific versions of all R packages used in the project, storing them in an **renv.lock** file located in the root directory of the book's GitHub repository.
+To ensure that all analyses and code examples in the book are
+reproducible, we've utilized the **renv** package. This package captures
+the specific versions of all R packages used in the project, storing
+them in an **renv.lock** file located in the root directory of the
+book's GitHub repository.
 
 To restore the project environment to its original state:
 
-1. Clone the project repository.
-2. Run the following command in your R console:
+1.  Clone the project repository.
 
-   ```r
-   renv::restore()
-   ```
+2.  Run the following command in your R console:
 
-   This command reads the **renv.lock** file and reinstalls all packages with the exact versions used during the book's development.
+    ``` r
+    renv::restore()
+    ```
 
-Using **renv** ensures that all code examples work as intended, regardless of future package updates, making it easier for readers to replicate analyses or adapt the code to their datasets.
+    This command reads the **renv.lock** file and reinstalls all
+    packages with the exact versions used during the book's development.
+
+Using **renv** ensures that all code examples work as intended,
+regardless of future package updates, making it easier for readers to
+replicate analyses or adapt the code to their datasets.

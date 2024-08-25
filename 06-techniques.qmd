@@ -211,8 +211,6 @@ rabies %>% head()
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 #| eval: false
 breaks <- seq(min(rabies$year), max(rabies$year), by = 10)
@@ -236,9 +234,6 @@ model's ability to learn from the data. To address this issue, we can
 scale and center the numeric variables to make them more comparable.
 
 ```{r}
-#| message: false
-#| warning: false
-
 p1 <- rabies %>%
   ggplot(aes(x = year, group = location, color = location)) +
   geom_line(aes(y = dx_rabies),
@@ -262,8 +257,6 @@ p2 <- rabies %>%
 #|   - "Scaled and centered"
 #| fig-alt: "DALYs due to Rabies - Not scaled and Scaled and centered"
 #| echo: false
-#| message: false
-#| warning: false
 
 legend_grob <- cowplot::get_legend(
   ggplot(data = rabies %>%
@@ -273,7 +266,6 @@ legend_grob <- cowplot::get_legend(
     geom_line(aes(y = value),
               color = "grey") +
     labs(linewidth = ""))
-
 
 p1 +
   labs(
@@ -319,8 +311,6 @@ and DALYs for both rabies and all causes, it is necessary to scale or
 standardize the data as shown above.
 
 ```{r}
-#| message: false
-#| warning: false
 p3 <- dat %>%
   select(-year, -location) %>%
   scale() %>%
@@ -348,8 +338,6 @@ p4 <- dat %>%
 #| fig.cap: "Scaled and centered"
 #| fig-alt: "Deaths and DALYs due to Rabies and All Causes - Scaled and centered"
 #| echo: false
-#| message: false
-#| warning: false
 
 legend_grob2 <- cowplot::get_legend(
   ggplot(data = dat %>%
@@ -404,9 +392,8 @@ sets. The proportion assigned to train can vary but it usually assigned
 to be 80%, also a stratification option can be set.
 
 ```{r}
-#| message: false
-#| warning: false
 library(tidymodels)
+
 set.seed(04042024)
 split <- initial_split(dat, prop = 0.8)
 training <- training(split)
@@ -533,8 +520,6 @@ with a machine learning algorithm.
 #| label: fig-response-transformation
 #| fig.cap: "Response variable transformation"
 #| echo: false
-#| message: false
-#| warning: false
 
 ggplot(dat) +
   geom_density(aes(x = dalys_rabies)) +
@@ -616,8 +601,6 @@ engine is notably faster than random forest, so let's use that for this
 example.
 
 ```{r}
-#| message: false
-#| warning: false
 rf_mod <- rand_forest(mtry = tune(),
                       trees = tune(),
                       min_n = tune(),
@@ -711,8 +694,6 @@ the regularization parameter lambda.
 Adding Machine Learning Features with `{glmnet}` and Cross-Validation
 
 ```{r}
-#| message: false
-#| warning: false
 if (!require(glmnet)) install.packages("glmnet")
 library(glmnet)
 ```
@@ -784,8 +765,6 @@ are optimally tuned for the given data, embodying a key aspect of
 machine learning methodologies.
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 #| layout-ncol: 2
 #| label: fig-glmnet-predictions

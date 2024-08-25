@@ -71,8 +71,6 @@ information type `?rnaturalearth`. In particular, we use the
 option `returnclass = "sf"` to return the data as **simple features**.
 
 ```{r}
-#| message: false
-#| warning: false
 library(tidyverse)
 library(sf)
 library(rnaturalearth)
@@ -95,8 +93,6 @@ adding some colors to the countries. A better resolution of the colored
 map can be found in the online version of the book.
 
 ```{r}
-#| message: false
-#| warning: false
 #| layout-ncol: 2
 #| label: africa_map
 #| fig.cap: 
@@ -261,8 +257,6 @@ df%>%
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| layout-ncol: 2
 #| label: africa_map2
 #| fig.cap: 
@@ -319,8 +313,6 @@ with the x-axis representing the presence of infection and the y-axis
 representing the count of locations.
 
 ```{r}
-#| warning: false
-#| message: false
 #| layout-ncol: 2
 #| label: simulated_data
 #| fig.cap: 
@@ -367,24 +359,21 @@ country. Finally, select the relevant columns for the analysis.
 [^11-spatials-2]: More information on coordinate reference system is
     here: <https://epsg.io/>.
 
-    ```{r}
-    #| warning: false
-    #| message: false
+```{r}
+df_sf <- df %>%
+  st_as_sf(coords = c("longitude","latitude"),
+           # or use crs = 4326
+           crs = "+proj=longlat +datum=WGS84") %>%
+  st_intersection(ctr_africa) %>%
+  st_make_valid()
 
-    df_sf <- df %>%
-      st_as_sf(coords = c("longitude","latitude"),
-               # or use crs = 4326
-               crs = "+proj=longlat +datum=WGS84") %>%
-      st_intersection(ctr_africa) %>%
-      st_make_valid()
-
-    grid <- df_sf %>%
-      st_bbox() %>%
-      st_as_sfc() %>%
-      st_make_grid(what = "centers",
-                   cellsize = .2,
-                   square = F) 
-    ```
+grid <- df_sf %>%
+  st_bbox() %>%
+  st_as_sfc() %>%
+  st_make_grid(what = "centers",
+               cellsize = .2,
+               square = F) 
+```
 
 To generate the grid of points to cover all Central African Republic we
 can also use the `expand_grid()` function from the `{tidyr}` package,
@@ -413,8 +402,6 @@ Mapping the grid of points on the map of Central African Republic, we
 can visualize the spatial distribution of infected locations.
 
 ```{r}
-#| warning: false
-#| message: false
 #| layout-ncol: 2
 #| label: africa_map3
 #| fig.cap: 
@@ -467,8 +454,6 @@ The raster template is set to have 18 rows and 36 columns, with the x
 and y coordinates ranging from 11 to 28 and 2 to 12, respectively.
 
 ```{r}
-#| warning: false
-#| message: false
 library(terra) 
 raster_template <- terra::rast(nrows = 18, ncols = 36,
                           xmin = 11, xmax = 28,
@@ -502,8 +487,6 @@ ctr_africa_raster_df %>% head()
 ```
 
 ```{r}
-#| warning: false
-#| message: false
 #| layout-ncol: 2
 #| label: africa_map4
 #| fig.cap: 
@@ -575,8 +558,6 @@ This is useful when you want to visualize different variables with
 different color scales in the same plot.
 
 ```{r}
-#| warning: false
-#| message: false
 #| layout-ncol: 2
 #| label: africa_map5
 #| fig.cap: 
@@ -626,8 +607,8 @@ ggplot() +
 ::: solutionbox
 **Interactive Maps**
 
-The infections can be visualized with `{mapview}` or `{leaflet}`, type of
-interactive maps, here is a code snippet of how to do it.
+The infections can be visualized with `{mapview}` or `{leaflet}`, type
+of interactive maps, here is a code snippet of how to do it.
 
 **Map with Mapview:**
 
@@ -719,8 +700,6 @@ we can create small-world networks with different topologies and study
 their impact on disease transmission dynamics.
 
 ```{r}
-#| message: false
-#| warning: false
 library(igraph)
 
 N <- nrow(df_sf)  # Number of nodes
@@ -754,25 +733,25 @@ V(small_world_dev)$color <-
 Plot the graphs:
 
 ```{r}
-#| warning: false
-#| message: false
 #| label: small_world
 #| fig.cap: "Small-World Network"
 #| fig.alt: "Small-World Network"  
-par(mfrow=c(1,2))
+#| fig.width: 6
+#| fig.height: 4
+par(mfrow = c(1,2))
 
 set.seed(06082024)
 plot(small_world,
-     vertex.size=5,
-     vertex.label=NA,
-     edge.arrow.size=0.5,
-     edge.width=0.5)
+     vertex.size = 5,
+     vertex.label = NA,
+     edge.arrow.size = 0.5,
+     edge.width = 0.5)
 
 plot(small_world_dev,
-     vertex.size=5,
-     vertex.label=NA,
-     edge.arrow.size=0.5,
-     edge.width=0.5)
+     vertex.size = 5,
+     vertex.label = NA,
+     edge.arrow.size = 0.5,
+     edge.width = 0.5)
 ```
 
 We use the Central Africa Rep. grid of points for prediction, and
@@ -830,8 +809,6 @@ edges <- edges %>%
 ```
 
 ```{r}
-#| warning: false
-#| message: false
 #| layout-ncol: 2
 #| label: africa_map6
 #| fig.cap: 
@@ -899,8 +876,6 @@ of infectious diseases based on the proximity of individuals or
 locations.
 
 ```{r}
-#| warning: false
-#| message: false
 #| echo: false
 #| fig.cap: "Representation of Euclidean Distance between Points A and B"
 #| fig.width: 6
@@ -976,8 +951,6 @@ lists, and finally the Moran's I test for spatial autocorrelation,
 respectively.
 
 ```{r}
-#| warning: false
-#| message: false
 library(spdep)
 library(sp)
 
@@ -1099,8 +1072,6 @@ kpred %>% head()
 Visualize predictions:
 
 ```{r}
-#| warning: false
-#| message: false
 #| layout-ncol: 2
 #| label: africa_map7
 #| fig.cap: 
@@ -1155,8 +1126,6 @@ kriging_df <- kpred %>%
 ```
 
 ```{r}
-#| warning: false
-#| message: false
 #| label: africa_map8
 #| fig.cap: "Kriging Prediction of Infections Size on Max Temperature"
 #| fig.alt: "Kriging Map of Central Africa Rep."
@@ -1201,8 +1170,6 @@ predicted values. The plot provides a detailed view of the spatial
 distribution of infections and the risk of outbreaks across the region.
 
 ```{r}
-#| warning: false
-#| message: false
 #| label: africa_map9
 #| fig.cap: "Kriging Prediction of Infections with a Spplot"
 #| fig.alt: "Kriging Map of Central Africa Rep."

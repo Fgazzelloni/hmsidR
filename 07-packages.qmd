@@ -3,8 +3,8 @@
 ::: solutionbox
 ::: solutionbox-header
 ::: solutionbox-icon
-:::
 
+:::
 Learning Objectives
 :::
 
@@ -213,8 +213,6 @@ contains data on Deaths, DALYs, YLDs, YLLs, Prevalence, and Incidence
 due to selected infectious diseases from 1980 to 2021.
 
 ```{r}
-#| message: false
-#| warning: false
 library(tidyverse)
 hmsidwR::infectious_diseases %>% names
 ```
@@ -230,8 +228,6 @@ hmsidwR::infectious_diseases %>%
 And look at how the health metrics shape up over the years for Dengue:
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 #| layout-ncol: 3
 #| label: fig-dengue-metrics
@@ -312,8 +308,6 @@ In this example we use two types of models:
     required.
 
 ```{r}
-#| message: false
-#| warning: false
 library(mlr3)
 library(mlr3learners)
 library(mlr3viz)
@@ -368,8 +362,6 @@ design
 Run the benchmark:
 
 ```{r}
-#| message: false
-#| warning: false
 #| output: false
 set.seed(19052024)
 bmr <- benchmark(design,
@@ -410,8 +402,6 @@ autoplot(bmr, measure = msr("regr.mae"))
 Aggregate the results:
 
 ```{r}
-#| message: false
-#| warning: false
 measures <- msrs(c("regr.rmse", "regr.mae"))
 aggr <- bmr$aggregate(measures)
 ```
@@ -504,8 +494,6 @@ as it was on new data.
 ### Example: DALYs due to Rabies with H2O
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
@@ -525,10 +513,9 @@ However, this is not the case seen the size of the rabies dataset, we
 can use it to compare the results with the previous model frameworks.
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 library(tidyverse)
+
 data <- hmsidwR::rabies %>%
   select(-upper, -lower) %>%
   pivot_wider(names_from = measure, values_from = val) %>%
@@ -539,23 +526,17 @@ data <- hmsidwR::rabies %>%
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| eval: false
 options(timeout = 6000)
 install.packages("h2o")
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| eval: false
 library(h2o)
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| output: false
 #| eval: false
 # Initialize the H2O cluster
@@ -563,8 +544,6 @@ h2o.init()
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| output: false
 #| eval: false
 # Upload data to H2O
@@ -590,8 +569,6 @@ Train three models: a linear regression model, a GBM model, and a random
 forest model.
 
 ```{r}
-#| message: false
-#| warning: false
 #| output: false
 #| eval: false
 model_lm <- h2o.glm(x = predictors,
@@ -631,8 +608,6 @@ h2o.mae(<model>)
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 #| eval: false
 
@@ -651,8 +626,6 @@ saveRDS(h20.rabies.metrics, "data/model-data/h20.rabies.metrics.rds")
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 #| eval: true
 h20.rabies.metrics <- readRDS("data/model-data/h20.rabies.metrics.rds")
@@ -780,8 +753,6 @@ p2 + theme_minimal()
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| output: false
 #| eval: false
 h2o.shutdown(prompt = FALSE)
@@ -811,8 +782,6 @@ results are then used to adjust the SEIR parameters based on the
 predicted infection status and re-run again on new data.
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
@@ -1008,8 +977,6 @@ the model on the training and validation data during training.
 
 ```{r}
 #| output: false
-#| message: false
-#| warning: false
 history <- model %>% fit(x = as.matrix(social_data[, 1:p]),
                          y = social_data$infection,
                          epochs = 30,
@@ -1124,8 +1091,6 @@ documentation](https://keras.io/).
 ## How to Find a New R-Package
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
@@ -1148,8 +1113,6 @@ package takes a text string as input and uses basic text mining
 techniques to search all of CRAN.
 
 ```{r}
-#| message: false
-#| warning: false
 library(tidyverse) # for data manipulation
 library(dlstats) # for package download stats
 library(pkgsearch) # for searching packages
@@ -1199,8 +1162,6 @@ the CRAN package database, making it easier to find relevant packages
 for your specific needs.
 
 ```{r}
-#| message: false
-#| warning: false
 #| eval: false
 
 library(cranly)

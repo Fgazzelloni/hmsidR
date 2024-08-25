@@ -269,11 +269,9 @@ just the deaths due to cholera within 12 months in 1849. Let's have a
 look at the first 6 rows of the dataset:
 
 ```{r}
-#| message: false
-#| warning: false
-
 library(tidyverse)
 library(HistData)
+
 cholera <- HistData::CholeraDeaths1849 %>%
   filter(cause_of_death == "Cholera") %>%
   select(date, deaths)
@@ -442,8 +440,6 @@ ggplot(cholera, aes(x = date, y = deaths)) +
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| echo: false
 #| label: fig-cholera1849-gam
 #| fig-cap: "Deaths due to Cholera in London (1849)-GAM"
@@ -526,9 +522,6 @@ on the distributional characteristics of the response variable, to
 represent the data mean trend.
 
 ```{r}
-#| message: false
-#| warning: false
-
 # Load the mgcv package
 library(mgcv)
 
@@ -739,8 +732,6 @@ tested on the remaining data (the testing set) to assess its predictive
 performance.
 
 ```{r}
-#| message: false
-#| warning: false
 #| fig.cap: "Tree of Random Forest Model for Epidemic X: The model splits the sample by determining the most probable number of infected individuals, using multiple decision trees to enhance accuracy. Each tree in the forest evaluates different features and criteria to make predictions, combining their outputs to form a consensus estimate. This approach helps to reduce overfitting and improve the robustness of the model in predicting the spread and impact of the epidemic."
 #| fig-alt: "Tree of Random Forest Model for Epidemic X"
 #| fig-width: 6
@@ -839,8 +830,6 @@ interface for modelling tasks, making it easier to build, tune, and
 evaluate machine learning models.
 
 ```{r}
-#| message: false
-#| warning: false
 library(tidymodels)
 library(dials)
 tidymodels_prefer()
@@ -1048,8 +1037,6 @@ install.packages("INLA",
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 library(INLA)
 ```
 

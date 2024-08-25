@@ -159,7 +159,6 @@ griddf <- subset(data.frame(x = rep(grid$x, nrow(grid$z)),
                             z = as.numeric(grid$z)),!is.na(z))
 ```
 
-
 ```{r}
 p2 <- ggplot(griddf, aes(x, y, z = z)) +
   geom_contour(aes(colour = after_stat(level),
@@ -191,7 +190,6 @@ griddf <- subset(data.frame(x = rep(grid$x, nrow(grid$z)),
                             y = rep(grid$y, each = ncol(grid$z)),
                             z = as.numeric(grid$z)),!is.na(z))
 ```
-
 
 ```{r}
 p3 <- ggplot(griddf, aes(x, y, z = z)) +
@@ -233,7 +231,6 @@ observed3 %>%
    labs(title = "Synergist")
 ```
 
-
 ```{r}
 #| layout-ncol: 3
 #| fig-cap: 
@@ -256,8 +253,6 @@ datasets, with population estimates. The data is from the United Nations
 World Population Prospects 2022.
 
 ```{r}
-#| warning: false
-#| message: false
 library(wpp2022)
 ```
 
@@ -306,8 +301,6 @@ create a new column `value` that contains positive values for male
 population and negative values for females.
 
 ```{r}
-#| warning: false
-#| message: false
 data <- popAge1dt %>%
    select(name, year, age, popF, popM) %>%
    pivot_longer(cols = c(popM, popF), 
@@ -326,8 +319,6 @@ countries**, and **Low-income countries**, and put them in one chunk
 with the option `layout-ncol: 3`.
 
 ```{r}
-#| warning: false
-#| message: false
 #| layout-ncol: 3
 
 data %>%

@@ -58,8 +58,6 @@ install.packages("covid19.analytics")
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 library(tidyverse)
 library(covid19.analytics)
 

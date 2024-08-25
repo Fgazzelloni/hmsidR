@@ -121,8 +121,6 @@ devtools::install_github("Fgazzelloni/hmsidwR")
 ```
 
 ```{r}
-#| warning: false
-#| message: false
 #| output: false
 
 library(tidyverse)
@@ -253,8 +251,6 @@ YLL_global_stroke %>% head()
 ```
 
 ```{r}
-#| warning: false
-#| message: false
 #| label: fig-YLL_global_stroke
 #| fig-cap: "YLLs due to Stroke in the Global region"
 #| fig-alt: "YLLs due to Stroke in the Global region"
@@ -564,8 +560,6 @@ are distributed differently across the age groups.
 
 ```{r}
 #| echo: false
-#| message: false
-#| warning: false
 dat <- YLD_global_stroke %>%
   filter(!sex == "both")
 ```
@@ -578,7 +572,7 @@ dat <- YLD_global_stroke %>%
 #|  - "YLDs calculated with incidence"
 #| fig-alt: "YLDs due to stroke in the Global region"
 #| echo: false
-#| message: false
+
 dat %>%
   ggplot(aes(x = age, y = YLD_p)) +
   geom_line(aes(y = YLD_p)) +
@@ -686,8 +680,6 @@ DALY_global_stroke %>%
 
 ```{r}
 #| echo: false
-#| message: false
-#| warning: false
 dat <- DALY_global_stroke %>%
   select(sex, age, YLL, YLD, DALY) %>%
   filter(sex == "both") %>%
@@ -696,8 +688,6 @@ dat <- DALY_global_stroke %>%
 ```
 
 ```{r}
-#| warning: false 
-#| message: false 
 #| echo: false 
 #| eval: true 
 #| label: fig-DALY_global_stroke 

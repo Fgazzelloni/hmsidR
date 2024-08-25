@@ -23,8 +23,6 @@ statistical methods, as illustrated by @fig-timeline.
 ```{r}
 #| echo: false
 #| eval: false
-#| message: false
-#| warning: false
 #| output: false
 library(tidyverse)
 timeline <- tibble(

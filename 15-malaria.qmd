@@ -68,8 +68,6 @@ environmental factors, and other relevant variables would be used to
 develop more accurate models.
 
 ```{r}
-#| message: false
-#| warning: false
 # Set seed for reproducibility
 set.seed(123)
 
@@ -119,8 +117,6 @@ plot(time, infected,
 ### Modelling with caret
 
 ```{r}
-#| message: false
-#| warning: false
 #| eval: true
 # Load necessary libraries
 library(caret)
@@ -149,8 +145,6 @@ malaria_data <- na.omit(malaria_data)
 Define the machine learning model (e.g., Random Forest)
 
 ```{r}
-#| message: false
-#| warning: false
 model <- train(
   infected_cases ~ lagged_cases, # Specify the formula
   data = malaria_data, # Specify the data
@@ -193,8 +187,6 @@ Refine your model by adjusting parameters, feature engineering, etc.
     Define tuning grid for mtry:
 
 ```{r}
-#| message: false
-#| warning: false
 tuneGrid <- expand.grid(mtry = seq(1, ncol(malaria_data) - 1))
 model <- train(
   infected_cases ~ lagged_cases,
@@ -212,8 +204,6 @@ model <- train(
     feature) and re-train the model:
 
 ```{r}
-#| message: false
-#| warning: false
 malaria_data$feature <- log(malaria_data$infected_cases)
 malaria_data$lagged_feature <- lag(malaria_data$feature, 1)
 malaria_data <- na.omit(malaria_data)

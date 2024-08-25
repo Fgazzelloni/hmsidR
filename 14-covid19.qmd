@@ -230,11 +230,7 @@ beta, and a gamma distribution with a mean of 0.05 and a standard
 deviation of 0.02 for gamma.
 
 ```{r}
-#| message: false
-#| warning: false
-
 library(brms)
-
 # Load the data
 data <- as.data.frame(result)
 
@@ -482,8 +478,6 @@ Selected countries are the US, China, United Kingdom, and Canada.
 #|  - "COVID-19 Cases by Country"
 #|  - "COVID-19 Deaths by Country"
 #| label: fig-cases-deaths
-#| warning: false
-#| message: false
 COVID19 %>%
   ggplot(aes(x = date, y = cases,
   group = country_region)) +
@@ -530,8 +524,6 @@ options(scipen = 999)
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 ggplot() +
   geom_polygon(
     data = worldmap,
@@ -560,8 +552,6 @@ ggplot() +
 The same graph made with selected countries only.
 
 ```{r}
-#| message: false
-#| warning: false
 ggplot() +
   geom_polygon(data = worldmap,
                aes(x = long, y = lat, group = group),
@@ -678,8 +668,6 @@ pandemic and transitioning from five-year to one-year data intervals.
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 library(wpp2022)
 # data(package = "wpp2022")
 ```
@@ -733,8 +721,6 @@ And then plot the YLDs by country and month cycle, with the y axis
 representing the YLDs formatted in millions.
 
 ```{r}
-#| message: false
-#| warning: false
 COVID19_dalys %>%
   filter(year %in% c(2020, 2021)) %>%
   ggplot() +
@@ -758,8 +744,6 @@ Finally, let's plot the DALYs by country and month cycle, with the y
 axis representing the DALYs formatted in millions.
 
 ```{r}
-#| message: false
-#| warning: false
 COVID19_dalys %>%
   filter(year %in% c(2020, 2021)) %>%
   ggplot() +

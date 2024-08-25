@@ -142,8 +142,6 @@ devtools::install_github("Fgazzelloni/hmsidwR")
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| eval: true
 library(tidyverse)
 library(hmsidwR)
@@ -198,8 +196,6 @@ be found in the @sec-09-data_visualization chapter of this book.
 
 ```{r}
 #| echo: false
-#| warning: false
-#| message: false
 #| layout-ncol: 2
 #| label: fig-expectation-life
 #| fig-cap:
@@ -267,8 +263,6 @@ conditions on the longevity and health of populations.
 
 ```{r}
 #| echo: false
-#| warning: false
-#| message: false
 
 pyramid <- gho_lifetables %>%
   mutate(value = ifelse(sex == "female",
@@ -633,8 +627,6 @@ total_recoveries <- sum(covid_data$Recovered)
 ```
 
 ```{r}
-#| warning: false
-#| message: false
 #| label: fig-inc-prev
 #| fig-cap: "Incidence and Prevalence COVID-19 Cases - simulate data"
 #| fig-alt: "Incidence and Prevalence COVID-19 Cases - simulate data"
@@ -737,8 +729,6 @@ Non-communicable diseases. To access the data:
 `hmsidwR::disweights`
 
 ```{r}
-#| message: false
-#| warning: false
 #| eval: true
 
 library(hmsidwR)
@@ -767,8 +757,6 @@ weight of 0.057. This is set to reflect the impact of the severity
 condition on an individual's quality of life.
 
 ```{r}
-#| message: false
-#| warning: false
 #| label: tbl-severity-disability-weights
 #| tbl-cap: "Severity and Disability Weights"
 
@@ -913,9 +901,6 @@ can build a new dataset with all information needed for calculating the
 YLLs for the lung cancer\index{lung cancer} deaths in Germany in 2019.
 
 ```{r}
-#| message: false
-#| warning: false
-
 gelung_YLL <- germany_lungc %>%
   filter(sex == "both") %>%
   left_join(gho_lifetables %>%
@@ -937,8 +922,6 @@ from GBD study[@ihmeuw/i2024] are the same as those found in the
 `disweights` dataset.
 
 ```{r}
-#| message: false
-#| warning: false
 #| label: tbl-disweights2019-lung
 #| tbl-cap: "Lung cancer - Disability Weights"
 
@@ -958,9 +941,6 @@ of 0.451. Total YLDs can be calculated as the sum of the product of the
 prevalence and the disability weight for each age group.
 
 ```{r}
-#| message: false
-#| warning: false
-
 prev_germany_lungc <- germany_lungc %>%
   filter(sex == "both") %>%
   select(age, prevalence)
@@ -969,8 +949,6 @@ prev_germany_lungc %>% head()
 ```
 
 ```{r}
-#| message: false
-#| warning: false
 #| label: tbl-prev_germany_lungc_2019
 #| tbl-cap: "Lung Cancer Cases in Germany 2019"
 

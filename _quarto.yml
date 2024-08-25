@@ -117,6 +117,8 @@ format:
     toc-title: Contents
     latex-output-dir: _book
     colorlinks: true
+    fig-dpi: 300
+    pdf-engine: xelatex
     include-in-header:
       - file: latex/preamble.tex
     include-before-body:
@@ -137,6 +139,7 @@ execute:
   freeze: auto
   cache: false
   fig.align: 'center'
+  dev: 'cairo_pdf'
 
 tbl-cap-location: top
 tbl-align: center
@@ -145,5 +148,3 @@ knitr:
   opts_chunk:
     collapse: true
     comment: "#>"
-    R.options:
-      knitr.graphics.auto_pdf: true

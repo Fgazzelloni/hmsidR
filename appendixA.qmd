@@ -6,7 +6,6 @@ library(tidyverse)
 ggplot2::theme_set(ggplot2::theme_minimal())
 ```
 
-
 ## Life Tables and Life Expectancy
 
 Back in the 1700s the Swiss mathematician and physicist Daniel Bernoulli
@@ -61,8 +60,6 @@ To have a look at the package documentation for this dataset, use:
 ```
 
 ```{r}
-#| warning: false
-#| message: false
 library(tidyverse)
 hmsidwR::gho_lifetables %>%
   count(indicator) %>%
@@ -287,8 +284,6 @@ httr::GET(url = url)
 #### IHME Data APIs
 
 ```{r}
-#| warning: false
-#| message: false
 library(httr)
 library(jsonlite)
 library(tidyverse)
