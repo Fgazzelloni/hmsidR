@@ -252,7 +252,8 @@ p2 <- rabies %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-rabies-deaths-dalys
-#| fig-cap:
+#| fig-cap: "Not Scaled and Scaled and Centered"
+#| fig-subcap:
 #|   - "Not scaled"
 #|   - "Scaled and centered"
 #| fig-alt: "DALYs due to Rabies - Not scaled and Scaled and centered"
@@ -336,6 +337,9 @@ p4 <- dat %>%
 #| layout-ncol: 2
 #| label: fig-deaths-dalys-std
 #| fig-cap: "Scaled and centered"
+#| fig-subcap:
+#|  - "Deaths due to Rabies and All Causes"
+#|  - "Dalys due to Rabies and All Causes"
 #| fig-alt: "Deaths and DALYs due to Rabies and All Causes - Scaled and centered"
 #| echo: false
 
@@ -519,6 +523,9 @@ with a machine learning algorithm.
 #| layout-ncol: 3
 #| label: fig-response-transformation
 #| fig-cap: "Response variable transformation"
+#| fig-subcap: 
+#|  - "Log10"
+#|  - "Yeo-Johnson p=-2"
 #| fig-alt: "Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2"
 #| echo: false
 
@@ -641,7 +648,8 @@ rf_fit %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-rf-predictions
-#| fig-cap:
+#| fig-cap: "Predictions vs. Truth"
+#| fig-subcap:
 #|   - "Predictions vs. Truth"
 #|   - "Predictions vs. Truth by Year"
 #| fig-alt: "Predictions vs. Truth and Predictions vs. Truth by Year"   
@@ -774,6 +782,9 @@ machine learning methodologies.
 #| layout-ncol: 2
 #| label: fig-glmnet-predictions2
 #| fig-cap: "Predictions vs. Truth"
+#| fig-subcap: 
+#|  - "Predictions vs. Truth"
+#|  - "Predictions vs. Truth by Year"
 #| fig-alt: "Predictions vs. Truth and Predictions vs. Truth by Year"
 
 # plot the predictions

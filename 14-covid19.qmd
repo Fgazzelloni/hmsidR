@@ -277,7 +277,8 @@ plot(bayesian_model)
 
 <center>
 
-![Bayesian Model diagnostics](images/14_bayesian_model_diagnostics.png){#fig-bayes-covid19}
+![Bayesian Model
+diagnostics](images/14_bayesian_model_diagnostics.png){#fig-bayes-covid19}
 
 </center>
 
@@ -474,7 +475,9 @@ Selected countries are the US, China, United Kingdom, and Canada.
 
 ```{r}
 #| layout-ncol: 2
-#| fig.cap: 
+#| fig-cap: "COVID-19 Cases and Deaths by Country"
+#| fig-alt: "COVID-19 Cases and Deaths by Country"
+#| fig-subcap: 
 #|  - "COVID-19 Cases by Country"
 #|  - "COVID-19 Deaths by Country"
 #| label: fig-cases-deaths

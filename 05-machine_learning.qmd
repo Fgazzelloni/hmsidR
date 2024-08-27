@@ -391,7 +391,8 @@ assumptions are made about the underlying structure of the data.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-cholera-section
-#| fig-cap:
+#| fig-cap: "Deaths due to Cholera in London (1849)"
+#| fig-subcap:
 #|    - "Deaths due to Cholera in London (June to August 1849)"
 #|    - "Deaths due to Cholera in London (January to August 1849)"
 #| fig-alt: "Deaths due to Cholera in London (June to August 1849)"
@@ -789,7 +790,8 @@ the model's performance and identify areas for improvement.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-seir-rf2
-#| fig-cap:
+#| fig-cap: "Prediction of Infections for Epidemic X: The model predicts the number of new infections based on the input variables, using the Random Forest algorithm to enhance accuracy. The plot shows the relationship between the observed and predicted values, with the line representing the ideal prediction where the observed and predicted values are equal. The Root Mean Squared Error (RMSE) is calculated to evaluate the model's performance, with a lower RMSE indicating a better predictive model."
+#| fig-subcap:
 #|   - "Prediction of Infections for Epidemic X"
 #|   - "Observed vs Estimated values"
 #| fig-alt: "Prediction of Infections for Epidemic X"
@@ -942,7 +944,8 @@ print(paste("RMSE:", rmse))
 ```{r}
 #| layout-ncol: 2
 #| label: fig-seir-rf-tune
-#| fig-cap:
+#| fig-cap: "Prediction of Infections for Epidemic X"
+#| fig-subcap:
 #|   - "Prediction of Infections for Epidemic X"
 #|   - "Observed vs Estimated values"
 #| fig-alt: "Prediction of Infections for Epidemic X"

@@ -496,7 +496,8 @@ In this example, we consider the average duration of the condition for
 
 $$ \hat{L}_{stroke}= \frac{28}{365} $$ {#eq-avg_dur}
 
-These values strongly depends on the disability weights and the severity values assigned to the condition.
+These values strongly depends on the disability weights and the severity
+values assigned to the condition.
 
 ```{r}
 #| echo: false
@@ -569,7 +570,8 @@ dat <- YLD_global_stroke %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-YLD_global_stroke
-#| fig-cap:
+#| fig-cap: "YLDs due to stroke in the Global region"
+#| fig-subcap:
 #|  - "YLDs calculated with prevalence"
 #|  - "YLDs calculated with incidence"
 #| fig-alt: "YLDs due to stroke in the Global region"
@@ -902,6 +904,7 @@ life_table %>% head()
 ```
 
 Let's make a function to calculate the **HALE**:
+
 ```{r}
 calculate_HALE <- function(age, px) {
   # Initialize a vector to store adjusted Tx for each age group

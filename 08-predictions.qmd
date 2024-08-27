@@ -409,7 +409,8 @@ from the data.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-decomposition
-#| fig-cap:
+#| fig-cap: "Components of SDI in France"
+#| fig-subcap:
 #|   - "Components of SDI in France"
 #|   - "Trend line of SDI in France"
 #| fig-alt: "Components of SDI in France"
@@ -487,6 +488,9 @@ fit |>
 ```{r}
 #| layout-ncol: 2
 #| fig-cap: "Partial Autocorrelations of SDI in France"
+#| fig-subcap:
+#|  - "PACF"
+#|  - "gg_tsdisplay"
 #| fig-alt: "Partial Autocorrelations of SDI in France"
 #| label: fig-pacf
 
@@ -550,7 +554,8 @@ Best ARIMA model selected is ARIMA(1,1,0):
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap:
+#| fig-cap: "Residuals of ARIMA Models"
+#| fig-subcap:
 #|   - "Residuals of ARIMA Models"
 #|   - "Forecast of SDI in France"
 #| fig-alt: "Residuals of ARIMA Models"

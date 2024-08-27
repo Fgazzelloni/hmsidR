@@ -95,7 +95,8 @@ map can be found in the online version of the book.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map
-#| fig-cap: 
+#| fig-cap: "Map of Africa"
+#| fig-subcap: 
 #|  - "Map of Africa"
 #|  - "Map of Africa with colors"
 #| fig-alt: "Map of Africa"
@@ -259,7 +260,8 @@ df %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map2
-#| fig-cap: 
+#| fig-cap: "Map of Africa"
+#| fig-subcap: 
 #|  - "Map of Africa and Central Africa Rep."
 #|  - "Map of Central Africa Rep. Simulation of Infections"
 #| fig-alt: "Map of Africa"
@@ -314,7 +316,8 @@ representing the count of locations.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-simulated_data
-#| fig-cap: 
+#| fig-cap: "Histogram of Presence of Infection in Central Africa Rep."
+#| fig-subcap: 
 #|  - "Histogram of Presence of Infection in Central Africa Rep."
 #|  - "Scatter Plot of Temperature and Infections"
 #| fig-alt: "Histogram and Scatterplot"
@@ -403,7 +406,8 @@ can visualize the spatial distribution of infected locations.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map3
-#| fig-cap: 
+#| fig-cap: "Map of Central Africa Rep."
+#| fig-subcap: 
 #|  - "Map of Central Africa Rep. with a Window Grid"
 #|  - "Grid Map of Central Africa Rep."
 #| fig-alt: "Grid-Map of Central Africa Rep."
@@ -589,7 +593,8 @@ different color scales in the same plot.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map5
-#| fig-cap: 
+#| fig-cap: "Map of Central Africa Rep."
+#| fig-subcap: 
 #|  - "Scatterplot of Simulated Locations"
 #|  - "Infected Locations in Central Africa Rep."
 #| fig-alt: "Map of Central Africa Rep."
@@ -768,6 +773,9 @@ Plot the graphs:
 ```{r}
 #| label: fig-small_world
 #| fig-cap: "Small-World Network"
+#| fig-subcap: 
+#|  - "Small-World Network"
+#|  - "Small-World Network with Infections"
 #| fig-alt: "Small-World Network"  
 #| fig-width: 6
 #| fig-height: 4
@@ -844,7 +852,8 @@ edges <- edges %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map6
-#| fig-cap: 
+#| fig-cap: "Map of Central Africa Rep."
+#| fig-subcap: 
 #|  - "Observed Size of Infections"
 #|  - "Map of Infection Status and Small-World Network"
 #| fig-alt: "Map of Central Africa Rep."
@@ -1119,7 +1128,8 @@ Visualize predictions:
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map7
-#| fig-cap: 
+#| fig-cap: "Kriging Map of Central Africa Rep."
+#| fig-subcap: 
 #|  - "Kriging Prediction in Central Africa Rep."
 #|  - "Kriging Variance in Central Africa Rep."
 #| fig-alt: "Kriging Map of Central Africa Rep."

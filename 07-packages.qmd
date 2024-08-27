@@ -231,7 +231,8 @@ And look at how the health metrics shape up over the years for Dengue:
 #| echo: false
 #| layout-ncol: 3
 #| label: fig-dengue-metrics
-#| fig-cap:
+#| fig-cap: "Health Metrics due to Dengue"
+#| fig-subcap:
 #|  - "YLLs"
 #|  - "YLDs"
 #|  - "DALYs"
@@ -389,7 +390,8 @@ available.
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap:
+#| fig-cap: "BMR Regression RMSE and MAE"
+#| fig-subcap:
 #|   - "BMR Regression RMSE"
 #|   - "BMR Regression MAE"
 #| fig-alt: "BMR Regression"
@@ -700,7 +702,8 @@ p1 <- ggplot(results_df,
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap:
+#| fig-cap: "H2O Models Results on DALYs due to Rabies; Test Resampled Data with lm, gbm, and rf."
+#| fig-subcap:
 #|   - "Residuals vs Predicted Values"
 #|   - "Normality Test of the Residulas"
 #| fig-alt: "Residuals Distribution"
@@ -741,7 +744,8 @@ p2 <- ggplot(results_df, aes(x = Time)) +
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap:
+#| fig-cap: "Actual vs Predicted Values"
+#| fig-subcap:
 #|   - "Actual vs Predicted Values"
 #|   - "Actual vs Predicted Over Time"
 #| fig-alt: "Actual vs Predicted Values"
@@ -1006,7 +1010,8 @@ then plotted to compare their performance.
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap:
+#| fig-cap: "Model 1 and Model 2 Training History"
+#| fig-subcap:
 #|   - "Model 1 History"
 #|   - "Model 2 History"
 #| fig-alt: "Model History"

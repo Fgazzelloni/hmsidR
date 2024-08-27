@@ -117,7 +117,8 @@ Let's see the results in a plot:
 ```{r}
 #| layout-ncol: 2
 #| label: fig-covid19_model
-#| fig-cap: 
+#| fig-cap: "COVID-19 data"
+#| fig-subcap: 
 #|  - "COVID-19 Deaths by Country"
 #|  - "Predicted vs. Actual Deaths"
 #| fig-alt: "COVID-19 data"
@@ -140,7 +141,8 @@ data_pred %>%
 ```{r}
 #| label: fig-lm_results
 #| layout-ncol: 2
-#| fig-cap: 
+#| fig-cap: "COVID-19 Model Results"
+#| fig-subcap: 
 #|  - "Observed vs. Predicted" 
 #|  - "Segments represent the residuals"
 #| fig-alt: "COVID-19 Model Results"
@@ -162,6 +164,7 @@ data_pred %>%
        x = "Confirmed Cases", y = "Deaths",
        caption = "Source: ECDC")   
 ```
+
 ```{r}
 cfr <- covid19.ALL.agg.cases %>% 
   select(Country_Region, Last_Update, Lat, Long_, Case_Fatality_Ratio)

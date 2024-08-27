@@ -193,7 +193,8 @@ be found in the @sec-09-data_visualization chapter of this book.
 #| echo: false
 #| layout-ncol: 2
 #| label: fig-expectation-life
-#| fig-cap:
+#| fig-cap: "Global Health Observatory Life Tables - Expectation of Life"
+#| fig-subcap:
 #|   - "ex - expectation of life at age x"
 #|   - "GHO Life Tables"
 #| fig-alt: "ex - expectation of life at age x and Global Health Observatory Life Tables - Expectation of Life"
@@ -295,7 +296,8 @@ animate(pyramid_gif,
 
 ::: {.content-visible when-format="html"}
 ![Global Health Observatory Life Expectancy
-2000-2019](images/03_gho_pyramid.gif){fig-align="center" width="375" #fig-gho_pyramid}
+2000-2019](images/03_gho_pyramid.gif){#fig-gho_pyramid
+fig-align="center" width="375"}
 :::
 
 #### Exercise
@@ -555,9 +557,9 @@ $$
   P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
 $$ {#eq-rpois}
 
-where $X$ is the random variable representing the number of events,
-$k$ is the number of events, $\lambda$ is the rate parameter, and $e$ is
-the base of the natural logarithm.
+where $X$ is the random variable representing the number of events, $k$
+is the number of events, $\lambda$ is the rate parameter, and $e$ is the
+base of the natural logarithm.
 
 ```{r}
 cases <- rpois(length(dates), lambda = 0.2)

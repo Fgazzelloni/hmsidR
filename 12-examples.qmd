@@ -40,12 +40,12 @@ but in what way?
 
 $$y=\beta_0 +\beta_1 x_1 + \beta_2 x_2 +\beta_3 x_3 + \epsilon$$ {#eq-interaction}
 
-where $y$ is the risk of developing heart disease, $\beta_0$ is the intercept,
-$\beta_1$ and $\beta_2$ are the coefficients for the predictors $x_1$
-and $x_2$, respectively, and $\beta_3$ is the coefficient for the
-**interaction term** $x_1*x_2$. The error term $\epsilon$ accounts for
-the variability in the response variable that is not explained by the
-predictors.
+where $y$ is the risk of developing heart disease, $\beta_0$ is the
+intercept, $\beta_1$ and $\beta_2$ are the coefficients for the
+predictors $x_1$ and $x_2$, respectively, and $\beta_3$ is the
+coefficient for the **interaction term** $x_1*x_2$. The error term
+$\epsilon$ accounts for the variability in the response variable that is
+not explained by the predictors.
 
 There are four type of interactions:
 
@@ -420,5 +420,6 @@ animate(pyramid_gif,
 
 ::: {.content-visible when-format="html"}
 ![United Nations World Population Prospects 2022 - \[1949 -
-2021\]](images/12_unp_pyramid.gif){fig-align="center" width="375" #fig-pyramid-animate}
+2021\]](images/12_unp_pyramid.gif){#fig-pyramid-animate
+fig-align="center" width="375"}
 :::

@@ -385,7 +385,8 @@ relative_risk <- pr_outcome_exp / pr_outcome_no_exp
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap:
+#| fig-cap: "Histogram and density distribution of Relative Risk."
+#| fig-subcap:
 #|   - "Histogram of Relative Risk"
 #|   - "Density distribution of Relative Risk"
 #| label: fig-distribution_rr
