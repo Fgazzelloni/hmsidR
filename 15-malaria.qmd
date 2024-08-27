@@ -4,7 +4,7 @@
 #| echo: false
 library(ggplot2)
 book_theme <- theme_minimal() + 
-  theme(plot.title=element_text(face="bold"))
+  theme(plot.title = element_text(face = "bold"))
 ggplot2::theme_set(book_theme)
 ```
 
@@ -68,6 +68,9 @@ environmental factors, and other relevant variables would be used to
 develop more accurate models.
 
 ```{r}
+#| label: fig-malaria-sim
+#| fig-cap: "Simulated Malaria Data"
+#| fig-alt: "Line plot showing the number of infected individuals over time." 
 # Set seed for reproducibility
 set.seed(123)
 

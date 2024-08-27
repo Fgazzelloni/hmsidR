@@ -122,7 +122,6 @@ devtools::install_github("Fgazzelloni/hmsidwR")
 
 ```{r}
 #| output: false
-
 library(tidyverse)
 library(hmsidwR)
 ```
@@ -159,7 +158,6 @@ increases for older age groups.
 #| label: fig-deaths_stroke
 #| fig-cap: "Boxplots showing male and female deaths variation due to Stroke by Age Group (2019)"
 #| fig-alt: "Deaths due to Stroke by Age Group (2019)"
-
 deaths_stroke %>% 
   filter(!sex == "both") %>%
   ggplot(aes(x = age,y = dx)) +
@@ -187,7 +185,6 @@ $(_{n}q_x)$.
 #| label: tbl-indicators
 #| tbl-cap: "Life Table Indicators"
 #| echo: false
-
 hmsidwR::gho_lifetables %>%
   count(indicator) %>%
   select(-n) %>%
@@ -256,7 +253,6 @@ YLL_global_stroke %>% head()
 #| fig-alt: "YLLs due to Stroke in the Global region"
 #| echo: false
 #| eval: true
-
 dat <- YLL_global_stroke %>%
   filter(!sex == "both")
 
@@ -392,11 +388,17 @@ providers to objectively quantify the impairment caused by a
 a sample population affected by a stroke, categorized as **mild**,
 **moderate**, or **severe** with assigned proportions.
 
-| Score | Stroke severity | Severity Level | Severity % |
+|       |                 |                |            |
 |-------|-----------------|----------------|------------|
+| Score | Stroke severity | Severity Level | Severity % |
 | 0-4   | Minor stroke    | Mild           | 50.3%      |
 | 5–20  | Moderate stroke | Moderate       | 25.3%      |
 | 21-42 | Severe stroke   | Severe         | 24.4%      |
+
+: **Level of disability** by the **National Institutes of Health Stroke
+Scale**, or
+[**NIH**](https://en.wikipedia.org/wiki/National_Institutes_of_Health "National Institutes of Health")
+**Stroke Scale** (**NIHSS**)
 
 These levels are general for all ages; the values might vary for other
 specifications of the level of disability [@wyper2020].
@@ -492,9 +494,9 @@ vary based on:
 In this example, we consider the average duration of the condition for
 28 days. It does need to be converted to be year-based:
 
-$$ \hat{L}_{stroke}= \frac{28}{365} $$ These values strongly depends on
-the disability weights and the severity values assigned to the
-condition.
+$$ \hat{L}_{stroke}= \frac{28}{365} $$ {#eq-avg_dur}
+
+These values strongly depends on the disability weights and the severity values assigned to the condition.
 
 ```{r}
 #| echo: false
@@ -529,7 +531,7 @@ YLD_by_severity %>%
 
 And, finally calculate the total value for YLDs as:
 
-$$ \text{Total YLDs} = \text{YLD}_{\text{mild}} + \text{YLD}_{\text{moderate}} + \text{YLD}_{\text{severe}}$$
+$$ \text{Total YLDs} = \text{YLD}_{\text{mild}} + \text{YLD}_{\text{moderate}} + \text{YLD}_{\text{severe}}$$ {#eq-tot-ylds}
 
 ```{r}
 YLD_global_stroke <- YLD_by_severity %>%
@@ -823,7 +825,9 @@ and year, and define the HALE as:
 > functional health.
 
 ![HALE - GLOBAL HEALTH METRICS\| VOLUME 392, ISSUE 10159, P1859-1922,
-NOVEMBER 10, 2018](images/hale.png){fig-align="center" width="504"}
+NOVEMBER 10,
+2018](images/02_hale.png){#fig-flow-hale
+fig-align="center" width="504"}
 
 The process of calculating HALE for a specific population, considering
 factors such as sex, country, and year, involves computing the average
@@ -855,7 +859,7 @@ Finally, HALE is calculated by dividing the adjusted person-years for
 each age group by the proportion of a hypothetical birth cohort still
 alive at that age.
 
-**Simulating Life Table Data**
+#### Simulating Life Table Data
 
 To understand the process of calculating HALE, we can simulate life
 table data. We’ll define age intervals (e.g., every 5 years) and
@@ -897,8 +901,7 @@ life_table$adjusted_px <- life_table$Survival_Probability * average_health
 life_table %>% head()
 ```
 
-Let's make a function to calculate the HALE.
-
+Let's make a function to calculate the **HALE**:
 ```{r}
 calculate_HALE <- function(age, px) {
   # Initialize a vector to store adjusted Tx for each age group
@@ -932,6 +935,7 @@ table data.
 ```{r}
 #| echo: false
 #| eval: true
+#| label: fig-HALE
 #| fig-cap: "Health Adjusted Life Expectancy (HALE) by Age. The blue line represents the HALE for the simulated life table data, the brown line represents the HALE for the adjusted life table data."
 #| fig-alt: "Health Adjusted Life Expectancy (HALE) by Age"
 #| fig-width: 6

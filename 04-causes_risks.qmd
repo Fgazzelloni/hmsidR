@@ -81,13 +81,13 @@ risk factors include:
 
 ```{r}
 #| echo: false
+#| label: fig-daly_dag
 #| fig-alt: "Causal relationships leading to fueling DALYs value"
 #| fig-cap: "Causal relationships leading to fueling DALYs value"
-#| label: fig-daly_dag
 #| fig-width: 5
 #| fig-height: 3.2
-
 library(ggdag)
+
 dag <- dagify(
   "DALY" ~ "W" + "YLD" + "YLL", # mortality, age,sex, cause
   "Cause" ~ "age" + "sex" + "place" + "race" + "other", # age, sex, cause
@@ -181,7 +181,7 @@ unexposed groups.
 
 $$
 RR= \frac{p_0}{p_1}
-$$
+$$ {#eq-rr}
 
 where $p_1$ and $p_0$ are the proportions of exposed and unexposed group
 respectively. Or, in terms of population, these group would approx the
@@ -189,7 +189,7 @@ values of the real population:
 
 $$
 RR = \frac{p_1}{p_0}=\frac{d_1/n_1}{d_0/n_0}
-$$
+$$ {#eq-rr2}
 
 where $d_1/n_1$ and $d_0/n_0$ are the proportion of the population with
 and without the disease.
@@ -270,7 +270,7 @@ treatments or interventions.
 #| fig-width: 7
 #| fig-height: 5
 #| fig-align: "center"
-#| fig-label: fig-networkgraph1
+#| label: fig-networkgraph1
 #| fig-cap: "DAG of the causal pathways between smoking, high blood pressure, diabetes, obesity, and heart disease."
 #| fig-alt: "Network graph representing the causal pathways between smoking, high blood pressure, diabetes, obesity, and heart disease."
 
@@ -318,7 +318,7 @@ factors is made with the `{ggdag}` package and the `dagify()` function.
 #| fig-width: 6
 #| fig-height: 3.2
 #| fig-align: "center"
-#| fig-label: fig-networkgraph2
+#| label: fig-networkgraph2
 #| fig-cap: "DAG between outcome (O), exposure (E) and different risk factors."
 #| fig-alt: "Network graph to identify the relationship between outcome (O), exposure (E) and different risk factors."
 
@@ -473,7 +473,7 @@ formula for calculating PAF is as follows:
 
 $$
 PAF = \frac{{P_e \times (RR - 1)}}{{1 + P_e \times (RR - 1)}}
-$$
+$$ {#eq-paf}
 
 Where:
 

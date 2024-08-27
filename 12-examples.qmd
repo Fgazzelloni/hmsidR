@@ -4,7 +4,7 @@
 #| echo: false
 library(ggplot2)
 book_theme <- theme_minimal() + 
-  theme(plot.title=element_text(face="bold"))
+  theme(plot.title = element_text(face="bold", size = 11))
 ggplot2::theme_set(book_theme)
 ```
 
@@ -38,9 +38,9 @@ whether the individual is a smoker or non-smoker. So, smoke is said to
 interact with cholesterol levels in predicting CVD risk, as well as age,
 but in what way?
 
-$$y=\beta_0 +\beta_1 x_1 + \beta_2 x_2 +\beta_3 x_3 + \epsilon$$
+$$y=\beta_0 +\beta_1 x_1 + \beta_2 x_2 +\beta_3 x_3 + \epsilon$$ {#eq-interaction}
 
-$y$ is the risk of developing heart disease, $\beta_0$ is the intercept,
+where $y$ is the risk of developing heart disease, $\beta_0$ is the intercept,
 $\beta_1$ and $\beta_2$ are the coefficients for the predictors $x_1$
 and $x_2$, respectively, and $\beta_3$ is the coefficient for the
 **interaction term** $x_1*x_2$. The error term $\epsilon$ accounts for
@@ -211,7 +211,9 @@ p1|p2|p3
 
 ```{r}
 #| layout-ncol: 3
-#| fig-cap: 
+#| label: fig-scatter
+#| fig-cap: "Scatterplots"
+#| fig-subcap: 
 #|  - "Scatterplot for Antagonistic"
 #|  - "Scatterplot for Additive"
 #|  - "Scatterplot for Synergistic"
@@ -233,7 +235,9 @@ observed3 %>%
 
 ```{r}
 #| layout-ncol: 3
-#| fig-cap: 
+#| label: fig-contour
+#| fig-cap: "Contour Plots"
+#| fig-subcap: 
 #|  - "Contour plot for Antagonistic"
 #|  - "Contour plot for Additive"
 #|  - "Contour plot for Synergistic"
@@ -278,6 +282,9 @@ year. Here, in particular, we show the use of
 path.
 
 ```{r}
+#| label: fig-wld-pop
+#| fig-cap: "Population for all ages from 1949 to 2021"
+#| fig-alt: "Population for all ages from 1949 to 2021"
 all_ages <- popAge1dt %>%
   group_by(year, name) %>%
   reframe(tot_pop=sum(pop)) 
@@ -320,6 +327,13 @@ with the option `layout-ncol: 3`.
 
 ```{r}
 #| layout-ncol: 3
+#| label: fig-pyramids
+#| fig-cap: "Pyramid Plots"
+#| fig-subcap:
+#|  - "High-income countries"
+#|  - "Lower-middle-income countries"
+#|  - "Low-income countries"
+#| fig-alt: "Pyramid plots for High-income, Lower-middle-income, and Low-income countries"  
 
 data %>%
   filter(name == "High-income countries") %>% 
@@ -406,5 +420,5 @@ animate(pyramid_gif,
 
 ::: {.content-visible when-format="html"}
 ![United Nations World Population Prospects 2022 - \[1949 -
-2021\]](images/12_unp_pyramid.gif){fig-align="center" width="375"}
+2021\]](images/12_unp_pyramid.gif){fig-align="center" width="375" #fig-pyramid-animate}
 :::

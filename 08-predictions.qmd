@@ -335,6 +335,9 @@ hmsidwR::sdi90_19 |> head()
 ```
 
 ```{r}
+#| label: fig-sdi-france  
+#| fig-cap: "Social Demographic Index (SDI) from 1990 to 2019"
+#| fig-alt: "Social Demographic Index (SDI) from 1990 to 2019"  
 sdi90_19 |>
   filter(location %in% c("Global", "Italy", 
                          "France", "Germany")) |>
@@ -369,12 +372,10 @@ sdi_fr |>
 
 ```{r}
 #| fig-cap: "Social Demographic Index (SDI) in France"
-#| fig-subcap: "Time Series Plot"
 #| fig-alt: "Social Demographic Index (SDI) in France"
-#| label: fig-sdi-france
+#| label: fig-sdi-france2
 #| fig-width: 5
 #| fig-height: 3
-
 library(tsibble)
 
 sdi_fr_ts <- tsibble::as_tsibble(sdi_fr, index = year)

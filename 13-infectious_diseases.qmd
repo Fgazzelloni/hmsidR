@@ -4,7 +4,7 @@
 #| echo: false
 library(ggplot2)
 book_theme <- theme_minimal() + 
-  theme(plot.title=element_text(face="bold"))
+  theme(plot.title=element_text(face = "bold"))
 ggplot2::theme_set(book_theme)
 ```
 
@@ -120,7 +120,7 @@ spread.
 
 $$
 R0 = \frac{\beta}{\gamma}
-$$
+$$ {#eq-r0}
 
 where $\beta$ is the transmission rate and $\gamma$ is the recovery
 rate. The value of R0 determines the epidemic threshold:
@@ -132,7 +132,7 @@ $$
  <1 =& \text{End of Infection Transmission}
  \end{aligned}
 \end{matrix}\right. 
-$$
+$$ {#eq-r0-threshold}
 
 To accounts for changes in the population's immunity, the **effective
 reproduction number (**$R_{eff}$) is calculated on a susceptible
@@ -201,7 +201,7 @@ mortality and morbidity.
 
 $$
 \text{Percent change in DALYs} = \frac{\text{DALYs due to Infectious Diseases}}{\text{Total DALYs}} \times 100
-$$
+$$ {#eq-daly-change}
 
 Where the $DALYs = \sum_{i=1}^{n}{(YLD_i + YLL_i)}$, $YLD$ and $YLL$ are
 the years lived with disability and the years of life lost respectively.
@@ -216,7 +216,7 @@ approaches can be valued:
 1.  DALYs as a function of the **socio-demographic index
     (SDI)**\index{SDI}: A composite index of the average income per
     person, educational attainment, and total fertility rate. The model
-    function can be expressed as: $$DALY_{id}= f(SDI)+\epsilon$$ where
+    function can be expressed as: $$DALY_{id}= f(SDI)+\epsilon$$ {#eq-daly-sdi} where
     is the number of $DALYs$ is the response variable, $SDI$ the
     socio-demographic index acting as predictor, $f(.)$ is the function
     that relates the number of DALYs to the socio-demographic index, and
@@ -225,7 +225,7 @@ approaches can be valued:
 2.  DALYs as a function of the **human development index
     (HDI)**\index{HDI}: A composite index of life expectancy, education,
     and per capita income indicators. The model function can be
-    expressed as:$$DALY_{id}= f(HDI)+\epsilon$$ where is the number of
+    expressed as:$$DALY_{id}= f(HDI)+\epsilon$$ {#eq-daly-sdi} where is the number of
     $DALYs$ is the response variable, $HDI$ the socio-demographic index
     acting as predictor, $f(.)$ is the function that relates the number
     of DALYs to the socio-demographic index, and $\epsilon$ is the error

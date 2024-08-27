@@ -252,7 +252,7 @@ p2 <- rabies %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-rabies-deaths-dalys
-#| fig.cap:
+#| fig-cap:
 #|   - "Not scaled"
 #|   - "Scaled and centered"
 #| fig-alt: "DALYs due to Rabies - Not scaled and Scaled and centered"
@@ -335,7 +335,7 @@ p4 <- dat %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-deaths-dalys-std
-#| fig.cap: "Scaled and centered"
+#| fig-cap: "Scaled and centered"
 #| fig-alt: "Deaths and DALYs due to Rabies and All Causes - Scaled and centered"
 #| echo: false
 
@@ -518,7 +518,8 @@ with a machine learning algorithm.
 ```{r}
 #| layout-ncol: 3
 #| label: fig-response-transformation
-#| fig.cap: "Response variable transformation"
+#| fig-cap: "Response variable transformation"
+#| fig-alt: "Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2"
 #| echo: false
 
 ggplot(dat) +
@@ -640,9 +641,10 @@ rf_fit %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-rf-predictions
-#| fig.cap:
+#| fig-cap:
 #|   - "Predictions vs. Truth"
 #|   - "Predictions vs. Truth by Year"
+#| fig-alt: "Predictions vs. Truth and Predictions vs. Truth by Year"   
 #| echo: false
 
 rf_fit %>%
@@ -723,6 +725,9 @@ cv_model
 ```
 
 ```{r}
+#| label: fig-glmnet-predictions
+#| fig-cap: "Cross-Validation Optimal Lambda"
+#| fig-alt: "Lambda Selection"
 # Plot the lambda selection
 plot(cv_model)
 ```
@@ -767,8 +772,9 @@ machine learning methodologies.
 ```{r}
 #| echo: false
 #| layout-ncol: 2
-#| label: fig-glmnet-predictions
-#| fig.cap: "Predictions vs. Truth"
+#| label: fig-glmnet-predictions2
+#| fig-cap: "Predictions vs. Truth"
+#| fig-alt: "Predictions vs. Truth and Predictions vs. Truth by Year"
 
 # plot the predictions
 data.frame(dalys_rabies = response, predictors, predictions) %>%
@@ -897,14 +903,13 @@ grid_results %>%
 #| fig-cap: "Model Performance"
 #| fig-alt: "Model Performance"
 #| label: fig-model-performance
-
 autoplot(grid_results,
          rank_metric = "rmse",
          metric = "rmse",
          select_best = TRUE) +
   geom_text(aes(y = mean - 0.1, 
                 label = wflow_id),
-            angle = 90, hjust = 1, size = 3) +
+            angle = 90, hjust = 1, size = 4) +
   lims(y = c(-1, 0.9)) +
   theme(legend.position = "none")
 ```

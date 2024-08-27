@@ -81,6 +81,9 @@ data %>%
 ```
 
 ```{r}
+#| label: fig-covid19_data
+#| fig-cap: "COVID-19 Deaths by Country"
+#| fig-alt: "COVID-19 data"
 data %>%
   ggplot(aes(x = Confirmed, y = Deaths)) +
   geom_point() +
@@ -113,6 +116,11 @@ Let's see the results in a plot:
 
 ```{r}
 #| layout-ncol: 2
+#| label: fig-covid19_model
+#| fig-cap: 
+#|  - "COVID-19 Deaths by Country"
+#|  - "Predicted vs. Actual Deaths"
+#| fig-alt: "COVID-19 data"
 data_pred %>%
   ggplot(aes(Deaths, Pred)) +
   geom_point() +
@@ -132,6 +140,10 @@ data_pred %>%
 ```{r}
 #| label: fig-lm_results
 #| layout-ncol: 2
+#| fig-cap: 
+#|  - "Observed vs. Predicted" 
+#|  - "Segments represent the residuals"
+#| fig-alt: "COVID-19 Model Results"
 data_pred %>%
   ggplot() +
   geom_point(aes(Confirmed, Deaths)) +
@@ -150,7 +162,6 @@ data_pred %>%
        x = "Confirmed Cases", y = "Deaths",
        caption = "Source: ECDC")   
 ```
-
 ```{r}
 cfr <- covid19.ALL.agg.cases %>% 
   select(Country_Region, Last_Update, Lat, Long_, Case_Fatality_Ratio)
@@ -237,6 +248,9 @@ Finally, we will fit the model with the `fit()` function from the
 package.
 
 ```{r}
+#| label: fig-dv-tree
+#| fig-cap: "Decision Tree for Ischemic Stroke"
+#| fig-alt: "Decision Tree for Ischemic Stroke"
 is_wfl <- workflow() %>%
   add_model(class_tree_spec) %>%
   add_recipe(is_recipe)

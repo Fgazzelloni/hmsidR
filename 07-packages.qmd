@@ -3,8 +3,8 @@
 ::: solutionbox
 ::: solutionbox-header
 ::: solutionbox-icon
-
 :::
+
 Learning Objectives
 :::
 
@@ -1147,6 +1147,9 @@ excess_downloads <- cran_stats(excess_shortList)
 ```
 
 ```{r}
+#| label: fig-excess-downloads
+#| fig-cap: "Excess of Mortality Packages Downloads"
+#| fig-alt: "Excess of Mortality Packages"
 ggplot(excess_downloads, aes(end, downloads,
                              group = package, 
                              color = package)) +
@@ -1163,7 +1166,6 @@ for your specific needs.
 
 ```{r}
 #| eval: false
-
 library(cranly)
 p_db <- tools::CRAN_package_db()
 package_db <- clean_CRAN_db(p_db)

@@ -150,20 +150,15 @@ library(hmsidwR)
 The **`hmsidwR::gho_lifetables`** dataset contains five variables:
 
 1.  **indicator:** as shown in @tbl-indicators
-
 2.  **age group:** from \<1 to 85+ in 5-year classes
-
 3.  **sex:** female, male, and both
-
 4.  **value:** indicators value
-
 5.  **year:** from 2000 to 2019
 
 ```{r}
 #| echo: true
 #| label: tbl-lifetables
 #| tbl-cap: "Global Health Observatory Life Tables"
-
 gho_lifetables %>%
   filter(indicator == "ex", sex == "both") %>%
   select(-indicator, -sex) %>%
@@ -274,14 +269,12 @@ pyramid <- gho_lifetables %>%
   geom_bar(stat = "identity") +
   scale_fill_manual(values = c("#CC6666", "#9999CC", "#66CC99")) +
   coord_flip() +
-  labs(
-    title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
-    subtitle = "",
-    y = "Age",
-    caption = "Data Source: WHO | Graphic: @fgazzelloni") +
-  theme(
-    axis.text.x = element_blank(),
-    axis.title = element_blank())
+  labs(title = "Global Health Observatory Life Expectancy values\nchange 2000-2019\n\n{closest_state}",
+       subtitle = "",
+       y = "Age",
+       caption = "Data Source: WHO | Graphic: @fgazzelloni") +
+  theme(axis.text.x = element_blank(),
+        axis.title = element_blank())
 # pyramid
 ```
 
@@ -297,12 +290,12 @@ pyramid_gif <- pyramid +
 
 animate(pyramid_gif,
   fps = 40, duration = 5, width = 1200, height = 1400, res = 120,
-  renderer = gifski_renderer("images/gho_pyramid.gif"))
+  renderer = gifski_renderer("images/03_gho_pyramid.gif"))
 ```
 
 ::: {.content-visible when-format="html"}
 ![Global Health Observatory Life Expectancy
-2000-2019](images/gho_pyramid.gif){fig-align="center" width="375"}
+2000-2019](images/03_gho_pyramid.gif){fig-align="center" width="375" #fig-gho_pyramid}
 :::
 
 #### Exercise
@@ -352,7 +345,7 @@ population.
 
 $$
 CMR= \frac{\text{Number of deaths}}{\text{Total population}}*100,000
-$$
+$$ {#eq-cmr}
 
 Other types of mortality rates include:
 
@@ -361,28 +354,28 @@ Other types of mortality rates include:
 
 $$
 ASMR= \frac{\text{Number of deaths in a specific age group}}{\text{Total population in that age group}}*100,000
-$$
+$$ {#eq-asmr}
 
 -   **Cause-specific mortality rate**\index{CSMR}: the number of deaths
     per 100,000 population due to a specific cause
 
 $$
 CSMR= \frac{\text{Number of deaths due to a specific cause}}{\text{Total population}}*100,000
-$$
+$$ {#eq-csmr}
 
 -   **Infant mortality rate**\index{IMR}: the number of deaths per 1,000
     live births in the first year of life
 
 $$
 IMR= \frac{\text{Number of infant deaths}}{\text{Total number of live births}}*1,000
-$$
+$$ {#eq-imr}
 
 -   **Maternal mortality rate**\index{MMR}: the number of maternal
     deaths per 100,000 live births
 
 $$
 MMR= \frac{\text{Number of maternal deaths}}{\text{Total number of live births}}*100,000
-$$
+$$ {#eq-mmr}
 
 These mortality rates are used to assess the impact of diseases or
 injuries on a population and to identify areas where improvements in
@@ -425,7 +418,6 @@ deaths_max_cfr <- total_cases * cfr_max
 
 ```{r}
 #| echo: false
-
 print(paste("Total population:", total_population))
 print(paste("Malaria incidence rate per 1,000 population:", incidence_rate))
 print(paste("Total estimated malaria cases per year:", round(total_cases)))
@@ -462,7 +454,7 @@ the specified time period.
 
 $$
 \text{Incidence rate}= \frac{\text{number of new cases at time t}}{\text{total population at risk}}*1000
-$$
+$$ {#eq-incidence-rate}
 
 -   **Prevalence** measures the total number of cases of a disease in a
     population at a given time, including both new and existing cases.
@@ -474,7 +466,7 @@ than the probability of the disease to impact on the population, it
 expresses the probability of suffering from a disease, it is based on
 the total number of existing cases among the whole population.
 
-$$\text{Prevalence}=\frac{\text{number of new + existing cases at time t}}{\text{total population}}$$
+$$\text{Prevalence}=\frac{\text{number of new + existing cases at time t}}{\text{total population}}$$ {#eq-prevalence}
 
 Like incidence, it can be multiplied by a factor of 10\^n (where n is
 typically 1,000, 10,000, or 100,000) to express the prevalence per a
@@ -534,7 +526,6 @@ of 1/20=0.05 (5%)
 ```{r}
 #| label: tbl-covid19-synthetic
 #| tbl-cap: "COVID-19 Cases and Recovered - simulate data"
-
 library(tidyverse, quietly = T)
 
 population_size <- 100000 # Number of individuals
@@ -562,7 +553,9 @@ Poisson distribution is given by:
 
 $$
   P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
-$$ where $X$ is the random variable representing the number of events,
+$$ {#eq-rpois}
+
+where $X$ is the random variable representing the number of events,
 $k$ is the number of events, $\lambda$ is the rate parameter, and $e$ is
 the base of the natural logarithm.
 
@@ -594,7 +587,6 @@ Calculate the cumulative incidence and prevalence over time:
 ```{r}
 #| label: tbl-covid19-inc-prev-synthetic
 #| tbl-cap: "COVID-19 Incidence and Prevalence - simulate data"
-
 covid_data <-
   transform(covid_data,
             Cum_Cases = cumsum(Cases),
@@ -726,12 +718,10 @@ year 2019, as well as the severity level of the condition set as to be
 mild, moderate, severe, and combined for selected communicable, and
 Non-communicable diseases. To access the data:
 
-`hmsidwR::disweights`
-
 ```{r}
 #| eval: true
-
 library(hmsidwR)
+
 disability_weights <- hmsidwR::disweights
 ```
 
@@ -742,7 +732,6 @@ weights for the year 2019 for 204 countries and territories.
 ```{r}
 #| label: tbl-disability-weights
 #| tbl-cap: "Disability Weights"
-
 disability_weights %>%
   filter(year == 2019) %>%
   select(specification, severity, dw) %>%
@@ -759,7 +748,6 @@ condition on an individual's quality of life.
 ```{r}
 #| label: tbl-severity-disability-weights
 #| tbl-cap: "Severity and Disability Weights"
-
 library(hmsidwR)
 disability_weights <- hmsidwR::disweights
 
@@ -882,16 +870,13 @@ available in the `{hmsidwR}` package and, and includes the upper and
 lower bounds of the estimates and the 5-yrs age group for both sexes. We
 do not have information for the 0-4, 5-9 and 85+ age groups.
 
-`hmsidwR::germany_lungc`
-
 Here we can see the first 6 rows of the data, that we are going to use
 to calculate the YLLs, the YLDs and finally the DALYs.
 
 ```{r}
 #| label: tbl-germany_lungc
 #| tbl-cap: "Germany lungcancer"
-
-germany_lungc %>%
+hmsidwR::germany_lungc %>%
   select(age, sex, prevalence, dx) %>%
   head()
 ```
@@ -922,9 +907,8 @@ from GBD study[@ihmeuw/i2024] are the same as those found in the
 `disweights` dataset.
 
 ```{r}
-#| label: tbl-disweights2019-lung
+#| label: tbl-disweights-lung
 #| tbl-cap: "Lung cancer - Disability Weights"
-
 lung_dw <- hmsidwR::disweights %>%
   filter(year == 2019,
          str_detect(sequela, "lung")) %>%
@@ -951,7 +935,6 @@ prev_germany_lungc %>% head()
 ```{r}
 #| label: tbl-prev_germany_lungc_2019
 #| tbl-cap: "Lung Cancer Cases in Germany 2019"
-
 gelung_YLD <- prev_germany_lungc %>%
   mutate(dw = 0.451, YLD = prevalence * dw)
 

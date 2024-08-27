@@ -4,7 +4,7 @@
 #| echo: false
 library(ggplot2)
 book_theme <- theme_minimal() + 
-  theme(plot.title=element_text(face="bold"))
+  theme(plot.title=element_text(face = "bold"))
 ggplot2::theme_set(book_theme)
 ```
 
@@ -277,7 +277,7 @@ plot(bayesian_model)
 
 <center>
 
-![Bayesian Model diagnostics](images/14_bayesian_model_diagnostics.png)
+![Bayesian Model diagnostics](images/14_bayesian_model_diagnostics.png){#fig-bayes-covid19}
 
 </center>
 
@@ -285,6 +285,9 @@ To make predictions, we extract the posterior samples from the model and
 apply them to the original data:
 
 ```{r}
+#| label: fig-bayes-predictions
+#| fig-cap: "Actual vs. Predicted COVID-19 Cases"
+#| fig-alt: "Actual vs. Predicted COVID-19 Cases"
 # Make predictions
 predictions <- predict(bayesian_model, newdata = data)
 predictions <- as_tibble(predictions)
@@ -297,11 +300,8 @@ ggplot(data, aes(x = date)) +
                  color = "Actual")) +
   geom_line(aes(y = predicted_cases,
                 color = "Predicted")) +
-  labs(
-    title = "Actual vs. Predicted COVID-19 Cases",
-    x = "Date",
-    y = "Cases",
-    color = "Legend") 
+  labs(title = "Actual vs. Predicted COVID-19 Cases",
+       x = "Date", y = "Cases", color = "Legend") 
 ```
 
 ### Ensemble Modelling - Combining Multiple Models
@@ -524,17 +524,19 @@ options(scipen = 999)
 ```
 
 ```{r}
+#| label: fig-covid-cases
+#| fig-cap: "COVID-19 Cases by Country"
+#| fig-alt: "COVID-19 Cases by Country"  
 ggplot() +
-  geom_polygon(
-    data = worldmap,
-    aes(x = long, y = lat, group = group),
-        fill = "grey",
-        color = "white") +
+  geom_polygon(data = worldmap,
+               aes(x = long, y = lat, group = group),
+               fill = "grey",
+               color = "white") +
   geom_point(data = centroids,
-    aes(x = long, y = lat,
-        size = tot_cases,
-        color = log(avg_cfr)), 
-        alpha = 0.5) +
+             aes(x = long, y = lat,
+             size = tot_cases,
+             color = log(avg_cfr)), 
+             alpha = 0.5) +
   scale_size_continuous(
         labels = scales::unit_format(unit = "M", 
                                      scale = 1e-6)) +
@@ -552,6 +554,9 @@ ggplot() +
 The same graph made with selected countries only.
 
 ```{r}
+#| label: fig-covid-cases2
+#| fig-cap: "COVID-19 Cases by Country"
+#| fig-alt: "COVID-19 Cases by Country"   
 ggplot() +
   geom_polygon(data = worldmap,
                aes(x = long, y = lat, group = group),
@@ -617,6 +622,9 @@ And then plot the YLLs by country and month cycle, with the y axis
 representing the YLLs formatted in millions.
 
 ```{r}
+#| label: fig-covid-yll
+#| fig-cap: "YLLs by Country and Month Cycle"
+#| fig-alt: "YLLs by Country and Month Cycle"   
 COVID19_yll_4months %>%
   ggplot() +
   geom_col(aes(x = month_cycle, y = ylls, 
@@ -721,6 +729,9 @@ And then plot the YLDs by country and month cycle, with the y axis
 representing the YLDs formatted in millions.
 
 ```{r}
+#| label: fig-yld
+#| fig-cap: "YLDs by Country and Month Cycle"
+#| fig-alt: "YLDs by Country and Month Cycle" 
 COVID19_dalys %>%
   filter(year %in% c(2020, 2021)) %>%
   ggplot() +
@@ -744,6 +755,9 @@ Finally, let's plot the DALYs by country and month cycle, with the y
 axis representing the DALYs formatted in millions.
 
 ```{r}
+#| label: fig-dalys
+#| fig-cap: "DALYs by Country and Month Cycle"
+#| fig-alt: "DALYs by Country and Month Cycle"   
 COVID19_dalys %>%
   filter(year %in% c(2020, 2021)) %>%
   ggplot() +

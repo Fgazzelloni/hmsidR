@@ -68,8 +68,9 @@ computes tasks (T) to improve performance (P). The origins of ML, dating
 back to the late 1950s, only flourished in the 1990s with the aim of
 minimizing loss on unseen samples [@machine2024].
 
-![Machine Learning Cycle](images/ml-image.png){fig-align="center"
-width="404"}
+![Machine Learning
+Cycle](images/ml-image.png){#fig-ml-cycle
+fig-align="center" width="404"}
 
 The **Machine Learning Cycle** is a continuous process that involves the
 following steps: data collection, data preprocessing, model selection,
@@ -287,10 +288,9 @@ from 1849-01-01 to 1849-12-31. Let's visualize our data by using the
 ```{r}
 #| fig-cap: "Deaths due to Cholera in London (1849)"
 #| fig-alt: "Deaths due to Cholera in London (1849)"
-#| fig-lab: fig-cholera1849
+#| label: fig-cholera1849
 #| fig-width: 6
 #| fig-height: 4
-
 cholera %>%
   ggplot(aes(x = date, y = deaths)) +
   geom_line() +
@@ -394,6 +394,7 @@ assumptions are made about the underlying structure of the data.
 #| fig-cap:
 #|    - "Deaths due to Cholera in London (June to August 1849)"
 #|    - "Deaths due to Cholera in London (January to August 1849)"
+#| fig-alt: "Deaths due to Cholera in London (June to August 1849)"
 
 cholera %>%
   filter(date >= "1849-06-01" & date <= "1849-08-01") %>%
@@ -732,11 +733,11 @@ tested on the remaining data (the testing set) to assess its predictive
 performance.
 
 ```{r}
+#| label: fig-seir-rf
 #| fig.cap: "Tree of Random Forest Model for Epidemic X: The model splits the sample by determining the most probable number of infected individuals, using multiple decision trees to enhance accuracy. Each tree in the forest evaluates different features and criteria to make predictions, combining their outputs to form a consensus estimate. This approach helps to reduce overfitting and improve the robustness of the model in predicting the spread and impact of the epidemic."
 #| fig-alt: "Tree of Random Forest Model for Epidemic X"
 #| fig-width: 6
 #| fig-height: 4
-
 # Load required packages
 library(randomForest)
 
@@ -787,7 +788,7 @@ the model's performance and identify areas for improvement.
 
 ```{r}
 #| layout-ncol: 2
-#| label: fig-seir-rf
+#| label: fig-seir-rf2
 #| fig-cap:
 #|   - "Prediction of Infections for Epidemic X"
 #|   - "Observed vs Estimated values"
@@ -1156,7 +1157,7 @@ loss functions are:
     function is sensitive to outliers as it squares the errors before
     averaging them.
 
-$$MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{Y_i}-Y_i)^2}$$
+$$MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{Y_i}-Y_i)^2}$$ {#eq-mse}
 
 -   **Mean Absolute Error (MAE):**\index{MAE} MAE measures the average
     magnitude of the errors in a set of predictions, without considering
@@ -1165,7 +1166,7 @@ $$MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{Y_i}-Y_i)^2}$$
     sensitive to outliers, making it suitable for datasets with
     anomalies.
 
-$$MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{Y_i}-Y_i|}$$
+$$MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{Y_i}-Y_i|}$$ {#eq-mae}
 
 -   **Mean Squared Logarithmic Error (MSLE):**\index{MSLE} MSLE is
     useful when targeting a regression model to predict exponential
@@ -1174,7 +1175,7 @@ $$MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{Y_i}-Y_i|}$$
     distribution, which can lead to more stable predictions across a
     range of values.
 
-$$MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{Y_i}+1)-log(Y_i+1))^2}$$
+$$MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{Y_i}+1)-log(Y_i+1))^2}$$ {#eq-msle}
 
 2.  **Classification Loss
     Functions:**\index{classification loss functions} For classification
@@ -1186,7 +1187,7 @@ $$MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{Y_i}+1)-log(Y_i+1))^2}$$
     model whose output is a probability value between 0 and 1. It is
     particularly useful for binary classification tasks.
 
-$$L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}$$
+$$L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}$$ {#eq-bincv}
 
 -   **Hinge Loss:**\index{hinge loss} Often used with Support Vector
     Machines (SVMs), hinge loss evaluates the margin of classification
@@ -1195,7 +1196,7 @@ $$L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))}$$
 
 $$
 L=max(0,1-y*f(x))
-$$
+$$ {#eq-hloss}
 
 **Choosing the Right Loss Function:** The selection of a suitable loss
 function depends on the specific characteristics of the data and the
@@ -1230,14 +1231,14 @@ the model.
     predicted and actual values. It is commonly used in regression tasks
     to assess the model's predictive accuracy.
 
-$$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y_i})^2}$$
+$$RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y_i})^2}$$ {#eq-rmse}
 
 -   **R-squared (R2):**\index{R2} A statistical measure of how well the
     model fits the data, indicating the proportion of variance in the
     dependent variable that is explained by the independent variables.
     It ranges from 0 to 1, with higher values indicating a better fit.
 
-$$R^2 = 1 - \frac{SS_{residual}}{SS_{total}}$$
+$$R^2 = 1 - \frac{SS_{residual}}{SS_{total}}$$ {#eq-r2}
 
 -   **Adjusted R-squared:**\index{adjusted r-squared} A modified version
     of R-squared that adjusts for the number of predictors in the model,
@@ -1245,7 +1246,7 @@ $$R^2 = 1 - \frac{SS_{residual}}{SS_{total}}$$
     penalizes the addition of unnecessary predictors that do not improve
     the model's performance.
 
-$$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$
+$$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$ {#eq-adjr2}
 
 2.  **Classification Evaluation Metrics:** For classification tasks, the
     following metrics are commonly used to evaluate the model's
@@ -1256,20 +1257,20 @@ $$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$
     and intuitive measure of a model's performance, but it may not be
     suitable for imbalanced datasets.
 
-$$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$
+$$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$ {#eq-acc}
 
 -   **Precision:**\index{precision} The proportion of true positive
     predictions out of all positive predictions made by the model. It is
     a measure of the model's ability to avoid false positives.
 
-$$Precision = \frac{TP}{TP + FP}$$
+$$Precision = \frac{TP}{TP + FP}$$ {#eq-precision}
 
 -   **Recall (Sensitivity):**\index{sesitivity} The proportion of true
     positive predictions out of all actual positive instances in the
     dataset. It is a measure of the model's ability to identify all
     positive instances.
 
-$$Recall = \frac{TP}{TP + FN}$$
+$$Recall = \frac{TP}{TP + FN}$$ {#eq-recall}
 
 -   **Confusion Matrix:**\index{confusion matrix} A table that
     summarizes the performance of a classification model, showing the
@@ -1281,7 +1282,7 @@ $$Recall = \frac{TP}{TP + FN}$$
     providing a balanced measure of a model's performance. It is
     particularly useful when dealing with imbalanced datasets.
 
-$$F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}$$
+$$F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}$$ {#eq-f1}
 
 -   **Receiver Operating Characteristic (ROC) Curve:**\index{ROC} A
     graphical representation of the trade-off between true positive rate
@@ -1289,14 +1290,14 @@ $$F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}$$
     different threshold values. It is used to evaluate the performance
     of binary classification models.
 
-$$TPR = \frac{TP}{TP + FN}; \text{ }FPR = \frac{FP}{FP + TN}$$
+$$TPR = \frac{TP}{TP + FN}; \text{ }FPR = \frac{FP}{FP + TN}$$ {#eq-tpr}
 
 -   **Area Under the Curve (AUC):**\index{AUC} The area under the ROC
     curve, which provides a single value to summarize the model's
     performance. An AUC of 0.5 indicates a random classifier, while an
     AUC of 1.0 indicates a perfect classifier.
 
-$$AUC = \int_{0}^{1} TPR(FPR) dFPR$$
+$$AUC = \int_{0}^{1} TPR(FPR) dFPR$$ {#eq-auc}
 
 These are only a few of the most common loss functions and evaluation
 metrics able to provide insights into the model's performance to

@@ -327,7 +327,7 @@ gt_table <- gt(plot_data) %>%
 gt::gtsave(gt_table, "images/09_gt_table.png")
 ```
 
-![Basic Data Viz Rules](images/09_gt_table.png){fig-align="center"}
+![Basic Data Viz Rules](images/09_gt_table.png){fig-align="center" #fig-dvrules}
 
 ## Example: Visualizing Lung Cancer Deaths by Age in Germany
 
@@ -373,6 +373,12 @@ lineplot <- hmsidwR::germany_lungc |>
 
 ```{r}
 #| layout-ncol: 3
+#| label: fig-data-viz-germany
+#| fig-cap: 
+#|  - "Scatterplot: Lung Cancer Deaths by Age in Germany"
+#|  - "Barplot: Lung Cancer Deaths by Age in Germany"
+#|  - "Lineplot: Lung Cancer Deaths by Age in Germany"
+#| fig-alt: "Scatterplot and Barplot of Lung Cancer Deaths by Age in Germany"
 #| echo: false
 scatterplot
 barplot
@@ -478,6 +484,12 @@ grid.arrange(lineplot, lineplot1, lineplot2, ncol = 3)
 ```{r}
 #| echo: false
 #| layout-ncol: 3
+#| label: fig-data-viz-lineplot
+#| fig-cap: 
+#|  - "Basic Lineplot"
+#|  - "Customized Lineplot"
+#|  - "Customized Lineplot with Log Scale"
+#| fig-alt: "Lineplot 1, Lineplot 2, and Lineplot 3"
 lineplot
 lineplot1
 lineplot2
