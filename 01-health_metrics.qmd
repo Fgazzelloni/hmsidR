@@ -85,25 +85,26 @@ timeline %>%
 
 ![Health Metrics Development
 Timeline](images/01_timeline.png){#fig-timeline
-fig-align="center" width="90%"}
+fig-align="center" width="90%"
+fig-alt="Health Metrics development timeline"}
 
 One of the earliest forms of health metrics can be traced back to the
-work of *John Graunt*, an Englishman, in the 17th century
-[@johngra2024]. In 1662, Graunt published a landmark work titled
-"Natural and Political Observations Made upon the Bills of Mortality."
-Graunt defined as the **father of human demography** was largely
-self-educated, and his interest in mortality data was driven by the
-Bills of Mortality, which were weekly and annual records of deaths in
-London, and provided information on the number of births and deaths in
-the city. Graunt meticulously analyzed this **mortality data** and
-produced **tables** that presented various patterns and trends. His work
-laid the foundation for modern demography and statistical analysis.
-Among his notable contributions were the concepts of **life expectancy**
-and **mortality rates**. One of Graunt's key observations was the
-consistent pattern of higher mortality among infants and young children.
-He noted the difference in life expectancy between males and females and
-provided insights into factors influencing mortality, such as epidemics
-and seasons.
+work of *John Graunt*, an Englishman, in the 17th century[@johngra2024].
+In 1662, Graunt published a landmark work titled "Natural and Political
+Observations Made upon the Bills of Mortality." Graunt defined as the
+**father of human demography** was largely self-educated, and his
+interest in mortality data was driven by the Bills of Mortality, which
+were weekly and annual records of deaths in London, and provided
+information on the number of births and deaths in the city. Graunt
+meticulously analyzed this **mortality data** and produced **tables**
+that presented various patterns and trends. His work laid the foundation
+for modern demography and statistical analysis. Among his notable
+contributions were the concepts of **life expectancy** and **mortality
+rates**. One of Graunt's key observations was the consistent pattern of
+higher mortality among infants and young children. He noted the
+difference in life expectancy between males and females and provided
+insights into factors influencing mortality, such as epidemics and
+seasons.
 
 Over time, advancements in mathematics, medicine, and statistics led to
 the development of more sophisticated health metrics. The 19th century
@@ -117,7 +118,7 @@ the rest of the century.
 
 > **"The quality of life depends also on the state of "public
 > health"-namely on factors that affect the biological welfare of the
-> community as a whole."[@dubos1976a]**
+> community as a whole."[@dubos1976]**
 
 With the growth of epidemiology the 20th century was a key century for
 the expansion of the health metrics, the use of life table and
@@ -154,7 +155,7 @@ real-time tracking of diseases and health outcomes.
 
 John Graunt's work may have been a humble beginning, but it set in
 motion a scientific approach to understanding population health. The
-journey from *Graunt's Bills of Mortality* [@johngra2024a] to today's
+journey from *Graunt's Bills of Mortality*[@johngra2024a] to today's
 sophisticated health metrics reflects the continuous quest to quantify
 and comprehend the complexities of human health and disease.
 

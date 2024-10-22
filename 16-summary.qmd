@@ -2,28 +2,107 @@
 
 ```{r}
 #| echo: false
-ggplot2::theme_set(ggplot2::theme_minimal())
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title = element_text(face = "bold"))
+ggplot2::theme_set(book_theme)
 ```
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
--   Health metrics countries comparison
+- How health metrics vary across different countries.
+- Gain insights from the Global Burden of Disease (GBD) study on health metrics at the country level.
+- Evaluate the implications of health metrics for global public health policy and interventions.
 :::
-:::
+::::::
+
+In this final chapter, we synthesize the various elements covered throughout the book, focusing on the *comparison of health metrics across different countries*. For learning and comparing health metrics across different countries, resources like the **Global Burden of Disease (GBD)** study by the **Institute for Health Metrics and Evaluation (IHME)**, and the **OECD’s Health at a Glance report** are incredibly valuable. 
+
+The GBD provides comprehensive data on various health metrics, including disability-adjusted life years (DALYs), years lived with disability (YLDs), and years of life lost (YLLs), covering a vast array of diseases, injuries, and risk factors across 204 countries. It is a valuable resource for understanding the state of health across different countries and regions. You can explore GBD data on metrics like Years of Life Lost (YLLs), Disability-Adjusted Life Years (DALYs), and more by country, which is instrumental for cross-country comparisons on health outcomes and disease impacts ([www.healthdata.org](www.healthdata.org)).
+
+The OECD’s Health at a Glance report offers a comparative overview of health indicators among member countries. This report examines metrics such as life expectancy, health expenditures, and major health trends, making it a useful resource for understanding how health metrics vary across different countries. The report provides accessible insights into public health priorities and performance indicators, facilitating comparisons and helping to identify areas for improvement ([www.oecd-ilibrary.org](www.oecd-ilibrary.org)).
+
 
 ## Health metrics countries comparison
 
-The Global Burden of Disease (GBD) study provides a comprehensive and up
-to date assessment of health metrics across countries. Let's compare the
-levels of health metrics in different countries.
+Let's compare the levels of health metrics in different countries starting with a simple example. We will compare the life expectancy at birth in 2019 for a few countries.
 
 ```{r}
+#| label: fig-life-expectancy
+#| fig.cap: "Life expectancy at birth in 2019 for selected countries."
+#| fig.alt: "A bar plot showing life expectancy at birth in 2019 for selected countries."
 
+library(tidyverse)
+
+# Data
+life_expectancy <- data.frame(
+  country = c("United States", "China", "India", "Brazil", "Russia"),
+  life_expectancy = c(78.9, 76.7, 69.7, 75.9, 72.6)
+)
+
+# Plot
+ggplot(life_expectancy, aes(x = country, y = life_expectancy)) +
+  geom_col(fill = "skyblue") +
+  geom_text(aes(label = life_expectancy), vjust = -0.5, size = 3) +
+  labs(title = "Life expectancy at birth in 2019 for selected countries",
+       x = "Country", y = "Life expectancy at birth (years)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+Then, we can use the GBD data to compare health metrics across countries. For example, we can compare the burden of disease in terms of Disability-Adjusted Life Years (DALYs) for selected countries.
+
+```{r}
+#| label: fig-dalys
+
+# Data
+
+dalys <- data.frame(
+  country = c("United States", "China", "India", "Brazil", "Russia"),
+  dalys = c(0.03, 0.04, 0.06, 0.04, 0.05)
+)
+
+# Plot
+
+ggplot(dalys, aes(x = country, y = dalys)) +
+  geom_col(fill = "skyblue") +
+  geom_text(aes(label = dalys), vjust = -0.5, size = 3) +
+  labs(title = "Disability-Adjusted Life Years (DALYs) in 2019 for selected countries",
+       x = "Country", y = "DALYs per capita") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Now, looking at the 5 top diseases causing DALYs in the United States in 2019:
+```{r}
+#| label: fig-top-diseases-us
+
+# Data
+top_diseases_us <- data.frame(
+  disease = c("Ischemic heart disease", "Low back pain", "Migraine", "Chronic obstructive pulmonary disease", "Diabetes"),
+  dalys = c(0.06, 0.05, 0.04, 0.03, 0.03)
+)
+
+# Plot
+
+ggplot(top_diseases_us, aes(x = disease, y = dalys)) +
+  geom_col(fill = "skyblue") +
+  geom_text(aes(label = dalys), vjust = -0.5, size = 3) +
+  labs(title = "Top 5 diseases causing DALYs in the United States in 2019",
+       x = "Disease", y = "DALYs per capita") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+What type of plots we can draw to compare health metrics across countries?
+
+1. Bar plots
+2. Line plots
+3. Scatter plots
+4. All of the above
+
+The correct answer is: All of the above.
+
+In summary, comparing health metrics across countries is essential for understanding the state of health globally. Resources like the GBD study and the OECD’s Health at a Glance report provide valuable insights into health metrics, enabling comparisons and identifying areas for improvement. By analyzing health metrics across countries, we can gain insights into public health priorities, disease burdens, and health outcomes, which are crucial for informing global public health policy and interventions.

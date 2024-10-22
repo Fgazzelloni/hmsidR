@@ -2,16 +2,16 @@
 engine: knitr
 ---
 
-# Preface {.unnumbered .unlisted}
+## Preface {.unnumbered .unlisted}
 
-::: {.content-visible when-format="html"}
+:::: {.content-visible when-format="html"}
 *Last updated:
 `r format(lubridate::now(tzone = "CET"), usetz = TRUE, digits = 0)`*
 
 ::: solutionbox-header
 ❗️The book is continuously being refined and expanded.
 :::
-:::
+::::
 
 \
 This book will teach you about health metrics such as Disability

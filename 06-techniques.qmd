@@ -1,19 +1,19 @@
 # Techniques for Machine Learning Applications {#sec-06-techniques}
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
 -   How to manipulate data through feature engineering
 -   Select the most suitable model for your data
 -   Learn about machine learning algorithms
 :::
-:::
+::::::
 
 ```{r}
 #| echo: false
@@ -235,7 +235,7 @@ scale and center the numeric variables to make them more comparable.
 
 ```{r}
 p1 <- rabies %>%
-  ggplot(aes(x = year, group = location, color = location)) +
+  ggplot(aes(x = year, group = location, linetype = location)) +
   geom_line(aes(y = dx_rabies),
             linewidth = 1) +
   geom_line(aes(y = dalys_rabies))
@@ -243,7 +243,7 @@ p1 <- rabies %>%
 p2 <- rabies %>%
   # apply a scale transformation to the numeric variables
   mutate(across(where(is.double), scale)) %>%
-  ggplot(aes(x = year, group = location, color = location)) +
+  ggplot(aes(x = year, group = location, linetype = location)) +
   geom_line(aes(y = dx_rabies),
             linewidth = 1) +
   geom_line(aes(y = dalys_rabies))
@@ -316,7 +316,9 @@ p3 <- dat %>%
   select(-year, -location) %>%
   scale() %>%
   cbind(dat %>% select(year, location)) %>%
-  ggplot(aes(x = year, group = location, color = location)) +
+  ggplot(aes(x = year, 
+             group = location, 
+             linetype = location)) +
   geom_line(aes(y = dx_rabies),
             linewidth = 1) +
   geom_line(aes(y = dx_allcauses))
@@ -327,7 +329,7 @@ p4 <- dat %>%
   cbind(dat %>% select(year, location)) %>%
   ggplot(aes(x = year,
              group = location,
-             color = location)) +
+             linetype = location)) +
   geom_line(aes(y = dalys_rabies),
             linewidth = 1) +
   geom_line(aes(y = dalys_allcauses))

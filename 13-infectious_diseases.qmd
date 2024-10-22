@@ -32,18 +32,21 @@ deaths annually. Understanding their behavior and predicting outbreaks
 is fundamental not only for public health but also for advancing
 prediction techniques that can be applied in other fields.
 
-Microorganisms adapt much more rapidly than humans. A **bacterial**
-generation can be as short as 20-30 minutes, and for **viruses**, it's
-even shorter. This rapid adaptation allows **pathogens** to evolve
-quickly, developing resistance to treatments and evading the **host**'s
-immune system.
+**Microorganisms**, including **bacteria** and **viruses**, adapt and
+evolve at a rate much faster than humans. For example, the generation
+time for bacteria can be as short as 20–30 minutes, while viruses can
+replicate in even shorter time frames. This rapid adaptation allows
+**pathogens** to evolve quickly, developing resistance to treatments and
+evading the **host**'s immune system.
 
-Once the **infective agent** begins to thrive and multiply throughout
-the body [@broemeling2021], the process of infection starts. The rate at
-which the pathogen proliferates varies significantly depending on the
-type of organism involved. Each infectious disease has a unique
-**incubation period**, which is the interval between the initial
-establishment of the pathogen in the host and the onset of symptoms.
+Infectious diseases follow a multi-stage progression that begins when
+the infective agent, whether **viral**, **bacterial**, or **parasitic**,
+begins to thrive and multiply throughout the body[@broemeling2021] and
+the process of infection starts. The rate at which the pathogen
+proliferates varies significantly depending on the type of organism
+involved. Each infectious disease has a unique **incubation period**,
+which is the interval between the initial establishment of the pathogen
+in the host and the onset of symptoms.
 
 The incubation period can range from a few hours to several months,
 influenced by factors such as the pathogen's growth rate, the host's
@@ -53,33 +56,39 @@ whereas for diseases like **hepatitis B**, it can be as long as 6
 months. Understanding the incubation period helps in identifying the
 time frame for potential exposure.
 
-Several factors influence infection, including:
+Several factors influence an individual’s susceptibility to infection,
+including:
 
--   The dose of the infection (quantity of invading germs)
--   The virulence of the infection
--   The condition of the body's immune system
--   Contact with the source of infection for contagious diseases
+-   Infection dose (quantity of invading germs)
+-   Virulence (the ability of the organism to cause disease)
+-   Immune status (the condition of the body's immune system)
+-   Transmission route (contact with the source of infection for
+    contagious diseases)
 
 > **Who adapts to whom?**
 
-**Viruses**\index{virus}, named from the Latin word for **"poisonous
-substance,"** range from 20 to 400 nm in diameter and can only be
-observed with an electron microscope. Outside of a living cell, a virus
-is a dormant particle of various shapes. Once inside a cell, it
-replicates, often killing the cell or altering its functions.
+**Viruses**\index{virus}, word derived from the Latin word for
+**"poisonous substance"**, are intracellular parasites that can only
+replicate within living host cells. Their sizes range from 20 to 400 nm
+in diameter and can only be observed with an electron microscope.
+Outside of a living cell, a virus is a dormant particle of various
+shapes. Once inside a cell, it replicates, often killing the cell or
+altering its functions.
 
 The following seven diseases are all caused by an infectious agent such
 as virus or bacteria, generally cause acute symptoms, ranging from mild
 to severe, and require prompt medical attention to prevent complications
 and further spread:
 
-1.  Acute Respiratory Infection (ARI)
-2.  COVID-19
-3.  Dengue
-4.  Influenza/Influenza-Like Illness (ILI)
-5.  Malaria
-6.  West Nile Virus
-7.  Zika
+1.  [Acute Respiratory Infection
+    (ARI)](https://www.ncbi.nlm.nih.gov/books/NBK11786/)
+2.  [Covid-19](https://en.wikipedia.org/wiki/COVID-19)
+3.  [Dengue](https://en.wikipedia.org/wiki/Dengue_fever)
+4.  [Influenza/Influenza-Like Illness
+    (ILI)](https://en.wikipedia.org/wiki/Influenza)
+5.  [Malaria](https://en.wikipedia.org/wiki/Malaria)
+6.  [West Nile Virus](https://en.wikipedia.org/wiki/West_Nile_virus)
+7.  [Zika](https://en.wikipedia.org/wiki/Zika_fever)
 
 These diseases are transmitted through various means and can be grouped
 by **transmission methods**:
@@ -90,7 +99,7 @@ by **transmission methods**:
     transmitted via respiratory droplets when infected individuals cough
     or sneeze.
 
-## The SIR Model
+## Mathematical Models for Infectious Diseases
 
 The application of mathematical models to infectious diseases dates back
 over a century, with significant contributions from pioneers such as
@@ -99,37 +108,100 @@ subject[@keeling2009]. Their work introduced the concept of categorizing
 individuals based on their epidemiological status: **susceptible**,
 **infected**, and **recovered**.
 
+### The SIR Model
+
 One of the simplest and most fundamental epidemiological models, the
 **SIR model**\index{SIR}, to which we had a quick look in the previous
 chapters (@sec-05-machine_learning and @sec-06-techniques), is based on
-these three compartments. The model estimates two key parameters: the
+these three compartments and uses a system of differential equations to
+describe how individuals move between these compartments based on
 **infection rate** and the **recovery rate**. These parameters help
 predict the epidemic’s progression, showing how the number of
 susceptible individuals decreases as the number of infected individuals
 increases, eventually leading to recovery and a decline in new
 infections, as shown in @eq-sir-model-theory.
 
-**The Reproduction Ratio (R0)**
+More complex models, includes:
 
-To understand the epidemic potential of an infectious disease, the
-average number of secondary cases generated by a single infectious
-individual in a completely susceptible population is calculated using
-the **reproduction ratio (R0)**. As the ratio of the transmission rate
-to the recovery rate, R0 provides a measure of the disease's ability to
-spread.
+-   **SEIR Model**: This model introduces an exposed (E) compartment,
+    which represents individuals who have been infected but are not yet
+    infectious. This compartmentalization is particularly useful for
+    diseases with significant incubation periods (e.g., COVID-19). Practical applications are in @sec-05-epidemic-x and @sec-14-modelling-covid19.
+-   **SIS Model**: In this model, individuals who recover from infection
+    do not gain lasting immunity, meaning they return to the susceptible
+    class and can become reinfected. This model is relevant for diseases
+    like gonorrhea.
+-   **MSIR Model**: In some diseases, such as measles, maternal
+    antibodies provide temporary immunity to newborns. The M (maternal
+    immunity) compartment is used in such cases.
+
+## Components of Infectious Disease Models
+
+1.  **Infection Rate**
+
+This parameter, often denoted as $\beta$ (beta), controls how quickly
+the susceptible population becomes infected. It depends on factors such
+as contact rate and the probability of transmission per contact. It is
+the rate at which individuals move from the susceptible compartment to
+the infected compartment. The infection rate is proportional to the
+product of susceptible and infected individuals[@kolokolnikov2020].
+
+$$\beta = \text{Contact Rate} \times \text{Probability of Transmission per Contact}$$
+
+2.  **Recovery Rate**
+
+Denoted by $\gamma$ (gamma), this defines the rate at which infected
+individuals recover and either gain immunity or become susceptible again
+(depending on the model).
+
+$$\gamma = \frac{1}{\text{Average Duration of Infection}}$$
+
+3.  **Incubation Period**
+
+In models like SEIR, the incubation period is the average time that
+exposed individuals take before they become infectious. This is a
+critical factor in diseases like COVID-19 and Ebola.
+
+$$\text{Incubation Period} = \frac{1}{\sigma}$$
+
+where $\sigma$ is the rate at which individuals move from the exposed
+compartment to the infected compartment.
+
+4.  **Transmission Rate**
+
+The transmission rate often depends on how a disease spreads—whether
+it’s through respiratory droplets, direct contact, vectors like
+mosquitoes, or other means. Transmission rates are also influenced by
+human behaviors, such as hygiene practices and social distancing
+measures.
+
+$$\text{Transmission Rate} = \beta \times \text{Number of Contacts}$$
+
+where $\beta$ is the probability of transmission per contact, and the
+number of contacts is the average number of people an infected
+individual comes into contact with.
+
+5.  **Reproduction Ratio (**$R_0$)
+
+A key metric that indicates the **average number of secondary cases
+generated by one infectious individual in a fully susceptible
+population** is the **basic reproduction ratio (**$R_0$).
 
 $$
-R0 = \frac{\beta}{\gamma}
+R_0 = \frac{\beta}{\gamma}
 $$ {#eq-r0}
 
 where $\beta$ is the transmission rate and $\gamma$ is the recovery
-rate. The value of R0 determines the epidemic threshold:
+rate. As the ratio of the transmission rate to the recovery rate, $R_0$
+provides a measure of the disease's ability to spread.
+
+The value of $R_0$ determines the epidemic **threshold**:
 
 $$
-\text{If R0 = } \left\{\begin{matrix}
+\text{If } R_0 \left\{\begin{matrix}
  \begin{aligned}
- >1 = &  \text{Epidemic}\\
- <1 =& \text{End of Infection Transmission}
+ >1 = &  \text{ Epidemic}\\
+ <1 = & \text{ End of Infection Transmission}
  \end{aligned}
 \end{matrix}\right. 
 $$ {#eq-r0-threshold}
@@ -153,7 +225,7 @@ exponentially, leading to a peak, but as the susceptible population
 start reducing in number due to various factors, the growth rate slows
 with subsequent decline.
 
-### Advancements and Extensions
+## Advancements and Extensions
 
 Mathematical modelling has evolved to include more complex factors such
 as age structure, stochasticity, and spatial dynamics. Age-structured
@@ -216,16 +288,17 @@ approaches can be valued:
 1.  DALYs as a function of the **socio-demographic index
     (SDI)**\index{SDI}: A composite index of the average income per
     person, educational attainment, and total fertility rate. The model
-    function can be expressed as: $$DALY_{id}= f(SDI)+\epsilon$$ {#eq-daly-sdi} where
-    is the number of $DALYs$ is the response variable, $SDI$ the
-    socio-demographic index acting as predictor, $f(.)$ is the function
-    that relates the number of DALYs to the socio-demographic index, and
-    $\epsilon$ is the error term.
+    function can be expressed as:
+    $$DALY_{id}= f(SDI)+\epsilon$$ {#eq-daly-sdi} where is the number of
+    $DALYs$ is the response variable, $SDI$ the socio-demographic index
+    acting as predictor, $f(.)$ is the function that relates the number
+    of DALYs to the socio-demographic index, and $\epsilon$ is the error
+    term.
 
 2.  DALYs as a function of the **human development index
     (HDI)**\index{HDI}: A composite index of life expectancy, education,
     and per capita income indicators. The model function can be
-    expressed as:$$DALY_{id}= f(HDI)+\epsilon$$ {#eq-daly-sdi} where is the number of
+    expressed as:$$DALY_{id}= f(HDI)+\epsilon$$ where is the number of
     $DALYs$ is the response variable, $HDI$ the socio-demographic index
     acting as predictor, $f(.)$ is the function that relates the number
     of DALYs to the socio-demographic index, and $\epsilon$ is the error

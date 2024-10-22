@@ -5,10 +5,17 @@ project:
 book:
   title: "Health Metrics and the Spread of Infectious Diseases"
   subtitle: "Machine Learning Applications and Spatial Modelling Analysis with R"
-  #abstract: "A walk through a comprehensive exploration of health metrics, their calculation, modeling, and cross-country comparisons. This book spans the intricate landscape of public health analysis, offering a practical examination of various methodologies and approaches. From the fundamentals of health metrics calculation to providing an overview of modeling techniques, it equips readers with the knowledge and tools essential for understanding and interpreting health data, gaining valuable insights into global disparities and factors influencing health outcomes. In addition to providing the R code necessary to produce the analysis, the book teaches how to create appropriate data visualizations and maps. In compliance with the principles of transparency and reproducibility, all datasets utilized in this book have been organized into an R package called [{hmsidwR}](https://fgazzelloni.github.io/hmsidwR/). This integration ensures that readers have easy access to the necessary data, thereby facilitating the replication of the analyses presented throughout the text."
   author:
     name: Federica Gazzelloni
     orcid: 0000-0002-4285-611X
+  date: "06/09/2023" # date of the agreement with the Editor
+  publisher: "CRC Press - Chapman & Hall"
+  publisher-place: "Boca Raton, FL."
+  site-url: https://fgazzelloni.quarto.pub/hmsidr/
+  repo-url: https://github.com/Fgazzelloni/hmsidR
+  repo-branch: origin
+  repo-actions: [edit, issue]
+  sharing: [twitter, facebook, linkedin]
   cookie-consent:
     type: express
     style: headline
@@ -16,25 +23,15 @@ book:
   google-analytics:
     tracking-id: "G-J9YVQPL7W9"
     anonymize-ip: true
-  site-url: https://fgazzelloni.quarto.pub/hmsidr/
-  repo-url: https://github.com/Fgazzelloni/hmsidR
-  repo-branch: origin
-  sharing: [twitter, facebook, linkedin]
-  publisher: "CRC Press - Chapman & Hall"
-  publisher-place: "Boca Raton, FL."
-  repo-actions: [edit, issue]
-  cover-image: images/cover.png
   favicon: images/cover.png
-  date: "06/09/2023" # date of the aggrement with the Editor
+  cover-image: images/cover.png
+  cover-image-alt: "Cover image of the book Health Metrics and the Spread of Infectious Diseases"
   reader-mode: true
-  page-navigation: true
-  back-to-top-navigation: true
   sidebar:
     foreground: "primary"
     background: "#ebecf7"
     pinned: true
     style: docked
-
   page-footer:
     left: |
       &copy; 2024 This book is written by <a href="https://federicagazzelloni.netlify.app/">Federica Gazzelloni</a>.
@@ -43,7 +40,6 @@ book:
     right: |
       Built with ❤︎️ and [Quarto](https://quarto.org/)
     background: "#29306c"
-
   chapters:
     - index.qmd
     - intro.qmd
@@ -80,10 +76,11 @@ book:
     - appendixC.qmd
 
 appendix-style: default
-search: true
-
 bibliography: references.bib
 csl: chicago-fullnote-bibliography-16th-edition.csl
+crossref:
+  lof-title: "List of Figures"
+  lot-title: "List of Tables"
 
 format:
   html:
@@ -94,7 +91,7 @@ format:
     include-in-header:
       text: |
         <script defer data-domain="" src=""></script>
-        <link rel = "shortcut icon" href = "favicon.ico" />
+        <link rel="shortcut icon" href="favicon.ico" />
     code-overflow: wrap
     code-link: true
     code-copy: true
@@ -109,7 +106,6 @@ format:
     toc-depth: 3
     mermaid:
       theme: neutral
-
   pdf:
     documentclass: krantz
     classoption: [krantz2]

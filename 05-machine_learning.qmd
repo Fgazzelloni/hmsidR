@@ -555,7 +555,7 @@ model. Other important factors influencing the spread are social
 behavior and vaccination. We will talk more about infectious diseases
 spread in section 4 @sec-13-infectious_diseases.
 
-### Example 2: Epidemic X
+### Example 2: Epidemic X {#sec-05-epidemic-x}
 
 #### SEIR Model
 
@@ -563,8 +563,8 @@ In this example we simulate data of an epidemic to build a
 SEIR\index{SEIR} (susceptible, exposed, infected, recovered) model, a
 case a little more complicated than just making a SIR (susceptible,
 infected, recovered) model (@eq-sir-model-theory). More about the
-compartmental models will be shown in @sec-07-packages and in
-@sec-14-covid19.
+compartmental models will be shown in @sec-07-packages,
+@sec-13-infectious_diseases and in @sec-14-covid19.
 
 So, let's start looking at how our simple linear equation
 $y= \beta_0+\beta_1 x$ can be changed to become a differential equation.
