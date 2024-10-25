@@ -81,12 +81,7 @@ and `{INLA}` for modelling, but other machine learning packages like
 
 In practice, the data will include information about humanity such as
 age, sex, life expectancy, mortality, and risk levels. The interesting
-part is related to the identification of the influence of some of the
-most dangerous infectious diseases on the values of health metrics of a
-population, and this is done to practice the variation to eventually
-predict through model transfer techniques the same pattern procedure on
-other countries. It's not the only application; more examples of model
-transfer applications are needed in research[@roster2022].
+part is related to the identification of insights from past outbreaks to predict and manage future ones. This is done through a process called *model transfer*. Imagine each outbreak as a story with unique but similar events, like the spread patterns and impacts of diseases. By studying these *stories*, models can be built to capture key factors influencing outbreaks, such as transmission rates, environmental triggers, and population behaviors[@roster2022]. 
 
 A focus on the impact of recent infectious disease outbreaks, such as
 SARS-Covid19, on the state of health of the population, will be provided
@@ -99,13 +94,38 @@ for public health policy and practice[@GBD2020].
 
 ## The Structure of the Book
 
-The book is structured with an alternation of text and chunks of code, primarily in the R programming language; hints for translations in Python are provided in @sec-appendixC. The book encourages readers to actively engage with real-world case studies, transforming theoretical concepts into practical skills. This hands-on approach enables readers to become practitioners, applying the methods learned directly to relevant scenarios.
+The book is structured with an alternation of text and chunks of code,
+primarily in the R programming language; hints for translations in
+Python are provided in @sec-appendixC. The book encourages readers to
+actively engage with real-world case studies, transforming theoretical
+concepts into practical skills. This hands-on approach enables readers
+to become practitioners, applying the methods learned directly to
+relevant scenarios.
 
-The material supports full exploratory data analysis and model visualization, offering code for generating compelling spatial visualizations using packages such as `{ggplot2}`, `{leaflet}`, `{sf}`, and `{terra}`, among others, which allow for extensive user customization. The inclusion of these tools is intended to unlock the full potential of the R language, broadening the reader’s understanding of both spatial and health metrics.
+The material supports full exploratory data analysis and model
+visualization, offering code for generating compelling spatial
+visualizations using packages such as `{ggplot2}`, `{leaflet}`, `{sf}`,
+and `{terra}`, among others, which allow for extensive user
+customization. The inclusion of these tools is intended to unlock the
+full potential of the R language, broadening the reader’s understanding
+of both spatial and health metrics.
 
-To ensure reproducibility, the book-project employs the `{renv}` package, which provides a snapshot of the specific versions of all packages used during the writing of the book @sec-appendixB. This enables readers to restore all R package libraries to the exact versions they were in at the time of writing, ensuring that all code examples work as intended regardless of future package updates. This detail is crucial for readers who wish to recreate the analysis or adapt it to their own datasets.
+To ensure reproducibility, the book-project employs the `{renv}`
+package, which provides a snapshot of the specific versions of all
+packages used during the writing of the book @sec-appendixB. This
+enables readers to restore all R package libraries to the exact versions
+they were in at the time of writing, ensuring that all code examples
+work as intended regardless of future package updates. This detail is
+crucial for readers who wish to recreate the analysis or adapt it to
+their own datasets.
 
-This book is designed for practitioners at early stages of their careers and graduate students in STEM fields, yet it remains a valuable resource for experts who seek to have all the tools in one place for quick reference. The overarching goal of this book is to contribute to the scientific development of health metrics and evaluation, providing a comprehensive resource that supports both learning and application in this important field[@murray2008].
+This book is designed for practitioners at early stages of their careers
+and graduate students in STEM fields, yet it remains a valuable resource
+for experts who seek to have all the tools in one place for quick
+reference. The overarching goal of this book is to contribute to the
+scientific development of health metrics and evaluation, providing a
+comprehensive resource that supports both learning and application in
+this important field[@murray2008].
 
 ### Navigating the Chapters and Key Concepts
 
@@ -154,4 +174,4 @@ key, unlocking the structures of unknown patterns through the
 application of transfer learning techniques by using models designed for
 one phenomenon to predict another, this approach enables users to
 navigate and understand previously uncharted territories in a diverse
-range of scenarios.
+range of scenarios. 

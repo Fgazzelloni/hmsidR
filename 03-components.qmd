@@ -9,13 +9,13 @@ ggplot2::theme_set(book_theme)
 options(scipen = 999)
 ```
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
 -   Life tables and Life expectancy
@@ -23,7 +23,7 @@ Learning Objectives
 -   Incidence and Prevalence
 -   Disability weights and Severity levels
 :::
-:::
+::::::
 
 ## Cause-specific or Population-wide
 
@@ -988,7 +988,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-------------------|------------------|------------------|------------------|
+|----------------------------------------------|--------------------|-------|-------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

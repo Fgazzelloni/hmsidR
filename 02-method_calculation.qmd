@@ -8,20 +8,20 @@ book_theme <- theme_minimal() +
 ggplot2::theme_set(book_theme)
 ```
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
 -   A closer look at the metrics
 -   Understand how to use them
 -   Think about potentiality for improvements
 :::
-:::
+::::::
 
 The objective of this chapter is to provide a first level calculation of
 the burden of diseases, focusing on disability and premature mortality,
@@ -39,9 +39,9 @@ effectiveness of public health programs.
 
 ## YLLs Calculation
 
-The Years of Life Lost (YLLs) is a metric that measures the number of
-years a person would have lived if they had not died prematurely due to
-a disease or injury. **YLLs are calculated by subtracting the age at
+The **Years of Life Lost (YLLs)** is a metric that measures the number
+of years a person would have lived if they had not died prematurely due
+to a disease or injury. **YLLs are calculated by subtracting the age at
 death from the expected age at death in a population without the disease
 or injury**.
 
@@ -188,7 +188,8 @@ $(_{n}q_x)$.
 hmsidwR::gho_lifetables %>%
   count(indicator) %>%
   select(-n) %>%
-  mutate(description = c(
+  rename(Indicator = indicator) %>%
+  mutate(Description = c(
     "person-years lived above age x",
     "expectation of life at age x",
     "number of people left alive at age x",
@@ -295,9 +296,20 @@ dat %>%
         plot.caption = element_text(size = 8))
 ```
 
+In summary, stroke is a leading cause of death and disability worldwide,
+and it is responsible for a significant number of premature deaths in
+the Global region. The YLLs due to stroke are particularly high in older
+age groups, where the number of deaths is higher, and the life
+expectancy is lower. This indicates that stroke has a significant impact
+on the overall burden of disease in the Global region, particularly
+among older populations. The YLLs due to stroke are an important measure
+of the impact of this disease on premature mortality and can help inform
+public health interventions and policies to reduce the burden of stroke
+in the population.
+
 ## YLDs Calculation
 
-**YLDs** (Years Lived with Disability) measure the number of years a
+**YLDs (Years Lived with Disability)** measure the number of years a
 person lives with a disability due to a disease or injury. It is
 calculated by multiplying the **prevalence of a condition** by the
 **disability weight**, which reflects the **severity** of the
@@ -311,8 +323,11 @@ of the disability weights is challenging and has been continuously
 changed by modifying and adapting methodologies in various studies
 [@liu2023]. The challenge is assigning disability weights to diseases
 with different levels of prevalence and severity, such as cases with
-high prevalence and low severity. Furthermore, the results need to be
-reported to a year-based value.
+high prevalence and low severity. People’s experiences of the same
+condition can vary significantly, making it difficult to establish a
+standardized weight that accurately reflects the global impact on
+quality of life. Furthermore, the results need to be reported to a
+year-based value.
 
 Moreover, the calculation of YLDs has been updated over the years,
 shifting from an incidence to a prevalence-based approach. More in-depth
@@ -632,14 +647,25 @@ dat %>%
     plot.caption = element_text(size = 8))
 ```
 
+In summary, the YLDs due to stroke are an important measure of the
+impact of this condition on the quality of life of individuals in the
+Global region. In this example we saw how the level of disability and
+the severity of the condition can affect the YLDs, and how the
+prevalence-based and incidence-based calculations can provide different
+results. The YLDs due to stroke are particularly high in older age
+groups, where the prevalence of the condition is higher, and the
+severity of the disability is more pronounced. This indicates that
+stroke has a significant impact on the overall burden of disease in the
+Global region, particularly among older populations.
+
 ## DALYs Calculation
 
-As a measure of the overall disease burden, DALYs are used to quantify
-the sum of years of potential life lost due to premature death (YLL) and
-years lived with disability (YLD). The number of DALYs indicates the
-number of years of life lost due to premature deaths, disease, or
-injury. This metric takes into account both the quantity and quality of
-life.
+As a measure of the overall disease burden, **Disability Adjusted Life
+Years (DALYs)** are used to quantify the sum of years of potential life
+lost due to premature death (YLLs) and years lived with disability
+(YLDs). The number of DALYs indicates the number of years of life lost
+due to premature deaths, disease, or injury. This metric takes into
+account both the **quantity** and **quality** of life.
 
 DALYs are a generalization of the well-known **Potential Years of Life
 Lost measure (PYLLs)**, which includes the loss of good health. We do

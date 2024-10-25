@@ -190,6 +190,16 @@ been further criticized and remains a topic of debate.
 > wants to do and become what he wants to become, according to human
 > values that transcend medical judgment." R.Dubos[@dubos1976a]**
 
+Used in health policy to measure the value of medical interventions by
+balancing both the quantity and quality of life added, QALYs help
+decision-makers determine which treatments or programs offer the
+greatest health benefits relative to their costs. For example, a health
+policy might prioritize funding for treatments that deliver high QALYs
+per dollar spent, ensuring resources are allocated to maximize health
+outcomes across the population. This approach guides decisions in
+healthcare budgeting, insurance coverage, and prioritizing interventions
+for chronic illnesses, preventive care, or new therapies.
+
 ### Disability-Adjusted Life Years (DALYs)
 
 In the 1990s, the World Bank financed a study at Harvard University to
@@ -204,6 +214,29 @@ Burden of Disease Study in 1990 [@murray1994]; a project that involved
 Disability-Adjusted Life Years (DALYs) [@disabili2023a], a metric that
 combines **years of life lost due to premature death** and **years lived
 with disability**.
+
+```{r}
+#| echo: false
+#| eval: false
+
+library(DiagrammeR)
+
+grViz("
+  digraph {
+    rankdir = LR
+    node [shape = circle, width = 2]
+    A [label = 'Years of Life Lost (YLLs)']
+    B [label = 'Years Lived with Disability\n(YLDs)']
+    C [label = 'Disability-Adjusted Life Years\n(DALYs)']
+    A -> C
+    B -> C
+  }")
+```
+
+![YLLs and YLDs components of
+DALYs](images/01_dalys-diagram.png){#fig-dalys
+width="50%" fig-align="center"
+fig-alt="Breakdown of DALYs into YLLs and YLDs components"}
 
 DALYs are connected with QALYs in that both metrics seek to quantify the
 impact of health on quality and length of life. However, while QALYs
@@ -279,18 +312,29 @@ disability[^01-health_metrics-1][@healthy].
 
 ### Healthy Life Years (HLY)
 
-The **Healthy Life Years** (**HLY**) indicator, also known as
-**disability-free life expectancy** (**DFLE**) or **Sullivan's Index**
-[@healthy2024], assesses the number of years an individual can expect to
-live in good health, free from significant health problems or
-disabilities. It is a measure of the *quality of life-adjusted life
-expectancy*, focusing on the years lived in full health rather than
-simply the total number of years lived. It specifically focuses on the
-number of years a person can expect to live without disability,
-providing valuable insights into overall health and well-being beyond
-just life expectancy. It takes into account both mortality and
-morbidity, providing a comprehensive picture of overall health and
-well-being.
+There is one more health metrics that is worth mentioning, the **Healthy
+Life Years** (**HLY**) indicator, also known as **disability-free life
+expectancy** (**DFLE**) or **Sullivan's Index**[@healthy2024]. It
+assesses the number of years an individual can expect to live in good
+health, free from significant health problems or disabilities. It is a
+measure of the *quality of life-adjusted life expectancy*, focusing on
+the years lived in full health rather than simply the total number of
+years lived. It specifically focuses on the number of years a person can
+expect to live without disability, providing valuable insights into
+overall health and well-being beyond just life expectancy. It takes into
+account both mortality and morbidity, providing a comprehensive picture
+of overall health and well-being.
+
+HLYs differs from HALE in that it focuses on the number of additional
+years a person can expect to live in good health after reaching a
+certain age, typically 65. This makes HLYs especially relevant for
+assessing health in aging populations and evaluating interventions that
+aim to improve the quality of life for older adults.
+
+For example, an organization focusing on elder care policy might use
+HLYs to measure program impact on older adults specifically, while a
+global health agency might prefer HALE for its applicability to general
+population health across all ages.
 
 HLY is typically calculated by subtracting the number of years lived
 with disability from life expectancy at birth. The resulting figure
@@ -301,19 +345,88 @@ measures of the quality of life by considering the impact of health
 conditions on individuals' ability to engage in daily activities and
 maintain independence.
 
-In terms of policy implications, HLY is used to inform health policy
-decisions by identifying areas where interventions are needed to promote
-healthy aging and improve overall population health. By focusing on the
-number of years lived in good health, policymakers can target
-interventions to prevent and manage chronic diseases and disabilities
-effectively.
+### Well-being-Adjusted Health Expectancy (WAHE)
+
+Currently, **Well-being-Adjusted Health Expectancy (WAHE)** is still an
+emerging metric in health research, that combines traditional health
+indicators with **well-being factors** to provide a more comprehensive
+assessment of population health. WAHE is calculated by estimating the
+number of life years equivalent to full health, taking into account both
+physical and psychological well-being.
+
+WAHE aims to capture the overall health and well-being of individuals by
+incorporating measures of physical health, mental health, and social
+well-being. This metric goes beyond traditional health metrics like life
+expectancy and disability-adjusted life years to provide a more holistic
+view of health outcomes by considering factors like **happiness**,
+**life satisfaction**, and **social connectedness**.
+
+Particularly relevant in the context of global health, WAHE provides a
+more holistic view of population health that can inform public health
+policies, healthcare interventions, and resource allocation
+decisions[@ipc2021][@muszynska-spielauer2022][@well-bei].
+
+```{r}
+#| echo: false
+#| label: tbl-health_metrics
+#| tbl-cap: "Health Metrics Overview"
+
+library(knitr)
+
+# Define the data for the table
+data <- data.frame(
+  Metric = c(
+    "QALY (Quality-Adjusted Life Year)", 
+    "DALY (Disability-Adjusted Life Year)", 
+    "HALY (Health-Adjusted Life Year)", 
+    "HALE (Healthy Life Expectancy)",
+    "HLY (Health Life Years)",
+    "WAHE (Well-being Adjusted Health Expectancy)"
+  ),
+  Purpose = c(
+    "Measures health benefits of interventions by combining quantity and quality of life gained",
+    "Measures burden of disease by capturing premature death and disability impact",
+    "General measure combining health quantity and quality; similar to QALY but less common",
+    "Estimates life expectancy in 'healthy' years, adjusting for disability and illness",
+    "Measures the additional healthy years expected, often from a specific age like 65",
+    "Incorporates both physical and subjective well-being for life expectancy in 'full health'"
+  ),
+  Focus = c(
+    "Health gains from interventions", 
+    "Health loss due to disease and disability", 
+    "Health gains or losses from interventions or disease impact", 
+    "Overall healthy life expectancy at a population level",
+    "Healthy life expectancy focused on aging populations",
+    "Overall well-being and mental health as well as physical health"
+  ),
+  Usage = c(
+    "Used in cost-effectiveness studies, healthcare resource allocation, and insurance",
+    "Used in public health to understand and compare disease burden globally",
+    "Used similarly to QALY, though less frequently in decision-making",
+    "Primarily used in population health and public health reports for health expectancy",
+    "Used in geriatric health assessments and interventions for aging populations",
+    "Applicable for holistic health assessments, incorporating quality of life and mental wellness"
+  ),
+  Calculation = c(
+    "Calculated by adjusting life years gained for quality of life (e.g., 1 year at half quality = 0.5 QALY)",
+    "Calculated by summing years of life lost (YLL) and years lived with disability (YLD)",
+    "Calculated by adjusting life years for health quality; similar to QALY",
+    "Calculated by adjusting total life expectancy based on age-specific disability prevalence",
+    "Typically calculated by estimating additional years of good health beyond a baseline age",
+    "Calculated by weighting health states to reflect impact on well-being and quality of life"
+  )
+)
+
+# Display the table
+kable(data, col.names = c("Metric", "Purpose", "Focus", "Usage", "Calculation"), align = "l")
+```
 
 ## How the Metrics are Used in Global Health
 
 These metrics are used alone or in combination with other health metrics
 in global health assessments conducted by organizations such as the
-World Health Organization (WHO), the European Commission, and the
-Institute for Health Metrics and Evaluation (IHME). They provide a
+**World Health Organization (WHO)**, the **European Commission**, and the
+**Institute for Health Metrics and Evaluation (IHME)**. They provide a
 global perspective and insights into the health status of populations,
 helping to track progresses towards long-term health objectives over
 time. The metrics also inform public health policies, healthcare
@@ -322,14 +435,11 @@ health needs and target interventions effectively.
 
 The investigation into finding updated metrics is a sustained
 commitment, aiming to develop new measures tailored to the evolving
-landscape of the health field. Recently, a new **Summary Measure of
-Population Health (SMPH)** was proposed, known as **Well-being-Adjusted
-Health Expectancy (WAHE)**. This measure provides an estimate of the
+landscape of the health field. Recently, the new **Summary Measure of
+Population Health (SMPH)** proposed the **Well-being-Adjusted
+Health Expectancy (WAHE)** measure as an estimate of the
 number of life years equivalent to full
-health[@muszynska-spielauer2022]. WAHE incorporates both the traditional
-health status indicators and well-being factors, thus offering a more
-comprehensive assessment of the population's health that aligns with
-contemporary health priorities. This approach reflects a growing
+health[@muszynska-spielauer2022]. This approach reflects a growing
 recognition that health metrics should account for physical and clinical
 indicators and consider psychological and overall well-being.
 
@@ -345,3 +455,5 @@ helping to allocate resources effectively. As health metrics continue to
 evolve, incorporating both traditional and well-being indicators, they
 will remain essential tools in the quest to quantify and enhance the
 complexities of human health and disease.
+
+What’s next? In the next chapter we will investigate deeper into how DALYs break down health impacts into two powerful metrics—Years of Life Lost (YLL) and Years Lived with Disability (YLD). These calculations not only reveal the total toll of disease but drive critical decisions on where to focus resources and which interventions can most effectively boost population health.
