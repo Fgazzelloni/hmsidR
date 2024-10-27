@@ -69,7 +69,7 @@ back to the late 1950s, only flourished in the 1990s with the aim of
 minimizing loss on unseen samples [@machine2024].
 
 ![Machine Learning
-Cycle](images/ml-image.png){#fig-ml-cycle
+Cycle](images/05_ml-image.png){#fig-ml-cycle
 fig-align="center" width="404"}
 
 The **Machine Learning Cycle** is a continuous process that involves the
@@ -216,6 +216,34 @@ system is intended as model development. At the heart of this process is
 the application of a model function to estimate coefficients that
 minimize the difference between the model's predictions and the observed
 data.
+```{r}
+#| echo: false
+#| eval: false
+library(DiagrammeR)
+
+# Create a flowchart for the model-building process
+grViz("
+digraph model_building {
+  
+  # Define node styles
+  node [shape = rectangle, style = filled, color = lightblue, fontname = Helvetica, fontsize = 12]
+
+  # Define nodes for each step
+  data_collection [label = 'Data Collection\n(Ensure data completeness)']
+  data_cleaning [label = 'Data Cleaning\n(Handle missing values, remove outliers)']
+  feature_selection [label = 'Feature Selection\n(Select relevant variables)']
+  model_training [label = 'Model Training\n(Apply chosen algorithms)']
+  model_evaluation [label = 'Model Evaluation\n(Assess model performance)']
+  model_tuning [label = 'Model Tuning\n(Optimize model parameters)']
+  deployment [label = 'Model Deployment\n(Integrate into real-world applications)']
+
+  # Define edges
+  data_collection -> data_cleaning -> feature_selection -> model_training -> model_evaluation -> model_tuning -> deployment
+}
+")
+```
+
+![Model Building Process](images/05_model_building_flowchart.png){#fig-model-building_flowchart fig-align="center" width="50%" fig-alt="model-building process"}
 
 Let's break this down further: Suppose we have a response variable,
 denoted as $y$, which represents the number of deaths or infections in
