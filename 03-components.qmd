@@ -754,6 +754,23 @@ developing strategies in healthcare management and resource allocation.
 The severity levels can be assigned to be mild, moderate, or high, with
 respective probabilities reflecting the likelihood of each severity
 level occurring within the affected population.
+```{r}
+#| label: tbl-example-disability-weights
+#| tbl-cap: "Example Disability Weights"
+#| echo: false
+library(knitr)
+
+# Create a data frame with example disability weights
+disability_weights <- data.frame(
+  Condition = c("Mild Depression", "Moderate Anxiety", "Severe Stroke", 
+                "Diabetes (without complications)", "Advanced Dementia"),
+  Disability_Weight = c(0.15, 0.30, 0.75, 0.10, 0.85)
+)
+
+# Display the table
+kable(disability_weights, col.names = c("Condition", "Disability Weight"), align = "l")
+```
+
 
 For determining the disability weights, the severity levels are assigned
 based on the impact of the condition on an individual's quality of life.
@@ -787,9 +804,11 @@ disability weights that reflect a consensus view. Statistical models
 might be used to aggregate these results and ensure that they are
 consistent across different scales.
 
+The Global Burden of Disease (GBD) study led by the Institute for Health Metrics and Evaluation (IHME) is one of the most comprehensive efforts to estimate disability weights for a wide range of health conditions. The GBD study periodically updates and refines disability weights based on extensive global surveys and expert consultations. In the 2010 iteration, for instance, IHME used community surveys across multiple countries, including Bangladesh, Indonesia, Peru, and Tanzania, and an online survey to gather feedback on how people perceive the severity of different health states. Respondents were asked to rank or rate hypothetical health conditions, which provided data for calculating standardized disability weights.
+
 #### Disability Weights Data
 
-Here is a table containing the disability weights for twelve
+Here is an example of a table containing the disability weights for twelve
 combinations of different conditions such as Infectious disease,
 Non-communicable diseases, and other health conditions.
 
@@ -1081,13 +1100,3 @@ of DALYs can guide more informed decisions in health care planning and
 policy-making. It emphasizes the importance of comprehensive disease
 management strategies that address both the prevention of disease and
 the mitigation of its impact throughout all stages of its progression.
-
-```{r}
-#| echo: false
-#| eval: false
-gelung_YLD %>%
-  mutate(dw_korea_lc1 = 0.600,
-         dw_korea_lc2 = 0.738,
-         dw_korea_lc3 = 0.758,
-         dw_korea_lc4 = 0.906)
-```

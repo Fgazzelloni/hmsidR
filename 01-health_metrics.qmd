@@ -425,9 +425,9 @@ kable(data, col.names = c("Metric", "Purpose", "Focus", "Usage", "Calculation"),
 
 These metrics are used alone or in combination with other health metrics
 in global health assessments conducted by organizations such as the
-**World Health Organization (WHO)**, the **European Commission**, and the
-**Institute for Health Metrics and Evaluation (IHME)**. They provide a
-global perspective and insights into the health status of populations,
+**World Health Organization (WHO)**, the **European Commission**, and
+the **Institute for Health Metrics and Evaluation (IHME)**. They provide
+a global perspective and insights into the health status of populations,
 helping to track progresses towards long-term health objectives over
 time. The metrics also inform public health policies, healthcare
 interventions, and resource allocation decisions, helping to prioritize
@@ -436,12 +436,12 @@ health needs and target interventions effectively.
 The investigation into finding updated metrics is a sustained
 commitment, aiming to develop new measures tailored to the evolving
 landscape of the health field. Recently, the new **Summary Measure of
-Population Health (SMPH)** proposed the **Well-being-Adjusted
-Health Expectancy (WAHE)** measure as an estimate of the
-number of life years equivalent to full
-health[@muszynska-spielauer2022]. This approach reflects a growing
-recognition that health metrics should account for physical and clinical
-indicators and consider psychological and overall well-being.
+Population Health (SMPH)** proposed the **Well-being-Adjusted Health
+Expectancy (WAHE)** measure as an estimate of the number of life years
+equivalent to full health[@muszynska-spielauer2022]. This approach
+reflects a growing recognition that health metrics should account for
+physical and clinical indicators and consider psychological and overall
+well-being.
 
 ## Summary
 
@@ -456,4 +456,9 @@ evolve, incorporating both traditional and well-being indicators, they
 will remain essential tools in the quest to quantify and enhance the
 complexities of human health and disease.
 
-What’s next? In the next chapter we will investigate deeper into how DALYs break down health impacts into two powerful metrics—Years of Life Lost (YLL) and Years Lived with Disability (YLD). These calculations not only reveal the total toll of disease but drive critical decisions on where to focus resources and which interventions can most effectively boost population health.
+What’s next? In the next chapter we will investigate deeper into how
+DALYs break down health impacts into two powerful metrics—Years of Life
+Lost (YLL) and Years Lived with Disability (YLD). These calculations not
+only reveal the total toll of disease but drive critical decisions on
+where to focus resources and which interventions can most effectively
+boost population health.
