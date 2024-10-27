@@ -30,19 +30,11 @@ Learning Objectives
 In @sec-02-method_calculation, we discussed the importance of health
 metrics in assessing the overall health status of a population and
 guiding the allocation of health resources. We have seen how to
-calculate key metrics by providing direct calculations of each of them,
-but haven't yet discussed the components\index{components} that make up
-these metrics. In this chapter, we will investigate: **life
+calculate key metrics by providing direct calculations of each of them, but haven't yet discussed the components\index{components} that make up these metrics. In this chapter, we will investigate: **life
 expectancy**, **mortality rates**, **incidence and prevalence**, and
-**disability weights**. These components are crucial for understanding
-the burden of disease and injury at both global and population levels.
+**disability weights**. These components are crucial for understanding the burden of disease and injury at both global and population levels.
 
-These key indicators, used to measure the burden of disease and injury
-on a population, provide a comprehensive view of the impact of diseases
-and injuries on the health status of a population. By combining these
-metrics, policymakers and public health officials can make informed
-decisions about how to improve the health outcomes of a population and
-reduce the burden of disease and injury.
+These key indicators, used to measure the burden of disease and injury on a population, provide a comprehensive view of the impact of diseases and injuries on the health status of a population. By combining these metrics, policymakers and public health officials can make informed decisions about how to improve the health outcomes of a population and reduce the burden of disease and injury.
 
 > **What are the components of these health metrics, and how are they
 > calculated?**
@@ -58,16 +50,9 @@ with general principles in epidemiological research and health metrics
 analysis, discussed in the Global Burden of Disease (GBD) study
 methodologies[@vos2020].
 
-When calculating **YLLs**, **YLDs**, and **DALYs** for
-**cause-specific** analyses, various factors are considered, including
-**causes of deaths** and/or **disabilities** at specific points in time,
-across all ages or specific age groups, and for both sexes or only
-females or males. Additionally, weights used for calculating disability
-levels can vary depending on the type of disability and other
-parameters. While, for **population-wide** analyses, the focus is on the
-overall health status of the population, considering all causes of
-deaths and disabilities, and using general life tables, mortality rates,
-and disability weights.
+Cause-Specific Metrics focus on disease intervention planning, such as assessing the burden of HIV or tuberculosis on specific populations. Population-Wide Metrics, on the other side, are ideal for broader health policy decisions, like overall mortality rates or life expectancy, provide a comprehensive view of the health landscape. 
+
+The results of health metrics calculations can vary significantly based on various factors, including geographic location, the type and severity of diseases or injuries, the specific causes of death or disability, and the age groups analyzed (whether age-standardized or covering all ages). Additional variation arises from the chosen time points of analysis and whether the metrics are calculated across both sexes or specifically for males or females. Moreover, the disability weights applied can differ depending on the condition’s severity, its impact on quality of life, and other contextual parameters, resulting in tailored calculations that reflect local health challenges more accurately.
 
 In this chapter, practical examples and case studies are provided to
 illustrate the process of applying the components to the metrics. By
@@ -99,6 +84,26 @@ remaining expected life years. These tables provide crucial insights
 into the longevity patterns within a population, enabling researchers
 and policymakers to predict life expectancy trends and to assess public
 health strategies effectively.
+
+```{r}
+#| echo: false
+#| label: tbl-life-table
+#| tbl-cap: "Extract of Global Health Observatory (GHO) Life Tables Components"
+
+library(tidyverse)
+hmsidwR::gho_lifetables %>%
+  filter(year == 2019,
+         sex == "both") %>%
+  select(-year, -sex) %>%
+  pivot_wider(names_from = indicator, values_from = value) %>%
+  select(age, lx, ndx, nLx, Tx, ex) %>%
+  # round all numeric columns
+  mutate(across(where(is.numeric), ~round(.))) %>%
+  slice(10:12) %>%
+  knitr::kable()
+```
+
+Where `lx` is the number of people alive at the beginning of the age, `ndx` is the number of people dying between age $x$ and $x+1$, `nLx` is the number of person-years lived between age $x$ and $x+1$, `Tx` is the total number of person-years lived by the cohort of persons alive at age $x$, and `ex` is the expected remaining lifetime at age $x$.
 
 In the context of calculating Disability-Adjusted Life Years (DALYs),
 specifically for the component related to Years of Life Lost (YLL),
@@ -324,6 +329,26 @@ specific diseases within a given time period. Data for this component is
 collected from vital registration systems, health surveys, hospital
 records, and epidemiological studies.
 
+Here is a table containing the mortality rates for different age groups in two regions. The mortality rates are expressed as the number of deaths per 1,000 population in each age group. The data is used to illustrate the variation in mortality rates across age groups and regions, providing insights into the health risks faced by different populations.
+```{r}
+#| label: tbl-mortality-rates
+#| tbl-cap: "Example Mortality Rates by Age Group and Region"
+#| echo: false
+library(knitr)
+
+# Create a data frame with example mortality rates by age group and region
+mortality_rates <- data.frame(
+  Age_Group = c("0-1", "1-5", "5-10", "10-15", "15-20", "20-30", "30-40"),
+  Region_A_Mortality_Rate = c(40.5, 5.2, 1.8, 0.9, 1.2, 1.5, 2.0),
+  Region_B_Mortality_Rate = c(30.0, 4.0, 1.5, 1.0, 1.3, 1.8, 2.2)
+)
+
+# Display the table
+kable(mortality_rates, col.names = c("Age Group", "Region A Mortality Rate (per 1,000)", 
+                                     "Region B Mortality Rate (per 1,000)"), align = "l")
+```
+
+
 ### Understanding Death Counts and Mortality Rates
 
 While mortality rates themselves are not directly used in the formula
@@ -333,6 +358,26 @@ direct data on deaths might be incomplete or unreliable. In regions or
 for populations where vital registration data are incomplete, mortality
 rates derived from sample surveys or demographic models can be used to
 estimate the expected number of deaths.
+
+```{r}
+#| echo: false
+#| label: tbl-mortality-rates-example
+#| tbl-cap: "Example Mortality Rates by Age Group and Region"
+library(knitr)
+
+# calculate the mortality rate based on Total Population (country x =  5000000, country y = 20000000) and Total Deaths (country x =  25000, country y = 40000)
+country_comparison <- data.frame(
+  Metric = c("Total Population", "Total Deaths", "Mortality Rate (per 100,000)"),
+  Country_X = c(5000000, 25000, (25000/5000000)*100000),
+  Country_Y = c(20000000, 40000, (40000/20000000)*100000)
+)
+
+# Display the table
+kable(country_comparison, 
+      col.names = c("Metric", "Country X", "Country Y"), 
+      align = "l")
+```
+
 
 An analysis of the mortality rates alongside YLL provides a full picture
 of the health challenges faced by a population. While YLL emphasizes the
@@ -474,6 +519,27 @@ Like incidence, it can be multiplied by a factor of 10\^n (where n is
 typically 1,000, 10,000, or 100,000) to express the prevalence per a
 standard number of people.
 
+```{r}
+#| label: tbl-flu-metrics
+#| tbl-cap: "Example Influenza Incidence and Prevalence Data"
+#| echo: false
+library(knitr)
+
+# Create a data frame with example influenza incidence and prevalence data
+flu_metrics <- data.frame(
+  Metric = c("Incidence (new cases per 1,000 people)", "Prevalence (existing cases per 1,000 people)"),
+  January = c(5.0, 15.0),
+  April = c(3.0, 10.0),
+  July = c(1.0, 5.0),
+  October = c(2.0, 7.0),
+  December = c(6.0, 20.0)
+)
+
+# Display the table
+kable(flu_metrics, col.names = c("Metric", "January", "April", "July", "October", "December"), align = "l")
+```
+
+
 In summary, incidence measures the rate of new cases arising within a
 population over time, while prevalence measures the proportion of
 existing cases within the population at a specific point in time. These
@@ -516,6 +582,21 @@ The choice of prevalence over incidence in the calculation of YLDs thus
 reflects a pragmatic approach to capturing the current impact of
 diseases within a population, particularly for chronic diseases where
 ongoing management and sustained healthcare support are crucial.
+
+#### Example: Calculating YLD for a Disease Using Prevalence
+
+Suppose we want to calculate the **Years Lived with Disability (YLD)** for a **chronic respiratory disease** in a population of 100,000 people. The prevalence rate of the disease is 2%, with a Disability Weight (DW) of 0.3 and an average duration of the disease is 5 years. The YLD is calculated using the formula:
+
+1. $\text{Prevalent Cases} = \text{Population Size} \times \text{Prevalence Rate}$
+
+$$\text{Prevalent Cases} = 100,000 \times 0.02 = 2,000 \text{ cases}$$
+
+2. $\text{YLD} = \text{Prevalent Cases} \times \text{Disability Weight} \times \text{Average Duration}$
+
+$$\text{YLD} = 2,000 \times 0.3 \times 5 = 3,000$$
+
+
+So, the YLD for chronic respiratory disease in this population over the average duration of the condition is 3,000 years. This YLD value would then be added to the YLL (Years of Life Lost) for the disease to calculate the total DALY.
 
 #### Example: COVID-19 Incidence and Prevalence
 
@@ -988,7 +1069,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|----------------------------------------------|--------------------|-------|-------|
+|-----------------------------------|-------------|-------------|-------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

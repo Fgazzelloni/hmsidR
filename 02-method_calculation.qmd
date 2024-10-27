@@ -739,10 +739,25 @@ dat %>%
         legend.position = "bottom")  
 ```
 
+In summary, DALYs are a valuable metric for assessing the overall
+burden. The DALYs due to stroke provide a comprehensive measure of the
+impact of this condition on the quality of life of individuals,
+combining the years of life lost due to premature death and the years
+lived with disability.
+
+DALYs can vary significantly between conditions, reflecting both the
+severity and impact of each disease on quality and length of life. For
+instance, stroke and diabetes, both prevalent globally, differ widely in
+their DALY contributions. Strokes tend to have high DALYs due to their
+immediate impact on mortality (Years of Life Lost or YLL) and long-term
+disability (Years Lived with Disability or YLD). On the other hand,
+diabetes, a chronic condition, has a lower YLL but a higher YLD,
+reflecting the long-term impact on quality of life.
+
 ## How DALYs are Used
 
-DALY, YLL, and YLD can be used in several ways to help prioritize public
-health interventions, evaluate the impact of diseases and injuries, and
+DALYs, YLLs, and YLDs can be used in several ways to help identify
+health priorities, evaluate the impact of diseases and injuries, and
 inform public health decision-making. Some common uses of these metrics
 include:
 
@@ -772,6 +787,21 @@ include:
     of disease over time. This information can be used to inform global
     health policies and allocate resources to address emerging health
     threats.
+
+To mention the case of Rwanda, the GBD 2021 results released by the IHME
+showed that the country had made significant progress in reducing the
+burden of disease over the past decade[@ferrari2024]. By using DALYs,
+YLLs, and YLDs, public health leaders were able to identify key areas
+for improvement and target resources to address the most pressing health
+challenges. For example, the government used the DALYs metrics to
+address the burden of non-communicable diseases (NCDs), public health
+leaders observed that conditions like cardiovascular disease and
+diabetes were contributing significantly to the country's overall
+disease burden, surpassing infectious diseases in certain demographics.
+This insight led to targeted policy shifts, including prioritizing
+funding for NCD prevention and treatment programs, investing in training
+for healthcare providers on chronic disease management, and increasing
+public awareness of lifestyle risk factors like smoking and poor diet.
 
 Overall, the health metrics of DALY, YLL, and YLD provide valuable
 information for public health practitioners, researchers, and policy
@@ -993,6 +1023,8 @@ HALE, a metric that combines mortality and morbidity data to provide a
 comprehensive measure of population health. These metrics are invaluable
 tools for public health practitioners, policymakers, and researchers in
 their quest to improve global health outcomes.
+
+As we confront new global health challenges like pandemics, aging populations, and climate-related health risks, traditional metrics like DALYs and QALYs are evolving to meet new approaches to capture the complexity of health outcomes. The inclusion of well-being, resilience, and mental health is becoming increasingly essential to understanding the full impact of health conditions on individuals and populations.
 
 In the next chapter (@sec-03-components), we will delve deeper into the
 components and variations of these metrics, further enhancing our
