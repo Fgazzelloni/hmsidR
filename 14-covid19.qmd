@@ -22,6 +22,7 @@ Learning Objectives
 -   Map Covid-19 outbreaks
 :::
 ::::::
+
 \
 In this chapter, we explore the dynamics of **COVID-19** disease
 outbreaks in more details. We examine the results of various model's
@@ -377,7 +378,7 @@ plot(bayesian_model)
 <center>
 
 ![Bayesian Model
-diagnostics](images/14_bayesian_model_diagnostics.png){#fig-bayes-covid19}
+diagnostics](images/14_bayesian_model_diagnostics.png){#fig-bayes-covid19 fig-alt="Bayesian Model diagnostics"}
 
 </center>
 
@@ -544,22 +545,18 @@ computation.
 ```{r}
 # Fit the models to the training data
 library(finetune)
-
+set.seed(112233)
 race_ctrl <-
-   control_race(
-      save_pred = TRUE,
-      parallel_over = "everything",
-      save_workflow = TRUE
-   )
+   control_race(save_pred = TRUE,
+                parallel_over = "everything",
+                save_workflow = TRUE)
 
 race_results <- cv_wkf %>%
-  workflow_map(
-      "tune_race_anova",
-      seed = 1503,
-      resamples = cv_folds,
-      grid = 3, 
-      control = race_ctrl
-      )
+  workflow_map("tune_race_anova",
+               seed = 1503,
+               resamples = cv_folds,
+               grid = 3, 
+               control = race_ctrl)
 
 race_results
 ```

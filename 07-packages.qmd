@@ -1,5 +1,13 @@
 # Essential R Packages for Machine Learning {#sec-07-packages}
 
+```{r}
+#| echo: false
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
+```
+
 :::::: solutionbox
 :::: solutionbox-header
 ::: solutionbox-icon
@@ -16,15 +24,6 @@ Learning Objectives
 ::::::
 
 \
-
-```{r}
-#| echo: false
-library(ggplot2)
-book_theme <- theme_minimal() + 
-  theme(plot.title=element_text(face="bold"))
-ggplot2::theme_set(book_theme)
-```
-
 This chapter provides an overview of the most suitable R-packages for
 machine learning. It also discusses the combination of packages and
 functions to achieve the desired results. Additionally, it explores how
@@ -925,6 +924,7 @@ a^{(2)}=Sigmoid(z^{(2)})= \frac{1} {1+e^{-z^{(2)}}}
 $$ {#eq-second-activation}
 
 ```{r}
+#| eval: false
 model <- keras_model_sequential(input_shape = c(p))
 # simple model
 model %>%
@@ -958,6 +958,7 @@ Then finally, the model is evaluated on performance with the
 **accuracy** metric.
 
 ```{r}
+#| eval: false
 # Compile the model
 model %>% compile(loss = "binary_crossentropy",
                   optimizer = optimizer_adam(),
@@ -978,6 +979,18 @@ model. This object contains information about the loss and accuracy of
 the model on the training and validation data during training.
 
 ```{r}
+#| eval: false
+#| echo: false
+saveRDS(model, "data/model-data/keras.model.rds")
+```
+
+```{r}
+#| echo: false
+model <- readRDS("data/model-data/keras.model.rds")
+```
+
+```{r}
+#| eval: false
 #| output: false
 history <- model %>% fit(x = as.matrix(social_data[, 1:p]),
                          y = social_data$infection,
@@ -987,11 +1000,24 @@ history <- model %>% fit(x = as.matrix(social_data[, 1:p]),
                          )
 ```
 
+```{r}
+#| eval: false
+#| echo: false
+saveRDS(history, "data/model-data/keras.history.rds")
+```
+
+```{r}
+#| echo: false
+# load the history object
+history <- readRDS("data/model-data/keras.history.rds")
+```
+
 The subsequent times the `history` object is created, the model is
 trained with half the number of epochs and batch size. And this
 specifications can further be adjusted as needed.
 
 ```{r}
+#| eval: false
 #| output: false
 history2 <- model %>% fit(x = as.matrix(social_data[, 1:p]),
                           y = social_data$infection,
@@ -1001,27 +1027,33 @@ history2 <- model %>% fit(x = as.matrix(social_data[, 1:p]),
                           )
 ```
 
+```{r}
+#| eval: false
+#| echo: false
+saveRDS(history2, "data/model-data/keras.history2.rds")
+```
+
+```{r}
+#| echo: false
+# load the history object
+history2 <- readRDS("data/model-data/keras.history2.rds")
+```
+
 Here are two attempts of the trained model with different parameters,
 the first with 30 epochs and a batch size of 128, and the second with 15
 epochs and a batch size of 64. The training history of both models is
 then plotted to compare their performance.
 
 ```{r}
-#| layout-ncol: 2
-#| fig-cap: "Model 1 and Model 2 Training History"
-#| fig-subcap:
-#|   - "Model 1 History"
-#|   - "Model 2 History"
-#| fig-alt: "Model History"
-#| label: fig-model-history
 #| echo: false
+#| eval: false
 plot(history)
 plot(history2)
 ```
 
-Now that the model is trained and have provided an idea of how it works
-on our data, a prediction of infection status is done new social media
-data.
+![Model 1 and Model 2 Training
+History](images/07_keras_history.png){#fig-mod-history
+fig-align="center" fig-alt="Model 1 and Model 2 Training History"}
 
 The model is then used to predict the probability of infection based on
 the social media data. The predictions are then converted to binary
@@ -1032,9 +1064,24 @@ classified as 0 (not infected).
 ```{r}
 new_social_data <- matrix(rnorm(p * 160),
                           nrow = 160, ncol = p)
+```
+
+```{r}
+#| eval: false
 predicted_infections <- model %>%
   predict(new_social_data)
 predicted_infections <- ifelse(predicted_infections > 0.5, 1, 0)
+```
+
+```{r}
+#| eval: false
+#| echo: false
+saveRDS(predicted_infections, "data/model-data/keras.predicted_infections.rds")
+```
+
+```{r}
+#| echo: false
+predicted_infections <- readRDS("data/model-data/keras.predicted_infections.rds")
 ```
 
 The adjustment is then done on the SEIR parameters based on predictions

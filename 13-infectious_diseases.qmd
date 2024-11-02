@@ -1,12 +1,5 @@
 # Introduction to Infectious Diseases {#sec-13-infectious_diseases}
 
-```{r}
-#| echo: false
-library(ggplot2)
-book_theme <- theme_minimal() + 
-  theme(plot.title=element_text(face = "bold"))
-ggplot2::theme_set(book_theme)
-```
 :::::: solutionbox
 :::: solutionbox-header
 ::: solutionbox-icon
@@ -16,12 +9,15 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
-- Learn about the dynamics of infectious diseases and their impact on
-  human health
-- Understand the role of mathematical models in predicting infectious disease outbreaks
-- Explore the components of infectious disease models and their implications
+-   Learn about the dynamics of infectious diseases and their impact on
+    human health
+-   Understand the role of mathematical models in predicting infectious
+    disease outbreaks
+-   Explore the components of infectious disease models and their
+    implications
 :::
 ::::::
+
 \
 
 > **"Several infectious diseases are emerging and threatening human
@@ -81,7 +77,10 @@ including:
 -   Transmission route (contact with the source of infection for
     contagious diseases)
 
-> **Who adapts to whom?**
+![Who adapts to whom? - (AI generated
+image)](images/13_adaptation.png){#fig-adapt_virus
+fig-align="center" width="437"
+fig-alt="Who adapts to whom? - (AI generated image)"}
 
 **Viruses**\index{virus}, word derived from the Latin word for
 **"poisonous substance"**, are intracellular parasites that can only
@@ -144,76 +143,82 @@ More complex models, includes:
     infectious. This compartmentalization is particularly useful for
     diseases with significant incubation periods (e.g., COVID-19).
     Practical applications are in @sec-05-epidemic-x and
-    @sec-14-modelling-covid19.
+    @sec-14-modelling-covid19 .
 -   **SIS Model**: In this model, individuals who recover from infection
     do not gain lasting immunity, meaning they return to the susceptible
-    class and can become reinfected. This model is relevant for diseases
-    like gonorrhea.
+    class and can become reinfected.
 -   **MSIR Model**: In some diseases, such as measles, maternal
     antibodies provide temporary immunity to newborns. The M (maternal
     immunity) compartment is used in such cases.
 
 ## Components of Infectious Disease Models
 
-1.  **Infection Rate**
+1.  **Infection Rate**: This parameter, often denoted as $\beta$ (beta),
+    controls how quickly the susceptible population becomes infected. It
+    depends on factors such as contact rate and the probability of
+    transmission per contact. It is the rate at which individuals move
+    from the susceptible compartment to the infected compartment. The
+    infection rate is proportional to the product of susceptible and
+    infected individuals[@kolokolnikov2020].
 
-This parameter, often denoted as $\beta$ (beta), controls how quickly
-the susceptible population becomes infected. It depends on factors such
-as contact rate and the probability of transmission per contact. It is
-the rate at which individuals move from the susceptible compartment to
-the infected compartment. The infection rate is proportional to the
-product of susceptible and infected individuals[@kolokolnikov2020].
+$$
+\beta = \text{Contact Rate} \times \text{Probability of Transmission per Contact}
+$$ {#eq-infection-rate}
 
-$$\beta = \text{Contact Rate} \times \text{Probability of Transmission per Contact}$$
+2.  **Recovery Rate**: Denoted by $\gamma$ (gamma), this defines the
+    rate at which infected individuals recover and either gain immunity
+    or become susceptible again (depending on the model). The average
+    duration of infection is the reciprocal of the recovery rate.
 
-2.  **Recovery Rate**
+$$
+\gamma = \frac{1}{\text{Average Duration of Infection}}
+$$ {#eq-recovery-rate}
 
-Denoted by $\gamma$ (gamma), this defines the rate at which infected
-individuals recover and either gain immunity or become susceptible again
-(depending on the model).
+3.  **Incubation Period**: In models like SEIR, the incubation period is
+    the average time that exposed individuals take before they become
+    infectious. This is a critical factor in diseases like COVID-19 and
+    Ebola. The incubation period is the reciprocal of the rate at which
+    individuals move from the exposed compartment to the infected
+    compartment. $\sigma$ is the rate at which individuals move from the
+    exposed compartment to the infected compartment.
 
-$$\gamma = \frac{1}{\text{Average Duration of Infection}}$$
+$$
+\text{Incubation Period} = \frac{1}{\sigma}
+$$ {#eq-incubation-period}
 
-3.  **Incubation Period**
+4.  **Transmission Rate**: The transmission rate often depends on how a
+    disease spreads—whether it’s through respiratory droplets, direct
+    contact, vectors like mosquitoes, or other means. Transmission rates
+    are also influenced by human behaviors, such as hygiene practices
+    and social distancing measures. The transmission rate is the product
+    of the probability of transmission per contact and the number of
+    contacts. $\beta$ is the probability of transmission per contact,
+    and the number of contacts is the average number of people an
+    infected individual comes into contact with.
 
-In models like SEIR, the incubation period is the average time that
-exposed individuals take before they become infectious. This is a
-critical factor in diseases like COVID-19 and Ebola.
+$$
+\text{Transmission Rate} = \beta \times \text{Number of Contacts}
+$$ {#eq-transmission-rate}
 
-$$\text{Incubation Period} = \frac{1}{\sigma}$$
-
-where $\sigma$ is the rate at which individuals move from the exposed
-compartment to the infected compartment.
-
-4.  **Transmission Rate**
-
-The transmission rate often depends on how a disease spreads—whether
-it’s through respiratory droplets, direct contact, vectors like
-mosquitoes, or other means. Transmission rates are also influenced by
-human behaviors, such as hygiene practices and social distancing
-measures.
-
-$$\text{Transmission Rate} = \beta \times \text{Number of Contacts}$$
-
-where $\beta$ is the probability of transmission per contact, and the
-number of contacts is the average number of people an infected
-individual comes into contact with.
-
-5.  **Reproduction Ratio (**$R_0$)
-
-A key metric that indicates the **average number of secondary cases
-generated by one infectious individual in a fully susceptible
-population** is the **basic reproduction ratio (**$R_0$).
+5.  **Reproduction Ratio (**$R_0$): A key metric that indicates the
+    **average number of secondary cases generated by one infectious
+    individual in a fully susceptible population** is the **basic
+    reproduction ratio (**$R_0$). This value is calculated using the
+    formula in @eq-r0. $\beta$ is the transmission rate and $\gamma$ is
+    the recovery rate. As the ratio of the transmission rate to the
+    recovery rate, $R_0$ provides a measure of the disease's ability to
+    spread.
 
 $$
 R_0 = \frac{\beta}{\gamma}
 $$ {#eq-r0}
 
-where $\beta$ is the transmission rate and $\gamma$ is the recovery
-rate. As the ratio of the transmission rate to the recovery rate, $R_0$
-provides a measure of the disease's ability to spread.
-
-The value of $R_0$ determines the epidemic **threshold**:
+In summary, the SIR model is a simple yet powerful tool for
+understanding the dynamics of infectious diseases. By tracking the
+movement of individuals between susceptible, infected, and recovered
+compartments, the model can predict the course of an epidemic and help
+public health officials make informed decisions about disease control
+measures. The value of $R_0$ determines the epidemic **threshold**:
 
 $$
 \text{If } R_0 \left\{\begin{matrix}
@@ -297,26 +302,35 @@ Where the $DALYs = \sum_{i=1}^{n}{(YLD_i + YLL_i)}$, $YLD$ and $YLL$ are
 the years lived with disability and the years of life lost respectively.
 
 This percentage change provides a measure of the impact of infectious
-diseases on the overall burden of disease.
+diseases on the overall burden of disease. The DALYs due to infectious
+diseases can be calculated as the sum of the DALYs for each disease, and
+the total DALYs can be calculated as the sum of the DALYs for all
+diseases. The percentage change in DALYs due to infectious diseases can
+then be calculated as the ratio of the DALYs due to infectious diseases
+to the total DALYs, multiplied by 100.
 
-Furthermore, the use machine learning models is used to predict the
-variation of number of DALYs due to infectious diseases over time. Two
-approaches can be valued:
+Furthermore, the use machine learning models used to predict the
+variation of number of DALYs due to infectious diseases over time can be
+a valuable tool to understand the impact of infectious diseases on
+global health. Two approaches can be valued:
 
 1.  DALYs as a function of the **socio-demographic index
     (SDI)**\index{SDI}: A composite index of the average income per
     person, educational attainment, and total fertility rate. The model
-    function can be expressed as:
-    $$DALY_{id}= f(SDI)+\epsilon$$ {#eq-daly-sdi} where is the number of
-    $DALYs$ is the response variable, $SDI$ the socio-demographic index
-    acting as predictor, $f(.)$ is the function that relates the number
-    of DALYs to the socio-demographic index, and $\epsilon$ is the error
-    term.
+    function can be expressed as: $$
+    DALY_{id}= f(SDI)+\epsilon
+    $$ {#eq-daly-sdi} where is the number of $DALYs$ is the response
+    variable, $SDI$ the socio-demographic index acting as predictor,
+    $f(.)$ is the function that relates the number of DALYs to the
+    socio-demographic index, and $\epsilon$ is the error term.
 
 2.  DALYs as a function of the **human development index
     (HDI)**\index{HDI}: A composite index of life expectancy, education,
     and per capita income indicators. The model function can be
-    expressed as:$$DALY_{id}= f(HDI)+\epsilon$$ where is the number of
+    expressed as: $$
+    DALY_{id}= f(HDI)+\epsilon
+    $$ {#eq-daly-hdi} where is the number of $DALYs$ is the response
+    variable, $HDI$ the human development index where is the number of
     $DALYs$ is the response variable, $HDI$ the socio-demographic index
     acting as predictor, $f(.)$ is the function that relates the number
     of DALYs to the socio-demographic index, and $\epsilon$ is the error

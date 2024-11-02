@@ -20,8 +20,7 @@ for the calculation of probabilities of deaths and the computation of
 life expectancy at birth and at different ages.
 
 [!["Life tables", William Farr (England
-1859)](images/appendixA_life_tables.png){fig-align="center"
-width="55%"}](https://www.jstor.org/stable/community.24736608?searchText=life+tables&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3Dlife%2Btables%26efqs%3DeyJjdHkiOlsiWTI5dWRISnBZblYwWldSZmFXMWhaMlZ6Il19%26image_search_referrer%3Dglobal&ab_segments=0%2FSYC-6744_basic_search%2Ftest-1&refreqid=fastly-default%3Ac770f9049f8754dad03896e1b52df20c&searchkey=1675639441064)
+1859)](images/appendixA_life_tables.png){#fig-life_tables fig-align="center" fig-alt="Life tables" width="55%"}](https://www.jstor.org/stable/community.24736608?searchText=life+tables&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3Dlife%2Btables%26efqs%3DeyJjdHkiOlsiWTI5dWRISnBZblYwWldSZmFXMWhaMlZ6Il19%26image_search_referrer%3Dglobal&ab_segments=0%2FSYC-6744_basic_search%2Ftest-1&refreqid=fastly-default%3Ac770f9049f8754dad03896e1b52df20c&searchkey=1675639441064)
 
 ### Life tables components
 

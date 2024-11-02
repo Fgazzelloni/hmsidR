@@ -1,9 +1,5 @@
 # Introduction to Machine Learning {#sec-05-machine_learning}
 
-> **"Human beings are not just passive victims of disease. They are
-> active participants in the biological confrontation between man and
-> microbe."**
-
 ```{r}
 #| echo: false
 library(ggplot2)
@@ -11,6 +7,10 @@ book_theme <- theme_minimal() +
   theme(plot.title=element_text(face="bold"))
 ggplot2::theme_set(book_theme)
 ```
+
+> **"Human beings are not just passive victims of disease. They are
+> active participants in the biological confrontation between man and
+> microbe."**
 
 This chapter will walk you through a basic construction of a machine
 learning\index{machine learning} model, providing a simple explanation
@@ -70,7 +70,7 @@ minimizing loss on unseen samples [@machine2024].
 
 ![Machine Learning
 Cycle](images/05_ml-image.png){#fig-ml-cycle
-fig-align="center" width="404"}
+fig-align="center" width="404" fig-alt="Machine Learning Cycle"}
 
 The **Machine Learning Cycle** is a continuous process that involves the
 following steps: data collection, data preprocessing, model selection,

@@ -237,22 +237,24 @@ modelling tasks.
     model.plot(forecast)
     ```
 
-4. **The SIR Model Example**:
+4.  **The SIR Model Example**:
 
-    Set-up the environment for running python in RStudio by loading the `{reticulate}` package and the following commands:
-    
+    Set-up the environment for running python in RStudio by loading the
+    `{reticulate}` package and the following commands:
+
     ``` r
     library(reticulate)
     ```
+
     This is to configurate python and for installing necessary packages:
-    
+
     ``` python
     py_config()
-    
+
     # type <pip3 install scipy> on terminal
     # type <pip3 install matplotlib> on terminal 
     ```
-   
+
     ``` python
     import matplotlib
     matplotlib.use('TkAgg')  # Ensure you have an interactive backend
@@ -260,9 +262,9 @@ modelling tasks.
     import scipy.integrate as spi
     import numpy as np 
     ```
-    
+
     Set-up the parameters:
-    
+
     ``` python
     beta = 1.4247
     gamma = 0.14286
@@ -272,9 +274,9 @@ modelling tasks.
     I0 = 1e-6
     INPUT = (S0, I0, 0.0)
     ```
-    
+
     Define differential equations:
-    
+
     ``` python
     def diff_eqs(INP, t):
         Y = np.zeros((3))
@@ -283,12 +285,12 @@ modelling tasks.
         Y[1] = beta * V[0] * V[1] - gamma * V[1]
         Y[2] = gamma * V[1]
         return Y
-    
+
     t_start = 0.0; t_end = ND; t_inc = TS
     t_range = np.arange(t_start, t_end + t_inc, t_inc)
     RES = spi.odeint(diff_eqs, INPUT, t_range)
     ```
-    
+
     ``` python
     #Plotting
     # Ensure interactive mode is on and plot
@@ -300,22 +302,20 @@ modelling tasks.
     plt.title('SIR Model')
     plt.xlabel('Time')
     plt.ylabel('Susceptibles and Recovereds')
-    
+
     plt.subplot(212)
     plt.plot(RES[:, 1], '-r', label='Infectious')
     plt.xlabel('Time')
     plt.ylabel('Infectious')
-    
+
     plt.show()
     ```
-    
-![SIR Model with Python](images/appendixC_pysir.png)
 
-The code for this example is adapted from: [
-Modeling Infectious Diseases in Humans and Animals
-Matt J. Keeling & Pejman Rohani](https://homepages.warwick.ac.uk/~masfz/ModelingInfectiousDiseases/Chapter2/Program_2.1/index.html).
-    
-    
+![SIR Model with Python](images/appendixC_pysir.png){#fig-appendixC_pysir fig-alt="SIR Model with Python" fig-align="center"}
+
+The code for this example is adapted from: [Modeling Infectious Diseases
+in Humans and Animals Matt J. Keeling & Pejman
+Rohani](https://homepages.warwick.ac.uk/~masfz/ModelingInfectiousDiseases/Chapter2/Program_2.1/index.html).
 
 By following these steps, you can analyze DALYs and infectious diseases,
 drawing trends, understanding relationships, and predicting future

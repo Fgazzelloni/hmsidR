@@ -22,9 +22,12 @@ Learning Objectives
 -   Create a pyramid plot to visualize population distribution
 :::
 ::::::
-\
 
-In this chapter, we will learn how to create advanced data visualization techniques using `ggplot2`. We will create contour plots to visualize interaction effects and pyramid plots to visualize population distribution.
+\
+In this chapter, we will learn how to create advanced data visualization
+techniques using `ggplot2`. We will create contour plots to visualize
+interaction effects and pyramid plots to visualize population
+distribution.
 
 ## Example: Detecting Interaction Effects with Contour Plots
 
@@ -422,7 +425,7 @@ animate(pyramid_gif,
 ```
 
 ::: {.content-visible when-format="html"}
-![United Nations World Population Prospects 2022 - \[1949 -
-2021\]](images/12_unp_pyramid.gif){#fig-pyramid-animate
-fig-align="center" width="375"}
+![United Nations World Population Prospects 2022 [1949 -
+2021]](images/12_unp_pyramid.gif){#fig-pyramid-animate
+fig-align="center" width="375" fig-alt="Pyramid plot for the United Nations"}
 :::

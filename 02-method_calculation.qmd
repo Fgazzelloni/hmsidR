@@ -883,10 +883,8 @@ and year, and define the HALE as:
 > live in good health, taking into account mortality and loss of
 > functional health.
 
-![HALE - GLOBAL HEALTH METRICS\| VOLUME 392, ISSUE 10159, P1859-1922,
-NOVEMBER 10,
-2018](images/02_hale.png){#fig-flow-hale
-fig-align="center" width="504"}
+![HALE - GLOBAL HEALTH METRICS VOLUME 392, ISSUE 10159, P1859-1922, NOVEMBER 10, 2018](images/02_hale.png){#fig-flow-hale
+fig-align="center" width="504" fig-alt="HALE - GLOBAL HEALTH METRICS"}
 
 The process of calculating HALE for a specific population, considering
 factors such as sex, country, and year, involves computing the average

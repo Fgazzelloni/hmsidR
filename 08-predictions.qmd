@@ -22,6 +22,7 @@ Learning Objectives
 -   Mixed models
 :::
 ::::::
+
 \
 In the dynamic landscape of public health, the ability to forecast and
 predict future trends is essential for effective decision-making and the
@@ -76,7 +77,6 @@ now tested for years 2017 to 2021.
 First we load the original data and name it `old_data`.
 
 ```{r}
-
 library(tidyverse)
 library(data.table)
 ```
@@ -107,6 +107,7 @@ new_data <- hmsidwR::infectious_diseases %>%
 
 ```{r}
 #| echo: false
+#| eval: true
 rr1 <- readRDS("data/model-data/rr1.rds")
 rr2 <- readRDS("data/model-data/rr2.rds")
 ```

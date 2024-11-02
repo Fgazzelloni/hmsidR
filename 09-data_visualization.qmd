@@ -329,7 +329,8 @@ gt::gtsave(gt_table, "images/09_gt_table.png")
 
 ![Basic Data Viz
 Rules](images/09_gt_table.png){#fig-dvrules
-fig-align="center"}
+fig-align="center" fig-alt="Basic Data Viz
+Rules"}
 
 ## Example: Visualizing Lung Cancer Deaths by Age in Germany
 

@@ -22,9 +22,10 @@ Learning Objectives
 -   Causal inference
 :::
 ::::::
+
 \
-> **"...fear is the most pervasive emotion of modern society..."** -
-> [@bourke2007]
+\> **"...fear is the most pervasive emotion of modern society..."** \>
+[@bourke2007]
 
 What qualifies as a risk\index{risk} is subject to dynamic social change
 [@li2020] , as well as the perception of risk has evolved over time,

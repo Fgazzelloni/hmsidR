@@ -17,13 +17,15 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
-- Learn how to model and visualize spatial data 
-- Understand the concepts of spatial data, spatial data models, and spatial models
-- Create maps, simulate infections, and predict the spatial distribution of phenomena
+-   Learn how to model and visualize spatial data
+-   Understand the concepts of spatial data, spatial data models, and
+    spatial models
+-   Create maps, simulate infections, and predict the spatial
+    distribution of phenomena
 :::
 ::::::
-\
 
+\
 In the previous chapters, we explored the fundamentals of data
 visualization with various techniques for creating static and
 interactive plots. In this chapter, we will learn how to model and
@@ -43,17 +45,18 @@ distribution of infections in a specific region.
 Essential for understanding the spatial distribution of phenomena such
 as disease spread, land cover change, or climate patterns, **spatial
 data** and **spatial models** are crucial for analyzing and predicting
-spatial processes. 
+spatial processes.
 
-> But, what is the difference between spatial data, spatial data models, and spatial models?
+> But, what is the difference between spatial data, spatial data models,
+> and spatial models?
 
-**Spatial data** includes geographic coordinates, addresses, or boundaries.
-This type of data is most often represented by one of two **data
-models**: **vector** or **raster**. Vector data models use geometric
-shapes like points, lines, and polygons to represent spatial features,
-whereas raster data models use a grid of cells or pixels, where each
-cell has a value representing information such as temperature or land
-cover.
+**Spatial data** includes geographic coordinates, addresses, or
+boundaries. This type of data is most often represented by one of two
+**data models**: **vector** or **raster**. Vector data models use
+geometric shapes like points, lines, and polygons to represent spatial
+features, whereas raster data models use a grid of cells or pixels,
+where each cell has a value representing information such as temperature
+or land cover.
 
 Another important distinction is that between **spatial data models**
 and **spatial models**. Spatial data models are **frameworks** for
@@ -69,9 +72,12 @@ spatial phenomena evolve, providing a basis for intervention and
 management strategies.
 
 To learn more about the differences and applications of spatial data
-models and process models, you can refer to the **ArcGIS** documentation on
-solving spatial problems with representation and process models and the
-**Esri** blog on spatial analysis. Another great source for practical examples and applications of spatial data is <https://r-spatial.org/> which is the main source for the most recent developments in spatial data analysis in R.
+models and process models, you can refer to the **ArcGIS** documentation
+on solving spatial problems with representation and process models and
+the **Esri** blog on spatial analysis. Another great source for
+practical examples and applications of spatial data is
+<https://r-spatial.org/> which is the main source for the most recent
+developments in spatial data analysis in R.
 
 ## Making a Map
 
@@ -364,12 +370,12 @@ specifying the title, x-axis label, and y-axis label. The
 
 ### Grid of Points
 
-To create a **grid of points**\index{grid} we transform the `df` data as a simple
-features object with the `st_as_sf()` function from the `{sf}` package,
-specifying the longitude and latitude columns as the coordinates and the
-CRS as 4326[^11-spatials-2]. Then, intersect the data with
-`st_intersection(ctr_africa)` to keep only the points within the
-country. Finally, select the relevant columns for the analysis.
+To create a **grid of points**\index{grid} we transform the `df` data as
+a simple features object with the `st_as_sf()` function from the `{sf}`
+package, specifying the longitude and latitude columns as the
+coordinates and the CRS as 4326[^11-spatials-2]. Then, intersect the
+data with `st_intersection(ctr_africa)` to keep only the points within
+the country. Finally, select the relevant columns for the analysis.
 
 [^11-spatials-2]: More information on coordinate reference system is
     here: <https://epsg.io/>.
@@ -552,10 +558,12 @@ ggsave("images/11_temperature_raster2.png",
 
 ::: {#fig-raster-temp layout-ncol="2"}
 ![Temperature
-Raster](images/11_temperature_raster1.png){#fig-raster}
+Raster](images/11_temperature_raster1.png){#fig-raster
+fig-alt="Temperature"}
 
 ![Central Africa Rep. Map of Max Temperature
-Level](images/11_temperature_raster2.png){#fig-raster2}
+Level](images/11_temperature_raster2.png){#fig-raster2
+fig-alt="Central Africa Rep."}
 
 Central Africa Rep. Raster Map of Infections and Max Temperature Level
 :::
@@ -711,7 +719,7 @@ the `{mapview}` package.
 ```{r}
 #| eval: false
 # webshot::install_phantomjs()
-mapview::mapshot(heatmap, file = "images/heatmap.png")
+mapview::mapshot(heatmap, file = "images/11_heatmap.png")
 ```
 :::
 ::::

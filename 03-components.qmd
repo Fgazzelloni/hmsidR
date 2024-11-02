@@ -24,6 +24,7 @@ Learning Objectives
 -   Disability weights and Severity levels
 :::
 ::::::
+
 \
 In @sec-02-method_calculation, we discussed the importance of health
 metrics in assessing the overall health status of a population and
@@ -37,16 +38,24 @@ the burden of disease and injury at both global and population levels.
 
 ## Cause-specific or Population-wide
 
-Health metrics are essential tools for evaluating the health status of a population and guiding public health interventions. They provide valuable insights into the burden of disease and injury, helping policymakers and public health officials make informed decisions about resource allocation and health policy. By combining these metrics, policymakers and public health officials can make informed decisions about how to improve the health outcomes of a population and reduce the burden of disease and injury.
+Health metrics are essential tools for evaluating the health status of a
+population and guiding public health interventions. They provide
+valuable insights into the burden of disease and injury, helping
+policymakers and public health officials make informed decisions about
+resource allocation and health policy. By combining these metrics,
+policymakers and public health officials can make informed decisions
+about how to improve the health outcomes of a population and reduce the
+burden of disease and injury.
 
 > **What are the components of these health metrics, and how are they
 > calculated?**
 
-The evaluation of health metrics begins with the assessment of their components,
-which is crucial because results strongly depend on the types of **life
-tables**, **mortality rates**, and **disability weights** used in the
-analysis. Furthermore, it is important to consider whether the objective
-of the analyses is **cause-specific**\index{cause-specific} or
+The evaluation of health metrics begins with the assessment of their
+components, which is crucial because results strongly depend on the
+types of **life tables**, **mortality rates**, and **disability
+weights** used in the analysis. Furthermore, it is important to consider
+whether the objective of the analyses is
+**cause-specific**\index{cause-specific} or
 **population-wide**\index{population-wide}. This can significantly
 impact the granularity of the health metrics components, as in alignment
 with general principles in epidemiological research and health metrics
@@ -322,7 +331,7 @@ animate(pyramid_gif,
 ::: {.content-visible when-format="html"}
 ![Global Health Observatory Life Expectancy
 2000-2019](images/03_gho_pyramid.gif){#fig-gho_pyramid
-fig-align="center" width="375"}
+fig-align="center" width="375" fig-alt="Global Health Observatory Life"}
 :::
 
 #### Exercise
@@ -1127,7 +1136,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------------|--------------|--------------|--------------|
+|-----------------------|-----------------|-----------------|-----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

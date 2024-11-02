@@ -22,6 +22,7 @@ Learning Objectives
 -   Tell the story with data through plot layouts and saving as an image
 :::
 ::::::
+
 \
 This chapter is an essential part of the data visualization section, it
 focus on how to effectively interpret and utilize the results from

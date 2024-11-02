@@ -23,12 +23,15 @@ Learning Objectives
 :::
 ::::::
 
-In this chapter, we explore the dynamics of Malaria transmission in more details. We examine the results of various model’s applications that simulate the spread of the virus.
+\
+In this chapter, we explore the dynamics of Malaria transmission in more
+details. We examine the results of various model’s applications that
+simulate the spread of the virus.
 
 ## Epidemiology
 
-**Malaria** is a mosquito-borne infectious disease that affects humans and
-other animals. It is caused by parasitic protozoans belonging to the
+**Malaria** is a mosquito-borne infectious disease that affects humans
+and other animals. It is caused by parasitic protozoans belonging to the
 Plasmodium type. The disease is **transmitted through the bites of
 Anopheles mosquitoes**. The symptoms of malaria typically include fever,
 fatigue, vomiting, and headaches. If left untreated, malaria can be

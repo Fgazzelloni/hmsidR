@@ -1,5 +1,13 @@
 # Techniques for Machine Learning Applications {#sec-06-techniques}
 
+```{r}
+#| echo: false
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
+```
+
 :::::: solutionbox
 :::: solutionbox-header
 ::: solutionbox-icon
@@ -14,15 +22,8 @@ Learning Objectives
 -   Learn about machine learning algorithms
 :::
 ::::::
-\
-```{r}
-#| echo: false
-library(ggplot2)
-book_theme <- theme_minimal() + 
-  theme(plot.title=element_text(face="bold"))
-ggplot2::theme_set(book_theme)
-```
 
+\
 Selecting the most suitable machine learning\index{machine learning}
 model involves understanding **the goals of the analysis**, the **nature
 of the data**, and the **statistical and machine learning methods** that
