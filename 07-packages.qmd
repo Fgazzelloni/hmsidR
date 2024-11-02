@@ -1,19 +1,21 @@
 # Essential R Packages for Machine Learning {#sec-07-packages}
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
 -   Overview of the most suitable R-packages
 -   Apply different model frameworks
 -   How to find a new R-package
 :::
-:::
+::::::
+
+\
 
 ```{r}
 #| echo: false
@@ -928,10 +930,6 @@ model <- keras_model_sequential(input_shape = c(p))
 model %>%
   layer_dense(units = 1) %>%
   layer_activation("relu") %>%
-  # layer_dropout(rate = 0.3) %>%
-  # layer_dense(units = 64) %>%
-  # layer_activation('relu') %>%
-  # layer_dropout(rate = 0.4) %>%
   layer_dense(units = 1, activation = "sigmoid")
 ```
 

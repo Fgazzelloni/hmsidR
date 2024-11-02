@@ -22,7 +22,7 @@ Learning Objectives
 -   Causal inference
 :::
 ::::::
-
+\
 > **"...fear is the most pervasive emotion of modern society..."** -
 > [@bourke2007]
 
@@ -179,9 +179,23 @@ burden by using the theoretical minimum risk.
 
 ### Relative Risks (RRs)
 
-The relative risk (or Risk Ratio)\index{relative risk} is a measure of the strength of the association between an exposure and an outcome. It compares the likelihood of a particular health outcome occurring in individuals exposed to a specific risk factor to the likelihood in those who are not exposed. This metric helps quantify how much a risk factor, like smoking or high blood pressure, increases the probability of an adverse health effect.
+The relative risk (or Risk Ratio)\index{relative risk} is a measure of
+the strength of the association between an exposure and an outcome. It
+compares the likelihood of a particular health outcome occurring in
+individuals exposed to a specific risk factor to the likelihood in those
+who are not exposed. This metric helps quantify how much a risk factor,
+like smoking or high blood pressure, increases the probability of an
+adverse health effect.
 
-To calculate the risk-outcome pairs, such as mortality and morbidity, the attributable burden of a risk is decomposed to identify the impact on disease burden across factors like location, age, sex, and specific causes of disease[@murray2020]. This decomposition considers the combined effect of all risk exposures, which are categorized into metabolic, behavioral, and environmental risk factors. Each category contributes distinctly to the overall health outcome, enabling a nuanced understanding of how multiple exposures collectively influence disease burden and health outcomes.
+To calculate the risk-outcome pairs, such as mortality and morbidity,
+the attributable burden of a risk is decomposed to identify the impact
+on disease burden across factors like location, age, sex, and specific
+causes of disease[@murray2020]. This decomposition considers the
+combined effect of all risk exposures, which are categorized into
+metabolic, behavioral, and environmental risk factors. Each category
+contributes distinctly to the overall health outcome, enabling a nuanced
+understanding of how multiple exposures collectively influence disease
+burden and health outcomes.
 
 The relative risk is the ratio between the proportions of exposed and
 unexposed groups.
@@ -218,9 +232,14 @@ relative_risk <- function(exposed, unexposed) {
 
 relative_risk(exposed, unexposed)
 ```
-In this case, a relative risk of 1.04 indicates that the exposed group is 1.04 times more likely to develop the outcome compared to the unexposed group.
 
-A second example is to calculate the relative risk based on the number of events and person-time at risk for exposed and unexposed groups. Let's consider the following scenario:
+In this case, a relative risk of 1.04 indicates that the exposed group
+is 1.04 times more likely to develop the outcome compared to the
+unexposed group.
+
+A second example is to calculate the relative risk based on the number
+of events and person-time at risk for exposed and unexposed groups.
+Let's consider the following scenario:
 
 ```{r}
 d1 <- 50 # Number of events in the exposed group
@@ -234,7 +253,12 @@ relative_risk_d <- (d1 / n1) / (d0 / n0)
 # Print the relative risk
 relative_risk_d
 ```
-In this case, the relative risk based on the number of events and person-time at risk is 1.25, indicating that the exposed group has a 1.25 times higher risk of developing the outcome compared to the unexposed group.
+
+In this case, the relative risk based on the number of events and
+person-time at risk is 1.25, indicating that the exposed group has a
+1.25 times higher risk of developing the outcome compared to the
+unexposed group.
+
 ```{r}
 #| label: fig-barplot_relative_risk
 #| fig-alt: "Bar chart showing the relative risk of outcome between exposed and unexposed groups."
@@ -265,8 +289,8 @@ ggplot(data, aes(x = Group, y = Event_Rate,
                                "Unexposed" = "skyblue")) 
 ```
 
-
-In summary, the relative risk can be calculated using two different formulas:
+In summary, the relative risk can be calculated using two different
+formulas:
 
 -   The first formula, $RR=p_1/p_0$, calculates the relative risk
     directly using the proportions of events $p_1$ in the exposed group
@@ -286,14 +310,21 @@ In some cases, relative risks can be modeled using **network
 analysis**\index{network analysis}, a specialized approach within
 statistical modelling which extend the concept of mixed effects to
 compare multiple treatments while accounting for various factors and
-dependencies. The relationship between variables, represented by nodes and edges consider the potential interactions or dependencies between different risk factors and outcomes. This approach is generally favorable when exploring complex relationships among multiple variables. 
+dependencies. The relationship between variables, represented by nodes
+and edges consider the potential interactions or dependencies between
+different risk factors and outcomes. This approach is generally
+favorable when exploring complex relationships among multiple variables.
 
 To represent the network we can use a **Directed Acyclic Graph
 (DAG)**\index{DAG} for drawing causal relationships between variables,
 such as the relationship between health risks and diseases.
 
 This is an example of a **network graph** representing the causal
-pathways between different variables, such as smoking, physical inactivity, high blood pressure, lung cancer, heart disease, and stroke. By visualizing the relationships between these variables, we can identify the direct and indirect effects of risk factors on health outcomes. 
+pathways between different variables, such as smoking, physical
+inactivity, high blood pressure, lung cancer, heart disease, and stroke.
+By visualizing the relationships between these variables, we can
+identify the direct and indirect effects of risk factors on health
+outcomes.
 
 ```{r}
 #| echo: false
@@ -342,7 +373,10 @@ plot(g,
 )
 ```
 
-The following code shows one more example of a network graph that would be helpful to identify the relationship between outcome (O), exposure (E) and different risk factors is made with the `{ggdag}` package and the `dagify()` function.
+The following code shows one more example of a network graph that would
+be helpful to identify the relationship between outcome (O), exposure
+(E) and different risk factors is made with the `{ggdag}` package and
+the `dagify()` function.
 
 ```{r}
 #| echo: true
@@ -481,9 +515,26 @@ coordinates(fhp) <- list(
 rethinking::drawdag(fhp)
 ```
 
-Examples of risk factors with established **Theoretical Minimum Risk Exposure Levels (TMRELs)** include particulate matter air pollution, high systolic blood pressure, and smoking. For systolic blood pressure, the TMREL is typically set around 110/70 mmHg. Research has shown that maintaining blood pressure near this level is associated with the lowest risk for cardiovascular disease and stroke. Similarly, for particulate matter air pollution, the TMREL is set at the lowest level of exposure that is feasible and achievable, typically based on World Health Organization (WHO) guidelines. For smoking, the TMREL is set at zero, as any level of smoking is associated with increased health risks.
+Examples of risk factors with established **Theoretical Minimum Risk
+Exposure Levels (TMRELs)** include particulate matter air pollution,
+high systolic blood pressure, and smoking. For systolic blood pressure,
+the TMREL is typically set around 110/70 mmHg. Research has shown that
+maintaining blood pressure near this level is associated with the lowest
+risk for cardiovascular disease and stroke. Similarly, for particulate
+matter air pollution, the TMREL is set at the lowest level of exposure
+that is feasible and achievable, typically based on World Health
+Organization (WHO) guidelines. For smoking, the TMREL is set at zero, as
+any level of smoking is associated with increased health risks.
 
-In terms of **Disability-Adjusted Life Years (DALYs)**, the overall level is significantly influenced by behavioral, environmental, and occupational risks. Behavioral risks, such as smoking and physical inactivity, and environmental exposures, like air pollution, contribute heavily to DALYs by increasing both mortality and disability rates within affected populations. Occupational risks further add to the burden, particularly in regions where workplace safety standards are lower, underscoring the need for targeted interventions across different population groups.
+In terms of **Disability-Adjusted Life Years (DALYs)**, the overall
+level is significantly influenced by behavioral, environmental, and
+occupational risks. Behavioral risks, such as smoking and physical
+inactivity, and environmental exposures, like air pollution, contribute
+heavily to DALYs by increasing both mortality and disability rates
+within affected populations. Occupational risks further add to the
+burden, particularly in regions where workplace safety standards are
+lower, underscoring the need for targeted interventions across different
+population groups.
 
 ### Population Attributable Fractions (PAFs)
 
@@ -523,9 +574,21 @@ and improve overall health outcomes.
 ## Causal Inference
 
 Causality\index{causality} concerns the relationship between two
-variables, where one variable (*the cause*) directly influences or determines the other (*the effect*). For example, regular exercise improves cardiovascular health, or adequate sleep supports cognitive function. However, causality is distinct from correlation\index{correlation}, which indicates a statistical association without implying a direct influence. For instance, a correlation between television watching and obesity does not imply a causal link. Establishing causality requires systematically evaluating alternative explanations and accounting for confounding factors that could affect both the cause and effect.
+variables, where one variable (*the cause*) directly influences or
+determines the other (*the effect*). For example, regular exercise
+improves cardiovascular health, or adequate sleep supports cognitive
+function. However, causality is distinct from
+correlation\index{correlation}, which indicates a statistical
+association without implying a direct influence. For instance, a
+correlation between television watching and obesity does not imply a
+causal link. Establishing causality requires systematically evaluating
+alternative explanations and accounting for confounding factors that
+could affect both the cause and effect.
 
-Causal inference is essential for understanding the underlying causes of a condition or phenomenon, even if these causes are not immediately apparent. It often requires a structured data analysis to uncover hidden causal relationships within the observed data.
+Causal inference is essential for understanding the underlying causes of
+a condition or phenomenon, even if these causes are not immediately
+apparent. It often requires a structured data analysis to uncover hidden
+causal relationships within the observed data.
 
 ```{r}
 #| echo: false
@@ -554,23 +617,58 @@ digraph causal_inference {
 ")
 ```
 
-![Causal Inference Flowchart](images/04_causal_inference_flowchart.png){#fig-causal_inference fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"} 
+![Causal Inference
+Flowchart](images/04_causal_inference_flowchart.png){#fig-causal_inference
+fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"}
 
-Performing casual inference\index{causal inference} requires
-setting up an experiment, where there are **treatment** and
-**outcome** elements. The *treatment* is the intervention applied to the data. For example, to confirm the statement *regular exercise leads to improved cardiovascular health*, an intervention may be designed to introduce another variable, such as regular fruit consumption, and observe its combined effect with exercise on cardiovascular health.
+Performing casual inference\index{causal inference} requires setting up
+an experiment, where there are **treatment** and **outcome** elements.
+The *treatment* is the intervention applied to the data. For example, to
+confirm the statement *regular exercise leads to improved cardiovascular
+health*, an intervention may be designed to introduce another variable,
+such as regular fruit consumption, and observe its combined effect with
+exercise on cardiovascular health.
 
-In this investigation, the primary factors are exercise and fruit intake. The goal is to examine whether their combination improves cardiovascular health. Once the intervention is analyzed by measuring changes in cardiovascular health (the response variable), the next step is to apply a control procedure, often using a **counterfactual** scenario. This approach helps assess what might have happened in the absence of the treatment, providing a benchmark to confirm the treatment’s true effect.
+In this investigation, the primary factors are exercise and fruit
+intake. The goal is to examine whether their combination improves
+cardiovascular health. Once the intervention is analyzed by measuring
+changes in cardiovascular health (the response variable), the next step
+is to apply a control procedure, often using a **counterfactual**
+scenario. This approach helps assess what might have happened in the
+absence of the treatment, providing a benchmark to confirm the
+treatment’s true effect.
 
 ## Summarizing the Relationship Between Risk and Outcome
 
-The relationship between risk and outcome in epidemiology is central to understanding the causes of disease and guiding preventive strategies. This relationship involves assessing how exposure to certain risk factors affects the likelihood of developing specific health outcomes. Epidemiological studies quantify the strength of this association through measures like **relative risk (RR)** and **population attributable fraction (PAF)**.
+The relationship between risk and outcome in epidemiology is central to
+understanding the causes of disease and guiding preventive strategies.
+This relationship involves assessing how exposure to certain risk
+factors affects the likelihood of developing specific health outcomes.
+Epidemiological studies quantify the strength of this association
+through measures like **relative risk (RR)** and **population
+attributable fraction (PAF)**.
 
-**Relative risk (RR)** compares the risk of developing a health outcome among individuals exposed to a risk factor with those who are not exposed. An RR greater than 1 indicates an increased risk associated with the exposure. For example, if smokers have a relative risk of 15 for lung cancer compared to non-smokers, this suggests a strong association between smoking and lung cancer.
+**Relative risk (RR)** compares the risk of developing a health outcome
+among individuals exposed to a risk factor with those who are not
+exposed. An RR greater than 1 indicates an increased risk associated
+with the exposure. For example, if smokers have a relative risk of 15
+for lung cancer compared to non-smokers, this suggests a strong
+association between smoking and lung cancer.
 
-**Population Attributable Fraction (PAF)** estimates the proportion of disease incidence in a population that can be attributed to a specific risk factor, helping quantify the potential impact of reducing or eliminating that exposure on the overall disease burden. For example, if smoking accounts for 30% of lung cancer cases in a population, the PAF for smoking-related lung cancer is 0.30.
+**Population Attributable Fraction (PAF)** estimates the proportion of
+disease incidence in a population that can be attributed to a specific
+risk factor, helping quantify the potential impact of reducing or
+eliminating that exposure on the overall disease burden. For example, if
+smoking accounts for 30% of lung cancer cases in a population, the PAF
+for smoking-related lung cancer is 0.30.
 
-To establish causality, epidemiologists must demonstrate consistent associations, dose-response relationships (where increased exposure heightens risk), temporal precedence (exposure precedes outcome), and rule out alternative explanations. Ultimately, understanding these risk-outcome relationships enables evidence-based public health decisions, informing preventive strategies, interventions, and policies to improve population health.
+To establish causality, epidemiologists must demonstrate consistent
+associations, dose-response relationships (where increased exposure
+heightens risk), temporal precedence (exposure precedes outcome), and
+rule out alternative explanations. Ultimately, understanding these
+risk-outcome relationships enables evidence-based public health
+decisions, informing preventive strategies, interventions, and policies
+to improve population health.
 
 ```{r}
 #| echo: false
@@ -603,4 +701,13 @@ kable(risk_measures,
       align = "l")
 ```
 
-In conclusion, the study of risk and outcome has evolved beyond traditional epidemiological methods to embrace advanced techniques like transfer learning\index{transfer learning}. This interdisciplinary approach enables the application of insights from epidemiology to other fields and viceversa, deepening our understanding of the complex relationships between risk factors and health outcomes. Machine learning and data-driven techniques help identifying patterns, and develop predictive models that extend beyond conventional frameworks, offering fresh perspectives on population health and guiding targeted interventions. 
+In conclusion, the study of risk and outcome has evolved beyond
+traditional epidemiological methods to embrace advanced techniques like
+transfer learning\index{transfer learning}. This interdisciplinary
+approach enables the application of insights from epidemiology to other
+fields and viceversa, deepening our understanding of the complex
+relationships between risk factors and health outcomes. Machine learning
+and data-driven techniques help identifying patterns, and develop
+predictive models that extend beyond conventional frameworks, offering
+fresh perspectives on population health and guiding targeted
+interventions.

@@ -7,6 +7,22 @@ book_theme <- theme_minimal() +
   theme(plot.title=element_text(face = "bold"))
 ggplot2::theme_set(book_theme)
 ```
+:::::: solutionbox
+:::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+::::
+
+::: solutionbox-body
+- Learn about the dynamics of infectious diseases and their impact on
+  human health
+- Understand the role of mathematical models in predicting infectious disease outbreaks
+- Explore the components of infectious disease models and their implications
+:::
+::::::
+\
 
 > **"Several infectious diseases are emerging and threatening human
 > health worldwide. The burden of infectious diseases is undeniably a
@@ -126,7 +142,9 @@ More complex models, includes:
 -   **SEIR Model**: This model introduces an exposed (E) compartment,
     which represents individuals who have been infected but are not yet
     infectious. This compartmentalization is particularly useful for
-    diseases with significant incubation periods (e.g., COVID-19). Practical applications are in @sec-05-epidemic-x and @sec-14-modelling-covid19.
+    diseases with significant incubation periods (e.g., COVID-19).
+    Practical applications are in @sec-05-epidemic-x and
+    @sec-14-modelling-covid19.
 -   **SIS Model**: In this model, individuals who recover from infection
     do not gain lasting immunity, meaning they return to the susceptible
     class and can become reinfected. This model is relevant for diseases

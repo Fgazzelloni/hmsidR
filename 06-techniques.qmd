@@ -14,7 +14,7 @@ Learning Objectives
 -   Learn about machine learning algorithms
 :::
 ::::::
-
+\
 ```{r}
 #| echo: false
 library(ggplot2)
@@ -164,7 +164,7 @@ limitations, which involves evaluating multiple models based on their
 performance and selecting the best-fitting models to achieve the most
 accurate predictions.
 
-## Example 4: Rabies
+## Example: Rabies
 
 The `rabies`\index{rabies} dataset from the `{hmsidwR}` package contains
 information on death rates and disability-adjusted life years (DALYs)

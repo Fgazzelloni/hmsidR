@@ -24,22 +24,25 @@ Learning Objectives
 -   Disability weights and Severity levels
 :::
 ::::::
-
-## Cause-specific or Population-wide
-
+\
 In @sec-02-method_calculation, we discussed the importance of health
 metrics in assessing the overall health status of a population and
 guiding the allocation of health resources. We have seen how to
-calculate key metrics by providing direct calculations of each of them, but haven't yet discussed the components\index{components} that make up these metrics. In this chapter, we will investigate: **life
+calculate key metrics by providing direct calculations of each of them,
+but haven't yet discussed the components\index{components} that make up
+these metrics. In this chapter, we will investigate: **life
 expectancy**, **mortality rates**, **incidence and prevalence**, and
-**disability weights**. These components are crucial for understanding the burden of disease and injury at both global and population levels.
+**disability weights**. These components are crucial for understanding
+the burden of disease and injury at both global and population levels.
 
-These key indicators, used to measure the burden of disease and injury on a population, provide a comprehensive view of the impact of diseases and injuries on the health status of a population. By combining these metrics, policymakers and public health officials can make informed decisions about how to improve the health outcomes of a population and reduce the burden of disease and injury.
+## Cause-specific or Population-wide
+
+Health metrics are essential tools for evaluating the health status of a population and guiding public health interventions. They provide valuable insights into the burden of disease and injury, helping policymakers and public health officials make informed decisions about resource allocation and health policy. By combining these metrics, policymakers and public health officials can make informed decisions about how to improve the health outcomes of a population and reduce the burden of disease and injury.
 
 > **What are the components of these health metrics, and how are they
 > calculated?**
 
-The evaluation of health metrics begins with assessing their components,
+The evaluation of health metrics begins with the assessment of their components,
 which is crucial because results strongly depend on the types of **life
 tables**, **mortality rates**, and **disability weights** used in the
 analysis. Furthermore, it is important to consider whether the objective
@@ -50,9 +53,22 @@ with general principles in epidemiological research and health metrics
 analysis, discussed in the Global Burden of Disease (GBD) study
 methodologies[@vos2020].
 
-Cause-Specific Metrics focus on disease intervention planning, such as assessing the burden of HIV or tuberculosis on specific populations. Population-Wide Metrics, on the other side, are ideal for broader health policy decisions, like overall mortality rates or life expectancy, provide a comprehensive view of the health landscape. 
+Cause-Specific Metrics focus on disease intervention planning, such as
+assessing the burden of HIV or tuberculosis on specific populations.
+Population-Wide Metrics, on the other side, are ideal for broader health
+policy decisions, like overall mortality rates or life expectancy,
+provide a comprehensive view of the health landscape.
 
-The results of health metrics calculations can vary significantly based on various factors, including geographic location, the type and severity of diseases or injuries, the specific causes of death or disability, and the age groups analyzed (whether age-standardized or covering all ages). Additional variation arises from the chosen time points of analysis and whether the metrics are calculated across both sexes or specifically for males or females. Moreover, the disability weights applied can differ depending on the condition’s severity, its impact on quality of life, and other contextual parameters, resulting in tailored calculations that reflect local health challenges more accurately.
+The results of health metrics calculations can vary significantly based
+on various factors, including geographic location, the type and severity
+of diseases or injuries, the specific causes of death or disability, and
+the age groups analyzed (whether age-standardized or covering all ages).
+Additional variation arises from the chosen time points of analysis and
+whether the metrics are calculated across both sexes or specifically for
+males or females. Moreover, the disability weights applied can differ
+depending on the condition’s severity, its impact on quality of life,
+and other contextual parameters, resulting in tailored calculations that
+reflect local health challenges more accurately.
 
 In this chapter, practical examples and case studies are provided to
 illustrate the process of applying the components to the metrics. By
@@ -103,7 +119,11 @@ hmsidwR::gho_lifetables %>%
   knitr::kable()
 ```
 
-Where `lx` is the number of people alive at the beginning of the age, `ndx` is the number of people dying between age $x$ and $x+1$, `nLx` is the number of person-years lived between age $x$ and $x+1$, `Tx` is the total number of person-years lived by the cohort of persons alive at age $x$, and `ex` is the expected remaining lifetime at age $x$.
+Where `lx` is the number of people alive at the beginning of the age,
+`ndx` is the number of people dying between age $x$ and $x+1$, `nLx` is
+the number of person-years lived between age $x$ and $x+1$, `Tx` is the
+total number of person-years lived by the cohort of persons alive at age
+$x$, and `ex` is the expected remaining lifetime at age $x$.
 
 In the context of calculating Disability-Adjusted Life Years (DALYs),
 specifically for the component related to Years of Life Lost (YLL),
@@ -329,7 +349,13 @@ specific diseases within a given time period. Data for this component is
 collected from vital registration systems, health surveys, hospital
 records, and epidemiological studies.
 
-Here is a table containing the mortality rates for different age groups in two regions. The mortality rates are expressed as the number of deaths per 1,000 population in each age group. The data is used to illustrate the variation in mortality rates across age groups and regions, providing insights into the health risks faced by different populations.
+Here is a table containing the mortality rates for different age groups
+in two regions. The mortality rates are expressed as the number of
+deaths per 1,000 population in each age group. The data is used to
+illustrate the variation in mortality rates across age groups and
+regions, providing insights into the health risks faced by different
+populations.
+
 ```{r}
 #| label: tbl-mortality-rates
 #| tbl-cap: "Example Mortality Rates by Age Group and Region"
@@ -347,7 +373,6 @@ mortality_rates <- data.frame(
 kable(mortality_rates, col.names = c("Age Group", "Region A Mortality Rate (per 1,000)", 
                                      "Region B Mortality Rate (per 1,000)"), align = "l")
 ```
-
 
 ### Understanding Death Counts and Mortality Rates
 
@@ -377,7 +402,6 @@ kable(country_comparison,
       col.names = c("Metric", "Country X", "Country Y"), 
       align = "l")
 ```
-
 
 An analysis of the mortality rates alongside YLL provides a full picture
 of the health challenges faced by a population. While YLL emphasizes the
@@ -539,7 +563,6 @@ flu_metrics <- data.frame(
 kable(flu_metrics, col.names = c("Metric", "January", "April", "July", "October", "December"), align = "l")
 ```
 
-
 In summary, incidence measures the rate of new cases arising within a
 population over time, while prevalence measures the proportion of
 existing cases within the population at a specific point in time. These
@@ -585,18 +608,24 @@ ongoing management and sustained healthcare support are crucial.
 
 #### Example: Calculating YLD for a Disease Using Prevalence
 
-Suppose we want to calculate the **Years Lived with Disability (YLD)** for a **chronic respiratory disease** in a population of 100,000 people. The prevalence rate of the disease is 2%, with a Disability Weight (DW) of 0.3 and an average duration of the disease is 5 years. The YLD is calculated using the formula:
+Suppose we want to calculate the **Years Lived with Disability (YLD)**
+for a **chronic respiratory disease** in a population of 100,000 people.
+The prevalence rate of the disease is 2%, with a Disability Weight (DW)
+of 0.3 and an average duration of the disease is 5 years. The YLD is
+calculated using the formula:
 
-1. $\text{Prevalent Cases} = \text{Population Size} \times \text{Prevalence Rate}$
+1.  $\text{Prevalent Cases} = \text{Population Size} \times \text{Prevalence Rate}$
 
 $$\text{Prevalent Cases} = 100,000 \times 0.02 = 2,000 \text{ cases}$$
 
-2. $\text{YLD} = \text{Prevalent Cases} \times \text{Disability Weight} \times \text{Average Duration}$
+2.  $\text{YLD} = \text{Prevalent Cases} \times \text{Disability Weight} \times \text{Average Duration}$
 
 $$\text{YLD} = 2,000 \times 0.3 \times 5 = 3,000$$
 
-
-So, the YLD for chronic respiratory disease in this population over the average duration of the condition is 3,000 years. This YLD value would then be added to the YLL (Years of Life Lost) for the disease to calculate the total DALY.
+So, the YLD for chronic respiratory disease in this population over the
+average duration of the condition is 3,000 years. This YLD value would
+then be added to the YLL (Years of Life Lost) for the disease to
+calculate the total DALY.
 
 #### Example: COVID-19 Incidence and Prevalence
 
@@ -754,6 +783,7 @@ developing strategies in healthcare management and resource allocation.
 The severity levels can be assigned to be mild, moderate, or high, with
 respective probabilities reflecting the likelihood of each severity
 level occurring within the affected population.
+
 ```{r}
 #| label: tbl-example-disability-weights
 #| tbl-cap: "Example Disability Weights"
@@ -770,7 +800,6 @@ disability_weights <- data.frame(
 # Display the table
 kable(disability_weights, col.names = c("Condition", "Disability Weight"), align = "l")
 ```
-
 
 For determining the disability weights, the severity levels are assigned
 based on the impact of the condition on an individual's quality of life.
@@ -804,12 +833,22 @@ disability weights that reflect a consensus view. Statistical models
 might be used to aggregate these results and ensure that they are
 consistent across different scales.
 
-The Global Burden of Disease (GBD) study led by the Institute for Health Metrics and Evaluation (IHME) is one of the most comprehensive efforts to estimate disability weights for a wide range of health conditions. The GBD study periodically updates and refines disability weights based on extensive global surveys and expert consultations. In the 2010 iteration, for instance, IHME used community surveys across multiple countries, including Bangladesh, Indonesia, Peru, and Tanzania, and an online survey to gather feedback on how people perceive the severity of different health states. Respondents were asked to rank or rate hypothetical health conditions, which provided data for calculating standardized disability weights.
+The Global Burden of Disease (GBD) study led by the Institute for Health
+Metrics and Evaluation (IHME) is one of the most comprehensive efforts
+to estimate disability weights for a wide range of health conditions.
+The GBD study periodically updates and refines disability weights based
+on extensive global surveys and expert consultations. In the 2010
+iteration, for instance, IHME used community surveys across multiple
+countries, including Bangladesh, Indonesia, Peru, and Tanzania, and an
+online survey to gather feedback on how people perceive the severity of
+different health states. Respondents were asked to rank or rate
+hypothetical health conditions, which provided data for calculating
+standardized disability weights.
 
 #### Disability Weights Data
 
-Here is an example of a table containing the disability weights for twelve
-combinations of different conditions such as Infectious disease,
+Here is an example of a table containing the disability weights for
+twelve combinations of different conditions such as Infectious disease,
 Non-communicable diseases, and other health conditions.
 
 The data is from the results of a systematic analysis of Global burden
@@ -1088,7 +1127,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------------------|-------------|-------------|-------------|
+|-----------------------------|--------------|--------------|--------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

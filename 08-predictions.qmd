@@ -8,21 +8,21 @@ book_theme <- theme_minimal() +
 ggplot2::theme_set(book_theme)
 ```
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
 -   How to use models' predictions on new data
 -   Time series analysis
 -   Mixed models
 :::
-:::
-
+::::::
+\
 In the dynamic landscape of public health, the ability to forecast and
 predict future trends is essential for effective decision-making and the
 implementation of timely interventions. This chapter provides an

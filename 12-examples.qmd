@@ -8,20 +8,23 @@ book_theme <- theme_minimal() +
 ggplot2::theme_set(book_theme)
 ```
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
 -   Learn advanced data visualization techniques
 -   Create contour plots to visualize interaction effects
 -   Create a pyramid plot to visualize population distribution
 :::
-:::
+::::::
+\
+
+In this chapter, we will learn how to create advanced data visualization techniques using `ggplot2`. We will create contour plots to visualize interaction effects and pyramid plots to visualize population distribution.
 
 ## Example: Detecting Interaction Effects with Contour Plots
 

@@ -8,6 +8,22 @@ map_theme <- ggthemes::theme_map() +
 ggplot2::theme_set(map_theme)
 ```
 
+:::::: solutionbox
+:::: solutionbox-header
+::: solutionbox-icon
+:::
+
+Learning Objectives
+::::
+
+::: solutionbox-body
+- Learn how to model and visualize spatial data 
+- Understand the concepts of spatial data, spatial data models, and spatial models
+- Create maps, simulate infections, and predict the spatial distribution of phenomena
+:::
+::::::
+\
+
 In the previous chapters, we explored the fundamentals of data
 visualization with various techniques for creating static and
 interactive plots. In this chapter, we will learn how to model and
@@ -27,10 +43,11 @@ distribution of infections in a specific region.
 Essential for understanding the spatial distribution of phenomena such
 as disease spread, land cover change, or climate patterns, **spatial
 data** and **spatial models** are crucial for analyzing and predicting
-spatial processes. But, what is the difference between spatial data,
-spatial data models, and spatial models?
+spatial processes. 
 
-Spatial data includes geographic coordinates, addresses, or boundaries.
+> But, what is the difference between spatial data, spatial data models, and spatial models?
+
+**Spatial data** includes geographic coordinates, addresses, or boundaries.
 This type of data is most often represented by one of two **data
 models**: **vector** or **raster**. Vector data models use geometric
 shapes like points, lines, and polygons to represent spatial features,
@@ -52,13 +69,9 @@ spatial phenomena evolve, providing a basis for intervention and
 management strategies.
 
 To learn more about the differences and applications of spatial data
-models and process models, you can refer to the ArcGIS documentation on
+models and process models, you can refer to the **ArcGIS** documentation on
 solving spatial problems with representation and process models and the
-Esri blog on spatial analysis.
-
-Another great source for practical examples and applications of spatial
-data in R is <https://r-spatial.org/> which is the main source for the
-most recent developments in spatial data analysis in R.
+**Esri** blog on spatial analysis. Another great source for practical examples and applications of spatial data is <https://r-spatial.org/> which is the main source for the most recent developments in spatial data analysis in R.
 
 ## Making a Map
 
@@ -146,7 +159,7 @@ Group[^11-spatials-1]. The EPSG code for WGS 84 is 4326.
 
 [^11-spatials-1]: <https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf>
 
-## Simulate Infections in Central Africa Rep.
+## Example: Simulation of Infections in Central Africa Rep.
 
 Synthetic data are created for the Central African Republic. The
 simulation of the number of infected individuals, their location, and
@@ -163,7 +176,7 @@ ctr_africa <- africa %>%
   filter(name == "Central African Rep.")
 ```
 
-#### Bounding Box
+### Bounding Box
 
 We can use the `st_bbox()` function to retrieve the **bounding box** of
 the `ctr_africa` object, as a matrix with the minimum and maximum values
@@ -179,7 +192,7 @@ bbox <- ctr_africa %>% st_bbox()
 bbox
 ```
 
-#### Spatial Coordinates
+### Spatial Coordinates
 
 The `st_coordinates()` function allows to extract the coordinates from a
 geometry vector and release a matrix with 5 columns, where the first two
@@ -224,7 +237,7 @@ Set the number of points:
 num_points <- 100
 ```
 
-Simulate Data:
+### Data Simulation
 
 ```{r}
 set.seed(21082024) # set seed for reproducibility 
@@ -283,7 +296,7 @@ ggplot() +
   theme(legend.position = "top")
 ```
 
-## Correlation between Response and Predictor
+### Correlation between Response and Predictor
 
 The correlation coefficient between the number of infected individuals
 and the temperature can be calculated using the `cor()` function with
@@ -304,7 +317,7 @@ and the temperature. This indicates that as the temperature increases,
 the number of infected individuals decreases slightly, but the
 relationship is not significant.
 
-## Histogram and Scatter Plot
+### Histogram and Scatter Plot
 
 To visualize the distribution of the presence of infection in Central
 Africa, we can create a histogram of the presence variable using the
@@ -349,9 +362,9 @@ respectively. The `labs()` function adds titles and labels to the plot,
 specifying the title, x-axis label, and y-axis label. The
 `theme_minimal()` function sets the plot theme to a minimal style.
 
-## Grid of Points
+### Grid of Points
 
-To create a grid of points we transform the `df` data as a simple
+To create a **grid of points**\index{grid} we transform the `df` data as a simple
 features object with the `st_as_sf()` function from the `{sf}` package,
 specifying the longitude and latitude columns as the coordinates and the
 CRS as 4326[^11-spatials-2]. Then, intersect the data with
@@ -436,7 +449,7 @@ ggplot(data = ctr_africa_grid_full) +
   theme(legend.position = "top")
 ```
 
-## Create a Raster of Temperature
+### Create a Raster of Temperature
 
 To visualize the temperature data on the map of Central African Republic
 we create a raster template. The raster template has the same extent as
@@ -552,7 +565,7 @@ African Republic, with warmer colors indicating higher temperatures. The
 infected locations are represented as circles with size indicating the
 number of infected individuals at each location.
 
-## The Epicenter of Infection
+### The Epicenter of Infection
 
 A central point that represents the spatial distribution of infections
 in the region is the center of mass. It is a useful metric for
@@ -639,7 +652,7 @@ ggplot() +
   theme(legend.position = "right")
 ```
 
-::: {.content-visible when-format="html"}
+:::: {.content-visible when-format="html"}
 ::: solutionbox
 **Interactive Maps**
 
@@ -701,7 +714,7 @@ the `{mapview}` package.
 mapview::mapshot(heatmap, file = "images/heatmap.png")
 ```
 :::
-:::
+::::
 
 ## Dynamics of Disease Transmission
 
@@ -896,7 +909,7 @@ The clustering of close-proximity contacts that occurs within
 individuals is an important factor in the spread of diseases and subject
 of many mathematical models[@volz2011].
 
-## The Euclidean distance
+### The Euclidean distance
 
 To estimate the likelihood of transmission between individuals based on
 their spatial proximity the **Euclidean** distance is used. It is
@@ -966,7 +979,7 @@ distance, which considers the correlation between the variables, and the
 **Chebyshev** distance, which calculates the maximum difference between
 the coordinates of two points.
 
-## Spatial Autocorrelation
+### Spatial Autocorrelation
 
 Spatial autocorrelation refers to the principle that spatial data points
 close to each other are more likely to have similar values than those
@@ -1022,7 +1035,7 @@ significant, suggesting that the spatial distribution of infections is
 consistent with a random spatial pattern. And we know it is as we have
 simulated the data.
 
-## Spatial Proximity with Kriging
+### Spatial Proximity with Kriging
 
 Although, the Moran's I test is useful for understanding the overall
 spatial pattern of infections, it does not provide detailed information

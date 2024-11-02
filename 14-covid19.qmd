@@ -22,7 +22,7 @@ Learning Objectives
 -   Map Covid-19 outbreaks
 :::
 ::::::
-
+\
 In this chapter, we explore the dynamics of **COVID-19** disease
 outbreaks in more details. We examine the results of various model's
 applications that simulate the spread of the virus.
@@ -171,8 +171,8 @@ First, we use the **SEIR model** function to simulate the spread of the
 disease. The model compartments are: the number of susceptible (S), the
 exposed (E), the infected (I), and R represents the number of recovered
 individuals. The parameters of the model are the transmission rate
-$(\beta)$ and the recovery rate $(\gamma)$, $(t_{exp})$ the latent period,
-and $(N)$ is the total population.
+$(\beta)$ and the recovery rate $(\gamma)$, $(t_{exp})$ the latent
+period, and $(N)$ is the total population.
 
 ```{r}
 library(deSolve)
@@ -208,7 +208,6 @@ result <- ode(y = init, times = times, func = seir_model)
 result %>% head()
 ```
 
-
 ```{r}
 #| fig-width: 5
 #| fig-height: 3
@@ -224,26 +223,42 @@ ggplot(as.data.frame(result), aes(time, I, color = "Infected")) +
   scale_color_discrete(name = "Compartment") +
   labs(x = "Time (days)", y = "Number of individuals")
 ```
+
 In reality, the spread of a virus is much more complex and influenced by
 many factors such as human behavior, government policies, healthcare
 systems, vaccination campaigns, and human contact.
 
 ### Bayesian Analysis
 
-The use of **Bayesian analysis**\index{Bayesian analysis} in modelling infectious diseases offers several advantages in understanding and predicting the
-dynamics of the spread. We implement a Bayesian regression model for COVID-19 cases using the `{brms}` package, which is an interface of **Stan** for Bayesian
-analysis. The source for **Stan** is available at
-<https://mc-stan.org/>. 
+The use of **Bayesian analysis**\index{Bayesian analysis} in modelling
+infectious diseases offers several advantages in understanding and
+predicting the dynamics of the spread. We implement a Bayesian
+regression model for COVID-19 cases using the `{brms}` package, which is
+an interface of **Stan** for Bayesian analysis. The source for **Stan**
+is available at <https://mc-stan.org/>.
 
-The application of Bayesian analysis allows us to estimate the regression coefficients for the lag-1 and lag-7 cases, which can help predict the number of infected individuals over time, with the flexibility to incorporate prior knowledge and uncertainties into the model.
+The application of Bayesian analysis allows us to estimate the
+regression coefficients for the lag-1 and lag-7 cases, which can help
+predict the number of infected individuals over time, with the
+flexibility to incorporate prior knowledge and uncertainties into the
+model.
 
 The model is specified as follows:
 
 $$I_t \sim \text{Normal}(\beta \times I_{t-1} + \gamma \times I_{t-7}, \sigma)$$
 
-where $I_t$ is the number of infected individuals at time $t$, $\beta$ is the regression coefficient for the lag-1 cases, $\gamma$ is the regression coefficient for the lag-7 cases, and $\sigma$ is the error term. The model assumes that the number of infected individuals at time $t$ is normally distributed around the predicted value based on the number of cases at times $t-1$ and $t-7$.
+where $I_t$ is the number of infected individuals at time $t$, $\beta$
+is the regression coefficient for the lag-1 cases, $\gamma$ is the
+regression coefficient for the lag-7 cases, and $\sigma$ is the error
+term. The model assumes that the number of infected individuals at time
+$t$ is normally distributed around the predicted value based on the
+number of cases at times $t-1$ and $t-7$.
 
-We can specify the prior distributions for $\beta$ and $\gamma$ using expert knowledge and available data. For example, we might specify a gamma distribution with a mean of 0.1 and a standard deviation of 0.05 for $\beta$, and a gamma distribution with a mean of 0.05 and a standard deviation of 0.02 for $\gamma.
+We can specify the prior distributions for $\beta$ and $\gamma$ using
+expert knowledge and available data. For example, we might specify a
+gamma distribution with a mean of 0.1 and a standard deviation of 0.05
+for $\beta$, and a gamma distribution with a mean of 0.05 and a standard
+deviation of 0.02 for \$\gamma.
 
 ```{r}
 result <- as.data.frame(result)
@@ -274,16 +289,17 @@ regression model to the data by specifying the outcome variable `I`
 (number of infected individuals) and the predictors `day_of_week`,
 `week_of_year`, `month`, `lag_1_cases`, and `lag_7_cases`. We use a
 Gaussian likelihood function and specify prior distributions for the
-regression coefficients and the error term. The **Stan algorithm** is used
-to sample from the posterior distribution of the model parameters. In
-particular, we use a **normal prior distribution** with a mean of 0 and
-standard deviation of 10 for the regression coefficients and a **Cauchy
-prior distribution** with a scale of 5 for the error term. 
+regression coefficients and the error term. The **Stan algorithm** is
+used to sample from the posterior distribution of the model parameters.
+In particular, we use a **normal prior distribution** with a mean of 0
+and standard deviation of 10 for the regression coefficients and a
+**Cauchy prior distribution** with a scale of 5 for the error term.
 
-The decision to use a normal and a Cauchy prior is based on the properties of the data and the model assumptions. In this case, we assume that the regression
-coefficients are normally distributed around 0 with a standard deviation
-of 10, and the error term is distributed according to a Cauchy
-distribution with a scale of 5.
+The decision to use a normal and a Cauchy prior is based on the
+properties of the data and the model assumptions. In this case, we
+assume that the regression coefficients are normally distributed around
+0 with a standard deviation of 10, and the error term is distributed
+according to a Cauchy distribution with a scale of 5.
 
 The model is run for 2000 iterations with a `warmup` of 1000 iterations
 and 4 chains. The reason for the warmup is to allow the **Markov Chain
@@ -406,7 +422,10 @@ ggplot(data = cv19_data_pred, aes(x = date)) +
 
 ### Ensemble Modelling - Combining Multiple Models
 
-We have been able to simulate the spread of COVID-19 using the SEIR and predict the spread using the Bayesian regression model. However, combining the predictions of multiple models can provide more accurate and robust forecasts. This technique is known as **ensemble modelling**.
+We have been able to simulate the spread of COVID-19 using the SEIR and
+predict the spread using the Bayesian regression model. However,
+combining the predictions of multiple models can provide more accurate
+and robust forecasts. This technique is known as **ensemble modelling**.
 
 Ensemble modelling combines the predictions of multiple models to
 improve the overall accuracy and robustness of predictions. This
@@ -419,10 +438,16 @@ accurate and stable predictions by averaging the results of individual
 models or using more sophisticated techniques such as **stacking** or
 **boosting**.
 
-For example, ensemble models have been used to predict confirmed COVID-19 cases and provide short-term forecasts by integrating multiple model types. Other methods combine sub-epidemic models over various forecasting periods to enhance prediction accuracy[@chowell2022].
+For example, ensemble models have been used to predict confirmed
+COVID-19 cases and provide short-term forecasts by integrating multiple
+model types. Other methods combine sub-epidemic models over various
+forecasting periods to enhance prediction accuracy[@chowell2022].
 
-In this example, we use the `{tidymodels}` meta-package and other key packages such as `{modeltimes}`, and `{stacks}` to combine different types of models. We will use:
-Decision Tree, Random Forest, K-Nearest Neighbors (KNN), and Support Vector Machines (SVM) models to combine and predict the spread of COVID-19 cases.
+In this example, we use the `{tidymodels}` meta-package and other key
+packages such as `{modeltimes}`, and `{stacks}` to combine different
+types of models. We will use: Decision Tree, Random Forest, K-Nearest
+Neighbors (KNN), and Support Vector Machines (SVM) models to combine and
+predict the spread of COVID-19 cases.
 
 ```{r}
 library(tidymodels)
@@ -430,7 +455,11 @@ library(modeltime)
 library(stacks)
 ```
 
-We start by splitting the data into training and testing sets using the `initial_split()` function from the `{rsample}` package. The training set will be used to train the models, while the testing set will be used to evaluate the models' performance.
+We start by splitting the data into training and testing sets using the
+`initial_split()` function from the `{rsample}` package. The training
+set will be used to train the models, while the testing set will be used
+to evaluate the models' performance.
+
 ```{r}
 # Split the data into training and testing sets
 cv_split <- initial_split(cv19_data, prop = 0.8)
@@ -438,22 +467,31 @@ cv_train <- training(cv_split)
 cv_test <- testing(cv_split)
 ```
 
-Create a `vfold_cv()` object for cross-validation with 10 folds. This object will be used to evaluate the models' performance during training. 
+Create a `vfold_cv()` object for cross-validation with 10 folds. This
+object will be used to evaluate the models' performance during training.
+
 ```{r}
 set.seed(1001)
 cv_folds <- vfold_cv(cv_train, v = 10)
 ```
 
-We also define a recipe to preprocess the data, including log transformation and dummy encoding of categorical variables. The recipe is then used to create a workflow that combines the preprocessing steps with the model specifications.
+We also define a recipe to preprocess the data, including log
+transformation and dummy encoding of categorical variables. The recipe
+is then used to create a workflow that combines the preprocessing steps
+with the model specifications.
+
 ```{r}
 cv_recipe <- recipe(I ~ ., data = cv_train) %>%
   step_scale(all_numeric(), -all_outcomes()) %>%
   step_dummy(all_nominal(), -all_outcomes()) 
 ```
 
-To check the output of the recipe transformation: `cv_recipe %>% prep() %>% juice()`
+To check the output of the recipe transformation:
+`cv_recipe %>% prep() %>% juice()`
 
-Define the models' specifications with the parameters to tune, and the engine to use:
+Define the models' specifications with the parameters to tune, and the
+engine to use:
+
 ```{r}
 # Decision Tree
 cart <- decision_tree(cost_complexity = tune(), 
@@ -480,7 +518,9 @@ svm <- svm_rbf(cost = tune(),
   set_mode("regression")
 ```
 
-Then, create a `workflow_set()` that combines the predictions of different models:
+Then, create a `workflow_set()` that combines the predictions of
+different models:
+
 ```{r}
 cv_wkf <- workflow_set(
   preproc = list(id = cv_recipe),
@@ -493,7 +533,14 @@ cv_wkf <- workflow_set(
 cv_wkf
 ```
 
-Create a `workflow_map()` to fit the models to the training data. We use the `{finetune}` package to use the `tune_race_anova` function to tune the hyperparameters of the models. The `race_ctrl` object specifies the control parameters for the tuning process, such as the number of resamples and the grid size. The `parallel_over` argument allows the tuning process to run in parallel over multiple cores for faster computation.
+Create a `workflow_map()` to fit the models to the training data. We use
+the `{finetune}` package to use the `tune_race_anova` function to tune
+the hyperparameters of the models. The `race_ctrl` object specifies the
+control parameters for the tuning process, such as the number of
+resamples and the grid size. The `parallel_over` argument allows the
+tuning process to run in parallel over multiple cores for faster
+computation.
+
 ```{r}
 # Fit the models to the training data
 library(finetune)
@@ -517,7 +564,11 @@ race_results <- cv_wkf %>%
 race_results
 ```
 
-Then we collect the metrics for the models to evaluate their performance. We filter the results for the root mean squared error (`rmse`) and arrange them in ascending order to identify the best-performing model.
+Then we collect the metrics for the models to evaluate their
+performance. We filter the results for the root mean squared error
+(`rmse`) and arrange them in ascending order to identify the
+best-performing model.
+
 ```{r}
 rmse <- collect_metrics(race_results) %>% 
   filter(.metric == "rmse") %>%
@@ -527,7 +578,9 @@ rmse <- collect_metrics(race_results) %>%
 rmse
 ```
 
-Plot the root mean squared error (`rmse`) values for the models to visualize their performance.
+Plot the root mean squared error (`rmse`) values for the models to
+visualize their performance.
+
 ```{r}
 #| label: fig-rmse
 #| fig-cap: "Root Mean Squared Error (RMSE) for Models"
@@ -539,9 +592,12 @@ rmse %>%
        x = "Model", y = "RMSE") 
 ```
 
-The results of the race show that the Random Forest model has the lowest `rmse` value, indicating better performance compared to the other models. 
+The results of the race show that the Random Forest model has the lowest
+`rmse` value, indicating better performance compared to the other
+models.
 
 Extract the model's estimations:
+
 ```{r}
 #| label: fig-race-predictions
 #| fig-cap: "Actual vs. Predicted COVID-19 Cases"
@@ -556,9 +612,13 @@ race_results %>%
   geom_abline() 
 ```
 
-The plot shows the actual vs. predicted values for COVID-19 cases using the different models. The Random Forest model appears to have the best fit to the data, closely following the 45-degree line, indicating accurate predictions.
+The plot shows the actual vs. predicted values for COVID-19 cases using
+the different models. The Random Forest model appears to have the best
+fit to the data, closely following the 45-degree line, indicating
+accurate predictions.
 
 So, let's see how combined predictions look like:
+
 ```{r}
 #| label: fig-ensemble-predictions
 #| fig-cap: "Ensemble Predictions of COVID-19 Cases"
@@ -572,7 +632,10 @@ race_results %>%
   geom_abline()
 ```
 
-Finally, we can combine the predictions of the models using the `{stacks}` package to create an ensemble model. The `stack()` function combines the predictions of the models using a meta-learner, such as a linear regression model, to produce a final prediction.
+Finally, we can combine the predictions of the models using the
+`{stacks}` package to create an ensemble model. The `stack()` function
+combines the predictions of the models using a meta-learner, such as a
+linear regression model, to produce a final prediction.
 
 ```{r}
 cv_stack <- stacks() %>% 
@@ -581,12 +644,12 @@ cv_stack
 ```
 
 Blend the predictions of the models:
+
 ```{r}
 set.seed(2001)
 cv_ens <- blend_predictions(cv_stack)
 cv_ens
 ```
-
 
 ```{r}
 #| label: fig-ensemble-weights
@@ -606,7 +669,6 @@ cv_ens_test_pred <-
   bind_cols(cv_test)
 ```
 
-
 ```{r}
 #| label: fig-ensemble-predictions2
 #| fig-cap: "Ensemble Predictions of COVID-19 Cases"
@@ -616,7 +678,7 @@ cv_ens_test_pred %>%
   geom_point(alpha=0.5) +
   geom_abline()
 ```
- 
+
 In summary, integrating machine learning models and advanced statistical
 techniques such as Bayesian analysis and ensemble modelling can
 significantly enhance our ability to predict and understand the spread

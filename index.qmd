@@ -25,10 +25,10 @@ visualization and modelling.
 
 Think of it as a toolbox for assessing the health of a country and
 comparing it with others. You will also learn how to select the best
-tools for predicting future health trends using statistics, visualizing
-data, and working with maps in the R programming language.
+tools for predicting health trends using statistics, visualizing data,
+and working with maps in the R programming language.
 
-Consider this book your guide to understanding the health status of a
+Consider this book as your guide to understanding the health status of a
 population at both global and country levels, leveraging expertise in
 managing various statistical tools.
 

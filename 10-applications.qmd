@@ -8,21 +8,21 @@ book_theme <- theme_minimal() +
 ggplot2::theme_set(book_theme)
 ```
 
-::: solutionbox
-::: solutionbox-header
+:::::: solutionbox
+:::: solutionbox-header
 ::: solutionbox-icon
 :::
 
 Learning Objectives
-:::
+::::
 
 ::: solutionbox-body
 -   Overview of the basic plots for visualizing predictions and outcomes
 -   How to customize a plot using colors, palettes, legends, and guides
 -   Tell the story with data through plot layouts and saving as an image
 :::
-:::
-
+::::::
+\
 This chapter is an essential part of the data visualization section, it
 focus on how to effectively interpret and utilize the results from
 machine learning models in the context of health metrics and infectious
@@ -45,7 +45,7 @@ decision-making, and communicate findings to various stakeholders.
 
 ## Practical Insights and Examples
 
-### Example 1: Visualizing COVID-19 Data
+### Example: Visualizing COVID-19 Data
 
 Data is from the **ECDC (European Centre for Disease Prevention and
 Control)**, data is updated daily. The data includes information on the
@@ -183,7 +183,7 @@ covid19.TS.deaths %>%
   head()
 ```
 
-### Example 2: Ischemic Stroke Decision Tree
+### Example: Ischemic Stroke Decision Tree
 
 In this example we have a look at hoe to visualize the results of a
 decision tree model for predicting Ischemic Stroke.

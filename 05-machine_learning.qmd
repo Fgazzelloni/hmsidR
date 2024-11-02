@@ -216,6 +216,7 @@ system is intended as model development. At the heart of this process is
 the application of a model function to estimate coefficients that
 minimize the difference between the model's predictions and the observed
 data.
+
 ```{r}
 #| echo: false
 #| eval: false
@@ -243,7 +244,9 @@ digraph model_building {
 ")
 ```
 
-![Model Building Process](images/05_model_building_flowchart.png){#fig-model-building_flowchart fig-align="center" width="50%" fig-alt="model-building process"}
+![Model Building
+Process](images/05_model_building_flowchart.png){#fig-model-building_flowchart
+fig-align="center" width="50%" fig-alt="model-building process"}
 
 Let's break this down further: Suppose we have a response variable,
 denoted as $y$, which represents the number of deaths or infections in
@@ -287,7 +290,7 @@ given system. It enables us to extract insights from the data, make
 predictions, and inform decision-making in various fields, including
 epidemiology, public health, economics, and environmental science.
 
-### Example 1: Cholera
+### Example: Cholera
 
 The first dataset used is from the `{HistData}` package
 `HistData::CholeraDeaths1849`, made of
@@ -583,7 +586,7 @@ model. Other important factors influencing the spread are social
 behavior and vaccination. We will talk more about infectious diseases
 spread in section 4 @sec-13-infectious_diseases.
 
-### Example 2: Epidemic X {#sec-05-epidemic-x}
+### Example: Epidemic X {#sec-05-epidemic-x}
 
 #### SEIR Model
 
@@ -997,7 +1000,7 @@ augumented %>%
     x = "Time (Day)", y = "Obesrved vs Estimated values")
 ```
 
-### Example 3: Epidemic Y
+### Example: Epidemic Y
 
 #### INLA: an empirical Bayes approach to GAMs
 

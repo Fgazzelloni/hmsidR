@@ -23,6 +23,7 @@ Learning Objectives
 :::
 ::::::
 
+\
 The objective of this chapter is to provide a first level calculation of
 the burden of diseases, focusing on disability and premature mortality,
 which are captured by DALYs and HALE. In @sec-01-health_metrics, we
@@ -1024,7 +1025,12 @@ comprehensive measure of population health. These metrics are invaluable
 tools for public health practitioners, policymakers, and researchers in
 their quest to improve global health outcomes.
 
-As we confront new global health challenges like pandemics, aging populations, and climate-related health risks, traditional metrics like DALYs and QALYs are evolving to meet new approaches to capture the complexity of health outcomes. The inclusion of well-being, resilience, and mental health is becoming increasingly essential to understanding the full impact of health conditions on individuals and populations.
+As we confront new global health challenges like pandemics, aging
+populations, and climate-related health risks, traditional metrics like
+DALYs and QALYs are evolving to meet new approaches to capture the
+complexity of health outcomes. The inclusion of well-being, resilience,
+and mental health is becoming increasingly essential to understanding
+the full impact of health conditions on individuals and populations.
 
 In the next chapter (@sec-03-components), we will delve deeper into the
 components and variations of these metrics, further enhancing our

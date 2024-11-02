@@ -33,7 +33,7 @@ to capture and improve well-being. It emphasizes the need for a holistic
 approach that considers not only physical health but also the social,
 cultural, and psychological dimensions of individuals and communities.
 
-Achieving a global mean or standard for well-being involves considering
+Achieving a global mean or standard for well-being involves considering,
 not just the diversity of cultures but also acknowledging the common
 elements that contribute to human happiness and health. Behavioral
 education, more specifically the process of teaching individuals how to
@@ -81,7 +81,13 @@ and `{INLA}` for modelling, but other machine learning packages like
 
 In practice, the data will include information about humanity such as
 age, sex, life expectancy, mortality, and risk levels. The interesting
-part is related to the identification of insights from past outbreaks to predict and manage future ones. This is done through a process called *model transfer*. Imagine each outbreak as a story with unique but similar events, like the spread patterns and impacts of diseases. By studying these *stories*, models can be built to capture key factors influencing outbreaks, such as transmission rates, environmental triggers, and population behaviors[@roster2022]. 
+part is related to the identification of insights from past outbreaks to
+predict and manage future ones. This is done through a process called
+*model transfer*. Imagine each outbreak as a story with unique but
+similar events, like the spread patterns and impacts of diseases. By
+studying these *stories*, models can be built to capture key factors
+influencing outbreaks, such as transmission rates, environmental
+triggers, and population behaviors[@roster2022].
 
 A focus on the impact of recent infectious disease outbreaks, such as
 SARS-Covid19, on the state of health of the population, will be provided
@@ -129,49 +135,72 @@ this important field[@murray2008].
 
 ### Navigating the Chapters and Key Concepts
 
-**First Section**: **Metrics and Evaluation** is introductory explaining
-the health metrics definition at first level. @sec-01-health_metrics
-provides an overview of the metrics, history, development, and usage
-over time. In @sec-02-method_calculation there is a first level
-calculation of the metrics, including Disability Adjusted Life Years
-(DALYs) and its components: Years of Life Lost (YLLs) and Years Lived
-with Disabilities (YLDs), and HALE. which represents a further
-improvement in the development of health metrics and in evaluating the
-health status of a population. @sec-03-components examines the key
-building blocks of the health metrics, crucial for ensuring consistency
-in the calculation of the health status of a population. This includes
-life tables, life expectancy, mortality levels, incidence and
-prevalence, and disability weights. This chapter is supplemented by
-@sec-appendixA, where the underlying calculations are further explained.
-@sec-04-causes_risks evaluates the that influence the metrics,
-identifying major threats that contribute to an increase in the number
-of years of life lost or lived with disabilities. This discussion
-encourages the exploration of alternative solutions for prevention and
-health policy development.
+**First Section: Metrics and Evaluation**
 
-**Second Section:** **Machine Learning** offers a more in-depth
-exploration of metrics evaluation through modeling techniques and
-R-packages overviews. @sec-05-machine_learning guide the reader to the
-use of ML models. @sec-06-techniques provides an overview of different
-types of models suitable for use. @sec-07-packages lists recommended R
-packages for modelling while providing application to case studies. And
-@sec-08-predictions focuses on predictive modelling.
+The **Metrics and Evaluation** section introduces the foundational
+concepts of health metrics. @sec-01-health_metrics (**Introduction to
+Health Metrics**), provides an overview of the definitions, historical
+context, and development of health metrics over time.
+@sec-02-method_calculation (**Methods and Calculations**) is a first
+level calculation of the metrics, including Disability-Adjusted Life
+Years (DALYs) and their components: Years of Life Lost (YLLs) and Years
+Lived with Disability (YLDs), along with Healthy Life Expectancy (HALE),
+which represents an advanced development in assessing population health.
+@sec-03-components (**Metrics Components**) examines essential building
+blocks for maintaining consistency in population health calculations,
+covering life tables, life expectancy, mortality rates, incidence,
+prevalence, and disability weights. This chapter is complemented by
+@sec-appendixA, where detailed calculations are further explained.
+@sec-04-causes_risks (**Causes and Risks**) evaluates the factors
+influencing these metrics and identifies major threats that increase
+YLLs and YLDs, stimulating exploration of preventive strategies and
+policy development.
 
-**Third Section: Data Visualization** equips the user with the tools for
-being able to customize plots and maps. @sec-09-data_visualization
-covers the history of data visualization and application in R.
-@sec-10-applications discusses more about customizing visualizations.
-@sec-11-spatials teaches how to make a map. @sec-12-examples provides
-more examples.
+**Second Section: Machine Learning**
 
-**Fourth Section: Infectious Diseases** begins with an Introduction to
-infectious diseases, followed by two case studies: @sec-14-covid19 and
-the @sec-15-malaria. The final @sec-16-summary illustrates how
-infectious diseases affect population health metrics.
+The **Machine Learning** section offers a deeper dive into evaluating
+health metrics using modeling techniques and provides an overview of R
+packages. @sec-05-machine_learning (**Introduction to Machine
+Learning**) guides readers on how to utilize machine learning models in
+health metrics analysis. @sec-06-techniques (**Techniques for Machine
+Learning Applications**) covers various types of models appropriate for
+health data. @sec-07-packages (**Essential R Packages for Machine
+Learning**) lists useful R packages for modeling, paired with case study
+applications to illustrate practical use. @sec-08-predictions
+(**Predictive Modeling and Beyond**) focuses on applying predictive
+models to forecast health outcomes and trends.
 
-**Conclusion** - The tools introduced in this book act as a powerful
-key, unlocking the structures of unknown patterns through the
-application of transfer learning techniques by using models designed for
-one phenomenon to predict another, this approach enables users to
-navigate and understand previously uncharted territories in a diverse
-range of scenarios. 
+**Third Section: Data Visualization**
+
+The **Data Visualization** section equips readers with the knowledge to
+create and customize plots and maps in R. @sec-09-data_visualization
+(**Introduction to Data Visualization**) discusses the history and
+application of data visualization techniques in R. @sec-10-applications
+(**Interpreting Model Results Through Visualization**) provides detailed
+methods for tailoring visual representations to enhance data
+interpretation. @sec-11-spatials (**Spatial Data Modelling and
+Visualization**) instructs on how to create informative maps, while
+@sec-12-examples (**Advanced Data Visualization Techniques**) presents
+practical examples to reinforce learning.
+
+**Fourth Section: Infectious Diseases**
+
+The **Infectious Diseases** section starts with
+@sec-13-infectious_diseases (**Introduction to Infectious Diseases**)
+setting the stage for detailed case studies. @sec-14-covid19 (**COVID-19
+Outbreaks**) and @sec-15-malaria (**The Case of Malaria**) provide
+in-depth analysis of COVID-19 and malaria, illustrating how these
+diseases impact population health metrics. The section concludes with
+@sec-16-summary **(Summary: The State of Health)**, comparing countries
+and regions to evaluate health status.
+
+**Conclusion**
+
+The tools and methods introduced in this book serve as a foundation for
+a deeper understanding of health metrics and evaluation. The book aims
+to empower readers to apply these concepts to real-world scenarios,
+fostering a culture of data-driven decision-making in health policy and
+practice. By combining theoretical knowledge with practical skills,
+readers can develop a comprehensive understanding of health metrics and
+their applications, contributing to the advancement of public health
+research and policy.
