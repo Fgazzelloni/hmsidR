@@ -22,10 +22,9 @@ Learning Objectives
 -   Causal inference
 :::
 ::::::
-
 \
-\> **"...fear is the most pervasive emotion of modern society..."** \>
-[@bourke2007]
+
+>**"...fear is the most pervasive emotion of modern society..."[@bourke2007]**
 
 What qualifies as a risk\index{risk} is subject to dynamic social change
 [@li2020] , as well as the perception of risk has evolved over time,
@@ -205,9 +204,9 @@ $$
 RR= \frac{p_0}{p_1}
 $$ {#eq-rr}
 
-where $p_1$ and $p_0$ are the proportions of exposed and unexposed groups
-respectively. Or, in terms of population, these group would approx the
-values of the real population:
+where $p_1$ and $p_0$ are the proportions of exposed and unexposed
+groups respectively. Or, in terms of population, these group would
+approx the values of the real population:
 
 $$
 RR = \frac{p_1}{p_0}=\frac{d_1/n_1}{d_0/n_0}
@@ -314,7 +313,8 @@ compare multiple treatments while accounting for various factors and
 dependencies. The relationship between variables, represented by nodes
 and edges, considers the potential interactions or dependencies between
 different risk factors and outcomes. This approach is generally
-favourable when exploring complex relationships among multiple variables.
+favourable when exploring complex relationships among multiple
+variables.
 
 To represent the network we can use a **Directed Acyclic Graph
 (DAG)**\index{DAG} for drawing causal relationships between variables,
@@ -376,8 +376,8 @@ plot(g,
 
 The following code shows one more example of a network graph that would
 be helpful to identify the relationship between outcome (O), exposure
-(E) and different risk factors made with the `{ggdag}` package and
-the `dagify()` function.
+(E) and different risk factors made with the `{ggdag}` package and the
+`dagify()` function.
 
 ```{r}
 #| echo: true
@@ -490,9 +490,9 @@ exposure is established for the risk to be considered involved as
 effective in the outcome.
 
 Moreover, disease attributable to a particular risk factor or
-combination of risk factors\index{risk factors} need to be ascertained by
-investigating the risk-outcome relationship. Risk factors can also act
-indirectly on the outcome via intermediate risks, such as the
+combination of risk factors\index{risk factors} need to be ascertained
+by investigating the risk-outcome relationship. Risk factors can also
+act indirectly on the outcome via intermediate risks, such as the
 association of low fruit consumption and heart disease influenced by
 systolic blood pressure which acts as mediator between the two.
 
@@ -625,10 +625,10 @@ fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"}
 Performing causal inference\index{causal inference} requires setting up
 an experiment, where there are **treatment** and **outcome** elements.
 The *treatment* is the intervention applied to the data. For example, to
-confirm the statement that *regular exercise leads to improved cardiovascular
-health*, an intervention may be designed to introduce another variable,
-such as regular fruit consumption, and observe its combined effect with
-exercise on cardiovascular health.
+confirm the statement that *regular exercise leads to improved
+cardiovascular health*, an intervention may be designed to introduce
+another variable, such as regular fruit consumption, and observe its
+combined effect with exercise on cardiovascular health.
 
 In this investigation, the primary factors are exercise and fruit
 intake. The goal is to examine whether their combination improves
