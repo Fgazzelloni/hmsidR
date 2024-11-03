@@ -51,7 +51,7 @@ In the field of public health, the latest GBD\index{GBD} results reveal
 significant insights into the causes\index{causes} and risks associated
 with health metrics\index{health metrics} and infectious
 diseases\index{infectious diseases}. The primary risks identified
-include behavioral, environmental, occupational, and metabolic factors.
+include behavioural, environmental, occupational, and metabolic factors.
 
 ## Conditions and Injuries
 
@@ -71,7 +71,7 @@ risk factors include:
 -   **Poverty**: People living in poverty are often more susceptible to
     health problems due to limited access to healthcare, healthy food,
     and safe living conditions.
--   **Aging**\index{aging}: As people get older, they are at an
+-   **Ageing**\index{aging}: As people get older, they are at an
     increased risk of many health problems, including chronic diseases
     and disabilities.
 -   **Genetics**: Some diseases and injuries are caused by genetic
@@ -105,7 +105,7 @@ A particular health condition can have multiple causes
 poverty status and the lack of access to healthcare facilities, is
 proven to be increasing the risk of infectious diseases, while poor diet
 and physical inactivity can increase the risk of chronic diseases.
-Acting in favor of addressing the *underlying causes and risk
+Acting in favour of addressing the *underlying causes and risk
 factors*\index{risk factors} for diseases and injuries is crucial for
 prompt public health interventions and can help reduce the overall
 burden of disease.
@@ -114,7 +114,7 @@ burden of disease.
 
 In health metrics, *risk* refers to the likelihood that an individual
 will experience a specific health outcome, such as illness or injury,
-due to certain behaviors, exposures, or conditions. Risk factors are
+due to certain behaviours, exposures, or conditions. Risk factors are
 variables that increase the probability of developing a particular
 health condition or experiencing an adverse health outcome; they are
 measurable probabilities influenced by factors like lifestyle (e.g.,
@@ -134,9 +134,9 @@ assess risks and their impact on health outcomes:
 ### Risk-Specific Exposures
 
 The quantification of risks and causes involves the evaluation of a set
-of behavioral, environmental and occupational, and metabolic risks.
+of behavioural, environmental and occupational, and metabolic risks.
 Pairs of risk-outcome are investigated based on observations and
-statistical evidences. Convincing evidences consist of plausible
+statistical evidence. Convincing evidence consists of plausible
 associations between exposure and disease in terms of size, duration and
 effects. Common examples of risk exposures in health metrics include:
 smoking, physical inactivity, high blood pressure (hypertension), and
@@ -150,7 +150,7 @@ pairs, this action is generally identified as possible
 the causal pathway between exposure and outcome.
 
 To have an idea of the impact of different risk factors on a cause of
-illness, the **Socio-demographic Index (SDI)**\index{SDI} provide
+illness, the **Socio-demographic Index (SDI)**\index{SDI} provides
 insights into the potential magnitude of social, cultural and
 demographic factors looking at the risk exposures and possible paths for
 policy interventions. The life expectancy level is closely correlated to
@@ -192,8 +192,8 @@ To calculate the risk-outcome pairs, such as mortality and morbidity,
 the attributable burden of a risk is decomposed to identify the impact
 on disease burden across factors like location, age, sex, and specific
 causes of disease[@murray2020]. This decomposition considers the
-combined effect of all risk exposures, which are categorized into
-metabolic, behavioral, and environmental risk factors. Each category
+combined effect of all risk exposures, which are categorised into
+metabolic, behavioural, and environmental risk factors. Each category
 contributes distinctly to the overall health outcome, enabling a nuanced
 understanding of how multiple exposures collectively influence disease
 burden and health outcomes.
@@ -205,7 +205,7 @@ $$
 RR= \frac{p_0}{p_1}
 $$ {#eq-rr}
 
-where $p_1$ and $p_0$ are the proportions of exposed and unexposed group
+where $p_1$ and $p_0$ are the proportions of exposed and unexposed groups
 respectively. Or, in terms of population, these group would approx the
 values of the real population:
 
@@ -307,14 +307,14 @@ formulas:
 
 ### Relative Risks and Network Analysis
 
-In some cases, relative risks can be modeled using **network
-analysis**\index{network analysis}, a specialized approach within
-statistical modelling which extend the concept of mixed effects to
+In some cases, relative risks can be modelled using **network
+analysis**\index{network analysis}, a specialised approach within
+statistical modelling which extends the concept of mixed effects to
 compare multiple treatments while accounting for various factors and
 dependencies. The relationship between variables, represented by nodes
-and edges consider the potential interactions or dependencies between
+and edges, considers the potential interactions or dependencies between
 different risk factors and outcomes. This approach is generally
-favorable when exploring complex relationships among multiple variables.
+favourable when exploring complex relationships among multiple variables.
 
 To represent the network we can use a **Directed Acyclic Graph
 (DAG)**\index{DAG} for drawing causal relationships between variables,
@@ -323,7 +323,7 @@ such as the relationship between health risks and diseases.
 This is an example of a **network graph** representing the causal
 pathways between different variables, such as smoking, physical
 inactivity, high blood pressure, lung cancer, heart disease, and stroke.
-By visualizing the relationships between these variables, we can
+By visualising the relationships between these variables, we can
 identify the direct and indirect effects of risk factors on health
 outcomes.
 
@@ -376,7 +376,7 @@ plot(g,
 
 The following code shows one more example of a network graph that would
 be helpful to identify the relationship between outcome (O), exposure
-(E) and different risk factors is made with the `{ggdag}` package and
+(E) and different risk factors made with the `{ggdag}` package and
 the `dagify()` function.
 
 ```{r}
@@ -460,7 +460,7 @@ relative_risk <- pr_outcome_exp / pr_outcome_no_exp
 
 data$relative_risk <- relative_risk
 
-# Visualize relative risk distribution
+# visualise relative risk distribution
 ggplot(data = data, aes(x = relative_risk)) +
   geom_histogram(binwidth = 0.2,
                  fill = "#29306c",
@@ -490,7 +490,7 @@ exposure is established for the risk to be considered involved as
 effective in the outcome.
 
 Moreover, disease attributable to a particular risk factor or
-combination of risk factors\index{risk factors} need to be ascertain
+combination of risk factors\index{risk factors} need to be ascertained by
 investigating the risk-outcome relationship. Risk factors can also act
 indirectly on the outcome via intermediate risks, such as the
 association of low fruit consumption and heart disease influenced by
@@ -528,8 +528,8 @@ Organization (WHO) guidelines. For smoking, the TMREL is set at zero, as
 any level of smoking is associated with increased health risks.
 
 In terms of **Disability-Adjusted Life Years (DALYs)**, the overall
-level is significantly influenced by behavioral, environmental, and
-occupational risks. Behavioral risks, such as smoking and physical
+level is significantly influenced by behavioural, environmental, and
+occupational risks. Behavioural risks, such as smoking and physical
 inactivity, and environmental exposures, like air pollution, contribute
 heavily to DALYs by increasing both mortality and disability rates
 within affected populations. Occupational risks further add to the
@@ -622,24 +622,24 @@ digraph causal_inference {
 Flowchart](images/04_causal_inference_flowchart.png){#fig-causal_inference
 fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"}
 
-Performing casual inference\index{causal inference} requires setting up
+Performing causal inference\index{causal inference} requires setting up
 an experiment, where there are **treatment** and **outcome** elements.
 The *treatment* is the intervention applied to the data. For example, to
-confirm the statement *regular exercise leads to improved cardiovascular
+confirm the statement that *regular exercise leads to improved cardiovascular
 health*, an intervention may be designed to introduce another variable,
 such as regular fruit consumption, and observe its combined effect with
 exercise on cardiovascular health.
 
 In this investigation, the primary factors are exercise and fruit
 intake. The goal is to examine whether their combination improves
-cardiovascular health. Once the intervention is analyzed by measuring
+cardiovascular health. Once the intervention is analysed by measuring
 changes in cardiovascular health (the response variable), the next step
 is to apply a control procedure, often using a **counterfactual**
 scenario. This approach helps assess what might have happened in the
 absence of the treatment, providing a benchmark to confirm the
 treatment’s true effect.
 
-## Summarizing the Relationship Between Risk and Outcome
+## Summarising the Relationship Between Risk and Outcome
 
 The relationship between risk and outcome in epidemiology is central to
 understanding the causes of disease and guiding preventive strategies.
@@ -686,7 +686,7 @@ risk_measures <- data.frame(
   Definition = c(
     "Measures the likelihood of an outcome occurring in an exposed group relative to a non-exposed group.",
     "Estimates the proportion of disease cases that could be prevented if a specific risk factor were eliminated.",
-    "Represents the ideal level of exposure to a risk factor that minimizes adverse health effects."
+    "Represents the ideal level of exposure to a risk factor that minimises adverse health effects."
   ),
   
   Example = c(

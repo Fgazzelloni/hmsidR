@@ -6,10 +6,10 @@
 
 Health metrics\index{health metrics} are key variables to understanding
 the state of health of a population. In this first section of the book
-we'll explore about the history of these metrics, how to calculate them,
-and how to account for their variation due to causes and risks. We will
+we'll explore the history of these metrics, how to calculate them, and
+how to account for their variation due to causes and risks. We will
 examine the components of these metrics and the challenges in providing
-standardized values for global comparison. Additionally, in the
+standardised values for global comparison. Additionally, in the
 following sections, we will learn how to build a model, evaluate the
 effect of infectious disease spread on health metrics, and how it
 impacts the overall health status of a population.
@@ -39,10 +39,10 @@ timeline <- tibble(
   ),
   text = c(
     "The concept of health metrics can be traced back to ancient civilizations where observations on life expectancy, birth rates, and mortality were made. However, these were often anecdotal and lacked systematic measurement.",
-    "In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analyzed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
-    "The 19th century saw the development of life tables, providing a systematic approach to analyzing mortality and life expectancy. This period marked a transition from descriptive observations to more structured methods in health metrics.",
+    "In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analysed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
+    "The 19th century saw the development of life tables, providing a systematic approach to analysing mortality and life expectancy. This period marked a transition from descriptive observations to more structured methods in health metrics.",
     "QALYs, another important health metric, emerged in the late 20th century as a measure combining both the quality and quantity of life lived. QALYs are commonly used in health economics and healthcare decision-making.",
-    "A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health Organization (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
+    "A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health organisation (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
     "The GBD Study introduced DALYs as a metric in 1990. DALYs combine years of life lost due to premature mortality and years lived with disability, providing a comprehensive measure of disease burden. This metric became instrumental in assessing the overall health impact of different conditions.",
     "With advancements in technology, including computing power and big data analytics, health metrics have become more sophisticated. Real-time tracking, machine learning applications, and global health databases contribute to a more dynamic understanding of population health.",
     "Today, health metrics encompass a wide range of measures, including traditional mortality rates, disease-specific metrics, and broader indicators like well-being and social determinants of health. These metrics play a crucial role in shaping public health policies, healthcare interventions, and global health assessments."
@@ -91,12 +91,12 @@ fig-alt="Health Metrics development timeline"}
 One of the earliest forms of health metrics can be traced back to the
 work of *John Graunt*, an Englishman, in the 17th century[@johngra2024].
 In 1662, Graunt published a landmark work titled "Natural and Political
-Observations Made upon the Bills of Mortality." Graunt defined as the
-**father of human demography** was largely self-educated, and his
+Observations Made upon the Bills of Mortality." Graunt, defined as the
+**father of human demography**, was largely self-educated, and his
 interest in mortality data was driven by the Bills of Mortality, which
 were weekly and annual records of deaths in London, and provided
 information on the number of births and deaths in the city. Graunt
-meticulously analyzed this **mortality data** and produced **tables**
+meticulously analysed this **mortality data** and produced **tables**
 that presented various patterns and trends. His work laid the foundation
 for modern demography and statistical analysis. Among his notable
 contributions were the concepts of **life expectancy** and **mortality
@@ -109,27 +109,32 @@ seasons.
 Over time, advancements in mathematics, medicine, and statistics led to
 the development of more sophisticated health metrics. The 19th century
 saw the emergence of **life tables**, which provided a systematic way to
-analyze mortality and life expectancy. More specifically, *Mary Dempsey*
+analyse mortality and life expectancy. More specifically, *Mary Dempsey*
 in 1940s wrote an article[@dempsey2019a] for the National Tuberculosis
 Association about the concept of **Years of Life Lost (YLL)**, assessing
 time-lost as a metric for health for the first time. She was then
-followed by other more advanced improvements spanning all throughout of
-the rest of the century.
+followed by other more advanced improvements spanning all throughout the
+rest of the century.
 
 > **"The quality of life depends also on the state of "public
 > health"-namely on factors that affect the biological welfare of the
 > community as a whole."[@dubos1976]**
 
-With the growth of epidemiology the 20th century was a key century for
-the expansion of the health metrics, the use of life table and
-modification of expected survival time to include weights metrics.
+The 20th century marked significant advancements in epidemiology,
+driving the expansion and refinement of health metrics. This period saw
+the widespread adoption of life tables and the modification of expected
+survival time to incorporate weighted metrics, such as
+disability-adjusted life years (DALYs). These developments enabled more
+comprehensive assessments of population health by accounting for both
+mortality and the quality of life, laying the foundation for modern
+health evaluation tools.
 
 The term **Summary Measures of Population Health (SMPH)**[@summary2002]
 was established in the field, originating from the need to encapsulate
 both fatal and non-fatal health outcomes into a single, comprehensive
 measure, representing a significant evolution in health metrics. Used
-for various purposes, the SMPH compare the health of populations and
-include the contributions of different diseases, injuries and risk
+for various purposes, the SMPH compares the health of populations and
+includes the contributions of different diseases, injuries and risk
 factors to the total disease burden in a population. SMPH, also referred
 to as a composite indicator[@hyder2012], is divided into two broad
 families: health expectancies and health gaps.
@@ -153,11 +158,7 @@ has further transformed health metrics. Today, we have complex models,
 machine learning algorithms, and global health databases that allow for
 real-time tracking of diseases and health outcomes.
 
-John Graunt's work may have been a humble beginning, but it set in
-motion a scientific approach to understanding population health. The
-journey from *Graunt's Bills of Mortality*[@johngra2024a] to today's
-sophisticated health metrics reflects the continuous quest to quantify
-and comprehend the complexities of human health and disease.
+John Graunt's work may have been modest in its origins, but it laid the groundwork for a scientific approach to understanding population health. From Graunt’s early analysis of the *Bills of Mortality*[@johngra2024a] to the development of today’s advanced health metrics, this journey reflects the ongoing effort to measure and understand the complexities of human health and disease.
 
 ### Quality-Adjusted Life Years (QALYs)
 
@@ -168,7 +169,7 @@ used metric for evaluating the *cost-effectiveness* of healthcare
 interventions [@quality-2023]. One *QALY* corresponds to one year in
 perfect health, it ranges from 1 (perfect health) to 0 (dead). However,
 this metric, used in various sectors such as health insurance, is
-somewhat criticized due to its lack of addressing disparities among
+somewhat criticised due to its lack of addressing disparities among
 individuals. It might result in discrimination against individuals with
 specific medical conditions or disabilities.
 
@@ -180,24 +181,24 @@ dedicated to testing the assumptions of the *QALY* [@holmes2013], ending
 in 2013 with the recommended "not using QALYs in healthcare decision
 making", arguing that patients with disabilities are valued less under a
 QALY-based system then individuals with no disabilities. This result has
-been further criticized and remains a topic of debate.
+been further criticised and remains a topic of debate.
 
 > **"Thus, medicine cannot by itself determine the quality of life. It
 > can only help people to achieve the state of health that enables them
 > to cultivate the art of life-but in their own way. This implies the
 > ability to enjoy the fundamental satisfactions of the biological joie
-> de vivre. It implies also the ability for each person to do what he
+> de vivre. It also implies the ability for each person to do what he
 > wants to do and become what he wants to become, according to human
-> values that transcend medical judgment." R.Dubos[@dubos1976a]**
+> values that transcend medical judgement" R.Dubos[@dubos1976a]**
 
 Used in health policy to measure the value of medical interventions by
 balancing both the quantity and quality of life added, QALYs help
 decision-makers determine which treatments or programs offer the
 greatest health benefits relative to their costs. For example, a health
-policy might prioritize funding for treatments that deliver high QALYs
-per dollar spent, ensuring resources are allocated to maximize health
+policy might prioritise funding for treatments that deliver high QALYs
+per dollar spent, ensuring resources are allocated to maximise health
 outcomes across the population. This approach guides decisions in
-healthcare budgeting, insurance coverage, and prioritizing interventions
+healthcare budgeting, insurance coverage, and prioritising interventions
 for chronic illnesses, preventive care, or new therapies.
 
 ### Disability-Adjusted Life Years (DALYs)
@@ -209,7 +210,7 @@ disparities. This lead to a new way of comparing the overall health and
 life expectancy of different countries, released along with the Global
 Burden of Disease Study in 1990 [@murray1994]; a project that involved
 *Christopher J. L. Murray* [@christop2024] and *Alan Lopez*
-[@alanlop2023], in collaboration with the World Health Organization
+[@alanlop2023], in collaboration with the World Health organisation
 (WHO). This effort resulted in the development of the
 Disability-Adjusted Life Years (DALYs) [@disabili2023a], a metric that
 combines **years of life lost due to premature death** and **years lived
@@ -243,7 +244,7 @@ impact of health on quality and length of life. However, while QALYs
 focus on the benefits with and without medical intervention, DALYs
 measure the overall burden of diseases.
 
-The DALY metric is calculated by the summing the **years of life lost
+The DALY metric is calculated by summing the **years of life lost
 (YLLs)** due to premature death and the **years lived with disabilities
 (YLDs)**. This metric provides a comprehensive measure of a population’s
 health status by highlighting both mortality and disability. For
@@ -256,7 +257,7 @@ improvement in facilities, research, or investment.
 
 ### Healthy-Adjusted Life Years (HALY)
 
-Healthy Adjusted Life Years (HALY) is a metric that combine aspects of
+Healthy Adjusted Life Years (HALY) is a metric that combines aspects of
 both DALYs and QALYs to provide a comprehensive measure of health
 outcomes in a population. HALYs quantify the burden of disease and the
 overall quality of life experienced by individuals, measuring the number
@@ -293,7 +294,7 @@ quality of life. This information is then used to estimate the overall
 health status of a population. It is a useful tool for public health
 practitioners and policy makers, as it provides a more nuanced view of
 the health outcomes of a population. This information can help inform
-public health interventions and prioritize resources, as well as help
+public health interventions and prioritise resources, as well as help
 track changes in health outcomes over time. Additionally, HALE can be
 used to compare the health outcomes of different populations and
 identify disparities in health outcomes, which can help inform targeted
@@ -328,10 +329,10 @@ of overall health and well-being.
 HLYs differs from HALE in that it focuses on the number of additional
 years a person can expect to live in good health after reaching a
 certain age, typically 65. This makes HLYs especially relevant for
-assessing health in aging populations and evaluating interventions that
+assessing health in ageing populations and evaluating interventions that
 aim to improve the quality of life for older adults.
 
-For example, an organization focusing on elder care policy might use
+For example, an organisation focusing on elder care policy might use
 HLYs to measure program impact on older adults specifically, while a
 global health agency might prefer HALE for its applicability to general
 population health across all ages.
@@ -348,7 +349,7 @@ maintain independence.
 ### Well-being-Adjusted Health Expectancy (WAHE)
 
 Currently, **Well-being-Adjusted Health Expectancy (WAHE)** is still an
-emerging metric in health research, that combines traditional health
+emerging metric in health research that combines traditional health
 indicators with **well-being factors** to provide a more comprehensive
 assessment of population health. WAHE is calculated by estimating the
 number of life years equivalent to full health, taking into account both
@@ -396,7 +397,7 @@ data <- data.frame(
     "Health loss due to disease and disability", 
     "Health gains or losses from interventions or disease impact", 
     "Overall healthy life expectancy at a population level",
-    "Healthy life expectancy focused on aging populations",
+    "Healthy life expectancy focused on ageing populations",
     "Overall well-being and mental health as well as physical health"
   ),
   Usage = c(
@@ -404,7 +405,7 @@ data <- data.frame(
     "Used in public health to understand and compare disease burden globally",
     "Used similarly to QALY, though less frequently in decision-making",
     "Primarily used in population health and public health reports for health expectancy",
-    "Used in geriatric health assessments and interventions for aging populations",
+    "Used in geriatric health assessments and interventions for ageing populations",
     "Applicable for holistic health assessments, incorporating quality of life and mental wellness"
   ),
   Calculation = c(
@@ -424,13 +425,13 @@ kable(data, col.names = c("Metric", "Purpose", "Focus", "Usage", "Calculation"),
 ## How the Metrics are Used in Global Health
 
 These metrics are used alone or in combination with other health metrics
-in global health assessments conducted by organizations such as the
-**World Health Organization (WHO)**, the **European Commission**, and
+in global health assessments conducted by organisations such as the
+**World Health organisation (WHO)**, the **European Commission**, and
 the **Institute for Health Metrics and Evaluation (IHME)**. They provide
 a global perspective and insights into the health status of populations,
 helping to track progresses towards long-term health objectives over
 time. The metrics also inform public health policies, healthcare
-interventions, and resource allocation decisions, helping to prioritize
+interventions, and resource allocation decisions, helping to prioritise
 health needs and target interventions effectively.
 
 The investigation into finding updated metrics is a sustained

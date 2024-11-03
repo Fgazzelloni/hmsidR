@@ -26,7 +26,7 @@ Learning Objectives
 ::::::
 
 \
-In this final chapter, we synthesize the various elements covered
+In this final chapter, we synthesise the various elements covered
 throughout the book, focusing on the *comparison of health metrics
 across different countries*. For learning and comparing health metrics
 across different countries, resources like the **Global Burden of
@@ -131,7 +131,7 @@ ggplot(top_diseases_us, aes(x = disease, y = dalys)) +
                                    hjust = 1))
 ```
 
-**Exercise**: What type of plots we can draw to compare health metrics
+**Exercise**: What type of plots can we draw to compare health metrics
 across countries?
 
 1.  Bar plots
@@ -145,7 +145,7 @@ In summary, comparing health metrics across countries is essential for
 understanding the state of health globally. Resources like the GBD study
 and the OECD’s Health at a Glance report provide valuable insights into
 health metrics, enabling comparisons and identifying areas for
-improvement. By analyzing health metrics across countries, we can gain
+improvement. By analysing health metrics across countries, we can gain
 insights into public health priorities, disease burdens, and health
 outcomes, which are crucial for informing global public health policy
 and interventions.

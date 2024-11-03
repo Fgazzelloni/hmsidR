@@ -24,14 +24,14 @@ Learning Objectives
 > health worldwide. The burden of infectious diseases is undeniably a
 > global issue, causing millions of deaths annually."[@santangelo2023]**
 
-The advent of machine learning (ML) has revolutionized the field of
+The advent of machine learning (ML) has revolutionised the field of
 **infectious disease research**\index{infectious disease} by providing
 robust tools for predicting outbreaks and understanding the dynamics of
 spread. In this chapter, we will enhance our understanding of these
 diseases and look at the effects on Disability-Adjusted Life Years
-(DALYs) by applying **machine learning** and **data visualization**
+(DALYs) by applying **machine learning** and **data visualisation**
 techniques learned in previous chapters (@sec-05-machine_learning and
-@sec-09-data_visualization). To further improve the knowledge of the
+@sec-09-data_visualisation). To further improve the knowledge of the
 impact of infectious diseases on global health, we will explore how
 integrating ML models can improve the accuracy of disease burden
 estimations and provide valuable insights into the impact of infectious
@@ -40,7 +40,7 @@ diseases on public health.
 ## Infectious Diseases the Invisible Enemies
 
 Emerging infectious diseases are a global concern, causing millions of
-deaths annually. Understanding their behavior and predicting outbreaks
+deaths annually. Understanding their behaviour and predicting outbreaks
 is fundamental not only for public health but also for advancing
 prediction techniques that can be applied in other fields.
 
@@ -119,7 +119,7 @@ by **transmission methods**:
 The application of mathematical models to infectious diseases dates back
 over a century, with significant contributions from pioneers such as
 *Kermack* and *McKendrick*, who established the foundations of the
-subject[@keeling2009]. Their work introduced the concept of categorizing
+subject[@keeling2009]. Their work introduced the concept of categorising
 individuals based on their epidemiological status: **susceptible**,
 **infected**, and **recovered**.
 
@@ -189,7 +189,7 @@ $$ {#eq-incubation-period}
 4.  **Transmission Rate**: The transmission rate often depends on how a
     disease spreads—whether it’s through respiratory droplets, direct
     contact, vectors like mosquitoes, or other means. Transmission rates
-    are also influenced by human behaviors, such as hygiene practices
+    are also influenced by human behaviours, such as hygiene practices
     and social distancing measures. The transmission rate is the product
     of the probability of transmission per contact and the number of
     contacts. $\beta$ is the probability of transmission per contact,
@@ -262,7 +262,7 @@ The use of machine learning algorithms such as **decision trees**,
 **random forests**, **support vector machines**, and **deep-learning
 networks** such as **Long short-term memory (LSTM)**\index{LSTM} models,
 effectively improve the identification of patterns and trends that may
-not be obvious with mechanistic type of models. These models are able to
+not be obvious with mechanistic models. These models are able to
 improve prediction accuracy working smoothly with large datasets.
 
 Combining models and data sources enhances prediction accuracy, various
@@ -291,7 +291,7 @@ percentage change in total DALYs and DALYs due to infectious diseases,
 in general or for a specific infective virus such as COVID19, allows us
 to assess the impact on the overall burden of disease. In the case of
 COVID19 for example, the percentage change in DALYs due to COVID19 can
-explain how this virus affected global health and produced excess of
+explain how this virus affected global health and produced excess
 mortality and morbidity.
 
 $$
@@ -309,7 +309,7 @@ diseases. The percentage change in DALYs due to infectious diseases can
 then be calculated as the ratio of the DALYs due to infectious diseases
 to the total DALYs, multiplied by 100.
 
-Furthermore, the use machine learning models used to predict the
+Furthermore, the use of machine learning models used to predict the
 variation of number of DALYs due to infectious diseases over time can be
 a valuable tool to understand the impact of infectious diseases on
 global health. Two approaches can be valued:

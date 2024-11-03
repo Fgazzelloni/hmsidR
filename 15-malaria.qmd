@@ -25,7 +25,7 @@ Learning Objectives
 
 \
 In this chapter, we explore the dynamics of Malaria transmission in more
-details. We examine the results of various model’s applications that
+detail. We examine the results of various model’s applications that
 simulate the spread of the virus.
 
 ## Epidemiology
@@ -52,8 +52,8 @@ the transmission cycle.
 
 Mapping Malaria outbreaks can help identify high-risk areas and guide
 public health interventions. Geographic Information Systems (GIS) can be
-used to visualize the spatial distribution of Malaria cases and identify
-patterns of transmission. By analyzing the distribution of Malaria cases
+used to visualise the spatial distribution of Malaria cases and identify
+patterns of transmission. By analysing the distribution of Malaria cases
 in relation to environmental factors such as temperature, humidity, and
 vegetation cover, researchers can gain insights into the factors driving
 Malaria transmission and develop targeted control strategies.
@@ -67,7 +67,7 @@ predict future trends. We will demonstrate the process of data
 preparation, feature engineering, model selection, training, evaluation,
 and iterative improvement.
 
-Synthetic data are used in this example to illustrate the modeling and
+Synthetic data are used in this example to illustrate the modelling and
 prediction process. In practice, real-world data on Malaria cases,
 environmental factors, and other relevant variables would be used to
 develop more accurate models.

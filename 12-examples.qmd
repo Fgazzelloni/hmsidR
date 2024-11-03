@@ -1,4 +1,4 @@
-# Advanced Data Visualization Techniques {#sec-12-examples}
+# Advanced Data visualisation Techniques {#sec-12-examples}
 
 ```{r}
 #| echo: false
@@ -17,16 +17,16 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Learn advanced data visualization techniques
--   Create contour plots to visualize interaction effects
--   Create a pyramid plot to visualize population distribution
+-   Learn advanced data visualisation techniques
+-   Create contour plots to visualise interaction effects
+-   Create a pyramid plot to visualise population distribution
 :::
 ::::::
 
 \
-In this chapter, we will learn how to create advanced data visualization
-techniques using `ggplot2`. We will create contour plots to visualize
-interaction effects and pyramid plots to visualize population
+In this chapter, we will learn how to create advanced data visualisation
+techniques using `ggplot2`. We will create contour plots to visualise
+interaction effects and pyramid plots to visualise population
 distribution.
 
 ## Example: Detecting Interaction Effects with Contour Plots
@@ -35,8 +35,7 @@ Interaction effects can cause predictors to act together on the response
 variable, leading to additional variation in the response. Interaction
 effects occur when the combined effect of two or more predictors is
 different from what would be expected if the impact of each predictor
-were considered alone. For instance, in the case of cardio vascular
-disease (CVD) risk prediction, the interaction between age and
+were considered alone. For instance, in the case of **cardiovascular disease (CVD)** risk prediction, the interaction between age and
 cholesterol levels can have a significant impact on the risk of
 developing heart disease. In addition, if smoke is added to the model,
 the effect of cholesterol levels on CVD risk may change depending on
@@ -284,7 +283,7 @@ popAge1dt %>% count(name) %>% View
 The data is then aggregated to show the total population for all ages by
 year. Here, in particular, we show the use of
 `geomtextpath::geom_textline()` to add a label to the World line plot.
-`{geomtextpath}` is a nice R-package which allows to add text along a
+`{geomtextpath}` is a nice R-package which allows you to add text along a
 path.
 
 ```{r}
@@ -326,7 +325,7 @@ data <- popAge1dt %>%
 data %>% head()  
 ```
 
-Then, we can create pyramid plots that shows the distribution of the
+Then, we can create pyramid plots that show the distribution of the
 population by age for **High-income countries**, **Lower-middle-income
 countries**, and **Low-income countries**, and put them in one chunk
 with the option `layout-ncol: 3`.
@@ -425,7 +424,8 @@ animate(pyramid_gif,
 ```
 
 ::: {.content-visible when-format="html"}
-![United Nations World Population Prospects 2022 [1949 -
-2021]](images/12_unp_pyramid.gif){#fig-pyramid-animate
-fig-align="center" width="375" fig-alt="Pyramid plot for the United Nations"}
+![United Nations World Population Prospects 2022 \[1949 -
+2021\]](images/12_unp_pyramid.gif){#fig-pyramid-animate
+fig-align="center" width="375"
+fig-alt="Pyramid plot for the United Nations"}
 :::

@@ -61,7 +61,7 @@ accordingly.
     **Lasso regression**\index{lasso regression}, are commonly used to
     handle these continuous variables and address challenges like
     correlation and multicollinearity\index{multicollinearity} with
-    appropriate techniques such as regularization.
+    appropriate techniques such as regularisation.
 
 **Infectious Disease Data:**
 
@@ -100,7 +100,7 @@ type:**
     **decision trees**\index{decision trees}, **support vector machines
     (SVM)**\index{SVM}, and **LSTM (Long Short-Term Memory) neural
     networks**\index{LSTM}, can predict disease outbreaks, identify
-    high-risk populations, and optimize resource allocation.
+    high-risk populations, and optimise resource allocation.
 
 ## Statistical and Machine Learning Methods
 
@@ -127,20 +127,20 @@ patterns. For example, creating features like **moving averages** or
 differences between consecutive days can reveal trends and cycles that
 are not immediately apparent from raw data.
 
-Another example is the **standardization** process, which is crucial
+Another example is the **standardisation** process, which is crucial
 when dealing with variables measured in different units. It involves
 rescaling the features so they have a mean of zero and a standard
 deviation of one. This process is particularly important when variables
-span several orders of magnitude; without standardization, a model might
+span several orders of magnitude; without standardisation, a model might
 incorrectly interpret the scale of a feature as a proxy for importance.
 
 Furthermore, the application of transformations, such as **logarithmic**
 scaling or the application of **spline** functions can help in managing
 skewed data or enhancing model ability to capture non-linear
 relationships, which result particularly useful in complex data
-modellings. In addition, tailored adjustments, and more sophisticated
+modelling. In addition, tailored adjustments, and more sophisticated
 manipulations have been implemented over time to allow estimation of
-missing values in order to obtain customized, flexible, and more
+missing values in order to obtain customised, flexible, and more
 homogeneous data. For more information on feature engineering, see
 [@butcher2020] useful for effective machine learning strategy
 application, covering various techniques and appropriate use cases,
@@ -153,13 +153,13 @@ diseases, selecting the appropriate model is critical to ensure accurate
 and reliable forecasts. Here are outlined sample strategies employed in
 the model selection process, we introduce the **Rabies** dataset used
 for our discussion and demonstrate the selection of a suitable model for
-analyzing its impact. Rabies, although nearly 100% fatal once symptoms
+analysing its impact. Rabies, although nearly 100% fatal once symptoms
 appear, presents a unique challenge due to the relative rarity of cases
 and limited availability of comprehensive data. This scarcity
 complicates efforts to model the disease accurately and develop
 effective public health strategies.
 
-To address these challenges, we explore advanced modeling techniques
+To address these challenges, we explore advanced modelling techniques
 that can enhance the robustness of our analyses despite data
 limitations, which involves evaluating multiple models based on their
 performance and selecting the best-fitting models to achieve the most
@@ -169,7 +169,7 @@ accurate predictions.
 
 The `rabies`\index{rabies} dataset from the `{hmsidwR}` package contains
 information on death rates and disability-adjusted life years (DALYs)
-per 100,000 inhabitants due to rabies and all causes mortality in Asia
+per 100,000 inhabitants due to rabies and all causes of mortality in Asia
 and for the Global region from 1990 to 2019. Rabies ([@cdc2024]) is a
 fatal viral infection, and it is also classified as an infectious
 disease that can infect all mammals causing acute encephalitis. Caused
@@ -178,7 +178,7 @@ transmitted to humans through the bite of an infected animal such as
 bats, raccoons, skunks, foxes, and obviously dogs, which are the main
 source of human rabies deaths [@hampson2015]. Rabies defined as
 **neglected tropical disease (NTD)** predominantly affects already
-marginalized, poor and vulnerable populations. Although effective human
+marginalised, poor and vulnerable populations. Although effective human
 vaccines and immunoglobulins exist for rabies, these are often not
 readily available or accessible to everyone [@rabies].
 
@@ -232,7 +232,7 @@ rabies %>%
 It can be seen that the number of deaths due to rabies is much lower
 than the number of DALYs. This difference in scale can affect the
 model's ability to learn from the data. To address this issue, we can
-scale and center the numeric variables to make them more comparable.
+scale and centre the numeric variables to make them more comparable.
 
 ```{r}
 p1 <- rabies %>%
@@ -253,11 +253,11 @@ p2 <- rabies %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-rabies-deaths-dalys
-#| fig-cap: "Not Scaled and Scaled and Centered"
+#| fig-cap: "Not Scaled and Scaled and Centred"
 #| fig-subcap:
 #|   - "Not scaled"
-#|   - "Scaled and centered"
-#| fig-alt: "DALYs due to Rabies - Not scaled and Scaled and centered"
+#|   - "Scaled and centred"
+#| fig-alt: "DALYs due to Rabies - Not scaled and Scaled and centred"
 #| echo: false
 
 legend_grob <- cowplot::get_legend(
@@ -279,7 +279,7 @@ p1 +
 
 p2 +
   labs(
-    title = "Dalys and Deaths due to Rabies - Scaled and centered",
+    title = "Dalys and Deaths due to Rabies - Scaled and centred",
     subtitle = "in Asia and Global Region",
     color = "Location",
     y = "Value", x = "Time(Year)") +
@@ -291,7 +291,7 @@ p2 +
 
 Creating new features from existing ones provide additional predictive
 power. Then, combine the cause vector in a way to obtain two vectors for
-death rates due to rabies and all causes, scale and center the numeric
+death rates due to rabies and all causes, scale and centre the numeric
 variables to obtain homogeneous data to use in the model.
 
 ```{r}
@@ -308,9 +308,9 @@ dat <- rabies %>%
 dat %>% head()
 ```
 
-To be able to visualize the magnitude of difference between death rates
+To be able to visualise the magnitude of difference between death rates
 and DALYs for both rabies and all causes, it is necessary to scale or
-standardize the data as shown above.
+standardise the data as shown above.
 
 ```{r}
 p3 <- dat %>%
@@ -339,11 +339,11 @@ p4 <- dat %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-deaths-dalys-std
-#| fig-cap: "Scaled and centered"
+#| fig-cap: "Scaled and centred"
 #| fig-subcap:
 #|  - "Deaths due to Rabies and All Causes"
 #|  - "Dalys due to Rabies and All Causes"
-#| fig-alt: "Deaths and DALYs due to Rabies and All Causes - Scaled and centered"
+#| fig-alt: "Deaths and DALYs due to Rabies and All Causes - Scaled and centred"
 #| echo: false
 
 legend_grob2 <- cowplot::get_legend(
@@ -384,7 +384,7 @@ For this task, we will use the `{tidymodels}`\index{tidymodels}
 meta-package, as it provides a consistent interface for modelling and
 machine learning tasks. In particular, we define and execute modelling
 workflows, to create tailored data pre-processing tasks on various
-modelling specification, and evaluate the performance using resampling
+modelling specifications, and evaluate the performance using resampling
 techniques, to eventually select the best model. A more detailed
 explanation of the `{tidymodels}` framework can be found in the book
 [@silge].
@@ -392,10 +392,10 @@ explanation of the `{tidymodels}` framework can be found in the book
 ### Training Data and Resampling
 
 Splitting data into training and test allows the model to train a
-subsection of the data and then test the its performance on the
+subsection of the data and then test its performance on the
 remaining part of the data, the test set. In this case, we will use the
 `initial_split()` function to split the data into training and test
-sets. The proportion assigned to train can vary but it usually assigned
+sets. The proportion assigned to trains can vary but it is usually assigned
 to be 80%, also a stratification option can be set.
 
 ```{r}
@@ -411,7 +411,7 @@ After that, it is important to create a set of folds, which means a set
 of subgroups of the original data by grouping following specific
 directions based on the type of **resampling
 technique**\index{resampling}. Resampling techniques are used to
-evaluate the model's performance and estimate its generalization error.
+evaluate the model's performance and estimate its generalisation error.
 There are various types of resampling techniques, it depends on the
 specific characteristics of your dataset, and the goals of your
 analysis. Some of the most common resampling techniques include:
@@ -441,15 +441,15 @@ folds <- vfold_cv(training, v = 10)
 ### Data Preprocessing and Featuring Engineering
 
 As already seen in the exploratory phase, preprocessing data is a
-crucial step in machine learning, this process can include techniques
-for handling missing values, standardization of the data, encoding
+crucial step in machine learning. This process can include techniques
+for handling missing values, standardisation of the data, encoding
 categorical variables, and removing highly correlated variables.
 
 In this case, we will use the `{recipes}` package to create a recipe,
-with a set of preprocessing steps. The `recipe()` function allows to
+with a set of preprocessing steps. The `recipe()` function allows us to
 define a model formula and use various `step_<functions>()`\` for
 manipulating data. We are going to set up 3 recipes, the first is a
-basic one which include all variables and does not perform any data
+basic one which includes all variables and does not perform any data
 transformation.
 
 ```{r}
@@ -458,19 +458,19 @@ rec <- recipe(dalys_rabies ~ ., data = training)
 
 The second recipe includes some key steps to transform the data into a
 way specific models would be able to understand and learn from it.
-Models such as k-nearest neighbors, or support vector machines, that
+Models such as k-nearest neighbours, or support vector machines, that
 rely on distance metrics, can be sensitive to differences in feature
 scales.
 
-For instance, non-standardized year data, can dominate the model's
+For instance, non-standardised year data can dominate the model's
 decision-making process, leading to biased results. By scaling and
-centering the data, we ensure that all features contribute equally to
+centring the data, we ensure that all features contribute equally to
 the model's predictions.
 
 We can create more complex recipes with more steps, but for this
 example, we will use a step for encoding the location variable (Asia,
-Global) into a numeric vector, and a second step to normalize (or
-standardize) all predictors.
+Global) into a numeric vector, and a second step to normalise (or
+standardise) all predictors.
 
 ```{r}
 rec1 <- recipe(dalys_rabies ~ ., data = training) %>%
@@ -482,7 +482,7 @@ rec1 <- recipe(dalys_rabies ~ ., data = training) %>%
 
 Once the recipe is created, we can apply it to the data using the
 `prep()` function, which estimates the necessary parameters for the
-transformations and apply them to the data. Then, to check the results
+transformations and applies them to the data. Then, to check the results
 we can use the `juice()` function to extract the processed data.
 
 ```{r}
@@ -512,7 +512,7 @@ can apply:
 
 -   Log Transformation: $log(DALYs+1)$
 -   Sqrt Transformation: $\sqrt{DALYs}$
--   Yeo-Johnson Transformation, a generalization of the Box-Cox
+-   Yeo-Johnson Transformation, a generalisation of the Box-Cox
     transformation that can handle both positive and negative values:
     $((DALYs+1)^p-1)/p$.
 
@@ -567,7 +567,7 @@ rec2 %>%
 To be noted is that we haven't applied any **correlation** selection
 step on this data. Filtering out highly correlated predictors, such as
 those with a correlation greater than 80% to avoid multicollinearity,
-would lead to exclude crucial variables. On the other hand, including
+would lead to excluding crucial variables. On the other hand, including
 all possible covariates in a model often yields implausible signs on
 covariates or unstable coefficients, as well as overfitting
 [@foreman2012].
@@ -576,7 +576,7 @@ When multiple predictors are correlated, but all are crucial for the
 analysis (e.g., deaths due to rabies, total deaths, and total DALYs for
 all causes), applying a correlation step that filters out correlated
 variables can be problematic. One way to overcome bias arising from it
-is using regularization techniques like **Ridge Regression** or **Lasso
+is using regularisation techniques like **Ridge Regression** or **Lasso
 Regression** is often the best approach to handle multicollinearity
 without removing any predictors. Alternatively, **PCA**\index{PCA} can
 reduce dimensionality while retaining most of the variance. These
@@ -587,7 +587,7 @@ without the adverse effects of multicollinearity.
 
 The next step is to outline the model specification. There are various
 type of models that can be used. We start with a **random forest**. This
-choice is tipically done due to the algorithm's features, which is able
+choice is typically done due to the algorithm's features, which is able
 to create **multiple bootstrap samples** (random samples with
 replacement) from the original dataset. Each bootstrap sample is used to
 train a separate decision tree.
@@ -599,7 +599,7 @@ variables. Random forests\index{random forests} are capable of capturing
 non-linear relationships between predictors and the target variable.
 
 Also, it handles multicollinearity, missing data, provides variables
-importance and are an ensemble learning method, which means they combine
+importance and is an ensemble learning method, which means they combine
 the predictions of multiple individual decision trees to produce a more
 accurate and stable prediction.
 
@@ -687,9 +687,9 @@ rf_fit %>%
     y = "Values")
 ```
 
-### Model 2: Generalized Linear Model (GLM)
+### Model 2: Generalised Linear Model (GLM)
 
-Generalized Linear Models (GLMs)\index{GLM} involve statistical
+Generalised Linear Models (GLMs)\index{GLM} involve statistical
 estimation rather than the iterative parameter tuning, common in many
 machine learning techniques. However, adding a machine learning feature
 through parameter calibration can be done using techniques such as
@@ -697,12 +697,12 @@ cross-validation and grid search to find the best model settings.
 
 To introduce a machine learning feature with parameter calibration into
 our modelling of the rabies data, we can use a technique like
-cross-validation combined with a **regularization method** or an
+cross-validation combined with a **regularisation method** or an
 algorithm that supports parameter tuning. Here, we can employ a model
-from the `glmnet`\index{glmnet} package, which fits a generalized linear
-model via **penalized maximum likelihood**. The regularization path is
+from the `glmnet`\index{glmnet} package, which fits a generalised linear
+model via **penalised maximum likelihood**. The regularisation path is
 computed for the lasso or elastic-net penalty at a grid of values for
-the regularization parameter lambda.
+the regularisation parameter lambda.
 
 Adding Machine Learning Features with `{glmnet}` and Cross-Validation
 
@@ -722,7 +722,7 @@ response <- dat$dalys_rabies
 ```
 
 Use cross-validation to find the optimal lambda value, which controls
-the strength of the regularization:
+the strength of the regularisation:
 
 ```{r}
 # Set seed for reproducibility
@@ -762,7 +762,9 @@ final_model <- glmnet(predictors,
 
 # Predict using the final model
 predictions <- predict(final_model,
+                       # values of the penalty parameter lambda
                        s = best_lambda,
+                       # matrix of new values for x
                        newx = predictors
                        )
 
@@ -774,8 +776,8 @@ print(paste("Root Mean Squared Error:", rmse))
 By incorporating `glmnet` and using lambda selection via
 cross-validation, we introduce a **machine learning feature—parameter
 calibration—into** our analysis. This approach not only helps in
-minimizing overfitting but also enhances model performance by selecting
-the most effective regularization parameter. The cross-validation
+minimising overfitting but also enhances model performance by selecting
+the most effective regularisation parameter. The cross-validation
 process used here is crucial for confirming that our model's parameters
 are optimally tuned for the given data, embodying a key aspect of
 machine learning methodologies.
@@ -818,7 +820,7 @@ data.frame(dalys_rabies = response, predictors, predictions) %>%
 ### Testing Multiple Models
 
 In the example above, we used two models to predict DALYs due to rabies,
-a random forest with `{tidymodels}` and a generalized linear model with
+a random forest with `{tidymodels}` and a generalised linear model with
 `{glmnet}` with a Root Mean-Square Error of 0.448 and 0.257
 respectively. The Random Forest model has a higher RMSE, which means it
 has a higher prediction error compared to the GLM model. However, we
@@ -834,7 +836,7 @@ models that could be used to predict DALYs such as:
     its high performance in various prediction tasks, XGBoost can handle
     missing values and is effective for large datasets.
 
-3.  **K-Nearest Neighbors (KNN)**\index{KNN} models are a type of
+3.  **K-Nearest Neighbours (KNN)**\index{KNN} models are a type of
     instance-based learning algorithm that stores all available cases
     and classifies new cases based on a similarity measure.
 
@@ -851,7 +853,7 @@ task.
 
 Let's use the `{parsnip}` package and the `workflow_set()` function to
 fit a set of models to the rabies data. We will fit a **Support Vector
-Machine (SVM)**, and a **K-Nearest Neighbors (KNN) model** to the data
+Machine (SVM)**, and a **K-Nearest neighbours (KNN) model** to the data
 and compare their performance.
 
 ```{r}
@@ -867,7 +869,7 @@ svm_p_spec <-
   set_mode("regression")
 
 knn_spec <-
-  nearest_neighbor(neighbors = tune(),
+  nearest_neighbor(neighbor = tune(),
                    dist_power = tune(),
                    weight_func = tune()) %>%
   set_engine("kknn") %>%
@@ -923,8 +925,11 @@ autoplot(grid_results,
          select_best = TRUE) +
   geom_text(aes(y = mean - 0.1, 
                 label = wflow_id),
-            angle = 90, hjust = 1, size = 4) +
-  lims(y = c(-1, 0.9)) +
+            angle = 90, 
+            hjust = 1, 
+            color = "black",
+            size = 3.5) +
+  lims(y = c(-1.5, 0.9)) +
   theme(legend.position = "none")
 ```
 
@@ -952,19 +957,15 @@ population health outcomes.
     enhance the model's predictive power.
 -   Select machine learning models that are contextually appropriate and
     robust for public health data analysis. Such as Random Forest,
-    Generalized Linear Models, and others.
+    Generalised Linear Models, and others.
 -   Use parameter calibration techniques such as cross-validation,
-    regularization, monte carlo, and grid search to optimize model
+    regularisation, monte carlo, and grid search to optimise model
     performance.
-
-and grid search to optimize model performance. - Evaluate model
-performance using appropriate metrics and visualization tools to assess
+- Evaluate model
+performance using appropriate metrics and visualisation tools to assess
 predictive accuracy and relevance.
 
-By following these best practices, public health researchers and
-practitioners can leverage the full potential of machine learning
-techniques to address complex health challenges and improve population
-health outcomes. The integration of machine learning methodologies into
+The integration of machine learning methodologies into
 public health data analysis represents a significant opportunity to
 advance the field of public health and enhance our understanding of
 health metrics and disease dynamics.

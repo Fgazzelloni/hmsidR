@@ -19,4 +19,4 @@ BuildType: Website
 MarkdownWrap: Column
 MarkdownWrapAtColumn: 72
 
-SpellingDictionary: en_US
+SpellingDictionary: en_GB

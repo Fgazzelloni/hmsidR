@@ -27,53 +27,54 @@ people's understanding of what constitutes a good life. Education,
 media, legal systems, and community practices all play pivotal roles in
 shaping individuals' perceptions of well-being. Cultural norms and
 values often define what is considered acceptable or taboo, influencing
-individuals' behaviors and aspirations. Understanding these cultural
+individuals' behaviours and aspirations. Understanding these cultural
 nuances is crucial when developing health metrics and policies that aim
-to capture and improve well-being. It emphasizes the need for a holistic
+to capture and improve well-being. It emphasises the need for a holistic
 approach that considers not only physical health but also the social,
 cultural, and psychological dimensions of individuals and communities.
 
 Achieving a global mean or standard for well-being involves considering,
 not just the diversity of cultures but also acknowledging the common
-elements that contribute to human happiness and health. Behavioral
+elements that contribute to human happiness and health. Behavioural
 education, more specifically the process of teaching individuals how to
-modify their behaviors in order to improve their overall well-being,
-plays a pivotal role in this process. Promoting positive behaviors that
+modify their behaviours in order to improve their overall well-being,
+plays a pivotal role in this process. Promoting positive behaviours that
 are conducive to both individual and societal well-being can be a
 universal goal. Understanding what constitutes "good behavior" in the
-context of health and happiness is, indeed, central to standardizing
+context of health and happiness is, indeed, central to standardising
 well-being metrics.
 
 Moreover, this aligns with the idea that *health is closely tied to
-happiness*. Cultivating positive behaviors, such as maintaining a
+happiness*. Cultivating positive behaviours, such as maintaining a
 healthy lifestyle, fostering social connections, and contributing to
 one's community, can significantly impact both health and happiness.
-These behaviors can be universal, yet their interpretation and emphasis
+These behaviours can be universal, yet their interpretation and emphasis
 might vary based on cultural contexts.
 
 ### A Global Perspective
 
-In essence, achieving global standardization in well-being requires a
+In essence, achieving global standardisation in well-being requires a
 multi-faceted approach that includes education, social support systems,
 and a collective effort to reshape cultural narratives. It's a complex
 task, but incremental changes in education and social structures can
-contribute to a more harmonized vision of well-being across diverse
+contribute to a more harmonised vision of well-being across diverse
 cultures.
 
-The aim of this book is to provide an extensive information about the
-way this well-being can be statically measured. Public health metrics,
-such as **Years of Life Lost (YLL)** and **Years lived with Disability
+The aim of this book is to provide extensive information about the way
+this well-being can be statically measured. Public health metrics, such
+as **Years of Life Lost (YLL)** and **Years lived with Disability
 (YLD)**, are examples of the key metrics discussed and used throughout
-this book. They are expressed in number of years of life lost or years
-lived with disabilities, and their sum represents a crucial value named
-**Disability Adjusted Life Years (DALYs)**. DALYs are generally used for
-ranking the health status of a population. The book covers the history
-of the development of the health metrics and aims at stimulating
-reasoning to suggests alternatives by providing a comprehensive manual
-to make reference to if you get lost among the plethora of information.
-The hope is to provide insights for health researchers and policymakers.
+this book. They are expressed in *number of years of life lost* or
+*years lived with disabilities*, and their sum represents a crucial
+value named **Disability Adjusted Life Years (DALYs)**. DALYs are
+generally used for ranking the health status of a population. The book
+covers the history of the development of the health metrics and aims at
+stimulating reasoning to suggest alternatives by providing a
+comprehensive manual to make reference to if you get lost among the
+plethora of information. The hope is to provide insights for health
+researchers and policymakers.
 
-To be more specific, the book compares the metrics used to summarize the
+To be more specific, the book compares the metrics used to summarise the
 health status of a population across different locations. It tests
 prediction levels using key models. The initial tools are `{tidymodels}`
 and `{INLA}` for modelling, but other machine learning packages like
@@ -87,7 +88,7 @@ predict and manage future ones. This is done through a process called
 similar events, like the spread patterns and impacts of diseases. By
 studying these *stories*, models can be built to capture key factors
 influencing outbreaks, such as transmission rates, environmental
-triggers, and population behaviors[@roster2022].
+triggers, and population behaviours[@roster2022].
 
 A focus on the impact of recent infectious disease outbreaks, such as
 SARS-Covid19, on the state of health of the population, will be provided
@@ -109,8 +110,8 @@ to become practitioners, applying the methods learned directly to
 relevant scenarios.
 
 The material supports full exploratory data analysis and model
-visualization, offering code for generating compelling spatial
-visualizations using packages such as `{ggplot2}`, `{leaflet}`, `{sf}`,
+visualisation, offering code for generating compelling spatial
+visualisations using packages such as `{ggplot2}`, `{leaflet}`, `{sf}`,
 and `{terra}`, among others, which allow for extensive user
 customization. The inclusion of these tools is intended to unlock the
 full potential of the R language, broadening the reader’s understanding
@@ -159,28 +160,28 @@ policy development.
 **Second Section: Machine Learning**
 
 The **Machine Learning** section offers a deeper dive into evaluating
-health metrics using modeling techniques and provides an overview of R
+health metrics using modelling techniques and provides an overview of R
 packages. @sec-05-machine_learning (**Introduction to Machine
-Learning**) guides readers on how to utilize machine learning models in
+Learning**) guides readers on how to utilise machine learning models in
 health metrics analysis. @sec-06-techniques (**Techniques for Machine
 Learning Applications**) covers various types of models appropriate for
 health data. @sec-07-packages (**Essential R Packages for Machine
-Learning**) lists useful R packages for modeling, paired with case study
-applications to illustrate practical use. @sec-08-predictions
-(**Predictive Modeling and Beyond**) focuses on applying predictive
+Learning**) lists useful R packages for modelling, paired with case
+study applications to illustrate practical use. @sec-08-predictions
+(**Predictive modelling and Beyond**) focuses on applying predictive
 models to forecast health outcomes and trends.
 
-**Third Section: Data Visualization**
+**Third Section: Data visualisation**
 
-The **Data Visualization** section equips readers with the knowledge to
-create and customize plots and maps in R. @sec-09-data_visualization
-(**Introduction to Data Visualization**) discusses the history and
-application of data visualization techniques in R. @sec-10-applications
-(**Interpreting Model Results Through Visualization**) provides detailed
+The **Data visualisation** section equips readers with the knowledge to
+create and customise plots and maps in R. @sec-09-data_visualisation
+(**Introduction to Data visualisation**) discusses the history and
+application of data visualisation techniques in R. @sec-10-applications
+(**Interpreting Model Results Through visualisation**) provides detailed
 methods for tailoring visual representations to enhance data
 interpretation. @sec-11-spatials (**Spatial Data Modelling and
-Visualization**) instructs on how to create informative maps, while
-@sec-12-examples (**Advanced Data Visualization Techniques**) presents
+visualisation**) instructs on how to create informative maps, while
+@sec-12-examples (**Advanced Data visualisation Techniques**) presents
 practical examples to reinforce learning.
 
 **Fourth Section: Infectious Diseases**

@@ -1,4 +1,4 @@
-# Introduction to Data Visualization {#sec-09-data_visualization}
+# Introduction to Data visualisation {#sec-09-data_visualisation}
 
 ```{r}
 #| echo: false
@@ -10,25 +10,25 @@ ggplot2::theme_set(book_theme)
 
 A powerful tool that allows the transformation of complex data sets into
 comprehensible and insightful graphical representations, data
-visualization is an important step of the data analysis called
+visualisation is an important step of the data analysis called
 **Exploratory Data Analysis (EDA)**. The information contained within
 data highlights important patterns and trends, and uncover hidden
 insights that might not be apparent from raw data alone. In the context
-of health metrics and infectious diseases, data visualization plays a
+of health metrics and infectious diseases, data visualisation plays a
 critical role in tracking disease outbreaks, understanding health
 trends, and communicating findings to policymakers and the public.
 
 We have already seen how to create various types of plots using the
 `{ggplot2}` package in R. In this chapter, we will discuss the history
-and evolution of data visualization, delve deeper into the topic,
+and evolution of data visualisation, delve deeper into the topic,
 introducing the concept of the **Grammar of Graphics**, exploring
-techniques for customizing plots, adding annotations, labels, and
-themes, and creating interactive visualizations.
+techniques for customising plots, adding annotations, labels, and
+themes, and creating interactive visualisations.
 
-## History of Data Visualization
+## History of Data visualisation
 
-The history of data visualization spans centuries. The roots of data
-visualization can be traced back to ancient times with rudimentary
+The history of data visualisation spans centuries. The roots of data
+visualisation can be traced back to ancient times with rudimentary
 visual representations, but its modern form began to take shape with the
 growth of statistics and graphical methods in the 17th and 18th
 centuries. One notable milestone was the publication of **William
@@ -38,59 +38,59 @@ chart.
 
 Throughout the 19th and 20th centuries, pioneers such as **Florence
 Nightingale** (1820-1910), **John Snow** (1813-1858), and **Jacques
-Bertin** further advanced the field, using visualizations to communicate
+Bertin** further advanced the field, using visualisations to communicate
 complex data and uncover insights.
 
-Data visualization was largely done manually or with the help of basic
-plotting tools. One example are the hand-drown visualizations made by
+Data visualisation was largely done manually or with the help of basic
+plotting tools. One example are the hand-drown visualisations made by
 **W.E.B. Du Bois** (1868-1963) in the early 20th century to illustrate
 the social and economic conditions of African Americans in the United
-States. These visualizations are now considered iconic examples of data
-visualization and have been widely studied and digitally reproduced.
+States. These visualisations are now considered iconic examples of data
+visualisation and have been widely studied and digitally reproduced.
 
 **The Digital Revolution**
 
 The digital revolution of the late 20th century, with the advent of
 powerful computing technologies, enabled the creation of interactive and
-dynamic visualizations. Early programming languages like Fortran and
+dynamic visualisations. Early programming languages like Fortran and
 BASIC were used to create simple plots, then the development of
-specialized software like SAS and SPSS provided more robust tools for
-data analysis and visualization.
+specialised software like SAS and SPSS provided more robust tools for
+data analysis and visualisation.
 
 The emergence of the internet and web technologies in the 1990s led to
 the introduction of more sophisticated statistical software and
 programming environments. Tools like R, Python, and JavaScript, along
-with libraries like `ggplot2`, `matplotlib`, and `D3.js`, revolutionized
-the field of data visualization, making it more accessible and powerful.
+with libraries like `ggplot2`, `matplotlib`, and `D3.js`, revolutionised
+the field of data visualisation, making it more accessible and powerful.
 
-In summary, data visualization plays a crucial role in fields like data
+In summary, data visualisation plays a crucial role in fields like data
 science, business analytics, scientific research, journalism, and public
 policy. It serves as a potent tool for communicating data while
-visualizing patterns, trends, and relationships that might not be
+visualising patterns, trends, and relationships that might not be
 apparent from raw data alone. For instance, in public health, tracking
 disease outbreaks in real time, such as with COVID19, tools like
 dashboards and interactive maps are used extensively to monitor the
-spread of the virus and communicating effectiveness of interventions.
+spread of the virus and communicate the effectiveness of interventions.
 
 ## The Grammar of Graphics
 
-One of the fundamental concepts in modern data visualization is the
+One of the fundamental concepts in modern data visualisation is the
 **Grammar of Graphics**, which provides a structured approach to
-creating visualizations layer by layer. This concept is clearly
+creating visualisations layer by layer. This concept is clearly
 interpreted in tools like the `{ggplot2}` R package, part of the
 `{tidyverse}` ecosystem, developed by **Hadley Wickham** in 2005.
 
 The Grammar of Graphics allows for the creation of complex
-visualizations by combining simple building blocks such as **data**,
+visualisations by combining simple building blocks such as **data**,
 **aesthetics**, and **geoms** (geometric objects) in a structured
-manner. It provides a flexible framework for customizing visualizations
+manner. It provides a flexible framework for customising visualisations
 and supports the creation of a wide range of plots, from basic scatter
-plots to intricate multi-layered visualizations.
+plots to intricate multi-layered visualisations.
 
-It starts with the `ggplot()` function, which initializes the plot. The
+It starts with the `ggplot()` function, which initialises the plot. The
 function takes a data frame as its first argument and then additional
 arguments to specify the aesthetics of the plot, such as the x and y
-variables, color, shape, and size.
+variables, colour, shape, and size.
 
 ```{r}
 #| eval: false
@@ -99,7 +99,7 @@ ggplot()
 
 The aesthetics are defined using the `aes()` function, which maps
 variables in the data frame to visual properties of the plot, such as x
-and y coordinates, color, shape, and size. The `aes()` function is the
+and y coordinates, colour, shape, and size. The `aes()` function is the
 mapping part of the plot, and it can be called with the `mapping`
 argument in the layers of the plot.
 
@@ -130,14 +130,14 @@ ggplot(data = df, aes(x = x, y = y, color = z))+
 ```
 
 The `{ggplot2}` package provides a wide range of geoms, scales, and
-themes to customize the appearance of the plot. By combining these
+themes to customise the appearance of the plot. By combining these
 elements, you can create visually appealing and informative
-visualizations that effectively communicate your data.
+visualisations that effectively communicate your data.
 
-It allows the user to create complex visualizations by combining simple
+It allows the user to create complex visualisations by combining simple
 building blocks, with each layer of the plot allowing for an aesthetic
-mapping of data to visual properties, such as color, fill, shape, and
-size, making it easy to create a wide range of visualizations, or even
+mapping of data to visual properties, such as colour, fill, shape, and
+size, making it easy to create a wide range of visualisations, or even
 new data. In this example there is also the use of an alternative to the
 `labs()` function with the `ggtitle()` function, which differs in the
 way the title is placed in the plot.
@@ -152,14 +152,14 @@ ggplot(data = df, aes(x = x, y = y, color = z))+
 
 In addition to functions provided by `{ggplot2}`, there are ggplot
 **extensions**, other functions and packages that can be used to create
-visualizations in R, such as `{plotly}`, `{ggplotly}`, `{leaflet}`,
+visualisations in R, such as `{plotly}`, `{ggplotly}`, `{leaflet}`,
 `{tmap}`, and `{shiny}`. These tools provide additional functionality
 for creating interactive plots, maps, and dashboards, allowing for more
-engaging and dynamic data visualizations.
+engaging and dynamic data visualisations.
 
-## General Guidelines for Data Visualization
+## General Guidelines for Data visualisation
 
-There are many types of plots that can be used to visualize different
+There are many types of plots that can be used to visualise different
 types of data, such as cross tabulations for categorical variables,
 scatter plots for continuous variables, side-by-side box plots, and
 other summaries.
@@ -327,21 +327,20 @@ gt_table <- gt(plot_data) %>%
 gt::gtsave(gt_table, "images/09_gt_table.png")
 ```
 
-![Basic Data Viz
-Rules](images/09_gt_table.png){#fig-dvrules
-fig-align="center" fig-alt="Basic Data Viz
-Rules"}
+![Basic Data Visualisation
+Rules](images/09_gt_table.png){#fig-dv-rules
+fig-align="center" fig-alt="Basic Data Viz Rules"}
 
-## Example: Visualizing Lung Cancer Deaths by Age in Germany
+## Example: visualising Lung Cancer Deaths by Age in Germany
 
-This is an example of visualizing lung cancer deaths by age in Germany.
+This is an example of visualising lung cancer deaths by age in Germany.
 It is a line plot showing the number of deaths by age group. We have
 already seen how to create a line plot using `{ggplot2}` in previous
-chapters, the focus here is on customizing the plot to make it more
+chapters, the focus here is on customising the plot to make it more
 visually appealing and informative.
 
-This is a basic output, and we will enhance it by customizing patterns,
-colors, legend, and adjusting the layout. We will also explore how to
+This is a basic output, and we will enhance it by customising patterns,
+colours, legend, and adjusting the layout. We will also explore how to
 save the plot as an image file for sharing or publication.
 
 ```{r}
@@ -394,31 +393,31 @@ means that they are built using layers of data, aesthetics, and
 geometric objects. The `ggplot()` function initializes the plot, and
 then we add layers using `geom_point()`, `geom_line()`, and
 `geom_col()`, (or `geom_col_pattern()` in this particular example), to
-create the visualizations. We can further customize these plots by
+create the visualisations. We can further customise these plots by
 adding titles, labels, and adjusting the appearance of the plot
 elements.
 
 ### Colors and Patterns
 
-Choosing the right colors for your visualizations is crucial. Colors can
-highlight important aspects of your data and improve readability. Many
-tools provide built-in color palettes, but you can also customize your
-own. Here we just add the `scale_color_manual()` function to customize
-the original plot, with a new color palette.
+Choosing the right colours for your visualisations is crucial. Colors
+can highlight important aspects of your data and improve readability.
+Many tools provide built-in color palettes, but you can also customise
+your own. Here we just add the `scale_color_manual()` function to
+customise the original plot, with a new color palette.
 
 By typing `?scale_color_manual()` in the R console, you can access the
-documentation and explore other options for customizing colors using the
-`scale_<..>_<..>()` functions.
+documentation and explore other options for customising colours using
+the `scale_<..>_<..>()` functions.
 
 ```{r}
 #| eval: false
-# Example: Customizing colors in a bar chart
+# Example: customising colours in a bar chart
 lineplot +
   scale_color_manual(values = c("brown", "navy", "orange"))
 ```
 
-In addition to colors, patterns can be used to differentiate between the
-groups in the plot. The `{ggpattern}` package provides a variety of
+In addition to colours, patterns can be used to differentiate between
+the groups in the plot. The `{ggpattern}` package provides a variety of
 patterns that can be used to fill the bars in a bar plot. Here we have
 used the `geom_col_pattern()` function to add patterns to the bars in
 the plot. An example is in show in the plot with the barplot. Another
@@ -427,19 +426,19 @@ between groups in a line plot or scatter plot.
 
 ### Theme, Legends and Guides
 
-Legends and guides are essential for interpreting visualizations. They
-help the audience understand what different colors, shapes, or sizes
+Legends and guides are essential for interpreting visualisations. They
+help the audience understand what different colours, shapes, or sizes
 represent in the plot. Here we have just changed the title of the
 legend, but much more can be done, such as changing the position, and
 labels. To change the position of the legend we can use the `theme()`
 function as shown below.
 
 In the R console, typing `?theme()` will provide more information on
-customizing the appearance of your plots. In this case is useful to
+customising the appearance of your plots. In this case it is useful to
 adjust the angle of the text in the x-axis, and even this can be done
 specifying the `angle` parameter in the `theme()` function.
 
-The `guides()` function can be used to customize the legend, such as
+The `guides()` function can be used to customise the legend, such as
 reversing the order of the legend items.
 
 ```{r}
@@ -489,11 +488,11 @@ grid.arrange(lineplot, lineplot1, lineplot2, ncol = 3)
 #| echo: false
 #| layout-ncol: 3
 #| label: fig-data-viz-lineplot
-#| fig-cap: "Customized Lineplots and Log Scale Transformation"
+#| fig-cap: "customised Lineplots and Log Scale Transformation"
 #| fig-subcap: 
 #|  - "Basic Lineplot"
-#|  - "Customized Lineplot"
-#|  - "Customized Lineplot with Log Scale"
+#|  - "Customised Lineplot"
+#|  - "Customised Lineplot with Log Scale"
 #| fig-alt: "Lineplot 1, Lineplot 2, and Lineplot 3"
 lineplot
 lineplot1
@@ -502,13 +501,13 @@ lineplot2
 
 #### Exercise
 
-Try replicating the plots above, customizing the legend, the axis text,
+Try replicating the plots above, customising the legend, the axis text,
 and adding a log scale to the y-axis. You can also add a caption to the
 plot, specifying the data source.
 
 ### Saving as an Image
 
-Once you've created your visualization, you might want to save it as an
+Once you've created your visualisation, you might want to save it as an
 image file for sharing or publication.
 
 ```{r}
@@ -516,12 +515,12 @@ image file for sharing or publication.
 ggsave("lineplot.png", plot = lineplot2, width = 6, height = 4)
 ```
 
-## Practicing Data Visualization
+## Practising Data visualisation
 
-To practice making data visualizations, there are numerous free
+To practise making data visualisations, there are numerous free
 resources available that provide valuable information and opportunities
 to enhance your skills. By engaging with these platforms, you can
-practice your abilities, share your final results, and receive feedback
+practise your abilities, share your final results, and receive feedback
 from the community. While the feedback may sometimes be critical, it is
 an essential part of the learning process and will help you improve if
 you stay persistent.
@@ -529,8 +528,8 @@ you stay persistent.
 Participating in competitions and challenges such as **#TidyTuesday**,
 **#30DayChartChallenge**, and **#30DayMapChallenge** offers a great way
 to refine your skills. These competitions encourage you to create and
-share visualizations on various themes, pushing you to experiment with
+share visualisations on various themes, pushing you to experiment with
 different techniques and styles. By consistently participating in these
 challenges and actively seeking feedback, you will steadily enhance your
 proficiency. Over time, you will find yourself becoming more adept and
-confident in your data visualization skills.
+confident in your data visualisation skills.

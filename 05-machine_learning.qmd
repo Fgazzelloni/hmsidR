@@ -26,7 +26,7 @@ process**\index{random process}, since the number of individuals who are
 infected at any given time can change randomly. The exact number of
 individuals who will be infected in the future cannot be determined with
 certainty, as it depends on various factors such as the contagiousness
-of the virus, the behavior of individuals, and the efficacy of
+of the virus, the behaviour of individuals, and the efficacy of
 mitigation measures.
 
 A **deterministic model**\index{deterministic model}, on the other hand,
@@ -37,8 +37,8 @@ about the spread of a virus under certain assumptions, but it will not
 account for the randomness and uncertainty associated with real-world
 scenarios. In general, a **stochastic
 process**\index{stochastic process}, or random process [@dobrow2016] is
-the type of model which attempt to replicate uncertain outcomes, using
-probabilities. At opposite, in a **deterministic system** the outcome is
+the type of model which attempts to replicate uncertain outcomes, using
+probabilities. On the other hand, in a **deterministic system** the outcome is
 obtained from a given input, and for this reason it is reproducible.
 
 Most models used to study the spread of a virus are a **combination of
@@ -57,7 +57,7 @@ stochastic models is crucial for effectively applying machine learning
 techniques, as it informs the selection of the appropriate modelling
 approach based on the data characteristics and analysis goals. Machine
 learning models learn from data to automatically adjust their
-parameters, optimizing them to minimize errors or maximize performance
+parameters, optimising them to minimise errors or maximise performance
 on a given task. Compared to traditional statistical models, they are
 more flexible and adaptable to complex data patterns.
 
@@ -66,7 +66,7 @@ more flexible and adaptable to complex data patterns.
 learning relationships in the data. Learning from experience (E), ML
 computes tasks (T) to improve performance (P). The origins of ML, dating
 back to the late 1950s, only flourished in the 1990s with the aim of
-minimizing loss on unseen samples [@machine2024].
+minimising loss on unseen samples [@machine2024].
 
 ![Machine Learning
 Cycle](images/05_ml-image.png){#fig-ml-cycle
@@ -83,11 +83,11 @@ predictions or decisions based on data.
 The emergence of infections is an ongoing evolution and adaptation
 [@broemeling2021]. In the late 1970s, Dr. René Dubos believed that '*the
 relationship between humans and microbes is dynamic and influenced by
-various factors, including environmental conditions, human behavior, and
+various factors, including environmental conditions, human behaviour, and
 microbial adaptation*'. The importance of understanding the complex
 interactions between hosts and pathogens in the emergence and spread of
 infectious diseases is described as dynamic interplay between organisms
-and their environment a **process of continuous adaptation and
+and their environment, a **process of continuous adaptation and
 interaction**. Organisms continuously respond to changes in their
 surroundings to maintain balance and survival. This is analogous to what
 happens inside a machine learning model environment. It involves
@@ -99,7 +99,7 @@ of possible alternative scenarios and simulations of the observed data.
 
 To locate machine learning models within the models framework, we can
 think about the scope of the analysis, which in this case is predicting
-the future preventing undesired outcomes.
+the future and preventing undesired outcomes.
 
 In particular, these types of models are subdivided in:
 
@@ -146,7 +146,7 @@ prediction, they operate on different principles:
 > Mechanistic models rely on known relationships and equations, while
 > machine learning models learn patterns from data[@baker2018].
 
-Before delving deep into machine learning techniques for analyzing
+Before delving deep into machine learning techniques for analysing
 health data and metrics, it's essential to proceed step by step in
 building a modelling framework. This approach begins with a thorough
 understanding of the modelling procedures.
@@ -157,7 +157,7 @@ There are a variety of models available, and the decision on which model
 to use depends on the type of **learning method** either
 **supervised**\index{supervised learning} or
 **unsupervised**\index{unsupevised learning}. Supervised learning
-analyzes data by comparing observations against a predefined response
+analyses data by comparing observations against a predefined response
 variable, whereas unsupervised learning handles data that do not have a
 predefined response variable.
 
@@ -169,10 +169,10 @@ distinction is made between **regression**\index{regression} and
 **classification**\index{classification} based on whether the outcome
 variable is continuous.
 
-**Machine learning models** are all that types of models that can be all
+**Machine learning models** are all types of models that can be all
 of the above but allow for: **learning from data through model
 parameters auto-calibration**. Learning from data is a process where an
-algorithm adjusts its parameters to minimize the errors in predictions.
+algorithm adjusts its parameters to minimise the errors in predictions.
 Each algorithm has its method of learning.
 
 ### Parameters and Hyper-parameters
@@ -183,21 +183,21 @@ playing a crucial role in building and tuning models.
 
 **Parameters** are the **internal** coefficients or weights that the
 model learns from the training data. These values are adjusted during
-the training process to minimize the loss function and improve the
+the training process to minimise the loss function and improve the
 model's accuracy. For instance, in a linear regression model, parameters
 include the **slope coefficients** and the **intercept** (@eq-lm).
-Parameters are optimized during the training phase using optimization
+Parameters are optimised during the training phase using optimization
 algorithms that perform selection, mutation, and crossover of the
 **coefficients**. The goal is to find the set of parameters that best
 fit the training data.
 
 **Hyperparameters** are the **external** settings of the model that can
-be redefined by the practitioner, or optimized using techniques such as
+be redefined by the practitioner, or optimised using techniques such as
 grid search, random search, or more advanced methods like Bayesian
 optimization. This process involves evaluating model performance with
 different hyperparameter settings. Examples of hyperparameters are the
 sample size, the number of trees on a random forest model, the learning
-rate, the regularization setting ($\lambda$ ) in ridge and lasso
+rate, the regularisation setting ($\lambda$ ) in ridge and lasso
 regression, and so on.
 
 More will be explained below, but it's important to understand that
@@ -214,7 +214,7 @@ The process of constructing a model that would be able to explain the
 relationships between dependent and independent variables in a given
 system is intended as model development. At the heart of this process is
 the application of a model function to estimate coefficients that
-minimize the difference between the model's predictions and the observed
+minimise the difference between the model's predictions and the observed
 data.
 
 ```{r}
@@ -274,9 +274,9 @@ regression**\index{linear regression} for continuous response variables,
 **logistic regression**\index{logistic regression} for binary response
 variables, and various **machine learning algorithms** that include
 tuning parameters to handle more complex dataset and model
-specifications. These techniques analyze the relationship between the
+specifications. These techniques analyse the relationship between the
 predictors and the response in the dataset and determine the optimal
-coefficients that minimize the difference between the observed $(y)$
+coefficients that minimise the difference between the observed $(y)$
 values and the values predicted by the model $(\hat y)$ .
 
 Once the model coefficients are estimated, we can use the model function
@@ -285,7 +285,7 @@ $x_i$. This allows us to simulate the effect of different scenarios or
 make predictions about future outcomes based on the relationships
 identified in the data. Overall, the model development process is a
 crucial step in the modelling framework, as it sets the foundation for
-understanding and analyzing the relationships between variables in a
+understanding and analysing the relationships between variables in a
 given system. It enables us to extract insights from the data, make
 predictions, and inform decision-making in various fields, including
 epidemiology, public health, economics, and environmental science.
@@ -296,7 +296,7 @@ The first dataset used is from the `{HistData}` package
 `HistData::CholeraDeaths1849`, made of
 `r dim(HistData::CholeraDeaths1849)[1]` observations and
 `r dim(HistData::CholeraDeaths1849)[2]` variables, with 2 causes of
-deaths cholera\index{cholera} and diarrhea. For this example we select
+deaths: cholera\index{cholera} and diarrhoea. For this example we select
 just the deaths due to cholera within 12 months in 1849. Let's have a
 look at the first 6 rows of the dataset:
 
@@ -313,7 +313,7 @@ cholera %>% head()
 
 The response variable is `y = deaths` due to cholera, and the only
 predictor we are considering on this first step is `x = date` in days
-from 1849-01-01 to 1849-12-31. Let's visualize our data by using the
+from 1849-01-01 to 1849-12-31. Let's visualise our data by using the
 `{ggplot2}` package with `geom_line()` as layer.
 
 ```{r}
@@ -332,7 +332,7 @@ cholera %>%
 
 Now let's observe in mathematical terms what happens when we start
 investigating the relationship between the response and the predictor,
-to explain the behavior of the variables.
+to explain the behaviour of the variables.
 
 The following mathematical formulation represent our observed data,
 where $\beta_0$ and $\beta_1$ are the parameters, respectively the
@@ -341,7 +341,7 @@ between $y$ and $x$ [^05-machine_learning-1].
 
 [^05-machine_learning-1]: We can compare this formulation to a general
     $Y=a+mx$ linear function. In our case $a$ would be the intercept and
-    $m$ the slope of the line that will summarize the information
+    $m$ the slope of the line that will summarise the information
     between $y$ and $x$.
 
 $$
@@ -414,7 +414,7 @@ first plot the model line (blue line) is obtained with the
 `geom_smooth()` function with the specification `method = "lm"` . In the
 second plot we have used all data up to August, and we can clearly see
 the infections spread smoothly to finally explode shaping an elbow
-curve. The `geom_smooth()` selected the best function that suit the data
+curve. The `geom_smooth()` selected the best function that suits the data
 with a **locally estimated scatterplot smoothing**, or **LOESS**, which
 is a nonparametric method for smoothing a series of data in which no
 assumptions are made about the underlying structure of the data.
@@ -455,13 +455,13 @@ to reach a peak—the highest level of infection spread—before eventually
 decreasing back to the initial level. This pattern is inherently
 **non-linear**.
 
-To visualize both linear and non-linear trends we can use a
+To visualise both linear and non-linear trends we can use a
 `geom_smooth()` function[^05-machine_learning-3], with `method = "lm"`
 for linear model and `method = "gam"` for applying a **general additive
 model**.
 
-[^05-machine_learning-3]: More about data visualizations techniques are
-    in chapter @sec-09-data_visualization.
+[^05-machine_learning-3]: More about data visualisations techniques are
+    in chapter @sec-09-data_visualisation.
 
 ```{r}
 #| eval: false
@@ -516,18 +516,18 @@ ggplot(cholera, aes(x = date, y = deaths)) +
     colour = "darkred")
 ```
 
-#### GAM - Generalized Additive Model
+#### GAM - Generalised Additive Model
 
 The purpose of creating a model is to identify underlying patterns
 within a series of observations. This requires the model to interpolate
 given observations in order to represent the overall pattern accurately.
-For instance, in the visualization above, the blue line made with the
+For instance, in the visualisation above, the blue line made with the
 `geom_smooth()` function, when specified with `method = "lm"`, helps us
-visualize the direction of a linear pattern in the data. However, it's
-evident that the data points form a bell-shaped curved as distribution
+visualise the direction of a linear pattern in the data. However, it's
+evident that the data points form a bell-shaped curve as distribution
 of deaths over time, indicating a non-linear relationship between date
 and cholera deaths. In the second layer we used `method= "gam"`,
-**Generalized Additive Models (GAMs)**\index{GAM} flexible extensions of
+**Generalised Additive Models (GAMs)**\index{GAM} flexible extensions of
 linear models, the most suitable choice for this data used to model
 non-linear relationships between the response and predictor variables.
 They are particularly useful when the relationship between the variables
@@ -578,12 +578,12 @@ model fits the data well.
 
 Overall, the model suggests that there is a positive relationship
 between increasing time and the number of deaths due to cholera, with
-the number of deaths increasing over time to reach a pick and then
+the number of deaths increasing over time to reach a peak and then
 eventually slow down to zero. However, it's essential to consider the
 context of the data and potential confounding variables before drawing
 conclusions about causality or making predictions based solely on this
 model. Other important factors influencing the spread are social
-behavior and vaccination. We will talk more about infectious diseases
+behaviour and vaccination. We will talk more about infectious diseases
 spread in section 4 @sec-13-infectious_diseases.
 
 ### Example: Epidemic X {#sec-05-epidemic-x}
@@ -843,7 +843,7 @@ cbind(test_data, pred = predictions) %>%
   labs(
     title = "Prediction of Infections for Epidemic X",
     subtitle = "Simulate Data",
-    x = "Time (Day)", y = "Obesrved vs Estimated values")
+    x = "Time (Day)", y = "Obeserved vs Estimated values")
 ```
 
 #### Optimization with Tidymodels
@@ -855,7 +855,7 @@ as in the case of a random forest model, the number of trees, the number
 of variables to consider at each split, and the minimum number of data
 points required to split a node. These hyperparameters can significantly
 impact the model's performance, and tuning them can help improve the
-model's accuracy and generalization to new data.
+model's accuracy and generalisation to new data.
 
 For this task we use the `{tidymodels}`\index{tidymodels} package, a
 collection of packages for modelling and machine learning using the
@@ -926,7 +926,7 @@ hyperparameters for the Random Forest model. The `show_best()` function
 displays the best hyperparameters based on the optimization results.
 
 ```{r}
-# Summarize the tuning results
+# Summarise the tuning results
 show_best(bayes_results, metric = "rmse")
 ```
 
@@ -1011,7 +1011,7 @@ distribution.
 The model used is the **INLA - integrated nested Laplace
 approximation**\index{INLA} [@approxim] model, an excellent choice for
 applications requiring repeated model fitting. The INLA approach is
-particularly useful for fitting complex models, such as generalized
+particularly useful for fitting complex models, such as Generalised
 additive models (GAMs)\index{GAM}, which involve non-linear
 relationships between predictors and the response variable.
 
@@ -1047,7 +1047,7 @@ more efficient estimation of the posterior distribution, making it a
 popular choice for Bayesian inference in large-scale applications.
 However, it's worth noting that for very complex models or those with
 multi-modal posteriors, MCMC\index{MCMC} might still be preferred due to
-its flexibility and ability to characterize the entire posterior
+its flexibility and ability to characterise the entire posterior
 distribution.
 
 In INLA, each of GAMs components are treated as random effects with
@@ -1152,7 +1152,7 @@ non-linear trends by fitting smooth, flexible functions to the data.
 These functions can be represented through various basis functions, and
 a second-order random walk is one such basis function. The random walk
 model assumes that the values of the response variable are correlated
-with their neighbors, creating a smooth, continuous effect over time.
+with their neighbours, creating a smooth, continuous effect over time.
 
 ## Measures of Machine Learning Models
 
@@ -1168,17 +1168,17 @@ improvement.
 ### Loss Functions
 
 > The **loss function** is a method for evaluating how well a machine
-> learning algorithm models featured a dataset. The **cost function** is
+> learning algorithm model features a dataset. The **cost function** is
 > the average of all loss function values.
 
 The accuracy of predictive models is checked with **loss
 functions**\index{loss function}, which measure the discrepancy between
-the predicted outcomes and the actual values. This adjustment the model
+the predicted outcomes and the actual values. This adjustment of the model
 learning process is performed through iterative adjustments of the model
 parameters with the objective to improve the model's performance.
 
 Models are trained to a specific loss function that guides the
-optimization process and quantify the model performance. The most common
+optimization process and quantifies the model performance. The most common
 loss functions are:
 
 1.  **Regression Loss Functions:**\index{regression loss functions} For
@@ -1277,7 +1277,7 @@ $$R^2 = 1 - \frac{SS_{residual}}{SS_{total}}$$ {#eq-r2}
 -   **Adjusted R-squared:**\index{adjusted r-squared} A modified version
     of R-squared that adjusts for the number of predictors in the model,
     providing a more accurate measure of the model's goodness of fit. It
-    penalizes the addition of unnecessary predictors that do not improve
+    penalises the addition of unnecessary predictors that do not improve
     the model's performance.
 
 $$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$ {#eq-adjr2}
@@ -1307,7 +1307,7 @@ $$Precision = \frac{TP}{TP + FP}$$ {#eq-precision}
 $$Recall = \frac{TP}{TP + FN}$$ {#eq-recall}
 
 -   **Confusion Matrix:**\index{confusion matrix} A table that
-    summarizes the performance of a classification model, showing the
+    summarises the performance of a classification model, showing the
     number of true positive (TP), true negative (TN), false positive
     (FP), and false negative (FN) predictions. It is used to calculate
     metrics such as accuracy, precision, recall, and specificity.
@@ -1327,7 +1327,7 @@ $$F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}$$ {#eq-f1}
 $$TPR = \frac{TP}{TP + FN}; \text{ }FPR = \frac{FP}{FP + TN}$$ {#eq-tpr}
 
 -   **Area Under the Curve (AUC):**\index{AUC} The area under the ROC
-    curve, which provides a single value to summarize the model's
+    curve, which provides a single value to summarise the model's
     performance. An AUC of 0.5 indicates a random classifier, while an
     AUC of 1.0 indicates a perfect classifier.
 
@@ -1356,7 +1356,7 @@ The most common analyses methods are[@hult2021]:
 
 As mentioned in the history of health metrics (@sec-01-health_metrics),
 the cost-utility framework has been employed for calculating QALY. Over
-time, this measure has been criticized for potentially discriminating
+time, this measure has been criticised for potentially discriminating
 against certain disabilities in the population by assigning costs that
 were perceived as either too high or too low, and for failing to capture
 the full spectrum of human health conditions.

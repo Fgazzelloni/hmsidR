@@ -1,4 +1,4 @@
-# Spatial Data Modelling and Visualization {#sec-11-spatials}
+# Spatial Data Modelling and visualisation {#sec-11-spatials}
 
 ```{r}
 #| echo: false
@@ -17,7 +17,7 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Learn how to model and visualize spatial data
+-   Learn how to model and visualise spatial data
 -   Understand the concepts of spatial data, spatial data models, and
     spatial models
 -   Create maps, simulate infections, and predict the spatial
@@ -27,9 +27,9 @@ Learning Objectives
 
 \
 In the previous chapters, we explored the fundamentals of data
-visualization with various techniques for creating static and
+visualisation with various techniques for creating static and
 interactive plots. In this chapter, we will learn how to model and
-visualize spatial data, which involves analyzing and representing data
+visualise spatial data, which involves analysing and representing data
 with spatial components. We will explore the concepts of spatial data,
 spatial data models, and spatial models, and learn how to create maps,
 simulate infections, and predict the spatial distribution of phenomena
@@ -37,14 +37,14 @@ such as disease spread. By combining spatial data with machine learning
 techniques, we can model the spatial dynamics of disease transmission
 and assess the risks associated with the spread of infections. We will
 use various packages such as `sf`, `ggplot2`, and `gstat` to create
-spatial models and visualizations, and gain insights into the spatial
+spatial models and visualisations, and gain insights into the spatial
 distribution of infections in a specific region.
 
 ## Spatial Data, Spatial Data Models and Spatial Models
 
 Essential for understanding the spatial distribution of phenomena such
 as disease spread, land cover change, or climate patterns, **spatial
-data** and **spatial models** are crucial for analyzing and predicting
+data** and **spatial models** are crucial for analysing and predicting
 spatial processes.
 
 > But, what is the difference between spatial data, spatial data models,
@@ -58,9 +58,9 @@ features, whereas raster data models use a grid of cells or pixels,
 where each cell has a value representing information such as temperature
 or land cover.
 
-Another important distinction is that between **spatial data models**
+Another important distinction is between **spatial data models**
 and **spatial models**. Spatial data models are **frameworks** for
-organizing and representing spatial data, connecting our understanding
+organising and representing spatial data, connecting our understanding
 of events to their representation and processing through algorithms as
 spatial primitives and relationships.
 
@@ -108,7 +108,7 @@ additional attributes such as the name of the country, population, and
 other information.
 
 This is a simple map of Africa, but we can make it more interesting by
-adding some colors to the countries. A better resolution of the colored
+adding some colours to the countries. A better resolution of the colored
 map can be found in the online version of the book.
 
 ```{r}
@@ -122,7 +122,7 @@ map can be found in the online version of the book.
 ggplot(data = africa) +
   geom_sf() +
   coord_sf()
-# Africa with colors
+# Africa with colours
 ggplot(data = africa) +
   geom_sf(aes(fill=name), 
           color= "white", 
@@ -133,7 +133,7 @@ ggplot(data = africa) +
 
 ## Coordinate Reference System (CRS)
 
-A **coordinate reference system** (CRS) is a standardized way of
+A **coordinate reference system** (CRS) is a standardised way of
 defining the spatial location of features on the Earth's surface. It
 uses a set of coordinates to represent the position of points, lines,
 and polygons in space. There are different types of CRS, such as
@@ -141,9 +141,9 @@ and polygons in space. There are different types of CRS, such as
 Earth's surface in different ways. Geographic CRS (**LatLong**)
 represents locations on a curved surface using latitude and longitude
 for global mapping, while projected CRS or **Universal Transverse
-Mercator (UTM)** projects the curved Earth onto a flat map, using meters
+Mercator (UTM)** projects the curved Earth onto a flat map, using metres
 for precise mapping. In particular, the UTM system provides the distance
-in meters from the equator and the central meridian of a specific zone.
+in metres from the equator and the central meridian of a specific zone.
 
 We use the `{sf}` package to define and transform CRS. The `st_crs()`
 function allows you to retrieve the CRS of a spatial object, while the
@@ -165,7 +165,7 @@ Group[^11-spatials-1]. The EPSG code for WGS 84 is 4326.
 
 [^11-spatials-1]: <https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf>
 
-## Example: Simulation of Infections in Central Africa Rep.
+## Example: Simulation of Infections in Central African Rep.
 
 Synthetic data are created for the Central African Republic. The
 simulation of the number of infected individuals, their location, and
@@ -281,13 +281,13 @@ df %>%
 #| label: fig-africa_map2
 #| fig-cap: "Map of Africa"
 #| fig-subcap: 
-#|  - "Map of Africa and Central Africa Rep."
-#|  - "Map of Central Africa Rep. Simulation of Infections"
+#|  - "Map of Africa and Central African Rep."
+#|  - "Map of Central African Rep. Simulation of Infections"
 #| fig-alt: "Map of Africa"
 ggplot() +
   geom_sf(data = africa) +
   geom_sf(data = ctr_africa, fill = "brown") +
-  labs(title = "Map of Africa and Central Africa Rep.")
+  labs(title = "Map of Africa and Central African Rep.")
 
 ggplot() +
   geom_sf(data = africa) +
@@ -297,7 +297,7 @@ ggplot() +
              aes(x = longitude, y = latitude, 
                  color = factor(presence)),
              shape = ".") +
-  labs(title = "Synthetic Data Visualization",
+  labs(title = "Synthetic Data visualisation",
        color = "Infection Status") +
   theme(legend.position = "top")
 ```
@@ -325,7 +325,7 @@ relationship is not significant.
 
 ### Histogram and Scatter Plot
 
-To visualize the distribution of the presence of infection in Central
+To visualise the distribution of the presence of infection in Central
 Africa, we can create a histogram of the presence variable using the
 `geom_bar()` function from the `{ggplot2}` package. The histogram shows
 the frequency of infected and non-infected locations in Central Africa,
@@ -335,9 +335,9 @@ representing the count of locations.
 ```{r}
 #| layout-ncol: 2
 #| label: fig-simulated_data
-#| fig-cap: "Histogram of Presence of Infection in Central Africa Rep."
+#| fig-cap: "Histogram of Presence of Infection in Central African Rep."
 #| fig-subcap: 
-#|  - "Histogram of Presence of Infection in Central Africa Rep."
+#|  - "Histogram of Presence of Infection in Central African Rep."
 #|  - "Scatter Plot of Temperature and Infections"
 #| fig-alt: "Histogram and Scatterplot"
 ggplot(data = df, 
@@ -377,7 +377,7 @@ coordinates and the CRS as 4326[^11-spatials-2]. Then, intersect the
 data with `st_intersection(ctr_africa)` to keep only the points within
 the country. Finally, select the relevant columns for the analysis.
 
-[^11-spatials-2]: More information on coordinate reference system is
+[^11-spatials-2]: More information on the coordinate reference system is
     here: <https://epsg.io/>.
 
 ```{r}
@@ -419,17 +419,17 @@ ctr_africa_grid_full <- data.frame(PtInPoly(bbox_grid,
 ctr_africa_grid_full %>% head()
 ```
 
-Mapping the grid of points on the map of Central African Republic, we
-can visualize the spatial distribution of infected locations.
+Mapping the grid of points on the map of the Central African Republic, we
+can visualise the spatial distribution of infected locations.
 
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map3
-#| fig-cap: "Map of Central Africa Rep."
+#| fig-cap: "Map of Central African Rep."
 #| fig-subcap: 
-#|  - "Map of Central Africa Rep. with a Window Grid"
-#|  - "Grid Map of Central Africa Rep."
-#| fig-alt: "Grid-Map of Central Africa Rep."
+#|  - "Map of Central African Rep. with a Window Grid"
+#|  - "Grid Map of Central African Rep."
+#| fig-alt: "Grid-Map of Central African Rep."
 # Window Grid
 ggplot() +
   geom_sf(data = ctr_africa)+
@@ -457,13 +457,13 @@ ggplot(data = ctr_africa_grid_full) +
 
 ### Create a Raster of Temperature
 
-To visualize the temperature data on the map of Central African Republic
+To visualise the temperature data on the map of the Central African Republic
 we create a raster template. The raster template has the same extent as
 the simulated infected locations and will be used to **rasterize** the
 **temperature** data. This means that the temperature data will be
 converted into a raster format, with each cell in the raster grid
 representing a specific temperature value. The rasterized temperature
-data will be visualized as a heatmap on the map, with warmer colors
+data will be visualised as a heatmap on the map, with warmer colours
 indicating higher temperatures.
 
 The raster template is created using the `rast()` function from the
@@ -495,9 +495,9 @@ ctr_africa_raster <- rasterize(df_sf,
                                fun = max)
 ```
 
-Before plotting the rasterized temperature data on the map of Central
+Before plotting the rasterized temperature data on the map of the Central
 African Republic, we need to convert the rasterized data to a data frame
-format. This will allow us to visualize the temperature data as a
+format. This will allow us to visualise the temperature data as a
 heatmap on the map. The rasterized data contains the temperature values
 for each cell in the raster grid, which are assigned based on the
 latitude and longitude coordinates of the temperature data.
@@ -561,15 +561,15 @@ ggsave("images/11_temperature_raster2.png",
 Raster](images/11_temperature_raster1.png){#fig-raster
 fig-alt="Temperature"}
 
-![Central Africa Rep. Map of Max Temperature
+![Central African Rep. Map of Max Temperature
 Level](images/11_temperature_raster2.png){#fig-raster2
-fig-alt="Central Africa Rep."}
+fig-alt="Central African Rep."}
 
-Central Africa Rep. Raster Map of Infections and Max Temperature Level
+Central African Rep. Raster Map of Infections and Max Temperature Level
 :::
 
-This plot shows the temperature data as a heatmap on the map of Central
-African Republic, with warmer colors indicating higher temperatures. The
+This plot shows the temperature data as a heatmap on the map of the Central
+African Republic, with warmer colours indicating higher temperatures. The
 infected locations are represented as circles with size indicating the
 number of infected individuals at each location.
 
@@ -579,7 +579,7 @@ A central point that represents the spatial distribution of infections
 in the region is the center of mass. It is a useful metric for
 understanding the spatial dynamics of disease spread and identifying
 critical zones for intervention. To calculate the coordinates of the
-**center of mass** for the infections, even called **epicenter** of the
+**center of mass** for the infections, even called the **epicenter** of the
 infections, we use the `center_of_mass()` function.
 
 The center of mass is the average of the latitude and longitude of the
@@ -600,25 +600,25 @@ df_com <- tibble(longitude = center_of_mass(df)[1],
 df_com
 ```
 
-Finally, plot the infections on the map of Central African Republic,
+Finally, plot the infections on the map of the Central African Republic,
 with the temperature data represented as a raster layer. The temperature
-data is displayed as a **heatmap**, with warmer colors indicating higher
+data is displayed as a **heatmap**, with warmer colours indicating higher
 temperatures. The infections are shown as points on the map, with
-different colors representing infected and non-infected locations.
+different colours representing infected and non-infected locations.
 
 Note, here a new package is used, the `{ggnewscale}` package, which is a
-package that allows you to add multiple color scales to a single plot.
-This is useful when you want to visualize different variables with
-different color scales in the same plot.
+package that allows you to add multiple colour scales to a single plot.
+This is useful when you want to visualise different variables with
+different colour scales in the same plot.
 
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map5
-#| fig-cap: "Map of Central Africa Rep."
+#| fig-cap: "Map of Central African Rep."
 #| fig-subcap: 
 #|  - "Scatterplot of Simulated Locations"
-#|  - "Infected Locations in Central Africa Rep."
-#| fig-alt: "Map of Central Africa Rep."
+#|  - "Infected Locations in Central African Rep."
+#| fig-alt: "Map of Central African Rep."
 # Location of Infections   
 ggplot() +
   geom_sf(data = df_sf, aes(shape = factor(presence),
@@ -628,10 +628,10 @@ ggplot() +
              color = "red", size = 4) +
   scale_colour_manual("Infection Status", 
                       values = c("1" = "red", "0" = "blue"))  +
-  # combine shape and color legends
+  # combine shape and colour legends
   guides(color = guide_legend(title = "Infection Status"),
          shape = guide_legend(title = "Infection Status")) +
-  labs(title = "Simulated Locations in Central Africa Rep.",
+  labs(title = "Simulated Locations in Central African Rep.",
        subtitle = "Synthetic Data with Infections Center of Mass") +
   theme(legend.position = "right")
 
@@ -653,7 +653,7 @@ ggplot() +
   geom_point(data = df_com,
              aes(x = longitude, y = latitude), 
              color = "red", size = 4, shape = 13) +
-  labs(title = "Simulated Infections with Size on Max Temperature in Central Africa Rep.",
+  labs(title = "Simulated Infections with Size on Max Temperature in Central African Rep.",
        subtitle = "Synthetic Data with Center of Mass",
        fill = "Temperature", 
        size = "Number") +
@@ -664,14 +664,14 @@ ggplot() +
 ::: solutionbox
 **Interactive Maps**
 
-The infections can be visualized with `{mapview}` or `{leaflet}`, type
+The infections can be visualised with `{mapview}` or `{leaflet}`, type
 of interactive maps, here is a code snippet of how to do it.
 
 **Map with Mapview:**
 
 This is the interactive map with the max temperatures for the simulated
 data in Central African Republic. The data represented as a raster
-points, with warmer colors indicating higher temperatures are shown as
+points, with warmer colours indicating higher temperatures are shown as
 points on the map.
 
 ```{r}
@@ -688,7 +688,7 @@ mapview(df_sf,
 **Map with Leaflet:**
 
 The `{leaflet}` and `{leaflet.extras}` packages are widely explained in
-the package documentation. Here is shown howe to make a `heatmap` with
+the package documentation. Here is shown how to make a `heatmap` with
 the infections and the center of mass.
 
 ```{r}
@@ -734,10 +734,10 @@ health interventions.
 
 To explore the dynamics of disease transmission in Central Africa by
 simulating the spread of infections we use a type of network
-characterized by a high degree of clustering and short average path
+characterised by a high degree of clustering and short average path
 lengths between nodes called **small-world network**. It represents a
 realistic model of human contact patterns, where individuals are more
-likely to interact with their neighbors but can also have long-range
+likely to interact with their neighbours but can also have long-range
 connections with other individuals. By simulating the spread of
 infections in a small-world network, we can investigate how the spatial
 structure of the network influences the transmission dynamics and
@@ -748,11 +748,11 @@ simulate the spread of infections through the network. The network will
 consist of nodes representing individuals in Central Africa, with
 connections between nodes based on a small-world topology. The
 `sample_smallworld()` function generates a small-world network with the
-specified parameters: the number of nodes `N`, the average degree `k`,
+specified parametres: the number of nodes `N`, the average degree `k`,
 and the rewiring probability `p`. The average degree `k` determines the
-number of neighbors each node is connected to, while the rewiring
+number of neighbours each node is connected to, while the rewiring
 probability `p` controls the likelihood of rewiring connections to
-create long-range connections. By adjusting the parameters `k` and `p`,
+create long-range connections. By adjusting the parametres `k` and `p`,
 we can create small-world networks with different topologies and study
 their impact on disease transmission dynamics.
 
@@ -760,7 +760,7 @@ their impact on disease transmission dynamics.
 library(igraph)
 
 N <- nrow(df_sf)  # Number of nodes
-k <- 3    # Each node connected to k nearest neighbors
+k <- 3    # Each node connected to k nearest neighbours
 p <- 0.1   # Rewiring probability
 small_world <- sample_smallworld(dim = 1,
                                  size = N,
@@ -770,7 +770,7 @@ small_world <- sample_smallworld(dim = 1,
 
 Assign the small_world to a new variable `small_world_dev` and infect 10
 random nodes. The status of the nodes is defined as "S" for susceptible
-and "I" for infectious. The color of the nodes is assigned based on
+and "I" for infectious. The colour of the nodes is assigned based on
 their infection status, with infectious nodes shown in red and
 susceptible nodes in gold.
 
@@ -783,7 +783,7 @@ V(small_world_dev)$status <- "S"  # Susceptible
 infected_nodes <- sample(V(small_world_dev), 10)
 V(small_world_dev)$status[infected_nodes] <- "I"  # Infectious
 
-# Assign colors based on infection status
+# Assign colours based on infection status
 V(small_world_dev)$color <- 
            ifelse(V(small_world_dev)$status == "I",
                                "red", "grey")
@@ -816,7 +816,7 @@ plot(small_world_dev,
      edge.width = 0.5)
 ```
 
-We use the Central Africa Rep. grid of points for prediction, and
+We use the Central African Rep. grid of points for prediction, and
 transform it to a simple features object, with the mean values of the
 covariates for simplicity.
 
@@ -834,7 +834,7 @@ infected_sf <- df_sf  %>%
   st_make_valid()
 ```
 
-Visualize the grid of points and the observed infections on the map of
+Visualise the grid of points and the observed infections on the map of the
 Central African Republic. To understand the spatial distribution of
 infections and the covariates for prediction, we use the small-world
 network made above, to simulate the connections between individuals.
@@ -873,11 +873,11 @@ edges <- edges %>%
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map6
-#| fig-cap: "Map of Central Africa Rep."
+#| fig-cap: "Map of Central African Rep."
 #| fig-subcap: 
 #|  - "Observed Size of Infections"
 #|  - "Map of Infection Status and Small-World Network"
-#| fig-alt: "Map of Central Africa Rep."
+#| fig-alt: "Map of Central African Rep."
 ggplot() + 
   geom_sf(data = ctr_africa_grid_sf, 
           shape = 21, stroke = 0.5, 
@@ -1004,8 +1004,8 @@ location $i$ and $j$, $\bar{x}$ is the mean value and $N$ indicates the
 number of spatial units, and $w_{ij}$ are the spatial weight between
 locations.
 
-$I$ measures the degree, to which infection is clustered, dispersed or
-randomly distributed, with values range from −1 indicating perfect
+$I$ measures the degree to which infection is clustered, dispersed or
+randomly distributed, with values ranging from −1 indicating perfect
 dispersion to +1 indicating perfect spatial clustering. A value of 0
 indicates no spatial autocorrelation, suggesting a random spatial
 pattern.
@@ -1021,8 +1021,8 @@ library(spdep)
 library(sp)
 
 coordinates(df) <- ~longitude + latitude
-# Define neighbors (using a distance threshold, for example)
-# Neighbors within a distance of 2 units
+# Define neighbours (using a distance threshold, for example)
+# Neighbours within a distance of 2 units
 nb <- dnearneigh(coordinates(df), 0, 2)  
 
 # Create spatial weights
@@ -1045,15 +1045,15 @@ simulated the data.
 
 ### Spatial Proximity with Kriging
 
-Although, the Moran's I test is useful for understanding the overall
+Although the Moran's I test is useful for understanding the overall
 spatial pattern of infections, it does not provide detailed information
 on the spatial distribution of cases across the region. To estimate the
 spatial distribution of infections and predict the risk of outbreaks, we
 can use spatial interpolation techniques such as
 **Kriging**[@kriging2024].
 
-This method used to estimate the spatial distribution of cases by
-creating a raster of the predicted the spatial distribution of
+This method is used to estimate the spatial distribution of cases by
+creating a raster of the predicted spatial distribution of
 infections. It creates a continuous surface that estimates the risk of
 infection across the entire study area by interpolating the number of
 infected individuals across a region.
@@ -1067,7 +1067,7 @@ approach combined time series data of confirmed cases with
 socio-demographic indicators to create detailed spatial risk maps,
 aiding in understanding and controlling the outbreak.
 
-Particularly useful for **visualizing the spatial dynamics** of disease
+Particularly useful for **visualising the spatial dynamics** of disease
 spread, while considering the impact of environmental factors such as
 temperature, or humidity on disease transmission; Kriging requires an
 estimation of the variance of points at locations.
@@ -1079,7 +1079,7 @@ stochastic process. It takes consideration of the spatial
 auto-correlation of the data. This means, for instance, the number of
 cases observed in one location are supposed to be correlated with the
 number of cases observed in nearby locations. This also considers the
-enverinmental variables that interact with the disease transmission.
+environmental variables that interact with the disease transmission.
 
 The variogram model formula:
 
@@ -1094,8 +1094,8 @@ We use the `{gstat}` package to perform Kriging with
 `variogram()`[@pebesma2004] [@wackernagel2003], `fit.variogram()`, and
 `gstat()` functions to perform **Universal Kriging**, a kriging method
 that allows to incorporate an external drift, such as temperature. The
-predictions are visualized on the grid of points generated earlier, with
-warmer colors indicating higher predicted values.
+predictions are visualised on the grid of points generated earlier, with
+warmer colours indicating higher predicted values.
 
 ```{r}
 library(gstat)
@@ -1128,8 +1128,8 @@ Where: $Z(u)$ is the predicted value at location $u$, $\lambda_i$ is the
 weight assigned to each observed value $Z(x_i)$, and $n$ is the number
 of observed values.
 
-The predictions are visualized on the grid of points generated earlier,
-with warmer colors indicating higher predicted values. The predictions
+The predictions are visualised on the grid of points generated earlier,
+with warmer colours indicating higher predicted values. The predictions
 are stored in the `kpred` object, which contains the predicted values
 and the variance of the predictions.
 
@@ -1144,23 +1144,23 @@ kpred <- predict(k, newdata = ctr_africa_grid_sf)
 kpred %>% head()
 ```
 
-Visualize predictions:
+visualise predictions:
 
 ```{r}
 #| layout-ncol: 2
 #| label: fig-africa_map7
-#| fig-cap: "Kriging Map of Central Africa Rep."
+#| fig-cap: "Kriging Map of Central African Rep."
 #| fig-subcap: 
-#|  - "Kriging Prediction in Central Africa Rep."
-#|  - "Kriging Variance in Central Africa Rep."
-#| fig-alt: "Kriging Map of Central Africa Rep."
+#|  - "Kriging Prediction in Central African Rep."
+#|  - "Kriging Variance in Central African Rep."
+#| fig-alt: "Kriging Map of Central African Rep."
 ggplot() +
   geom_sf(data = kpred, 
           aes(fill = var1.pred),
           shape=21, stroke=0.5) +
   geom_sf(data = infected_sf) +
   scale_fill_viridis_c() +
-  labs(title = "Kriging Prediction in Central Africa Rep.") +
+  labs(title = "Kriging Prediction in Central African Rep.") +
   theme(legend.position = "right")
 
 ggplot() +
@@ -1169,7 +1169,7 @@ ggplot() +
           shape=21, stroke=0.5) +
   geom_sf(data = infected_sf) +
   scale_fill_viridis_c() +
-  labs(title = "Kriging Variance in Central Africa Rep.") +
+  labs(title = "Kriging Variance in Central African Rep.") +
   theme(legend.position = "right")
 ```
 
@@ -1182,14 +1182,14 @@ risk of infections across the region, while the spatial distribution of
 infections and the small-world network represent the spatial dynamics of
 disease transmission.
 
-The risk of infections is visualized on the map of Central African
-Republic, with warmer colors indicating higher predicted values. The
+The risk of infections is visualised on the map of Central African
+Republic, with warmer colours indicating higher predicted values. The
 spatial distribution of infections is shown as points on the map, with
-different colors representing infected and non-infected locations. The
+different colours representing infected and non-infected locations. The
 small-world network is overlaid on the map, showing the connections
 between nodes and the spatial dynamics of disease transmission.
 
-This is a different way to visualize the Kriging predictions, first a
+This is a different way to visualise the Kriging predictions, first a
 data frame is created with the coordinates and the predicted values, and
 then the predictions plotted on the map of Central African Republic. The
 predictions are shown as a **raster layer**.
@@ -1204,7 +1204,7 @@ kriging_df <- kpred %>%
 ```{r}
 #| label: fig-africa_map8
 #| fig-cap: "Kriging Prediction of Infections Size on Max Temperature"
-#| fig-alt: "Kriging Map of Central Africa Rep."
+#| fig-alt: "Kriging Map of Central African Rep."
 ggplot() +
   geom_sf(data = ctr_africa, fill = "grey") +
   geom_raster(data =  kriging_df,
@@ -1240,15 +1240,15 @@ ggplot() +
 
 Finally, the last plot is made with the `spplot()` function from the
 `{sp}` package, which creates a **spatial plot** of the Kriging
-predictions. The predictions are visualized as a **heatmap** on the map
-of Central African Republic, with warmer colors indicating higher
+predictions. The predictions are visualised as a **heatmap** on the map
+of the Central African Republic, with warmer colours indicating higher
 predicted values. The plot provides a detailed view of the spatial
 distribution of infections and the risk of outbreaks across the region.
 
 ```{r}
 #| label: fig-africa_map9
 #| fig-cap: "Kriging Prediction of Infections with a Spplot"
-#| fig-alt: "Kriging Map of Central Africa Rep."
+#| fig-alt: "Kriging Map of Central African Rep."
 kriging_sp <- kriging_df
 coordinates(kriging_sp) <- ~longitude+latitude
 spplot(kriging_sp, "var1.pred", main = "Kriging Prediction of Infections")
@@ -1258,9 +1258,9 @@ spplot(kriging_sp, "var1.pred", main = "Kriging Prediction of Infections")
 
 In this chapter, we have explored the spatial dynamics of disease
 transmission in Central Africa using a combination of spatial analysis
-techniques and visualization tools. We have simulated the spatial
+techniques and visualisation tools. We have simulated the spatial
 distribution of infections, created a grid of points to cover the
-region, and visualized the spatial distribution of infections on the map
+region, and visualised the spatial distribution of infections on the map
 of Central African Republic. We have used a small-world network to model
 the spatial connections between individuals and simulated the spread of
 infections through the network. We have shown how the Euclidean distance

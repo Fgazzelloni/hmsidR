@@ -32,7 +32,7 @@ focusing on the challenges of applying predictions to new data, the use
 of **time series analysis**\index{time series}, and **mixed
 models**\index{mixed models} to anticipate the trajectory of infectious
 diseases and health metrics. By exploring the underlying patterns and
-analyzing historical data, we estimate the disease burden and evaluate
+analysing historical data, we estimate the disease burden and evaluate
 the impact of interventions on population health. We demonstrate how
 time series analysis and mixed models can be tailored to address
 specific research questions, such as predicting disease outbreaks,
@@ -47,8 +47,8 @@ learning techniques. Here we look at how to use these predictions on new
 data.
 
 When making predictions on new data, it is important to consider the
-**generalizability** of the model. A model that performs well on the
-training data may not necessarily generalize well to new, unseen data.
+**generalisability** of the model. A model that performs well on the
+training data may not necessarily generalise well to new, unseen data.
 To evaluate the performance of the model we used the
 **cross-validation** technique, but there are more such as **hold-out
 validation**, **k-fold cross-validation**, **leave-one-out
@@ -192,7 +192,7 @@ future trends and making informed decisions based on historical data. By
 leveraging the insights gained from the models, we can anticipate the
 trajectory of infectious diseases, estimate disease burden, and evaluate
 the impact of interventions on population health. The models can be
-further refined and optimized to improve their predictive performance
+further refined and optimised to improve their predictive performance
 and provide more accurate forecasts. By combining predictive modelling
 with time series analysis and mixed models, we can gain a comprehensive
 understanding of the complex dynamics of public health and make
@@ -200,7 +200,7 @@ data-driven decisions to improve population health outcomes.
 
 ## Time Series Analysis
 
-One important side of the analysis is that to consider the evolution of
+One important side of the analysis is to consider the evolution of
 the phenomenon in time. We can do this by using time as a factor in the
 model. **Time series**\index{time series} analysis serves as a tool for
 understanding and forecasting temporal patterns. Techniques such as
@@ -218,7 +218,7 @@ as hierarchical or longitudinal data, while accounting for
 individual-level and group-level factors that may influence the outcome
 of interest.
 
-To analyze temporal data, where observations are collected at regular
+To analyse temporal data, where observations are collected at regular
 intervals over time, time series analysis\index{time series} allows for
 studying the patterns, trends, and dependencies present in the data to
 make forecasts or infer relationships. Time series data often exhibit
@@ -240,7 +240,7 @@ patterns. By separating these components, through decomposition methods,
 it is possible to discover the temporal dynamics within the data,
 facilitating more accurate forecasting and predictive modelling.
 Moreover, decomposing time series data can aid in anomaly detection,
-trend analysis, and seasonal adjustment, making it fundamental tool for
+trend analysis, and seasonal adjustment, making it a fundamental tool for
 interpreting complex temporal phenomena.
 
 Modelling time series data often requires a combination of techniques to
@@ -292,7 +292,7 @@ The SDI is calculated as the geometric mean of these three components:
 
 $$SDI = \sqrt[3]{TFU25 \times EDU15+ \times LDI}$$ {#eq-sdi}
 
-Each component (TFU25, EDU15+, and LDI) is normalized before taking the
+Each component (TFU25, EDU15+, and LDI) is normalised before taking the
 geometric mean to ensure they are on a comparable scale.
 
 In summary, the TFR formula is specific to calculating fertility rates,
@@ -304,7 +304,7 @@ In general, the level of this index helps identify key drivers in the
 development of health outcomes. SDI can be used as a predictor in
 predictive models to estimate the burden of diseases, mortality rates,
 and other health metrics. For example, the relationship between SDI and
-the incidence of a disease can be modeled using a logistic regression
+the incidence of a disease can be modelled using a logistic regression
 model:
 
 $$ \log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 \times \text{SDI} + \beta_2 \times X_2 + \cdots + \beta_k \times X_k$$ {#eq-logit-sdi}
@@ -321,7 +321,7 @@ given the value of SDI:
 
 $$p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \times \text{SDI})}}$$ {#eq-prob-sdi}
 
-In this example we use the SDI values from 1990 to 2019, for 3 location
+In this example we use the SDI values from 1990 to 2019, for 3 locations
 plus the Global region and evaluate the difference in SDI average across
 the time.
 
@@ -358,9 +358,9 @@ sdi90_19 |>
   filter(location %in% c("Global", "Italy", "France", "Germany"))
 ```
 
-Then selecting only France as location to analyze the time series using
+Then selecting only France as location to analyse the time series using
 spline interpolation and ARIMA(1,0,0), we can decompose the time series
-into its components and analyze the autocorrelation function.
+into its components and analyse the autocorrelation function.
 
 ```{r}
 sdi_fr <- sdi90_19 |>
@@ -510,7 +510,7 @@ learners can be aggregated to a **model ensemble**\index{model ensemble}
 by combining the forecasts of individual models.
 
 **Ensemble learning**\index{ensemble learning} is a machine learning
-technique, that leverages the diversity of individual models to make
+technique that leverages the diversity of individual models to make
 more accurate predictions and reduce overfitting. Ensemble methods can
 reduce the variance and bias of the predictions, leading to more
 accurate and reliable results. Ensemble techniques such as
@@ -519,9 +519,9 @@ stacking\index{stacking} leverage the diversity of individual models to
 create a stronger collective model that outperforms its components.
 These methods are widely used in machine learning and predictive
 modelling to enhance the predictive power of the model and achieve
-better generalization performance on unseen data.
+better generalisation performance on unseen data.
 
-In case is required install the `urca` package:
+In case is required install the `{urca}` package:
 
 ```{r}
 #| eval: false
@@ -578,7 +578,7 @@ caf_fit |>
 
 ## Mixed Models
 
-Mixed models are a powerful statistical tool for analyzing data with a
+Mixed models are a powerful statistical tool for analysing data with a
 hierarchical or nested structure, where observations are grouped within
 higher-level units. By incorporating both fixed and random effects,
 mixed models can account for the variability within and between groups,
@@ -633,7 +633,7 @@ understanding the long-term burden and survivability of a disease.
 **PI Ratio (Prevalence to Incidence Ratio)**: $PI=P/I$
 
 This ratio compares the total number of existing cases to the number of
-new cases in a specific time period. As **chronicity indicator**, it
+new cases in a specific time period. As a **chronicity indicator**, it
 indicates how long individuals live with the disease. A high PI suggests
 that individuals live longer with the disease, indicating it is more
 chronic. It provides insight into the chronic nature of a disease and
@@ -644,15 +644,15 @@ the duration that individuals typically live with the disease.
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
 
-In R, mixed-effects models can integrated with Eigen, a C++ template
-library for linear algebra which significantly speed up the computations
+In R, mixed-effects models can be integrated with Eigen, a C++ template
+library for linear algebra which significantly speeds up the computations
 involved in fitting mixed-effects models.
 
 ## Example: Tuberculosis YLDs Estimation Using Mixed-Effects Models
 
 To estimate Years Lived with Disability (YLDs) using mixed-effects
 models in R, we can use the `lme4` package which provides functions to
-fit linear and generalized linear mixed-effects models. We will create a
+fit linear and generalised linear mixed-effects models. We will create a
 hypothetical example of how to estimate YLDs with mixed-effects models.
 We use the **Respiratory infections and tuberculosis** dataset found in
 `{hmsidwR}` package containing YLDs, deaths, incidence and prevalence
@@ -704,9 +704,9 @@ hmsidwR::disweights %>%
   select(cause1, severity, dw)
 ```
 
-The disability weights is 0.333 for tuberculosis, and the duration
+The disability weight is 0.333 for tuberculosis, and the duration
 derived from the GBD 2021 was estimated based on a systematic review and
-adjusted it for treated and untreated cases. The duration of
+adjusted for treated and untreated cases. The duration of
 tuberculosis was estimated to be 3 years[@tiemersma2011] for untreated
 cases and 6 months for treated cases.
 
@@ -750,7 +750,7 @@ predictions <- predict(model,
 ```{r}
 #| fig-cap: "Predicted YLDs for Tuberculosis"
 #| fig-alt: "Predicted YLDs for Tuberculosis"
-#| label: fig-moderes-tuberculosis
+#| label: fig-mod-res-tuberculosis
 #| fig-width: 5
 #| fig-height: 3
 
@@ -781,7 +781,7 @@ and making informed decisions based on historical data. By leveraging
 the insights gained from the models, we can anticipate the trajectory of
 infectious diseases, estimate disease burden, and evaluate the impact of
 interventions on population health. The models can be further refined
-and optimized to improve their predictive performance and provide more
+and optimised to improve their predictive performance and provide more
 accurate forecasts. By combining predictive modelling with time series
 analysis and mixed models, we can gain a comprehensive understanding of
 the complex dynamics of public health and make data-driven decisions to

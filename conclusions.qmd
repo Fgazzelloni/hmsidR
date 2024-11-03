@@ -1,6 +1,6 @@
 # Conclusions {.unnumbered .unlisted}
 
-In conclusion, the modeling technique of transfer learning serves as the
+In conclusion, the modelling technique of transfer learning serves as the
 foundational approach for applying models, demonstrating how to make
 predictions and enhance public policies. This methodology not only
 provides insights into effective prediction methods but also contributes
@@ -20,7 +20,7 @@ Disability-Adjusted Life Years (DALYs), adds a critical dimension to the
 study, by assessing the feasibility of transfer learning in predicting
 subtle impacts on health metrics.
 
-The proposal's significance for future reserch lies in addressing the
+The proposal's significance for future research lies in addressing the
 gaps in existing studies on transfer learning in epidemic forecasting.
 While empirical evidence suggests its potential, the aim is to expand
 this understanding, providing a valuable contribution to the empirical
@@ -37,6 +37,6 @@ infectious diseases. The application of these technologies in health
 metrics analysis holds the potential for more accurate assessments of
 disease burden.
 
-Dedicated efforts and resources are imperative to fully realize the
+Dedicated efforts and resources are imperative to fully realise the
 capabilities of transfer learning and machine learning in addressing
 global health challenges.

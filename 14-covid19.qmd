@@ -25,7 +25,7 @@ Learning Objectives
 
 \
 In this chapter, we explore the dynamics of **COVID-19** disease
-outbreaks in more details. We examine the results of various model's
+outbreaks in more detail. We examine the results of various model's
 applications that simulate the spread of the virus.
 
 ## Epidemiology
@@ -82,7 +82,7 @@ transmission.
 ::: {.callout .callout-info}
 Some notable examples of lockdown measures include:
 
--   **China**: The initial epicenter in Wuhan experienced strict
+-   **China**: The initial epicentre in Wuhan experienced strict
     lockdowns, with entire cities quarantined and movement heavily
     restricted. These measures were effective in curbing the initial
     spread of the virus.
@@ -96,7 +96,7 @@ Some notable examples of lockdown measures include:
 -   **India**: Implemented one of the world's largest lockdowns in March
     2020, affecting millions of people and including strict travel bans
     and business closures.
--   **Australia**: Used localized lockdowns effectively, particularly in
+-   **Australia**: Used localised lockdowns effectively, particularly in
     cities like Melbourne, which saw extended periods of strict
     restrictions.
 -   **United Kingdom**: Imposed several lockdowns, including a strict
@@ -150,8 +150,8 @@ widespread vaccination coverage.
 
 Mapping COVID-19 outbreaks helps identify infection hotspots, track the
 virus’s spread, and inform public health interventions. Geographic
-Information Systems (GIS) and spatial analysis techniques can visualize
-and analyze COVID-19 data, such as the number of cases, deaths, and
+Information Systems (GIS) and spatial analysis techniques can visualise
+and analyse COVID-19 data, such as the number of cases, deaths, and
 recoveries, at local, regional, and global levels.
 
 ## Example: Modelling the Spread of COVID-19 {#sec-14-modelling-covid19}
@@ -226,7 +226,7 @@ ggplot(as.data.frame(result), aes(time, I, color = "Infected")) +
 ```
 
 In reality, the spread of a virus is much more complex and influenced by
-many factors such as human behavior, government policies, healthcare
+many factors such as human behaviour, government policies, healthcare
 systems, vaccination campaigns, and human contact.
 
 ### Bayesian Analysis
@@ -378,12 +378,13 @@ plot(bayesian_model)
 <center>
 
 ![Bayesian Model
-diagnostics](images/14_bayesian_model_diagnostics.png){#fig-bayes-covid19 fig-alt="Bayesian Model diagnostics"}
+diagnostics](images/14_bayesian_model_diagnostics.png){#fig-bayes-covid19
+fig-alt="Bayesian Model diagnostics"}
 
 </center>
 
 Then, finally we can make predictions using the fitted model and
-visualize the actual vs. predicted COVID-19 cases over time. The
+visualise the actual vs. predicted COVID-19 cases over time. The
 `predictions` object is type matrix/array.
 
 ```{r}
@@ -434,7 +435,7 @@ technique is particularly useful in infectious disease modelling to
 account for uncertainties and variability in data, providing more
 reliable estimates of disease spread.
 
-This method combine the strengths of different models to produce a more
+This method combines the strengths of different models to produce more
 accurate and stable predictions by averaging the results of individual
 models or using more sophisticated techniques such as **stacking** or
 **boosting**.
@@ -576,7 +577,7 @@ rmse
 ```
 
 Plot the root mean squared error (`rmse`) values for the models to
-visualize their performance.
+visualise their performance.
 
 ```{r}
 #| label: fig-rmse
@@ -817,6 +818,8 @@ centroids <- COVID19 %>%
 options(scipen = 999)
 ```
 
+
+
 ```{r}
 #| label: fig-covid-cases
 #| fig-cap: "COVID-19 Cases by Country"
@@ -845,11 +848,11 @@ ggplot() +
         plot.subtitle = element_text(size = 8))
 ```
 
-The same graph made with selected countries only.
+The same graph is made with selected countries only.
 
 ```{r}
 #| label: fig-covid-cases2
-#| fig-cap: "COVID-19 Cases by Country"
+#| fig-cap: "COVID-19 Cases by Selected Countries"
 #| fig-alt: "COVID-19 Cases by Country"   
 ggplot() +
   geom_polygon(data = worldmap,

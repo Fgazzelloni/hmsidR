@@ -33,9 +33,9 @@ to find new R-packages and evaluate their suitability for a given task.
 
 When it comes to R, the possibilities are endless. With over 15,000
 packages available on CRAN (Comprehensive R Archive Network) and
-countless others on GitHub and other repositories, universe of available
+countless others on GitHub and other repositories, the universe of available
 packages is vast. How to untangle among all of them? Which one to
-choose? Sometimes, it is rather favorable to start by working out of the
+choose? Sometimes, it is rather favourable to start by working out of the
 library boxes, which means using functions provided in the built-in
 packages inside a fresh R installation.
 
@@ -52,7 +52,7 @@ extensive coding, often involving repetitive tasks and lengthy scripts.
 As a result, users can achieve sophisticated results more efficiently,
 without the need to write lengthy and intricate scripts from scratch.
 This shift has not only simplified the process of data analysis and
-modelling but has also democratized access to advanced statistical
+modelling but has also democratised access to advanced statistical
 techniques, making them more accessible to a broader audience.
 
 ## Essential R Packages for Machine Learning
@@ -66,9 +66,9 @@ disease include:
 
 1.  [**`{tidymodels}`**](https://www.tmwr.org/)[@silge]:
     This\index{tidymodels} framework provides a collection of packages
-    for modelling and machine learning tasks, including tidyr, dplyr,
+    for modelling and machine learning tasks, including {tidyr}, {dplyr},
     and ggplot2. It offers a consistent and tidy workflow for data
-    preprocessing, model building, evaluation, and visualization.
+    preprocessing, model building, evaluation, and visualisation.
 2.  [**`{caret}`**](https://topepo.github.io/caret/)[@kuhn]: The caret
     framework (short for **C**lassification **A**nd **RE**gression
     **T**raining) provides a unified interface for training and
@@ -92,13 +92,13 @@ meta-packages.
 
 1.  [`{randomForest}`](https://www.stat.berkeley.edu/~breiman/RandomForests/):
     For random forest models.
-2.  [`{xgboost}`](https://github.com/dmlc/xgboost): An optimized
+2.  [`{xgboost}`](https://github.com/dmlc/xgboost): An optimised
     distributed gradient boosting library designed to be highly
     efficient, flexible, and portable. It implements machine learning
     algorithms under the gradient boosting framework.
 3.  [`{glmnet}`](https://glmnet.stanford.edu/): For lasso and ridge
-    regression. Provides efficient procedures for fitting generalized
-    linear models via penalized maximum likelihood.
+    regression. Provides efficient procedures for fitting generalised
+    linear models via penalised maximum likelihood.
 4.  [`{nnet}`](http://www.stats.ox.ac.uk/pub/MASS4/): For neural
     networks.
 5.  [`{kernlab}`](https://cran.r-project.org/web/packages/kernlab/index.html):
@@ -106,9 +106,9 @@ meta-packages.
 6.  [`{e1071}`](https://cran.r-project.org/web/packages/e1071/index.html):
     For support vector machines and other functions.
 7.  [`{lme4}`](https://github.com/lme4/lme4/): For linear and
-    generalized linear mixed-effects models.
+    generalised linear mixed-effects models.
 8.  [`{mgcv}`](https://cran.r-project.org/web/packages/mgcv/index.html):
-    For generalized additive models.
+    For generalised additive models.
 9.  [`{rpart}`](https://github.com/bethatkinson/rpart): For recursive
     partitioning and regression trees.
 10. [`{h2o}`](https://github.com/h2oai/h2o-3): A powerful machine
@@ -122,7 +122,7 @@ meta-packages.
     provides high-level **neural networks** API written in Python.
     Designed to enable fast experimentation with deep learning models on
     top of [`{tensorflow}`](https://github.com/rstudio/tensorflow) (an
-    open-source machine learning framework developed by the Google).
+    open-source machine learning framework developed by Google).
 
 ### Time Series Analysis
 
@@ -144,14 +144,14 @@ meta-packages.
 ### Bayesian Analysis
 
 1.  [`{brms}`](https://github.com/paul-buerkner/brms): For Bayesian
-    generalized multivariate non-linear multilevel models using Stan.
+    generalised multivariate non-linear multilevel models using Stan.
 2.  [`{rstan}`](https://mc-stan.org/rstan/): For Bayesian inference
     using Stan.
 
 ### Specialized Tools
 
 1.  [`{spdep}`](https://github.com/r-spatial/spdep/) is a powerful tools
-    for spatial statistics, it provides a set of functions for analyzing
+    for spatial statistics, it provides a set of functions for analysing
     spatial dependencies and autocorrelation in spatial data,
     particularly relevant in infectious disease modelling. It also
     incorporates spatial effects into models and allows for a better
@@ -189,8 +189,7 @@ specific aspects of the analysis, such as spatial modelling (e.g.,
 `spdep`) or time series forecasting (e.g., `prophet`).
 
 The features and capabilities of each package should carefully be
-evaluated in relation to their specific research objectives before to
-choose the one that best meets research needs and objectives. And it is
+evaluated in relation to their specific research objectives before choosing the one that best meets research needs and objectives. And it is
 worth considering that experimenting with different packages and
 techniques may be beneficial to identify the most effective approach for
 a given analysis.
@@ -321,7 +320,7 @@ library(data.table)
 Define the task, where the `id`, `backend`, and `target` are specified.
 The `backend` is the data that will be used for training the models. The
 `task` is the interface between the data and the learners; in this
-use-case the preprocessing steps are done before hand, by removing
+use-case the preprocessing steps are done beforehand, by removing
 missing and categorical values.
 
 ```{r}
@@ -333,7 +332,7 @@ task <- TaskRegr$new(id = "DALYs",
 task$data() %>% head()
 ```
 
-The learners are the models specifications. A full list of learners can
+The learners are the model's specifications. A full list of learners can
 be obtained with the function `as.data.table(mlr_learners)`.
 
 ```{r}
@@ -396,7 +395,7 @@ available.
 #|   - "BMR Regression RMSE"
 #|   - "BMR Regression MAE"
 #| fig-alt: "BMR Regression"
-#| label: fig-bmr-egression
+#| label: fig-bmr-regression
 set.seed(349)
 autoplot(bmr, measure = msr("regr.rmse"))
 autoplot(bmr, measure = msr("regr.mae"))
@@ -491,7 +490,7 @@ dat %>%
 ```
 
 In the next @sec-08-predictions we will see an application of these two
-models on remaing years from 2017 to 2021, to test the model performance
+models on remaining years from 2017 to 2021, to test the model performance
 as it was on new data.
 
 ### Example: DALYs due to Rabies with H2O
@@ -512,7 +511,7 @@ ggplot2::theme_set(book_theme)
 The following example shows how to use the `{h20}` r package for running
 [**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via
 its REST API. It is particularly useful for handling large datasets.
-However, this is not the case seen the size of the rabies dataset, we
+However, this is not the case seeing the size of the rabies dataset, we
 can use it to compare the results with the previous model frameworks.
 
 ```{r}
@@ -775,7 +774,7 @@ More detailed explanation of how a neural network works can be found in
 In this case the **SEIR**\index{SEIR} model (susceptible, exposed,
 infected and recovered) is used, as seen in @sec-05-machine_learning
 chapter, to simulate the spread of a general infection in a population
-of 1000 individuals over 160 days. For some type of infections, the
+of 1000 individuals over 160 days. For some types of infections, the
 latency period is significant as it is the time during which infected
 individuals are not yet infectious themselves. During this period the
 individual is in compartment E (for exposed).
@@ -876,7 +875,7 @@ and the activation function will introduce non-linearity to the model.
 
 Here we use a simple model with just two layers and a **ReLU** and a
 **Sigmoid** as activation functions. These functions have specific
-shapes that allows the model to learn complex patterns in the data. Any
+shapes that allow the model to learn complex patterns in the data. Any
 time one layer is done the output is passed to the next layer.
 
 Although the `layer_dropout()` is not actually used in this application,
@@ -934,7 +933,7 @@ model %>%
 ```
 
 The model is then compiled using the `compile()` function which with the
-use of a **loss function** optimizes the results matching them against a
+use of a **loss function** optimises the results matching them against a
 minimum required value, and specified metrics to reduce the error.
 
 $$
@@ -1084,7 +1083,7 @@ saveRDS(predicted_infections, "data/model-data/keras.predicted_infections.rds")
 predicted_infections <- readRDS("data/model-data/keras.predicted_infections.rds")
 ```
 
-The adjustment is then done on the SEIR parameters based on predictions
+The adjustment is then done on the SEIR parameters based on predicted
 results. The beta parameter is adjusted by multiplying it by the mean of
 the predicted infections.
 
@@ -1134,8 +1133,8 @@ ggplot() +
 
 This is just a simple example of how the `{keras}` package can be used
 to train a deep learning model on social media data to predict the
-probability of infection. The model can tested on using different
-layers, more specification are found in the [keras
+probability of infection. The model can be tested on using different
+layers, more specifications are found in the [keras
 documentation](https://keras.io/).
 
 ## How to Find a New R-Package
@@ -1210,7 +1209,7 @@ ggplot(excess_downloads, aes(end, downloads,
 
 Another example is the `{cranly}` package, which provides a simple
 interface to search for packages on CRAN. The package provides
-comprehensive methods for cleaning up and organizing the information in
+comprehensive methods for cleaning up and organising the information in
 the CRAN package database, making it easier to find relevant packages
 for your specific needs.
 

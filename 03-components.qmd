@@ -64,14 +64,14 @@ methodologies[@vos2020].
 
 Cause-Specific Metrics focus on disease intervention planning, such as
 assessing the burden of HIV or tuberculosis on specific populations.
-Population-Wide Metrics, on the other side, are ideal for broader health
+Population-Wide Metrics, on the other hand, are ideal for broader health
 policy decisions, like overall mortality rates or life expectancy,
-provide a comprehensive view of the health landscape.
+and provide a comprehensive view of the health landscape.
 
 The results of health metrics calculations can vary significantly based
 on various factors, including geographic location, the type and severity
 of diseases or injuries, the specific causes of death or disability, and
-the age groups analyzed (whether age-standardized or covering all ages).
+the age groups analysed (whether age-standardised or covering all ages).
 Additional variation arises from the chosen time points of analysis and
 whether the metrics are calculated across both sexes or specifically for
 males or females. Moreover, the disability weights applied can differ
@@ -82,7 +82,7 @@ reflect local health challenges more accurately.
 In this chapter, practical examples and case studies are provided to
 illustrate the process of applying the components to the metrics. By
 understanding the structure of the components, you will be better
-equipped to analyze and interpret health data and make informed
+equipped to analyse and interpret health data and make informed
 decisions about health policy and resource allocation.
 
 ## Life tables and Life expectancy
@@ -200,7 +200,7 @@ gho_lifetables %>%
 ```
 
 The life expectancy rates for each age group are calculated with
-consideration of the probability of survival based on key parameter such
+consideration of the probability of survival based on key parameters such
 as age, and deaths probabilities for that age. More info about how to
 calculate the life expectancy can be found in the @sec-appendixA section
 of this book.
@@ -210,7 +210,7 @@ represented for each age group while in @fig-expectation-life-2 $ex$ is
 represented by averaging value across all age groups from 2000 to 2019.
 
 By averaging across all age groups rather than plotting each line for
-each age group individually, we can visualize the overall trend in life
+each age group individually, we can visualise the overall trend in life
 expectancy over time. This provides a more comprehensive view of how
 life expectancy has changed across different time.
 
@@ -221,7 +221,7 @@ on life expectancy, with younger individuals having a higher life
 expectancy than older individuals. The overall trend in life expectancy
 shows an increase over time, indicating improvements in health outcomes
 and longevity for the population. More on how to build these plots can
-be found in the @sec-09-data_visualization chapter of this book.
+be found in the @sec-09-data_visualisation chapter of this book.
 
 ```{r}
 #| echo: false
@@ -413,14 +413,14 @@ kable(country_comparison,
 ```
 
 An analysis of the mortality rates alongside YLL provides a full picture
-of the health challenges faced by a population. While YLL emphasizes the
+of the health challenges faced by a population. While YLL emphasises the
 impact of premature death, mortality rates help in understanding the
 probability and distribution of these deaths within the population.
 
 The mortality rates can be calculated in different ways, depending on
 the specific nature of the analysis. In general, what is considered as
 the most common mortality rates is the **Crude Mortality Rate
-(CMR)**\index{CMR}, which express is the number of deaths per 100,000
+(CMR)**\index{CMR}, which expresses the number of deaths per 100,000
 population.
 
 $$
@@ -541,7 +541,7 @@ $$ {#eq-incidence-rate}
     It is expressed as a proportion of the population and helps to
     provide a snapshot of how widespread the disease is.
 
-The prevalence identify the burden of disease at a specific time, rather
+The prevalence identifies the burden of disease at a specific time, rather
 than the probability of the disease to impact on the population, it
 expresses the probability of suffering from a disease, it is based on
 the total number of existing cases among the whole population.
@@ -834,7 +834,7 @@ severity on a scale from 0 (no disability) to 1 (equivalent to death).
 
 Computed disability weights methods can vary from applying techniques
 such as **Analytical Hierarchy Process
-(AHP)**[@analytic2024]\index{AHP}, method used where health states are
+(AHP)**[@analytic2024]\index{AHP} method used where health states are
 systematically compared in a pairwise fashion, and judgments about their
 relative severity are quantified. Or **Combining Results**\index{CR}
 from different methods and different populations to produce a set of
@@ -852,7 +852,7 @@ countries, including Bangladesh, Indonesia, Peru, and Tanzania, and an
 online survey to gather feedback on how people perceive the severity of
 different health states. Respondents were asked to rank or rate
 hypothetical health conditions, which provided data for calculating
-standardized disability weights.
+standardised disability weights.
 
 #### Disability Weights Data
 
@@ -972,8 +972,8 @@ disease or injury. These components are:
     benefits are preferred over future benefits.
 
     However, due to its complexity and ethical implications, this
-    approach has been criticized. By 2010, the World Health Organization
-    (WHO) and other health organizations began to consider simplifying
+    approach has been criticised. By 2010, the World Health Organization
+    (WHO) and other health organisations began to consider simplifying
     the methodology. The focus shifted to only the disability weights
     used to quantify the severity of different health conditions,
     leaving aside the element of discounting
@@ -1067,7 +1067,7 @@ lung_dw <- hmsidwR::disweights %>%
 
 So, 0.451 is the disability weight for the metastatic phase of lung, or
 lung cancer. We can use this value together with the prevalence of the
-disease show how to calculate the YLDs for the lung cancer deaths in
+disease to show how to calculate the YLDs for the lung cancer deaths in
 Germany in 2019. The number of lung cancer cases in Germany in 2019 is
 34,000, and the prevalence of the disease is 0.0004 for all ages and
 sex. While considering 5-yrs age groups with a common disability weight
@@ -1136,7 +1136,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------|-----------------|-----------------|-----------------|
+|---------------------|-----------------|-----------------|-----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
@@ -1145,6 +1145,6 @@ significantly to health deterioration.
 
 Understanding how disability weights influence the overall calculations
 of DALYs can guide more informed decisions in health care planning and
-policy-making. It emphasizes the importance of comprehensive disease
+policy-making. It emphasises the importance of comprehensive disease
 management strategies that address both the prevention of disease and
 the mitigation of its impact throughout all stages of its progression.
