@@ -46,21 +46,28 @@ to a disease or injury. **YLLs are calculated by subtracting the age at
 death from the expected age at death in a population without the disease
 or injury**.
 
-First introduced by Mary Dempsey[@dempsey2019] in 1947 to assess the burden of tuberculosis, Years of Life Lost (YLLs) were designed to highlight areas needing improvement to reduce health loss and lower the risk of premature death[@reiner2022]. This metric was first calculated in
-late 1940s (@sec-01-health_metrics), and defined as **Standardised Rate
-for Mortality in units of Lost Years of Life** by *William Haenszel*
-[@haenszel1950]. The investigation into the leading causes of death led
-to the development of a measurement that considered the age at death
-and compared it with the expected life expectancy. This initially led to
-the understanding that early deaths had a greater impact than those at
-later ages. It was ascertained that accounting for the number of years
-lost for a group of people would help recognize the potential life lost
-for a certain cause. Since this first approach, some adjustments to the
-standard death rates were made, leading to a new calculation that
-considered Standardised death rates applied to age-specific factors for
-specific causes of death.
+First introduced by Mary Dempsey[@dempsey2019] in 1947 to assess the
+burden of tuberculosis, Years of Life Lost (YLLs) were designed to
+highlight areas needing improvement to reduce health loss and lower the
+risk of premature death[@reiner2022]. This metric was first calculated
+in late 1940s (@sec-01-health_metrics), and defined as **Standardised
+Rate for Mortality in units of Lost Years of Life** by *William
+Haenszel* [@haenszel1950]. The investigation into the leading causes of
+death led to the development of a measurement that considered the age at
+death and compared it with the expected life expectancy. This initially
+led to the understanding that early deaths had a greater impact than
+those at later ages. It was ascertained that accounting for the number
+of years lost for a group of people would help recognize the potential
+life lost for a certain cause. Since this first approach, some
+adjustments to the standard death rates were made, leading to a new
+calculation that considered Standardised death rates applied to
+age-specific factors for specific causes of death.
 
-> The impact of premature losses on society extends beyond the grief of losing a loved one; it also includes the economic and social cost of losing productive members of the workforce. Such premature deaths lead to a significant burden on the community, affecting overall economic stability and societal well-being.
+> The impact of premature losses on society extends beyond the grief of
+> losing a loved one; it also includes the economic and social cost of
+> losing productive members of the workforce. Such premature deaths lead
+> to a significant burden on the community, affecting overall economic
+> stability and societal well-being.
 
 **Standard Formula**
 
@@ -78,17 +85,22 @@ about the components of YLL are provided in the next chapter
 with relative estimations of the life expectancy can be found in
 @sec-appendixA.
 
-In general, the **Global Burden of Diseases studies (GBD)** use standardised life tables, to consistently measure the impact of various diseases. This approach allows for reliable comparisons across different conditions and populations, providing a comprehensive assessment of disease burden on a global scale[@devleesschauwer2020]. Additionally, country-specific life expectancies
-are valuable for investigating premature deaths resulting from
-health-related causes, such as fatal diseases. For instance, certain
-types of country-specific life expectancies are frequently recommended
-due to their ability to provide insight into longevity characteristics,
-which can inform policymakers and aid in prevention efforts, as
-exemplified by the Japanese life expectancy [@tsugane2021]. A G7
-cross-country study demonstrated that Japan has the longest average life
-expectancy, primarily attributed to significantly low mortality rates
-from ischemic heart disease and cancer, which are the leading causes of
-death in most countries, as indicated by the GBD study.
+In general, the **Global Burden of Diseases studies (GBD)** use
+standardised life tables, to consistently measure the impact of various
+diseases. This approach allows for reliable comparisons across different
+conditions and populations, providing a comprehensive assessment of
+disease burden on a global scale[@devleesschauwer2020]. Additionally,
+country-specific life expectancies are valuable for investigating
+premature deaths resulting from health-related causes, such as fatal
+diseases. For instance, certain types of country-specific life
+expectancies are frequently recommended due to their ability to provide
+insight into longevity characteristics, which can inform policymakers
+and aid in prevention efforts, as exemplified by the Japanese life
+expectancy [@tsugane2021]. A G7 cross-country study demonstrated that
+Japan has the longest average life expectancy, primarily attributed to
+significantly low mortality rates from ischemic heart disease and
+cancer, which are the leading causes of death in most countries, as
+indicated by the GBD study.
 
 ### Example: YLLs due to Stroke
 
@@ -326,7 +338,7 @@ shifting from an incidence to a prevalence-based approach. More in-depth
 analyses are in @sec-03-components; for now, we will show how both types
 of calculations differ, but then we will focus on using the most updated
 approach based on values of prevalence estimated by the GBD2021,
-summarised in the `hmsidwR::incprev_stroke1921` dataset. This dataset
+summarised in the `hmsidwR::incprev_stroke` dataset. This dataset
 specifically contains the estimated values for the incidence and
 prevalence of stroke in the Global region for the years 2019 and 2021.
 
@@ -371,7 +383,8 @@ across all age groups, rather than concentrating them at the age of
 incidence.
 
 In the following example we use the `disability weights` and the
-`severity` levels extracted from a dataset in the GBD study. The `disweights` dataset is stored in the `{hmsidwR}` package and is made of
+`severity` levels extracted from a dataset in the GBD study. The
+`disweights` dataset is stored in the `{hmsidwR}` package and is made of
 `r dim(hmsidwR::disweights)[1]` observations and
 `r dim(hmsidwR::disweights)[2]` variables. It contains the estimated
 values for the disability weights, which are measured on a scale from 0
@@ -437,7 +450,7 @@ Then, calculate the part of the population affected by a specific level
 of severity considering the prevalence (and/or the incidence) multiplied
 by the severity levels.
 
-For instance, here we use the `incprev_stroke1921` and the `dw_stroke`
+For instance, here we use the `incprev_stroke` and the `dw_stroke`
 datasets to calculate the YLDs due to stroke, and have a look at how
 incidence and prevalence differ from each other.
 
@@ -446,8 +459,8 @@ Health metrics values can be expressed as numbers, percentages or rates:
 
 -   If the prevalence of stroke is 1,541,506.96 for male with age
     between 34-39 and it is expressed in numbers, it means that there
-    are approximately 1,541,507 individuals in the age group 35-39 who had a
-    stroke.
+    are approximately 1,541,507 individuals in the age group 35-39 who
+    had a stroke.
 -   If the prevalence of stroke is 0.58 for male with age between 34-39
     and it is expressed in percent value (%), it means 0.58% of the
     population within that age range had a stroke.
@@ -466,7 +479,7 @@ with the `measure` column as the key column and the `val` column as the
 value column.
 
 ```{r}
-inc_prev_stroke_5y <- hmsidwR::incprev_stroke1921 %>%
+inc_prev_stroke_5y <- hmsidwR::incprev_stroke %>%
   filter(year == 2019) %>%
   select(measure, sex, age, val) %>%
   pivot_wider(names_from = "measure", values_from = "val")
@@ -548,8 +561,8 @@ YLD_global_stroke <- YLD_by_severity %>%
 ```
 
 For instance, for a male with age 34-39, the YLDs due to stroke
-calculated on the population of that age group who have the condition for
-three different severity levels, are shown below.
+calculated on the population of that age group who have the condition
+for three different severity levels, are shown below.
 
 ```{r}
 YLD_global_stroke %>% 

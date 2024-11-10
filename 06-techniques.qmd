@@ -169,9 +169,9 @@ accurate predictions.
 
 The `rabies`\index{rabies} dataset from the `{hmsidwR}` package contains
 information on death rates and disability-adjusted life years (DALYs)
-per 100,000 inhabitants due to rabies and all causes of mortality in Asia
-and for the Global region from 1990 to 2019. Rabies ([@cdc2024]) is a
-fatal viral infection, and it is also classified as an infectious
+per 100,000 inhabitants due to rabies and all causes of mortality in
+Asia and for the Global region from 1990 to 2019. Rabies ([@cdc2024]) is
+a fatal viral infection, and it is also classified as an infectious
 disease that can infect all mammals causing acute encephalitis. Caused
 by the rabies virus, which belongs to the Lyssavirus genus, it is
 transmitted to humans through the bite of an infected animal such as
@@ -191,6 +191,7 @@ of 240 observations and 7 variables: `measure`, `location`, `cause`,
 ```{r}
 library(tidyverse)
 hmsidwR::rabies %>%
+  filter(year >= 1990 & year <= 2019) %>%
   select(-upper, -lower) %>%
   head()
 ```
@@ -202,6 +203,7 @@ respectively.
 ```{r}
 library(tidyverse)
 rabies <- hmsidwR::rabies %>%
+  filter(year >= 1990 & year <= 2019) %>%
   select(-upper, -lower) %>%
   pivot_wider(names_from = measure, values_from = val) %>%
   filter(cause == "Rabies") %>%
@@ -243,7 +245,8 @@ p1 <- rabies %>%
 
 p2 <- rabies %>%
   # apply a scale transformation to the numeric variables
-  mutate(across(where(is.double), scale)) %>%
+  mutate(year = as.integer(year),
+         across(where(is.double), scale)) %>%
   ggplot(aes(x = year, group = location, linetype = location)) +
   geom_line(aes(y = dx_rabies),
             linewidth = 1) +
@@ -296,6 +299,7 @@ variables to obtain homogeneous data to use in the model.
 
 ```{r}
 all_causes <- hmsidwR::rabies %>%
+  filter(year >= 1990 & year <= 2019) %>%
   select(-upper, -lower) %>%
   pivot_wider(names_from = measure, values_from = val) %>%
   filter(!cause == "Rabies") %>%
@@ -392,17 +396,17 @@ explanation of the `{tidymodels}` framework can be found in the book
 ### Training Data and Resampling
 
 Splitting data into training and test allows the model to train a
-subsection of the data and then test its performance on the
-remaining part of the data, the test set. In this case, we will use the
+subsection of the data and then test its performance on the remaining
+part of the data, the test set. In this case, we will use the
 `initial_split()` function to split the data into training and test
-sets. The proportion assigned to trains can vary but it is usually assigned
-to be 80%, also a stratification option can be set.
+sets. The proportion assigned to trains can vary but it is usually
+assigned to be 80%, also a stratification option can be set.
 
 ```{r}
 library(tidymodels)
 
-set.seed(04042024)
-split <- initial_split(dat, prop = 0.8)
+set.seed(11012024)
+split <- initial_split(dat, prop = 0.8, strata = location)
 training <- training(split)
 test <- testing(split)
 ```
@@ -434,7 +438,7 @@ for cross-validation, which is used to train and test the model on
 different subsets of the data.
 
 ```{r}
-set.seed(04052024)
+set.seed(11102024)
 folds <- vfold_cv(training, v = 10)
 ```
 
@@ -464,8 +468,8 @@ scales.
 
 For instance, non-standardised year data can dominate the model's
 decision-making process, leading to biased results. By scaling and
-centring the data, we ensure that all features contribute equally to
-the model's predictions.
+centring the data, we ensure that all features contribute equally to the
+model's predictions.
 
 We can create more complex recipes with more steps, but for this
 example, we will use a step for encoding the location variable (Asia,
@@ -961,11 +965,10 @@ population health outcomes.
 -   Use parameter calibration techniques such as cross-validation,
     regularisation, monte carlo, and grid search to optimise model
     performance.
-- Evaluate model
-performance using appropriate metrics and visualisation tools to assess
-predictive accuracy and relevance.
+-   Evaluate model performance using appropriate metrics and
+    visualisation tools to assess predictive accuracy and relevance.
 
-The integration of machine learning methodologies into
-public health data analysis represents a significant opportunity to
-advance the field of public health and enhance our understanding of
-health metrics and disease dynamics.
+The integration of machine learning methodologies into public health
+data analysis represents a significant opportunity to advance the field
+of public health and enhance our understanding of health metrics and
+disease dynamics.

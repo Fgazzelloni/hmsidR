@@ -1,4 +1,4 @@
-# Spatial Data Modelling and visualisation {#sec-11-spatials}
+# Spatial Data Modelling and Visualisation {#sec-11-spatials}
 
 ```{r}
 #| echo: false
@@ -42,42 +42,17 @@ distribution of infections in a specific region.
 
 ## Spatial Data, Spatial Data Models and Spatial Models
 
-Essential for understanding the spatial distribution of phenomena such
-as disease spread, land cover change, or climate patterns, **spatial
-data** and **spatial models** are crucial for analysing and predicting
-spatial processes.
+Understanding the spatial distribution of phenomena such as disease spread, land cover changes, or climate patterns requires the use of spatial data and spatial models. These tools are essential for analysing and predicting spatial processes and for informing data-driven decisions in public health, environmental management, and urban planning.
 
-> But, what is the difference between spatial data, spatial data models,
-> and spatial models?
+A notable example is the **Ebola Virus Disease outbreak in West Africa (2014–2016)**. The virus spread across countries like Guinea, Liberia, and Sierra Leone, driven by factors such as population density, healthcare infrastructure, and human mobility. By analysing spatial data on cases, fatalities, and healthcare facilities and applying spatial models to simulate the virus’s spread, researchers gained valuable insights into the dynamics of the outbreak. This analysis helped identify high-risk areas for targeted interventions[@null2014].
 
-**Spatial data** includes geographic coordinates, addresses, or
-boundaries. This type of data is most often represented by one of two
-**data models**: **vector** or **raster**. Vector data models use
-geometric shapes like points, lines, and polygons to represent spatial
-features, whereas raster data models use a grid of cells or pixels,
-where each cell has a value representing information such as temperature
-or land cover.
+> But what exactly distinguishes spatial data, spatial data models, and spatial models?
 
-Another important distinction is between **spatial data models**
-and **spatial models**. Spatial data models are **frameworks** for
-organising and representing spatial data, connecting our understanding
-of events to their representation and processing through algorithms as
-spatial primitives and relationships.
+- **Spatial Data**: This refers to data that includes geographic coordinates, addresses, or boundaries, representing the physical location of objects or events. Spatial data can be stored in two main formats: vector and raster. Vector data models use geometric shapes (points, lines, polygons) to represent features such as roads, cities, and boundaries. Raster data models, on the other hand, use a grid of cells or pixels, each with a value representing a variable like temperature, land cover, or elevation.
+- **Spatial Data Models**: These are frameworks for organizing and representing spatial data. They provide the structure for connecting real-world phenomena with their digital representation through algorithms and spatial primitives (like spatial relationships and topology). Spatial data models form the foundation for managing and processing spatial information, enabling meaningful analysis and visualization.
+- **Spatial Models**: Unlike spatial data models, which organize data, spatial models simulate dynamic spatial processes—phenomena that change over time. Examples include the spread of infectious diseases, flood development, or land use changes. Spatial models are crucial for understanding and forecasting the evolution of spatial phenomena, allowing researchers and decision-makers to plan interventions and management strategies effectively.
 
-On the other hand, spatial models are defined as **process models**,
-which represent dynamic spatial processes—phenomena that change over
-time, such as the spread of a virus, flood formation, or land cover
-change. These models are crucial for understanding and predicting how
-spatial phenomena evolve, providing a basis for intervention and
-management strategies.
-
-To learn more about the differences and applications of spatial data
-models and process models, you can refer to the **ArcGIS** documentation
-on solving spatial problems with representation and process models and
-the **Esri** blog on spatial analysis. Another great source for
-practical examples and applications of spatial data is
-<https://r-spatial.org/> which is the main source for the most recent
-developments in spatial data analysis in R.
+For further information on spatial data models and spatial process models, refer to the **ArcGIS** documentation for guidance on solving spatial problems and the **Esri** blog for in-depth discussions on spatial analysis. Additionally, [R-Spatial.org](https://r-spatial.org/) offers a wealth of resources on spatial data analysis in R, including tutorials and the latest developments in the field.
 
 ## Making a Map
 
@@ -419,8 +394,8 @@ ctr_africa_grid_full <- data.frame(PtInPoly(bbox_grid,
 ctr_africa_grid_full %>% head()
 ```
 
-Mapping the grid of points on the map of the Central African Republic, we
-can visualise the spatial distribution of infected locations.
+Mapping the grid of points on the map of the Central African Republic,
+we can visualise the spatial distribution of infected locations.
 
 ```{r}
 #| layout-ncol: 2
@@ -457,14 +432,14 @@ ggplot(data = ctr_africa_grid_full) +
 
 ### Create a Raster of Temperature
 
-To visualise the temperature data on the map of the Central African Republic
-we create a raster template. The raster template has the same extent as
-the simulated infected locations and will be used to **rasterize** the
-**temperature** data. This means that the temperature data will be
-converted into a raster format, with each cell in the raster grid
-representing a specific temperature value. The rasterized temperature
-data will be visualised as a heatmap on the map, with warmer colours
-indicating higher temperatures.
+To visualise the temperature data on the map of the Central African
+Republic we create a raster template. The raster template has the same
+extent as the simulated infected locations and will be used to
+**rasterize** the **temperature** data. This means that the temperature
+data will be converted into a raster format, with each cell in the
+raster grid representing a specific temperature value. The rasterized
+temperature data will be visualised as a heatmap on the map, with warmer
+colours indicating higher temperatures.
 
 The raster template is created using the `rast()` function from the
 `{terra}` package, specifying the number of rows and columns, the
@@ -495,11 +470,11 @@ ctr_africa_raster <- rasterize(df_sf,
                                fun = max)
 ```
 
-Before plotting the rasterized temperature data on the map of the Central
-African Republic, we need to convert the rasterized data to a data frame
-format. This will allow us to visualise the temperature data as a
-heatmap on the map. The rasterized data contains the temperature values
-for each cell in the raster grid, which are assigned based on the
+Before plotting the rasterized temperature data on the map of the
+Central African Republic, we need to convert the rasterized data to a
+data frame format. This will allow us to visualise the temperature data
+as a heatmap on the map. The rasterized data contains the temperature
+values for each cell in the raster grid, which are assigned based on the
 latitude and longitude coordinates of the temperature data.
 
 ```{r}
@@ -568,10 +543,10 @@ fig-alt="Central African Rep."}
 Central African Rep. Raster Map of Infections and Max Temperature Level
 :::
 
-This plot shows the temperature data as a heatmap on the map of the Central
-African Republic, with warmer colours indicating higher temperatures. The
-infected locations are represented as circles with size indicating the
-number of infected individuals at each location.
+This plot shows the temperature data as a heatmap on the map of the
+Central African Republic, with warmer colours indicating higher
+temperatures. The infected locations are represented as circles with
+size indicating the number of infected individuals at each location.
 
 ### The Epicenter of Infection
 
@@ -579,8 +554,8 @@ A central point that represents the spatial distribution of infections
 in the region is the center of mass. It is a useful metric for
 understanding the spatial dynamics of disease spread and identifying
 critical zones for intervention. To calculate the coordinates of the
-**center of mass** for the infections, even called the **epicenter** of the
-infections, we use the `center_of_mass()` function.
+**center of mass** for the infections, even called the **epicenter** of
+the infections, we use the `center_of_mass()` function.
 
 The center of mass is the average of the latitude and longitude of the
 infected individuals, weighted by the number of infected individuals at
@@ -602,8 +577,8 @@ df_com
 
 Finally, plot the infections on the map of the Central African Republic,
 with the temperature data represented as a raster layer. The temperature
-data is displayed as a **heatmap**, with warmer colours indicating higher
-temperatures. The infections are shown as points on the map, with
+data is displayed as a **heatmap**, with warmer colours indicating
+higher temperatures. The infections are shown as points on the map, with
 different colours representing infected and non-infected locations.
 
 Note, here a new package is used, the `{ggnewscale}` package, which is a
@@ -834,8 +809,8 @@ infected_sf <- df_sf  %>%
   st_make_valid()
 ```
 
-Visualise the grid of points and the observed infections on the map of the
-Central African Republic. To understand the spatial distribution of
+Visualise the grid of points and the observed infections on the map of
+the Central African Republic. To understand the spatial distribution of
 infections and the covariates for prediction, we use the small-world
 network made above, to simulate the connections between individuals.
 Assign the attributes to the nodes of the small-world network based on
@@ -991,11 +966,9 @@ the coordinates of two points.
 
 Spatial autocorrelation refers to the principle that spatial data points
 close to each other are more likely to have similar values than those
-further apart. It is checked on the simulated data to understand how the
-location of infections are correlated with each other.
+further apart. By analysing the spatial distribution of cases, areas with high spatial autocorrelation indicated clusters where infections spread is particularly intense.
 
-To check the presence of spatial autocorrelation the Global Moran’s law
-is used:
+Using tools like **Moran’s I** and its variants, infection hotspots can be detected by identifying areas where high case rates cluster together. To check the presence of spatial autocorrelation the **Global Moran’s law** is used:
 
 $$I = \frac{N \sum_{i=1}^{N} \sum_{j=1}^{N} w_{ij} (x_i - \bar{x})(x_j - \bar{x})}{W \sum_{i=1}^{N} (x_i - \bar{x})^2}$$ {#eq-moran}
 
@@ -1053,10 +1026,10 @@ can use spatial interpolation techniques such as
 **Kriging**[@kriging2024].
 
 This method is used to estimate the spatial distribution of cases by
-creating a raster of the predicted spatial distribution of
-infections. It creates a continuous surface that estimates the risk of
-infection across the entire study area by interpolating the number of
-infected individuals across a region.
+creating a raster of the predicted spatial distribution of infections.
+It creates a continuous surface that estimates the risk of infection
+across the entire study area by interpolating the number of infected
+individuals across a region.
 
 For example, the application of Kriging was used to predict the spatial
 distribution of Dengue outbreaks in regions like Khyber Pakhtunkhwa,

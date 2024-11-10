@@ -652,11 +652,8 @@ involved in fitting mixed-effects models.
 
 To estimate Years Lived with Disability (YLDs) using mixed-effects
 models in R, we can use the `lme4` package which provides functions to
-fit linear and generalised linear mixed-effects models. We will create a
-hypothetical example of how to estimate YLDs with mixed-effects models.
-We use the **Respiratory infections and tuberculosis** dataset found in
-`{hmsidwR}` package containing YLDs, deaths, incidence and prevalence
-for 2010 and 2019 to demonstrate the estimation of YLDs using
+fit linear and generalised linear mixed-effects models. We will provide an example of how to estimate YLDs with mixed-effects models.
+We use the `g7_hmetrics` dataset found in `{hmsidwR}` package containing YLDs, deaths, incidence and prevalence for **Respiratory infections and tuberculosis** in 2010 and 2019 to demonstrate the estimation of YLDs using
 mixed-effects models.
 
 ```{r}
@@ -668,7 +665,9 @@ data <- hmsidwR::g7_hmetrics %>%
                         "Prevalence",
                         "YLDs", 
                         "Deaths"),
-         str_detect(cause, "tuberculosis"),
+         str_detect(cause, "Tuberculosis"),
+         !year == 2021,
+         !location == "Global",
          metric == "Rate",
          sex == "both") %>%
   select(-metric, -sex, -cause, -upper, -lower) %>%
@@ -727,6 +726,14 @@ fixed_effects <- fixef(model)
 fixed_effects
 ```
 
+The model is:
+
+$$
+YLDs = 67.7988999255 + 0.0001619458*Prevalence - 0.0336387717*year
+$$ {#eq-mixed-model}
+
+In particular, a prevalence coefficient of 0.0001619458 means that for each unit increase in prevalence, YLDs increase by 0.0001619458, while a year coefficient of -0.0336387717 means that for each unit increase in year, YLDs decrease by 0.0336387717.
+
 ```{r}
 # Extract random effects
 random_effects <- ranef(model)
@@ -734,18 +741,13 @@ random_effects <- ranef(model)
 random_effects
 ```
 
-```{r}
-# Create new data for prediction
-new_data <- data.frame(Prevalence = c(25000, 12000, 50000),
-                       year = c(2020, 2021, 2022),
-                       location = c("Japan", "UK", "US"))
+The output of random_effects is a list of data frames with the random effects for each level of the random effect variable (location in this case), which means that the model is 
 
-# Predict YLDs for new data
-predictions <- predict(model, 
-                       new_data, 
-                       allow.new.levels = TRUE
-                       )
-```
+$$
+YLDs = 67.7988999255 + 0.0001619458*Prevalence - 0.0336387717*year + random effect for each location
+$$ {#eq-mixed-model2}
+
+Then, predictions are made for the YLDs using the mixed-effects model on observed data and new data. The predictions are compared with the actual YLDs to evaluate the model's performance.
 
 ```{r}
 #| fig-cap: "Predicted YLDs for Tuberculosis"
@@ -754,11 +756,10 @@ predictions <- predict(model,
 #| fig-width: 5
 #| fig-height: 3
 
-# Predict YLDs for new data
+# Predict YLDs for observed data
 predictions <- predict(model, 
                        data,
-                       allow.new.levels = TRUE
-                       )
+                       allow.new.levels = TRUE)
 
 data$predicted_YLD <- predictions
 
@@ -772,6 +773,47 @@ ggplot(data %>% filter(year == 2019,
        x = "YLDs",
        y = "Predicted YLD",
        shape = "Location")
+```
+
+```{r}
+# Create new data for prediction
+new_data <- data.frame(Prevalence = c(13000, 7000, 10200),
+                       year = c(2021, 2021, 2021),
+                       location = c("Japan", "UK", "US"))
+
+# Predict YLDs for new data
+predictions <- predict(model, 
+                       new_data, 
+                       allow.new.levels = TRUE)
+```
+
+And the predictions are shown in the following plot:
+```{r}
+#| fig-cap: "New Data-Predicted YLDs for Tuberculosis"
+#| fig-alt: "New Data-Predicted YLDs for Tuberculosis"
+#| label: fig-mod-res-tuberculosis2
+#| fig-width: 5
+#| fig-height: 3
+
+data %>%
+  mutate(location = as.factor(location)) %>%
+  filter(location%in%c("Japan", "UK", "US")) %>%
+ggplot(aes(x = factor(year), y = predicted_YLD,
+             group = location, fill=location)) +
+  ggpattern::geom_col_pattern(aes(pattern = location),
+                              position = "stack",
+                              fill= 'white',
+                              colour= 'black') +
+  ggpattern::geom_col_pattern(data = bind_cols(new_data, 
+                                               predicted_YLD = predictions),
+                              aes(pattern = location),
+                              position = "stack",
+                              fill= 'white',
+                              colour= 'black') +
+  labs(title = "Predicted YLDs for Tuberculosis",
+       x = "Year",
+       y = "Predicted YLDs",
+       fill = "Location")
 ```
 
 ## Summary

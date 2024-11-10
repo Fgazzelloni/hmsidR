@@ -55,6 +55,10 @@ comparisons and helping to identify areas for improvement
 
 ## Health Metrics Countries Comparison
 
+Metrics like **life expectancy**, **Disability-Adjusted Life Years (DALYs)**, and **Years Lived with Disability (YLDs)** are chosen as primary comparators; they provide a comprehensive view of population health, and able to capture both longevity and quality of life. In real-world applications, to compare the relative impact of different health issues across regions and populations, and identify which diseases contribute the most to health burdens in different countries, these metrics are essential.
+
+### Example: Life Expectancy Comparison
+
 Let's compare the levels of health metrics in different countries
 starting with a simple example. We will compare the life expectancy at
 birth in 2019 for a few countries.
@@ -81,6 +85,7 @@ ggplot(life_expectancy, aes(x = country, y = life_expectancy)) +
        y = "Life expectancy at birth (years)") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+### Example: DALYs Comparison by Country
 
 Then, we can use the GBD data to compare health metrics across
 countries. For example, we can compare the burden of disease in terms of
@@ -106,6 +111,9 @@ ggplot(dalys, aes(x = country, y = dalys)) +
   theme(axis.text.x = element_text(angle = 45, 
                                    hjust = 1))
 ```
+Differences in Disability-Adjusted Life Years (DALYs) across countries are often influenced by multiple interrelated factors, including **healthcare infrastructure**, **socioeconomic status**, and the **prevalence of specific diseases**. In countries with well-developed healthcare systems, accessible preventive services, early diagnosis, and quality treatment options contribute to lower DALY rates by reducing both mortality and disability from various health conditions. Conversely, countries with limited healthcare resources may experience higher DALY rates, as inadequate access to treatment and preventive care can lead to increased disease burden and complications.
+
+### Example: Top Diseases Causing DALYs in the United States
 
 Now, looking at the 5 top diseases causing DALYs in the United States in
 2019:
@@ -131,6 +139,17 @@ ggplot(top_diseases_us, aes(x = disease, y = dalys)) +
                                    hjust = 1))
 ```
 
+### Example: DALYs Map Comparison by Country
+
+Finally, we can visualise the distribution of DALYs across countries on a world map. This type of visualisation provides a comprehensive view of the global burden of disease, highlighting the disparities in health outcomes and disease prevalence across different regions.
+
+```{r}
+#| label: fig-dalys-map
+#| fig.cap: "Disability-Adjusted Life Years (DALYs) per 100,000 population in 2021 by country."
+#| fig.alt: "A world map showing Disability-Adjusted Life Years (DALYs) per 100,000 population in 2021 by country."
+```
+
+
 **Exercise**: What type of plots can we draw to compare health metrics
 across countries?
 
@@ -140,6 +159,8 @@ across countries?
 4.  All of the above
 
 The correct answer is: All of the above.
+
+## Implications for Global Public Health Policy
 
 In summary, comparing health metrics across countries is essential for
 understanding the state of health globally. Resources like the GBD study

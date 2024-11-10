@@ -50,13 +50,24 @@ the transmission cycle.
 
 ## Mapping Malaria Outbreaks
 
-Mapping Malaria outbreaks can help identify high-risk areas and guide
-public health interventions. Geographic Information Systems (GIS) can be
-used to visualise the spatial distribution of Malaria cases and identify
-patterns of transmission. By analysing the distribution of Malaria cases
-in relation to environmental factors such as temperature, humidity, and
-vegetation cover, researchers can gain insights into the factors driving
-Malaria transmission and develop targeted control strategies.
+Mapping malaria outbreaks is essential for locating high-risk areas and
+guiding effective public health interventions. Geographic Information
+Systems (GIS) enable the visualisation of malaria’s spatial
+distribution, revealing transmission patterns and hotspots. The analysis
+of malaria cases, alongside environmental factors, such as temperature,
+humidity, and vegetation cover, allows the identification of conditions
+that facilitate transmission and support the development of targeted
+control strategies.
+
+Spatial data on climate, population density, and mosquito habitats are
+instrumental in predicting high-risk areas for malaria, aiding
+preventive measures like bed net distribution and indoor residual
+spraying. In Tanzania, for example, spatial models identified villages
+with the highest malaria incidence, allowing the government and NGOs to
+prioritize these areas for intervention[@selemani2016]. This targeted
+approach enhances the cost-effectiveness of malaria control programs,
+reducing the disease burden by directing resources to areas with the
+greatest need.
 
 ## Example: Simulating Malaria Transmission Dynamics
 
