@@ -21,6 +21,7 @@ _freeze/
 docs/
 _book/
 *.html
+*html
 *.aux
 *.bcf
 *.idx
