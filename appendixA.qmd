@@ -20,7 +20,9 @@ for the calculation of probabilities of deaths and the computation of
 life expectancy at birth and at different ages.
 
 [!["Life tables", William Farr (England
-1859)](images/appendixA_life_tables.png){#fig-life_tables fig-align="center" fig-alt="Life tables" width="55%"}](https://www.jstor.org/stable/community.24736608?searchText=life+tables&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3Dlife%2Btables%26efqs%3DeyJjdHkiOlsiWTI5dWRISnBZblYwWldSZmFXMWhaMlZ6Il19%26image_search_referrer%3Dglobal&ab_segments=0%2FSYC-6744_basic_search%2Ftest-1&refreqid=fastly-default%3Ac770f9049f8754dad03896e1b52df20c&searchkey=1675639441064)
+1859)](images/appendixA_life_tables.png){#fig-life_tables
+fig-align="center" fig-alt="Life tables"
+width="55%"}](https://www.jstor.org/stable/community.24736608?searchText=life+tables&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3Dlife%2Btables%26efqs%3DeyJjdHkiOlsiWTI5dWRISnBZblYwWldSZmFXMWhaMlZ6Il19%26image_search_referrer%3Dglobal&ab_segments=0%2FSYC-6744_basic_search%2Ftest-1&refreqid=fastly-default%3Ac770f9049f8754dad03896e1b52df20c&searchkey=1675639441064)
 
 ### Life tables components
 
@@ -255,7 +257,7 @@ print("Posterior probabilities:")
 print(posterior_probabilities)
 ```
 
-## Collecting Data with APIs
+## Collecting Data with APIs{#sec-collecting-data}
 
 Collecting data to use in a research analysis involves a selection of
 sources and methods to use for optimizing computational time when
@@ -282,11 +284,17 @@ httr::GET(url = url)
 
 #### IHME Data APIs
 
+Head over <https://ghdx.healthdata.org/ihme-api> to get access to the IHME API's page. The page provides IHME APIs for Sustainable Development Goals (SDG) data. Then, click on <https://api.healthdata.org/sdg> to login and request an API key. More information on the methodology and data can be found at <https://www.gatesfoundation.org/goalkeepers/report/2024-report/data-sources/#ExploretheData>.
+
+Load necessary libraries:
 ```{r}
+#| eval: false
 library(httr)
 library(jsonlite)
 library(tidyverse)
 ```
+
+The IHME API provides the following queries. These queries might be updated in the future, so it is important to check the API documentation for the most recent queries.
 
 -   SDG Query Input:
 
@@ -296,7 +304,8 @@ library(tidyverse)
     -   GetLocation
     -   GetAgeGroup
     -   GetScenario
-    -   GetSexSDG
+    -   GetSex
+    -   GetResultsByTarget
 
 -   Query Input for Results:
 
@@ -305,17 +314,17 @@ library(tidyverse)
     -   GetResultsByLocation
     -   GetResultsByYear
 
-Use the function `get_data` to download data from the IHME API. The
-function requires the following arguments:
+Use the function `gbd_get_data` to download data from the IHME API. The
+function requires the following arguments in quotation marks:
 
-```         
-url = "https://api.healthdata.org/sdg/v1
-key = "YOUR-KEY"
-sdg = "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
-```
+- The `url` where to download the data, such as: `"https://api.healthdata.org/sdg/v1"`
+- An `API key` = "YOUR-KEY"
+- A `sdg-endpoint`, such as:  "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
 
+The function returns a data frame with the results.
 ```{r}
-get_data <- function(url, key, sdg) {
+#| eval: false
+gbd_get_data <- function(url, key, sdg) {
   library(httr)
   library(jsonlite)
   url <- paste0(url, "/", sdg)
@@ -326,16 +335,102 @@ get_data <- function(url, key, sdg) {
 }
 ```
 
-Build the query to download results by adding specification of the data.
+Build the query to download results by adding specification of the data. Let's start with:
 
-`GetResultsByLocation?location_id=86&indicator_id=1002&year=2019? location_id & indicator_id ...`
+- `GetIndicator`
 
 ```{r}
 #| eval: false
-data <- get_data(
+indicator <- gbd_get_data(
   url = "https://api.healthdata.org/sdg/v1",
-  key = YourKeyHere,
-  sdg = "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
+  key = "YOUR-KEY",
+  sdg = "GetIndicator"
 )
-data
 ```
+
+As an example, let's see the first 6 indicators.
+```{r}
+#| eval: false
+library(tidyverse)
+indicator %>% 
+  select(indicator_id, indicator_name) %>% 
+  arrange(indicator_id) %>%
+  head()
+```
+![GBD-SDG Indicators](images/appendixA_indicators.png){#fig-indicators fig-align="center" fig-alt="Indicators"}
+
+Then use the `indicator_id` to download the data for a specific indicator.
+```{r}
+#| eval: false
+agegroup <- gbd_get_data(
+  url = "https://api.healthdata.org/sdg/v1",
+  key = "YOUR-KEY",
+  sdg = "GetAgeGroup"
+)
+agegroup %>%
+  select(age_group_id, age_group_name) %>% 
+  arrange(age_group_id) %>%
+  head()
+```
+
+![GBD-SDG Age Groups](images/appendixA_age_groups.png){#fig-age_groups fig-align="center" fig-alt="Age Groups" width="80%"}
+
+
+```{r}
+#| eval: false
+dat19 <- gbd_get_data(
+  url = "https://api.healthdata.org/sdg/v1",
+  key = "YOUR-KEY",
+  sdg = "GetResultsByIndicator?indicator_id=1001&location_id=86&year=2019"
+)
+
+dat19%>%
+  select(location_name, indicator_name, sex_label, mean_estimate)
+```
+
+![GBD-SDG Tuberculosis Data 2019](images/appendixA_data_2019.png){#fig-data_2019 fig-align="center" fig-alt="Data 2019" width="80%"}
+
+The same data can be downloaded using the `httr` package. The following code downloads the data for the indicator with `indicator_id = 1001`, `location_id = 86`, and `year = 2019`.
+```{r}
+#| eval: false
+headers <- c("Authorization" = "YOUR-KEY")
+res <- GET(url="https://api.healthdata.org/sdg/v1/GetResultsByIndicator?indicator_id=1001&location_id=86&year=2019",
+           add_headers(headers))
+
+res$content%>%
+  rawToChar() %>%
+  fromJSON()
+```
+
+An advanced version of the `gbd_get_data()` function can be found in the `{hmsidwR}` package. The function `hmsidwR::gbd_get_data()` allows the user to endpoint customisation, instead of using `sdg` argument with the long query string, an `endpoint` is used to specify the starting point of the quesry, such as `GetResultsByIndicator`. Then, the user can specify the `indicator_id`, `location_id`, and `year` to download the data for specific indicator, location, and year.
+
+The function requires the arguments to be within quotation marks:
+```{r}
+#| eval: false
+hmsidwR::gbd_get_data(
+  url = "https://api.healthdata.org/sdg/v1",
+  key = "YOUR-KEY",
+  endpoint = "GetResultsByIndicator",
+  indicator_id = "1001",
+  location_id = "86",
+  year = "2019"
+)
+```
+
+The output is still the same as @fig-data_2019 in the previous example.
+
+### Package References
+
+The {hmsidwR} package is available at <https://github.com/Fgazzelloni/hmsidwR>. The package provides data and functions to support this book. 
+
+Download the package from CRAN or for the development version use GitHub:
+```{r}
+#| eval: false
+# Download from CRAN
+install.packages("hmsidwR")
+
+# Download from GitHub
+# install.packages("devtools")
+devtools::install_github("Fgazzelloni/hmsidwR")
+```
+

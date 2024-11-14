@@ -98,10 +98,10 @@ nigeria_data %>% pull(year_start) %>% range();
 nigeria_data %>% count(year_start) %>% dim()
 ```
 
-Data contains cases for 23 years spanning from 1985 to 2018. We can extract the relevant information
-(year_start (of the survey), longitude, latitude, and number of positive
-cases) and convert the data to a spatial object using the `st_as_sf()`
-function from the `sf` package.
+Data contains cases for 23 years spanning from 1985 to 2018. We can
+extract the relevant information (year_start (of the survey), longitude,
+latitude, and number of positive cases) and convert the data to a
+spatial object using the `st_as_sf()` function from the `sf` package.
 
 ```{r}
 nigeria_data <- nigeria_data %>%
@@ -190,9 +190,16 @@ geom_sf(data = tanzania_data_sf,
 
 ## Example: Simulating Malaria Transmission Dynamics
 
-In this example, we will use data for Malaria positive cases in Nigeria from the Malaria Atlas Project to evaluate the transmission dynamics using a simple mathematical model. We will use machine learning to predict future trends. 
+In this example, we will use data for Malaria positive cases in Nigeria
+from the Malaria Atlas Project to evaluate the transmission dynamics
+using a simple mathematical model. We will use machine learning to
+predict future trends.
 
-To illustrate the modelling and prediction process we will use the `{caret}` package, which provides a unified interface for training and evaluating machine learning models in R. We will train a Random Forest model to predict future trends in malaria transmission based on historical data.
+To illustrate the modelling and prediction process we will use the
+`{caret}` package, which provides a unified interface for training and
+evaluating machine learning models in R. We will train a Random Forest
+model to predict future trends in malaria transmission based on
+historical data.
 
 ```{r}
 nigeria_cases <- nigeria_data %>% 
@@ -204,7 +211,9 @@ nigeria_cases <- nigeria_data %>%
 head(nigeria_cases)
 ```
 
-Visualize the dynamics of malaria transmission in Nigeria using a line plot to show the number of infected cases over time.
+Visualize the dynamics of malaria transmission in Nigeria using a line
+plot to show the number of infected cases over time.
+
 ```{r}
 nigeria_cases %>%
   ggplot() +
@@ -218,8 +227,10 @@ nigeria_cases %>%
 
 ### Modelling with caret
 
-To train a machine learning model to predict future trends in malaria transmission, we will be using 80% of the original data to train the model and 20% to test it.
-Then, we will evaluate its performance using the Root Mean Squared Error (RMSE).
+To train a machine learning model to predict future trends in malaria
+transmission, we will be using 80% of the original data to train the
+model and 20% to test it. Then, we will evaluate its performance using
+the Root Mean Squared Error (RMSE).
 
 The `{caret}` package provides a unified interface for training and
 evaluating machine learning models in R (@sec-07-packages). It supports
@@ -232,10 +243,13 @@ cross-validation, and model evaluation.
 library(caret)
 ```
 
-
 #### Feature Engineering
 
-Create lagged variables to capture the temporal dynamics of malaria transmission. For time series forecasting, it’s helpful to create variables, which represent past values of the target variable. This allows the model to learn trends from previous values.
+Create lagged variables to capture the temporal dynamics of malaria
+transmission. For time series forecasting, it’s helpful to create
+variables, which represent past values of the target variable. This
+allows the model to learn trends from previous values.
+
 ```{r}
 # Create lagged features (e.g., previous year's cases)
 nigeria_cases <- nigeria_cases %>%
@@ -247,8 +261,9 @@ nigeria_cases <- nigeria_cases %>%
 head(nigeria_cases)
 ```
 
+Create partition for training and testing data using the
+`createDataPartition()` function from the `caret` package.
 
-Create partition for training and testing data using the `createDataPartition()` function from the `caret` package.
 ```{r}
 set.seed(123)
 train_index <- createDataPartition(nigeria_cases$positive, 
@@ -257,18 +272,21 @@ train <- nigeria_cases[train_index, ]
 test <- nigeria_cases[-train_index, ]
 ```
 
-
 #### Model Selection and Training (Parameter Calibration)
 
-Define the machine learning model specific for investigating Malaria dynamics. In this case, we will use the time and number of lagged cases to predict the number of infected cases. We will use the `train()` function from the `{caret}` package to train the model. A suitable model would be?
-List the models that can be used for this task:
-- Random Forest ("rf")
-- Gradient Boosting ("gbm")
-- Support Vector Machines ("svm")
-- Neural Networks ("nnet")
-- etc.
+Define the machine learning model specific for investigating Malaria
+dynamics. In this case, we will use the time and number of lagged cases
+to predict the number of infected cases. We will use the `train()`
+function from the `{caret}` package to train the model. A suitable model
+would be? List the models that can be used for this task: - Random
+Forest ("rf") - Gradient Boosting ("gbm") - Support Vector Machines
+("svm") - Neural Networks ("nnet") - etc.
 
-In the `method` argument, specify the model to be used (e.g., "rf" for Random Forest). The `trControl` argument specifies the cross-validation method for hyperparameter tuning, and the `tuneGrid` argument defines the hyperparameter grid for tuning.
+In the `method` argument, specify the model to be used (e.g., "rf" for
+Random Forest). The `trControl` argument specifies the cross-validation
+method for hyperparameter tuning, and the `tuneGrid` argument defines
+the hyperparameter grid for tuning.
+
 ```{r}
 # Define the training control with 5-fold cross-validation
 train_control <- trainControl(method = "cv", number = 5)
@@ -288,11 +306,15 @@ rf_model <- train(
 )
 ```
 
-The parameter calibration (hyperparameter tuning) is performed by the `train` function automatically using cross-validation to select the optimal hyperparameters for the model. 
+The parameter calibration (hyperparameter tuning) is performed by the
+`train` function automatically using cross-validation to select the
+optimal hyperparameters for the model.
 
 #### Model Evaluation
 
-Testing the model on observed data will show how the model performs in estimating the number of infected cases. 
+Testing the model on observed data will show how the model performs in
+estimating the number of infected cases.
+
 ```{r}
 # Predict on the test data
 nigeria_cases$pred <- predict(rf_model, newdata = nigeria_cases)
@@ -307,7 +329,12 @@ nigeria_cases %>%
   theme_minimal()
 ```
 
-To evaluate the model's ability in predicting future trends, we predict the number of infected cases on the test data and calculate the Root Mean Squared Error (RMSE). The test data is a subset of the original data that was not used for training the model, and it provides an independent evaluation of the model's performance.
+To evaluate the model's ability in predicting future trends, we predict
+the number of infected cases on the test data and calculate the Root
+Mean Squared Error (RMSE). The test data is a subset of the original
+data that was not used for training the model, and it provides an
+independent evaluation of the model's performance.
+
 ```{r}
 # Predict on the test data
 test$pred <- predict(rf_model, newdata = test)
@@ -316,7 +343,9 @@ test$pred <- predict(rf_model, newdata = test)
 head(test[, c("year", "positive", "pred")])
 ```
 
-Visualize the predicted vs actual infected cases using a line plot to compare the model's predictions with the actual data.
+Visualize the predicted vs actual infected cases using a line plot to
+compare the model's predictions with the actual data.
+
 ```{r}
 #| label: fig-rf-malaria-predictions
 #| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with a Random Forest model. The blue line represents the observed cases, while the red line represents the predicted cases. The model's predictions are not closely aligned with the observed values, indicating potential limitations in capturing the dynamics of malaria transmission."
@@ -342,18 +371,30 @@ ggplot(plot_data, aes(x = year, y = Cases,
 ```
 
 Evaluate the model's performance using RMSE:
+
 ```{r}
 # Calculate RMSE
 rmse <- sqrt(mean((test$positive - test$pred)^2))
 cat("RMSE:", rmse, "\n")
 ```
-A Root Mean Squared Error (RMSE) of 247.3936 indicates the average difference between the predicted and actual values of infected cases. Lower RMSE values indicate better model performance. 
 
-The output shows that the model’s predictions are not closely aligned with the observed values, the predicted trend seems to be relatively flat or declining, while the observed cases show significant fluctuations. This mismatch suggests that the current model setup may not be effectively capturing the dynamics of malaria transmission in this dataset. 
+A Root Mean Squared Error (RMSE) of 247.3936 indicates the average
+difference between the predicted and actual values of infected cases.
+Lower RMSE values indicate better model performance.
+
+The output shows that the model’s predictions are not closely aligned
+with the observed values, the predicted trend seems to be relatively
+flat or declining, while the observed cases show significant
+fluctuations. This mismatch suggests that the current model setup may
+not be effectively capturing the dynamics of malaria transmission in
+this dataset.
 
 ## Model Refinement
 
-To improve the model's performance, we can refine the model by adjusting parameters such as 'mtry' in Random Forest. For example, increase the number of folds in cross-validation, adjust the tuning grid, or add additional features to improve the model's performance.
+To improve the model's performance, we can refine the model by adjusting
+parameters such as 'mtry' in Random Forest. For example, increase the
+number of folds in cross-validation, adjust the tuning grid, or add
+additional features to improve the model's performance.
 
 ```{r}
 #| output: false
@@ -371,13 +412,18 @@ rf_model2 <- train(
 )
 ```
 
-Predict future trends using the trained adjusted Random Forest model on the test data. 
+Predict future trends using the trained adjusted Random Forest model on
+the test data.
+
 ```{r}
 # Predict on the test data
 test$pred_rf2 <- predict(rf_model2, newdata = test)
 ```
 
-Visualize the predicted vs actual infected cases using a line plot to compare the adjusted Random Forest model's predictions with the actual data.
+Visualize the predicted vs actual infected cases using a line plot to
+compare the adjusted Random Forest model's predictions with the actual
+data.
+
 ```{r}
 #| label: fig-xgb-malaria-predictions
 #| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with an adjusted Random Forest model. The blue line represents the observed cases, while the red line represents the predicted cases. The model's predictions show a closer alignment with the observed values compared to the first Random Forest model, indicating improved performance."
@@ -401,15 +447,31 @@ ggplot(plot_data_xgb, aes(x = year, y = Cases,
   theme_minimal() +
   theme(legend.position = "top")
 ```
+
 Evaluate the model's performance improvement using RMSE:
+
 ```{r}
 # Calculate RMSE
 rmse <- sqrt(mean((test$positive - test$pred_rf2)^2))
 cat("RMSE:", rmse, "\n")
 ```
 
-In conclusion, the model's performance can be further improved by adjusting hyperparameters, adding additional features, or using more advanced algorithms. The iterative process of model refinement and evaluation is essential for developing accurate predictions of malaria transmission dynamics.
+In conclusion, the model's performance can be further improved by
+adjusting hyperparameters, adding additional features, or using more
+advanced algorithms. The iterative process of model refinement and
+evaluation is essential for developing accurate predictions of malaria
+transmission dynamics.
 
 ## Summary
 
-In this chapter, we explored the dynamics of Malaria transmission and the importance of mapping outbreaks to guide public health interventions. We used the `malariaAtlas` package to download malaria data for Nigeria and visualised the distribution of malaria cases in the country. We also demonstrated how machine learning can be used to predict future trends in malaria transmission using historical data. The iterative process of model refinement and evaluation is crucial for developing accurate predictions and guiding effective public health interventions.
+In this chapter, we explored the dynamics of Malaria transmission and
+the importance of mapping outbreaks to guide public health
+interventions. We used the `malariaAtlas` package to download malaria
+data for Nigeria and visualised the distribution of malaria cases in the
+country. We also demonstrated how machine learning can be used to
+predict future trends in malaria transmission using historical data. The
+iterative process of model refinement and evaluation is crucial for
+developing accurate predictions and guiding effective public health
+interventions.
+
+
