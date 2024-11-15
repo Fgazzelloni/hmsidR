@@ -1,4 +1,4 @@
-# Interpreting Model Results Through visualisation {#sec-10-applications}
+# Interpreting Model Results Through Visualisation {#sec-10-applications}
 
 ```{r}
 #| echo: false
@@ -25,8 +25,8 @@ Learning Objectives
 
 \
 This chapter is an essential part of the data visualisation section, it
-focuses on how to effectively interpret and use the results from
-machine learning models in the context of health metrics and infectious
+focuses on how to effectively interpret and use the results from machine
+learning models in the context of health metrics and infectious
 diseases. The aim is to provide actionable insights, enhance
 decision-making, and communicate findings to various stakeholders.
 
@@ -46,7 +46,7 @@ decision-making, and communicate findings to various stakeholders.
 
 ## Practical Insights and Examples
 
-### Example: visualising COVID-19 Data
+### Example: Visualising COVID-19 Data
 
 Data is from the **ECDC (European Centre for Disease Prevention and
 Control)**, data is updated daily. The data includes information on the

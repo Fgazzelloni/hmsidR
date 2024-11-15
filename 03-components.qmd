@@ -65,8 +65,8 @@ methodologies[@vos2020].
 Cause-Specific Metrics focus on disease intervention planning, such as
 assessing the burden of HIV or tuberculosis on specific populations.
 Population-Wide Metrics, on the other hand, are ideal for broader health
-policy decisions, like overall mortality rates or life expectancy,
-and provide a comprehensive view of the health landscape.
+policy decisions, like overall mortality rates or life expectancy, and
+provide a comprehensive view of the health landscape.
 
 The results of health metrics calculations can vary significantly based
 on various factors, including geographic location, the type and severity
@@ -200,10 +200,10 @@ gho_lifetables %>%
 ```
 
 The life expectancy rates for each age group are calculated with
-consideration of the probability of survival based on key parameters such
-as age, and deaths probabilities for that age. More info about how to
-calculate the life expectancy can be found in the @sec-appendixA section
-of this book.
+consideration of the probability of survival based on key parameters
+such as age, and deaths probabilities for that age. More info about how
+to calculate the life expectancy can be found in the @sec-appendixA
+section of this book.
 
 @fig-expectation-life-1 shows the `ex - expectation of life at age x`
 represented for each age group while in @fig-expectation-life-2 $ex$ is
@@ -468,13 +468,13 @@ in an African population with a **case fatality
 rate**\index{case fatality rate} ranging from 0.01% to 0.40%, and a
 case-incidence of 59.4 per 1000 population annually[@worldma]. Calculate
 the number of expected malaria cases and the resulting deaths based on
-this rate for a simulated population of 100,000 individuals over a year.
+this rate for a simulated population of 100,000 individuals over a year:
 
 -   Define the Population: Assume a total population of 100,000.
 -   Set the Malaria Incidence Rate: 59.4 per 1000 population annually.
 -   Calculate Total Malaria Cases.
 -   Apply the Case Fatality Rate: Calculate estimated deaths using the
-    CFR range.
+    CFR range.\
 
 ```{r}
 #| label: synthetic-malaria-mortality
@@ -541,9 +541,9 @@ $$ {#eq-incidence-rate}
     It is expressed as a proportion of the population and helps to
     provide a snapshot of how widespread the disease is.
 
-The prevalence identifies the burden of disease at a specific time, rather
-than the probability of the disease to impact on the population, it
-expresses the probability of suffering from a disease, it is based on
+The prevalence identifies the burden of disease at a specific time,
+rather than the probability of the disease to impact on the population,
+it expresses the probability of suffering from a disease, it is based on
 the total number of existing cases among the whole population.
 
 $$\text{Prevalence}=\frac{\text{number of new + existing cases at time t}}{\text{total population}}$$ {#eq-prevalence}
@@ -667,7 +667,7 @@ COVID-19 in many regions, and assumes that the events (new cases) occur
 independently of each other, which can be a reasonable approximation in
 the context of infection spread over short periods.
 
-To apply the Poisson distribution, we use the `rpois()` function in R,
+To apply the Poisson distribution, we use the `rpois()` function,
 which generates random numbers from a Poisson distribution with a
 specified rate parameter $\lambda$. The probability mass function of the
 Poisson distribution is given by:
@@ -833,14 +833,14 @@ on clinical descriptions and their professional experience, rating the
 severity on a scale from 0 (no disability) to 1 (equivalent to death).
 
 Computed disability weights methods can vary from applying techniques
-such as **Analytical Hierarchy Process
-(AHP)**[@analytic2024]\index{AHP} method used where health states are
-systematically compared in a pairwise fashion, and judgments about their
-relative severity are quantified. Or **Combining Results**\index{CR}
-from different methods and different populations to produce a set of
-disability weights that reflect a consensus view. Statistical models
-might be used to aggregate these results and ensure that they are
-consistent across different scales.
+such as **Analytical Hierarchy Process (AHP)**[@analytic2024]\index{AHP}
+method used where health states are systematically compared in a
+pairwise fashion, and judgments about their relative severity are
+quantified. Or **Combining Results**\index{CR} from different methods
+and different populations to produce a set of disability weights that
+reflect a consensus view. Statistical models might be used to aggregate
+these results and ensure that they are consistent across different
+scales.
 
 The Global Burden of Disease (GBD) study led by the Institute for Health
 Metrics and Evaluation (IHME) is one of the most comprehensive efforts
@@ -910,7 +910,7 @@ disability_weights %>%
 
 ## Summary of the DALYs' Components
 
-### YLLs
+### YLLs Components
 
 The components of YLLs include several factors that contribute to the
 calculation of premature death due to a disease or injury. These
@@ -939,7 +939,7 @@ components are:
     calculating YLL, as different causes may have different impacts on
     potential years of life lost.
 
-### YLDs
+### YLDs Components
 
 The estimation of YLDs requires certain epidemiological parameters such
 as prevalence, incidence, case-fatality rate, relative risk, odds ratio,
@@ -993,7 +993,7 @@ disease or injury. These components are:
     period of time will have a greater impact on the number of years
     lived with disability.
 
-### DALYs
+### DALYs Components
 
 Both YLLs and YLDs are components\index{components} of the
 DALY\index{DALY} and are used to provide a comprehensive assessment of
@@ -1136,15 +1136,20 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|---------------------|-----------------|-----------------|-----------------|
+|-----------------------------------|-------------|-------------|-------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |
 | Trachea, bronchus and lung cancers (stage 3) | 0.758              | 0.710 | 0.801 |
 | Trachea, bronchus and lung cancers (stage 4) | 0.906              | 0.873 | 0.932 |
 
-Understanding how disability weights influence the overall calculations
-of DALYs can guide more informed decisions in health care planning and
-policy-making. It emphasises the importance of comprehensive disease
-management strategies that address both the prevention of disease and
-the mitigation of its impact throughout all stages of its progression.
+In conclusion, disability weights have a fundamental role in influencing
+the overall calculations of DALYs, as they reflect the severity of
+health conditions and their impact on quality of life. Assigning
+appropriate weights to different diseases and injuries might be
+challenging, but it is essential for accurately assessing the burden of
+disease and guiding health policy decisions. The case study on lung
+cancer in Germany illustrates how the combination of YLLs and YLDs
+provides a comprehensive view of the health impact of a specific
+condition, helping to inform public health strategies and resource
+allocation.

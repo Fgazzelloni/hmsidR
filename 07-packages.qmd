@@ -33,10 +33,10 @@ to find new R-packages and evaluate their suitability for a given task.
 
 When it comes to R, the possibilities are endless. With over 15,000
 packages available on CRAN (Comprehensive R Archive Network) and
-countless others on GitHub and other repositories, the universe of available
-packages is vast. How to untangle among all of them? Which one to
-choose? Sometimes, it is rather favourable to start by working out of the
-library boxes, which means using functions provided in the built-in
+countless others on GitHub and other repositories, the universe of
+available packages is vast. How to untangle among all of them? Which one
+to choose? Sometimes, it is rather favourable to start by working out of
+the library boxes, which means using functions provided in the built-in
 packages inside a fresh R installation.
 
 However, the vast majority of the time, the best way to start is by
@@ -47,7 +47,7 @@ automating repetitive tasks and streamlining complex analyses.
 
 Life has become easier with the advent of wrapping functions and the
 reduction of lines of code through the use of functions found in
-packages. In the past, data analysis and modelling in R required
+packages. In the past, data analysis and modelling required
 extensive coding, often involving repetitive tasks and lengthy scripts.
 As a result, users can achieve sophisticated results more efficiently,
 without the need to write lengthy and intricate scripts from scratch.
@@ -57,7 +57,7 @@ techniques, making them more accessible to a broader audience.
 
 ## Essential R Packages for Machine Learning
 
-Some of the most used modelling packages available in R that are
+Some of the most used modelling packages that are
 particularly useful for machine learning modelling of the spread of
 infectious diseases and evaluating DALYs variation due to infectious
 disease include:
@@ -66,9 +66,9 @@ disease include:
 
 1.  [**`{tidymodels}`**](https://www.tmwr.org/)[@silge]:
     This\index{tidymodels} framework provides a collection of packages
-    for modelling and machine learning tasks, including {tidyr}, {dplyr},
-    and ggplot2. It offers a consistent and tidy workflow for data
-    preprocessing, model building, evaluation, and visualisation.
+    for modelling and machine learning tasks, including {tidyr},
+    {dplyr}, and ggplot2. It offers a consistent and tidy workflow for
+    data preprocessing, model building, evaluation, and visualisation.
 2.  [**`{caret}`**](https://topepo.github.io/caret/)[@kuhn]: The caret
     framework (short for **C**lassification **A**nd **RE**gression
     **T**raining) provides a unified interface for training and
@@ -76,7 +76,7 @@ disease include:
     algorithms and offers convenient functions for hyperparameter tuning
     and model selection.
 3.  [**`{mlr3}`**](https://mlr3book.mlr-org.com/)[@mlr-org]: This is a
-    modern and extensible framework for machine learning in R. It
+    modern and extensible framework for machine learning. It
     provides a unified interface for modelling tasks, making it easy to
     train and evaluate a wide range of machine learning algorithms.
 
@@ -189,8 +189,9 @@ specific aspects of the analysis, such as spatial modelling (e.g.,
 `spdep`) or time series forecasting (e.g., `prophet`).
 
 The features and capabilities of each package should carefully be
-evaluated in relation to their specific research objectives before choosing the one that best meets research needs and objectives. And it is
-worth considering that experimenting with different packages and
+evaluated in relation to their specific research objectives before
+choosing the one that best meets research needs and objectives. And it
+is worth considering that experimenting with different packages and
 techniques may be beneficial to identify the most effective approach for
 a given analysis.
 
@@ -490,8 +491,8 @@ dat %>%
 ```
 
 In the next @sec-08-predictions we will see an application of these two
-models on remaining years from 2017 to 2021, to test the model performance
-as it was on new data.
+models on remaining years from 2017 to 2021, to test the model
+performance as it was on new data.
 
 ### Example: DALYs due to Rabies with H2O
 
@@ -766,7 +767,7 @@ h2o.shutdown(prompt = FALSE)
 
 The following example shows how to use the `{keras}`, a package that
 facilitates the creation and training of **neural networks** and **deep
-learning** models in R. It provides a user-friendly interface to build
+learning** models. It provides a user-friendly interface to build
 models, whether they are simple neural networks or complex deep learning
 architectures, particularly useful for handling network connections.
 More detailed explanation of how a neural network works can be found in

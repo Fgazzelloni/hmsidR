@@ -77,10 +77,9 @@ including:
 -   Transmission route (contact with the source of infection for
     contagious diseases)
 
-![Who adapts to whom? - (AI generated
-image)](images/13_adaptation.png){#fig-adapt_virus
-fig-align="center" width="437"
-fig-alt="Who adapts to whom? - (AI generated image)"}
+![Pathogens and humans have co-evolved over centuries, each adapting in response to the other. This ongoing adaptation shapes the future of health and disease.](images/13_adaptation.png){#fig-adapt_virus
+fig-align="center" fig-alt="Who adapts to whom? - (AI generated image)"
+width="347"}
 
 **Viruses**\index{virus}, word derived from the Latin word for
 **"poisonous substance"**, are intracellular parasites that can only
@@ -262,8 +261,8 @@ The use of machine learning algorithms such as **decision trees**,
 **random forests**, **support vector machines**, and **deep-learning
 networks** such as **Long short-term memory (LSTM)**\index{LSTM} models,
 effectively improve the identification of patterns and trends that may
-not be obvious with mechanistic models. These models are able to
-improve prediction accuracy working smoothly with large datasets.
+not be obvious with mechanistic models. These models are able to improve
+prediction accuracy working smoothly with large datasets.
 
 Combining models and data sources enhances prediction accuracy, various
 models and techniques can be applied to reduce bias and the risk of

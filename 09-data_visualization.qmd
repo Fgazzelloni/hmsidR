@@ -1,4 +1,4 @@
-# Introduction to Data visualisation {#sec-09-data_visualisation}
+# Introduction to Data Visualisation {#sec-09-data_visualisation}
 
 ```{r}
 #| echo: false
@@ -19,13 +19,13 @@ critical role in tracking disease outbreaks, understanding health
 trends, and communicating findings to policymakers and the public.
 
 We have already seen how to create various types of plots using the
-`{ggplot2}` package in R. In this chapter, we will discuss the history
+`{ggplot2}` package. In this chapter, we will discuss the history
 and evolution of data visualisation, delve deeper into the topic,
 introducing the concept of the **Grammar of Graphics**, exploring
 techniques for customising plots, adding annotations, labels, and
 themes, and creating interactive visualisations.
 
-## History of Data visualisation
+## History of Data Visualisation
 
 The history of data visualisation spans centuries. The roots of data
 visualisation can be traced back to ancient times with rudimentary
@@ -152,12 +152,12 @@ ggplot(data = df, aes(x = x, y = y, color = z))+
 
 In addition to functions provided by `{ggplot2}`, there are ggplot
 **extensions**, other functions and packages that can be used to create
-visualisations in R, such as `{plotly}`, `{ggplotly}`, `{leaflet}`,
+visualisations, such as `{plotly}`, `{ggplotly}`, `{leaflet}`,
 `{tmap}`, and `{shiny}`. These tools provide additional functionality
 for creating interactive plots, maps, and dashboards, allowing for more
 engaging and dynamic data visualisations.
 
-## General Guidelines for Data visualisation
+## General Guidelines for Data Visualisation
 
 There are many types of plots that can be used to visualise different
 types of data, such as cross tabulations for categorical variables,
@@ -331,7 +331,7 @@ gt::gtsave(gt_table, "images/09_gt_table.png")
 Rules](images/09_gt_table.png){#fig-dv-rules
 fig-align="center" fig-alt="Basic Data Viz Rules"}
 
-## Example: visualising Lung Cancer Deaths by Age in Germany
+## Example: Visualising Lung Cancer Deaths by Age in Germany
 
 This is an example of visualising lung cancer deaths by age in Germany.
 It is a line plot showing the number of deaths by age group. We have
@@ -515,7 +515,7 @@ image file for sharing or publication.
 ggsave("lineplot.png", plot = lineplot2, width = 6, height = 4)
 ```
 
-## Practising Data visualisation
+## Practising Data Visualisation
 
 To practise making data visualisations, there are numerous free
 resources available that provide valuable information and opportunities

@@ -42,17 +42,56 @@ distribution of infections in a specific region.
 
 ## Spatial Data, Spatial Data Models and Spatial Models
 
-Understanding the spatial distribution of phenomena such as disease spread, land cover changes, or climate patterns requires the use of spatial data and spatial models. These tools are essential for analysing and predicting spatial processes and for informing data-driven decisions in public health, environmental management, and urban planning.
+Understanding the spatial distribution of phenomena such as disease
+spread, land cover changes, or climate patterns requires the use of
+spatial data and spatial models. These tools are essential for analysing
+and predicting spatial processes and for informing data-driven decisions
+in public health, environmental management, and urban planning.
 
-A notable example is the **Ebola Virus Disease outbreak in West Africa (2014–2016)**. The virus spread across countries like Guinea, Liberia, and Sierra Leone, driven by factors such as population density, healthcare infrastructure, and human mobility. By analysing spatial data on cases, fatalities, and healthcare facilities and applying spatial models to simulate the virus’s spread, researchers gained valuable insights into the dynamics of the outbreak. This analysis helped identify high-risk areas for targeted interventions[@null2014].
+A notable example is the **Ebola Virus Disease outbreak in West Africa
+(2014–2016)**. The virus spread across countries like Guinea, Liberia,
+and Sierra Leone, driven by factors such as population density,
+healthcare infrastructure, and human mobility. By analysing spatial data
+on cases, fatalities, and healthcare facilities and applying spatial
+models to simulate the virus’s spread, researchers gained valuable
+insights into the dynamics of the outbreak. This analysis helped
+identify high-risk areas for targeted interventions[@null2014].
 
-> But what exactly distinguishes spatial data, spatial data models, and spatial models?
+> But what exactly distinguishes spatial data, spatial data models, and
+> spatial models?
 
-- **Spatial Data**: This refers to data that includes geographic coordinates, addresses, or boundaries, representing the physical location of objects or events. Spatial data can be stored in two main formats: vector and raster. Vector data models use geometric shapes (points, lines, polygons) to represent features such as roads, cities, and boundaries. Raster data models, on the other hand, use a grid of cells or pixels, each with a value representing a variable like temperature, land cover, or elevation.
-- **Spatial Data Models**: These are frameworks for organizing and representing spatial data. They provide the structure for connecting real-world phenomena with their digital representation through algorithms and spatial primitives (like spatial relationships and topology). Spatial data models form the foundation for managing and processing spatial information, enabling meaningful analysis and visualization.
-- **Spatial Models**: Unlike spatial data models, which organize data, spatial models simulate dynamic spatial processes—phenomena that change over time. Examples include the spread of infectious diseases, flood development, or land use changes. Spatial models are crucial for understanding and forecasting the evolution of spatial phenomena, allowing researchers and decision-makers to plan interventions and management strategies effectively.
+-   **Spatial Data**\index{spatial data}: This refers to data that
+    includes geographic coordinates, addresses, or boundaries,
+    representing the physical location of objects or events. Spatial
+    data can be stored in two main formats: vector and raster. Vector
+    data models use geometric shapes (points, lines, polygons) to
+    represent features such as roads, cities, and boundaries. Raster
+    data models, on the other hand, use a grid of cells or pixels, each
+    with a value representing a variable like temperature, land cover,
+    or elevation.
+-   **Spatial Data Models**\index{spatial data model}: These are
+    frameworks for organizing and representing spatial data. They
+    provide the structure for connecting real-world phenomena with their
+    digital representation through algorithms and spatial primitives
+    (like spatial relationships and topology). Spatial data models form
+    the foundation for managing and processing spatial information,
+    enabling meaningful analysis and visualization.
+-   **Spatial Models**\index{spatial model}: Unlike spatial data models,
+    which organize data, spatial models simulate dynamic spatial
+    processes—phenomena that change over time. Examples include the
+    spread of infectious diseases, flood development, or land use
+    changes. Spatial models are crucial for understanding and
+    forecasting the evolution of spatial phenomena, allowing researchers
+    and decision-makers to plan interventions and management strategies
+    effectively.
 
-For further information on spatial data models and spatial process models, refer to the **ArcGIS** documentation for guidance on solving spatial problems and the **Esri** blog for in-depth discussions on spatial analysis. Additionally, [R-Spatial.org](https://r-spatial.org/) offers a wealth of resources on spatial data analysis in R, including tutorials and the latest developments in the field.
+For further information on spatial data models and spatial process
+models, refer to the **ArcGIS** documentation for guidance on solving
+spatial problems and the **Esri** blog for in-depth discussions on
+spatial analysis. Additionally,
+[R-Spatial.org](https://r-spatial.org/)\index{rspatial} offers a wealth
+of resources on spatial data analysis, including tutorials and the
+latest developments in the field.
 
 ## Making a Map
 
@@ -108,17 +147,18 @@ ggplot(data = africa) +
 
 ## Coordinate Reference System (CRS)
 
-A **coordinate reference system** (CRS) is a standardised way of
-defining the spatial location of features on the Earth's surface. It
+A **coordinate reference system (CRS)**\index{CRS} is a standardised way
+of defining the spatial location of features on the Earth's surface. It
 uses a set of coordinates to represent the position of points, lines,
 and polygons in space. There are different types of CRS, such as
 **geographic** and **projected** CRS, which are used to represent the
 Earth's surface in different ways. Geographic CRS (**LatLong**)
 represents locations on a curved surface using latitude and longitude
 for global mapping, while projected CRS or **Universal Transverse
-Mercator (UTM)** projects the curved Earth onto a flat map, using metres
-for precise mapping. In particular, the UTM system provides the distance
-in metres from the equator and the central meridian of a specific zone.
+Mercator (UTM)**\index{UTM} projects the curved Earth onto a flat map,
+using metres for precise mapping. In particular, the UTM system provides
+the distance in metres from the equator and the central meridian of a
+specific zone.
 
 We use the `{sf}` package to define and transform CRS. The `st_crs()`
 function allows you to retrieve the CRS of a spatial object, while the
@@ -133,10 +173,11 @@ africa_crs
 For example, the CRS of the Africa map is **WGS 84** or *World Geodetic
 System 1984* which is a reference system for the Earth's surface that
 defines origin and orientation of the coordinate axes, called a
-**datum** (a fact known from direct observation). The **EPSG** is a
-structured dataset of CRS and Coordinate Transformations, it was
-originally compiled by the, now defunct, European Petroleum Survey
-Group[^11-spatials-1]. The EPSG code for WGS 84 is 4326.
+**datum** (a fact known from direct observation). The
+**EPSG**\index{EPSG} is a structured dataset of CRS and Coordinate
+Transformations, it was originally compiled by the, now defunct,
+European Petroleum Survey Group[^11-spatials-1]. The EPSG code for WGS
+84 is 4326.
 
 [^11-spatials-1]: <https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf>
 
@@ -145,7 +186,7 @@ Group[^11-spatials-1]. The EPSG code for WGS 84 is 4326.
 Synthetic data are created for the Central African Republic. The
 simulation of the number of infected individuals, their location, and
 temperature levels are obtained with random numbers generating functions
-from the `{stats}` package, which is a base package in R.
+from the `{stats}` package, which is a base package.
 
 The Central African Rep. is a landlocked country in Central Africa, with
 a population of approximately 5 million people. The country is known for
@@ -159,13 +200,14 @@ ctr_africa <- africa %>%
 
 ### Bounding Box
 
-We can use the `st_bbox()` function to retrieve the **bounding box** of
-the `ctr_africa` object, as a matrix with the minimum and maximum values
-of the coordinates. A bounding box is a rectangular area defined by two
-points: the lower-left corner (minimum values of the coordinates) and
-the upper-right corner (maximum values of the coordinates). It provides
-a quick way to determine the spatial extent of a region and is often
-used in spatial analysis to define the boundaries of a study area.
+We can use the `st_bbox()` function to retrieve the **bounding
+box**\index{bounding box} of the `ctr_africa` object, as a matrix with
+the minimum and maximum values of the coordinates. A bounding box is a
+rectangular area defined by two points: the lower-left corner (minimum
+values of the coordinates) and the upper-right corner (maximum values of
+the coordinates). It provides a quick way to determine the spatial
+extent of a region and is often used in spatial analysis to define the
+boundaries of a study area.
 
 ```{r}
 bbox <- ctr_africa %>% st_bbox()
@@ -272,7 +314,7 @@ ggplot() +
              aes(x = longitude, y = latitude, 
                  color = factor(presence)),
              shape = ".") +
-  labs(title = "Synthetic Data visualisation",
+  labs(title = "Synthetic Data Visualisation",
        color = "Infection Status") +
   theme(legend.position = "top")
 ```
@@ -441,9 +483,9 @@ raster grid representing a specific temperature value. The rasterized
 temperature data will be visualised as a heatmap on the map, with warmer
 colours indicating higher temperatures.
 
-The raster template is created using the `rast()` function from the
-`{terra}` package, specifying the number of rows and columns, the
-minimum and maximum values for the x and y coordinates, and the
+The raster\index{raster} template is created using the `rast()` function
+from the `{terra}` package, specifying the number of rows and columns,
+the minimum and maximum values for the x and y coordinates, and the
 coordinate reference system (CRS) of the raster. If you want to know
 more about the package, type `?terra`.
 
@@ -710,13 +752,14 @@ health interventions.
 To explore the dynamics of disease transmission in Central Africa by
 simulating the spread of infections we use a type of network
 characterised by a high degree of clustering and short average path
-lengths between nodes called **small-world network**. It represents a
-realistic model of human contact patterns, where individuals are more
-likely to interact with their neighbours but can also have long-range
-connections with other individuals. By simulating the spread of
-infections in a small-world network, we can investigate how the spatial
-structure of the network influences the transmission dynamics and
-identify critical nodes for disease control.
+lengths between nodes called **small-world
+network**\index{small-world network}. It represents a realistic model of
+human contact patterns, where individuals are more likely to interact
+with their neighbours but can also have long-range connections with
+other individuals. By simulating the spread of infections in a
+small-world network, we can investigate how the spatial structure of the
+network influences the transmission dynamics and identify critical nodes
+for disease control.
 
 We will use the `{igraph}` package to create a small-world network and
 simulate the spread of infections through the network. The network will
@@ -895,9 +938,10 @@ of many mathematical models[@volz2011].
 ### The Euclidean distance
 
 To estimate the likelihood of transmission between individuals based on
-their spatial proximity the **Euclidean** distance is used. It is
-calculated as the square root of the sum of the squares of the
-differences between corresponding coordinates of the two points.
+their spatial proximity the **Euclidean**
+distance\index{Euclidean distance} is used. It is calculated as the
+square root of the sum of the squares of the differences between
+corresponding coordinates of the two points.
 
 The Euclidean distance formula:
 
@@ -956,19 +1000,24 @@ euclidean_distance <- function(longitude, latitude,
 ```
 
 There are other type of distance metrics that can be used, such as the
-**Manhattan** distance, which calculates the sum of the absolute
-differences between the coordinates of two points, the **Mahlanobis**
-distance, which considers the correlation between the variables, and the
-**Chebyshev** distance, which calculates the maximum difference between
-the coordinates of two points.
+**Manhattan** distance\index{distance}, which calculates the sum of the
+absolute differences between the coordinates of two points, the
+**Mahlanobis** distance, which considers the correlation between the
+variables, and the **Chebyshev** distance, which calculates the maximum
+difference between the coordinates of two points.
 
 ### Spatial Autocorrelation
 
 Spatial autocorrelation refers to the principle that spatial data points
 close to each other are more likely to have similar values than those
-further apart. By analysing the spatial distribution of cases, areas with high spatial autocorrelation indicated clusters where infections spread is particularly intense.
+further apart. By analysing the spatial distribution of cases, areas
+with high spatial autocorrelation indicated clusters where infections
+spread is particularly intense.
 
-Using tools like **Moran’s I** and its variants, infection hotspots can be detected by identifying areas where high case rates cluster together. To check the presence of spatial autocorrelation the **Global Moran’s law** is used:
+Using tools like **Moran’s I**\index{Moran law} and its variants,
+infection hotspots can be detected by identifying areas where high case
+rates cluster together. To check the presence of spatial autocorrelation
+the **Global Moran’s law** is used:
 
 $$I = \frac{N \sum_{i=1}^{N} \sum_{j=1}^{N} w_{ij} (x_i - \bar{x})(x_j - \bar{x})}{W \sum_{i=1}^{N} (x_i - \bar{x})^2}$$ {#eq-moran}
 
@@ -1023,7 +1072,7 @@ spatial pattern of infections, it does not provide detailed information
 on the spatial distribution of cases across the region. To estimate the
 spatial distribution of infections and predict the risk of outbreaks, we
 can use spatial interpolation techniques such as
-**Kriging**[@kriging2024].
+**Kriging**\index{Kriging}[@kriging2024].
 
 This method is used to estimate the spatial distribution of cases by
 creating a raster of the predicted spatial distribution of infections.
@@ -1045,10 +1094,10 @@ spread, while considering the impact of environmental factors such as
 temperature, or humidity on disease transmission; Kriging requires an
 estimation of the variance of points at locations.
 
-For estimating the variance, a **variogram model** is fit to the
-observed data. The variogram is a function of the distance `h` that
-describes the degree of spatial dependence of a spatial random field or
-stochastic process. It takes consideration of the spatial
+For estimating the variance, a **variogram model**\index{variogram} is
+fit to the observed data. The variogram is a function of the distance
+`h` that describes the degree of spatial dependence of a spatial random
+field or stochastic process. It takes consideration of the spatial
 auto-correlation of the data. This means, for instance, the number of
 cases observed in one location are supposed to be correlated with the
 number of cases observed in nearby locations. This also considers the
@@ -1117,7 +1166,7 @@ kpred <- predict(k, newdata = ctr_africa_grid_sf)
 kpred %>% head()
 ```
 
-visualise predictions:
+Visualise predictions:
 
 ```{r}
 #| layout-ncol: 2

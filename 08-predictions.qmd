@@ -200,8 +200,8 @@ data-driven decisions to improve population health outcomes.
 
 ## Time Series Analysis
 
-One important side of the analysis is to consider the evolution of
-the phenomenon in time. We can do this by using time as a factor in the
+One important side of the analysis is to consider the evolution of the
+phenomenon in time. We can do this by using time as a factor in the
 model. **Time series**\index{time series} analysis serves as a tool for
 understanding and forecasting temporal patterns. Techniques such as
 **ARIMA (AutoRegressive Integrated Moving Average)** models offer a
@@ -240,8 +240,8 @@ patterns. By separating these components, through decomposition methods,
 it is possible to discover the temporal dynamics within the data,
 facilitating more accurate forecasting and predictive modelling.
 Moreover, decomposing time series data can aid in anomaly detection,
-trend analysis, and seasonal adjustment, making it a fundamental tool for
-interpreting complex temporal phenomena.
+trend analysis, and seasonal adjustment, making it a fundamental tool
+for interpreting complex temporal phenomena.
 
 Modelling time series data often requires a combination of techniques to
 capture its complex nature. **Mixed models**\index{mixed models},
@@ -510,16 +510,16 @@ learners can be aggregated to a **model ensemble**\index{model ensemble}
 by combining the forecasts of individual models.
 
 **Ensemble learning**\index{ensemble learning} is a machine learning
-technique that leverages the diversity of individual models to make
-more accurate predictions and reduce overfitting. Ensemble methods can
-reduce the variance and bias of the predictions, leading to more
-accurate and reliable results. Ensemble techniques such as
-bagging\index{bagging}, boosting\index{boosting}, and
-stacking\index{stacking} leverage the diversity of individual models to
-create a stronger collective model that outperforms its components.
-These methods are widely used in machine learning and predictive
-modelling to enhance the predictive power of the model and achieve
-better generalisation performance on unseen data.
+technique that leverages the diversity of individual models to make more
+accurate predictions and reduce overfitting. Ensemble methods can reduce
+the variance and bias of the predictions, leading to more accurate and
+reliable results. Ensemble techniques such as bagging\index{bagging},
+boosting\index{boosting}, and stacking\index{stacking} leverage the
+diversity of individual models to create a stronger collective model
+that outperforms its components. These methods are widely used in
+machine learning and predictive modelling to enhance the predictive
+power of the model and achieve better generalisation performance on
+unseen data.
 
 In case is required install the `{urca}` package:
 
@@ -645,16 +645,19 @@ pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
 
 In R, mixed-effects models can be integrated with Eigen, a C++ template
-library for linear algebra which significantly speeds up the computations
-involved in fitting mixed-effects models.
+library for linear algebra which significantly speeds up the
+computations involved in fitting mixed-effects models.
 
 ## Example: Tuberculosis YLDs Estimation Using Mixed-Effects Models
 
 To estimate Years Lived with Disability (YLDs) using mixed-effects
-models in R, we can use the `lme4` package which provides functions to
-fit linear and generalised linear mixed-effects models. We will provide an example of how to estimate YLDs with mixed-effects models.
-We use the `g7_hmetrics` dataset found in `{hmsidwR}` package containing YLDs, deaths, incidence and prevalence for **Respiratory infections and tuberculosis** in 2010 and 2019 to demonstrate the estimation of YLDs using
-mixed-effects models.
+models, we can use the `lme4` package which provides functions to
+fit linear and generalised linear mixed-effects models. We will provide
+an example of how to estimate YLDs with mixed-effects models. We use the
+`g7_hmetrics` dataset found in `{hmsidwR}` package containing YLDs,
+deaths, incidence and prevalence for **Respiratory infections and
+tuberculosis** in 2010 and 2019 to demonstrate the estimation of YLDs
+using mixed-effects models.
 
 ```{r}
 library(lme4)
@@ -705,9 +708,9 @@ hmsidwR::disweights %>%
 
 The disability weight is 0.333 for tuberculosis, and the duration
 derived from the GBD 2021 was estimated based on a systematic review and
-adjusted for treated and untreated cases. The duration of
-tuberculosis was estimated to be 3 years[@tiemersma2011] for untreated
-cases and 6 months for treated cases.
+adjusted for treated and untreated cases. The duration of tuberculosis
+was estimated to be 3 years[@tiemersma2011] for untreated cases and 6
+months for treated cases.
 
 ```{r}
 # Define the formula
@@ -732,7 +735,10 @@ $$
 YLDs = 67.7988999255 + 0.0001619458*Prevalence - 0.0336387717*year
 $$ {#eq-mixed-model}
 
-In particular, a prevalence coefficient of 0.0001619458 means that for each unit increase in prevalence, YLDs increase by 0.0001619458, while a year coefficient of -0.0336387717 means that for each unit increase in year, YLDs decrease by 0.0336387717.
+In particular, a prevalence coefficient of 0.0001619458 means that for
+each unit increase in prevalence, YLDs increase by 0.0001619458, while a
+year coefficient of -0.0336387717 means that for each unit increase in
+year, YLDs decrease by 0.0336387717.
 
 ```{r}
 # Extract random effects
@@ -741,13 +747,17 @@ random_effects <- ranef(model)
 random_effects
 ```
 
-The output of random_effects is a list of data frames with the random effects for each level of the random effect variable (location in this case), which means that the model is 
+The output of random_effects is a list of data frames with the random
+effects for each level of the random effect variable (location in this
+case), which means that the model is
 
 $$
 YLDs = 67.7988999255 + 0.0001619458*Prevalence - 0.0336387717*year + random effect for each location
 $$ {#eq-mixed-model2}
 
-Then, predictions are made for the YLDs using the mixed-effects model on observed data and new data. The predictions are compared with the actual YLDs to evaluate the model's performance.
+Then, predictions are made for the YLDs using the mixed-effects model on
+observed data and new data. The predictions are compared with the actual
+YLDs to evaluate the model's performance.
 
 ```{r}
 #| fig-cap: "Predicted YLDs for Tuberculosis"
@@ -788,6 +798,7 @@ predictions <- predict(model,
 ```
 
 And the predictions are shown in the following plot:
+
 ```{r}
 #| fig-cap: "New Data-Predicted YLDs for Tuberculosis"
 #| fig-alt: "New Data-Predicted YLDs for Tuberculosis"

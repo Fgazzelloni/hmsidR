@@ -76,14 +76,13 @@ YLL=N*le
 $$ {#eq-yll}
 
 In @eq-yll, $N$ is the number of premature deaths, and $le$ is the
-[standard live expectancy at the age of death]{.underline}. This
-calculation takes into account the number of deaths at each age and
-multiplies it by the standard life expectancy remaining at that age,
-using global life tables to determine life expectancy. More details
-about the components of YLL are provided in the next chapter
-(@sec-03-components), and a sample of the construction of a life table
-with relative estimations of the life expectancy can be found in
-@sec-appendixA.
+standard live expectancy at the age of death. This calculation takes
+into account the number of deaths at each age and multiplies it by the
+standard life expectancy remaining at that age, using global life tables
+to determine life expectancy. More details about the components of YLL
+are provided in the next chapter (@sec-03-components), and a sample of
+the construction of a life table with relative estimations of the life
+expectancy can be found in @sec-appendixA.
 
 In general, the **Global Burden of Diseases studies (GBD)** use
 standardised life tables, to consistently measure the impact of various
@@ -882,9 +881,7 @@ simulation approach.
 We use age-specific mortality and YLDs per capita by location, age, sex,
 and year, and define the HALE as:
 
-> the average number of years that a person at a given age can expect to
-> live in good health, taking into account mortality and loss of
-> functional health.
+> the average number of years that a person at a given age can expect to live in good health, taking into account mortality and loss of functional health.
 
 ![HALE - GLOBAL HEALTH METRICS VOLUME 392, ISSUE 10159, P1859-1922,
 NOVEMBER 10,
@@ -992,14 +989,14 @@ HALE1 <- calculate_HALE(age_intervals, life_table$Survival_Probability)
 HALE2 <- calculate_HALE(age_intervals, life_table$adjusted_px)
 ```
 
-Finally, we visualise the HALE for both the standard and adjusted life
-table data.
+To visualise the HALE for both the standard and adjusted life
+table data we can plot the results with a line graph. 
 
 ```{r}
 #| echo: false
 #| eval: true
 #| label: fig-HALE
-#| fig-cap: "Health Adjusted Life Expectancy (HALE) by Age. The blue line represents the HALE for the simulated life table data, the brown line represents the HALE for the adjusted life table data."
+#| fig-cap: "Health Adjusted Life Expectancy (HALE) by Age. The blue line represents the HALE for the simulated life table data, the dotted line represents the HALE for the adjusted life table data."
 #| fig-alt: "Health Adjusted Life Expectancy (HALE) by Age"
 #| fig-width: 6
 #| fig-height: 4
@@ -1015,6 +1012,10 @@ data.frame(age_intervals, HALE1, HALE2) %>%
   labs(title = "Health Adjusted Life Expectancy (HALE) by Age",
        x = "Age Group (5Yrs)")
 ```
+
+The difference between the two lines represents the impact of adjusting a life table for health conditions on the calculation of HALE. The adjusted life table data considers the prevalence of health conditions and their associated disability weights, providing a more accurate estimate of the number of years a person can expect to live in good health.
+
+In general, HALE is a valuable metric for assessing the overall health of a population, by incorporating information on the prevalence of health conditions and their associated disability weights, HALE offers a more specific understanding of population health.
 
 ## Summary
 

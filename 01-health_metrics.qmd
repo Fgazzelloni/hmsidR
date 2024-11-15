@@ -20,6 +20,29 @@ The history of health metrics is a fascinating journey that spans
 centuries, evolving from rudimentary observations to sophisticated
 statistical methods, as illustrated by @fig-timeline.
 
+One of the earliest forms of health metrics can be traced back to the
+work of *John Graunt*, an Englishman, in the 17th century[@johngra2024].
+In 1662, Graunt published a landmark work titled "Natural and Political
+Observations Made upon the Bills of Mortality." Graunt, defined as the
+**father of human demography**, was largely self-educated, and his
+interest in mortality data was driven by the Bills of Mortality, which
+were weekly and annual records of deaths in London, and provided
+information on the number of births and deaths in the city. Graunt
+meticulously analysed this **mortality data** and produced **tables**
+that presented various patterns and trends. His work laid the foundation
+for modern demography and statistical analysis. Among his notable
+contributions were the concepts of **life expectancy** and **mortality
+rates**. One of Graunt's key observations was the consistent pattern of
+higher mortality among infants and young children. He noted the
+difference in life expectancy between males and females and provided
+insights into factors influencing mortality, such as epidemics and
+seasons.
+
+Over time, advancements in mathematics, medicine, and statistics led to
+the development of more sophisticated health metrics. The 19th century
+saw the emergence of **life tables**, which provided a systematic way to
+analyse mortality and life expectancy. 
+
 ```{r}
 #| echo: false
 #| eval: false
@@ -48,75 +71,46 @@ timeline <- tibble(
     "Today, health metrics encompass a wide range of measures, including traditional mortality rates, disease-specific metrics, and broader indicators like well-being and social determinants of health. These metrics play a crucial role in shaping public health policies, healthcare interventions, and global health assessments."
   )
 )
-```
-
-```{r}
-#| echo: false
-#| eval: false
 
 timeline %>%
   ggplot(aes(x = id, y = 0.5)) +
-  geom_segment(aes(x = id, xend = id, y = 0.5, yend = 0.8), linewidth = 0.3) +
-  geom_segment(aes(x = id, xend = id, y = 0.5, yend = -1), linewidth = 0.1) +
+  geom_segment(aes(x = id, xend = id, 
+                   y = 0.5, yend = 0.8), 
+               linewidth = 0.3) +
+  geom_segment(aes(x = id, xend = id, 
+                   y = 0.5, yend = -1), 
+               linewidth = 0.1) +
   geom_point() +
   geom_line(group = 1, linewidth = 1) +
   ggtext::geom_textbox(aes(label = type, y = 1),
-    fontface = "bold",
-    width = unit(0.13, "npc"),
-    box.size = 0,
-    fill = NA,
-    hjust = 0.5,
-    size = 2
-  ) +
+                       fontface = "bold",
+                       width = unit(0.13, "npc"),
+                       box.size = 0,
+                       fill = NA,
+                       hjust = 0.5,
+                       size = 2) +
   ggtext::geom_textbox(aes(label = text, y = -1),
-    width = unit(0.13, "npc"),
-    box.size = 0,
-    fill = "white",
-    hjust = 0.5,
-    size = 2
-  ) +
+                       width = unit(0.13, "npc"),
+                       box.size = 0,
+                       fill = "white",
+                       hjust = 0.5,
+                       size = 2) +
   ylim(-3, 2) +
   xlim(0.8, 8.2) +
   coord_cartesian() +
   theme_void()
-```
-```{r}
-#| echo: false
-#| eval: false
-
 # save as png 600 dpi, bg white
 ggsave("images/01_timeline.png", 
        bg = "white",
        width = 8, height = 4, dpi = 600)
 ```
 
-![Health Metrics Development
-Timeline](images/01_timeline.png){#fig-timeline
-fig-align="center" width="90%"
-fig-alt="Health Metrics development timeline"}
+::: {.pagebreak .landscape}
+![Health Metrics Development Timeline](images/01_timeline.png){#fig-timeline
+fig-align="center" fig-alt="Health Metrics development timeline"}
+:::
 
-One of the earliest forms of health metrics can be traced back to the
-work of *John Graunt*, an Englishman, in the 17th century[@johngra2024].
-In 1662, Graunt published a landmark work titled "Natural and Political
-Observations Made upon the Bills of Mortality." Graunt, defined as the
-**father of human demography**, was largely self-educated, and his
-interest in mortality data was driven by the Bills of Mortality, which
-were weekly and annual records of deaths in London, and provided
-information on the number of births and deaths in the city. Graunt
-meticulously analysed this **mortality data** and produced **tables**
-that presented various patterns and trends. His work laid the foundation
-for modern demography and statistical analysis. Among his notable
-contributions were the concepts of **life expectancy** and **mortality
-rates**. One of Graunt's key observations was the consistent pattern of
-higher mortality among infants and young children. He noted the
-difference in life expectancy between males and females and provided
-insights into factors influencing mortality, such as epidemics and
-seasons.
-
-Over time, advancements in mathematics, medicine, and statistics led to
-the development of more sophisticated health metrics. The 19th century
-saw the emergence of **life tables**, which provided a systematic way to
-analyse mortality and life expectancy. More specifically, *Mary Dempsey*
+More specifically, *Mary Dempsey*
 in 1940s wrote an article[@dempsey2019a] for the National Tuberculosis
 Association about the concept of **Years of Life Lost (YLL)**, assessing
 time-lost as a metric for health for the first time. She was then

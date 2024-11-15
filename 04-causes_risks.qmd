@@ -22,9 +22,11 @@ Learning Objectives
 -   Causal inference
 :::
 ::::::
+
 \
 
->**"...fear is the most pervasive emotion of modern society..."[@bourke2007]**
+> **"...fear is the most pervasive emotion of modern
+> society..."[@bourke2007]**
 
 What qualifies as a risk\index{risk} is subject to dynamic social change
 [@li2020] , as well as the perception of risk has evolved over time,
@@ -82,17 +84,17 @@ risk factors include:
 ```{r}
 #| echo: false
 #| label: fig-daly_dag
-#| fig-alt: "Causal relationships leading to fueling DALYs value"
-#| fig-cap: "Causal relationships leading to fueling DALYs value"
+#| fig-alt: "Causal relationships leading to fueling DALYs value. Weights (W), Years Lived with Disability (YLD), and Years of Life Lost (YLL) are the main components of the DALY metric."
+#| fig-cap: "Causal relationships leading to fueling DALYs value. Weights (W), Years Lived with Disability (YLD), and Years of Life Lost (YLL) are the main components of the DALY metric."
 #| fig-width: 5
 #| fig-height: 3.2
 library(ggdag)
 
 dag <- dagify(
-  "DALY" ~ "W" + "YLD" + "YLL", # mortality, age,sex, cause
-  "Cause" ~ "age" + "sex" + "place" + "race" + "other", # age, sex, cause
-  "W" ~ "Cause", # age, sex, cause
-  "YLD" ~ "W", # age, sex, cause, disability weights
+  "DALY" ~ "W" + "YLD" + "YLL", 
+  "Cause" ~ "age" + "sex" + "place" + "race" + "other", 
+  "W" ~ "Cause", 
+  "YLD" ~ "W", 
   "YLL" ~ "W",
   coords = time_ordered_coords())
 
@@ -169,10 +171,10 @@ and avoidable burden. Considering as the objective the potential
 reduction of future disease burden, four types of **minimum risk
 exposure**\index{minimum risk exposure} distributions are identified:
 
--   theoretical\index{theoretical}
--   plausible\index{plausible}
--   feasible\index{feasible}
--   cost-effective\index{cost-effective}
+-   Theoretical\index{theoretical}
+-   Plausible\index{plausible}
+-   Feasible\index{feasible}
+-   Cost-effective\index{cost-effective}
 
 The following provide a high level overview on quantifying attributable
 burden by using the theoretical minimum risk.
@@ -181,8 +183,8 @@ burden by using the theoretical minimum risk.
 
 The relative risk (or Risk Ratio)\index{relative risk} is a measure of
 the strength of the association between an exposure and an outcome. It
-compares the likelihood of a particular health outcome occurring in
-individuals exposed to a specific risk factor to the likelihood in those
+compares the likelihood of a particular health outcome, occurring in
+individuals exposed to a specific risk factor, to the likelihood in those
 who are not exposed. This metric helps quantify how much a risk factor,
 like smoking or high blood pressure, increases the probability of an
 adverse health effect.
@@ -262,24 +264,21 @@ unexposed group.
 ```{r}
 #| label: fig-barplot_relative_risk
 #| fig-alt: "Bar chart showing the relative risk of outcome between exposed and unexposed groups."
-#| fig-cap: "Bar chart showing the relative risk of outcome between exposed and unexposed groups."
+#| fig-cap: "Bar chart showing the relative risk of outcome between exposed and unexposed groups. The relative risk is calculated based on the number of events and person-time at risk for each group."
 #| echo: false
 
 data <- data.frame(
   Group = c("Exposed", "Unexposed"),
-  Event_Rate = c(d1 / n1, d0 / n0)
-)
+  Event_Rate = c(d1 / n1, d0 / n0))
 
 # Plot the bar chart
 ggplot(data, aes(x = Group, y = Event_Rate, 
                  fill = Group)) +
   geom_bar(stat = "identity", width = 0.6) +
-  labs(
-    title = "Relative Risk Differences",
-    subtitle = "Exposed and Unexposed Groups",
-    x = "Group",
-    y = "Event Rate (Events per Person-Time)"
-  ) +
+  labs(title = "Relative Risk Differences",
+       subtitle = "Exposed and Unexposed Groups",
+       x = "Group",
+       y = "Event Rate (Events per Person-Time)") +
   annotate("text", 
            x = 1.5, y = max(data$Event_Rate) * 0.8,
            label = paste("Relative Risk =", 
@@ -402,12 +401,9 @@ dag <- dagify(
 ggdag(dag) + theme_dag_grid()
 ```
 
-Here is a simulation of the risk exposure made with the `{dagitty}`
-package to simulate a logistic regression model with a DAG structure.
-The model estimates the probability of an outcome (O) given exposure (E)
-to different risk factors, such as C1, C2, and C3 (confounders). The
-relative risk is calculated based on the estimated probabilities of the
-outcome given exposure and no exposure to the risk factors.
+#### Simulation of Risk Exposure
+
+The simulation of the risk exposure\index{risk exposure} can be done replicating a logistic regression model with a DAG structure. We can use the `{dagitty}` package, and the `simulateLogistic()` function. The model estimates the probability of an outcome (O), given exposure (E) to different risk factors, such as C1, C2, and C3 (confounders). The relative risk is calculated based on the estimated probabilities of the outcome given exposure and no exposure to the risk factors.
 
 ```{r}
 #| echo: true
@@ -451,11 +447,12 @@ relative_risk <- pr_outcome_exp / pr_outcome_no_exp
 
 ```{r}
 #| layout-ncol: 2
+#| label: fig-distribution_rr
 #| fig-cap: "Histogram and density distribution of Relative Risk."
 #| fig-subcap:
 #|   - "Histogram of Relative Risk"
 #|   - "Density distribution of Relative Risk"
-#| label: fig-distribution_rr
+#| fig-alt: "The histogram and density distribution of Relative Risk. The histogram displays the frequency of relative risk values, while the density plot shows the distribution of relative risk values."   
 #| echo: false
 
 data$relative_risk <- relative_risk
@@ -465,17 +462,15 @@ ggplot(data = data, aes(x = relative_risk)) +
   geom_histogram(binwidth = 0.2,
                  fill = "#29306c",
                  color = "black") +
-  labs(
-    title = "Distribution of Relative Risk",
-    x = "Relative Risk",
-    y = "Frequency")
+  labs(title = "Distribution of Relative Risk",
+       x = "Relative Risk",
+       y = "Frequency")
 
 ggplot(data = data, aes(x = relative_risk)) +
   geom_density(fill = "#29306c", color = "black") +
-  labs(
-    title = "Density distribution of Relative Risk",
-    x = "Relative Risk",
-    y = "Density")
+  labs(title = "Density distribution of Relative Risk",
+       x = "Relative Risk",
+       y = "Density")
 ```
 
 ### Theoretical Minimum-Risk Exposure Levels (TMRELs)
@@ -498,6 +493,9 @@ systolic blood pressure which acts as mediator between the two.
 
 ```{r}
 #| echo: false
+#| lable: fig-risk-outcome
+#| fig-cap: "DAG: Risk-Outcome leading to heart disease. The relationship between low fruit consumption, systolic blood pressure, and heart disease."
+#| fig-alt: "DAG: Risk-Outcome leading to heart disease"
 #| fig-width: 6
 #| fig-height: 0.5
 #| fig-align: "center"
@@ -575,8 +573,7 @@ and improve overall health outcomes.
 ## Causal Inference
 
 Causality\index{causality} concerns the relationship between two
-variables, where one variable (*the cause*) directly influences or
-determines the other (*the effect*). For example, regular exercise
+variables, where one variable (*the cause*) directly influences the other (*the effect*). For example, regular exercise
 improves cardiovascular health, or adequate sleep supports cognitive
 function. However, causality is distinct from
 correlation\index{correlation}, which indicates a statistical
@@ -594,6 +591,7 @@ causal relationships within the observed data.
 ```{r}
 #| echo: false
 #| eval: false
+#| fig-cap: "Causal Inference Flowchart. The flowchart outlines the steps involved in performing causal inference, from formulating a hypothesis to informing public health actions."
 library(DiagrammeR)
 
 # Create a causal inference flowchart
@@ -619,7 +617,7 @@ digraph causal_inference {
 ```
 
 ![Causal Inference
-Flowchart](images/04_causal_inference_flowchart.png){#fig-causal_inference
+Flowchart. The flowchart outlines the steps involved in performing causal inference, from formulating a hypothesis to informing public health actions.](images/04_causal_inference_flowchart.png){#fig-causal_inference
 fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"}
 
 Performing causal inference\index{causal inference} requires setting up

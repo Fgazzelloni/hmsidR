@@ -197,7 +197,7 @@ predict future trends.
 
 To illustrate the modelling and prediction process we will use the
 `{caret}` package, which provides a unified interface for training and
-evaluating machine learning models in R. We will train a Random Forest
+evaluating machine learning models. We will train a Random Forest
 model to predict future trends in malaria transmission based on
 historical data.
 
@@ -473,5 +473,3 @@ predict future trends in malaria transmission using historical data. The
 iterative process of model refinement and evaluation is crucial for
 developing accurate predictions and guiding effective public health
 interventions.
-
-

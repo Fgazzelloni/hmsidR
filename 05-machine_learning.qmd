@@ -38,8 +38,9 @@ account for the randomness and uncertainty associated with real-world
 scenarios. In general, a **stochastic
 process**\index{stochastic process}, or random process [@dobrow2016] is
 the type of model which attempts to replicate uncertain outcomes, using
-probabilities. On the other hand, in a **deterministic system** the outcome is
-obtained from a given input, and for this reason it is reproducible.
+probabilities. On the other hand, in a **deterministic system** the
+outcome is obtained from a given input, and for this reason it is
+reproducible.
 
 Most models used to study the spread of a virus are a **combination of
 both deterministic and stochastic models**. For example, the
@@ -50,23 +51,24 @@ interactions between individuals.
 
 ## Machine Learning Models
 
-What a Machine Learning model is and how it differs from statistical
-models (deterministic and stochastic) is all a matter of parameter
-calibration. Understanding the differences between deterministic and
-stochastic models is crucial for effectively applying machine learning
-techniques, as it informs the selection of the appropriate modelling
-approach based on the data characteristics and analysis goals. Machine
-learning models learn from data to automatically adjust their
-parameters, optimising them to minimise errors or maximise performance
-on a given task. Compared to traditional statistical models, they are
-more flexible and adaptable to complex data patterns.
+What a machine learning\index{machine learning} model is and how it
+differs from statistical models\index{statistical model} (deterministic
+and stochastic) is all a matter of parameter calibration. Understanding
+the differences between deterministic and stochastic models is crucial
+for effectively applying machine learning techniques, as it informs the
+selection of the appropriate modelling approach based on the data
+characteristics and analysis goals. Machine learning models learn from
+data to automatically adjust their parameters, optimising them to
+minimise errors or maximise performance on a given task. Compared to
+traditional statistical models, they are more flexible and adaptable to
+complex data patterns.
 
-**Machine learning (ML)** techniques are identified as subfields of the
-**Artificial Intelligence (AI)**\index{AI} technology, acting by
-learning relationships in the data. Learning from experience (E), ML
-computes tasks (T) to improve performance (P). The origins of ML, dating
-back to the late 1950s, only flourished in the 1990s with the aim of
-minimising loss on unseen samples [@machine2024].
+**Machine Learning (ML)**\index{ML} techniques are identified as
+subfields of the **Artificial Intelligence (AI)**\index{AI} technology,
+acting by learning relationships in the data. Learning from experience
+(E), ML computes tasks (T) to improve performance (P). The origins of
+ML, dating back to the late 1950s, only flourished in the 1990s with the
+aim of minimising loss on unseen samples [@machine2024].
 
 ![Machine Learning
 Cycle](images/05_ml-image.png){#fig-ml-cycle
@@ -83,8 +85,8 @@ predictions or decisions based on data.
 The emergence of infections is an ongoing evolution and adaptation
 [@broemeling2021]. In the late 1970s, Dr. René Dubos believed that '*the
 relationship between humans and microbes is dynamic and influenced by
-various factors, including environmental conditions, human behaviour, and
-microbial adaptation*'. The importance of understanding the complex
+various factors, including environmental conditions, human behaviour,
+and microbial adaptation*'. The importance of understanding the complex
 interactions between hosts and pathogens in the emergence and spread of
 infectious diseases is described as dynamic interplay between organisms
 and their environment, a **process of continuous adaptation and
@@ -143,8 +145,8 @@ without explicit knowledge of the underlying mechanisms. Therefore,
 while both mechanistic and empirically driven models are used for
 prediction, they operate on different principles:
 
-> Mechanistic models rely on known relationships and equations, while
-> machine learning models learn patterns from data[@baker2018].
+> **Mechanistic models rely on known relationships and equations, while
+> machine learning models learn patterns from data[@baker2018].**
 
 Before delving deep into machine learning techniques for analysing
 health data and metrics, it's essential to proceed step by step in
@@ -156,10 +158,16 @@ understanding of the modelling procedures.
 There are a variety of models available, and the decision on which model
 to use depends on the type of **learning method** either
 **supervised**\index{supervised learning} or
-**unsupervised**\index{unsupevised learning}. Supervised learning
-analyses data by comparing observations against a predefined response
-variable, whereas unsupervised learning handles data that do not have a
-predefined response variable.
+**unsupervised**\index{unsupevised learning}. Supervised learning is
+applied when data is labelled, meaning that the dataset includes both
+the independent (predictors) and dependent (outcome) variables. It is
+the classical approach to machine learning, where the model learns to
+predict the outcome variable based on the input variables. Unsupervised
+learning, on the other hand, only includes the input variables, so there
+is no a direct objective, or a "response" variable to focus on. The
+model learns to find patterns and relationships in the data without
+explicit labels, making it useful for clustering and dimensionality
+reduction.
 
 The **nature of the data** is also fundamental, including whether the
 outcome is continuous or discrete, and whether the number of predictors
@@ -169,11 +177,11 @@ distinction is made between **regression**\index{regression} and
 **classification**\index{classification} based on whether the outcome
 variable is continuous.
 
-**Machine learning models** are all types of models that can be all
-of the above but allow for: **learning from data through model
-parameters auto-calibration**. Learning from data is a process where an
-algorithm adjusts its parameters to minimise the errors in predictions.
-Each algorithm has its method of learning.
+**Machine learning models** are all types of models that can be all of
+the above but allow for: **learning from data through model parameters
+auto-calibration**. Learning from data is a process where an algorithm
+adjusts its parameters to minimise the errors in predictions. Each
+algorithm has its method of learning.
 
 ### Parameters and Hyper-parameters
 
@@ -414,10 +422,10 @@ first plot the model line (blue line) is obtained with the
 `geom_smooth()` function with the specification `method = "lm"` . In the
 second plot we have used all data up to August, and we can clearly see
 the infections spread smoothly to finally explode shaping an elbow
-curve. The `geom_smooth()` selected the best function that suits the data
-with a **locally estimated scatterplot smoothing**, or **LOESS**, which
-is a nonparametric method for smoothing a series of data in which no
-assumptions are made about the underlying structure of the data.
+curve. The `geom_smooth()` selected the best function that suits the
+data with a **locally estimated scatterplot smoothing**, or **LOESS**,
+which is a nonparametric method for smoothing a series of data in which
+no assumptions are made about the underlying structure of the data.
 
 ```{r}
 #| layout-ncol: 2
@@ -524,9 +532,9 @@ given observations in order to represent the overall pattern accurately.
 For instance, in the visualisation above, the blue line made with the
 `geom_smooth()` function, when specified with `method = "lm"`, helps us
 visualise the direction of a linear pattern in the data. However, it's
-evident that the data points form a bell-shaped curve as distribution
-of deaths over time, indicating a non-linear relationship between date
-and cholera deaths. In the second layer we used `method= "gam"`,
+evident that the data points form a bell-shaped curve as distribution of
+deaths over time, indicating a non-linear relationship between date and
+cholera deaths. In the second layer we used `method= "gam"`,
 **Generalised Additive Models (GAMs)**\index{GAM} flexible extensions of
 linear models, the most suitable choice for this data used to model
 non-linear relationships between the response and predictor variables.
@@ -1027,8 +1035,11 @@ where $y_i$ represent the response vector of observations,
 $f_j(x_{i,j})$ the smooth function of the predictors (random effects),
 $B_{j,k}$ basis function such as splines, $\beta_0$ and $\beta_j$ the
 intercept and the coefficients respectively. While $\epsilon_i$ is the
-error term with a Gaussian distribution
-$\epsilon_i \sim Norm(0,\sigma^2)$.
+error term with a Gaussian distribution:
+
+$$
+\epsilon_i \sim Norm(0,\sigma^2)
+$$ {#eq-inla-error}
 
 Used as:
 
@@ -1136,9 +1147,8 @@ ggplot(plot_data, aes(x = Day)) +
               alpha = 0.4) +
   geom_line(aes(y = FittedCases),
             color = "blue") +
-  labs(
-    title = "Fitted GAM for Epidemic Y",
-    x = "Day", y = "Fitted number of cases")
+  labs(title = "Fitted GAM for Epidemic Y",
+       x = "Day", y = "Fitted number of cases")
 ```
 
 The `inla()` function allows a model specification, in this case a
@@ -1173,17 +1183,18 @@ improvement.
 
 The accuracy of predictive models is checked with **loss
 functions**\index{loss function}, which measure the discrepancy between
-the predicted outcomes and the actual values. This adjustment of the model
-learning process is performed through iterative adjustments of the model
-parameters with the objective to improve the model's performance.
+the predicted outcomes and the actual values. This adjustment of the
+model learning process is performed through iterative adjustments of the
+model parameters with the objective to improve the model's performance.
 
 Models are trained to a specific loss function that guides the
-optimization process and quantifies the model performance. The most common
-loss functions are:
+optimization process and quantifies the model performance.
 
-1.  **Regression Loss Functions:**\index{regression loss functions} For
-    regression tasks where the prediction involves continuous numbers,
-    several loss functions are commonly used:
+#### Regression Loss Functions
+
+Regression Loss Functions\index{regression loss functions} are for
+regression tasks where the prediction involves continuous numbers, and
+include:
 
 -   **Mean Squared Error (MSE):**\index{MSE} MSE calculates the average
     of the squares of the errors, i.e., the average squared difference
@@ -1211,10 +1222,11 @@ $$MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{Y_i}-Y_i|}$$ {#eq-mae}
 
 $$MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{Y_i}+1)-log(Y_i+1))^2}$$ {#eq-msle}
 
-2.  **Classification Loss
-    Functions:**\index{classification loss functions} For classification
-    tasks, where the output is categorical, typical loss functions
-    include:
+#### Classification Loss Functions
+
+Classification Loss Functions\index{classification loss functions} are
+for classification tasks, where the output is categorical, typical loss
+functions include:
 
 -   **Binary Cross-Entropy:**\index{binary cross-entropy} Also known as
     log loss, this function measures the performance of a classification
@@ -1255,9 +1267,9 @@ metrics**\index{evaluation metrics} measure how well the model's
 predictions align with the actual outcomes, providing a signal to adjust
 the model.
 
-1.  **Regression Evaluation Metrics**: For regression tasks, the
-    following metrics are commonly used to assess the model's predictive
-    performance:
+#### Regression Evaluation Metrics
+
+For regression tasks, the following metrics are commonly used to assess the model's predictive performance:
 
 -   **Root Mean Squared Error (RMSE):** A measure of the average
     deviation between predicted and actual values, calculated as the
@@ -1282,9 +1294,9 @@ $$R^2 = 1 - \frac{SS_{residual}}{SS_{total}}$$ {#eq-r2}
 
 $$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$ {#eq-adjr2}
 
-2.  **Classification Evaluation Metrics:** For classification tasks, the
-    following metrics are commonly used to evaluate the model's
-    performance:
+#### Classification Evaluation Metrics
+
+For classification tasks, the following metrics are commonly used to evaluate the model's performance:
 
 -   **Accuracy:**\index{accuracy} The proportion of correctly classified
     instances out of the total instances in the dataset. It is a simple
@@ -1348,10 +1360,9 @@ population.
 
 The most common analyses methods are[@hult2021]:
 
--   cost-utility\index{cost-utility}, using quality-adjusted life years
+-   Cost-utility\index{cost-utility}, using quality-adjusted life years
     (QALY)
-
--   cost-effectiveness\index{cost-effectiveness}, for specific outcomes,
+-   Cost-effectiveness\index{cost-effectiveness}, for specific outcomes,
     such as life expectancy or medical outcomes.
 
 As mentioned in the history of health metrics (@sec-01-health_metrics),

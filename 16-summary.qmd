@@ -26,23 +26,144 @@ Learning Objectives
 ::::::
 
 \
-In this final chapter, we summarise various elements covered throughout the book and provide a comprehensive overview of the state of health across different countries. We discuss the role of data sources like the **Global Burden of Disease (GBD)** study and the **OECD’s Health at a Glance** report in providing insights into health outcomes and disease burdens. By comparing health metrics like life expectancy, Disability-Adjusted Life Years (DALYs), and Years Lived with Disability (YLDs) across countries, we can identify disparities in health outcomes, understand the impact of different diseases, and inform public health policy and interventions.
+In the previous sections, we explored various aspects of health metrics, including tailored case studies, data sources, modelling, and visualisation techniques. We discussed key health metrics such as mortality rates, life expectancy, Disability-Adjusted Life Years (DALYs), Years of Life Lost (YLLs), and Years Lived with Disability (YLDs). We also examined the role of risk factors, disease burdens, and health outcomes in shaping population health profiles.
+
+In this final chapter, we will focus on visualising health metrics across countries to understand the state of health globally. We will explore the implications of cross-country comparisons of health metrics for public health policy and interventions. We will use data from the **Global Burden of Disease (GBD)** study and the **OECD’s Health at a Glance** report to compare health indicators, disease burdens, and risk factors across different countries. By analysing health metrics at the country level, we can gain insights into public health priorities, identify areas for improvement, and inform global public health policy.
 
 ## Data Sources for Health Metrics Comparison
 
-Health metrics comparison across countries is essential for understanding the state of health globally and identifying areas for improvement. 
+Data availability is crucial for comparing health metrics across countries and regions. The **OECD’s Health at a Glance** report and the **Global Burden of Disease (GBD)** study offer comprehensive data on health indicators, disease burdens, and risk factors, enabling cross-country comparisons and insights into public health priorities. 
 
-### Global Burden of Disease GBD Study
+### Example of OECD Health at a Glance Data
 
-The **Global Burden of Disease GBD** study by the Institute for Health Metrics and Evaluation (IHME) provides comprehensive data on various health metrics, including disability-adjusted life years (DALYs), years lived with disability
-(YLDs), and years of life lost (YLLs), covering a vast array of
-diseases, injuries, and risk factors across 204 countries. It is a
-valuable resource for understanding the state of health across different
-countries and regions. You can explore GBD data, which is instrumental for cross-country comparisons on the IHME website ([www.healthdata.org](www.healthdata.org)). In @sec-collecting-data is provided a detailed guide on how to access and use the **Sustainable Development Goals (SDG) API** for GBD data.
+The **OECD’s Health at a Glance** report offers a comparative overview
+of health indicators among member countries. The report examines
+metrics such as life expectancy, health expenditures, and major health
+trends. It also provides accessible insights into public health priorities and performance indicators, facilitating comparisons and helping to identify areas for improvement ([www.oecd-ilibrary.org](www.oecd-ilibrary.org)).
 
-#### Example of GBD Data cross-country comparisons
+In this example, we will download data from the OECD's Health at a
+Glance report website (<https://data-explorer.oecd.org/>) to compare
+**Disability-adjusted life years (DALYs) due to Ambient Particulate
+Matter** as a risk exposure per 1 000 inhabitants (accessed Nov 2024).
 
-In this example we will compare the **Tuberculosis Incidence Rate in 2019** for selected countries using the Sustainable Development Goals (SDG) API data. We will use the `{hmsidwR}` package to download the data and visualise the results using a bar plot.
+We can use the `url` for DALYs due to Ambient Particulate Matter found by searching for the keyword `DALYs` in the search box of the OECD report website.
+
+The url is broken down into the following components:
+
+-   sdmx.oecd.org/public/rest/data/
+-   OECD.ENV.EPI,DSD_EXP_MORSC\@DF_EXP_MORSC,1.0/
+-   .A.DALY.10P3HB.PM_2_5_OUT.\_T.\_T?startPeriod=2010
+
+The data is available to download in the `SDMX` format, which is a
+standard for exchanging statistical data. We will use the `{rsdmx}`
+package to download the data and convert it to a data frame for
+analysis.
+
+```{r}
+#| eval: false
+install.packages("rsdmx")
+library(rsdmx)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+#| eval: false
+# Read the data
+sdmx_data <- readSDMX(url)
+
+# Convert SDMX data to a data frame
+df <- as.data.frame(sdmx_data)
+```
+
+```{r}
+#| eval: false
+#| echo: false
+saveRDS(df, "data/inst/extdata/16-oecd_dalys.rds")
+```
+
+```{r}
+#| echo: false
+df <- readRDS("data/inst/extdata/16-oecd_dalys.rds")
+```
+
+A glimpse of the data shows the structure of the data frame, including the column names and data types.
+```{r}
+df %>%
+  janitor::clean_names() %>%
+  head() %>%
+  glimpse()
+```
+
+Observation time spans from 2010 to 2019 for 212 countries. We filter the data to include only the relevant columns and arrange it by observation time to get a better understanding of the data.
+```{r}
+dalys_pm25 <- df %>% 
+  janitor::clean_names() %>%
+  select(ref_area, measure, risk, obs_time, obs_value) %>%
+  arrange(obs_time) 
+
+dalys_pm25 %>%
+  head()
+```
+
+Then, to make the data more interpretable, we convert the `ref_area` column from `ISO3` codes to `country names` using the `{countrycode}` package. Data provides information for various regions and groups, which we exclude from the analysis.
+```{r}
+library(countrycode)
+dalys_pm25 <- dalys_pm25 %>%
+   filter(!ref_area %in% c("A9", "ASEAN", "EA19", "EU27",
+                         "EU28", "F98", "G20", "OECD", 
+                         "OECDA", "OECDE", "OECDSO", "W")) %>%
+  mutate(ref_area = countrycode::countrycode(ref_area, 
+                                             origin = "iso3c", 
+                                             destination = "country.name"))
+```
+
+Finally, to visualise the data we use a line plot to compare
+Disability-adjusted life years (DALYs) due to Ambient Particulate Matter
+as a risk exposure per 1 000 inhabitants for Egypt, Serbia, Morocco, Italy, and Iceland. These countries were selected based on their geographical location and varying levels of DALYs due to Ambient Particulate Matter.
+```{r}
+#| echo: false
+#| label: fig-oecd-dalys
+#| fig.cap: "Disability-adjusted life years (DALYs) due to Ambient Particulate Matter as a risk exposure per 1 000 inhabitants in selected countries from 2010 to 2019."
+#| fig.alt: "A line plot showing Disability-adjusted life years (DALYs) due to Ambient Particulate Matter as a risk exposure per 1 000 inhabitants."
+
+dalys_pm25 %>%
+  filter(ref_area %in% c("Egypt","Serbia","Morocco","Italy","Iceland")) %>%
+  ggplot(aes(x = obs_time, y = obs_value, 
+             group = ref_area, 
+             color = ref_area)) +
+  geomtextpath::geom_textline(aes(label = ref_area), 
+                              linewidth = 2,
+                              hjust = 0.5, 
+                              vjust = 0.5, 
+                              size = 5) +
+  labs(title = "Disability-Adjusted Life Years (DALYs)",
+       subtitle = "Risk Exposure: Ambient Particulate Matter (per 1 000 inhabitants)",
+       x = "Time(Year)", y = "DALYs per 1 000 inhabitants") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+```
+We can conclude that the Disability-adjusted life years (DALYs) due to
+Ambient Particulate Matter varied across countries from 2010 to 2019. This variation may be due to differences in environmental policies, air quality, and public health interventions aimed at reducing exposure to particulate matter. In
+particular, countries like Egypt and Serbia experienced higher DALYs due
+to Ambient Particulate Matter compared to countries like Iceland and
+Italy.
+
+In general, the data shows that regions with high air pollution, such as parts of East Asia, see increased DALYs from respiratory conditions. This is due to the high levels of particulate matter in the air, which can lead to respiratory diseases like asthma and chronic obstructive pulmonary disease (COPD). Countries with stringent air quality regulations, such as those in Western Europe, tend to have lower DALYs from air pollution-related conditions.
+
+### Example of GBD Data Cross-Country Comparisons
+
+The **Global Burden of Disease GBD** study by the **Institute for Health
+Metrics and Evaluation (IHME)** provides comprehensive data on various
+health metrics covering a vast array of diseases, injuries, and risk factors across 204 countries. To access the GBD data (<www.healthdata.org>), we can use the **Sustainable Development Goals (SDG) API** provided by the IHME. The API allows users to access GBD data for specific indicators, locations, and years, enabling cross-country comparisons. In @sec-collecting-data is provided a detailed guide on how to access and use the **SDG API**.
+
+In this example, we will compare the **Tuberculosis Incidence Rate in
+2019** for selected countries using the Sustainable Development Goals
+(SDG) API data. We will use the `{hmsidwR}` package to download the data
+and visualise the results using a bar plot.
+
 ```{r}
 #| eval: false
 # Install the hmsidwR package
@@ -54,10 +175,12 @@ devtools::install_github("fgazzelloni/hmsidwR")
 ```{r}
 # Load the libraries
 library(hmsidwR)
-library(tidyverse)
 ```
 
-We download the data using the `gbd_get_data` function from the `{hmsidwR}` package. The function requires the URL, API key, endpoint, indicator ID, location ID, and year as input parameters, as shown below:
+We download the data using the `gbd_get_data` function from the
+`{hmsidwR}` package. The function requires the URL, API key, endpoint,
+indicator ID, location ID, and year as input parameters, as shown below:
+
 ```{r}
 #| eval: false
 data_1001 <- hmsidwR::gbd_get_data(
@@ -81,161 +204,80 @@ saveRDS(data_1001, "data/inst/extdata/16-data_1001.rds")
 data_1001 <- readRDS("data/inst/extdata/16-data_1001.rds")
 ```
 
-Filter the data by both gender and subset to include only the relevant columns:
+Filter the data by both gender and subset to include only the relevant
+columns:
+
 ```{r}
 data_1001 %>%
   filter(sex_label=="Both sexes") %>%
   select(location_name, indicator_short, mean_estimate) 
 ```
 
-To compare the cross-countries results to identify disparities in Tuberculosis Incidence Rate in 2019 for selected countries, we can use a bar plot. 
+To compare the cross-countries results to identify disparities in
+Tuberculosis Incidence Rate in 2019 for selected countries, we can use a
+bar plot.
+
 ```{r}
 #| echo: false
 #| label: fig-tbc-comparison
-#| fig.cap: "A bar plot showing Tuberculosis Incidence Rate in 2019 for selected countries."
+#| fig.cap: "A bar plot showing Tuberculosis Incidence Rate in 2019 for selected countries. Tonga is a country located in the South Pacific, east of Australia, and north of New Zealand. It is part of the region known as Oceania, being situated east of Fiji, south of Samoa, and west of the Cook Islands. Tonga is made up of 170 islands, where four-fifths of them are uninhabited."
 #| fig.alt: "A bar plot showing Tuberculosis Incidence Rate in 2019 for selected countries."
 
 data_1001 %>%
+  filter(sex_label == "Both sexes") %>%
   mutate(mean_estimate = round(as.double(mean_estimate),2)) %>%
   select(location_name, indicator_short, sex_label, mean_estimate) %>%
   ggplot(aes(x = fct_reorder(location_name,mean_estimate),
-             y = mean_estimate, 
-             fill = sex_label)) +
-  geom_bar(stat = "identity", position = "stack") +
+             y = mean_estimate)) +
+  geom_bar(stat = "identity", 
+           position = "stack", 
+           fill = "navy") +
   coord_flip() +
-  labs(title = "Tuberculosis Incidence Rate in 2019 for selected countries",
-       x = "Country", y = "Tuberculosis incidence rate per capita",
-       fill = "Gender") +
+  labs(title = "Tuberculosis Incidence Rate in 2019",
+       subtitle = "Italy, Tonga, and United States of America",
+       x = "Country", y = "Tuberculosis Incidence Rate per capita") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-We can conclude that the Tuberculosis Incidence Rate in 2019 was higher in India compared to the United States and China, based on the data from the GBD study. This is might be due to differences in healthcare infrastructure, public health policies, and other factors that influence disease prevalence and transmission.
-
-### OECD’s Health at a Glance
-
-The **OECD’s Health at a Glance** report offers a comparative overview of
-health indicators among member countries. This report examines metrics
-such as life expectancy, health expenditures, and major health trends,
-making it a useful resource for understanding how health metrics vary
-across different countries. The report provides accessible insights into
-public health priorities and performance indicators, facilitating
-comparisons and helping to identify areas for improvement
-([www.oecd-ilibrary.org](www.oecd-ilibrary.org)).
-
-#### Example of OECD Health at a Glance Data
-
-In this example, we will download data from the OECD's Health at a Glance report (<https://data-explorer.oecd.org/>) to compare **Disability-adjusted life years (DALYs) due to Ambient Particulate Matter** as a risk exposure per 1 000 inhabitants (accessed Nov 2024). The data is available in the SDMX format, which is a standard for exchanging statistical data. We will use the `rsdmx` package in R to download the data and convert it to a data frame for analysis.
-```{r}
-#| eval: false
-install.packages("rsdmx")
-library(rsdmx)
-```
-
-```{r}
-#| eval: false
-url <- "https://sdmx.oecd.org/public/rest/data/OECD.ENV.EPI,DSD_EXP_MORSC@DF_EXP_MORSC,1.0/.A.DALY.10P3HB.PM_2_5_OUT._T._T?startPeriod=2010"
-
-# Read the data
-sdmx_data <- readSDMX(url)
-
-# Convert SDMX data to a data frame
-df <- as.data.frame(sdmx_data)
-```
-
-```{r}
-#| eval: false
-#| echo: false
-saveRDS(df, "data/inst/extdata/16-oecd_dalys.rds")
-```
-
-```{r}
-#| echo: false
-df <- readRDS("data/inst/extdata/16-oecd_dalys.rds")
-```
-
-```{r}
-df %>%
-  janitor::clean_names() %>%
-  head() %>%
-  glimpse()
-```
-
-
-
-We can filter the data to include only the relevant columns and arrange it by observation time to get a better understanding of the data. Observation time spans from 2010 to 2019 for 212 countries.
-
-```{r}
-dalys_pm25 <- df %>% 
-  janitor::clean_names() %>%
-  select(ref_area, measure, risk, obs_time, obs_value) %>%
-  arrange(obs_time) 
-
-dalys_pm25 %>%
-  head()
-```
-```{r}
-library(countrycode)
-dalys_pm25 <- dalys_pm25 %>%
-   filter(!ref_area %in% c("A9", "ASEAN", "EA19", "EU27",
-                         "EU28", "F98", "G20", "OECD", 
-                         "OECDA", "OECDE", "OECDSO", "W")) %>%
-  mutate(ref_area = countrycode::countrycode(ref_area, 
-                                             origin = "iso3c", 
-                                             destination = "country.name"))
-```
-
-
-Finally, we can visualise the data using a line plot to compare Disability-adjusted life years (DALYs) due to Ambient Particulate Matter as a risk exposure per 1 000 inhabitants for selected countries.
-
-```{r}
-#| echo: false
-#| label: fig-oecd-dalys
-#| fig.cap: "Disability-adjusted life years (DALYs) due to Ambient Particulate Matter as a risk exposure per 1 000 inhabitants in selected countries from 2010 to 2019."
-#| fig.alt: "A line plot showing Disability-adjusted life years (DALYs) due to Ambient Particulate Matter as a risk exposure per 1 000 inhabitants."
-
-dalys_pm25 %>%
-  filter(ref_area %in% c("Egypt","Serbia","Morocco","Italy","Iceland")) %>%
-  ggplot(aes(x = obs_time, y = obs_value, 
-             group = ref_area, 
-             color = ref_area)) +
-  geomtextpath::geom_textline(aes(label = ref_area), 
-                              linewidth = 2,
-                              hjust = 0.5, 
-                              vjust = 0.5, 
-                              size = 5) +
-  labs(title = "Disability-Adjusted Life Years (DALYs)",
-       subtitle = "Risk Exposure: Ambient Particulate Matter (per 1 000 inhabitants)",
-       x = "Time(Year)", y = "DALYs per 1 000 inhabitants") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none")
-```
-
-We can conclude that the Disability-adjusted life years (DALYs) due to Ambient Particulate Matter as a risk exposure per 1 000 inhabitants varied across countries from 2010 to 2019. This variation may be due to differences in environmental policies, air quality, and public health interventions aimed at reducing exposure to particulate matter. In particular, countries like Egypt and Serbia experienced higher DALYs due to Ambient Particulate Matter compared to countries like Iceland and Italy.
+Tuberculosis can still be a significant concern, even in smaller island nations, due to factors like limited healthcare infrastructure, high prevalence of co-morbidities, and socioeconomic conditions. Tonga, a country located in the South Pacific, east of Australia, and north of New Zealand, part of the region known as Oceania, is made up of 170 islands, where four-fifths of them are uninhabited. The country faces challenges in managing infectious diseases like tuberculosis due to its geographical location and limited resources. The comparison of Tuberculosis Incidence Rate in 2019 for Italy, Tonga, and the United States of America highlights the disparities in disease burden and health outcomes across countries.
 
 ## Key Determinants of Health Metrics Variation
 
-A comprehensive view of population health to capture both longevity and quality of life across regions and populations is done through health metrics cross-country comparison. Key health metrics like life expectancy, DALYs, and YLDs are essential. These metrics provide insights into the overall health status of a population, the burden of disease, and the impact of different health conditions on individuals and communities. 
+Health metrics can vary significantly across countries due to a
+combination of factors that influence population health outcomes. Some
+of the key determinants of health metrics variation include:
 
-Health metrics can vary significantly across countries due to a combination of factors that influence population health outcomes. Some of the key determinants of health metrics variation include:
+-   Healthcare Infrastructure and Access
+-   Socioeconomic Status
+-   Environmental Factors
+-   Lifestyle and Behavioral Factors
+-   Public Health Policies and Interventions
+-   Cultural and Social Norms
 
-- Healthcare Infrastructure and Access
-- Socioeconomic Status
-- Environmental Factors
-- Lifestyle and Behavioral Factors
-- Public Health Policies and Interventions
-- Cultural and Social Norms
+These determinants influence health outcomes and disease burdens in
+different populations, shaping the overall health profile of a country.
+The availability and quality of healthcare services, income level,
+employment status, and education, are strongly linked to health
+outcomes. Geographic factors, such as climate, also influence disease
+patterns; tropical regions may have higher rates of vector-borne
+diseases like malaria and for this reason have higher DALYs due to these
+diseases. Countries that prioritize preventive health measures often see
+long-term benefits in population health metrics.
 
-These determinants influence health outcomes and disease burdens in different populations, shaping the overall health profile of a country. The availability and quality of healthcare services, income level, employment status, and education, are strongly linked to health outcomes. Geographic factors, such as climate, also influence disease patterns; tropical regions may have higher rates of vector-borne diseases like malaria and for this reason have higher DALYs due to these diseases. Countries that prioritize preventive health measures often see long-term benefits in population health metrics.
+## Example: Years Lived with Disability (YLDs) due to Injuries
 
-## Example: Years Lived with Disability (YLDs) due to Injuries 
+The **Global Burden of Disease (GBD)** study provides detailed data on a wide range of health metrics, including Years Lived with Disability (YLDs) due to injuries. Considered non fatal outcomes, YLDs measure the impact of injuries on population health by quantifying the years lived with a disability caused by an injury. By comparing YLDs due to injuries across countries with different Sustainable Development Index (SDI) levels, we can identify disparities in injury-related health outcomes and inform public health interventions to reduce the burden of injuries.
 
-In this example we will use the GBD data to compare the **Years Lived with Disability (YLDs) due to Injuries** for high, middle, and low **Sustainable Development Index (SDI)** countries from 1990 to 2021. We will use the `{ggplot2}` package to visualise the results using a line plot.
+In this example we will use the GBD data to compare the **Years Lived
+with Disability (YLDs) due to Injuries** for high, middle, and low
+**Sustainable Development Index (SDI)** countries from 1990 to 2021. We
+will use the `{ggplot2}` package to visualise the results using a line
+plot.
 
 ```{r}
 #| echo: false
 ylds_injuries <- readRDS("data/inst/extdata/16-ylds_injuries.rds")
 ```
-
 
 ```{r}
 #| label: fig-ylds-injuries
@@ -255,18 +297,39 @@ ylds_injuries %>%
        x = "Time (Year)", y = "Average Value") +
   theme_minimal()
 ```
-We can conclude that the Years Lived with Disability (YLDs) due to Injuries varied across countries with different Sustainable Development Index (SDI) levels from 1990 to 2021. High SDI countries generally had lower YLDs due to Injuries compared to middle and low SDI countries. This variation may be due to differences in healthcare infrastructure, access to preventive services, and public health interventions aimed at reducing injuries and their impact on population health.
+
+We can conclude that the Years Lived with Disability (YLDs) due to
+Injuries varied across countries with different Sustainable Development
+Index (SDI) levels from 1990 to 2021. High SDI countries generally had
+lower YLDs due to Injuries compared to middle and low SDI countries.
+This variation may be due to differences in healthcare infrastructure,
+access to preventive services, and public health interventions aimed at
+reducing injuries and their impact on population health.
+
+Additionally, the data reveals a consistent decline in YLD rates due to injuries across all SDI levels (High, Middle, and Low) from 1990 to 2021. This trend reflects advancements in injury prevention, improved healthcare access, and enhanced living conditions, which have collectively reduced the disability burden of injuries among females. However, there is a notable crossover in injury-related YLD rates for females between middle and low SDI countries over time. This shift suggests changing dynamics in injury risk and healthcare access, with middle SDI countries achieving greater reductions in disability from injuries, while low SDI countries experience a rising burden.
 
 ## Example: Injuries Cross-Country Variation by Type
 
-In particular, we can compare the types of injuries that contribute to the burden of disease in different countries. For example, we can compare the average number of injuries by type (e.g., road injuries, falls, self-harm) in high, middle, and low SDI countries. This comparison can help identify the most common types of injuries and inform targeted public health interventions to reduce the burden of injuries in different populations.
+In particular, we can compare the types of injuries that contribute to
+the burden of disease in different countries. For example, we can
+compare the average number of injuries by type (e.g., road injuries,
+falls, self-harm) in high, middle, and low SDI countries. This
+comparison can help identify the most common types of injuries and
+inform targeted public health interventions to reduce the burden of
+injuries in different populations.
 
 ```{r}
 #| echo: false
 injuries_types <- readRDS("data/inst/extdata/16-injuries_types.rds")
 ```
 
-To compare the types of injuries contributing to the burden of disease in different countries, we can use a **treemap visualisation**. A treemap is a hierarchical chart that displays data in nested rectangles, with each rectangle representing a different category or subcategory. In this example, we will create a treemap to visualise the average number of injuries by type in high, middle, and low SDI countries.
+To compare the types of injuries contributing to the burden of disease
+in different countries, we can use a **treemap visualisation**. A
+treemap is a hierarchical chart that displays data in nested rectangles,
+with each rectangle representing a different category or subcategory. In
+this example, we will create a treemap to visualise the average number
+of injuries by type in high, middle, and low SDI countries.
+
 ```{r}
 library(treemapify)
 # ?geom_treemap
@@ -293,11 +356,24 @@ injuries_types %>%
        subtitle = "Average values",
        caption = "IHME Data | Graphic: @fgazzelloni")
 ```
-We can conclude that the types of injuries contributing to the burden of disease varied across high, middle, and low SDI countries from 1990 to 2021. Road injuries, falls, and self-harm were common types of injuries in all countries, with variations in the average number of injuries by type. This information can help inform targeted public health interventions to reduce the burden of injuries and improve population health outcomes.
+
+We can conclude that the types of injuries contributing to the burden of
+disease varied across high, middle, and low SDI countries from 1990 to
+2021. Road injuries, falls, and self-harm were common types of injuries
+in all countries, with variations in the average number of injuries by
+type. This information can help inform targeted public health
+interventions to reduce the burden of injuries and improve population
+health outcomes.
 
 ## Example: All Causes Disability Adjusted Life Years (DALYs) Rate by Country
 
-In this example, we will visualise the **Disability Adjusted Life Years (DALYs) Rate by Country** for all causes using the GBD data. We will use the `{ggplot2}` package to create a choropleth map showing the DALYs rate per 100,000 population for each country. The map will provide a visual representation of the burden of disease across different countries, highlighting disparities in health outcomes and disease burdens.
+In this example, we will visualise the **Disability Adjusted Life Years
+(DALYs) Rate by Country** for all causes using the GBD data. We will use
+the `{ggplot2}` package to create a choropleth map showing the DALYs
+rate per 100,000 population for each country. The map will provide a
+visual representation of the burden of disease across different
+countries, highlighting disparities in health outcomes and disease
+burdens.
 
 ```{r}
 #| label: fig-dalys-choropleth
@@ -317,7 +393,21 @@ hmsidwR::spatialdalys2021 %>%
        caption = "IHME Data 2021 | Graphic: @fgazzelloni") +
   theme_void()
 ```
-We can conclude that the Disability Adjusted Life Years (DALYs) Rate varied across countries, with some countries experiencing higher DALYs rates compared to others. This variation reflects differences in disease burdens, health outcomes, and the impact of different health conditions on population health. The choropleth map provides a visual representation of the burden of disease, highlighting disparities in health outcomes and informing public health interventions to improve population health.
+
+We can conclude that the Disability Adjusted Life Years (DALYs) Rate
+varied across countries, with some countries experiencing higher DALYs
+rates compared to others. This variation reflects differences in disease
+burdens, health outcomes, and the impact of different health conditions
+on population health. The choropleth map provides a visual
+representation of the burden of disease, highlighting disparities in
+health outcomes and informing public health interventions to improve
+population health.
+
+In general, what emerges from the GBD 2021 data is that low-income countries, particularly in sub-Saharan Africa, often exhibit the highest DALYs per capita. This is primarily due to a heavy burden of infectious diseases (e.g., malaria, HIV/AIDS, tuberculosis), maternal and neonatal health issues, and malnutrition-related conditions. Countries like the Central African Republic, South Sudan, and Lesotho consistently report some of the highest DALYs per capita.
+
+On the other hand, high-income countries, particularly in Western Europe, North America, and parts of East Asia (e.g., Japan, Singapore), tend to have the lowest DALYs per capita. These countries benefit from well-developed healthcare systems, lower prevalence of infectious diseases, and greater control over non-communicable diseases through early detection and lifestyle interventions. Countries like Iceland, Switzerland, and Singapore consistently report some of the lowest DALYs per capita.
+
+Additionally, lifestyle-related factors like smoking and dietary habits play a significant role in the burden of cardiovascular diseases and cancers globally.
 
 ## Implications for Global Public Health Policy
 
