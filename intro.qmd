@@ -171,17 +171,17 @@ study applications to illustrate practical use. @sec-08-predictions
 (**Predictive modelling and Beyond**) focuses on applying predictive
 models to forecast health outcomes and trends.
 
-**Third Section: Data visualisation**
+**Third Section: Data Visualisation**
 
-The **Data visualisation** section equips readers with the knowledge to
+The **Data Visualisation** section equips readers with the knowledge to
 create and customise plots and maps in R. @sec-09-data_visualisation
-(**Introduction to Data visualisation**) discusses the history and
+(**Introduction to Data Visualisation**) discusses the history and
 application of data visualisation techniques in R. @sec-10-applications
-(**Interpreting Model Results Through visualisation**) provides detailed
+(**Interpreting Model Results Through Visualisation**) provides detailed
 methods for tailoring visual representations to enhance data
 interpretation. @sec-11-spatials (**Spatial Data Modelling and
 visualisation**) instructs on how to create informative maps, while
-@sec-12-examples (**Advanced Data visualisation Techniques**) presents
+@sec-12-examples (**Advanced Data Visualisation Techniques**) presents
 practical examples to reinforce learning.
 
 **Fourth Section: Infectious Diseases**

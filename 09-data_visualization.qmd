@@ -19,8 +19,8 @@ critical role in tracking disease outbreaks, understanding health
 trends, and communicating findings to policymakers and the public.
 
 We have already seen how to create various types of plots using the
-`{ggplot2}` package. In this chapter, we will discuss the history
-and evolution of data visualisation, delve deeper into the topic,
+`{ggplot2}` package. In this chapter, we will discuss the history and
+evolution of data visualisation, delve deeper into the topic,
 introducing the concept of the **Grammar of Graphics**, exploring
 techniques for customising plots, adding annotations, labels, and
 themes, and creating interactive visualisations.
@@ -152,10 +152,10 @@ ggplot(data = df, aes(x = x, y = y, color = z))+
 
 In addition to functions provided by `{ggplot2}`, there are ggplot
 **extensions**, other functions and packages that can be used to create
-visualisations, such as `{plotly}`, `{ggplotly}`, `{leaflet}`,
-`{tmap}`, and `{shiny}`. These tools provide additional functionality
-for creating interactive plots, maps, and dashboards, allowing for more
-engaging and dynamic data visualisations.
+visualisations, such as `{plotly}`, `{ggplotly}`, `{leaflet}`, `{tmap}`,
+and `{shiny}`. These tools provide additional functionality for creating
+interactive plots, maps, and dashboards, allowing for more engaging and
+dynamic data visualisations.
 
 ## General Guidelines for Data Visualisation
 
@@ -211,7 +211,8 @@ box_plot <- ggplot(df,
 
 # Heatmap (using geom_tile for illustration purposes)
 heatmap_plot <- ggplot(df, 
-                       aes(x = factor(year), y = factor(location_name), 
+                       aes(x = factor(year), 
+                           y = factor(location_name), 
                            fill = y)) + 
   geom_tile() +
   ggtitle("Heatmap")
@@ -258,16 +259,16 @@ ggplot(aes(area = y, fill = location_name)) +
   ggtitle("Treemap")
 
 # Save plots as images
-ggsave("images/dataviz_gt_table/scatter_plot.png", scatter_plot)
-ggsave("images/dataviz_gt_table/line_plot.png", line_plot)
-ggsave("images/dataviz_gt_table/bar_plot.png", bar_plot)
-ggsave("images/dataviz_gt_table/histogram_plot.png", histogram_plot)
-ggsave("images/dataviz_gt_table/box_plot.png", box_plot)
-ggsave("images/dataviz_gt_table/heatmap_plot.png", heatmap_plot)
-ggsave("images/dataviz_gt_table/network_plot.png", network_plot)
-ggsave("images/dataviz_gt_table/choropleth_plot.png", choropleth_plot)
-ggsave("images/dataviz_gt_table/sankey_plot.png", sankey_plot)
-ggsave("images/dataviz_gt_table/treemap_plot.png", treemap_plot)
+ggsave("images/09-dataviz_gt_table/09-scatter_plot.png", scatter_plot)
+ggsave("images/09-dataviz_gt_table/09-line_plot.png", line_plot)
+ggsave("images/09-dataviz_gt_table/09-bar_plot.png", bar_plot)
+ggsave("images/09-dataviz_gt_table/09-histogram_plot.png", histogram_plot)
+ggsave("images/09-dataviz_gt_table/09-box_plot.png", box_plot)
+ggsave("images/09-dataviz_gt_table/09-heatmap_plot.png", heatmap_plot)
+ggsave("images/09-dataviz_gt_table/09-network_plot.png", network_plot)
+ggsave("images/09-dataviz_gt_table/09-choropleth_plot.png", choropleth_plot)
+ggsave("images/09-dataviz_gt_table/09-sankey_plot.png", sankey_plot)
+ggsave("images/09-dataviz_gt_table/09-treemap_plot.png", treemap_plot)
 ```
 
 ```{r}
@@ -277,16 +278,16 @@ library(gt)
 
 # Data for the gt table
 plot_data <- data.frame(
-  plot = c("images/dataviz_gt_table/scatter_plot.png", 
-           "images/dataviz_gt_table/line_plot.png", 
-           "images/dataviz_gt_table/bar_plot.png", 
-           "images/dataviz_gt_table/histogram_plot.png", 
-           "images/dataviz_gt_table/box_plot.png", 
-           "images/dataviz_gt_table/heatmap_plot.png", 
-           "images/dataviz_gt_table/network_plot.png", 
-           "images/dataviz_gt_table/choropleth_plot.png", 
-           "images/dataviz_gt_table/sankey_plot.png", 
-           "images/dataviz_gt_table/treemap_plot.png"),
+  plot = c("images/dataviz_gt_table/09-scatter_plot.png", 
+           "images/dataviz_gt_table/09-line_plot.png", 
+           "images/dataviz_gt_table/09-bar_plot.png", 
+           "images/dataviz_gt_table/09-histogram_plot.png", 
+           "images/dataviz_gt_table/09-box_plot.png", 
+           "images/dataviz_gt_table/09-heatmap_plot.png", 
+           "images/dataviz_gt_table/09-network_plot.png", 
+           "images/dataviz_gt_table/09-choropleth_plot.png", 
+           "images/dataviz_gt_table/09-sankey_plot.png", 
+           "images/dataviz_gt_table/09-treemap_plot.png"),
   type_of_plot = c("Scatter Plots", "Line Plots", 
                    "Bar Plots", "Histograms", 
                    "Box Plots", "Heatmaps", 
@@ -312,16 +313,11 @@ gt_table <- gt(plot_data) %>%
       lapply(x, function(path) {
         local_image(filename = path, height = px(100))
       })
-    }
-  ) %>%
-  cols_label(
-    plot = "Plot",
-    type_of_plot = "Type of Plot",
-    description = "Description"
-  ) %>%
-  tab_options(
-    table.width = pct(100)
-  )
+    }) %>%
+  cols_label(plot = "Plot",
+             type_of_plot = "Type of Plot",
+             description = "Description") %>%
+  tab_options(table.width = pct(100))
 
 # Save the gt table as an image
 gt::gtsave(gt_table, "images/09_gt_table.png")
@@ -501,9 +497,10 @@ lineplot2
 
 #### Exercise
 
-Try replicating the plots above, customising the legend, the axis text,
-and adding a log scale to the y-axis. You can also add a caption to the
-plot, specifying the data source.
+Replicate the plots above, customizing the legend and axis text to
+improve readability. Apply a logarithmic scale to the y-axis for better
+data visualization, and consider adding a caption to indicate the data
+source.
 
 ### Saving as an Image
 

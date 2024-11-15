@@ -881,7 +881,9 @@ simulation approach.
 We use age-specific mortality and YLDs per capita by location, age, sex,
 and year, and define the HALE as:
 
-> the average number of years that a person at a given age can expect to live in good health, taking into account mortality and loss of functional health.
+> the average number of years that a person at a given age can expect to
+> live in good health, taking into account mortality and loss of
+> functional health.
 
 ![HALE - GLOBAL HEALTH METRICS VOLUME 392, ISSUE 10159, P1859-1922,
 NOVEMBER 10,
@@ -989,8 +991,8 @@ HALE1 <- calculate_HALE(age_intervals, life_table$Survival_Probability)
 HALE2 <- calculate_HALE(age_intervals, life_table$adjusted_px)
 ```
 
-To visualise the HALE for both the standard and adjusted life
-table data we can plot the results with a line graph. 
+To visualise the HALE for both the standard and adjusted life table data
+we can plot the results with a line graph.
 
 ```{r}
 #| echo: false
@@ -1013,9 +1015,17 @@ data.frame(age_intervals, HALE1, HALE2) %>%
        x = "Age Group (5Yrs)")
 ```
 
-The difference between the two lines represents the impact of adjusting a life table for health conditions on the calculation of HALE. The adjusted life table data considers the prevalence of health conditions and their associated disability weights, providing a more accurate estimate of the number of years a person can expect to live in good health.
+The difference between the two lines represents the impact of adjusting
+a life table for health conditions on the calculation of HALE. The
+adjusted life table data considers the prevalence of health conditions
+and their associated disability weights, providing a more accurate
+estimate of the number of years a person can expect to live in good
+health.
 
-In general, HALE is a valuable metric for assessing the overall health of a population, by incorporating information on the prevalence of health conditions and their associated disability weights, HALE offers a more specific understanding of population health.
+In general, HALE is a valuable metric for assessing the overall health
+of a population, by incorporating information on the prevalence of
+health conditions and their associated disability weights, HALE offers a
+more specific understanding of population health.
 
 ## Summary
 

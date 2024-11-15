@@ -41,7 +41,7 @@ seasons.
 Over time, advancements in mathematics, medicine, and statistics led to
 the development of more sophisticated health metrics. The 19th century
 saw the emergence of **life tables**, which provided a systematic way to
-analyse mortality and life expectancy. 
+analyse mortality and life expectancy.
 
 ```{r}
 #| echo: false
@@ -106,16 +106,17 @@ ggsave("images/01_timeline.png",
 ```
 
 ::: {.pagebreak .landscape}
-![Health Metrics Development Timeline](images/01_timeline.png){#fig-timeline
+![Health Metrics Development
+Timeline](images/01_timeline.png){#fig-timeline
 fig-align="center" fig-alt="Health Metrics development timeline"}
 :::
 
-More specifically, *Mary Dempsey*
-in 1940s wrote an article[@dempsey2019a] for the National Tuberculosis
-Association about the concept of **Years of Life Lost (YLL)**, assessing
-time-lost as a metric for health for the first time. She was then
-followed by other more advanced improvements spanning all throughout the
-rest of the century.
+More specifically, *Mary Dempsey* in 1940s wrote an
+article[@dempsey2019a] for the National Tuberculosis Association about
+the concept of **Years of Life Lost (YLL)**, assessing time-lost as a
+metric for health for the first time. She was then followed by other
+more advanced improvements spanning all throughout the rest of the
+century.
 
 > **"The quality of life depends also on the state of "public
 > health"-namely on factors that affect the biological welfare of the

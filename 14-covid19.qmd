@@ -818,8 +818,6 @@ centroids <- COVID19 %>%
 options(scipen = 999)
 ```
 
-
-
 ```{r}
 #| label: fig-covid-cases
 #| fig-cap: "COVID-19 Cases by Country"

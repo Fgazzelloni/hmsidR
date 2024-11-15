@@ -197,9 +197,9 @@ predict future trends.
 
 To illustrate the modelling and prediction process we will use the
 `{caret}` package, which provides a unified interface for training and
-evaluating machine learning models. We will train a Random Forest
-model to predict future trends in malaria transmission based on
-historical data.
+evaluating machine learning models. We will train a Random Forest model
+to predict future trends in malaria transmission based on historical
+data.
 
 ```{r}
 nigeria_cases <- nigeria_data %>% 

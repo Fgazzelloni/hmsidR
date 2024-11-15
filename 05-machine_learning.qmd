@@ -1269,7 +1269,8 @@ the model.
 
 #### Regression Evaluation Metrics
 
-For regression tasks, the following metrics are commonly used to assess the model's predictive performance:
+For regression tasks, the following metrics are commonly used to assess
+the model's predictive performance:
 
 -   **Root Mean Squared Error (RMSE):** A measure of the average
     deviation between predicted and actual values, calculated as the
@@ -1296,7 +1297,8 @@ $$Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$ {#eq-adjr2}
 
 #### Classification Evaluation Metrics
 
-For classification tasks, the following metrics are commonly used to evaluate the model's performance:
+For classification tasks, the following metrics are commonly used to
+evaluate the model's performance:
 
 -   **Accuracy:**\index{accuracy} The proportion of correctly classified
     instances out of the total instances in the dataset. It is a simple

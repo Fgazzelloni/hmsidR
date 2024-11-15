@@ -184,10 +184,10 @@ burden by using the theoretical minimum risk.
 The relative risk (or Risk Ratio)\index{relative risk} is a measure of
 the strength of the association between an exposure and an outcome. It
 compares the likelihood of a particular health outcome, occurring in
-individuals exposed to a specific risk factor, to the likelihood in those
-who are not exposed. This metric helps quantify how much a risk factor,
-like smoking or high blood pressure, increases the probability of an
-adverse health effect.
+individuals exposed to a specific risk factor, to the likelihood in
+those who are not exposed. This metric helps quantify how much a risk
+factor, like smoking or high blood pressure, increases the probability
+of an adverse health effect.
 
 To calculate the risk-outcome pairs, such as mortality and morbidity,
 the attributable burden of a risk is decomposed to identify the impact
@@ -403,7 +403,13 @@ ggdag(dag) + theme_dag_grid()
 
 #### Simulation of Risk Exposure
 
-The simulation of the risk exposure\index{risk exposure} can be done replicating a logistic regression model with a DAG structure. We can use the `{dagitty}` package, and the `simulateLogistic()` function. The model estimates the probability of an outcome (O), given exposure (E) to different risk factors, such as C1, C2, and C3 (confounders). The relative risk is calculated based on the estimated probabilities of the outcome given exposure and no exposure to the risk factors.
+The simulation of the risk exposure\index{risk exposure} can be done
+replicating a logistic regression model with a DAG structure. We can use
+the `{dagitty}` package, and the `simulateLogistic()` function. The
+model estimates the probability of an outcome (O), given exposure (E) to
+different risk factors, such as C1, C2, and C3 (confounders). The
+relative risk is calculated based on the estimated probabilities of the
+outcome given exposure and no exposure to the risk factors.
 
 ```{r}
 #| echo: true
@@ -457,7 +463,7 @@ relative_risk <- pr_outcome_exp / pr_outcome_no_exp
 
 data$relative_risk <- relative_risk
 
-# visualise relative risk distribution
+# Visualise relative risk distribution
 ggplot(data = data, aes(x = relative_risk)) +
   geom_histogram(binwidth = 0.2,
                  fill = "#29306c",
@@ -573,15 +579,15 @@ and improve overall health outcomes.
 ## Causal Inference
 
 Causality\index{causality} concerns the relationship between two
-variables, where one variable (*the cause*) directly influences the other (*the effect*). For example, regular exercise
-improves cardiovascular health, or adequate sleep supports cognitive
-function. However, causality is distinct from
-correlation\index{correlation}, which indicates a statistical
-association without implying a direct influence. For instance, a
-correlation between television watching and obesity does not imply a
-causal link. Establishing causality requires systematically evaluating
-alternative explanations and accounting for confounding factors that
-could affect both the cause and effect.
+variables, where one variable (*the cause*) directly influences the
+other (*the effect*). For example, regular exercise improves
+cardiovascular health, or adequate sleep supports cognitive function.
+However, causality is distinct from correlation\index{correlation},
+which indicates a statistical association without implying a direct
+influence. For instance, a correlation between television watching and
+obesity does not imply a causal link. Establishing causality requires
+systematically evaluating alternative explanations and accounting for
+confounding factors that could affect both the cause and effect.
 
 Causal inference is essential for understanding the underlying causes of
 a condition or phenomenon, even if these causes are not immediately
@@ -616,8 +622,10 @@ digraph causal_inference {
 ")
 ```
 
-![Causal Inference
-Flowchart. The flowchart outlines the steps involved in performing causal inference, from formulating a hypothesis to informing public health actions.](images/04_causal_inference_flowchart.png){#fig-causal_inference
+![Causal Inference Flowchart. The flowchart outlines the steps involved
+in performing causal inference, from formulating a hypothesis to
+informing public health
+actions.](images/04_causal_inference_flowchart.png){#fig-causal_inference
 fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"}
 
 Performing causal inference\index{causal inference} requires setting up

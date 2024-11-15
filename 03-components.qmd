@@ -667,10 +667,10 @@ COVID-19 in many regions, and assumes that the events (new cases) occur
 independently of each other, which can be a reasonable approximation in
 the context of infection spread over short periods.
 
-To apply the Poisson distribution, we use the `rpois()` function,
-which generates random numbers from a Poisson distribution with a
-specified rate parameter $\lambda$. The probability mass function of the
-Poisson distribution is given by:
+To apply the Poisson distribution, we use the `rpois()` function, which
+generates random numbers from a Poisson distribution with a specified
+rate parameter $\lambda$. The probability mass function of the Poisson
+distribution is given by:
 
 $$
   P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
@@ -1136,7 +1136,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------------------|-------------|-------------|-------------|
+|-----------------------------|--------------|--------------|--------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

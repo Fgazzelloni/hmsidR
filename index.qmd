@@ -9,7 +9,7 @@ engine: knitr
 `r format(lubridate::now(tzone = "CET"), usetz = TRUE, digits = 0)`*
 
 ::: solutionbox-header
-❗️The book is continuously being refined and expanded.
+❗️Final touches are complete—book is heading to the press! 🚀
 :::
 ::::
 

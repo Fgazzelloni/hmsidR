@@ -23,8 +23,8 @@ book:
   google-analytics:
     tracking-id: "G-J9YVQPL7W9"
     anonymize-ip: true
-  favicon: images/cover-canva.png
-  cover-image: images/cover-canva.png
+  favicon: images/icons/pen-to-square-solid.svg
+  cover-image: images/cover.png
   cover-image-alt: "Cover image of the book Health Metrics and the Spread of Infectious Diseases"
   reader-mode: true
   sidebar:

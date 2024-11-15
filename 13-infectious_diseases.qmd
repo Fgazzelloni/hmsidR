@@ -77,7 +77,10 @@ including:
 -   Transmission route (contact with the source of infection for
     contagious diseases)
 
-![Pathogens and humans have co-evolved over centuries, each adapting in response to the other. This ongoing adaptation shapes the future of health and disease.](images/13_adaptation.png){#fig-adapt_virus
+![Pathogens and humans have co-evolved over centuries, each adapting in
+response to the other. This ongoing adaptation shapes the future of
+health and
+disease.](images/13_adaptation.png){#fig-adapt_virus
 fig-align="center" fig-alt="Who adapts to whom? - (AI generated image)"
 width="347"}
 

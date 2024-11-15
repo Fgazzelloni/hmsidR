@@ -1,4 +1,4 @@
-# Advanced Data visualisation Techniques {#sec-12-examples}
+# Advanced Data Visualisation Techniques {#sec-12-examples}
 
 ```{r}
 #| echo: false
@@ -35,7 +35,8 @@ Interaction effects can cause predictors to act together on the response
 variable, leading to additional variation in the response. Interaction
 effects occur when the combined effect of two or more predictors is
 different from what would be expected if the impact of each predictor
-were considered alone. For instance, in the case of **cardiovascular disease (CVD)** risk prediction, the interaction between age and
+were considered alone. For instance, in the case of **cardiovascular
+disease (CVD)** risk prediction, the interaction between age and
 cholesterol levels can have a significant impact on the risk of
 developing heart disease. In addition, if smoke is added to the model,
 the effect of cholesterol levels on CVD risk may change depending on
@@ -283,8 +284,8 @@ popAge1dt %>% count(name) %>% View
 The data is then aggregated to show the total population for all ages by
 year. Here, in particular, we show the use of
 `geomtextpath::geom_textline()` to add a label to the World line plot.
-`{geomtextpath}` is a nice R-package which allows you to add text along a
-path.
+`{geomtextpath}` is a nice R-package which allows you to add text along
+a path.
 
 ```{r}
 #| label: fig-wld-pop

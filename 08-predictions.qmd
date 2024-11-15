@@ -651,9 +651,9 @@ computations involved in fitting mixed-effects models.
 ## Example: Tuberculosis YLDs Estimation Using Mixed-Effects Models
 
 To estimate Years Lived with Disability (YLDs) using mixed-effects
-models, we can use the `lme4` package which provides functions to
-fit linear and generalised linear mixed-effects models. We will provide
-an example of how to estimate YLDs with mixed-effects models. We use the
+models, we can use the `lme4` package which provides functions to fit
+linear and generalised linear mixed-effects models. We will provide an
+example of how to estimate YLDs with mixed-effects models. We use the
 `g7_hmetrics` dataset found in `{hmsidwR}` package containing YLDs,
 deaths, incidence and prevalence for **Respiratory infections and
 tuberculosis** in 2010 and 2019 to demonstrate the estimation of YLDs
