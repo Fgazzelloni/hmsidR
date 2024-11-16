@@ -87,12 +87,12 @@ nigeria_data <- getPR(country = "Nigeria", species = "Pf")
 ```{r}
 #| eval: false
 #| echo: false
-# saveRDS(nigeria_data, "data/inst/extdata/nigeria_data.rds")
+# saveRDS(nigeria_data, "data/inst/extdata/15-nigeria_data.rds")
 ```
 
 ```{r}
 #| echo: false
-nigeria_data <- readRDS("data/inst/extdata/nigeria_data.rds")
+nigeria_data <- readRDS("data/inst/extdata/15-nigeria_data.rds")
 nigeria_data %>% pull(year_start) %>% range();
 # 23 years spanning from 1985 to 2018
 nigeria_data %>% count(year_start) %>% dim()
@@ -162,8 +162,8 @@ greatest need.
 #| fig-cap: "The map shows the distribution of malaria cases in Tanzania, with the size and color of the points representing the number of positive cases. The map highlights regions with a high incidence of malaria, providing valuable information for public health interventions."
 #| fig-alt: "Map showing the distribution of malaria cases in Tanzania."  
 #tanzania_data <- getPR(country = "Tanzania", species = "Pf")
-#saveRDS(tanzania_data, "data/inst/extdata/tanzania_data.rds")  
-tanzania_data <- readRDS("data/inst/extdata/tanzania_data.rds")
+#saveRDS(tanzania_data, "data/inst/extdata/15-tanzania_data.rds")  
+tanzania_data <- readRDS("data/inst/extdata/15-tanzania_data.rds")
 tanzania_data_sf <- tanzania_data %>%
   arrange(year_start) %>%
   select(year_start,longitude,latitude,positive) %>%

@@ -337,13 +337,24 @@ and inform public health interventions to reduce the burden of injuries.
 
 In this example we will use the GBD data to compare the **Years Lived
 with Disability (YLDs) due to Injuries** for high, middle, and low
-**Sustainable Development Index (SDI)** countries from 1990 to 2021. We
-will use the `{ggplot2}` package to visualise the results using a line
-plot.
+**Sustainable Development Index (SDI)** countries from 1990 to 2021.
+Data is available on the GBD website at
+[www.healthdata.org](www.healthdata.org)[^16-summary-1], and we will use
+the `{ggplot2}` package to create a line plot visualising the YLDs due
+to Injuries by country and SDI level.
+
+[^16-summary-1]: For reproducibility a copy of the "injuries" data is
+    stored on the GitHub Repository of this book
+    (<https://github.com/Fgazzelloni/hmsidR>) in the data/inst/extdata
+    folder.
 
 ```{r}
 #| echo: false
 ylds_injuries <- readRDS("data/inst/extdata/16-ylds_injuries.rds")
+```
+
+```{r}
+ylds_injuries %>% head() %>% glimpse()
 ```
 
 ```{r}
@@ -386,17 +397,27 @@ injuries, while low SDI countries experience a rising burden.
 
 ## Example: Injuries Cross-Country Variation by Type
 
-In particular, we can compare the types of injuries that contribute to
-the burden of disease in different countries. For example, we can
+In this example, we will use the GBD data to compare the types of
+injuries contributing to the burden of disease in high, middle, and low
+SDI countries from 1990 to 2021[^16-summary-2]. For example, we can
 compare the average number of injuries by type (e.g., road injuries,
 falls, self-harm) in high, middle, and low SDI countries. This
 comparison can help identify the most common types of injuries and
 inform targeted public health interventions to reduce the burden of
-injuries in different populations.
+injuries in different populations. 
+
+[^16-summary-2]: For reproducibility a copy of the "injuries" data is
+    stored on the GitHub Repository of this book
+    (<https://github.com/Fgazzelloni/hmsidR>) in the data/inst/extdata
+    folder.
 
 ```{r}
 #| echo: false
 injuries_types <- readRDS("data/inst/extdata/16-injuries_types.rds")
+```
+
+```{r}
+injuries_types %>% head() %>% glimpse()
 ```
 
 To compare the types of injuries contributing to the burden of disease
@@ -445,11 +466,7 @@ health outcomes.
 
 In this example, we will visualise the **Disability Adjusted Life Years
 (DALYs) Rate by Country** for all causes using the GBD data. We will use
-the `{ggplot2}` package to create a choropleth map showing the DALYs
-rate per 100,000 population for each country. The map will provide a
-visual representation of the burden of disease across different
-countries, highlighting disparities in health outcomes and disease
-burdens.
+data from the `{hmsidwR}` package, `spatialdalys2021`, to create a choropleth map showing the DALYs rate per 100,000 population for each country. The map will provide a visual representation of the burden of disease across different countries, highlighting disparities in health outcomes and disease burdens.
 
 ```{r}
 #| label: fig-dalys-choropleth

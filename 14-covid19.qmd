@@ -45,6 +45,19 @@ trafficked for their scales and meat. The virus is thought to have
 jumped from animals to humans, possibly through a wet market in Wuhan
 where live animals were sold.
 
+Zoonotic\index{zoonosis} diseases are a critical area of study in public
+health and epidemiology due to their significant impact on human
+populations and the potential for pandemics. As discussed by **MD Laura
+H. Kahn** in **One Health and the Politics of
+COVID-19**[@laurah.kahn2024], the pandemic’s origins and spread
+highlight the critical need for a holistic understanding of health
+systems that integrates human, animal, and environmental health.
+Zoonotic viruses can be transmitted from animals to humans through
+direct contact, consumption of contaminated food or water, or exposure
+to infected animal products. These viruses can cause a range of
+diseases, from mild illnesses to severe respiratory infections, and can
+have devastating effects on public health and economies.
+
 ::: {.callout .callout-info}
 Examples of Zoonotic Viruses:
 
@@ -57,12 +70,13 @@ Examples of Zoonotic Viruses:
 :::
 
 On January 30, 2020, The **World Health Organization (WHO)** declared
-the **outbreak** a Public Health Emergency of International Concern and
-a worldwide investigation started to understand more about the virus and
-its effects on humans. This challenge involved the unprecedented
-identification of this type of virus, requiring thorough testing and
-confirmation of the incubation period, recovery rate, and infection rate
-through the collection of cases globally.
+the **COVID-19** **Outbreak**; a Public Health Emergency of
+International Concern, and a worldwide investigation started to
+understand more about the virus and its effects on humans. This
+challenge involved the unprecedented identification of this type of
+virus, requiring thorough testing and confirmation of the incubation
+period, recovery rate, and infection rate through the collection of
+cases globally.
 
 The virus spreads primarily through respiratory droplets. Symptoms can
 include loss of taste and smell, fatigue, muscle aches, and
