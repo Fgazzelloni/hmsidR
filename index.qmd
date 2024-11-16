@@ -97,14 +97,17 @@ contributions have been a source of inspiration and guidance.
 
 To cite this book in publications, please use:
 
-> Federica Gazzelloni (2024). *Health Metrics and the Spread of Infectious Diseases: Machine Learning Applications and Spatial Modeling Analysis with R*. CRC Press, Boca Raton, FL, USA. ISBN: .
+> Federica Gazzelloni (2024). *Health Metrics and the Spread of
+> Infectious Diseases: Machine Learning Applications and Spatial
+> Modelling Analysis with R*. CRC Press, Boca Raton, FL, USA. ISBN: .
 
+:::: {.content-visible when-format="html"}
 If you're using BibTeX, you can use the following entry:
 
-```bibtex
+``` bibtex
 @book{gazzelloni2024,
   author = {Federica Gazzelloni},
-  title = {Health Metrics and the Spread of Infectious Diseases: Machine Learning Applications and Spatial Modeling Analysis with R},
+  title = {Health Metrics and the Spread of Infectious Diseases: Machine Learning Applications and Spatial Modelling Analysis with R},
   year = {2024},
   publisher = {CRC Press},
   address = {Boca Raton, FL, USA},
@@ -112,7 +115,10 @@ If you're using BibTeX, you can use the following entry:
 }
 ```
 
-Alternatively, download the citation file here.
+Alternatively, [download the citation file
+here](https://github.com/Fgazzelloni/hmsidR/blob/main/CITATION).
+
+:::: 
 
 ## About the Author
 
