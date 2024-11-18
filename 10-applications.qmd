@@ -48,8 +48,8 @@ decision-making, and communicate findings to various stakeholders.
 
 ### Example: Visualising COVID-19 Data
 
-Data is from the **ECDC (European Centre for Disease Prevention and
-Control)**, data is updated daily. The data includes information on the
+Data are from the **ECDC (European Centre for Disease Prevention and
+Control)**, data are updated daily. The data includes information on the
 number of deaths for each country. The dataset can be accessed through
 the `{covid19.analytics}` package.
 
@@ -206,7 +206,7 @@ Predictive Models" by Max Kuhn and Kjell Johnson.
 load(url("https://github.com/topepo/FES/blob/master/Data_Sets/Ischemic_Stroke/stroke_data.RData?raw=true"))
 ```
 
-Data is already split into training and test sets, we will combine them
+Data are already split into training and test sets, we will combine them
 for the analysis. We just need to select the variables of interest for
 the analysis with `any_of()`, a function to select the variables of
 interest for the analysis.

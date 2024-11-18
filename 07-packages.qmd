@@ -197,7 +197,7 @@ a given analysis.
 ## Model Framework Application Examples
 
 In this section we provide some examples of the application of different
-model frameworks. The data is used, as introduced in @sec-06-techniques,
+model frameworks. Data are used, as introduced in @sec-06-techniques,
 to demonstrate the application of model frameworks such as `mlr3`,
 `h2o`, and `keras` for machine learning tasks.
 
@@ -273,7 +273,7 @@ data from 2017 to 2021 is not included in the analysis and held out to
 be used as new data for testing the model's performance, as shown in
 @sec-08-predictions.
 
-Data is preprocessed to remove missing values, the values of DALYs only
+Data are preprocessed to remove missing values, the values of DALYs only
 appeared in 1990, and then grouped by location id; the location name is
 removed.
 
@@ -421,7 +421,7 @@ saveRDS(rr2, "data/model-data/rr2.rds")
 ```
 
 Create a data frame with the results, for plotting with ggplot2,
-consider the data are shuffled in the resampling process, and need to be
+consider data are shuffled in the resampling process, and need to be
 reordered:
 
 ```{r}

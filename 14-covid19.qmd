@@ -292,7 +292,7 @@ cv19_data %>% head(n = 3) %>% glimpse()
 
 In this example we do not split the data into training and testing sets,
 but in a real-world scenario, it is essential to validate the model's
-performance on unseen data. Our data is made of 365 observations and 7
+performance on unseen data. Our data are made of 365 observations and 7
 variables.
 
 ```{r}

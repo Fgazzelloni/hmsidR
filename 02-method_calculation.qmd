@@ -261,7 +261,6 @@ YLL_global_stroke <- deaths_stroke %>%
   ungroup()
 ```
 
-
 ```{r}
 #| label: tbl-YLL_global_stroke
 #| tbl-cap: "YLLs due to Stroke in the Global region-5 years age groups"
@@ -333,7 +332,10 @@ The YLLs due to stroke in the Global region in 2019-IHME data can be
 downloaded from the [healthdata.org](healthdata.org), with 2019 data
 reflecting the updates of 2021 GDB releases.
 
-The `stroke_ihme`[^02-method_calculation-1] dataset contains the estimated values for the numbers, percent and rates of Deaths, DALYs, YLLs, and YLDs due to stroke in the Global region-All ages and Age-standardized, for years 2019 and 2021.
+The `stroke_ihme`[^02-method_calculation-1] dataset contains the
+estimated values for the numbers, percent and rates of Deaths, DALYs,
+YLLs, and YLDs due to stroke in the Global region-All ages and
+Age-standardized, for years 2019 and 2021.
 
 [^02-method_calculation-1]: For reproducibility the `stroke_ihme` data
     is stored in the GitHub repository of the book
@@ -360,7 +362,9 @@ saveRDS(stroke_ihme, "data/inst/extdata/stroke_ihme.rds")
 stroke_ihme <- readRDS("data/inst/extdata/stroke_ihme.rds") 
 ```
 
-Filtering the data for the year 2019-All Ages, we can visualise only the values of all metrics due to stroke in the Global region, as shown below.
+Filtering the data for the year 2019-All Ages, we can visualise only the
+values of all metrics due to stroke in the Global region, as shown
+below.
 
 ```{r}
 #| label: tbl-stroke_ihme
@@ -372,11 +376,25 @@ stroke_ihme %>%
   select(metric, DALYs, YLDs, YLLs)
 ```
 
-In the Global region, YLLs (Years of Life Lost) due to stroke for all age groups total 141.799 million years, accounting for 8% of the total disease burden. On average, approximately 1,830 years of life were lost prematurely due to stroke for every 100,000 people in the population.
+In the Global region, YLLs (Years of Life Lost) due to stroke for all
+age groups total 141.799 million years, accounting for 8% of the total
+disease burden. On average, approximately 1,830 years of life were lost
+prematurely due to stroke for every 100,000 people in the population.
 
-To calculate the YLLs due to stroke in the Global region for **All-ages** use the @tbl-YLL_global_stroke datasets, and compare the results with the IHME data for the year 2019. As estimated by the IHME for the year 2019, this calculation is based on the number of deaths caused by stroke and the corresponding life expectancy at different ages, which together determine the YLLs attributable to stroke [@ferrari2024].
+To calculate the YLLs due to stroke in the Global region for
+**All-ages** use the @tbl-YLL_global_stroke datasets, and compare the
+results with the IHME data for the year 2019. As estimated by the IHME
+for the year 2019, this calculation is based on the number of deaths
+caused by stroke and the corresponding life expectancy at different
+ages, which together determine the YLLs attributable to stroke
+[@ferrari2024].
 
-Note that the values are not necessarily the real values, but estimated values. Their values are strongly dependent on the life expectancy and the number of deaths due to stroke, also other adjustments can be made to the life expectancy values to get more accurate results. In the past, the calculation of YLLs included the use of a discount rate, which is no longer used in the most recent calculations.
+Note that the values are not necessarily the real values, but estimated
+values. Their values are strongly dependent on the life expectancy and
+the number of deaths due to stroke, also other adjustments can be made
+to the life expectancy values to get more accurate results. In the past,
+the calculation of YLLs included the use of a discount rate, which is no
+longer used in the most recent calculations.
 
 ## YLDs Calculation
 
@@ -731,9 +749,10 @@ Global region, particularly among older populations.
 
 ### Exercise: All-Ages YLDs Estimation
 
-Calculate the YLDs due to stroke in the Global region for **All-ages**, and
-compare the results with the IHME data for the year 2019 as done for the
-YLLs. Use the IHME data provided in @ex-metrics-comparison @tbl-stroke_ihme from the `stroke_ihme` dataset. 
+Calculate the YLDs due to stroke in the Global region for **All-ages**,
+and compare the results with the IHME data for the year 2019 as done for
+the YLLs. Use the IHME data provided in @ex-metrics-comparison
+@tbl-stroke_ihme from the `stroke_ihme` dataset.
 
 ## DALYs Calculation
 
@@ -833,9 +852,10 @@ reflecting the long-term impact on quality of life.
 
 ### Exercise: Total DALYs Estimation
 
-Calculate the DALYs due to stroke in the Global region for **All-ages**, and
-compare the results with the IHME data for the year 2019 as done for the
-YLLs. Use the IHME data provided in @ex-metrics-comparison @tbl-stroke_ihme from the `stroke_ihme` dataset. 
+Calculate the DALYs due to stroke in the Global region for **All-ages**,
+and compare the results with the IHME data for the year 2019 as done for
+the YLLs. Use the IHME data provided in @ex-metrics-comparison
+@tbl-stroke_ihme from the `stroke_ihme` dataset.
 
 ## How DALYs are Used
 

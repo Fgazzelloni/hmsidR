@@ -159,7 +159,7 @@ There are a variety of models available, and the decision on which model
 to use depends on the type of **learning method** either
 **supervised**\index{supervised learning} or
 **unsupervised**\index{unsupevised learning}. Supervised learning is
-applied when data is labelled, meaning that the dataset includes both
+applied when data are labelled, meaning that the dataset includes both
 the independent (predictors) and dependent (outcome) variables. It is
 the classical approach to machine learning, where the model learns to
 predict the outcome variable based on the input variables. Unsupervised
@@ -766,7 +766,7 @@ simulated_data <- cbind(simulated_data,
                                       sd = 5))
 ```
 
-Simulated data is split into **training** and **testing** sets to train
+Simulated data are split into **training** and **testing** sets to train
 the model and evaluate its performance. What this means is that the
 model is trained on a subset of the data (the training set) and then
 tested on the remaining data (the testing set) to assess its predictive

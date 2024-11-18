@@ -180,8 +180,7 @@ somewhat criticised due to its lack of addressing disparities among
 individuals. It might result in discrimination against individuals with
 specific medical conditions or disabilities.
 
-A controversial result followed 25 years of research and studies due to
-the concerning validity of the metric to be inclusive. Started in the
+A controversial outcome emerged after 25 years of research and studies, raising concerns about the metric’s validity and inclusiveness. Started in the
 early 1989s, to step in the 2010 with the *European Commission*
 [@echoutco2016] which started the largest-ever study specifically
 dedicated to testing the assumptions of the *QALY* [@holmes2013], ending

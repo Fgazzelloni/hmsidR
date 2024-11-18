@@ -331,9 +331,7 @@ nigeria_cases %>%
 
 To evaluate the model's ability in predicting future trends, we predict
 the number of infected cases on the test data and calculate the Root
-Mean Squared Error (RMSE). The test data is a subset of the original
-data that was not used for training the model, and it provides an
-independent evaluation of the model's performance.
+Mean Squared Error (RMSE). Test data are a subset of the original data that were not used for training the model and provide an independent evaluation of the model’s performance.
 
 ```{r}
 # Predict on the test data

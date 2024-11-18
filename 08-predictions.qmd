@@ -124,7 +124,7 @@ new_pred_regr.cv_glmnet <-
   rr1$learners[[1]]$predict_newdata(new_data, task = rr1$task)
 ```
 
-We notice that the models are doing well, when old data is compared to
+We notice that the models are doing well, when old data are compared to
 the new data. The predictions are close to the actual values. Much more
 can be done to improve the models, such as **hyperparameter tuning**,
 **feature engineering**, and **model ensembles**, but this is a good

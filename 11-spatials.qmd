@@ -239,14 +239,14 @@ ctr_africa_coords %>%
 ```
 
 Synthetic data are created as an image of the spread of infections
-observed in Central Africa on a specific point in time. The data is
+observed in Central Africa on a specific point in time. Data are
 generated using random numbers for the number of infected individuals,
 their location, and temperature levels. The temperature levels consider
 a min of 20.3 degrees Celsius (69 degrees Fahrenheit), a maximum of 29.2
 °C (85 °F), and a daily average of 24.7 °C (76 °F).
 
-The synthetic data is created using the `rbinom()`, `rnorm()`, and
-`rpois()` functions from the `{stats}` package. The data is generated
+The synthetic data are created using the `rbinom()`, `rnorm()`, and
+`rpois()` functions from the `{stats}` package. Data are generated
 for 100 locations in Central Africa, with 70% of the locations infected
 and 30% non-infected. The latitude and longitude values are generated
 using the `rnorm()` function with mean values of 6.294 and 20.70,
@@ -502,7 +502,7 @@ raster_template <- terra::rast(nrows = 18, ncols = 36,
 
 Rasterize the temperature data using the `rasterize()` function to
 convert the temperature data from the data frame to a raster format
-based on the raster template. The temperature data is assigned to the
+based on the raster template. The temperature data are assigned to the
 raster cells based on the latitude and longitude coordinates.
 
 ```{r}
@@ -619,7 +619,7 @@ df_com
 
 Finally, plot the infections on the map of the Central African Republic,
 with the temperature data represented as a raster layer. The temperature
-data is displayed as a **heatmap**, with warmer colours indicating
+data are displayed as a **heatmap**, with warmer colours indicating
 higher temperatures. The infections are shown as points on the map, with
 different colours representing infected and non-infected locations.
 

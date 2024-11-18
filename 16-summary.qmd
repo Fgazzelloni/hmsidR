@@ -76,7 +76,7 @@ The url is broken down into the following components:
 -   OECD.ENV.EPI,DSD_EXP_MORSC\@DF_EXP_MORSC,1.0/
 -   .A.DALY.10P3HB.PM_2_5_OUT.\_T.\_T?startPeriod=2010
 
-The data is available to download in the `SDMX` format, which is a
+Data are available to download in the `SDMX` format, which is a
 standard for exchanging statistical data. We will use the `{rsdmx}`
 package to download the data and convert it to a data frame for
 analysis.
@@ -338,12 +338,12 @@ and inform public health interventions to reduce the burden of injuries.
 In this example we will use the GBD data to compare the **Years Lived
 with Disability (YLDs) due to Injuries** for high, middle, and low
 **Sustainable Development Index (SDI)** countries from 1990 to 2021.
-Data is available on the GBD website at
+Data are available on the GBD website at
 [www.healthdata.org](www.healthdata.org)[^16-summary-1], and we will use
 the `{ggplot2}` package to create a line plot visualising the YLDs due
 to Injuries by country and SDI level.
 
-[^16-summary-1]: For reproducibility a copy of the "injuries" data is
+[^16-summary-1]: For reproducibility a copy of the "injuries" data are
     stored on the GitHub Repository of this book
     (<https://github.com/Fgazzelloni/hmsidR>) in the data/inst/extdata
     folder.
@@ -406,7 +406,7 @@ comparison can help identify the most common types of injuries and
 inform targeted public health interventions to reduce the burden of
 injuries in different populations.
 
-[^16-summary-2]: For reproducibility a copy of the "injuries" data is
+[^16-summary-2]: For reproducibility a copy of the "injuries" data are
     stored on the GitHub Repository of this book
     (<https://github.com/Fgazzelloni/hmsidR>) in the data/inst/extdata
     folder.

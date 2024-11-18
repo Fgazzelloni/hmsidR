@@ -360,7 +360,7 @@ records, and epidemiological studies.
 
 Here is a table containing the mortality rates for different age groups
 in two regions. The mortality rates are expressed as the number of
-deaths per 1,000 population in each age group. The data is used to
+deaths per 1,000 population in each age group. Data are used to
 illustrate the variation in mortality rates across age groups and
 regions, providing insights into the health risks faced by different
 populations.
@@ -685,7 +685,7 @@ cases <- rpois(length(dates), lambda = 0.2)
 recovered <- rpois(length(dates), lambda = 0.05)
 ```
 
-The simulated data is then combined into a data frame with the date,
+The simulated data are then combined into a data frame with the date,
 number of cases, and number of recovered individuals.
 
 ```{r}
@@ -860,7 +860,7 @@ Here is an example of a table containing the disability weights for
 twelve combinations of different conditions such as Infectious disease,
 Non-communicable diseases, and other health conditions.
 
-The data is from the results of a systematic analysis of Global burden
+Data are from the results of a systematic analysis of Global burden
 of 369 diseases and injuries in 204 countries and territories, 1990–2019
 [@GBD2020]. The table can be downloaded from the `{hmsidwR}` package,
 and contains the first two cause-specific disability weights for the
@@ -1015,7 +1015,7 @@ efficient in terms of overall health[@disabili2023].
 ## Case Study: Germany Lung Cancer Study
 
 For this case study, we used data from the GBD study for Germany,
-related to the number of deaths due to lung-cancer in 2019. The data is
+related to the number of deaths due to lung-cancer in 2019. Data are
 available in the `{hmsidwR}` package and, and includes the upper and
 lower bounds of the estimates and the 5-yrs age group for both sexes. We
 do not have information for the 0-4, 5-9 and 85+ age groups.

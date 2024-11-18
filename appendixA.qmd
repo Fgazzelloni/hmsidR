@@ -257,21 +257,11 @@ print("Posterior probabilities:")
 print(posterior_probabilities)
 ```
 
-## Collecting Data with APIs{#sec-collecting-data}
+## Collecting Data with APIs {#sec-collecting-data}
 
-Collecting data to use in a research analysis involves a selection of
-sources and methods to use for optimizing computational time when
-downloading and reading the files. Once data is set and ready to use a
-further step is required to make the data suitable for the selected
-model. The source of data is an important variable. Generally, data can
-be downloaded by using an API (application programming interface) which
-allow the user to get access to data directly from source, with the use
-of specified back-end computations. There are alternatives at using an
-API; data can be obtained by downloading it directly into the
-computer,or loaded through library packages. Usually, available files
-are provided under various forms such as delimited type of files, .csv,
-.xls, .json, and other types. Here is an example of how to use an API
-for downloading a file directly onto your computer.
+Collecting data for research analysis involves selecting sources and methods to optimize computational time when downloading and reading files. Once the data are prepared and ready to use, an additional step is required to make them suitable for the selected model. The source of the data is a critical variable. Generally, data can be downloaded using an API (application programming interface), which allows users to access data directly from the source through specified back-end computations.
+
+There are alternatives to using an API; data can be downloaded directly to a computer or loaded through library packages. Available files are usually provided in various formats, such as delimited files (.csv), spreadsheets (.xls), JSON files (.json), and others. Below is an example of how to use an API to download a file directly to your computer.
 
 ```{r}
 #| eval: false
@@ -284,9 +274,15 @@ httr::GET(url = url)
 
 #### IHME Data APIs
 
-Head over <https://ghdx.healthdata.org/ihme-api> to get access to the IHME API's page. The page provides IHME APIs for Sustainable Development Goals (SDG) data. Then, click on <https://api.healthdata.org/sdg> to login and request an API key. More information on the methodology and data can be found at <https://www.gatesfoundation.org/goalkeepers/report/2024-report/data-sources/#ExploretheData>.
+Head over <https://ghdx.healthdata.org/ihme-api> to get access to the
+IHME API's page. The page provides IHME APIs for Sustainable Development
+Goals (SDG) data. Then, click on <https://api.healthdata.org/sdg> to
+login and request an API key. More information on the methodology and
+data can be found at
+<https://www.gatesfoundation.org/goalkeepers/report/2024-report/data-sources/#ExploretheData>.
 
 Load necessary libraries:
+
 ```{r}
 #| eval: false
 library(httr)
@@ -294,7 +290,9 @@ library(jsonlite)
 library(tidyverse)
 ```
 
-The IHME API provides the following queries. These queries might be updated in the future, so it is important to check the API documentation for the most recent queries.
+The IHME API provides the following queries. These queries might be
+updated in the future, so it is important to check the API documentation
+for the most recent queries.
 
 -   SDG Query Input:
 
@@ -317,11 +315,14 @@ The IHME API provides the following queries. These queries might be updated in t
 Use the function `gbd_get_data` to download data from the IHME API. The
 function requires the following arguments in quotation marks:
 
-- The `url` where to download the data, such as: `"https://api.healthdata.org/sdg/v1"`
-- An `API key` = "YOUR-KEY"
-- A `sdg-endpoint`, such as:  "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
+-   The `url` where to download the data, such as:
+    `"https://api.healthdata.org/sdg/v1"`
+-   An `API key` = "YOUR-KEY"
+-   A `sdg-endpoint`, such as:
+    "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
 
 The function returns a data frame with the results.
+
 ```{r}
 #| eval: false
 gbd_get_data <- function(url, key, sdg) {
@@ -335,9 +336,10 @@ gbd_get_data <- function(url, key, sdg) {
 }
 ```
 
-Build the query to download results by adding specification of the data. Let's start with:
+Build the query to download results by adding specification of the data.
+Let's start with:
 
-- `GetIndicator`
+-   `GetIndicator`
 
 ```{r}
 #| eval: false
@@ -349,6 +351,7 @@ indicator <- gbd_get_data(
 ```
 
 As an example, let's see the first 6 indicators.
+
 ```{r}
 #| eval: false
 library(tidyverse)
@@ -357,9 +360,14 @@ indicator %>%
   arrange(indicator_id) %>%
   head()
 ```
-![GBD-SDG Indicators](images/appendixA_indicators.png){#fig-indicators fig-align="center" fig-alt="Indicators"}
 
-Then use the `indicator_id` to download the data for a specific indicator.
+![GBD-SDG
+Indicators](images/appendixA_indicators.png){#fig-indicators
+fig-align="center" fig-alt="Indicators"}
+
+Then use the `indicator_id` to download the data for a specific
+indicator.
+
 ```{r}
 #| eval: false
 agegroup <- gbd_get_data(
@@ -373,8 +381,9 @@ agegroup %>%
   head()
 ```
 
-![GBD-SDG Age Groups](images/appendixA_age_groups.png){#fig-age_groups fig-align="center" fig-alt="Age Groups" width="80%"}
-
+![GBD-SDG Age
+Groups](images/appendixA_age_groups.png){#fig-age_groups
+fig-align="center" fig-alt="Age Groups" width="80%"}
 
 ```{r}
 #| eval: false
@@ -388,9 +397,14 @@ dat19%>%
   select(location_name, indicator_name, sex_label, mean_estimate)
 ```
 
-![GBD-SDG Tuberculosis Data 2019](images/appendixA_data_2019.png){#fig-data_2019 fig-align="center" fig-alt="Data 2019" width="80%"}
+![GBD-SDG Tuberculosis Data
+2019](images/appendixA_data_2019.png){#fig-data_2019
+fig-align="center" fig-alt="Data 2019" width="80%"}
 
-The same data can be downloaded using the `httr` package. The following code downloads the data for the indicator with `indicator_id = 1001`, `location_id = 86`, and `year = 2019`.
+The same data can be downloaded using the `httr` package. The following
+code downloads the data for the indicator with `indicator_id = 1001`,
+`location_id = 86`, and `year = 2019`.
+
 ```{r}
 #| eval: false
 headers <- c("Authorization" = "YOUR-KEY")
@@ -402,9 +416,16 @@ res$content%>%
   fromJSON()
 ```
 
-An advanced version of the `gbd_get_data()` function can be found in the `{hmsidwR}` package. The function `hmsidwR::gbd_get_data()` allows the user to endpoint customisation, instead of using `sdg` argument with the long query string, an `endpoint` is used to specify the starting point of the quesry, such as `GetResultsByIndicator`. Then, the user can specify the `indicator_id`, `location_id`, and `year` to download the data for specific indicator, location, and year.
+An advanced version of the `gbd_get_data()` function can be found in the
+`{hmsidwR}` package. The function `hmsidwR::gbd_get_data()` allows the
+user to endpoint customisation, instead of using `sdg` argument with the
+long query string, an `endpoint` is used to specify the starting point
+of the quesry, such as `GetResultsByIndicator`. Then, the user can
+specify the `indicator_id`, `location_id`, and `year` to download the
+data for specific indicator, location, and year.
 
 The function requires the arguments to be within quotation marks:
+
 ```{r}
 #| eval: false
 hmsidwR::gbd_get_data(
@@ -421,9 +442,13 @@ The output is still the same as @fig-data_2019 in the previous example.
 
 ### Package References
 
-The {hmsidwR} package is available at <https://github.com/Fgazzelloni/hmsidwR>. The package provides data and functions to support this book. 
+The {hmsidwR} package is available at
+<https://github.com/Fgazzelloni/hmsidwR>. The package provides data and
+functions to support this book.
 
-Download the package from CRAN or for the development version use GitHub:
+Download the package from CRAN or for the development version use
+GitHub:
+
 ```{r}
 #| eval: false
 # Download from CRAN
@@ -433,4 +458,3 @@ install.packages("hmsidwR")
 # install.packages("devtools")
 devtools::install_github("Fgazzelloni/hmsidwR")
 ```
-

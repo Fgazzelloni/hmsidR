@@ -311,7 +311,9 @@ modelling tasks.
     plt.show()
     ```
 
-![SIR Model with Python](images/appendixC_pysir.png){#fig-appendixC_pysir fig-alt="SIR Model with Python" fig-align="center"}
+![SIR Model with
+Python](images/appendixC_pysir.png){#fig-appendixC_pysir
+fig-alt="SIR Model with Python" fig-align="center"}
 
 The code for this example is adapted from: [Modeling Infectious Diseases
 in Humans and Animals Matt J. Keeling & Pejman

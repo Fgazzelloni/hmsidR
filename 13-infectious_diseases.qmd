@@ -278,7 +278,7 @@ human health, ultimately aiming to reduce the burden of disease.
 Another significant aspect to consider is the emerging use of **transfer
 learning**\index{transfer learning}, which involves applying knowledge
 gained from one predictive task to another. This approach is especially
-useful when data is limited and models need to be adapted. Although
+useful when data are limited and models need to be adapted. Although
 relatively under-explored in infectious disease research, transfer
 learning holds significant promise for improving predictions in areas
 with scarce data. By leveraging information from related tasks, this

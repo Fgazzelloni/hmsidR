@@ -259,7 +259,7 @@ p3
 A pyramid plot is a type of bar chart that displays the distribution of
 a population by age. We use the data from the `{wpp2022}` package,
 `data(package = "wpp2022")` which is a collection of population
-datasets, with population estimates. The data is from the United Nations
+datasets, with population estimates. Data are from the United Nations
 World Population Prospects 2022.
 
 ```{r}
@@ -281,7 +281,7 @@ Check all Countries in the dataset with `View()`:
 popAge1dt %>% count(name) %>% View
 ```
 
-The data is then aggregated to show the total population for all ages by
+Data are then aggregated to show the total population for all ages by
 year. Here, in particular, we show the use of
 `geomtextpath::geom_textline()` to add a label to the World line plot.
 `{geomtextpath}` is a nice R-package which allows you to add text along
@@ -307,7 +307,7 @@ all_ages %>%
        caption = "Data Source: UN World Pop | Graphic: @fgazzelloni") 
 ```
 
-Data is then transformed to a long format to create a pyramid plot. We
+Data are then transformed to a long format to create a pyramid plot. We
 select the columns `name`, `year`, `age`, `popF`, and `popM` and pivot
 the data to a long format using the `pivot_longer()` function. We then
 create a new column `value` that contains positive values for male
