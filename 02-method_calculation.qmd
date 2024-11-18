@@ -46,22 +46,26 @@ to a disease or injury. **YLLs are calculated by subtracting the age at
 death from the expected age at death in a population without the disease
 or injury**.
 
-First introduced by Mary Dempsey[@dempsey2019] in 1947 to assess the
-burden of tuberculosis, Years of Life Lost (YLLs) were designed to
-highlight areas needing improvement to reduce health loss and lower the
-risk of premature death[@reiner2022]. This metric was first calculated
-in late 1940s (@sec-01-health_metrics), and defined as **Standardised
-Rate for Mortality in units of Lost Years of Life** by *William
-Haenszel* [@haenszel1950]. The investigation into the leading causes of
-death led to the development of a measurement that considered the age at
-death and compared it with the expected life expectancy. This initially
-led to the understanding that early deaths had a greater impact than
-those at later ages. It was ascertained that accounting for the number
-of years lost for a group of people would help recognize the potential
-life lost for a certain cause. Since this first approach, some
-adjustments to the standard death rates were made, leading to a new
-calculation that considered Standardised death rates applied to
-age-specific factors for specific causes of death.
+In the late 1940s (@sec-01-health_metrics), **William
+Haenszel**[@haenszel1950] introduced the concept of **Standardized Rate
+for Mortality in units of Lost Years of Life**, marking an early attempt
+to quantify the impact of premature mortality. This approach emphasized
+the importance of considering the *age at death* and comparing it to the
+*expected life expectancy*, highlighting that early deaths have a
+greater impact than those occurring later in life. It was ascertained
+that accounting for the number of years lost for a group of people would
+help recognize the potential life lost for a certain cause. Since this
+first approach, some adjustments to the standard death rates were made,
+leading to a new calculation that considered standardised death rates
+applied to age-specific factors for specific causes of death.
+
+Building on these ideas, **Mary Dempsey**[@dempsey2019] formalized the
+concept in 1947 to assess the burden of tuberculosis, coining the term
+**Years of Life Lost (YLLs)**. This metric was specifically designed to
+identify areas requiring improvement to reduce health loss and prevent
+premature death[@reiner2022]. Her work established YLLs as a critical
+tool for understanding and addressing the disproportionate effects of
+early mortality on population health.
 
 > The impact of premature losses on society extends beyond the grief of
 > losing a loved one; it also includes the economic and social cost of
@@ -103,12 +107,17 @@ indicated by the GBD study.
 
 ### Example: YLLs due to Stroke
 
+Stroke can be a consequence of several infectious diseases, such as
+COVID-19, Tuberculosis (TB), and Malaria. The impact of these diseases
+on the cardiovascular system can lead to stroke, as infections can cause
+inflammation, blood clot formation, or direct damage to blood vessels.
+
 In the following example, we calculate the YLLs due to stroke in the
 year 2019 for the Global region. We use the data from the Global Burden
-of Disease (GBD) study, which provides estimates of the number of deaths
-due to stroke in different regions. The data can be downloaded from the
-`{hmsidwR}` package, which contains the necessary datasets for this
-calculation. The `deaths2019` dataset comprises
+of Disease (GBD) study, which provides estimates of the **number of
+deaths due to stroke** in different regions. The data can be downloaded
+from the `{hmsidwR}` package, which contains the necessary datasets for
+this calculation. The `deaths2019` dataset comprises
 `r dim(hmsidwR::deaths2019)[1]` observations and
 `r dim(hmsidwR::deaths2019)[2]` variables, containing the estimated
 number of deaths due to 9 causes, including stroke, across 6 regions:
@@ -119,6 +128,7 @@ calculate the YLLs due to stroke.
 
 ```{r}
 #| eval: false
+install.packages("hmsidwR")
 # install.packages("devtools")
 devtools::install_github("Fgazzelloni/hmsidwR")
 ```
@@ -154,8 +164,9 @@ Then, we visualise the number of deaths due to stroke by age group, with
 a `geom_boxplot()`. The boxplot shows the distribution of the number of
 deaths by age group, with the median, quartiles, and outliers. The plot
 is divided by age group and shows the variation in the number of deaths
-due to stroke. We can observe the difference in the number of deaths
-increases for older age groups.
+due to stroke between gender as it is stratified by gender, highlighting
+variations in stroke mortality between males and females. We can observe
+the difference in the number of deaths increases for older age groups.
 
 ```{r}
 #| label: fig-deaths_stroke
@@ -173,16 +184,18 @@ deaths_stroke %>%
 ```
 
 Among the indicators available in the `hmsidwR::gho_lifetables` dataset,
-we specifically focus on the indicator denoted as $e_x$, which
-represents the expectation of life at age $x$. This dataset is part of
-the Global Health Observatory (GHO) data repository, which is maintained
-by the World Health Organization (WHO). The dataset also contains life
-table indicators, such as the number of person-years lived above age $x$
-$(l_x)$, the number of person-years lived between ages $x$ and $x+n$
-$(_{n}L_x)$, the age-specific death rate between ages $x$ and $x+n$
-$(_{n}M_x)$, the number of people dying between ages $x$ and $x+n$
-$(_{n}d_x)$, and the probability of dying between ages $x$ and $x+n$
-$(_{n}q_x)$.
+we specifically focus on the indicator denoted as $e_x$. The expectation
+of life at age $x$ ($e_x$) refers to the *average number of additional
+years a person is expected to live*, given that they have already
+reached age $x$. This measure is commonly referred to as life expectancy
+at age $x$. This dataset is part of the Global Health Observatory (GHO)
+data repository, which is maintained by the World Health Organization
+(WHO). The dataset also contains life table indicators, such as the
+number of person-years lived above age $x$ $(l_x)$, the number of
+person-years lived between ages $x$ and $x+n$ $(_{n}L_x)$, the
+age-specific death rate between ages $x$ and $x+n$ $(_{n}M_x)$, the
+number of people dying between ages $x$ and $x+n$ $(_{n}d_x)$, and the
+probability of dying between ages $x$ and $x+n$ $(_{n}q_x)$.
 
 ```{r}
 #| label: tbl-indicators
@@ -203,16 +216,15 @@ hmsidwR::gho_lifetables %>%
   knitr::kable()
 ```
 
-The expectation of life at age x $(e_x)$ refers to the life expectancy
-at age $x$. We use the estimated value of the expected life for 5-year
-age groups, such as \<1, ... , 05-09, 10-14, etc. for both females and
-males.
+We use the estimated value of the expected life for 5-year age groups,
+such as `<1, ... , 05-09, 10-14`, etc. for both females and males.
 
-The standard life expectancy represents the maximum number of years a
-person can live at birth. For example, if we consider the **Japanese
-life expectancy at birth**, which is measured in total years, according
-to the estimation released in 2021 by the United Nations Population
-Division research, it is approximately 84 years.
+On the other hand, the standard life expectancy represents the *maximum
+number of years a person is expected to live from birth*. For example,
+according to estimates released in 2021 by the United Nations Population
+Division, the **Japanese life expectancy at birth** is approximately
+84.6 years. This figure is significantly higher than the global average
+life expectancy of around 72.6 years.
 
 To calculate the YLLs due to stroke, we need to use the life expectancy
 at different ages. We filter the `gho_lifetables` dataset to year 2019,
@@ -247,7 +259,12 @@ YLL_global_stroke <- deaths_stroke %>%
   group_by(age, sex) %>%
   mutate(YLL = dx * le) %>%
   ungroup()
+```
 
+
+```{r}
+#| label: tbl-YLL_global_stroke
+#| tbl-cap: "YLLs due to Stroke in the Global region-5 years age groups"
 YLL_global_stroke %>% head()
 ```
 
@@ -299,16 +316,67 @@ dat %>%
         plot.caption = element_text(size = 8))
 ```
 
-In summary, stroke is a leading cause of death and disability worldwide,
-and it is responsible for a significant number of premature deaths in
-the Global region. The YLLs due to stroke are particularly high in older
-age groups, where the number of deaths is higher, and the life
-expectancy is lower. This indicates that stroke has a significant impact
-on the overall burden of disease in the Global region, particularly
-among older populations. The YLLs due to stroke are an important measure
-of the impact of this disease on premature mortality and can help inform
-public health interventions and policies to reduce the burden of stroke
-in the population.
+Based on these results, we can conclude that the components of YLLs due
+to stroke are essential measures of the impact of this condition on the
+quality of life of individuals in the Global region. The YLLs due to
+stroke are particularly high in older age groups, where the number of
+deaths is higher, and the life expectancy is lower. This indicates that
+stroke has a significant impact on the overall burden of disease in the
+Global region, particularly among older populations.
+
+### Exercise: All-Ages YLLs Estimation {#ex-metrics-comparison}
+
+Calculate the YLLs due to stroke in the Global region for **All-ages**,
+and compare the results with the IHME data for the year 2019.
+
+The YLLs due to stroke in the Global region in 2019-IHME data can be
+downloaded from the [healthdata.org](healthdata.org), with 2019 data
+reflecting the updates of 2021 GDB releases.
+
+The `stroke_ihme`[^02-method_calculation-1] dataset contains the estimated values for the numbers, percent and rates of Deaths, DALYs, YLLs, and YLDs due to stroke in the Global region-All ages and Age-standardized, for years 2019 and 2021.
+
+[^02-method_calculation-1]: For reproducibility the `stroke_ihme` data
+    is stored in the GitHub repository of the book
+    (<https://github.com/Fgazzelloni/hmsidR>).
+
+```{r}
+#| echo: false
+#| eval: false
+stroke_ihme <- hmsidwR::getunz("https://dl.healthdata.org:443/gbd-api-2021-public/2ec1547956baa9cf13ab05de29b2270b_files/IHME-GBD_2021_DATA-2ec15479-1.zip") 
+
+stroke_ihme <- stroke_ihme[[1]]
+stroke_ihme <- stroke_ihme %>%
+  select(measure, age, metric, year,val)%>%
+  pivot_wider(names_from = "measure", values_from = "val") %>%
+  arrange(year,age,metric) %>%
+  rename(DALYs= "DALYs (Disability-Adjusted Life Years)",
+         YLDs = "YLDs (Years Lived with Disability)",
+         YLLs = "YLLs (Years of Life Lost)") 
+saveRDS(stroke_ihme, "data/inst/extdata/stroke_ihme.rds")
+```
+
+```{r}
+#| echo: false
+stroke_ihme <- readRDS("data/inst/extdata/stroke_ihme.rds") 
+```
+
+Filtering the data for the year 2019-All Ages, we can visualise only the values of all metrics due to stroke in the Global region, as shown below.
+
+```{r}
+#| label: tbl-stroke_ihme
+#| tbl-cap: "All-Ages IHME Metrics for Stroke in the Global region for the year 2019"
+stroke_ihme %>%
+  mutate(across(where(is.numeric), ~round(., 2))) %>%
+  filter(year == 2019,
+         age == "All ages") %>%
+  select(metric, DALYs, YLDs, YLLs)
+```
+
+In the Global region, YLLs (Years of Life Lost) due to stroke for all age groups total 141.799 million years, accounting for 8% of the total disease burden. On average, approximately 1,830 years of life were lost prematurely due to stroke for every 100,000 people in the population.
+
+To calculate the YLLs due to stroke in the Global region for **All-ages** use the @tbl-YLL_global_stroke datasets, and compare the results with the IHME data for the year 2019. As estimated by the IHME for the year 2019, this calculation is based on the number of deaths caused by stroke and the corresponding life expectancy at different ages, which together determine the YLLs attributable to stroke [@ferrari2024].
+
+Note that the values are not necessarily the real values, but estimated values. Their values are strongly dependent on the life expectancy and the number of deaths due to stroke, also other adjustments can be made to the life expectancy values to get more accurate results. In the past, the calculation of YLLs included the use of a discount rate, which is no longer used in the most recent calculations.
 
 ## YLDs Calculation
 
@@ -661,6 +729,12 @@ severity of the disability is more pronounced. This indicates that
 stroke has a significant impact on the overall burden of disease in the
 Global region, particularly among older populations.
 
+### Exercise: All-Ages YLDs Estimation
+
+Calculate the YLDs due to stroke in the Global region for **All-ages**, and
+compare the results with the IHME data for the year 2019 as done for the
+YLLs. Use the IHME data provided in @ex-metrics-comparison @tbl-stroke_ihme from the `stroke_ihme` dataset. 
+
 ## DALYs Calculation
 
 As a measure of the overall disease burden, **Disability Adjusted Life
@@ -756,6 +830,12 @@ immediate impact on mortality (Years of Life Lost or YLL) and long-term
 disability (Years Lived with Disability or YLD). On the other hand,
 diabetes, a chronic condition, has a lower YLL but a higher YLD,
 reflecting the long-term impact on quality of life.
+
+### Exercise: Total DALYs Estimation
+
+Calculate the DALYs due to stroke in the Global region for **All-ages**, and
+compare the results with the IHME data for the year 2019 as done for the
+YLLs. Use the IHME data provided in @ex-metrics-comparison @tbl-stroke_ihme from the `stroke_ihme` dataset. 
 
 ## How DALYs are Used
 

@@ -404,7 +404,7 @@ compare the average number of injuries by type (e.g., road injuries,
 falls, self-harm) in high, middle, and low SDI countries. This
 comparison can help identify the most common types of injuries and
 inform targeted public health interventions to reduce the burden of
-injuries in different populations. 
+injuries in different populations.
 
 [^16-summary-2]: For reproducibility a copy of the "injuries" data is
     stored on the GitHub Repository of this book
@@ -466,7 +466,11 @@ health outcomes.
 
 In this example, we will visualise the **Disability Adjusted Life Years
 (DALYs) Rate by Country** for all causes using the GBD data. We will use
-data from the `{hmsidwR}` package, `spatialdalys2021`, to create a choropleth map showing the DALYs rate per 100,000 population for each country. The map will provide a visual representation of the burden of disease across different countries, highlighting disparities in health outcomes and disease burdens.
+data from the `{hmsidwR}` package, `spatialdalys2021`, to create a
+choropleth map showing the DALYs rate per 100,000 population for each
+country. The map will provide a visual representation of the burden of
+disease across different countries, highlighting disparities in health
+outcomes and disease burdens.
 
 ```{r}
 #| label: fig-dalys-choropleth
@@ -527,3 +531,23 @@ improvement. By analysing health metrics across countries, we can gain
 insights into public health priorities, disease burdens, and health
 outcomes, which are crucial for informing global public health policy
 and interventions.
+
+Analysing health metrics at a global level reveals key patterns in
+disease prevalence, mortality rates, and risk factors, offering insights
+into how socioeconomic, environmental, and policy variables influence
+health outcomes. Such comparative analyses are critical for setting
+international health priorities and targeting interventions in regions
+with the greatest need.
+
+Regional studies play an equally significant role in contextualizing
+global insights. For instance, **The State of Health in the European
+Union in 2019 (Santos et al., 2019)**[@vascosantos2021] highlights the
+importance of tailoring health policies to regional contexts. By
+focusing on EU countries, the study identifies unique challenges and
+opportunities, providing a blueprint for targeted interventions and
+efficient resource allocation. These findings underscore that while
+global frameworks are valuable, effective public health strategies often
+require adaptation to local circumstances, cultures, and health systems.
+Investing in health metric comparisons strengthens global collaboration
+by fostering data sharing, capacity building, and the exchange of best
+practices among nations.

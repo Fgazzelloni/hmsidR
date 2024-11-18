@@ -101,7 +101,7 @@ To cite this book in publications, please use:
 > Infectious Diseases: Machine Learning Applications and Spatial
 > Modelling Analysis with R*. CRC Press, Boca Raton, FL, USA. ISBN: .
 
-:::: {.content-visible when-format="html"}
+::: {.content-visible when-format="html"}
 If you're using BibTeX, you can use the following entry:
 
 ``` bibtex
@@ -117,8 +117,7 @@ If you're using BibTeX, you can use the following entry:
 
 Alternatively, [download the citation file
 here](https://github.com/Fgazzelloni/hmsidR/blob/main/CITATION).
-
-:::: 
+:::
 
 ## About the Author
 
