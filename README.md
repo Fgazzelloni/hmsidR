@@ -7,7 +7,7 @@
 This is the repository for the **Health Metrics and the Spread of Infectious Diseases: Machine Learning Applications and Spatial Modeling Analysis with R** book written by Federica Gazzelloni.
 
 Links to the online version:
-
+- <https://bookdown.org/fede_gazzelloni/hmsidR/>
 - <https://fgazzelloni.quarto.pub/hmsidr/>
 
 This book guides you through the modeling representation of the selected real world case studies for the identification of the state of health of a population.
