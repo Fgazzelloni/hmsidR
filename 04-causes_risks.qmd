@@ -698,7 +698,7 @@ risk_measures <- data.frame(
   Example = c(
     "Smokers have a 15x higher relative risk (RR = 15) of lung cancer compared to non-smokers.",
     "If smoking accounts for 30% of lung cancer cases, then the PAF for smoking is 0.30.",
-    "The TMREL for PM2.5 (air pollution) is set around 2.4 μg/m³, as exposure below this level is associated with minimal health risk."
+    paste0("The TMREL for PM2.5 (air pollution) is set around 2.4 $\\mu$g/m$^3$, as exposure below this level is associated with minimal health risk.")
   )
 )
 

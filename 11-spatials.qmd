@@ -110,10 +110,6 @@ library(rnaturalearth)
 
 africa <- ne_countries(continent = "Africa", 
                        returnclass = "sf")
-
-africa %>% 
-  select(geometry)%>%
-  head()
 ```
 
 A simple feature object is a type of spatial data that contains the
@@ -246,10 +242,10 @@ a min of 20.3 degrees Celsius (69 degrees Fahrenheit), a maximum of 29.2
 °C (85 °F), and a daily average of 24.7 °C (76 °F).
 
 The synthetic data are created using the `rbinom()`, `rnorm()`, and
-`rpois()` functions from the `{stats}` package. Data are generated
-for 100 locations in Central Africa, with 70% of the locations infected
-and 30% non-infected. The latitude and longitude values are generated
-using the `rnorm()` function with mean values of 6.294 and 20.70,
+`rpois()` functions from the `{stats}` package. Data are generated for
+100 locations in Central Africa, with 70% of the locations infected and
+30% non-infected. The latitude and longitude values are generated using
+the `rnorm()` function with mean values of 6.294 and 20.70,
 respectively. The number of infected individuals is generated using the
 `rpois()` function with a mean value of 10, and the temperature levels
 are generated using the `rnorm()` function with a mean value of 25.
@@ -369,7 +365,7 @@ ggplot(data = df %>% filter(presence== 1),
        aes(x = temperature, y = cases)) +
   geom_point() +
   geom_smooth() +
-  labs(title = "Relationship between Temperature and Number of Infected Individuals",
+  labs(title = "Infected Individuals based on Temperature",
        x = "Temperature",
        y = "Number of Infected Individuals") +
   theme_minimal()
@@ -560,7 +556,8 @@ ggplot() +
           shape = 21, stroke = 0.3) +
   scale_fill_gradient(low = "white", high = "grey30",
                       na.value = "transparent") +
-  labs(title = "Max Temperature in Central African Rep.\n(Simulated Values)",
+  labs(title = "Max Temperature in Central African Rep.",
+       subtitle = "Simulated Values",
        size = "Number of Infections",
        fill = "Max Temperature") +
   theme(legend.position = "right")
@@ -670,7 +667,7 @@ ggplot() +
   geom_point(data = df_com,
              aes(x = longitude, y = latitude), 
              color = "red", size = 4, shape = 13) +
-  labs(title = "Simulated Infections with Size on Max Temperature in Central African Rep.",
+  labs(title = "Simulated Infections with Size on Max Temperature in CAR",
        subtitle = "Synthetic Data with Center of Mass",
        fill = "Temperature", 
        size = "Number") +
@@ -753,7 +750,7 @@ To explore the dynamics of disease transmission in Central Africa by
 simulating the spread of infections we use a type of network
 characterised by a high degree of clustering and short average path
 lengths between nodes called **small-world
-network**\index{small-world network}. It represents a realistic model of
+network**\index{smallworld network}. It represents a realistic model of
 human contact patterns, where individuals are more likely to interact
 with their neighbours but can also have long-range connections with
 other individuals. By simulating the spread of infections in a
@@ -811,10 +808,7 @@ Plot the graphs:
 
 ```{r}
 #| label: fig-small_world
-#| fig-cap: "Small-World Network"
-#| fig-subcap: 
-#|  - "Small-World Network"
-#|  - "Small-World Network with Infections"
+#| fig-cap: "Visualization of a Small-World Network: Structure before and after the spread of infections."
 #| fig-alt: "Small-World Network"  
 #| fig-width: 6
 #| fig-height: 4
@@ -822,13 +816,13 @@ par(mfrow = c(1,2))
 
 set.seed(06082024)
 plot(small_world,
-     vertex.size = 6,
+     vertex.size = 8,
      vertex.label = NA,
      edge.arrow.size = 0.5,
      edge.width = 0.5)
 
 plot(small_world_dev,
-     vertex.size = 6,
+     vertex.size = 8,
      vertex.label = NA,
      edge.arrow.size = 0.5,
      edge.width = 0.5)
@@ -1027,7 +1021,7 @@ number of spatial units, and $w_{ij}$ are the spatial weight between
 locations.
 
 $I$ measures the degree to which infection is clustered, dispersed or
-randomly distributed, with values ranging from −1 indicating perfect
+randomly distributed, with values ranging from -1 indicating perfect
 dispersion to +1 indicating perfect spatial clustering. A value of 0
 indicates no spatial autocorrelation, suggesting a random spatial
 pattern.
@@ -1163,7 +1157,10 @@ k <- gstat::gstat(formula = presence ~ temperature,
 
 kpred <- predict(k, newdata = ctr_africa_grid_sf)
 
-kpred %>% head()
+data.frame(geo = kpred$geometry,
+           var = kpred$var1.var,
+           pred = kpred$var1.pred) %>% 
+  head()
 ```
 
 Visualise predictions:

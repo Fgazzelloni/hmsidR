@@ -59,6 +59,7 @@ install.packages("covid19.analytics")
 ```
 
 ```{r}
+#| output: false
 library(tidyverse)
 library(covid19.analytics)
 
@@ -175,7 +176,11 @@ cfr %>%
 ```
 
 ```{r}
+#| output: false
 covid19.TS.deaths <- covid19.data("ts-deaths")
+```
+
+```{r}
 covid19.TS.deaths %>% 
     pivot_longer(cols = c(-Province.State, 
                           -Country.Region, 
@@ -202,7 +207,13 @@ Load the data for the Ischemic Stroke from the GitHub repository of the
 book: "Feature Engineering and Selection: A Practical Approach for
 Predictive Models" by Max Kuhn and Kjell Johnson.
 
+url:
+<https://github.com/topepo/FES/blob/master/Data_Sets/Ischemic_Stroke/stroke_data.RData?raw=true>
+
+`load(url(url)))`
+
 ```{r}
+#| echo: false
 load(url("https://github.com/topepo/FES/blob/master/Data_Sets/Ischemic_Stroke/stroke_data.RData?raw=true"))
 ```
 

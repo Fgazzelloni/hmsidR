@@ -112,6 +112,8 @@ format:
     keep-tex: true
     toc-title: Contents
     latex-output-dir: _book
+    code-blocks:
+      wrap: true
     colorlinks: true
     fig-dpi: 300
     pdf-engine: xelatex

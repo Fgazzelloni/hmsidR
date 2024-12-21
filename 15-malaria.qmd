@@ -74,6 +74,12 @@ library(sf)
 library(rnaturalearth)
 ```
 
+```{r}
+#| output: false
+tidyverse_conflicts()
+```
+
+
 To download malaria data we can use the `getPR()` function, it releases
 the data from the Malaria Atlas Project API. The function requires the
 country and species of Plasmodium to be specified. In this example, we
@@ -217,7 +223,9 @@ plot to show the number of infected cases over time.
 ```{r}
 nigeria_cases %>%
   ggplot() +
-  geom_line(aes(x = year, y = positive), color = "navy", linetype = "solid") +
+  geom_line(aes(x = year, y = positive), 
+            color = "navy", 
+            linetype = "solid") +
   labs(title = "Malaria Transmission Dynamics in Nigeria",
        subtitle = "23 years spanning from 1985 to 2018",
        x = "Time(Year)",
@@ -251,6 +259,7 @@ variables, which represent past values of the target variable. This
 allows the model to learn trends from previous values.
 
 ```{r}
+conflicted::conflicts_prefer(dplyr::lag)
 # Create lagged features (e.g., previous year's cases)
 nigeria_cases <- nigeria_cases %>%
   arrange(year) %>%
@@ -323,15 +332,18 @@ nigeria_cases %>%
  ggplot(aes(x = year, y = positive)) +
   geom_line(color = "navy", linetype = "solid") +
   geom_line(aes(y = pred), color = "darkred", linetype = "dashed") +
-  labs(title = "Observed vs Predicted Malaria Positive Cases in Nigeria",
-       x = "Year",
-       y = "Number of Positive Cases") +
+  labs(
+    title = "Observed vs Predicted Malaria Positive Cases in Nigeria",
+    x = "Year",
+    y = "Number of Positive Cases") +
   theme_minimal()
 ```
 
 To evaluate the model's ability in predicting future trends, we predict
 the number of infected cases on the test data and calculate the Root
-Mean Squared Error (RMSE). Test data are a subset of the original data that were not used for training the model and provide an independent evaluation of the model’s performance.
+Mean Squared Error (RMSE). Test data are a subset of the original data
+that were not used for training the model and provide an independent
+evaluation of the model’s performance.
 
 ```{r}
 # Predict on the test data
@@ -439,7 +451,7 @@ ggplot(plot_data_xgb, aes(x = year, y = Cases,
   geom_line(size = 1) +
   geom_point(size = 2) +
   scale_color_manual(values = c("navy", "darkred")) +
-  labs(title = "Observed vs Predicted Malaria Positive Cases in Nigeria (XGBoost)",
+  labs(title = "Observed vs Predicted Malaria Cases in Nigeria (XGBoost)",
        x = "Year",
        y = "Number of Positive Cases") +
   theme_minimal() +
@@ -462,12 +474,10 @@ transmission dynamics.
 
 ## Summary
 
-In this chapter, we explored the dynamics of Malaria transmission and
-the importance of mapping outbreaks to guide public health
-interventions. We used the `malariaAtlas` package to download malaria
-data for Nigeria and visualised the distribution of malaria cases in the
-country. We also demonstrated how machine learning can be used to
-predict future trends in malaria transmission using historical data. The
-iterative process of model refinement and evaluation is crucial for
-developing accurate predictions and guiding effective public health
-interventions.
+In this chapter, we explored the dynamics of malaria transmission and
+emphasized the importance of mapping outbreaks to guide public health
+interventions. Using the `malariaAtlas` package, we downloaded malaria
+data for Nigeria and visualized the spatial distribution of cases across
+the country. Additionally, and demonstrated how machine learning
+techniques can analyse historical data to predict future trends in
+malaria transmission.

@@ -76,10 +76,9 @@ The url is broken down into the following components:
 -   OECD.ENV.EPI,DSD_EXP_MORSC\@DF_EXP_MORSC,1.0/
 -   .A.DALY.10P3HB.PM_2_5_OUT.\_T.\_T?startPeriod=2010
 
-Data are available to download in the `SDMX` format, which is a
-standard for exchanging statistical data. We will use the `{rsdmx}`
-package to download the data and convert it to a data frame for
-analysis.
+Data are available to download in the `SDMX` format, which is a standard
+for exchanging statistical data. We will use the `{rsdmx}` package to
+download the data and convert it to a data frame for analysis.
 
 ```{r}
 #| eval: false
@@ -117,7 +116,7 @@ the column names and data types.
 ```{r}
 df %>%
   janitor::clean_names() %>%
-  head() %>%
+  head(3) %>%
   glimpse()
 ```
 
@@ -354,7 +353,7 @@ ylds_injuries <- readRDS("data/inst/extdata/16-ylds_injuries.rds")
 ```
 
 ```{r}
-ylds_injuries %>% head() %>% glimpse()
+ylds_injuries %>% head(3) %>% glimpse()
 ```
 
 ```{r}
@@ -417,7 +416,7 @@ injuries_types <- readRDS("data/inst/extdata/16-injuries_types.rds")
 ```
 
 ```{r}
-injuries_types %>% head() %>% glimpse()
+injuries_types %>% head(2) %>% glimpse()
 ```
 
 To compare the types of injuries contributing to the burden of disease

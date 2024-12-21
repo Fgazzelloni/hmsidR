@@ -273,7 +273,7 @@ We can specify the prior distributions for $\beta$ and $\gamma$ using
 expert knowledge and available data. For example, we might specify a
 gamma distribution with a mean of 0.1 and a standard deviation of 0.05
 for $\beta$, and a gamma distribution with a mean of 0.05 and a standard
-deviation of 0.02 for \$\gamma.
+deviation of 0.02 for $\gamma$.
 
 ```{r}
 result <- as.data.frame(result)
@@ -714,10 +714,18 @@ US, China, United Kingdom, and Canada.
 
 ```{r}
 #| echo: false
+#| message: false
+#| warning: false
 library(tidyverse)
 cases <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 deaths <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
 ```
+
+```{r}
+#| output: false
+tidyverse_conflicts()
+```
+
 
 ```{r}
 cases1 <- cases %>%
@@ -759,6 +767,7 @@ COVID19 <- cases1 %>%
   arrange(country_region, date)
 
 COVID19 %>%
+  select(country_region, date, cases, deaths, cfr) %>%
   arrange(desc(date)) %>%
   head()
 ```
@@ -774,7 +783,9 @@ COVID19_4countries <- COVID19 %>%
   filter(country_region %in%
     c("US", "China", "United Kingdom", "Canada"))
 
-COVID19_4countries %>% head()
+COVID19_4countries %>% 
+  select(- lat, -long) %>%
+  head()
 ```
 
 Selected countries are the US, China, United Kingdom, and Canada.

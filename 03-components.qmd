@@ -715,9 +715,10 @@ covid_data <-
 
 # Calculate daily incidence and prevalence per 100,000 population
 covid_data <-
-  transform(covid_data,
-            Incidence = (Cum_Cases / population_size) * 1000,
-            Prevalence = ((Cum_Cases - Cum_Recovered) / population_size) * 1000)
+  transform(
+    covid_data,
+    Incidence = (Cum_Cases / population_size) * 1000,
+    Prevalence = ((Cum_Cases - Cum_Recovered) / population_size) * 1000)
 ```
 
 ```{r}
@@ -860,8 +861,8 @@ Here is an example of a table containing the disability weights for
 twelve combinations of different conditions such as Infectious disease,
 Non-communicable diseases, and other health conditions.
 
-Data are from the results of a systematic analysis of Global burden
-of 369 diseases and injuries in 204 countries and territories, 1990–2019
+Data are from the results of a systematic analysis of Global burden of
+369 diseases and injuries in 204 countries and territories, 1990–2019
 [@GBD2020]. The table can be downloaded from the `{hmsidwR}` package,
 and contains the first two cause-specific disability weights for the
 year 2019, as well as the severity level of the condition set as to be
@@ -1136,7 +1137,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|-----------------------------|--------------|--------------|--------------|
+|--------------------------|---------------|---------------|---------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

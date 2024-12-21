@@ -222,6 +222,7 @@ init <- c(1, 0)
 ```
 
 ```{r}
+#| output: false
 markov(init = init, mat = P, n = 100)
 ```
 
@@ -243,25 +244,33 @@ transition_probabilities
 
 ```{r}
 # Calculate prior probabilities
-prior_probabilities <- table(simulated_chain[-n_transitions]) / n_transitions
+prior_probabilities <- table(
+  simulated_chain[-n_transitions]) / n_transitions
+prior_probabilities
+```
 
+
+```{r}
 # Calculate posterior probabilities
 posterior_probabilities <- transition_probabilities %*% prior_probabilities
-
-# Print prior probabilities
-print("Prior probabilities:")
-print(prior_probabilities)
-
-# Print posterior probabilities
-print("Posterior probabilities:")
-print(posterior_probabilities)
+posterior_probabilities
 ```
 
 ## Collecting Data with APIs {#sec-collecting-data}
 
-Collecting data for research analysis involves selecting sources and methods to optimize computational time when downloading and reading files. Once the data are prepared and ready to use, an additional step is required to make them suitable for the selected model. The source of the data is a critical variable. Generally, data can be downloaded using an API (application programming interface), which allows users to access data directly from the source through specified back-end computations.
+Collecting data for research analysis involves selecting sources and
+methods to optimize computational time when downloading and reading
+files. Once the data are prepared and ready to use, an additional step
+is required to make them suitable for the selected model. The source of
+the data is a critical variable. Generally, data can be downloaded using
+an API (application programming interface), which allows users to access
+data directly from the source through specified back-end computations.
 
-There are alternatives to using an API; data can be downloaded directly to a computer or loaded through library packages. Available files are usually provided in various formats, such as delimited files (.csv), spreadsheets (.xls), JSON files (.json), and others. Below is an example of how to use an API to download a file directly to your computer.
+There are alternatives to using an API; data can be downloaded directly
+to a computer or loaded through library packages. Available files are
+usually provided in various formats, such as delimited files (.csv),
+spreadsheets (.xls), JSON files (.json), and others. Below is an example
+of how to use an API to download a file directly to your computer.
 
 ```{r}
 #| eval: false
@@ -317,8 +326,11 @@ function requires the following arguments in quotation marks:
 
 -   The `url` where to download the data, such as:
     `"https://api.healthdata.org/sdg/v1"`
+
 -   An `API key` = "YOUR-KEY"
+
 -   A `sdg-endpoint`, such as:
+
     "GetResultsByLocation?location_id=86&indicator_id=1002&year=2019"
 
 The function returns a data frame with the results.
@@ -405,10 +417,13 @@ The same data can be downloaded using the `httr` package. The following
 code downloads the data for the indicator with `indicator_id = 1001`,
 `location_id = 86`, and `year = 2019`.
 
+We can use the `GET()` function with this url =
+<https://api.healthdata.org/sdg/v1/GetResultsByIndicator?indicator_id=1001&location_id=86&year=2019>
+
 ```{r}
 #| eval: false
 headers <- c("Authorization" = "YOUR-KEY")
-res <- GET(url="https://api.healthdata.org/sdg/v1/GetResultsByIndicator?indicator_id=1001&location_id=86&year=2019",
+res <- GET(url= url,
            add_headers(headers))
 
 res$content%>%

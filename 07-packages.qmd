@@ -197,9 +197,9 @@ a given analysis.
 ## Model Framework Application Examples
 
 In this section we provide some examples of the application of different
-model frameworks. Data are used, as introduced in @sec-06-techniques,
-to demonstrate the application of model frameworks such as `mlr3`,
-`h2o`, and `keras` for machine learning tasks.
+model frameworks. Data are used, as introduced in @sec-06-techniques, to
+demonstrate the application of model frameworks such as `mlr3`, `h2o`,
+and `keras` for machine learning tasks.
 
 We have already shown an application of the `{tidymodels}` meta-package
 in @sec-05-machine_learning and @sec-06-techniques, particularly useful
@@ -242,7 +242,8 @@ hmsidwR::infectious_diseases %>%
   filter(cause_name == "Dengue") %>%
   group_by(location_name) %>%
   ggplot(aes(x = year, y = YLLs)) +
-  geom_line(aes(linetype = location_name)) +
+  geom_line(aes(linetype = location_name),
+            show.legend = F) +
   labs(title = "YLLs due to Dengue from 1980 to 2021")
 
 hmsidwR::infectious_diseases %>%
@@ -250,7 +251,8 @@ hmsidwR::infectious_diseases %>%
   drop_na() %>%
   group_by(location_name) %>%
   ggplot(aes(x = year, y = YLDs)) +
-  geom_line(aes(linetype = location_name)) +
+  geom_line(aes(linetype = location_name),
+            show.legend = F) +
   labs(title = "YLDs due to Dengue from 1990 to 2021")
 
 
@@ -329,7 +331,9 @@ task <- TaskRegr$new(id = "DALYs",
                      target = "DALYs"
                      )
 
-task$data() %>% head()
+task$data() %>% 
+  select(year, DALYs, YLDs, YLLs) %>%
+  head() 
 ```
 
 The learners are the model's specifications. A full list of learners can

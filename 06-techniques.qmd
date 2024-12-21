@@ -739,20 +739,20 @@ cv_model <- cv.glmnet(predictors,
 cv_model
 ```
 
+Extracting the best model, we can see that $\lambda$ is 0.165.
+```{r}
+# Get the best lambda value
+best_lambda <- cv_model$lambda.min
+paste("Best Lambda:", best_lambda)
+```
+
+And plot the lambda selection with the `plot()` function.
 ```{r}
 #| label: fig-glmnet-predictions
 #| fig-cap: "Cross-Validation Optimal Lambda"
 #| fig-alt: "Lambda Selection"
 # Plot the lambda selection
 plot(cv_model)
-```
-
-Extracting the best model, we can see that $\lambda$ is 0.165.
-
-```{r}
-# Get the best lambda value
-best_lambda <- cv_model$lambda.min
-print(paste("Best Lambda:", best_lambda))
 ```
 
 Then, fitting the final model with the selected best lambda, we can
@@ -774,7 +774,7 @@ predictions <- predict(final_model,
 
 # Calculate Mean Squared Error
 rmse <- sqrt(mean((response - predictions)^2))
-print(paste("Root Mean Squared Error:", rmse))
+paste("Root Mean Squared Error:", rmse)
 ```
 
 By incorporating `glmnet` and using lambda selection via

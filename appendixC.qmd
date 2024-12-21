@@ -195,7 +195,7 @@ modelling tasks.
     import pandas as pd
     from sklearn.preprocessing import StandardScaler
     data = pd.read_csv('data.csv')
-    data.fillna(method='ffill', inplace=True)  # Forward fill missing values
+    data.fillna(method='ffill', inplace=True)  
     scaler = StandardScaler()
     scaled_data = scaler.fit_transform(
       data[['feature1', 'feature2', 'feature3']]

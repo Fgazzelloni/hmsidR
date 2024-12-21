@@ -976,8 +976,7 @@ eval_metrics
 err <- (test_data$I - predictions$.pred)^2
 rmse <- sqrt(mean(err, na.rm = T))
 
-# Print RMSE
-print(paste("RMSE:", rmse))
+paste("RMSE:", rmse)
 ```
 
 ```{r}
@@ -1120,7 +1119,7 @@ errors and 95% credible intervals for each coefficient, providing a
 measure of uncertainty around the estimates.
 
 ```{r}
-result$summary.hyperpar
+result$summary.hyperpar %>% t()
 ```
 
 ```{r}

@@ -302,9 +302,9 @@ all_ages %>%
   geomtextpath::geom_textline(data = all_ages %>% filter(name == "World"), 
                               aes(label=name),
                               color = "red", linewidth = 1) +
-  labs(title = "United Nations World Population Prospects 2022 - [1949 - 2021]",
+  labs(title = "United Nations World Population Prospects [1949 - 2021]",
        x = "Year", y = "Population in thousands", 
-       caption = "Data Source: UN World Pop | Graphic: @fgazzelloni") 
+       caption = "Data Source: UN World Pop 2022| Graphic: @fgazzelloni") 
 ```
 
 Data are then transformed to a long format to create a pyramid plot. We
@@ -398,7 +398,7 @@ pyramid <-
   geom_bar(stat = "identity") +
   scale_fill_manual(values = c("#CC6666", "#9999CC")) +
   coord_flip() +
-  labs(title = "United Nations World Population Prospects 2022 - {closest_state}", 
+  labs(title = "UN Pop 2022 - {closest_state}", 
        x= "Age", y = "Population in thousands", fill = "",
        caption = "Data Source: UN World Pop | Graphic: @fgazzelloni") +
        theme_minimal() +
