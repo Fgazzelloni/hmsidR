@@ -187,7 +187,7 @@ in the early 1989s, to step in the 2010 with the *European Commission*
 dedicated to testing the assumptions of the *QALY* [@holmes2013], ending
 in 2013 with the recommended "not using QALYs in healthcare decision
 making", arguing that patients with disabilities are valued less under a
-QALY-based system then individuals with no disabilities. This result has
+QALY-based system than individuals with no disabilities. This result has
 been further criticised and remains a topic of debate.
 
 > **"Thus, medicine cannot by itself determine the quality of life. It
@@ -262,9 +262,9 @@ values gives the total DALYs for the population, which can then be
 compared globally to assess health status and identify areas needing
 improvement in facilities, research, or investment.
 
-### Healthy-Adjusted Life Years (HALY)
+### Health-Adjusted Life Years (HALY)
 
-Healthy Adjusted Life Years (HALY) is a metric that combines aspects of
+Health Adjusted Life Years (HALY) is a metric that combines aspects of
 both DALYs and QALYs to provide a comprehensive measure of health
 outcomes in a population. HALYs quantify the burden of disease and the
 overall quality of life experienced by individuals, measuring the number
@@ -284,13 +284,19 @@ DALYs. Unlike DALYs, which focus primarily on morbidity and mortality,
 HALYs incorporate measures of individuals’ quality of life, allowing for
 a more comprehensive assessment of health outcomes.
 
-### Healthy-Adjusted Life Expectancy (HALE)
+### Health-Adjusted Life Expectancy (HALE)
 
-Healthy Life Expectancy (HALE) is a measure of overall health and
-well-being that accounts for both the quantity and quality of life. HALE
-combines years of life expectancy with the prevalence and severity of
-disability in a population, providing a more nuanced view of health
-outcomes than traditional measures of life expectancy.
+Healthy Life Expectancy (HALE)[^01-health_metrics-1][@indicato] is a
+measure of overall health and well-being that accounts for both the
+quantity and quality of life. HALE combines years of life expectancy
+with the prevalence and severity of disability in a population,
+providing a more nuanced view of health outcomes than traditional
+measures of life expectancy.
+
+[^01-health_metrics-1]: **Variations in Terminology:** The terms
+    "Health-Adjusted Life Expectancy" (HALE), "Healthy Life Expectancy"
+    (HALE), and other variants are sometimes used interchangeably in
+    this book.
 
 HALE provides a more comprehensive view of health outcomes than other
 traditional measures of life expectancy, which only consider the
@@ -314,9 +320,9 @@ outcomes. It adjusts overall life expectancy by the amount of time lived
 in less than perfect health. This is calculated by subtracting from the
 life expectancy a figure which is the number of years lived with
 disability multiplied by a weighting to represent the effect of the
-disability[^01-health_metrics-1][@healthy].
+disability[^01-health_metrics-2][@healthy].
 
-[^01-health_metrics-1]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
+[^01-health_metrics-2]: [www.healthknowledge.org.uk](https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.)
 
 ### Healthy Life Years (HLY)
 

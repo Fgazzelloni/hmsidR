@@ -54,6 +54,66 @@ with health metrics\index{health metrics} and infectious
 diseases\index{infectious diseases}. The primary risks identified
 include behavioural, environmental, occupational, and metabolic factors.
 
+```{r}
+#| echo: false
+#| eval: false
+#| fig-cap: "FlowChart of Historical vs. Modern Risks"
+#| fig-alt: "FlowChart of Historical vs. Modern Risks"
+
+library(DiagrammeR)
+library(DiagrammeRsvg)
+library(rsvg)
+
+graph <- grViz("
+digraph risk_dev{
+  
+  # Define graph attributes
+  graph [layout = dot, rankdir = TB]
+  
+  # Define nodes
+  node [shape = box, style = filled, fillcolor = lightblue] 
+  A [label = 'Historical Risks']
+  B1 [label = 'Starvation']
+  B2 [label = 'Infectious Diseases']
+  B3 [label = 'Violent Conflicts']
+  
+  node [shape = box, style = filled, fillcolor = gold]
+  C [label = 'Modern Risks']
+  D1 [label = 'Chronic Diseases (Obesity, CVD, Cancer)']
+  D2 [label = 'Perceived Threats (Terrorism, Pandemics, Environment)']
+  
+  node [shape = ellipse, style = filled, fillcolor = lightcoral]
+  E [label = 'GBD Risk Factors']
+  F1 [label = 'Behavioral']
+  F2 [label = 'Environmental']
+  F3 [label = 'Occupational']
+  F4 [label = 'Metabolic']
+
+  # Define edges
+  A -> B1
+  A -> B2
+  A -> B3
+  A -> C
+  C -> D1
+  C -> D2
+  C -> E
+  E -> F1
+  E -> F2
+  E -> F3
+  E -> F4
+}")
+
+graph %>%
+  export_svg %>% 
+  charToRaw %>% 
+  rsvg_png("images/04_risk-dev.png")
+```
+
+![FlowChart of Historical vs. Modern
+Risks: this flowchart illustrates how risk perception has evolved over time, shifting from historical to modern risks.  It integrates key risk factors identified in the Global Burden of Disease (GBD) study.](images/04_risk-dev.png){#fig-risk-dev
+fig-align="center" width="100%"
+fig-alt="FlowChart of Historical vs. Modern Risks"}
+
 ## Conditions and Injuries
 
 Conditions and injuries associated with the burden of disease and injury

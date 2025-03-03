@@ -79,7 +79,6 @@ library(rnaturalearth)
 tidyverse_conflicts()
 ```
 
-
 To download malaria data we can use the `getPR()` function, it releases
 the data from the Malaria Atlas Project API. The function requires the
 country and species of Plasmodium to be specified. In this example, we

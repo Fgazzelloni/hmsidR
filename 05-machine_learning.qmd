@@ -19,7 +19,7 @@ spread of infectious diseases. Then in the following chapters of this
 second section you will dive deep into different techniques for
 modelling starting from feature engineering to making predictions.
 
-## Deterministic and Stochastic modelling
+## Deterministic and Stochastic Modelling
 
 The spread of a virus can be seen as a **random
 process**\index{random process}, since the number of individuals who are

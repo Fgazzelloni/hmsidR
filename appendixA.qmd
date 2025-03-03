@@ -24,7 +24,7 @@ life expectancy at birth and at different ages.
 fig-align="center" fig-alt="Life tables"
 width="55%"}](https://www.jstor.org/stable/community.24736608?searchText=life+tables&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3Dlife%2Btables%26efqs%3DeyJjdHkiOlsiWTI5dWRISnBZblYwWldSZmFXMWhaMlZ6Il19%26image_search_referrer%3Dglobal&ab_segments=0%2FSYC-6744_basic_search%2Ftest-1&refreqid=fastly-default%3Ac770f9049f8754dad03896e1b52df20c&searchkey=1675639441064)
 
-### Life tables components
+### Life Table Components
 
 More recent life tables are standardized to be used for a population of
 100 000 at age 0.
@@ -132,7 +132,7 @@ hmsidwR::gho_lifetables %>%
   head()
 ```
 
-### Life expectancy
+### Life Expectancy
 
 Life expectancy is the expected number of years a person will live,
 based on current age and prevailing mortality rates. There are several
@@ -248,7 +248,6 @@ prior_probabilities <- table(
   simulated_chain[-n_transitions]) / n_transitions
 prior_probabilities
 ```
-
 
 ```{r}
 # Calculate posterior probabilities

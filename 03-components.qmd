@@ -36,7 +36,7 @@ expectancy**, **mortality rates**, **incidence and prevalence**, and
 **disability weights**. These components are crucial for understanding
 the burden of disease and injury at both global and population levels.
 
-## Cause-specific or Population-wide
+## Cause-Specific or Population-Wide
 
 Health metrics are essential tools for evaluating the health status of a
 population and guiding public health interventions. They provide
@@ -85,7 +85,7 @@ understanding the structure of the components, you will be better
 equipped to analyse and interpret health data and make informed
 decisions about health policy and resource allocation.
 
-## Life tables and Life expectancy
+## Life Tables and Life Expectancy
 
 The first component is the **life expectancy**\index{life expectancy},
 used for calculating the YLLs as in @eq-yll. More specification about
@@ -338,13 +338,13 @@ fig-align="center" width="375" fig-alt="Global Health Observatory Life"}
 
 For example, at age 50, what is the life expectancy value if the total
 number of person-years lived by the cohort of persons alive at age 50 is
-2,370,099 and the number of persons alive at age 50 is
-89,867?[^03-components-1]
+2,370,099 and the number of persons alive at age 50 is 89,867
+?[^03-components-1]
 
 [^03-components-1]: Answer: e(50) = T(50)/l(50) = 2,370,099/89,867 =
     26.4 [see @lifeexp].
 
-## Mortality level and rates
+## Mortality Level and Rates
 
 Another fundamental component of health metrics is the **mortality
 level**\index{mortality} which indicates the number of deaths in a
@@ -1137,7 +1137,7 @@ resources more effectively, targeting the stages that contribute most
 significantly to health deterioration.
 
 |                                              |                    |       |       |
-|--------------------------|---------------|---------------|---------------|
+|----------------------|-----------------|-----------------|-----------------|
 | Cause of Disease                             | Disability Weights | lower | upper |
 | Trachea, bronchus and lung cancers (stage 1) | 0.600              | 0.542 | 0.656 |
 | Trachea, bronchus and lung cancers (stage 2) | 0.738              | 0.686 | 0.785 |

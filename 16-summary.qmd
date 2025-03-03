@@ -461,7 +461,7 @@ type. This information can help inform targeted public health
 interventions to reduce the burden of injuries and improve population
 health outcomes.
 
-## Example: All Causes Disability Adjusted Life Years (DALYs) Rate by Country
+## Example: All Causes DALYs Rate by Country
 
 In this example, we will visualise the **Disability Adjusted Life Years
 (DALYs) Rate by Country** for all causes using the GBD data. We will use

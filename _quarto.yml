@@ -97,7 +97,7 @@ format:
     code-copy: true
     fig-align: center
     fig-cap-location: bottom
-    link-external-newwindow: true
+    link-citations: false
     callout-appearance: simple
     author-meta: "Federica Gazzelloni"
     toc: true
@@ -111,6 +111,7 @@ format:
     classoption: [krantz2]
     keep-tex: true
     toc-title: Contents
+    link-citations: true
     latex-output-dir: _book
     code-blocks:
       wrap: true

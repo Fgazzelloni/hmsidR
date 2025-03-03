@@ -699,7 +699,7 @@ dat %>%
   annotation_custom(legend_grob, ymax = max(dat$YLD_p)*2 + 10^5) +
   labs(title = "Global region: Prevalence based YLDs due to stroke",
        subtitle = "Year 2019 - Millions",
-       caption = "DataSource: IHME results Stroke data | YLDs Values X 1000",
+       caption = "DataSource: IHME results Stroke data",
        x = "Age Group", y = "YLDs") +
   theme(axis.text.x = element_text(size = 7,
                                    angle = 45,
@@ -806,33 +806,80 @@ DALY_global_stroke %>%
 
 ```{r}
 #| echo: false
+
 dat <- DALY_global_stroke %>%
+  select(sex, age, DALY) %>%
+  filter(!sex == "both") %>%
+  arrange(age) 
+
+dat1 <- DALY_global_stroke %>%
   select(sex, age, YLL, YLD, DALY) %>%
   filter(sex == "both") %>%
-  arrange(age) %>%
-  mutate_if(is.numeric, scale)
+  arrange(age) 
 ```
 
 ```{r}
 #| echo: false 
 #| eval: true 
 #| label: fig-DALY_global_stroke 
-#| fig-cap: "DALYs due to stroke in the Global region. The blue line represents the DALYs, YLLs and YLDs are pink for females and green for males." 
+#| layout-ncol: 2
+#| fig-cap: "DALYs due to stroke in the Global region"
+#| fig-subcap: 
+#|   - "DALYs due to stroke in the Global region for females and males."
+#|   - "DALYs, YLLs and YLDs due to stroke in the Global region" 
 #| fig-alt: "DALYs due to stroke in the Global region" 
- 
+
 dat %>%
+  ggplot(aes(x = age, y = DALY)) +
+  geom_line(aes(y = DALY)) +
+  geom_point(data = dat %>% filter(sex == "female"),
+             color = "pink", size = 3) +
+  geom_point(data = dat %>% filter(sex == "male"),
+             color = "darkgreen", size = 3) +
+  geom_smooth(aes(group = 1),
+              se = F, color = "#29306c") +
+  scale_y_continuous(labels = function(x) 
+                              scales::number(x, 
+                                             scale = 1e-6, 
+                                             accuracy = 0.01, 
+                                             suffix = "M"),
+                   name = "Value (Millions)") +
+  annotation_custom(legend_grob, ymax = max(dat$DALY)*2 + 10^5) +
+  labs(title = "Global region:Disability Adjusted Life Years (DALYs) due to stroke",
+       subtitle = "Year 2019 - Millions",
+       caption = "DataSource: IHME results Stroke data",
+       x = "Age Group") +
+  theme(axis.text.x = element_text(size = 7,
+                                   angle = 45,
+                                   vjust = 0.5),
+    plot.title = element_text(size = 11),
+    plot.caption = element_text(size = 8))
+ 
+dat1 %>%
   pivot_longer(cols=c(-sex,-age)) %>%
-  ggplot(aes(x = age, y = value, group = name, linetype = name)) +
+  ggplot(aes(x = age, y = value, 
+             group = name, 
+             linetype = name)) +
   geom_line() +
-  labs(
-  title = "Global region: Disability Adjusted Life Years (DALYs) due to stroke",
-  subtitle = "Year 2019 - Standardised Values",
-  caption = "DataSource: IHME results Stroke data",
-  x = "Age Group", y = "DALYs", linetype = "Metric") +
-  theme(axis.text.x = element_text(size = 7, angle = 45, vjust = 0.5),
+  scale_y_continuous(labels = function(x) 
+                            scales::number(x, 
+                                           scale = 1e-6, 
+                                           accuracy = 0.01, 
+                                           suffix = "M"),
+                 name = "Value (Millions)") +
+  labs(title = "Global region: DALYs, YLLs and YLDs due to stroke",
+       subtitle = "Year 2019 - Millions",
+       caption = "DataSource: IHME results Stroke data",
+       x = "Age Group", 
+       linetype = "Metric") +
+  theme(axis.text.x = element_text(size = 7, 
+                                   angle = 45, 
+                                   vjust = 0.5),
         plot.title = element_text(size = 11),
         plot.caption = element_text(size = 8),
-        legend.position = "bottom")  
+        legend.title = element_blank(),
+        legend.direction = "horizontal",
+        legend.position = c(0.5,0.93)) 
 ```
 
 In summary, DALYs are a valuable metric for assessing the overall
@@ -911,7 +958,7 @@ information for public health practitioners, researchers, and policy
 makers to help prioritise and allocate resources, evaluate the impact of
 diseases and injuries, and inform public health decision-making.
 
-### General application of DALYs
+### General Application of DALYs
 
 As an example here is shown how the DALY metric can be used for
 prevention. Suppose we have data on the number of cases of a particular

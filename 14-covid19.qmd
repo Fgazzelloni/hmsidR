@@ -726,7 +726,6 @@ deaths <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/ma
 tidyverse_conflicts()
 ```
 
-
 ```{r}
 cases1 <- cases %>%
   pivot_longer(cols = starts_with("X"),

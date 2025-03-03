@@ -15,8 +15,8 @@ In recent years, there has been an increased emphasis on holistic
 well-being, recognizing that health is not merely the absence of disease
 but a state of complete physical, mental, and social well-being. This
 perspective aligns with the 1946 *World Health Organization*'s
-constitution principles [@constitu] of health which states: **"a state
-of complete physical, mental, and social well-being and not merely the
+constitution principles[@constitu] of health which states: **"a state of
+complete physical, mental, and social well-being and not merely the
 absence of disease or infirmity."**
 
 ### The Culture

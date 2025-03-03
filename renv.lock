@@ -96,6 +96,12 @@
       ],
       "Hash": "05a7a9c2329ea71842bc234d3596e1a3"
     },
+    "DiagrammeR": {
+      "Package": "DiagrammeR",
+      "Version": "1.0.11",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
     "DiceDesign": {
       "Package": "DiceDesign",
       "Version": "1.10",
@@ -1090,13 +1096,8 @@
     },
     "curl": {
       "Package": "curl",
-      "Version": "6.0.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "ff51697d9205fe715f29e7171e874c6e"
+      "Version": "6.2.0",
+      "Source": "Repository"
     },
     "dagitty": {
       "Package": "dagitty",
@@ -5910,6 +5911,12 @@
         "R"
       ],
       "Hash": "c826c7c4241b6fc89ff55aaea3fa7491"
+    },
+    "visNetwork": {
+      "Package": "visNetwork",
+      "Version": "2.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN"
     },
     "vroom": {
       "Package": "vroom",
