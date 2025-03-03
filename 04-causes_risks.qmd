@@ -46,7 +46,7 @@ topics over time.
 
 Furthermore, tools like topic modelling and sentiment analysis help
 identify how the public perceives various risks and how these
-perceptions evolve [@li2020] over time.
+perceptions evolve over time.
 
 In the field of public health, the latest GBD\index{GBD} results reveal
 significant insights into the causes\index{causes} and risks associated
@@ -109,8 +109,11 @@ graph %>%
   rsvg_png("images/04_risk-dev.png")
 ```
 
-![FlowChart of Historical vs. Modern
-Risks: this flowchart illustrates how risk perception has evolved over time, shifting from historical to modern risks.  It integrates key risk factors identified in the Global Burden of Disease (GBD) study.](images/04_risk-dev.png){#fig-risk-dev
+![FlowChart of Historical vs. Modern Risks: this flowchart illustrates
+how risk perception has evolved over time, shifting from historical to
+modern risks. It integrates key risk factors identified in the Global
+Burden of Disease (GBD)
+study.](images/04_risk-dev.png){#fig-risk-dev
 fig-align="center" width="100%"
 fig-alt="FlowChart of Historical vs. Modern Risks"}
 

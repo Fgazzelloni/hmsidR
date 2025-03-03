@@ -927,7 +927,7 @@ ggplot() +
 
 The clustering of close-proximity contacts that occurs within
 individuals is an important factor in the spread of diseases and subject
-of many mathematical models[@volz2011].
+of many mathematical models.
 
 ### The Euclidean distance
 

@@ -98,7 +98,7 @@ Some notable examples of lockdown measures include:
 
 -   **China**: The initial epicentre in Wuhan experienced strict
     lockdowns, with entire cities quarantined and movement heavily
-    restricted. These measures were effective in curbing the initial
+    restricted. These measures were effective in reducing the initial
     spread of the virus.
 -   **Italy**: One of the first European countries severely impacted,
     Italy imposed nationwide lockdowns in March 2020, closing schools,
@@ -124,8 +124,7 @@ distancing measures, lockdowns, and travel restrictions.
 
 Since its identification, COVID-19 has caused multiple outbreaks
 globally. The incubation period ranges from 2 to 14 days, during which
-an infected person may be asymptomatic but still contagious. On March
-11, 2020, it was declared a pandemic. As of May 2024, there have been
+an infected person may be asymptomatic but still contagious. As of May 2024, there have been
 over 775 million confirmed cases and more than seven million deaths
 worldwide. The impact of the pandemic has varied across regions,
 influenced by factors such as virus variants, public health responses,
@@ -285,15 +284,14 @@ cv19_data <- result %>%
          month = month(date),
          lag_1_cases = lag(I, 1),
          lag_7_cases = lag(I, 7)) %>%
-  drop_na()
+  drop_na() 
 
 cv19_data %>% head(n = 3) %>% glimpse()
 ```
 
 In this example we do not split the data into training and testing sets,
 but in a real-world scenario, it is essential to validate the model's
-performance on unseen data. Our data are made of 365 observations and 7
-variables.
+performance on unseen data. Our data are made of `r nrow(cv19_data)` observations and `r ncol(cv19_data)` variables.
 
 ```{r}
 cv19_data %>% dim()
@@ -477,6 +475,7 @@ set will be used to train the models, while the testing set will be used
 to evaluate the models' performance.
 
 ```{r}
+set.seed(10011)
 # Split the data into training and testing sets
 cv_split <- initial_split(cv19_data, prop = 0.8)
 cv_train <- training(cv_split)
@@ -543,8 +542,7 @@ cv_wkf <- workflow_set(
   models = list(Decision_tree = cart,
                 Random_Forest = rand_forest,
                 Knn = knn,
-                SVM = svm)
-  )
+                SVM = svm))
 
 cv_wkf
 ```
@@ -707,25 +705,42 @@ The data includes the number of confirmed cases, deaths, and recovered
 cases for each country and region. We will calculate the DALYs for the
 US, China, United Kingdom, and Canada.
 
-[^14-covid19-1]: cases \<-
-    read.csv("[https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")](https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv%22))
-    deaths \<-
-    read.csv("[https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")](https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv%22))
+[^14-covid19-1]: <https://github.com/CSSEGISandData/COVID-19>
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
 library(tidyverse)
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+#| message: false
+#| warning: false
 cases <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 deaths <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
+
+# saveRDS(cases,"data/inst/extdata/14-cvcases.rds")
+# saveRDS(deaths,"data/inst/extdata/14-cvdeaths.rds")
 ```
+
+```{r}
+#| echo: false
+cases <- readRDS("data/inst/extdata/14-cvcases.rds")
+deaths <- readRDS("data/inst/extdata/14-cvdeaths.rds")
+```
+
+Data are loaded from the repository with the `read.csv()` function, and need a bit of adjustment before can be used. 
 
 ```{r}
 #| output: false
 tidyverse_conflicts()
 ```
 
+Here we use the `pivot_longer()` to combine all cases by day in one column, and see the first rows:
 ```{r}
 cases1 <- cases %>%
   pivot_longer(cols = starts_with("X"),
@@ -737,7 +752,7 @@ cases1 <- cases %>%
 
 cases1 %>% head()
 ```
-
+The same is done with deaths:
 ```{r}
 deaths1 <- deaths %>%
   pivot_longer(cols = starts_with("X"),
@@ -749,7 +764,7 @@ deaths1 <- deaths %>%
 
 deaths1 %>% head()
 ```
-
+Then, the next step is to join the two sets by province, country, lat, long, and date. Sum the number of cases and deaths and calculate the case fatality ratio (CFR) as deaths divided by cases.
 ```{r}
 COVID19 <- cases1 %>%
   left_join(deaths1, 
@@ -771,12 +786,7 @@ COVID19 %>%
   head()
 ```
 
-```{r}
-#| echo: false
-#| eval: false
-# saveRDS(COVID-19, "COVID-19.rds")
-```
-
+Now that the `COVID19` set is human readable we can select our countries: US, China, United Kingdom, and Canada.
 ```{r}
 COVID19_4countries <- COVID19 %>%
   filter(country_region %in%
@@ -787,7 +797,7 @@ COVID19_4countries %>%
   head()
 ```
 
-Selected countries are the US, China, United Kingdom, and Canada.
+Here we can see how COVID19 cases and deaths distributed along the years with a simple line plot:
 
 ```{r}
 #| layout-ncol: 2
@@ -797,15 +807,16 @@ Selected countries are the US, China, United Kingdom, and Canada.
 #|  - "COVID-19 Cases by Country"
 #|  - "COVID-19 Deaths by Country"
 #| label: fig-cases-deaths
+
 COVID19 %>%
   ggplot(aes(x = date, y = cases,
-  group = country_region)) +
+             group = country_region)) +
   geom_line(color = "grey", 
             linewidth = 0.2) +
   geomtextpath::geom_textline(
-  data = COVID19_4countries,
-  aes(label = country_region),
-      show.legend = F) +
+    data = COVID19_4countries,
+    aes(label = country_region),
+    show.legend = F) +
   scale_y_log10() +
   labs(title = "COVID-19 Cases by Country",
        x = "Date",
@@ -825,7 +836,7 @@ COVID19 %>%
        x = "Date",
        y = "Deaths") 
 ```
-
+Now, to visualise the total number of cases and deaths by selected countries on a map, we use the `map_data()` function to retrieve the world geographic coordinates, and calculate the centroids by grouping by `country_region`.
 ```{r}
 worldmap <- map_data("world") %>%
   filter(!region == "Antarctica")
@@ -839,6 +850,7 @@ centroids <- COVID19 %>%
 ```
 
 ```{r}
+#| echo: false
 options(scipen = 999)
 ```
 
@@ -856,18 +868,23 @@ ggplot() +
              size = tot_cases,
              color = log(avg_cfr)), 
              alpha = 0.5) +
-  scale_size_continuous(
-        labels = scales::unit_format(unit = "M", 
-                                     scale = 1e-6)) +
-  scale_color_viridis_c() +
+  scale_size_continuous(name = "Total cases (M)",
+                        labels = scales::unit_format(unit = "M", 
+                                                     scale = 1e-6)) +
+  scale_color_viridis_c(name = "Average CFR (log scale)") +  
+  guides(color = guide_colorbar(order = 1), 
+         size = guide_legend(order = 2)) + 
   coord_quickmap() +
   labs(title = "COVID-19 Cases by Country",
-       caption = "Circle size: total cases, Color: average CFR", 
+       caption = "Data Source: JHU CSSEGISandData/COVID-19\nCircle size: total cases, Color: average CFR", 
       size= "Total cases (M)",
-      color= "Average CFR (log scale)",
+      color= "Avg CFR (log scale)",
       x = "", y = "") +
   theme(axis.text = element_blank(),
-        plot.subtitle = element_text(size = 8))
+        plot.subtitle = element_text(size = 8),
+        legend.key.size = unit(0.5, "cm"),  
+        legend.text = element_text(size = 8),  
+        legend.title = element_text(size = 9))
 ```
 
 The same graph is made with selected countries only.
@@ -888,19 +905,24 @@ ggplot() +
                  size = tot_cases,
                  color = log(avg_cfr)), 
                  alpha = 0.5) +
-  scale_size_continuous(
-            labels = scales::unit_format(unit = "M", 
-                                         scale = 1e-6)) +
-  scale_color_viridis_c() +
+  scale_size_continuous(name = "Total cases (M)",
+                        labels = scales::unit_format(unit = "M", 
+                                                     scale = 1e-6)) +
+  scale_color_viridis_c(name = "Average CFR (log scale)") +  
+  guides(color = guide_colorbar(order = 1), 
+         size = guide_legend(order = 2)) + 
   coord_quickmap() +
   labs(title = "COVID-19 Cases by Country",
-       caption = "Circle size: total cases, Color: average CFR",
+       caption = "Data Source: JHU CSSEGISandData/COVID-19\nCircle size: total cases, Color: average CFR", 
        subtitle = "US, China, United Kingdom, Canada",
-       size= "Total cases (M)",
-       color= "Average CFR (log scale)",
-       x = "", y = "") +
+      size= "Total cases (M)",
+      color= "Avg CFR (log scale)",
+      x = "", y = "") +
   theme(axis.text = element_blank(),
-        plot.subtitle = element_text(size = 8))
+        plot.subtitle = element_text(size = 8),
+        legend.key.size = unit(0.5, "cm"),  
+        legend.text = element_text(size = 8),  
+        legend.title = element_text(size = 9))
 ```
 
 The difference in the number of cases and deaths between the US and
@@ -981,14 +1003,14 @@ We know that the simplified formula for YLDs is the prevalence of the
 disease multiplied by the disability weight. To calculate the
 prevalence, we need the population of each country. For this task we use
 the `{wpp2022}` package, which provides the population data from the
-2022 revision of the United Nations World Population Prospects (WPP
-2022). It includes both historical estimates and projections of
+2022 revision of the **United Nations World Population Prospects (WPP 2022)**. It includes both historical estimates and projections of
 demographic indicators such as population counts and fertility rates,
 accommodating the challenges brought on by events like the COVID-19
 pandemic and transitioning from five-year to one-year data intervals.
 
 ```{r}
 #| eval: false
+#| echo: false
 # library(devtools)
 # options(timeout = 600)
 # install_github("PPgp/wpp2022")
@@ -1092,13 +1114,15 @@ COVID19_dalys %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-To explain the magnitude of difference between ylls and ylds,
+## Summary
 
-prevalence as the proportion of cases at baseline among the total number
-of enrolled participants who completed baseline visits.
-(https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8992269/)
+This chapter examined the COVID-19 pandemic, covering its origin, spread, and global impact. We explored the epidemiology of the virus, including its zoonotic origins, symptoms, and transmission methods.
 
-cumulative incidence as the number of incident cases divided by the
-total follow-up time per 100 person-years and assumed a uniform
-incidence distribution across the 6-month follow-up time.
-(https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8992269/)
+Key preventive measures such as diagnostic testing, treatments, and vaccination efforts were discussed, emphasizing strategies to control the pandemic.
+
+We also analysed COVID-19 modelling, using:
+- The SEIR model to simulate virus transmission,
+- Bayesian analysis for infection rate predictions, and
+- Ensemble modelling (Decision Tree, Random Forest, KNN, SVM) to enhance forecast accuracy.
+
+Additionally, we highlighted the use of GIS mapping to track and visualize outbreaks and assessed COVID-19’s health burden through Disability-Adjusted Life Years (DALYs) using JHU GitHub data.
