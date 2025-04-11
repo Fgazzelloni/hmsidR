@@ -124,11 +124,11 @@ distancing measures, lockdowns, and travel restrictions.
 
 Since its identification, COVID-19 has caused multiple outbreaks
 globally. The incubation period ranges from 2 to 14 days, during which
-an infected person may be asymptomatic but still contagious. As of May 2024, there have been
-over 775 million confirmed cases and more than seven million deaths
-worldwide. The impact of the pandemic has varied across regions,
-influenced by factors such as virus variants, public health responses,
-and vaccination rates.
+an infected person may be asymptomatic but still contagious. As of May
+2024, there have been over 775 million confirmed cases and more than
+seven million deaths worldwide. The impact of the pandemic has varied
+across regions, influenced by factors such as virus variants, public
+health responses, and vaccination rates.
 
 ::: {.callout .callout-warning}
 Public Health COVID-19 Prevention Measures:
@@ -291,7 +291,8 @@ cv19_data %>% head(n = 3) %>% glimpse()
 
 In this example we do not split the data into training and testing sets,
 but in a real-world scenario, it is essential to validate the model's
-performance on unseen data. Our data are made of `r nrow(cv19_data)` observations and `r ncol(cv19_data)` variables.
+performance on unseen data. Our data are made of `r nrow(cv19_data)`
+observations and `r ncol(cv19_data)` variables.
 
 ```{r}
 cv19_data %>% dim()
@@ -714,7 +715,6 @@ US, China, United Kingdom, and Canada.
 library(tidyverse)
 ```
 
-
 ```{r}
 #| echo: false
 #| eval: false
@@ -733,14 +733,17 @@ cases <- readRDS("data/inst/extdata/14-cvcases.rds")
 deaths <- readRDS("data/inst/extdata/14-cvdeaths.rds")
 ```
 
-Data are loaded from the repository with the `read.csv()` function, and need a bit of adjustment before can be used. 
+Data are loaded from the repository with the `read.csv()` function, and
+need a bit of adjustment before can be used.
 
 ```{r}
 #| output: false
 tidyverse_conflicts()
 ```
 
-Here we use the `pivot_longer()` to combine all cases by day in one column, and see the first rows:
+Here we use the `pivot_longer()` to combine all cases by day in one
+column, and see the first rows:
+
 ```{r}
 cases1 <- cases %>%
   pivot_longer(cols = starts_with("X"),
@@ -752,7 +755,9 @@ cases1 <- cases %>%
 
 cases1 %>% head()
 ```
+
 The same is done with deaths:
+
 ```{r}
 deaths1 <- deaths %>%
   pivot_longer(cols = starts_with("X"),
@@ -764,7 +769,11 @@ deaths1 <- deaths %>%
 
 deaths1 %>% head()
 ```
-Then, the next step is to join the two sets by province, country, lat, long, and date. Sum the number of cases and deaths and calculate the case fatality ratio (CFR) as deaths divided by cases.
+
+Then, the next step is to join the two sets by province, country, lat,
+long, and date. Sum the number of cases and deaths and calculate the
+case fatality ratio (CFR) as deaths divided by cases.
+
 ```{r}
 COVID19 <- cases1 %>%
   left_join(deaths1, 
@@ -786,7 +795,9 @@ COVID19 %>%
   head()
 ```
 
-Now that the `COVID19` set is human readable we can select our countries: US, China, United Kingdom, and Canada.
+Now that the `COVID19` set is human readable we can select our
+countries: US, China, United Kingdom, and Canada.
+
 ```{r}
 COVID19_4countries <- COVID19 %>%
   filter(country_region %in%
@@ -797,7 +808,8 @@ COVID19_4countries %>%
   head()
 ```
 
-Here we can see how COVID19 cases and deaths distributed along the years with a simple line plot:
+Here we can see how COVID19 cases and deaths distributed along the years
+with a simple line plot:
 
 ```{r}
 #| layout-ncol: 2
@@ -836,7 +848,12 @@ COVID19 %>%
        x = "Date",
        y = "Deaths") 
 ```
-Now, to visualise the total number of cases and deaths by selected countries on a map, we use the `map_data()` function to retrieve the world geographic coordinates, and calculate the centroids by grouping by `country_region`.
+
+Now, to visualise the total number of cases and deaths by selected
+countries on a map, we use the `map_data()` function to retrieve the
+world geographic coordinates, and calculate the centroids by grouping by
+`country_region`.
+
 ```{r}
 worldmap <- map_data("world") %>%
   filter(!region == "Antarctica")
@@ -866,12 +883,14 @@ ggplot() +
   geom_point(data = centroids,
              aes(x = long, y = lat,
              size = tot_cases,
-             color = log(avg_cfr)), 
+             color = avg_cfr), 
              alpha = 0.5) +
   scale_size_continuous(name = "Total cases (M)",
                         labels = scales::unit_format(unit = "M", 
                                                      scale = 1e-6)) +
-  scale_color_viridis_c(name = "Average CFR (log scale)") +  
+  scale_color_viridis_c(name = "Average CFR (log scale)",
+                        trans = "log",
+                        labels = scales::label_number(accuracy = 0.001)) +  
   guides(color = guide_colorbar(order = 1), 
          size = guide_legend(order = 2)) + 
   coord_quickmap() +
@@ -903,12 +922,14 @@ ggplot() +
              c("US", "China","United Kingdom", "Canada")),
              aes(x = long, y = lat,
                  size = tot_cases,
-                 color = log(avg_cfr)), 
+                 color = avg_cfr), 
                  alpha = 0.5) +
   scale_size_continuous(name = "Total cases (M)",
                         labels = scales::unit_format(unit = "M", 
                                                      scale = 1e-6)) +
-  scale_color_viridis_c(name = "Average CFR (log scale)") +  
+  scale_color_viridis_c(name = "Average CFR (log scale)",
+                        trans = "log",
+                        labels = scales::label_number(accuracy = 0.001)) +  
   guides(color = guide_colorbar(order = 1), 
          size = guide_legend(order = 2)) + 
   coord_quickmap() +
@@ -973,6 +994,7 @@ COVID19_yll_4months %>%
   scale_y_continuous(
          labels = scales::unit_format(unit = "M", 
                                       scale = 1e-6)) +
+  scale_fill_grey(start = 0.2, end = 0.8) +
   labs(title = "YLLs by Country and Month Cycle",
        fill = "Country",
        x = "4-Month cycle",
@@ -1003,7 +1025,8 @@ We know that the simplified formula for YLDs is the prevalence of the
 disease multiplied by the disability weight. To calculate the
 prevalence, we need the population of each country. For this task we use
 the `{wpp2022}` package, which provides the population data from the
-2022 revision of the **United Nations World Population Prospects (WPP 2022)**. It includes both historical estimates and projections of
+2022 revision of the **United Nations World Population Prospects (WPP
+2022)**. It includes both historical estimates and projections of
 demographic indicators such as population counts and fertility rates,
 accommodating the challenges brought on by events like the COVID-19
 pandemic and transitioning from five-year to one-year data intervals.
@@ -1081,6 +1104,7 @@ COVID19_dalys %>%
   scale_y_continuous(
             labels = scales::unit_format(unit = "M", 
                                          scale = 1e-6)) +
+  scale_fill_grey(start = 0.2, end = 0.8) +
   labs(title = "YLDs by Country and Month Cycle",
        fill = "Country",
        x = "4-Month Cycle", y = "YLDs") +
@@ -1107,6 +1131,7 @@ COVID19_dalys %>%
   scale_y_continuous(
             labels = scales::unit_format(unit = "M", 
                                          scale = 1e-6)) +
+  scale_fill_grey(start = 0.2, end = 0.8) +
   labs(title = "DALYs by Country and Month Cycle",
        fill = "Country",
        x = "4-Month Cycle", y = "DALYs") +
@@ -1116,13 +1141,19 @@ COVID19_dalys %>%
 
 ## Summary
 
-This chapter examined the COVID-19 pandemic, covering its origin, spread, and global impact. We explored the epidemiology of the virus, including its zoonotic origins, symptoms, and transmission methods.
+This chapter examined the COVID-19 pandemic, covering its origin,
+spread, and global impact. We explored the epidemiology of the virus,
+including its zoonotic origins, symptoms, and transmission methods.
 
-Key preventive measures such as diagnostic testing, treatments, and vaccination efforts were discussed, emphasizing strategies to control the pandemic.
+Key preventive measures such as diagnostic testing, treatments, and
+vaccination efforts were discussed, emphasizing strategies to control
+the pandemic.
 
-We also analysed COVID-19 modelling, using:
-- The SEIR model to simulate virus transmission,
-- Bayesian analysis for infection rate predictions, and
-- Ensemble modelling (Decision Tree, Random Forest, KNN, SVM) to enhance forecast accuracy.
+We also analysed COVID-19 modelling, using: - The SEIR model to simulate
+virus transmission, - Bayesian analysis for infection rate predictions,
+and - Ensemble modelling (Decision Tree, Random Forest, KNN, SVM) to
+enhance forecast accuracy.
 
-Additionally, we highlighted the use of GIS mapping to track and visualize outbreaks and assessed COVID-19’s health burden through Disability-Adjusted Life Years (DALYs) using JHU GitHub data.
+Additionally, we highlighted the use of GIS mapping to track and
+visualize outbreaks and assessed COVID-19’s health burden through
+Disability-Adjusted Life Years (DALYs) using JHU GitHub data.
