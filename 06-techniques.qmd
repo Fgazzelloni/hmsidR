@@ -165,7 +165,7 @@ limitations, which involves evaluating multiple models based on their
 performance and selecting the best-fitting models to achieve the most
 accurate predictions.
 
-## Example: Rabies
+## Example: Rabies {#sec-06-rabies}
 
 The `rabies`\index{rabies} dataset from the `{hmsidwR}` package contains
 information on death rates and disability-adjusted life years (DALYs)
@@ -740,6 +740,7 @@ cv_model
 ```
 
 Extracting the best model, we can see that $\lambda$ is 0.165.
+
 ```{r}
 # Get the best lambda value
 best_lambda <- cv_model$lambda.min
@@ -747,6 +748,7 @@ paste("Best Lambda:", best_lambda)
 ```
 
 And plot the lambda selection with the `plot()` function.
+
 ```{r}
 #| label: fig-glmnet-predictions
 #| fig-cap: "Cross-Validation Optimal Lambda"

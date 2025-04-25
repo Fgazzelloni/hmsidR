@@ -751,7 +751,6 @@ The output of random_effects is a list of data frames with the random
 effects for each level of the random effect variable (location in this
 case), which means that the model is
 
-
 $$
 \begin{split}
 YLDs = 67.7988999255 \\
@@ -760,7 +759,6 @@ YLDs = 67.7988999255 \\
 + \text{random effect for each location}
 \end{split}
 $$ {#eq-mixed-model2}
-
 
 Then, predictions are made for the YLDs using the mixed-effects model on
 observed data and new data. The predictions are compared with the actual

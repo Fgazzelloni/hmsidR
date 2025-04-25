@@ -420,8 +420,8 @@ rr2 <- aggr$resample_result[[2]]
 ```{r}
 #| echo: false
 #| eval: false
-saveRDS(rr1, "data/model-data/rr1.rds")
-saveRDS(rr2, "data/model-data/rr2.rds")
+# saveRDS(rr1, "data/model-data/rr1.rds")
+# saveRDS(rr2, "data/model-data/rr2.rds")
 ```
 
 Create a data frame with the results, for plotting with ggplot2,
@@ -513,24 +513,7 @@ ggplot2::theme_set(book_theme)
 ```
 
 The following example shows how to use the `{h20}` r package for running
-[**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via
-its REST API. It is particularly useful for handling large datasets.
-However, this is not the case seeing the size of the rabies dataset, we
-can use it to compare the results with the previous model frameworks.
-
-```{r}
-#| echo: false
-library(tidyverse)
-
-data <- hmsidwR::rabies %>%
-  select(-upper, -lower) %>%
-  pivot_wider(names_from = measure, values_from = val) %>%
-  filter(cause == "Rabies") %>%
-  rename(dx_rabies = Deaths, dalys_rabies = DALYs) %>%
-  select(-cause) %>%
-  mutate(across(where(is.character), as.factor))
-```
-
+[**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via its REST API. 
 ```{r}
 #| eval: false
 options(timeout = 6000)
@@ -542,6 +525,7 @@ install.packages("h2o")
 library(h2o)
 ```
 
+
 ```{r}
 #| output: false
 #| eval: false
@@ -549,30 +533,57 @@ library(h2o)
 h2o.init()
 ```
 
+We use the `rabies` dataset from the `{hmsidwR}` package, which has been used in @sec-06-rabies. The dataset contains information on the number of deaths and dalys due to rabies in different countries and regions. The dataset is preprocessed to remove unnecessary columns and pivoted to create a wide format with the relevant health metrics.
+
+```{r}
+library(tidyverse)
+
+rabies <- hmsidwR::rabies %>%
+  select(-upper, -lower) %>%
+  pivot_wider(names_from = measure, values_from = val) %>%
+  filter(cause == "Rabies",!is.na(DALYs)) %>%
+  rename(dx_rabies = Deaths, dalys_rabies = DALYs) %>%
+  select(-cause) %>%
+  mutate(across(where(is.character), as.factor))
+
+rabies %>% head
+```
+
+The `h2o_rabies` object is created by importing the `rabies` data frame to H2O with the `as.h2o()` function. 
+
 ```{r}
 #| output: false
 #| eval: false
 # Upload data to H2O
-h2o_data <- as.h2o(data)
+h2o_rabies <- as.h2o(rabies)
 ```
 
+Set a response variable and predictors. 
 ```{r}
 response <- "dalys_rabies"
 ```
 
 ```{r}
 #| eval: false
-predictors <- setdiff(names(data), response)
+predictors <- setdiff(names(rabies), response)
+```
+
+
+```{r}
+#| eval: false
 # Split data into training and testing sets
-splits <- h2o.splitFrame(h2o_data,
+splits <- h2o.splitFrame(h2o_rabies,
                          ratios = 0.8,
                          seed = 1234)
 train <- splits[[1]]
 test <- splits[[2]]
 ```
 
-Train three models: a linear regression model, a GBM model, and a random
-forest model.
+Train three models: 
+
+- a linear regression model (family = "gaussian" or standard ordinary least squares (OLS) linear regression)
+- a GBM model (Gradient Boosting Machine)
+- a random forest model 
 
 ```{r}
 #| output: false
@@ -597,7 +608,7 @@ model_rf <- h2o.randomForest(x = predictors,
                              seed = 1234)
 ```
 
-Evaluate the models:
+Evaluate the models with the `h2o.performance()` function to evaluate the performance of the models by calculating the metrics.
 
 ```{r}
 #| eval: false
@@ -616,7 +627,6 @@ h2o.mae(<model>)
 ```{r}
 #| echo: false
 #| eval: false
-
 h20.rabies.metrics <- rbind(c(h2o.rmse(perf_lm),
                               h2o.mae(perf_lm)),
                             c(h2o.rmse(perf_gbm),
@@ -628,7 +638,7 @@ h20.rabies.metrics <- rbind(c(h2o.rmse(perf_lm),
   relocate(model) %>%
   rename(rmse = V1, mae = V2)
 
-saveRDS(h20.rabies.metrics, "data/model-data/h20.rabies.metrics.rds")
+# saveRDS(h20.rabies.metrics, "data/model-data/h20.rabies.metrics.rds")
 ```
 
 ```{r}
@@ -641,24 +651,22 @@ h20.rabies.metrics <- readRDS("data/model-data/h20.rabies.metrics.rds")
 #| echo: false
 h20.rabies.metrics
 ```
+The best model is the one with the lowest RMSE and MAE values. In this case, the `gbm` model is the best performing model among the three.
 
-```{r}
-#| eval: false
-model_gbm@model
-```
+To predict on the test data, we use the `gbm` model in the `h2o.predict()` function:
 
 ```{r}
 #| output: false
 #| eval: false
 # Predict on test data
-predictions <- h2o.predict(model_rf,
+predictions <- h2o.predict(model_gbm,
                            newdata = test)
 ```
 
 ```{r}
 #| echo: false
 #| eval: false
-saveRDS(predictions, "data/model-data/h20.rabies.predictions.rds")
+# saveRDS(predictions, "data/model-data/h20.rabies.predictions.rds")
 ```
 
 ```{r}
@@ -667,8 +675,7 @@ saveRDS(predictions, "data/model-data/h20.rabies.predictions.rds")
 predictions <- readRDS("data/model-data/h20.rabies.predictions.rds")
 ```
 
-Convert H2O frames to data frames for ggplot2, it requires the h2o
-library to be loaded and initiated:
+Convert the predictions and actual values to data frames for plotting:
 
 ```{r}
 #| eval: false
@@ -679,8 +686,8 @@ actual_df <- as.data.frame(test)
 ```{r}
 #| echo: false
 #| eval: false
-saveRDS(pred_df, "data/model-data/h20.rabies.pred_df.rds")
-saveRDS(actual_df, "data/model-data/h20.rabies.actual_df.rds")
+# saveRDS(pred_df, "data/model-data/h20.rabies.pred_df.rds")
+# saveRDS(actual_df, "data/model-data/h20.rabies.actual_df.rds")
 ```
 
 ```{r}
@@ -694,19 +701,13 @@ actual_df <- readRDS("data/model-data/h20.rabies.actual_df.rds")
 # Combine actual and predicted values
 results_df <- data.frame(Actual = actual_df[, response],
                          Predicted = pred_df[, 1])
-# Plot Actual vs Predicted
-p1 <- ggplot(results_df,
-             aes(x = Actual, y = Predicted)) +
-  geom_point(color = "blue", alpha = 0.5) +
-  geom_abline(slope = 1, intercept = 0,
-              color = "red", linetype = "dashed") +
-  labs(title = "Actual vs Predicted Values",
-       x = "Actual", y = "Predicted")
+
 ```
 
+The check for normality of the residuals is done with the `qqnorm()` and `qqline()` functions. The residuals are calculated as the difference between the actual and predicted values.
 ```{r}
 #| layout-ncol: 2
-#| fig-cap: "H2O Models Results on DALYs due to Rabies; Test Resampled Data with lm, gbm, and rf."
+#| fig-cap: "H2O - GBM Model Results on DALYs due to Rabies; Residuals Distribution and Normality Test"
 #| fig-subcap:
 #|   - "Residuals vs Predicted Values"
 #|   - "Normality Test of the Residulas"
@@ -727,9 +728,22 @@ qqnorm(results_df$Residuals)
 qqline(results_df$Residuals, col = 2)
 ```
 
+
 ```{r}
-# Assuming there is a time column in your test data
-results_df$Time <- as.Date(actual_df$year)
+# Adding time to the results data frame
+results_df$Time <- actual_df$year
+```
+
+
+```{r}
+# Plot Actual vs Predicted
+p1 <- ggplot(results_df,
+             aes(x = Actual, y = Predicted)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  geom_abline(slope = 1, intercept = 0,
+              color = "red", linetype = "dashed") +
+  labs(title = "Actual vs Predicted Values",
+       x = "Actual", y = "Predicted")
 # Plot Actual vs Predicted over time
 p2 <- ggplot(results_df, aes(x = Time)) +
   geom_line(aes(y = Actual,
@@ -748,7 +762,7 @@ p2 <- ggplot(results_df, aes(x = Time)) +
 
 ```{r}
 #| layout-ncol: 2
-#| fig-cap: "Actual vs Predicted Values"
+#| fig-cap: "H2O - GBM Model Results on DALYs due to Rabies"
 #| fig-subcap:
 #|   - "Actual vs Predicted Values"
 #|   - "Actual vs Predicted Over Time"
@@ -759,6 +773,8 @@ p2 <- ggplot(results_df, aes(x = Time)) +
 p1 + theme_minimal()
 p2 + theme_minimal()
 ```
+
+In conclusion, the H2O GBM model performed well on the rabies dataset, with a low RMSE and MAE. The residuals were normally distributed, indicating that the model's predictions were accurate. The actual vs predicted values plot shows a good fit, and the time series plot indicates that the model captured the trend in the data.
 
 ```{r}
 #| output: false
@@ -853,9 +869,7 @@ output <- ode(y = initial_state,
 output <- as.data.frame(output)
 ```
 
-The social media data, composed of features and labels, is obtained by
-simulating a matrix of 1000 individuals $(n)$ over 10 $(p)$ days used
-for training the model:
+The social media data is simulated and consists of 1000 individuals $(n)$ over 10 $(p)$ days, with an infection vector, and 10 features $(x_i)$, including social distancing adherence, mask usage (always, sometimes, never), hand hygiene frequency (times per day washing or sanitizing), work or study environment (remote versus in-person), participation in gatherings (number of gatherings attended recently), and contact tracing status (exposure to a confirmed case), among others. All values are standardized obtained from a normal distribution.
 
 ```{r}
 set.seed(123)
@@ -869,7 +883,7 @@ infection_labels <- sample(0:1, n, replace = TRUE)
 social_data <- data.frame(social_features)
 social_data$infection <- infection_labels
 
-head(social_data)
+social_data[1:4,c(1:3,11)]
 ```
 
 Define the model by using the `keras_model_sequential()` function, and
@@ -883,21 +897,17 @@ shapes that allow the model to learn complex patterns in the data. Any
 time one layer is done the output is passed to the next layer.
 
 Although the `layer_dropout()` is not actually used in this application,
-but only commented out for testing model adjustments, it could be added
-to the model as a layer that drops out output results under specified
-requirements. The function is used to prevent overfitting by randomly
+it could be added to the model as a layer that drops out output results under specified requirements. The function is used to prevent overfitting by randomly
 setting a fraction of input units to zero during training.
 
 The model concludes with one more `layer_dense()` with `activation` used
 to finally activate the output with a tailored function. In this case a
 **sigmoid**, but also a **softmax** function could be used.
 
-The **sigmoid** function is used in binary classification problems,
-where the output is a probability between 0 and 1. The **softmax**
-function is used in multi-class classification problems, where the
-output is a probability distribution over multiple classes.
+The decision of which activation function to use depends on the task type (classification or regression), or due to performance considerations, such as the ReLU is computationally simple and efficient. The **sigmoid** function is used in binary classification problems, where the output is a probability between 0 and 1. The **softmax** function is used in multi-class classification problems, where the
+output is a probability distribution over multiple classes. Sometimes, you try a few and see which works best through cross-validation or tuning.
 
-Given an input vector $x=[x_1,x_2,...,x_p]$
+Given an input vector $x=[x_1,x_2,...,x_p]$ of size $p$, the model is composed of:
 
 1.  **First Dense Layer Transformation**:
 
@@ -926,6 +936,7 @@ $$
 a^{(2)}=Sigmoid(z^{(2)})= \frac{1} {1+e^{-z^{(2)}}}
 $$ {#eq-second-activation}
 
+
 ```{r}
 #| eval: false
 model <- keras_model_sequential(input_shape = c(p))
@@ -942,7 +953,9 @@ minimum required value, and specified metrics to reduce the error.
 
 $$
 y= \hat{y} + \epsilon
-$$
+$$ {#eq-model-error}
+
+where $y$ is the true value, $\hat{y}$ is the predicted value, and $\epsilon$ is the error.
 
 The loss function is used to measure how well the model is performing,
 in this case a **binary crossentropy** loss function is used, to match
@@ -952,7 +965,12 @@ binary crossentropy is:
 
 $$
 L(y,\hat{y})=-\frac{1}{n}\sum_{i=1}^n{y_i \log(\hat{y}_i)+(1-y_i) \log(1-\hat{y}_i)}
-$$ The `optimizer_adam()` function, used to update the model's weights
+$$ {#eq-loss-function-binary-crossentropy}
+
+where $L$ is the loss, $y$ is the true value, $\hat{y}$ is the predicted value, and $n$ is the number of samples.
+
+
+The `optimizer_adam()` function, used to update the model's weights
 during training, in **Keras** specifies the use of the **Adaptive Moment
 Estimation (Adam)** optimization algorithm for training a neural
 network. It updates the parameters of the neural network.
@@ -984,7 +1002,7 @@ the model on the training and validation data during training.
 ```{r}
 #| eval: false
 #| echo: false
-saveRDS(model, "data/model-data/keras.model.rds")
+# saveRDS(model, "data/model-data/keras.model.rds")
 ```
 
 ```{r}
@@ -1006,7 +1024,7 @@ history <- model %>% fit(x = as.matrix(social_data[, 1:p]),
 ```{r}
 #| eval: false
 #| echo: false
-saveRDS(history, "data/model-data/keras.history.rds")
+# saveRDS(history, "data/model-data/keras.history.rds")
 ```
 
 ```{r}
@@ -1033,7 +1051,7 @@ history2 <- model %>% fit(x = as.matrix(social_data[, 1:p]),
 ```{r}
 #| eval: false
 #| echo: false
-saveRDS(history2, "data/model-data/keras.history2.rds")
+# saveRDS(history2, "data/model-data/keras.history2.rds")
 ```
 
 ```{r}
@@ -1079,7 +1097,7 @@ predicted_infections <- ifelse(predicted_infections > 0.5, 1, 0)
 ```{r}
 #| eval: false
 #| echo: false
-saveRDS(predicted_infections, "data/model-data/keras.predicted_infections.rds")
+# saveRDS(predicted_infections, "data/model-data/keras.predicted_infections.rds")
 ```
 
 ```{r}

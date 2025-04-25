@@ -895,7 +895,8 @@ ggplot() +
          size = guide_legend(order = 2)) + 
   coord_quickmap() +
   labs(title = "COVID-19 Cases by Country",
-       caption = "Data Source: JHU CSSEGISandData/COVID-19\nCircle size: total cases, Color: average CFR", 
+       caption = "Data Source: JHU CSSEGISandData/COVID-19
+       \nCircle size: total cases, Color: average CFR", 
       size= "Total cases (M)",
       color= "Avg CFR (log scale)",
       x = "", y = "") +
@@ -934,7 +935,8 @@ ggplot() +
          size = guide_legend(order = 2)) + 
   coord_quickmap() +
   labs(title = "COVID-19 Cases by Country",
-       caption = "Data Source: JHU CSSEGISandData/COVID-19\nCircle size: total cases, Color: average CFR", 
+       caption = "Data Source: JHU CSSEGISandData/COVID-19
+       \nCircle size: total cases, Color: average CFR", 
        subtitle = "US, China, United Kingdom, Canada",
       size= "Total cases (M)",
       color= "Avg CFR (log scale)",
