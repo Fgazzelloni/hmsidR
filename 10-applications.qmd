@@ -24,11 +24,14 @@ Learning Objectives
 ::::::
 
 \
-This chapter is an essential part of the data visualisation section, it
-focuses on how to effectively interpret and use the results from machine
-learning models in the context of health metrics and infectious
-diseases. The aim is to provide actionable insights, enhance
-decision-making, and communicate findings to various stakeholders.
+This chapter is an essential part of the data
+visualisation\index{Data visualisation} section, it focuses on how to
+effectively interpret and use the results from machine
+learning\index{Machine learning} models in the context of health
+metrics and infectious
+diseases.\index{Infectious diseases} The aim is to provide actionable
+insights, enhance decision-making, and communicate findings to various
+stakeholders.
 
 1.  **Visualising Predictions and Outcomes**:
     -   Techniques for visualising predicted vs. actual values.
@@ -49,9 +52,10 @@ decision-making, and communicate findings to various stakeholders.
 ### Example: Visualising COVID-19 Data
 
 Data are from the **ECDC (European Centre for Disease Prevention and
-Control)**, data are updated daily. The data includes information on the
-number of deaths for each country. The dataset can be accessed through
-the `{covid19.analytics}` package.
+Control)**\index{European Centre for Disease Prevention and
+Control (ECDC)} - updated daily. Data include information on the
+**number of deaths for each country**. The dataset can be accessed
+through the `{covid19.analytics}` package.\index{COVID-19}
 
 ```{r}
 #| eval: false
@@ -66,6 +70,9 @@ library(covid19.analytics)
 covid19.ALL.agg.cases <- covid19.data("aggregated")
 ```
 
+We select the variables of interest, such as `Country_Region`,
+`Last_Update`, `Confirmed`, `Deaths`, `Recovered`.
+
 ```{r}
 data <- covid19.ALL.agg.cases %>% 
   select(Country_Region, Last_Update, 
@@ -76,11 +83,22 @@ data %>%
   head
 ```
 
+We group the data by `Last_Update` and calculate the mean of the
+Confirmed, Deaths, Recovered variables.
+
 ```{r}
 data %>%
   group_by(Last_Update) %>%
   summarise(across(Confirmed:Recovered, ~ mean(.x, na.rm = TRUE)))
 ```
+
+We can visualise the data with a scatter plot with `geom_line`() and
+`geom_point()` functions and then add a `geom_smooth()`. This last
+function adds the most suitable model line, in this case a linear
+regression line, to the plot based on the data.
+
+The plot shows the relationship between the number of confirmed cases
+and the number of deaths.
 
 ```{r}
 #| label: fig-covid19_data
@@ -89,30 +107,65 @@ data %>%
 data %>%
   ggplot(aes(x = Confirmed, y = Deaths)) +
   geom_point() +
+  geom_line(linetype = "dashed") +
+  # add a linear regression line
   geom_smooth() +
   labs(title = "COVID-19 Deaths by Country",
        x = "Confirmed", y = "Number of Deaths") 
 ```
 
-The relationship is linear between the number of confirmed cases and the
-number of deaths. The model can be fitted using linear regression to
-predict the number of deaths based on the number of confirmed cases.
+We don't know if this is a good model, but we can attempt fitting a
+linear regression to predict the number of deaths based on the number of
+confirmed cases. We fit two models the first one without predictors,
+just with the intercept and we obtain the expected values of the number
+of `Deaths` in case of no epidemic in action. The second model is fit
+with `Confirmed` and `Recovered` as predictors. The`lm()` function is
+used to fit the model.
 
 ```{r}
-mod <- lm(Deaths ~ Confirmed + Recovered, data = data) 
-
-summary(mod)$coefficients
+mod1 <- lm(Deaths ~ 1, data = data) 
+mod2 <- lm(Deaths ~ Confirmed + Recovered, data = data)
+summary(mod1)$coefficients;
+summary(mod2)$coefficients
 ```
 
-```{r}
-Pred <- predict(mod, newdata = data)
+The `summary()` function provides the coefficients of the model, which
+tell us that in absence of epidemics the average number of **Deaths** is
+562.4838, while for each additional **Confirmed** case, the number of
+deaths increases by 0.025050716, and for each additional **Recovered**
+case, the number of deaths decreases by 0.003785725. The intercept is
+negative, which means that when the number of confirmed and recovered
+cases is zero, the number of deaths is negative. This is not possible,
+so we need to interpret the coefficients in the context of the data.
 
-data_pred <- cbind(data %>% select(Confirmed, Deaths),Pred) %>%
+The model is not perfect, but it can be used to estimate the number of
+deaths based on the number of confirmed and recovered cases. We can use
+the `predict()` function.
+
+```{r}
+Pred <- predict(mod2, newdata = data)
+
+data_pred <- cbind(data %>% select(Confirmed, Deaths), Pred) %>%
+  # calculate the residuals to see how well the model fits the data
   mutate(Residuals = Deaths - Pred) 
 
 data_pred %>%
   head()
 ```
+
+The `Residuals` column shows the difference between the actual number of
+deaths and the predicted number of deaths. A positive residual means
+that the model underestimated the number of deaths, while a negative
+residual means that the model overestimated the number of deaths.
+
+```{r}
+# metrics
+summary(mod2)$r.squared
+```
+
+The model explains 85% of the variance in the data, which is very good.
+The `r.squared` value is close to 1, which means that the model fits the
+data well.
 
 Let's see the results in a plot:
 
@@ -139,6 +192,11 @@ data_pred %>%
   labs(title = "Residuals vs. Confirmed Cases",
        x = "Confirmed Cases", y = "Residuals") 
 ```
+
+Finally, we can visualise the results of the model with a scatter plot
+and a line plot. The first plot shows the observed vs. predicted values,
+while the second plot shows the residuals. The segments represent the
+difference between the observed and predicted values.
 
 ```{r}
 #| label: fig-lm_results
@@ -167,32 +225,27 @@ data_pred %>%
        caption = "Source: ECDC")   
 ```
 
+#### Exercise: COVID-19 Case Fatality Ratio
+
+Use the `covid19.ALL.agg.cases` data to visualise the **case fatality
+ratio**\index{Case fatality ratio} estimated for each country, by last
+update and include the latitude and longitude as further information.
+Build a suitable model and explain the results with a plot.
+
 ```{r}
 cfr <- covid19.ALL.agg.cases %>% 
-  select(Country_Region, Last_Update, Lat, Long_, Case_Fatality_Ratio)
+  select(Country_Region, Last_Update, 
+         Lat, Long_, Case_Fatality_Ratio)
 
 cfr %>%
-  head()
-```
-
-```{r}
-#| output: false
-covid19.TS.deaths <- covid19.data("ts-deaths")
-```
-
-```{r}
-covid19.TS.deaths %>% 
-    pivot_longer(cols = c(-Province.State, 
-                          -Country.Region, 
-                          -Lat, -Long),
-               names_to = "Date", values_to = "Deaths") %>%
   head()
 ```
 
 ### Example: Ischemic Stroke Decision Tree
 
 In this example we have a look at how to visualise the results of a
-decision tree model for predicting Ischemic Stroke.
+decision tree\index{Decision tree} model for predicting Ischemic
+Stroke\index{Stroke}.
 
 Load necessary libraries:
 
@@ -278,3 +331,8 @@ is_dt_fit_wfl%>%
   extract_fit_engine() %>%
   rpart.plot::rpart.plot(roundint = FALSE)
 ```
+
+## Summary
+
+In this chapter, we have learned how to visualise the results of a
+model.

@@ -17,9 +17,9 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Overview of the causes and risks
--   Identify the objective of the research question
--   Causal inference
+-   Understand key causes and risk factors
+-   Define the research question
+-   Get introduced to causal inference concepts
 :::
 ::::::
 
@@ -28,31 +28,36 @@ Learning Objectives
 > **"...fear is the most pervasive emotion of modern
 > society..."[@bourke2007]**
 
-What qualifies as a risk\index{risk} is subject to dynamic social change
+What qualifies as a risk\index{Risk} is subject to dynamic social change
 [@li2020] , as well as the perception of risk has evolved over time,
 influenced by factors such as media coverage and sociopolitical
 dynamics.
 
 Historically, major risks included starvation, infections, and violent
 conflicts, while modern risks are often associated with lifestyle
-choices and chronic diseases such as obesity, cardiovascular disease,
-and cancer. Despite advancements in healthcare and increasing life
-expectancy in post-industrial countries, the focus often shifts to
-perceived threats like terrorism, global pandemics such as COVID-19, and
-environmental catastrophes. This shift is reflected in the increasing
-combination of quantitative analyses and public health interventions,
-tracking changes in risk-related discourse and identifying key risk
-topics over time.
+choices and chronic diseases such as obesity\index{Obesity},
+cardiovascular disease\index{Cardiovascular disease}, and cancer.
+Despite advancements in healthcare and increasing life
+expectancy\index{Life
+expectancy} in post-industrial countries, the focus often shifts to
+perceived threats like terrorism, global pandemics such as
+COVID-19\index{COVID-19}, and environmental catastrophes. This shift is
+reflected in the increasing combination of quantitative analyses and
+public health interventions, tracking changes in risk-related discourse
+and identifying key risk topics over time.
 
 Furthermore, tools like topic modelling and sentiment analysis help
 identify how the public perceives various risks and how these
 perceptions evolve over time.
 
-In the field of public health, the latest GBD\index{GBD} results reveal
-significant insights into the causes\index{causes} and risks associated
-with health metrics\index{health metrics} and infectious
-diseases\index{infectious diseases}. The primary risks identified
-include behavioural, environmental, occupational, and metabolic factors.
+In the field of public health, the latest
+GBD\index{Global Burden of Disease (GBD)} results reveal significant
+insights into the causes\index{Causes} and risks associated with health
+metrics\index{Health metrics} and infectious
+diseases\index{Infectious diseases}. The primary risks identified
+include behavioural\index{Behavioural},
+environmental\index{Environmental}, occupational\index{Occupational},
+and metabolic\index{Metabolic} factors.
 
 ```{r}
 #| echo: false
@@ -123,24 +128,24 @@ Conditions and injuries associated with the burden of disease and injury
 vary according to specific causes and risks. In this book causes and
 risk factors include:
 
--   **Lifestyle choices**: Poor diet, physical inactivity, tobacco use,
+-   **Lifestyle choices**\index{Lifestyle}: Poor diet, physical inactivity, tobacco use,
     and excessive alcohol consumption are major risk factors for many
     chronic diseases and injuries, including heart disease, stroke,
     cancer, and liver disease.
--   **Environmental factors**\index{environmental factors}: Exposure to
+-   **Environmental factors**\index{Environmental factors}: Exposure to
     pollutants, such as air pollution and toxic chemicals, can increase
     the risk of certain diseases and injuries.
--   **Infections**: Many diseases, such as tuberculosis, HIV/AIDS, and
+-   **Infections**\index{Infections}: Many diseases, such as tuberculosis, HIV/AIDS, and
     malaria, are caused by infectious agents.
--   **Poverty**: People living in poverty are often more susceptible to
+-   **Poverty**\index{Poverty}: People living in poverty are often more susceptible to
     health problems due to limited access to healthcare, healthy food,
     and safe living conditions.
--   **Ageing**\index{aging}: As people get older, they are at an
-    increased risk of many health problems, including chronic diseases
-    and disabilities.
+-   **Ageing**\index{Ageing | Aging}: As people get older, they are at
+    an increased risk of many health problems, including chronic
+    diseases and disabilities.
 -   **Genetics**: Some diseases and injuries are caused by genetic
     factors, such as a genetic predisposition to certain cancers.
--   **Injuries**\index{injuries}: Injuries, such as falls, road traffic
+-   **Injuries**\index{Injuries}: Injuries, such as falls, road traffic
     accidents, and violence, can also contribute to the burden of
     diseases and injuries.
 
@@ -165,12 +170,12 @@ ggdag(dag) + theme_dag_grid()
 ```
 
 A particular health condition can have multiple causes
-(co-morbidities)\index{comorbidity} and risk factors. For instance, a
+(co-morbidities)\index{Comorbidity} and risk factors. For instance, a
 poverty status and the lack of access to healthcare facilities, is
 proven to be increasing the risk of infectious diseases, while poor diet
 and physical inactivity can increase the risk of chronic diseases.
 Acting in favour of addressing the *underlying causes and risk
-factors*\index{risk factors} for diseases and injuries is crucial for
+factors*\index{Risk factors} for diseases and injuries is crucial for
 prompt public health interventions and can help reduce the overall
 burden of disease.
 
@@ -190,67 +195,71 @@ different risk factors on population health and guide effective public
 health strategies to mitigate these risks, key measures are used to
 assess risks and their impact on health outcomes:
 
--   Risk-specific exposures\index{risk-specific exposures}
--   Relative risks (RRs)\index{relative risks}
--   Theoretical minimum-risk exposure levels (TMRELs)\index{TMRELs}
--   Population attributable fractions (PAFs)\index{PAFs}
+-   Risk-specific exposures\index{Risk-specific exposures}
+-   Relative risks (RRs)\index{Relative Risks (RRs)}
+-   Theoretical Minimum-Risk Exposure Levels
+    (TMRELs)\index{Theoretical Minimum Risk Exposure Levels (TMRELs)}
+-   Population Attributable Fractions
+    (PAFs)\index{Population Attributable Fractions (PAFs)}
 
 ### Risk-Specific Exposures
 
 The quantification of risks and causes involves the evaluation of a set
 of behavioural, environmental and occupational, and metabolic risks.
-Pairs of risk-outcome are investigated based on observations and
-statistical evidence. Convincing evidence consists of plausible
-associations between exposure and disease in terms of size, duration and
-effects. Common examples of risk exposures in health metrics include:
-smoking, physical inactivity, high blood pressure (hypertension), and
-others.
+Pairs of risk-outcome\index{Risk-outcome} are investigated based on
+observations and statistical evidence. Convincing evidence consists of
+plausible associations between exposure and disease in terms of size,
+duration and effects. Common examples of risk exposures in health
+metrics include: smoking, physical inactivity, high blood pressure
+(hypertension), and others.
 
 Risk combinations can be **additive** (the occurrence of a least one
 event, A or B), **multiplicative** (the occurrence of both of two
 events, A and B) or just **interactive,** acting to influence other
 pairs, this action is generally identified as possible
-**confounding**\index{confounding}, to be distinguished by factors in
+**confounding**\index{Confounding}, to be distinguished by factors in
 the causal pathway between exposure and outcome.
 
 To have an idea of the impact of different risk factors on a cause of
-illness, the **Socio-demographic Index (SDI)**\index{SDI} provides
-insights into the potential magnitude of social, cultural and
-demographic factors looking at the risk exposures and possible paths for
-policy interventions. The life expectancy level is closely correlated to
-the level of the SDI indicator as it is based on average income per
-person, educational attainment, and total fertility rate
-(TFR)\index{TFR}. Higher SDI values typically indicate better
-socio-economic conditions, including improved access to healthcare,
-education, and sanitation, which can mitigate various health risks.
-Conversely, lower SDI values are associated with higher risk exposure
-due to limited access to healthcare, poorer living conditions, and other
-socio-economic challenges. An application of the SDI index on time
-series is on @sec-08-predictions.
+illness, the **Socio-demographic Index
+(SDI)**\index{Socio Demographic Index (SDI)} provides insights into the
+potential magnitude of social, cultural and demographic factors looking
+at the risk exposures and possible paths for policy interventions. The
+life expectancy level is closely correlated to the level of the SDI
+indicator as it is based on average income per person, educational
+attainment, and total fertility rate (TFR)\index{Total Fertility Rate
+(TFR)}. Higher SDI values typically indicate better socio-economic
+conditions, including improved access to healthcare, education, and
+sanitation, which can mitigate various health risks. Conversely, lower
+SDI values are associated with higher risk exposure due to limited
+access to healthcare, poorer living conditions, and other socio-economic
+challenges. An application of the SDI index on time series is on
+@sec-08-predictions.
 
 One more element to take into consideration is the **Comparative Risk
-Assessment (CRA)**[@stanaway2018]\index{CRA} divided into attributable
-and avoidable burden. Considering as the objective the potential
-reduction of future disease burden, four types of **minimum risk
-exposure**\index{minimum risk exposure} distributions are identified:
+Assessment (CRA)**[@stanaway2018]\index{Comparative Risk
+Assessment (CRA)} divided into attributable and avoidable burden.
+Considering as the objective the potential reduction of future disease
+burden, four types of **minimum risk
+exposure**\index{Minimum Risk Exposure} distributions are identified:
 
--   Theoretical\index{theoretical}
--   Plausible\index{plausible}
--   Feasible\index{feasible}
--   Cost-effective\index{cost-effective}
+-   Theoretical\index{Theoretical}
+-   Plausible\index{Plausible}
+-   Feasible\index{Feasible}
+-   Cost-effective\index{Cost-effective}
 
 The following provide a high level overview on quantifying attributable
 burden by using the theoretical minimum risk.
 
 ### Relative Risks (RRs)
 
-The relative risk (or Risk Ratio)\index{relative risk} is a measure of
-the strength of the association between an exposure and an outcome. It
-compares the likelihood of a particular health outcome, occurring in
-individuals exposed to a specific risk factor, to the likelihood in
-those who are not exposed. This metric helps quantify how much a risk
-factor, like smoking or high blood pressure, increases the probability
-of an adverse health effect.
+The relative risk (or Risk Ratio)\index{Relative Risk (RR) | Risk Ratio}
+is a measure of the strength of the association between an exposure and
+an outcome. It compares the likelihood of a particular health outcome,
+occurring in individuals exposed to a specific risk factor, to the
+likelihood in those who are not exposed. This metric helps quantify how
+much a risk factor, like smoking or high blood pressure, increases the
+probability of an adverse health effect.
 
 To calculate the risk-outcome pairs, such as mortality and morbidity,
 the attributable burden of a risk is decomposed to identify the impact
@@ -281,7 +290,7 @@ where $d_1/n_1$ and $d_0/n_0$ are the proportion of the population with
 and without the disease.
 
 For example, let's say we are studying the association between smoking
-(exposure) and lung cancer (outcome). We want to calculate the relative
+(exposure) and lung cancer\index{Lung cancer} (outcome). We want to calculate the relative
 risk of lung cancer among smokers compared to non-smokers. If the
 relative risk is 2, it means that smokers are twice as likely to develop
 lung cancer compared to non-smokers.
@@ -360,16 +369,16 @@ formulas:
     simplified view of the relative risk based solely on event
     proportions.
 -   The second formula, $RR=\frac{d_1/n_1}{d_0/n_0}$, considers both the
-    **number of events** $(d1, d0)$ and **person-time at risk**
+    **number of events** $(d1, d0)$ and **person-time at risk**\index{Person-time at risk}
     $(n1, n0)$ for each group. This formula takes into account the
-    **incidence rate** in addition to **event proportions**, providing a
+    **incidence rate**\index{Incidence rate} in addition to **event proportions**\index{Event proportions}, providing a
     more specific understanding of the relative risk by incorporating
-    information about the **duration of exposure**.
+    information about the **duration of exposure**\index{Duration of exposure}.
 
 ### Relative Risks and Network Analysis
 
 In some cases, relative risks can be modelled using **network
-analysis**\index{network analysis}, a specialised approach within
+analysis**\index{Network analysis}, a specialised approach within
 statistical modelling which extends the concept of mixed effects to
 compare multiple treatments while accounting for various factors and
 dependencies. The relationship between variables, represented by nodes
@@ -379,10 +388,11 @@ favourable when exploring complex relationships among multiple
 variables.
 
 To represent the network we can use a **Directed Acyclic Graph
-(DAG)**\index{DAG} for drawing causal relationships between variables,
-such as the relationship between health risks and diseases.
+(DAG)**\index{Directed Acyclic Graph
+(DAG)} for drawing causal relationships between variables, such as the
+relationship between health risks and diseases.
 
-This is an example of a **network graph** representing the causal
+This is an example of a **Network graph**\index{Network graph} representing the causal
 pathways between different variables, such as smoking, physical
 inactivity, high blood pressure, lung cancer, heart disease, and stroke.
 By visualising the relationships between these variables, we can
@@ -466,7 +476,7 @@ ggdag(dag) + theme_dag_grid()
 
 #### Simulation of Risk Exposure
 
-The simulation of the risk exposure\index{risk exposure} can be done
+The simulation of the risk exposure\index{Risk exposure} can be done
 replicating a logistic regression model with a DAG structure. We can use
 the `{dagitty}` package, and the `simulateLogistic()` function. The
 model estimates the probability of an outcome (O), given exposure (E) to
@@ -546,15 +556,17 @@ ggplot(data = data, aes(x = relative_risk)) +
 
 Risk factors associated with a particular health condition are
 considered based on the **Theoretical minimum risk exposure levels
-(TMRELs)** and as a function of the risk exposure or **relative risk
-(RR)** value. Not all the variables that are thought to be risk factors
+(TMRELs)**\index{Theoretical Minimum Risk Exposure Levels
+(TMRELs)} and as a function of the risk exposure or **relative risk
+(RR)**\index{Relative Risk
+(RR)} value. Not all the variables that are thought to be risk factors
 increasing causes for a particular health condition are always the
 driving cause of the condition, for this reason a minimum level of risk
 exposure is established for the risk to be considered involved as
 effective in the outcome.
 
 Moreover, disease attributable to a particular risk factor or
-combination of risk factors\index{risk factors} need to be ascertained
+combination of risk factors\index{Risk factors} need to be ascertained
 by investigating the risk-outcome relationship. Risk factors can also
 act indirectly on the outcome via intermediate risks, such as the
 association of low fruit consumption and heart disease influenced by
@@ -594,7 +606,8 @@ that is feasible and achievable, typically based on World Health
 Organization (WHO) guidelines. For smoking, the TMREL is set at zero, as
 any level of smoking is associated with increased health risks.
 
-In terms of **Disability-Adjusted Life Years (DALYs)**, the overall
+In terms of **Disability-Adjusted Life Years
+(DALYs)**\index{Disability Adjusted Life Years (DALYs)}, the overall
 level is significantly influenced by behavioural, environmental, and
 occupational risks. Behavioural risks, such as smoking and physical
 inactivity, and environmental exposures, like air pollution, contribute
@@ -606,9 +619,10 @@ population groups.
 
 ### Population Attributable Fractions (PAFs)
 
-The **Population Attributable Fraction (PAF)** is a measure used to
-quantify the proportion of disease incidence in a population that can be
-attributed to a specific risk factor. It represents the proportion of
+The **Population Attributable Fraction
+(PAF)**\index{Population Attributable Fraction (PAF)} is a measure used
+to quantify the proportion of disease incidence in a population that can
+be attributed to a specific risk factor. It represents the proportion of
 risk that would be reduced in a given year if the exposure to a risk
 factor in the past were reduced to an ideal exposure scenario.
 
@@ -641,11 +655,11 @@ and improve overall health outcomes.
 
 ## Causal Inference
 
-Causality\index{causality} concerns the relationship between two
+Causality\index{Causality} concerns the relationship between two
 variables, where one variable (*the cause*) directly influences the
 other (*the effect*). For example, regular exercise improves
 cardiovascular health, or adequate sleep supports cognitive function.
-However, causality is distinct from correlation\index{correlation},
+However, causality is distinct from correlation\index{Correlation},
 which indicates a statistical association without implying a direct
 influence. For instance, a correlation between television watching and
 obesity does not imply a causal link. Establishing causality requires
@@ -691,8 +705,8 @@ informing public health
 actions.](images/04_causal_inference_flowchart.png){#fig-causal_inference
 fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"}
 
-Performing causal inference\index{causal inference} requires setting up
-an experiment, where there are **treatment** and **outcome** elements.
+Performing causal inference\index{Causal inference} requires setting up
+an experiment, where there are **treatment**\index{Treatment} and **outcome**\index{Outcome} elements.
 The *treatment* is the intervention applied to the data. For example, to
 confirm the statement that *regular exercise leads to improved
 cardiovascular health*, an intervention may be designed to introduce
@@ -715,10 +729,10 @@ understanding the causes of disease and guiding preventive strategies.
 This relationship involves assessing how exposure to certain risk
 factors affects the likelihood of developing specific health outcomes.
 Epidemiological studies quantify the strength of this association
-through measures like **relative risk (RR)** and **population
-attributable fraction (PAF)**.
+through measures like **Relative Risk (RR)** and **Population
+Attributable Fraction (PAF)**.
 
-**Relative risk (RR)** compares the risk of developing a health outcome
+**Relative Risk (RR)** compares the risk of developing a health outcome
 among individuals exposed to a risk factor with those who are not
 exposed. An RR greater than 1 indicates an increased risk associated
 with the exposure. For example, if smokers have a relative risk of 15
@@ -773,7 +787,7 @@ kable(risk_measures,
 
 In conclusion, the study of risk and outcome has evolved beyond
 traditional epidemiological methods to embrace advanced techniques like
-transfer learning\index{transfer learning}. This interdisciplinary
+transfer learning\index{Transfer learning}. This interdisciplinary
 approach enables the application of insights from epidemiology to other
 fields and viceversa, deepening our understanding of the complex
 relationships between risk factors and health outcomes. Machine learning

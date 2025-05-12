@@ -6,13 +6,11 @@
 /.quarto/
 .httr-oauth
 .DS_Store
+R
 data
-data-raw
-inst
 rsconnect
 components_hm_files
 compiler/
-R
 man
 site_libs
 _extensions/

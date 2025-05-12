@@ -4,7 +4,7 @@
 > precisely because it is conditioned by the personal view of
 > happiness." René Dubos[@dubos1976]**
 
-Health metrics\index{health metrics} are key variables to understanding
+Health metrics\index{Health metrics} are key variables to understanding
 the state of health of a population. In this first section of the book
 we'll explore the history of these metrics, how to calculate them, and
 how to account for their variation due to causes and risks. We will
@@ -21,27 +21,29 @@ centuries, evolving from rudimentary observations to sophisticated
 statistical methods, as illustrated by @fig-timeline.
 
 One of the earliest forms of health metrics can be traced back to the
-work of *John Graunt*, an Englishman, in the 17th century[@johngra2024].
-In 1662, Graunt published a landmark work titled "Natural and Political
-Observations Made upon the Bills of Mortality." Graunt, defined as the
-**father of human demography**, was largely self-educated, and his
-interest in mortality data was driven by the Bills of Mortality, which
-were weekly and annual records of deaths in London, and provided
-information on the number of births and deaths in the city. Graunt
-meticulously analysed this **mortality data** and produced **tables**
-that presented various patterns and trends. His work laid the foundation
-for modern demography and statistical analysis. Among his notable
-contributions were the concepts of **life expectancy** and **mortality
-rates**. One of Graunt's key observations was the consistent pattern of
-higher mortality among infants and young children. He noted the
-difference in life expectancy between males and females and provided
-insights into factors influencing mortality, such as epidemics and
-seasons.
+work of *John Graunt*\index{John Graunt}, an Englishman, in the 17th
+century[@johngra2024]. In 1662, Graunt published a landmark work titled
+"Natural and Political Observations Made upon the Bills of Mortality."
+Graunt, defined as the **father of human demography**, was largely
+self-educated, and his interest in mortality data was driven by the
+Bills of Mortality\index{Bills of Mortality}, which were weekly and
+annual records of deaths in London, and provided information on the
+number of births and deaths in the city. Graunt meticulously analysed
+this **mortality data** and produced **tables** that presented various
+patterns and trends. His work laid the foundation for modern demography
+and statistical analysis. Among his notable contributions were the
+concepts of **life expectancy**\index{Life expectancy} and **mortality
+rates**\index{Mortality rates}. One of Graunt's key observations was the
+consistent pattern of higher mortality among infants and young children.
+He noted the difference in life expectancy between males and females and
+provided insights into factors influencing mortality\index{Mortality},
+such as epidemics\index{Epidemics} and seasons.
 
 Over time, advancements in mathematics, medicine, and statistics led to
 the development of more sophisticated health metrics. The 19th century
-saw the emergence of **life tables**, which provided a systematic way to
-analyse mortality and life expectancy.
+saw the emergence of **life tables**\index{Life tables}, which provided
+a systematic way to analyse mortality\index{Mortality} and life
+expectancy\index{Life expectancy}.
 
 ```{r}
 #| echo: false
@@ -111,84 +113,102 @@ Timeline](images/01_timeline.png){#fig-timeline
 fig-align="center" fig-alt="Health Metrics development timeline"}
 :::
 
-More specifically, *Mary Dempsey* in 1940s wrote an
+More specifically, *Mary Dempsey*\index{Mary Dempsey} in 1940s wrote an
 article[@dempsey2019a] for the National Tuberculosis Association about
-the concept of **Years of Life Lost (YLL)**, assessing time-lost as a
-metric for health for the first time. She was then followed by other
-more advanced improvements spanning all throughout the rest of the
-century.
+the concept of **Years of Life Lost
+(YLLs)**\index{Years of Life Lost (YLLs)}, assessing time-lost as a metric
+for health for the first time. She was then followed by other more
+advanced improvements spanning all throughout the rest of the century.
 
 > **"The quality of life depends also on the state of "public
 > health"-namely on factors that affect the biological welfare of the
 > community as a whole."[@dubos1976]**
 
-The 20th century marked significant advancements in epidemiology,
-driving the expansion and refinement of health metrics. This period saw
-the widespread adoption of life tables and the modification of expected
-survival time to incorporate weighted metrics, such as
-disability-adjusted life years (DALYs). These developments enabled more
-comprehensive assessments of population health by accounting for both
-mortality and the quality of life, laying the foundation for modern
-health evaluation tools.
+The 20th century marked significant advancements in
+epidemiology\index{Epidemiology}, driving the expansion and refinement
+of health metrics\index{Health metrics}. This period saw the widespread
+adoption of life tables and the modification of expected survival time
+to incorporate weighted metrics, such as disability-adjusted life years
+(DALYs)\index{Disability Adjusted Life Years (DALYs)}. These
+developments enabled more comprehensive assessments of population health
+by accounting for both mortality and the quality of life, laying the
+foundation for modern health evaluation tools.
 
-The term **Summary Measures of Population Health (SMPH)**[@summary2002]
+The term **Summary Measures of Population Health
+(SMPH)**\index{Summary Measures of Population Health (SMPH)}[@summary2002]
 was established in the field, originating from the need to encapsulate
 both fatal and non-fatal health outcomes into a single, comprehensive
 measure, representing a significant evolution in health metrics. Used
-for various purposes, the SMPH compares the health of populations and
-includes the contributions of different diseases, injuries and risk
-factors to the total disease burden in a population. SMPH, also referred
-to as a composite indicator[@hyder2012], is divided into two broad
-families: health expectancies and health gaps.
+for various purposes, the
+SMPH\index{Summary Measures of Population Health (SMPH)} compares the
+health of populations and includes the contributions of different
+diseases\index{Diseases}, injuries\index{Injuries} and risk
+factors\index{Risk factors} to the total disease
+burden\index{Disease burden} in a population. SMPH, also referred to as
+a composite indicator[@hyder2012], is divided into two broad families:
+health expectancies\index{Health expectancies} and health
+gaps\index{Health gaps}.
 
-**Health expectancies** are summary measures that combine information on
-mortality and morbidity to represent the average number of years that an
-individual can expect to live in good health. Such as **healthy life
-expectancy (HALE)** and the **quality adjusted life expectancy (QALE)**
-using health-related quality of life.
+**Health expectancies**\index{Health expectancies} are summary measures
+that combine information on mortality\index{Mortality} and
+morbidity\index{Morbidity} to represent the average number of years that
+an individual can expect to live in good health. Such as **healthy life
+expectancy (HALE)**\index{Healthy Adjusted Life Expectancy (HALE)} and
+the **quality adjusted life expectancy
+(QALE)**\index{Quality Adjusted Life Expectancy (QALE)} using
+health-related quality of life\index{Quality of life}.
 
-**Health gaps**, on the other hand, represent the difference between the
-current health status of a population and an ideal health situation,
-providing a measure of the potential for improvement in health outcomes.
-Divided into the **disability adjusted life year (DALY)**[@murray1994a]
-in the global burden of disease (GBD) study and the **quality adjusted
-life year (QALY)** used as the outcome index of the cost-utility
-analysis.
+**Health gaps**\index{Health gaps}, on the other hand, represent the
+difference between the current health status of a population and an
+ideal health situation, providing a measure of the potential for
+improvement in health outcomes. Divided into the **disability adjusted
+life years
+(DALYs)**\index{Disability Adjusted Life Years (DALYs)}[@murray1994a] in
+the global burden of disease (GBD)\index{Global Burden of Disease (GBD)}
+study and the **quality adjusted life years
+(QALY)**\index{Quality Adjusted Life Years (QALYs)} used as the outcome
+index of the cost-utility analysis\index{Cost-utility}.
 
-In the contemporary era, the integration of computing power and big data
-has further transformed health metrics. Today, we have complex models,
-machine learning algorithms, and global health databases that allow for
-real-time tracking of diseases and health outcomes.
+In the contemporary era, the integration of computing power and big
+data\index{Big data} has further transformed health
+metrics\index{Health metrics}. Today, we have complex models, machine
+learning\index{Machine Learning} algorithms, and global health databases
+that allow for real-time tracking of diseases and health outcomes.
 
-John Graunt's work may have been modest in its origins, but it laid the
-groundwork for a scientific approach to understanding population health.
-From Graunt’s early analysis of the *Bills of Mortality*[@johngra2024a]
-to the development of today’s advanced health metrics, this journey
-reflects the ongoing effort to measure and understand the complexities
-of human health and disease.
+John Graunt's\index{John Graunt} work may have been modest in its
+origins, but it laid the groundwork for a scientific approach to
+understanding population health. From Graunt’s early analysis of the
+*Bills of Mortality*\index{Bills of Mortality}[@johngra2024a] to the
+development of today’s advanced health metrics, this journey reflects
+the ongoing effort to measure and understand the complexities of human
+health and disease.
 
 ### Quality-Adjusted Life Years (QALYs)
 
-The concept of **Quality-Adjusted Life Years (QALYs)** emerged in the
-late 1970s, originating from the idea of combining both the *quantity*
-and *quality* of life by *Joseph S. Pliskin*, then it became a widely
-used metric for evaluating the *cost-effectiveness* of healthcare
-interventions [@quality-2023]. One *QALY* corresponds to one year in
-perfect health, it ranges from 1 (perfect health) to 0 (dead). However,
-this metric, used in various sectors such as health insurance, is
-somewhat criticised due to its lack of addressing disparities among
+The concept of **Quality-Adjusted Life Years
+(QALYs)**\index{Quality Adjusted Life Years (QALYs)} emerged in the late
+1970s, originating from the idea of combining both the *quantity* and
+*quality* of life by *Joseph S. Pliskin*\index{Joseph S. Pliskin}, then
+it became a widely used metric for evaluating the
+*cost-effectiveness*\index{Cost-effectiveness} of healthcare
+interventions [@quality-2023]. One
+*QALY*\index{Quality Adjusted Life Years (QALYs)} corresponds to one
+year in perfect health, it ranges from 1 (perfect health) to 0 (dead).
+However, this metric, used in various sectors such as health insurance,
+is somewhat criticised due to its lack of addressing disparities among
 individuals. It might result in discrimination against individuals with
 specific medical conditions or disabilities.
 
 A controversial outcome emerged after 25 years of research and studies,
 raising concerns about the metric’s validity and inclusiveness. Started
-in the early 1989s, to step in the 2010 with the *European Commission*
-[@echoutco2016] which started the largest-ever study specifically
-dedicated to testing the assumptions of the *QALY* [@holmes2013], ending
-in 2013 with the recommended "not using QALYs in healthcare decision
-making", arguing that patients with disabilities are valued less under a
-QALY-based system than individuals with no disabilities. This result has
-been further criticised and remains a topic of debate.
+in the early 1989s, to step in the 2010 with the *European
+Commission*\index{European Commission} [@echoutco2016] which started the
+largest-ever study specifically dedicated to testing the assumptions of
+the *QALY*\index{Quality Adjusted Life Years (QALYs)} [@holmes2013],
+ending in 2013 with the recommended "not using QALYs in healthcare
+decision making", arguing that patients with disabilities are valued
+less under a QALY-based system than individuals with no disabilities.
+This result has been further criticised and remains a topic of debate.
 
 > **"Thus, medicine cannot by itself determine the quality of life. It
 > can only help people to achieve the state of health that enables them
@@ -198,30 +218,34 @@ been further criticised and remains a topic of debate.
 > wants to do and become what he wants to become, according to human
 > values that transcend medical judgement" R.Dubos[@dubos1976a]**
 
-Used in health policy to measure the value of medical interventions by
-balancing both the quantity and quality of life added, QALYs help
+Used in health policy\index{Health policy} to measure the value of
+medical interventions by balancing both the quantity and quality of life
+added, QALYs\index{Quality Adjusted Life Years (QALYs)} help
 decision-makers determine which treatments or programs offer the
 greatest health benefits relative to their costs. For example, a health
-policy might prioritise funding for treatments that deliver high QALYs
-per dollar spent, ensuring resources are allocated to maximise health
-outcomes across the population. This approach guides decisions in
-healthcare budgeting, insurance coverage, and prioritising interventions
-for chronic illnesses, preventive care, or new therapies.
+policy might prioritise funding for treatments that deliver high
+QALYs\index{Quality Adjusted Life Years (QALYs)} per dollar spent,
+ensuring resources are allocated to maximise health outcomes across the
+population. This approach guides decisions in healthcare budgeting,
+insurance coverage, and prioritising interventions for chronic
+illnesses, preventive care, or new therapies.
 
 ### Disability-Adjusted Life Years (DALYs)
 
-In the 1990s, the World Bank financed a study at Harvard University to
-develop a sustainable index that considered not only the health status
-but also the identification of the level of disabilities concerned by
-disparities. This lead to a new way of comparing the overall health and
-life expectancy of different countries, released along with the Global
-Burden of Disease Study in 1990 [@murray1994]; a project that involved
-*Christopher J. L. Murray* [@christop2024] and *Alan Lopez*
-[@alanlop2023], in collaboration with the World Health organisation
-(WHO). This effort resulted in the development of the
-Disability-Adjusted Life Years (DALYs) [@disabili2023a], a metric that
-combines **years of life lost due to premature death** and **years lived
-with disability**.
+In the 1990s, the World Bank\index{World Bank} financed a study at
+Harvard University to develop a sustainable index that considered not
+only the health status but also the identification of the level of
+disabilities concerned by disparities. This lead to a new way of
+comparing the overall health and life expectancy of different countries,
+released along with the Global Burden of Disease Study\index{Global
+Burden of Disease (GBD)} in 1990 [@murray1994]; a project that
+involved *Christopher J. L. Murray*\index{Christopher J. L. Murray}
+[@christop2024] and *Alan Lopez*\index{Alan Lopez}[@alanlop2023], in
+collaboration with the World Health organisation
+(WHO)\index{World Health Organisation (WHO)}. This effort resulted in
+the development of the Disability-Adjusted Life Years
+(DALYs)\index{Disability Adjusted Life Years (DALYs)} [@disabili2023a],
+a metric that combines **years of life lost due to premature death (YLLs)**\index{Years of Life Lost (YLLs)} and **years lived with disabilities (YLDs)**\index{Years Lived with Disabilities (YLDs)}.
 
 ```{r}
 #| echo: false
@@ -246,72 +270,84 @@ DALYs](images/01_dalys-diagram.png){#fig-dalys
 width="50%" fig-align="center"
 fig-alt="Breakdown of DALYs into YLLs and YLDs components"}
 
-DALYs are connected with QALYs in that both metrics seek to quantify the
-impact of health on quality and length of life. However, while QALYs
-focus on the benefits with and without medical intervention, DALYs
-measure the overall burden of diseases.
+DALYs\index{Disability Adjusted Life Years (DALYs)} are connected with
+QALYs\index{Quality Adjusted Life Years (QALYs)} in that both metrics
+seek to quantify the impact of health on quality and length of life.
+However, while QALYs\index{Quality Adjusted Life Years (QALYs)} focus on
+the benefits with and without medical intervention,
+DALYs\index{Disability Adjusted Life Years (DALYs)} measure the overall
+burden of diseases.
 
-The DALY metric is calculated by summing the **years of life lost
-(YLLs)** due to premature death and the **years lived with disabilities
-(YLDs)**. This metric provides a comprehensive measure of a population’s
-health status by highlighting both mortality and disability. For
-example, consider a population with a life expectancy of 80 years.
-Individuals who die before reaching this age contribute to the YLLs,
-while those living with disabilities add to the YLDs. The sum of these
-values gives the total DALYs for the population, which can then be
-compared globally to assess health status and identify areas needing
-improvement in facilities, research, or investment.
+The DALY\index{Disability Adjusted Life Years (DALYs)} metric is
+calculated by summing the **years of life lost
+(YLLs)**\index{Years of Life Lost (YLLs)} due to premature death and the
+**years lived with disabilities
+(YLDs)**\index{Years Lived with Disabilities (YLDs)}. This metric
+provides a comprehensive measure of a population’s health status by
+highlighting both mortality\index{Mortality} and
+disability\index{Disability}. For example, consider a population with a
+life expectancy\index{Life expectancy} of 80 years. Individuals who die
+before reaching this age contribute to the YLLs, while those living with
+disabilities add to the YLDs. The sum of these values gives the total
+DALYs for the population, which can then be compared globally to assess
+health status and identify areas needing improvement in facilities,
+research, or investment.
 
 ### Health-Adjusted Life Years (HALY)
 
-Health Adjusted Life Years (HALY) is a metric that combines aspects of
-both DALYs and QALYs to provide a comprehensive measure of health
-outcomes in a population. HALYs quantify the burden of disease and the
-overall quality of life experienced by individuals, measuring the number
-of years of healthy life lived by a population while accounting for both
-mortality and morbidity. The information about the prevalence of
-diseases and disabilities, as well as the impact of these conditions on
-individuals' quality of life is incorporated in the calculation of
-HALYs.
+Health Adjusted Life Years
+(HALY)\index{Health Adjusted Life Years (HALY)} is a metric that
+combines aspects of both DALYs and QALYs to provide a comprehensive
+measure of health outcomes in a population.
+HALYs\index{Health Adjusted Life Years (HALY)} quantify the burden of
+disease and the overall quality of life experienced by individuals,
+measuring the number of years of healthy life lived by a population
+while accounting for both mortality and morbidity. The information about
+the prevalence of diseases and disabilities, as well as the impact of
+these conditions on individuals' quality of life is incorporated in the
+calculation of HALYs.
 
-HALYs adjust life expectancy levels based on the prevalence of health
-conditions and their associated disability weights. Disability weights
-reflect the severity of different health conditions and their impact on
-daily functioning. By applying these weights to the prevalence of each
-condition, researchers can estimate the overall burden of disease in
-terms of years of healthy life lost, similar to the calculation of
-DALYs. Unlike DALYs, which focus primarily on morbidity and mortality,
-HALYs incorporate measures of individuals’ quality of life, allowing for
-a more comprehensive assessment of health outcomes.
+HALYs\index{Health Adjusted Life Years (HALYs)} adjust life expectancy
+levels based on the prevalence of health conditions and their associated
+disability weights. Disability weights reflect the severity of different
+health conditions and their impact on daily functioning. By applying
+these weights to the prevalence of each condition, researchers can
+estimate the overall burden of disease in terms of years of healthy life
+lost, similar to the calculation of DALYs. Unlike DALYs, which focus
+primarily on morbidity and mortality,
+HALYs\index{Health Adjusted Life Years (HALYs)} incorporate measures of
+individuals’ quality of life, allowing for a more comprehensive
+assessment of health outcomes.
 
 ### Health-Adjusted Life Expectancy (HALE)
 
-Healthy Life Expectancy (HALE)[^01-health_metrics-1][@indicato] is a
-measure of overall health and well-being that accounts for both the
-quantity and quality of life. HALE combines years of life expectancy
-with the prevalence and severity of disability in a population,
-providing a more nuanced view of health outcomes than traditional
-measures of life expectancy.
+Healthy Life Expectancy
+(HALE)\index{Healthy Life Expectancy (HALE)}[^01-health_metrics-1][@indicato]
+is a measure of overall health and well-being that accounts for both the
+quantity and quality of life. HALE\index{Healthy Life Expectancy (HALE)}
+combines years of life expectancy with the prevalence and severity of
+disability in a population, providing a more nuanced view of health
+outcomes than traditional measures of life expectancy.
 
 [^01-health_metrics-1]: **Variations in Terminology:** The terms
     "Health-Adjusted Life Expectancy" (HALE), "Healthy Life Expectancy"
     (HALE), and other variants are sometimes used interchangeably in
     this book.
 
-HALE provides a more comprehensive view of health outcomes than other
-traditional measures of life expectancy, which only consider the
-quantity of life. The calculation of HALE typically involves estimating
-the number of years that an individual can expect to live in good
-health, taking into account the impact of diseases and injuries on
-quality of life. This information is then used to estimate the overall
-health status of a population. It is a useful tool for public health
-practitioners and policy makers, as it provides a more nuanced view of
-the health outcomes of a population. This information can help inform
-public health interventions and prioritise resources, as well as help
-track changes in health outcomes over time. Additionally, HALE can be
-used to compare the health outcomes of different populations and
-identify disparities in health outcomes, which can help inform targeted
-public health interventions.
+HALE\index{Healthy Life Expectancy (HALE)} provides a more comprehensive
+view of health outcomes than other traditional measures of life
+expectancy, which only consider the quantity of life. The calculation of
+HALE typically involves estimating the number of years that an
+individual can expect to live in good health, taking into account the
+impact of diseases and injuries on quality of life. This information is
+then used to estimate the overall health status of a population. It is a
+useful tool for public health practitioners and policy makers, as it
+provides a more nuanced view of the health outcomes of a population.
+This information can help inform public health interventions and
+prioritise resources, as well as help track changes in health outcomes
+over time. Additionally, HALE can be used to compare the health outcomes
+of different populations and identify disparities in health outcomes,
+which can help inform targeted public health interventions.
 
 Overall, the HALE metric provides a valuable perspective on the overall
 health and well-being of a population, combining information about both
@@ -326,24 +362,21 @@ disability[^01-health_metrics-2][@healthy].
 
 ### Healthy Life Years (HLY)
 
-There is one more health metrics that is worth mentioning, the **Healthy
-Life Years** (**HLY**) indicator, also known as **disability-free life
-expectancy** (**DFLE**) or **Sullivan's Index**[@healthy2024]. It
-assesses the number of years an individual can expect to live in good
-health, free from significant health problems or disabilities. It is a
-measure of the *quality of life-adjusted life expectancy*, focusing on
-the years lived in full health rather than simply the total number of
-years lived. It specifically focuses on the number of years a person can
-expect to live without disability, providing valuable insights into
-overall health and well-being beyond just life expectancy. It takes into
+There is one more health metrics that is worth mentioning, the **Healthy Life Years (HLYs)**\index{Healthy Life Years (HLYs)} indicator, also known as **Disability-Free Life Expectancy (DFLE)**\index{Disability Free Life Expectancy (DFLE)} or **Sullivan's Index**\index{Sullivan's Index}[@healthy2024]. It assesses the number of
+years an individual can expect to live in good health, free from
+significant health problems or disabilities. It is a measure of the
+*quality of life-adjusted life expectancy*, focusing on the years lived
+in full health rather than simply the total number of years lived. It
+specifically focuses on the number of years a person can expect to live
+without disability, providing valuable insights into overall health and
+well-being\index{Well-being} beyond just life expectancy. It takes into
 account both mortality and morbidity, providing a comprehensive picture
 of overall health and well-being.
 
-HLYs differs from HALE in that it focuses on the number of additional
-years a person can expect to live in good health after reaching a
-certain age, typically 65. This makes HLYs especially relevant for
-assessing health in ageing populations and evaluating interventions that
-aim to improve the quality of life for older adults.
+HLYs\index{Healthy Life Years (HLYs)} differs from HALE\index{Healthy Life Expectancy (HALE)} in that it focuses on the number of additional years a person can expect to live in good health
+after reaching a certain age, typically 65. This makes HLYs especially
+relevant for assessing health in ageing populations and evaluating
+interventions that aim to improve the quality of life for older adults.
 
 For example, an organisation focusing on elder care policy might use
 HLYs to measure program impact on older adults specifically, while a
@@ -361,22 +394,25 @@ maintain independence.
 
 ### Well-being-Adjusted Health Expectancy (WAHE)
 
-Currently, **Well-being-Adjusted Health Expectancy (WAHE)** is still an
+Currently, **Well-being-Adjusted Health Expectancy
+(WAHE)**\index{Well-being Adjusted Health Expectancy (WAHE)} is still an
 emerging metric in health research that combines traditional health
-indicators with **well-being factors** to provide a more comprehensive
-assessment of population health. WAHE is calculated by estimating the
-number of life years equivalent to full health, taking into account both
-physical and psychological well-being.
+indicators with **well-being factors** to provide a
+more comprehensive assessment of population health. WAHE is calculated
+by estimating the number of life years equivalent to full health, taking
+into account both physical and psychological well-being.
 
-WAHE aims to capture the overall health and well-being of individuals by
-incorporating measures of physical health, mental health, and social
-well-being. This metric goes beyond traditional health metrics like life
-expectancy and disability-adjusted life years to provide a more holistic
-view of health outcomes by considering factors like **happiness**,
-**life satisfaction**, and **social connectedness**.
+WAHE\index{Well-being Adjusted Health Expectancy (WAHE)} aims to capture
+the overall health and well-being of individuals by incorporating
+measures of physical health, mental health, and social well-being. This
+metric goes beyond traditional health metrics like life expectancy and
+disability-adjusted life years to provide a more holistic view of health
+outcomes by considering factors like **happiness**, **life
+satisfaction**, and **social connectedness**.
 
-Particularly relevant in the context of global health, WAHE provides a
-more holistic view of population health that can inform public health
+Particularly relevant in the context of global health,
+WAHE\index{Well-being Adjusted Health Expectancy (WAHE)} provides a more
+holistic view of population health that can inform public health
 policies, healthcare interventions, and resource allocation
 decisions[@ipc2021][@muszynska-spielauer2022][@well-bei].
 
@@ -441,19 +477,24 @@ kable(data,
 
 These metrics are used alone or in combination with other health metrics
 in global health assessments conducted by organisations such as the
-**World Health organisation (WHO)**, the **European Commission**, and
-the **Institute for Health Metrics and Evaluation (IHME)**. They provide
-a global perspective and insights into the health status of populations,
-helping to track progresses towards long-term health objectives over
-time. The metrics also inform public health policies, healthcare
-interventions, and resource allocation decisions, helping to prioritise
-health needs and target interventions effectively.
+**World Health Organisation
+(WHO)**\index{World Health Organisation (WHO)}, the **European
+Commission**\index{European Commission}, and the **Institute for Health
+Metrics and Evaluation
+(IHME)**\index{Institute for Health Metrics and Evaluation (IHME)}. They
+provide a global perspective and insights into the health status of
+populations, helping to track progresses towards long-term health
+objectives over time. The metrics also inform public health policies,
+healthcare interventions, and resource allocation decisions, helping to
+prioritise health needs and target interventions effectively.
 
 The investigation into finding updated metrics is a sustained
 commitment, aiming to develop new measures tailored to the evolving
 landscape of the health field. Recently, the new **Summary Measure of
-Population Health (SMPH)** proposed the **Well-being-Adjusted Health
-Expectancy (WAHE)** measure as an estimate of the number of life years
+Population Health (SMPH)**\index{Summary Measure of
+Population Health (SMPH)} proposed the **Well-being-Adjusted Health
+Expectancy (WAHE)**\index{Well-being Adjusted Health
+Expectancy (WAHE)} measure as an estimate of the number of life years
 equivalent to full health[@muszynska-spielauer2022]. This approach
 reflects a growing recognition that health metrics should account for
 physical and clinical indicators and consider psychological and overall
@@ -473,8 +514,11 @@ will remain essential tools in the quest to quantify and enhance the
 complexities of human health and disease.
 
 What’s next? In the next chapter we will investigate deeper into how
-DALYs break down health impacts into two powerful metrics—Years of Life
-Lost (YLL) and Years Lived with Disability (YLD). These calculations not
+DALYs\index{Disability Adjusted Life Years (DALYs)} break down health
+impacts into two powerful metrics—Years of Life Lost
+(YLLs)\index{Years of Life
+Lost (YLLs)} and Years Lived with Disability
+(YLDs)\index{Years Lived with Disability (YLDs)}. These calculations not
 only reveal the total toll of disease but drive critical decisions on
 where to focus resources and which interventions can most effectively
 boost population health.

@@ -8,60 +8,109 @@ book_theme <- theme_minimal() +
 ggplot2::theme_set(book_theme)
 ```
 
-A powerful tool that allows the transformation of complex data sets into
-comprehensible and insightful graphical representations, data
-visualisation is an important step of the data analysis called
-**Exploratory Data Analysis (EDA)**. The information contained within
-data highlights important patterns and trends, and uncover hidden
-insights that might not be apparent from raw data alone. In the context
-of health metrics and infectious diseases, data visualisation plays a
-critical role in tracking disease outbreaks, understanding health
-trends, and communicating findings to policymakers and the public.
+Data visualisation\index{Data visualisation ! } is a powerful tool for
+transforming complex datasets into clear and insightful graphical
+representations. It plays a central role in **Exploratory Data Analysis
+(EDA)**\index{Exploratory Data Analysis (EDA)}, helping to reveal
+important patterns, trends, and hidden insights that are often obscured
+in raw data. The information contained within data highlights important
+patterns and trends, and uncover hidden insights that might not be
+apparent from raw data alone. In the context of health
+metrics\index{Health metrics} and infectious
+diseases\index{Infectious diseases}, data visualisation plays a critical
+role in tracking disease outbreaks, understanding health trends, and
+communicating findings to policymakers and the public.
 
 We have already seen how to create various types of plots using the
 `{ggplot2}` package. In this chapter, we will discuss the history and
 evolution of data visualisation, delve deeper into the topic,
-introducing the concept of the **Grammar of Graphics**, exploring
-techniques for customising plots, adding annotations, labels, and
-themes, and creating interactive visualisations.
+introducing the concept of the **Grammar of
+Graphics**\index{Grammar of Graphics}, exploring techniques for
+customising plots, adding annotations, labels, and themes, and creating
+interactive visualisations.
 
 ## History of Data Visualisation
 
-The history of data visualisation spans centuries. The roots of data
-visualisation can be traced back to ancient times with rudimentary
-visual representations, but its modern form began to take shape with the
-growth of statistics and graphical methods in the 17th and 18th
-centuries. One notable milestone was the publication of **William
-Playfair**'s "Commercial and Political Atlas" in 1786, which introduced
-innovative graphical techniques like the line graph, bar chart, and pie
-chart.
+The history of data visualisation\index{Data visualisation ! history}
+spans centuries. The roots of data visualisation can be traced back to
+ancient times with rudimentary visual representations, but its modern
+form began to take shape with the growth of statistics and graphical
+methods in the 17th and 18th centuries. One notable milestone was the
+publication of **William Playfair**'s\index{William
+Playfair} **"Commercial and Political Atlas"**[@william2025] in 1786,
+which introduced innovative graphical techniques like the line graph,
+bar chart, and pie chart.
+
+:::::: {.content-visible when-format="html"}
+::::: columns
+::: {.column width="50%"}
+![William Playfair's Commercial and Political Atlas -
+1786](images/09_playfair.png){#fig-playfair
+fig-align="center"
+fig-alt="William Playfair's Commercial and Political Atlas - 1786"}
+:::
+
+::: {.column width="50%"}
+![Florence Nightingale's Coxcomb Chart -
+1858](images/09_nightingale.png){#fig-nightingale
+fig-align="center"
+fig-alt="Florence Nightingale's Coxcomb Chart - 1858"}
+:::
+:::::
+::::::
 
 Throughout the 19th and 20th centuries, pioneers such as **Florence
-Nightingale** (1820-1910), **John Snow** (1813-1858), and **Jacques
-Bertin** further advanced the field, using visualisations to communicate
-complex data and uncover insights.
+Nightingale**\index{Florence
+Nightingale} (1820-1910), **John Snow**\index{John Snow} (1813-1858),
+and **Jacques Bertin** further advanced the field, using visualisations
+to communicate complex data and uncover insights with his **Semiology of
+Graphics** - 1967.
 
 Data visualisation was largely done manually or with the help of basic
 plotting tools. One example are the hand-drown visualisations made by
-**W.E.B. Du Bois** (1868-1963) in the early 20th century to illustrate
-the social and economic conditions of African Americans in the United
-States. These visualisations are now considered iconic examples of data
-visualisation and have been widely studied and digitally reproduced.
+**W.E.B. Du Bois**\index{W.E.B. Du Bois} (1868-1963) in the early 20th
+century to illustrate the social and economic conditions of African
+Americans in the United States. These visualisations are now considered
+iconic examples of data visualisation and have been widely studied and
+digitally reproduced.
+
+:::::: {.content-visible when-format="html"}
+::::: columns
+::: {.column width="50%"}
+![John Snow's Cholera Map -
+1854](images/09_johnsnow.png){#fig-johnsnow
+fig-align="center" fig-alt="John Snow's Cholera Map - 1854"}
+:::
+
+::: {.column width="50%"}
+![Jacques Bertin's Semiology of Graphics -
+1967](images/09_bertin.png){#fig-bertin
+fig-align="center"
+fig-alt="Jacques Bertin's Semiology of Graphics - 1967"}
+:::
+:::::
+::::::
 
 **The Digital Revolution**
 
 The digital revolution of the late 20th century, with the advent of
 powerful computing technologies, enabled the creation of interactive and
-dynamic visualisations. Early programming languages like Fortran and
-BASIC were used to create simple plots, then the development of
-specialised software like SAS and SPSS provided more robust tools for
+dynamic visualisations. Early programming
+languages\index{Programming languages !} like
+Fortran\index{Programming languages ! Fortran} and
+BASIC\index{Programming languages ! BASIC} were used to create simple
+plots, then the development of specialised software like
+SAS\index{Programming languages ! SAS} and
+SPSS\index{Programming languages ! SPSS} provided more robust tools for
 data analysis and visualisation.
 
 The emergence of the internet and web technologies in the 1990s led to
 the introduction of more sophisticated statistical software and
-programming environments. Tools like R, Python, and JavaScript, along
-with libraries like `ggplot2`, `matplotlib`, and `D3.js`, revolutionised
-the field of data visualisation, making it more accessible and powerful.
+programming environments. Tools like R\index{Programming languages ! R},
+Python\index{Programming languages ! Python}, and
+JavaScript\index{Programming languages ! JavaScript}, along with
+libraries like `ggplot2`, `matplotlib`, and `D3.js`, revolutionised the
+field of data visualisation, making it more accessible and powerful.
 
 In summary, data visualisation plays a crucial role in fields like data
 science, business analytics, scientific research, journalism, and public
@@ -78,14 +127,16 @@ One of the fundamental concepts in modern data visualisation is the
 **Grammar of Graphics**, which provides a structured approach to
 creating visualisations layer by layer. This concept is clearly
 interpreted in tools like the `{ggplot2}` R package, part of the
-`{tidyverse}` ecosystem, developed by **Hadley Wickham** in 2005.
+`{tidyverse}` ecosystem, developed by **Hadley
+Wickham**\index{Hadley Wickham} in 2005.
 
 The Grammar of Graphics allows for the creation of complex
 visualisations by combining simple building blocks such as **data**,
-**aesthetics**, and **geoms** (geometric objects) in a structured
-manner. It provides a flexible framework for customising visualisations
-and supports the creation of a wide range of plots, from basic scatter
-plots to intricate multi-layered visualisations.
+**aesthetics**\index{Aesthetics}, and
+**geoms**\index{geoms (geometric objects)} (geometric objects) in a
+structured manner. It provides a flexible framework for customising
+visualisations and supports the creation of a wide range of plots, from
+basic scatter plots to intricate multi-layered visualisations.
 
 It starts with the `ggplot()` function, which initialises the plot. The
 function takes a data frame as its first argument and then additional
@@ -218,7 +269,8 @@ heatmap_plot <- ggplot(df,
   ggtitle("Heatmap")
 
 # Network graph
-library(ggnet)
+# devtools::install_github("briatte/ggnet")
+library(ggnet) 
 library(network)
 library(sna)
 net = rgraph(10, mode = "graph", tprob = 0.5)
@@ -236,7 +288,8 @@ choropleth_plot <- ggplot(map,
   ggtitle("Choropleth Map")
 
 # Sankey Diagram 
-library(ggsankey)
+# devtools::install_github("davidsjoberg/ggsankey")
+library(ggsankey) 
 sankey_plot <- df %>% 
   group_by(location_name) %>%
   reframe(x=mean(x),y=mean(y)) %>%
@@ -329,11 +382,11 @@ fig-align="center" fig-alt="Basic Data Viz Rules"}
 
 ## Example: Visualising Lung Cancer Deaths by Age in Germany
 
-This is an example of visualising lung cancer deaths by age in Germany.
-It is a line plot showing the number of deaths by age group. We have
-already seen how to create a line plot using `{ggplot2}` in previous
-chapters, the focus here is on customising the plot to make it more
-visually appealing and informative.
+This is an example of visualising lung cancer\index{Lung cancer} deaths
+by age in Germany. It is a line plot showing the number of deaths by age
+group. We have already seen how to create a line plot using `{ggplot2}`
+in previous chapters, the focus here is on customising the plot to make
+it more visually appealing and informative.
 
 This is a basic output, and we will enhance it by customising patterns,
 colours, legend, and adjusting the layout. We will also explore how to
@@ -344,18 +397,8 @@ library(ggplot2)
 library(ggpattern)
 
 scatterplot <- hmsidwR::germany_lungc |>
-  ggplot(aes(x = prevalence, y = dx)) +
+  ggplot(aes(x = age, y = dx)) +
   geom_point(aes(shape =sex)) + 
-  labs(title = "Lung Cancer Deaths by Age in Germany",
-       x = "Prevalence",
-       y = "Deaths")
-
-barplot <- hmsidwR::germany_lungc |>
-  ggplot(aes(x = age, y = dx, group = sex))  +
-  ggpattern::geom_col_pattern(aes(pattern=sex),
-                              position="stack",
-                              fill= 'white',
-                              colour= 'black') +
   labs(title = "Lung Cancer Deaths by Age in Germany",
        x = "Age",
        y = "Deaths")
@@ -367,6 +410,16 @@ lineplot <- hmsidwR::germany_lungc |>
   labs(title = "Lung Cancer Deaths by Age in Germany",
        x = "Age",
        y = "Deaths")
+
+barplot <- hmsidwR::germany_lungc |>
+  ggplot(aes(x = age, y = dx, group = sex))  +
+  ggpattern::geom_col_pattern(aes(pattern=sex),
+                              position="stack",
+                              fill= 'white',
+                              colour= 'black') +
+  labs(title = "Lung Cancer Deaths by Age in Germany",
+       x = "Age",
+       y = "Deaths")
 ```
 
 ```{r}
@@ -375,13 +428,13 @@ lineplot <- hmsidwR::germany_lungc |>
 #| fig-cap: "Scatterplot and Barplot of Lung Cancer Deaths by Age in Germany"
 #| fig-subcap: 
 #|  - "Scatterplot: Lung Cancer Deaths by Age in Germany"
-#|  - "Barplot: Lung Cancer Deaths by Age in Germany"
 #|  - "Lineplot: Lung Cancer Deaths by Age in Germany"
+#|  - "Barplot: Lung Cancer Deaths by Age in Germany"
 #| fig-alt: "Scatterplot and Barplot of Lung Cancer Deaths by Age in Germany"
 #| echo: false
 scatterplot
-barplot
 lineplot
+barplot
 ```
 
 All of these three plots have a grammar of graphic structure, which
@@ -392,6 +445,30 @@ then we add layers using `geom_point()`, `geom_line()`, and
 create the visualisations. We can further customise these plots by
 adding titles, labels, and adjusting the appearance of the plot
 elements.
+
+Finally, another way to visualise Lung Cancer Deaths by Age in Germany
+is to use the `geom_col()` function and create a bar plot for each sex
+category. This is a basic bar plot, and we will enhance it by adjusting
+the layout. The `facet_<>` functions are used to create a grid of plots,
+where each plot represents a different subset of the data. In this case,
+we are using `facet_grid()` to create a grid of plots based on the `sex`
+variable.
+
+```{r}
+#| label: fig-data-viz-germany-facer
+#| fig-cap: "Barplots Layout - Lung Cancer Deaths by Age in Germany"
+#| fig-alt: "Barplots Layout - Lung Cancer Deaths by Age in Germany"
+hmsidwR::germany_lungc |>
+  ggplot(aes(x = age, y = dx, group = sex))  +
+  geom_col(position="identity",
+           fill= 'white',
+           colour= 'black') +
+  # adjust the layout with three barplot one for each category
+  facet_grid(sex ~ .) +
+  labs(title = "Lung Cancer Deaths by Age in Germany",
+       x = "Age",
+       y = "Deaths")
+```
 
 ### Colors and Patterns
 
@@ -484,11 +561,11 @@ grid.arrange(lineplot, lineplot1, lineplot2, ncol = 3)
 #| echo: false
 #| layout-ncol: 3
 #| label: fig-data-viz-lineplot
-#| fig-cap: "customised Lineplots and Log Scale Transformation"
+#| fig-cap: "Customised Lineplots and Logarithmic Scale Transformation"
 #| fig-subcap: 
 #|  - "Basic Lineplot"
 #|  - "Customised Lineplot"
-#|  - "Customised Lineplot with Log Scale"
+#|  - "Customised Lineplot on a Log Scale"
 #| fig-alt: "Lineplot 1, Lineplot 2, and Lineplot 3"
 lineplot
 lineplot1
@@ -522,10 +599,12 @@ from the community. While the feedback may sometimes be critical, it is
 an essential part of the learning process and will help you improve if
 you stay persistent.
 
-Participating in competitions and challenges such as **#TidyTuesday**,
-**#30DayChartChallenge**, and **#30DayMapChallenge** offers a great way
-to refine your skills. These competitions encourage you to create and
-share visualisations on various themes, pushing you to experiment with
+Participating in competitions and challenges such as
+**#TidyTuesday**\index{TidyTuesday},
+**#30DayChartChallenge**\index{30DayChartChallenge}, and
+**#30DayMapChallenge**\index{30DayMapChallenge} offers a great way to
+refine your skills. These competitions encourage you to create and share
+visualisations on various themes, pushing you to experiment with
 different techniques and styles. By consistently participating in these
 challenges and actively seeking feedback, you will steadily enhance your
 proficiency. Over time, you will find yourself becoming more adept and

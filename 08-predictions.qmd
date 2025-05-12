@@ -17,9 +17,12 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   How to use models' predictions on new data
--   Time series analysis
--   Mixed models
+-   Use model predictions to make informed decisions on new or unseen
+    data
+-   Apply time series analysis to forecast the Socio-Demographic Index
+    (SDI)
+-   Estimate Years Lived with Disability (YLDs) using mixed-effects
+    models
 :::
 ::::::
 
@@ -27,14 +30,14 @@ Learning Objectives
 In the dynamic landscape of public health, the ability to forecast and
 predict future trends is essential for effective decision-making and the
 implementation of timely interventions. This chapter provides an
-overview of **predictive modelling**\index{predictive modelling},
+overview of **predictive modelling**\index{Predictive modelling},
 focusing on the challenges of applying predictions to new data, the use
-of **time series analysis**\index{time series}, and **mixed
-models**\index{mixed models} to anticipate the trajectory of infectious
-diseases and health metrics. By exploring the underlying patterns and
+of **time series analysis**\index{Time series}, and **mixed
+models**\index{Mixed models} to anticipate the trajectory of infectious
+diseases and health metrics\index{Health metrics}. By exploring the underlying patterns and
 analysing historical data, we estimate the disease burden and evaluate
 the impact of interventions on population health. We demonstrate how
-time series analysis and mixed models can be tailored to address
+time series analysis and mixed models\index{Mixed models} can be tailored to address
 specific research questions, such as predicting disease outbreaks,
 estimating disease burden, and assessing the impact of interventions on
 population health.
@@ -69,8 +72,8 @@ informed decisions based on the predictions.
 
 ## Example: Dengue Test Predictions for 2017-2021
 
-**Predictive modelling** is a powerful tool for forecasting future
-trends. Here we test the Dengue's model made with `{mlr3}` meta-package
+**Predictive modelling**\index{Predictive modelling} is a powerful tool for forecasting future
+trends. Here we test the Dengue's\index{Dengue} model made with `{mlr3}` meta-package
 in @sec-07-packages. The model was trained on data from 1990 to 2016 and
 now tested for years 2017 to 2021.
 
@@ -121,20 +124,64 @@ the predictions.
 
 ```{r}
 new_pred_regr.cv_glmnet <- 
-  rr1$learners[[1]]$predict_newdata(new_data, task = rr1$task)
+  rr1$learners[[1]]$predict_newdata(new_data, 
+                                    task = rr1$task)
 ```
 
-We notice that the models are doing well, when old data are compared to
-the new data. The predictions are close to the actual values. Much more
-can be done to improve the models, such as **hyperparameter tuning**,
-**feature engineering**, and **model ensembles**, but this is a good
-point to start. We could also look at the confidence intervals of the
-predictions, to see how certain we are about the predictions, and so on.
+This object contains the predictions for the new data, and we can access
+the response data by:
+
+```         
+new_pred_regr.cv_glmnet$`data`$response
+```
+
+With the support of `data.table::as.data.table()` we can see the data,
+and create a new column `ape` to evaluate the
+`Absolute Percentage Error (APE)`\index{Absolute Percentage Error (APE)}.
+Here are shown the first 6 rows of the data:
+
+```{r}
+data.table::as.data.table(new_pred_regr.cv_glmnet) %>% 
+  mutate(ape = round(abs(truth - response)/truth,3)*100) %>%
+  head()
+```
+
+And calculate some metrics to evaluate the model performance on new
+data. We calculate the
+**Mean Absolute Percent Error (MAPE)**\index{Mean Absolute Percent Error (MAPE)},
+the **Mean Squared Error (MSE)**\index{Mean Squared Error (MSE)}, and the
+**Root Mean Squared Error (RMSE)**\index{Root Mean Squared Error (RMSE)}.
+The MAPE is a measure of prediction accuracy\index{Accuracy}, while the MSE and RMSE are
+measures of the average squared difference between predicted and actual
+values.
+
+```{r}
+data.table::as.data.table(new_pred_regr.cv_glmnet) %>% 
+  mutate(ape = round(abs(truth - response)/truth,3)*100) %>%
+  summarise(mape = mean(ape),
+            mse =  mean((truth - response)^2),
+            rmse = sqrt(mean((truth - response)^2))) %>%
+  round(3)
+```
+
+The model performs fairly well, with relatively low error:
+
+-   An average relative error of \~11% is typically considered
+    acceptable in many forecasting or prediction tasks.
+-   The small RMSE (0.098) and MSE (0.01) suggest that large errors are
+    rare or small.
+
+Much more can be done to improve the models, such as **hyperparameter
+tuning**\index{Hyperparameter
+tuning}, **feature engineering**\index{Feature engineering}, and **model ensembles**\index{Model ensembles}, but this is
+a good point to start. We could also look at the confidence intervals of
+the predictions, to see how certain we are about the predictions, and so
+on.
 
 This is the result of the `cv_glmnet` application on new data:
 
 ```{r}
-#| fig-cap: "Dengue Predictions for 2017-2021: cv_glmnet"
+#| fig-cap: "Dengue Predictions for 2017-2021: cv_glmnet. The solid line shows the historical data, the brown line shows the new data, and the dashed line the predictions."
 #| fig-alt: "Dengue Predictions for 2017-2021: cv_glmnet"
 #| label: fig-dengue-predictions-cv-glmnet
 #| fig-width: 8
@@ -145,40 +192,59 @@ regr.cv_glmnet_new <- as.data.table(new_pred_regr.cv_glmnet) %>%
 
 regr.cv_glmnet_new %>%
   ggplot(aes(x = year)) +
-  geom_line(data=old_data,aes(y = DALYs))+
-  geom_line(aes(y = DALYs),color="brown") +
-  geom_line(aes(y = response), linetype="dashed") +
+  geom_line(data = old_data, aes(y = DALYs))+
+  geom_line(aes(y = DALYs), color = "brown") +
+  geom_line(aes(y = response), linetype = "dashed") +
   facet_wrap(vars(location_id),
              labeller = as_labeller(c(`182` = "Malawi",
                                       `191` = "Zambia",
                                       `169` = "Central African Republic")),
              scales = "free_y") +
-  labs(title = "Dengue Predictions for 2017-2021: cv_glmnet")
+  labs(title = "Dengue Predictions for 2017-2021: cv_glmnet",
+       x = "Time (Year)")
 ```
 
-The same steps are taken for the `xgboost`, and the result is shown
-below.
+The same steps are taken for the `xgboost`, and the results are shown
+below to compare the two models.
 
 ```{r}
 new_pred_regr.xgboost <- 
-  rr2$learners[[1]]$predict_newdata(new_data, task = rr2$task)
+  rr2$learners[[1]]$predict_newdata(new_data, 
+                                    task = rr2$task)
 ```
 
 ```{r}
-#| fig-cap: "Dengue Predictions for 2017-2021: xgboost"
+regr.xgboost_new <- as.data.table(new_pred_regr.xgboost) %>%
+  mutate(learner = "regr.xgboost") %>%
+  cbind(new_data)
+```
+
+```{r}
+rbind(regr.cv_glmnet_new,
+      regr.xgboost_new) %>%
+  mutate(ape = round(abs(truth - response)/truth, 3)*100) %>%
+  group_by(learner) %>%
+  summarise(mape = mean(ape),
+            mse =  mean((truth - response)^2),
+            rmse = sqrt(mean((truth - response)^2))) 
+```
+
+The `glmnet` performs better than `xgboost`. The xgboost\index{xgboost} model may be
+overfitting or it is just poorly tuned, given its higher error despite
+being a more complex model.
+
+```{r}
+#| fig-cap: "Dengue Predictions for 2017-2021: xgboost. The solid line shows the historical data, the brown line shows the new data, and the dashed line the predictions."
 #| fig-alt: "Dengue Predictions for 2017-2021: xgboost"
 #| label: fig-dengue-predictions-xgboost  
 #| fig-width: 8
 #| fig-height: 4
-regr.xgboost_new <- as.data.table(new_pred_regr.xgboost) %>%
-  mutate(learner = "regr.xgboost") %>%
-  cbind(new_data) 
 
 regr.xgboost_new %>%
   ggplot(aes(x = year)) +
-  geom_line(data=old_data,aes(y = DALYs))+
-  geom_line(aes(y = DALYs),color="brown") +
-  geom_line(aes(y = response), linetype="dashed") +
+  geom_line(data = old_data, aes(y = DALYs))+
+  geom_line(aes(y = DALYs), color = "brown") +
+  geom_line(aes(y = response), linetype = "dashed") +
   facet_wrap(vars(location_id),
              labeller = as_labeller(c(`182` = "Malawi",
                                       `191` = "Zambia",
@@ -187,127 +253,168 @@ regr.xgboost_new %>%
   labs(title = "Dengue Predictions for 2017-2021: xgboost")
 ```
 
-In conclusion, predictive modelling is a valuable tool for forecasting
+In conclusion, predictive modelling is a valuable tool for forecasting\index{Forecasting}
 future trends and making informed decisions based on historical data. By
 leveraging the insights gained from the models, we can anticipate the
 trajectory of infectious diseases, estimate disease burden, and evaluate
 the impact of interventions on population health. The models can be
 further refined and optimised to improve their predictive performance
-and provide more accurate forecasts. By combining predictive modelling
-with time series analysis and mixed models, we can gain a comprehensive
-understanding of the complex dynamics of public health and make
-data-driven decisions to improve population health outcomes.
+and provide more accurate forecasts.
+
+By combining predictive modelling with time series analysis and mixed
+models, we can gain a comprehensive understanding of the complex
+dynamics of public health and make data-driven decisions to improve
+population health outcomes.
 
 ## Time Series Analysis
 
 One important side of the analysis is to consider the evolution of the
-phenomenon in time. We can do this by using time as a factor in the
-model. **Time series**\index{time series} analysis serves as a tool for
+phenomenon in time. We can do this by using `time` as a factor in the
+model. **Time series**\index{Time series} analysis serves as a tool for
 understanding and forecasting temporal patterns. Techniques such as
-**ARIMA (AutoRegressive Integrated Moving Average)** models offer a
-systematic approach to modelling time-dependent data, capturing seasonal
-variations, trends, and irregularities to generate accurate forecasts.
+**AutoRegressive Integrated Moving Average (ARIMA)**\index{AutoRegressive Integrated Moving Average (ARIMA)}
+models offer a systematic approach to modelling time-dependent data,
+capturing seasonal\index{Seasonal} variations, trends\index{Trend}, and
+irregularities to generate accurate forecasts.
 
-**Mixed models**, on the other side, provide a versatile framework for
-incorporating various sources of variability and correlation within the
-data. Also known as **hierarchical models**, **multilevel models**, or
-**random effects models**, are a type of statistical model that include
-both fixed effects and random effects. By combining fixed effects with
-random effects, mixed models accommodate complex data structures, such
-as hierarchical or longitudinal data, while accounting for
-individual-level and group-level factors that may influence the outcome
-of interest.
+**Mixed models**\index{Mixed models}, on the other side, provide a
+versatile framework for incorporating various sources of
+variability\index{Variability} and correlation\index{Correlation} within
+the data. Also known as **hierarchical
+models**\index{Hierarchical models}, **multilevel
+models**\index{Multilevel models}, or **random effects
+models**\index{Random effects models}, are a type of statistical model
+that include both fixed effects\index{Fixed effects} and random
+effects\index{Random effects}. By combining fixed effects with random
+effects, mixed models accommodate complex data structures, such as
+hierarchical or longitudinal data\index{Longitudinal data}, while
+accounting for individual-level and group-level factors that may
+influence the outcome of interest.
 
-To analyse temporal data, where observations are collected at regular
-intervals over time, time series analysis\index{time series} allows for
-studying the patterns, trends, and dependencies present in the data to
-make forecasts or infer relationships. Time series data often exhibit
-inherent characteristics such as trend, seasonality, cyclic patterns,
-and irregular fluctuations, which can be explored using various methods
-such as **decomposition**, **smoothing**, and **modelling**. This
-analysis is widely used in fields like economics, finance, epidemiology,
-and environmental science to understand and predict future trends,
-identify anomalies, and make informed decisions based on historical
-patterns.
+To analyse temporal data\index{Temporal data}, where observations are
+collected at regular intervals over time, time series
+analysis\index{Time series} allows for studying the patterns, trends,
+and dependencies present in the data to make forecasts or infer
+relationships. Time series data often exhibit inherent characteristics
+such as trend, seasonality\index{Seasonality}, cyclic
+patterns\index{Cyclic patterns}, and irregular fluctuations, which can
+be explored using various methods such as
+**decomposition**\index{Decomposition}, **smoothing**\index{Smoothing},
+and **modelling**\index{Modelling}. This analysis is widely used in
+fields like economics, finance, epidemiology, and environmental science
+to understand and predict future trends, identify anomalies, and make
+informed decisions based on historical patterns.
 
-**Decomposition methods**\index{decomposition} play a crucial role by
+**Decomposition methods**\index{Decomposition} play a crucial role by
 pulling out the underlying structure of temporal data. The components of
-a time series are `trend`, `seasonality`, and `random fluctuations`.
-Understanding the trend allows for the identification of long-term
-changes or shifts in the data, while detecting seasonal patterns helps
-uncover recurring fluctuations that may follow seasonal or cyclical
-patterns. By separating these components, through decomposition methods,
-it is possible to discover the temporal dynamics within the data,
-facilitating more accurate forecasting and predictive modelling.
-Moreover, decomposing time series data can aid in anomaly detection,
-trend analysis, and seasonal adjustment, making it a fundamental tool
-for interpreting complex temporal phenomena.
+a time series are `trend`\index{Trend},
+`seasonality`\index{Seasonality}, and
+`random fluctuations`\index{Random fluctuations}. Understanding the
+trend allows for the identification of long-term changes or shifts in
+the data, while detecting seasonal patterns helps uncover recurring
+fluctuations that may follow seasonal or cyclical patterns.
+
+By separating these components, through decomposition methods, it is
+possible to discover the temporal dynamics within the data, facilitating
+more accurate forecasting and predictive modelling. Moreover,
+decomposing time series data can aid in anomaly
+detection\index{Anomaly detection}, trend analysis, and seasonal
+adjustment, making it a fundamental tool for interpreting complex
+temporal phenomena.
 
 Modelling time series data often requires a combination of techniques to
-capture its complex nature. **Mixed models**\index{mixed models},
-**splines**\index{splines}, and **ARIMA**\index{ARIMA} are powerful
-tools commonly used for this purpose. Splines provide a flexible way to
-capture nonlinear relationships and smooth out the data, which is
-particularly useful for capturing trends or seasonal patterns. ARIMA
-models, on the other hand, are adept at capturing the autocorrelation
-structure present in the data, including both short-term and long-term
-dependencies.
+capture its complex nature. **Mixed models**\index{Mixed models},
+**Splines**\index{Splines}, and
+**ARIMA**\index{AutoRegressive Integrated Moving Average (ARIMA)} are
+powerful tools commonly used for this purpose. Splines provide a
+flexible way to capture nonlinear relationships and smooth out the data,
+which is particularly useful for capturing trends or seasonal patterns.
+ARIMA models, on the other hand, are best at capturing the
+autocorrelation structure present in the data, including both short-term
+and long-term dependencies.
 
 Time series analysis can also be performed on estimated values produced
 by a machine learning model. This involves using vectors of estimates,
-actual values (ground truth), and time (such as years) to apply a time
-series model. By incorporating these elements, the time series analysis
-can help identify trends, seasonal patterns, and other temporal
-structures within the data. This approach enhances the robustness and
-accuracy of the predictions by combining the strengths of machine
-learning models with traditional time series techniques.
+actual values (ground truth), and time (such as years). By incorporating
+these elements, the time series analysis can help identify trends,
+seasonal patterns, and other temporal structures within the data. This
+approach enhances the robustness and accuracy of the predictions by
+combining the strengths of machine learning models with traditional time
+series techniques.
 
-## Example: SDI Time Series Analysis with Mixed Effect Models
+## Example: SDI Time Series Analysis
 
-From forecasting the trajectory of emerging pathogens to evaluating the
-long-term implications of public health policies, predictive modelling
-offers valuable insights into the future of global health. As seen in
-@sec-04-causes_risks, the consideration of other factors such as the
-**Social Demographic Index (SDI)**\index{SDI} can provide a
-comprehensive understanding of the impact social and economic
-determinants can have on health outcomes.
+In this example, we provide a brief overview of the **Socio-Demographic
+Index (SDI)**\index{Socio Demographic Index (SDI)}, its components, and
+how it can be predicted using time series analysis. From projecting the
+spread of emerging pathogens to assessing the long-term effects of
+public health policies, predictive modelling offers valuable insights
+into the future of global health. As discussed in @sec-04-causes_risks,
+incorporating indicators such as the **SDI** can offer a more
+comprehensive understanding of how social and economic determinants
+influence health outcomes.
 
-As an index, SDI is composed of the geometric mean of the total
-fertility rate (TFR) for those younger than 25 years old (TFU25), the
-mean education for those 15 years old and older (EDU15+), and
-lag-distributed income (LDI) per capita. It ranges from 0 to 1 but it is
-usually multiplied by 100 for a scale of 0 to 100.
+The SDI is a **composite index** developed by the Global Burden of
+Disease (GBD) Study\index{Global Burden of Disease (GBD)} to
+capture a country’s level of socio-demographic development, that
+combines various social and demographic factors to provide a
+comprehensive measure of a population's health and well-being.
 
-**Standard Calculation of TFR**
+It is based on three components:
 
-$$\text{TFR} = \sum (\text{ASFR}_i \times 5)$$ {#eq-tfr}
+1.  Total fertility rate (TFR)\index{Total Fertility Rate (TFR)} among
+    women under age 25 (TFU25)
+2.  Average educational attainment in the population over age 15
+    (EDU15+)\index{Education level over age 15 (EDU15+)}
+3.  Income per capita\index{Income per capita} (lag-distributed)
 
-where $\text{ASFR}_i$ represents the age-specific fertility rates for
-age group $i$ , and the sum is typically calculated over all
-childbearing age groups (often 5-year intervals from ages 15-49).
+It ranges from 0 to 1 but it is usually multiplied by 100 for a scale of
+0 to 100.
 
 **Standard Calculation of SDI**
 
 The SDI is calculated as the geometric mean of these three components:
 
-$$SDI = \sqrt[3]{TFU25 \times EDU15+ \times LDI}$$ {#eq-sdi}
+$$
+SDI = \sqrt[3]{TFU25 \times EDU15+ \times LDI}
+$$ {#eq-sdi}
 
-Each component (TFU25, EDU15+, and LDI) is normalised before taking the
+Each component TFU25, EDU15+, and LDI is normalised before taking the
 geometric mean to ensure they are on a comparable scale.
 
-In summary, the TFR formula is specific to calculating fertility rates,
-while the SDI formula incorporates a specific subset of the TFR (TFU25)
-along with education and income metrics to create a broader
-socio-demographic index.
+In particular, **Total Fertility Rate (TFR)** defined as the average
+number of children a woman would have over her lifetime given current
+age-specific fertility rates—is a key demographic indicator with broad
+implications for national well-being.
+
+**Standard Calculation of TFR**
+
+$$
+\text{TFR} = \sum (\text{ASFR}_i \times 5)
+$$ {#eq-tfr}
+
+where $\text{ASFR}_i$ represents the age-specific fertility
+rates\index{Age Specific Fertility Rates (ASFR)} for age group $i$ , and
+the sum is typically calculated over all childbearing age groups (often
+5-year intervals from ages 15-49).
+
+The TFR formula is specific to calculating fertility rates, while the
+SDI formula incorporates a specific **subset of the TFR (TFU25)** along
+with education and income metrics to create a broader socio-demographic
+index.
 
 In general, the level of this index helps identify key drivers in the
 development of health outcomes. SDI can be used as a predictor in
 predictive models to estimate the burden of diseases, mortality rates,
-and other health metrics. For example, the relationship between SDI and
-the incidence of a disease can be modelled using a logistic regression
+and other health metrics.
+
+For example, the relationship between SDI and the incidence of a disease
+can be modelled using a logistic regression\index{Logistic regression}
 model:
 
-$$ \log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 \times \text{SDI} + \beta_2 \times X_2 + \cdots + \beta_k \times X_k$$ {#eq-logit-sdi}
+$$
+\log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 \times \text{SDI} + \beta_2 \times X_2 + \cdots + \beta_k \times X_k
+$$ {#eq-logit-sdi}
 
 Where, $p$ is the probability of the incidence of the disease,
 $\log \left( \frac{p}{1 - p} \right)$ is the log-odds (logit) of the
@@ -316,14 +423,26 @@ $\beta_1, \beta_2, \ldots, \beta_k$ are the coefficients for the
 predictor variables, and $X_2, \ldots, X_k$ are other potential
 predictor variables that might influence the disease incidence.
 
-To convert the `log-odds` back to the probability of disease incidence
-given the value of SDI:
+To convert the `log-odds`\index{Log-odds} back to the **probability of
+disease incidence** given the value of SDI:
 
-$$p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \times \text{SDI})}}$$ {#eq-prob-sdi}
+$$
+p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \times \text{SDI})}}
+$$ {#eq-prob-sdi}
+
+### SDI Data and Packages
 
 In this example we use the SDI values from 1990 to 2019, for 3 locations
 plus the Global region and evaluate the difference in SDI average across
 the time.
+
+We start by loading the data and required libraries. We use the
+`{hmsidwR}` package, which contains the SDI data from 1990 to 2019, the
+data is available in the `sdi90_19` object, and the `{fpp3}` [@forecast]
+package for time series analysis mentioned in @sec-07-timeseries. We
+also show how to use the `|>` native pipe operator to filter and
+manipulate the data, instead of the `%>%` pipe operator from the
+`{dplyr}` package.
 
 ```{r}
 library(tidyverse)
@@ -351,16 +470,24 @@ sdi90_19 |>
   
 ```
 
+Grouping the data by location and calculating the average SDI, we can
+note that the highest average value is found in Germany, followed by
+France, Italy, and the Global average.
+
 ```{r}
 sdi90_19 |>
   group_by(location) |>
   reframe(avg = round(mean(value), 3)) |>
+  arrange(desc(avg)) |>
   filter(location %in% c("Global", "Italy", "France", "Germany"))
 ```
 
-Then selecting only France as location to analyse the time series using
-spline interpolation and ARIMA(1,0,0), we can decompose the time series
-into its components and analyse the autocorrelation function.
+Focusing on France as the location of interest, we analyse the time
+series by decomposing the series into its components and evaluating the
+autocorrelation\index{Autocorrelation} function to assess underlying temporal patterns, and
+apply an
+`ARIMA(1,0,0)`\index{AutoRegressive Integrated Moving Average (ARIMA)}
+model.
 
 ```{r}
 sdi_fr <- sdi90_19 |>
@@ -371,18 +498,32 @@ sdi_fr |>
   str()
 ```
 
+The `{fpp3}` package is a meta-package and contains other packages such
+as: `tsibble`, `tsibbledata`, `feasts`, `fable`, and `fabletools.`
+
+The `{tsibble}` package is used to set the data ready to be used inside
+the model. The `tsibble::as_tsibble()` function coerce our data to be a
+`tsibble` object:
+
+```{r}
+library(tsibble)
+sdi_fr_ts <- tsibble::as_tsibble(sdi_fr, index = year)
+sdi_fr_ts |> head()
+```
+
 ```{r}
 #| fig-cap: "Social Demographic Index (SDI) in France"
 #| fig-alt: "Social Demographic Index (SDI) in France"
 #| label: fig-sdi-france2
 #| fig-width: 5
 #| fig-height: 3
-library(tsibble)
-
-sdi_fr_ts <- tsibble::as_tsibble(sdi_fr, index = year)
-
 sdi_fr_ts |> autoplot()
 ```
+
+Then, the `fabletools::model()` function is used to train and estimate
+models. In this case we use the `STL()` (Multiple seasonal decomposition
+by Loess) function, which decomposes a time series into seasonal, trend
+and remainder components.
 
 ```{r}
 dcmp <- sdi_fr_ts |>
@@ -391,21 +532,56 @@ dcmp <- sdi_fr_ts |>
 components(dcmp) |> head()
 ```
 
+Using the words from the **Forecasting: Principles and Practice** book
+there are:
+
 > "...three types of time series patterns: trend, seasonality and
-> cycles. When we decompose a time series into components, we usually
-> combine the trend and cycle into a single trend-cycle component (often
-> just called the trend for simplicity). Thus we can think of a time
-> series as comprising three components: a trend-cycle component, a
-> seasonal component, and a remainder component (containing anything
-> else in the time series). *Rob J Hyndman*"
+> cycles.
+
+And to be more specific:
+
+> When we decompose a time series into components, we usually combine
+> the trend and cycle into a single trend-cycle component (often just
+> called the trend for simplicity). Thus we can think of a time series
+> as comprising three components: a trend-cycle component, a seasonal
+> component, and a remainder component (containing anything else in the
+> time series). *Rob J Hyndman*"
+
+The components of a time series can be additive or multiplicative,
+depending on the nature of the data:
 
 $$y_t=S_t+T_t+R_t$$ {#eq-additive}
 $$y_t=S_t*T_t*R_t$$ {#eq-multiplicative}
 $$log(y_t)=log(S_t)+log(T_t)+log(R_t)$$ {#eq-log-decomposition}
 
-The **remainder** component shown in the bottom panel is what is left
-over when the seasonal and trend-cycle components have been subtracted
-from the data.
+where:
+
+-   $y_t$ is the observed value of the time series at time t,
+-   $S_t$ represents the seasonal component, capturing regular
+    fluctuations that repeat over fixed periods (e.g., annually or
+    quarterly),
+-   $T_t$ is the trend component, reflecting the long-term progression
+    or direction in the data (such as gradual increases or declines),
+-   $R_t$ denotes the remainder or residual component, accounting for
+    short-term noise or random variation not explained by seasonality or
+    trend.
+
+The equation @eq-additive assumes that the components combine additively
+and are independent of one another, which is suitable when the seasonal
+variation remains relatively constant over time. The equation
+@eq-multiplicative is used when seasonal or residual effects vary
+proportionally with the trend (e.g., higher variability during periods
+of higher values). Finally, The equation @eq-log-decomposition
+represents a log-transformed multiplicative model, which stabilizes
+variance and allows for additive decomposition\index{Decomposition} in the logarithmic
+scale—often preferred when dealing with exponential growth or
+heteroscedasticity\index{Heteroscedasticity}.
+
+The `autoplot()` function is from the `{fabletools}` package and allows
+for the visualization of the components. In particular, the
+**remainder** component shown in the bottom panel is what is left over
+when the seasonal and trend-cycle components have been subtracted from
+the data.
 
 ```{r}
 #| layout-ncol: 2
@@ -416,7 +592,7 @@ from the data.
 #|   - "Trend line of SDI in France"
 #| fig-alt: "Components of SDI in France"
 
-components(dcmp) |> autoplot()
+components(dcmp) |> fabletools ::autoplot()
 
 components(dcmp) |>
   as_tsibble() |>
@@ -426,13 +602,52 @@ components(dcmp) |>
 labs(title = "Trend line of SDI in France")
 ```
 
-### Autocorrelation function
+### Autocorrelation and Stationarity
 
-Time series that show *no autocorrelation* are called white noise. In
-this case we have autocorrelation. So, no white noise.
+Autocorrelation\index{Autocorrelation} is very important in time series
+analysis as it explains whether past values influence future values. If
+a variable today is similar to what it was yesterday or last month, we
+say it has autocorrelation at lag 1 or lag $k$.
+
+$$
+r_k = \frac{\sum_{t = k + 1}^{T} (y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t = 1}^{T} (y_t - \bar{y})^2}
+$$ {#eq-autocorr}
+
+where:
+
+-   $r_k$is the autocorrelation coefficient at lag $k$,
+-   $y_t$ is the value of the time series at time $t$,
+-   $\bar{y}$ is the mean of the series,
+-   $T$ is the total number of time points.
+
+Time series that exhibit **no autocorrelation**, or no predictable
+relationship between observations at different time points, are referred
+to as **white noise series**\index{White noise}, where each value is essentially a random
+draw from the same distribution, with constant mean and variance, with
+no pattern recognition.
+
+On the contrary, the presence of **autocorrelation**, or statistically
+significant correlations between current and past values, indicates the
+absence of white noise. This means the time series has temporal
+structure, which can be modelled for prediction. For example, positive
+autocorrelation suggests that high (or low) values tend to be followed
+by similarly high (or low) values, while negative autocorrelation
+implies an alternating pattern.
+
+$$
+r_k =
+\begin{cases}
+> 0 & \text{positive autocorrelation (e.g., trends)} \\
+< 0 & \text{negative autocorrelation (e.g., alternating pattern)} \\
+\approx 0 & \text{no autocorrelation (white noise)}
+\end{cases}
+$$ {#eq-autocorr-res}
+
+To check for autocorrelation in our data, we can use the `ACF()`
+function from the `{feasts}` package:
 
 ```{r}
-#| fig-cap: "Autocorrelation Function of SDI in France"
+#| fig-cap: "Autocorrelation Function of SDI in France. The blue dashed lines represent the 95% confidence interval for the null hypothesis: `There is no autocorrelation at lag k.`"
 #| fig-alt: "Autocorrelation Function of SDI in France"
 #| label: fig-acf
 #| fig-width: 5
@@ -443,48 +658,91 @@ sdi_fr_ts |>
   autoplot()
 ```
 
+The output clearly shows that our data displays autocorrelation, this
+validates the use of time series models such as ARIMA, which rely on
+autocorrelated structure.
+
+To assess whether the series is **stationary**\index{Stationarity}, we
+use a specific test, the **KPSS
+test**\index{KPSS test (Kwiatkowski, Phillips, Schmidt, and Shin)}[@kpsstes2023]
+or **Augmented Dickey-Fuller test**\index{Augmented Dickey-Fuller test}.
+If this test, generally defined as **unit root test**, indicates
+non-stationarity, we can apply a **first-order difference** to remove
+the trend and convert it into a stationary series.
+
+To apply the KPSS test we use the `features()` function from
+`{fabletools}` package and specify the feature to be: `unitroot_kpss`.
+The `{urca}` might be needed for this task; if needed
+`install.packages("urca")`.
+
 ```{r}
 sdi_fr_ts |>
   features(value,
            features = unitroot_kpss)
 ```
 
-Seasonal difference is not required
+A $p-value = 0.01$, which is less than 0.05, indicates strong evidence
+against the null hypothesis of stationarity.
+
+In summary, the presence of autocorrelation combined with the
+**non-stationarity** result from the KPSS test suggests that the series
+has a trend or random walk component, and is not stationary.
+
+::: {.callout .callout-info}
+A fundamental concept in time series analysis is
+**stationarity**\index{Stationarity}. A time series is said to be
+stationary when its statistical properties do not change over time. This
+means the mean, variance, and autocorrelation structure remain constant
+throughout the series.
+
+On the other hand, a **non-stationary** time series exhibits properties
+that change over time—for example, a long-term trend, changing
+variability, or evolving seasonal patterns.
+:::
+
+In this case we apply the first-order differencing (differences = 1) to
+the data before applying models that assume stationarity, such as ARIMA.
+
+$$
+y^{\prime}_t=y_t-y_{t-1}
+$$ {#eq-diff}
+
+Differencing transforms the series by subtracting each observation from
+its previous value, thereby removing trends and stabilizing the mean
+over time. This transformation often makes the mean and variance more
+stable, and is essential because non-stationary time series can lead to
+unreliable or misleading model results.
 
 ```{r}
-sdi_fr_ts |>
-  features(value,
-           features = unitroot_nsdiffs)
+# Apply first-order differencing to remove trend
+sdi_fr_diff <- sdi_fr_ts |> 
+  mutate(diff_value = difference(value, differences = 1))
+sdi_fr_diff |> head()
 ```
 
-**Auto-ARIMA** model is used to establish the best fit:
-
-if needed `install.packages("urca")`
-
 ```{r}
-fit <- sdi_fr_ts |>
-  model(ARIMA(value))
-
-fit |> report()
-```
-
-```{r}
+#| fig-cap: "First-order Differenced SDI (France)"
+#| fig-alt: "Differencing Function of SDI in France"
+#| label: fig-diff
 #| fig-width: 5
 #| fig-height: 3
-#| fig-cap: "Forecast of SDI in France"
-#| fig-alt: "Forecast of SDI in France"
-#| label: fig-forecast
-
-fit |>
-  forecast(h = 10) |>
-  ggplot(aes(x = year, y = .mean)) +
-  geom_line(data = sdi_fr_ts,
-            aes(y = value)) +
-  geom_line(color = "purple", linetype = "dashed")+
-  labs(title = "Forecast of SDI in France")
+sdi_fr_diff |> 
+  ggplot(aes(x = year, y = diff_value)) +
+  geom_line() +
+  labs(title = "First-order Differenced SDI (France)",
+       x = "Year", y = "Differenced SDI")
 ```
 
 ### Partial Autocorrelations
+
+The **Partial Autocorrelation Function
+(PACF)**\index{Partial Autocorrelation Function (PACF)} removes the
+effects of intermediate lags. It is a measures of the direct
+relationship between a time series and its own lagged values. The PACF
+allows for a more specific identification of how many lags to include in
+the $AR$ part of the `ARIMA` model. The number of autoregressive ($AR$)
+terms ($p$) is determined by the number of significant lags in the PACF
+plot.
 
 ```{r}
 #| layout-ncol: 2
@@ -503,30 +761,147 @@ sdi_fr_ts |>
   gg_tsdisplay(y = value, plot_type = "partial")
 ```
 
-### Model Ensembles
+In this plot we can see that the PACF shows a significant spike at lag
+1, indicating that the first lag is important for predicting the current
+value. The subsequent lags are not significant, suggesting that only the
+first lag should be included in the ARIMA model.
 
-To improve the predictive performance, predictions of multiple single
-learners can be aggregated to a **model ensemble**\index{model ensemble}
-by combining the forecasts of individual models.
+### ARIMA model
 
-**Ensemble learning**\index{ensemble learning} is a machine learning
-technique that leverages the diversity of individual models to make more
-accurate predictions and reduce overfitting. Ensemble methods can reduce
-the variance and bias of the predictions, leading to more accurate and
-reliable results. Ensemble techniques such as bagging\index{bagging},
-boosting\index{boosting}, and stacking\index{stacking} leverage the
-diversity of individual models to create a stronger collective model
-that outperforms its components. These methods are widely used in
-machine learning and predictive modelling to enhance the predictive
-power of the model and achieve better generalisation performance on
-unseen data.
+The **ARIMA**\index{AutoRegressive Integrated Moving Average (ARIMA)}
+model forecasts time series values based on past observations.
 
-In case is required install the `{urca}` package:
+::: {.callout .callout-info}
+In time series analysis, the terms forecast\index{Forecast} and
+predict\index{Predict} are sometimes used interchangeably, but there’s a
+subtle distinction:
+
+-   Forecast typically refers to estimating future values based on a
+    model trained on historical data.
+-   Predict can refer more generally to estimating outcomes, including
+    within-sample estimates (e.g., fitting values during model
+    training).
+:::
+
+**Auto-ARIMA** model is used to establish the best fit by combining
+autoregressive, moving average, and differencing components. However,
+careful analysis of stationarity, autocorrelations, and the residuals is
+required to fine-tune the model and improve forecasting accuracy.
+
+The `ARIMA(value)` function automatically selects the best p, d, and q
+values.
+
+In general, the ARIMA model is defined as:
+
+$$
+\text{ARIMA}(p,d,q) = \text{AR}(p) + \text{I}(d) + \text{MA}(q)
+$$ {#eq-arima-model}
+
+where:
+
+-   $\text{AR}(p)$ is the autoregressive part of the model, which uses
+    past values of the time series to predict future values,
+-   $\text{I}(d)$ is the integrated part of the model, which represents
+    the differencing of the time series to make it stationary,
+-   $\text{MA}(q)$ is the moving average part of the model, which uses
+    past forecast errors to predict future values.
+
+The `ARIMA()` function from the `{fable}` package automatically selects
+the appropriate degree of differencing needed to achieve stationarity
+and fits the ARIMA model accordingly. The `report()` function provides a
+summary of the fitted model, including parameter estimates and
+diagnostic statistics.
 
 ```{r}
-#| eval: false
-install.packages("urca")
+fit <- sdi_fr_ts |>
+  model(ARIMA(value))
+
+fit |> report()
 ```
+
+The model suggests that the differenced series follows a stable upward
+trend, with moderate autocorrelation and low residual variance, implying
+a strong and reliable forecast model for the observed data.
+
+In particular, selected `ARIMA(1,1,0)` indicates:
+
+-   One autoregressive ($AR$) term ($ar1 = 0.5971$): There is moderate
+    persistence; the differenced value at time $t$ is positively
+    correlated with the previous time point
+-   First-order differencing ($d = 1$) was applied to achieve
+    stationarity
+-   No moving average ($MA$) term ($q = 0$)
+-   The model includes a drift term ($\text{constant} = 0.0013$), which
+    accounts for a consistent upward trend in the differenced series.
+-   Standard errors (s.e.) for both coefficients are small, suggesting
+    estimates are fairly precise.
+-   $\sigma^2 = 8.634e-07$: Very low variance of the residuals,
+    indicating a good fit.
+-   $\text{Log-likelihood} = 162.46$: Used for model comparison.
+-   $\text{AIC} = -318.92$, $\text{AICc} = -317.96$,
+    $\text{BIC} = -314.82$: All are low values, which generally indicate
+    a better-fitting model when compared to alternatives.
+
+### ARIMA Forecast
+
+The `forecast()` function from the `{fable}` package is used to generate
+forecasts based on the fitted ARIMA model. The `h` parameter specifies
+the forecast horizon, which is the number of future time points to
+predict. In this case we used $h=10$ for the next 10 years.
+
+```{r}
+#| fig-width: 5
+#| fig-height: 3
+#| fig-cap: "Forecast of SDI in France"
+#| fig-alt: "Forecast of SDI in France"
+#| label: fig-forecast
+
+fit |>
+  forecast(h = 10) |>
+  ggplot(aes(x = year, y = .mean)) +
+  geom_line(data = sdi_fr_ts,
+            aes(y = value)) +
+  geom_line(color = "purple", linetype = "dashed")+
+  labs(title = "Forecast of SDI in France")
+```
+
+### Model Ensembles
+
+In time series analysis, an individual model trained on historical data
+to generate forecasts is known as a **single
+learner**\index{Single learner}, such as a single ARIMA model. However,
+a single learner may not be sufficient to capture the full complexity of
+the data, especially when dealing with intricate patterns, nonlinear
+relationships, or multiple influencing factors, leading to poor
+generalisation on unseen data.
+
+Single approaches often fail to account for crucial factors like
+external shocks, structural changes, or nonlinear relationships, making
+them insufficient for capturing all aspects of the data, including trend
+and seasonality.
+
+This is where **ensemble learning**\index{Ensemble learning} comes into play.
+
+By aggregating the predictions from **multiple single learners**, we can
+form a **model ensemble**\index{Model ensemble}, to improve predictive
+performance and generate more robust forecasts.
+
+**Ensemble learning**\index{Ensemble learning} is a machine learning
+technique that leverages the diversity of individual models to make more
+accurate predictions and reduce overfitting. Ensemble methods can reduce
+the variance and bias of the predictions, examples are techniques such
+as bagging\index{Bagging}, boosting\index{Boosting}, and
+stacking\index{Stacking} that leverage the diversity of individual
+models to create a stronger collective model that outperforms its
+components.
+
+These methods are widely used in machine learning and predictive
+modelling to enhance the predictive power of the model and achieve
+better generalisation performance on unseen data.
+
+In this example, we will use the `ARIMA()` function to fit multiple
+ARIMA models with different orders and compare their performance using
+the `glance()` function from the `{broom}` package.
 
 ```{r}
 caf_fit <- sdi_fr_ts |>
@@ -551,7 +926,18 @@ glance(caf_fit) |>
   select(.model:BIC)
 ```
 
-Best ARIMA model selected is ARIMA(1,1,0):
+The results of the model ensemble analysis reveal that both the
+**stepwise** and **search** ARIMA models outperform the others in terms
+of model fit, as indicated by their lower AIC and AICc values. These two
+models exhibit identical log-likelihood values and minimal residual
+variance, suggesting that they provide the most accurate forecasts while
+maintaining model simplicity. In contrast, the **arima210** and
+**arima013** models show slightly higher AIC and AICc values, indicating
+that they are less efficient at capturing the underlying patterns in the
+data.
+
+Based on these findings, we select the **search** model with
+ARIMA(1,1,0), and visualize the residuals of the fitted model.
 
 ```{r}
 #| layout-ncol: 2
@@ -576,30 +962,46 @@ caf_fit |>
   geom_line(color = "purple", linetype = "dashed")
 ```
 
+In conclusion, the analysis of the **Socio-Demographic Index (SDI)** in
+France from 1990 to 2019 demonstrates the effectiveness of time series
+analysis and mixed models in understanding and forecasting complex
+health-related data. By employing techniques such as decomposition,
+autocorrelation analysis, and ARIMA modelling, we can gain valuable
+insights into the underlying patterns and trends in the data. The use of
+ensemble learning further enhances the predictive performance of the
+models, allowing for more accurate forecasts and better-informed
+decision-making in public health. However, additional model validation
+and diagnostic checks, such as residual analysis and cross-validation,
+should be conducted to ensure that these models generalize well to
+unseen data and are not overfitting.
+
 ## Mixed Models
 
-Mixed models are a powerful statistical tool for analysing data with a
-hierarchical or nested structure, where observations are grouped within
-higher-level units. By incorporating both fixed and random effects,
-mixed models can account for the variability within and between groups,
-providing a flexible framework for modelling complex data structures.
-Mixed models are widely used in various fields, and particularly useful
-in fields like healthcare and infectious diseases where data might be
-collected across different subjects or time points.
+**Mixed models**\index{Mixed models} are a powerful statistical tool for
+analysing data with a hierarchical or nested structure, where
+observations are grouped within higher-level units. By incorporating
+both **fixed** and **random effects**, mixed models can account for the
+variability within and between groups, providing a flexible framework
+for modelling complex data structures. Mixed models are widely used in
+various fields, and particularly useful in fields like healthcare and
+infectious diseases where data might be collected across different
+subjects or time points.
+
+In the following section, we will discuss the application of mixed
+models in estimating the **Years Lived with Disability
+(YLDs)**\index{Years Lived with Disability (YLDs)} and the different
+ratios used in forecasting non-fatal disease burden.
 
 ### Mixed-Effects Models in Estimating YLDs
 
 Mixed-effects models are particularly useful in estimating YLDs because
-they can handle data that is hierarchically structured (e.g., patients
-within clinics, repeated measures over time) and account for both fixed
-effects (e.g., age, gender) and random effects (e.g., variability
-between patients or clinics).
+they can handle data that is hierarchically structured data.
 
-**Fixed Effects**\index{fixed effects}: These are the primary effects of
+**Fixed Effects**\index{Fixed effects}: These are the primary effects of
 interest and include variables such as age, gender, year, and specific
 interventions or treatments.
 
-**Random Effects**\index{random effects}: These capture the variability
+**Random Effects**\index{Random effects}: These capture the variability
 that is not explained by the fixed effects, such as differences between
 patients, clinics, or regions.
 
@@ -607,78 +1009,60 @@ By using mixed-effects models, we can better account for the
 within-subject and between-subject variability, providing more accurate
 estimates of YLDs.
 
-### Different Ratios Used in Forecasting Non-Fatal Disease Burden
+## Example: YLDs due to Tuberculosis - Mixed-Effects Models
 
-When forecasting the non-fatal disease burden, different mortality
-ratios are used to assess the dynamics and progression of diseases. Here
-are three important ratios:
-
-**MI Ratio (Mortality to Incidence Ratio)**: $MI=M/I$
-
-This ratio compares the number of deaths due to a disease to the number
-of new cases of the disease in a specific time period. It is considered
-a **severity indicator** as it indicates the **lethality of the
-disease** after diagnosis. A high MI suggests that a higher proportion
-of diagnosed cases result in death, indicating a severe condition.
-
-**MP Ratio (Mortality to Prevalence Ratio)**: $MP=M/P$
-
-This ratio compares the number of deaths due to a disease to the total
-number of existing cases (both new and old) at a given time. It is used
-in the **Current Risk Assessment (CRA)** as it reflects the **current
-fatality risk** among those living with the disease. A high MP suggests
-a significant risk of death for those currently affected. It helps in
-understanding the long-term burden and survivability of a disease.
-
-**PI Ratio (Prevalence to Incidence Ratio)**: $PI=P/I$
-
-This ratio compares the total number of existing cases to the number of
-new cases in a specific time period. As a **chronicity indicator**, it
-indicates how long individuals live with the disease. A high PI suggests
-that individuals live longer with the disease, indicating it is more
-chronic. It provides insight into the chronic nature of a disease and
-the duration that individuals typically live with the disease.
+In this example, we will demonstrate how estimated **Years Lived with
+Disability (YLDs)**\index{Years Lived with Disability (YLDs)} due to
+**Tuberculosis**\index{Tuberculosis} can be used to predict future
+values using mixed-effects models.
 
 ```{r}
 #| echo: false
 pacman::p_unload(pacman::p_loaded(), character.only = TRUE)
 ```
 
-In R, mixed-effects models can be integrated with Eigen, a C++ template
-library for linear algebra which significantly speeds up the
-computations involved in fitting mixed-effects models.
+```{r}
+#| echo: false
+library(ggplot2)
+book_theme <- theme_minimal() + 
+  theme(plot.title=element_text(face="bold"))
+ggplot2::theme_set(book_theme)
+```
 
-## Example: Tuberculosis YLDs Estimation Using Mixed-Effects Models
+We use the `{lme4}` package to fit **mixed-effects
+models**\index{Mixed-effects models}, enabling us to account for both
+fixed effects\index{Fixed effects} (e.g., year, prevalence) and random
+effects\index{Random effects} (e.g., variability across countries). This
+approach is particularly valuable for analysing grouped or repeated
+measures data, such as longitudinal health data, where observations are
+not independent over time or across different levels of analysis.
 
-To estimate Years Lived with Disability (YLDs) using mixed-effects
-models, we can use the `lme4` package which provides functions to fit
-linear and generalised linear mixed-effects models. We will provide an
-example of how to estimate YLDs with mixed-effects models. We use the
-`g7_hmetrics` dataset found in `{hmsidwR}` package containing YLDs,
-deaths, incidence and prevalence for **Respiratory infections and
-tuberculosis** in 2010 and 2019 to demonstrate the estimation of YLDs
-using mixed-effects models.
+Data are from the `g7_hmetrics` dataset in the `{hmsidwR}` package,
+which contains rates (per 100,000 population) for **YLDs**, **deaths**,
+**incidence**, and **prevalence** of **Respiratory infections and
+tuberculosis** in 2010 and 2019 for selected countries.
 
 ```{r}
 library(lme4)
 library(tidyverse)
 
-data <- hmsidwR::g7_hmetrics %>%
-  filter(measure %in% c("Incidence",
-                        "Prevalence",
-                        "YLDs", 
-                        "Deaths"),
+tuberculosis <- hmsidwR::g7_hmetrics %>%
+  filter(measure %in% c("Prevalence",
+                        "YLDs"),
          str_detect(cause, "Tuberculosis"),
          !year == 2021,
          !location == "Global",
          metric == "Rate",
-         sex == "both") %>%
-  select(-metric, -sex, -cause, -upper, -lower) %>%
+         sex == "both") %>% # per 100,000 population
+  select(year, location, measure, val) %>%
   pivot_wider(names_from = measure,
               values_from = val)
 
-data %>% head()
+tuberculosis %>% head()
 ```
+
+We can see how the level of YLDs due to tuberculosis has decreased in
+all selected countries over the 10-year period.
 
 ```{r}
 #| fig-cap: "YLDs for Tuberculosis by Location and Year"
@@ -688,7 +1072,7 @@ data %>% head()
 #| fig-height: 3
 
 library(ggpattern)
-ggplot(data,
+ggplot(tuberculosis,
        aes(x = fct_reorder(location, YLDs),
            y = YLDs, group = year)) +
   ggpattern::geom_col_pattern(aes(pattern = factor(year)),
@@ -697,28 +1081,27 @@ ggplot(data,
                               colour= 'black') +
   labs(title="YLDs for Tuberculosis by Location and Year",
        x = "Location", pattern = "Year")
-    
 ```
 
-```{r}
-hmsidwR::disweights %>%
-  filter(str_detect(sequela, "tuberculosis")) %>%
-  select(cause1, severity, dw)
-```
+The disability weight for tuberculosis in 2019 is set at 0.333 for the
+Global region. The duration, derived from the GBD 2021 and based on a
+systematic review, was adjusted for treated and untreated cases: it was
+estimated to be 3 years for untreated cases and 6 months for treated
+cases[@tiemersma2011].
 
-The disability weight is 0.333 for tuberculosis, and the duration
-derived from the GBD 2021 was estimated based on a systematic review and
-adjusted for treated and untreated cases. The duration of tuberculosis
-was estimated to be 3 years[@tiemersma2011] for untreated cases and 6
-months for treated cases.
+The formula $YLDs ~ Prevalence + year + (1 | location)$ specifies a
+linear mixed-effects model for predicting Years Lived with Disability
+(YLDs) due to tuberculosis. The model includes fixed effects for
+prevalence and year, as well as a random intercept for location
+($(1 | location)$). This allows for the estimation of YLDs while
+accounting for variability across different locations.
 
 ```{r}
 # Define the formula
 formula <- YLDs ~ Prevalence + year + (1 | location)
 
 # Fit the mixed-effects model
-model <- lmer(formula, data = data)
-
+model <- lmer(formula, data = tuberculosis)
 model
 ```
 
@@ -729,16 +1112,17 @@ fixed_effects <- fixef(model)
 fixed_effects
 ```
 
-The model is:
-
-$$
-YLDs = 67.7988999255 + 0.0001619458*Prevalence - 0.0336387717*year
+Considering only the fixed effects the model function becomes: $$
+\hat{YLDs} = 67.79889 + 0.00016*Prevalence - 0.03364*year
 $$ {#eq-mixed-model}
 
-In particular, a prevalence coefficient of 0.0001619458 means that for
-each unit increase in prevalence, YLDs increase by 0.0001619458, while a
-year coefficient of -0.0336387717 means that for each unit increase in
-year, YLDs decrease by 0.0336387717.
+In particular, a prevalence coefficient of 0.00016 means that for each
+unit increase in prevalence, YLDs increase by 0.00016, while a year
+coefficient of -0.03364 means that for each unit increase in year, YLDs
+decrease by 0.03364.
+
+Looking at the random effects, we can see how the model accounts for the
+variability across different locations.
 
 ```{r}
 # Extract random effects
@@ -747,90 +1131,173 @@ random_effects <- ranef(model)
 random_effects
 ```
 
-The output of random_effects is a list of data frames with the random
-effects for each level of the random effect variable (location in this
-case), which means that the model is
+The model function with random_effects for each location becomes:
 
 $$
 \begin{split}
-YLDs = 67.7988999255 \\
-+ 0.0001619458 \cdot \text{Prevalence} \\
-- 0.0336387717 \cdot \text{year} \\
-+ \text{random effect for each location}
+\hat{YLDs} = 67.79889 \\
++ 0.00016 \cdot \text{Prevalence} \\
+- 0.03365 \cdot \text{year} \\
++ \text{ random effect for each location}
 \end{split}
 $$ {#eq-mixed-model2}
 
-Then, predictions are made for the YLDs using the mixed-effects model on
-observed data and new data. The predictions are compared with the actual
-YLDs to evaluate the model's performance.
+Then, predictions are made for the YLDs due to tuberculosis using the
+mixed-effects model on observed data and new data. The predictions are
+compared with the actual YLDs to evaluate the model's performance.
 
 ```{r}
-#| fig-cap: "Predicted YLDs for Tuberculosis"
-#| fig-alt: "Predicted YLDs for Tuberculosis"
-#| label: fig-mod-res-tuberculosis
-#| fig-width: 5
-#| fig-height: 3
-
 # Predict YLDs for observed data
 predictions <- predict(model, 
-                       data,
+                       tuberculosis,
                        allow.new.levels = TRUE)
 
-data$predicted_YLD <- predictions
+tuberculosis$predicted_YLD <- predictions
+```
 
-ggplot(data %>% filter(year == 2019,
-                       !location=="Global"),
+Predicted versus Estimated YLDs due to Tuberculosis are shown in the
+following plot:
+
+```{r}
+#| fig-cap: "Predicted vs Estimated YLDs due to Tuberculosis"
+#| fig-alt: "Predicted vs Estimated YLDs due to Tuberculosis"
+#| label: fig-mod-res-tuberculosis
+#| fig-width: 6
+#| fig-height: 3
+ggplot(tuberculosis %>% 
+         filter(!location=="Global"),
        aes(x = YLDs, y = predicted_YLD,
        group = location)) +
   geom_point(aes(shape = factor(location))) +
   geom_abline() +
-  labs(title = "YLDs Predicted vs Estimated",
+  facet_wrap(~ year) +
+  labs(title = "YLDs due to Tuberculosis",
+       subtile = "Predicted vs Estimated",
        x = "YLDs",
        y = "Predicted YLD",
        shape = "Location")
 ```
 
-```{r}
-# Create new data for prediction
-new_data <- data.frame(Prevalence = c(13000, 7000, 10200),
-                       year = c(2021, 2021, 2021),
-                       location = c("Japan", "UK", "US"))
+The plot shows a good fit between the predicted and estimated YLDs,
+indicating that the model is able to capture the underlying trends in
+the data. The error is calculated as the absolute difference between the
+predicted and estimated YLDs, divided by the estimated YLDs, multiplied
+by 100 to express it as a percentage.
 
-# Predict YLDs for new data
-predictions <- predict(model, 
-                       new_data, 
-                       allow.new.levels = TRUE)
+```{r}
+tuberculosis %>%
+  mutate(ape = abs(predicted_YLD - YLDs) / YLDs * 100) %>%
+  summarise(mape = mean(ape, na.rm = TRUE)) 
 ```
 
-And the predictions are shown in the following plot:
+The **mean absolute percent error
+(MAPE)**\index{Mean Absolute Percent Error (MAPE)} is 6.2%, indicating
+that the model is able to predict YLDs with a reasonable level of
+accuracy.
+
+The **residual sum of squared error
+(RSE)**\index{Residual Sum of Squared Error (RSE)} is also calculated as
+the square root of the sum of squared residuals divided by the number of
+observations minus the number of parameters in the model. The RSE is a
+measure of how well the model fits the data, and a lower value indicates
+a better fit.
 
 ```{r}
-#| fig-cap: "New Data-Predicted YLDs for Tuberculosis"
-#| fig-alt: "New Data-Predicted YLDs for Tuberculosis"
+tuberculosis %>%
+  mutate(residuals = predicted_YLD - YLDs) %>%
+  summarise(
+    rse = sqrt(sum(residuals^2) / (nrow(tuberculosis) - length(fixef(model))))) 
+```
+
+A RSE of 0.1262147 indicates that the model is able to predict YLDs with
+a reasonable level of accuracy.
+
+Let's use the data for 2021 which we have left aside, and fit the model.
+
+```{r}
+tuberculosis_2021 <- hmsidwR::g7_hmetrics %>%
+  filter(measure %in% c("Prevalence",
+                        "YLDs"),
+         str_detect(cause, "Tuberculosis"),
+         year == 2021,
+         !location == "Global",
+         metric == "Rate",
+         sex == "both") %>% # per 100,000 population
+  select(year, location, measure, val) %>%
+  pivot_wider(names_from = measure,
+              values_from = val)
+
+tuberculosis_2021
+```
+
+```{r}
+# Predict YLDs for new data
+predictions_2021 <- predict(model, 
+                           tuberculosis_2021, 
+                           allow.new.levels = TRUE)
+```
+
+Check how the model performed on the 2021 data. The predictions are
+compared with the actual YLDs to evaluate the model's performance.
+
+```{r}
+tuberculosis_2021$predicted_YLD <- predictions_2021
+
+tuberculosis_2021 <- tuberculosis_2021 %>%
+  select(-Prevalence) %>%
+  mutate(residuals = predicted_YLD - YLDs) 
+
+tuberculosis_2021
+```
+
+```{r}
+#| echo: false
+
+data <- tuberculosis %>%
+  full_join(tuberculosis_2021, 
+            by = c("year", "location", "YLDs", 
+                   "predicted_YLD")) %>%
+  select(-Prevalence, -residuals) %>%
+  arrange(year)
+```
+
+```{r}
+#| fig-cap: "YLDs due to Tuberculosis - Mixed-Model Results. Solid lines show the original values, the dashed lines show the original values for 2021, and the dots shaped are by location the predicted values."
+#| fig-alt: "Estimated YLDs due to Tuberculosis"
+#| echo: false
 #| label: fig-mod-res-tuberculosis2
 #| fig-width: 5
 #| fig-height: 3
-
-data %>%
-  mutate(location = as.factor(location)) %>%
-  filter(location%in%c("Japan", "UK", "US")) %>%
-ggplot(aes(x = factor(year), y = predicted_YLD,
-             group = location, fill=location)) +
-  ggpattern::geom_col_pattern(aes(pattern = location),
-                              position = "stack",
-                              fill= 'white',
-                              colour= 'black') +
-  ggpattern::geom_col_pattern(data = bind_cols(new_data, 
-                                               predicted_YLD = predictions),
-                              aes(pattern = location),
-                              position = "stack",
-                              fill= 'white',
-                              colour= 'black') +
-  labs(title = "Predicted YLDs for Tuberculosis",
+ggplot() +
+  geom_line(data = subset(data, !year == 2021),
+            aes(x = year, y = YLDs, 
+                group = location)) +
+  geom_line(data = subset(data, !year == 2010),
+            aes(x = year, y = YLDs, 
+            group = location),
+        linetype = "dashed") +
+  geom_line(data = subset(data, !year == 2010),
+          aes(x = year, y = predicted_YLD, 
+              group = location),
+          color = "brown") +
+  geom_point(data = data,
+            aes(x = year, y = predicted_YLD, 
+                group = location,
+                shape = location)) +
+  scale_x_continuous(breaks = c(2010, 2019, 2021)) +
+  labs(title = "YLDs due to Tuberculosis 2010-2021",
+       subtile = "Predicted vs Estimated",
        x = "Year",
-       y = "Predicted YLDs",
-       fill = "Location")
+       y = "YLDs",
+       shape = "Location")
 ```
+
+The plot shows the estimated YLDs due to tuberculosis for 2010, 2019,
+and 2021. The dashed lines represent the estimated YLDs for 2010 and
+2019, while the solid lines represent the predicted YLDs for 2021. The
+points represent the actual YLDs for 2021. The model is able to predict
+YLDs with a reasonable level of accuracy, as indicated by the close fit
+between the predicted and actual values.
 
 ## Summary
 

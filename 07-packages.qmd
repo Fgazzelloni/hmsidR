@@ -17,7 +17,7 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Overview of the most suitable R-packages
+-   Gain an overview of the most suitable R-packages
 -   Apply different model frameworks
 -   How to find a new R-package
 :::
@@ -25,14 +25,14 @@ Learning Objectives
 
 \
 This chapter provides an overview of the most suitable R-packages for
-machine learning. It also discusses the combination of packages and
+machine learning\index{Machine learning}. It also discusses the combination of packages and
 functions to achieve the desired results. Additionally, it explores how
 to find new R-packages and evaluate their suitability for a given task.
 
 ## Inside and Outside of the Library Boxes
 
 When it comes to R, the possibilities are endless. With over 15,000
-packages available on CRAN (Comprehensive R Archive Network) and
+packages available on CRAN (Comprehensive R Archive Network)\index{Comprehensive R Archive Network (CRAN)} and
 countless others on GitHub and other repositories, the universe of
 available packages is vast. How to untangle among all of them? Which one
 to choose? Sometimes, it is rather favourable to start by working out of
@@ -58,13 +58,13 @@ techniques, making them more accessible to a broader audience.
 ## Essential R Packages for Machine Learning
 
 Some of the most used modelling packages that are particularly useful
-for machine learning modelling of the spread of infectious diseases and
-evaluating DALYs variation due to infectious disease include:
+for machine learning modelling of the spread of infectious diseases\index{Infectious diseases} and
+evaluating DALYs\index{Disability Adjusted Life Years (DALYs)} variation due to infectious disease include:
 
 ### Meta-Packages
 
 1.  [**`{tidymodels}`**](https://www.tmwr.org/)[@silge]:
-    This\index{tidymodels} framework provides a collection of packages
+    This framework provides a collection of packages
     for modelling and machine learning tasks, including {tidyr},
     {dplyr}, and ggplot2. It offers a consistent and tidy workflow for
     data preprocessing, model building, evaluation, and visualisation.
@@ -123,7 +123,7 @@ meta-packages.
     top of [`{tensorflow}`](https://github.com/rstudio/tensorflow) (an
     open-source machine learning framework developed by Google).
 
-### Time Series Analysis
+### Time Series Analysis {#sec-07-timeseries}
 
 1.  [`{forecast}`](https://pkg.robjhyndman.com/forecast/): For
     forecasting functions.
@@ -266,10 +266,10 @@ hmsidwR::infectious_diseases %>%
 ```
 
 The trend of the metrics in some locations is quite flat ranging around
-zero, while in others it is more evident. YLLs are the leading cause of
-DALYs, but YLDs are also contributing to the burden of disease.
+zero, while in others it is more evident. YLLs\index{Years of Life Lost (YLLs)} are the leading cause of
+DALYs, but YLDs\index{Years Lived with Disability (YLDs)} are also contributing to the burden of disease.
 
-We will focus on DALYs due to `Dengue` in three locations, Malawi,
+We will focus on DALYs due to **Dengue**\index{Dengue} in three locations, Malawi,
 Zambia, and Central African Republic from 1990 to 2016 (26 years). The
 data from 2017 to 2021 is not included in the analysis and held out to
 be used as new data for testing the model's performance, as shown in
@@ -328,8 +328,7 @@ missing and categorical values.
 ```{r}
 task <- TaskRegr$new(id = "DALYs",
                      backend = dalys_dengue,
-                     target = "DALYs"
-                     )
+                     target = "DALYs")
 
 task$data() %>% 
   select(year, DALYs, YLDs, YLLs) %>%
@@ -349,8 +348,8 @@ learner_xgboost <- lrn("regr.xgboost",
                        eta = 0.01)
 ```
 
-Then define a **resampling strategy** to estimate the generalization
-performance, then create a **benchmark design** to compare different
+Then define a **resampling strategy**\index{Resampling strategy} to estimate the generalization
+performance, then create a **benchmark design**\index{Benchmark design} to compare different
 learners:
 
 ```{r}
@@ -359,8 +358,7 @@ resampling <- rsmp("cv", folds = 5)
 design <- benchmark_grid(tasks = task,
                          learners = list(learner_cv_glmnet,
                                          learner_xgboost),
-                         resamplings = resampling
-                         )
+                         resamplings = resampling)
 design
 ```
 
@@ -371,15 +369,14 @@ Run the benchmark:
 set.seed(19052024)
 bmr <- benchmark(design,
                  store_models = TRUE,
-                 store_backends = TRUE
-                 )
+                 store_backends = TRUE)
 ```
 
 To access the content of an object such as `bmr`, use the `$` operator,
 or for more options use the `View()` function.
 
 The `score()` function is used to extract the performance metrics of the
-models, in this case the mean squared error (MSE) is used.
+models, in this case the mean squared error (MSE)\index{Mean Squared Error (MSE)} is used.
 
 ```{r}
 bmr$score()[, .(learner_id,
@@ -513,7 +510,9 @@ ggplot2::theme_set(book_theme)
 ```
 
 The following example shows how to use the `{h20}` r package for running
-[**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via its REST API. 
+[**H2O**](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html) via
+its REST API.
+
 ```{r}
 #| eval: false
 options(timeout = 6000)
@@ -525,7 +524,6 @@ install.packages("h2o")
 library(h2o)
 ```
 
-
 ```{r}
 #| output: false
 #| eval: false
@@ -533,7 +531,11 @@ library(h2o)
 h2o.init()
 ```
 
-We use the `rabies` dataset from the `{hmsidwR}` package, which has been used in @sec-06-rabies. The dataset contains information on the number of deaths and dalys due to rabies in different countries and regions. The dataset is preprocessed to remove unnecessary columns and pivoted to create a wide format with the relevant health metrics.
+We use the **rabies**\index{Rabies} dataset from the `{hmsidwR}` package, which has been
+used in @sec-06-rabies. The dataset contains information on the number
+of deaths and dalys due to rabies in different countries and regions.
+The dataset is preprocessed to remove unnecessary columns and pivoted to
+create a wide format with the relevant health metrics.
 
 ```{r}
 library(tidyverse)
@@ -549,7 +551,8 @@ rabies <- hmsidwR::rabies %>%
 rabies %>% head
 ```
 
-The `h2o_rabies` object is created by importing the `rabies` data frame to H2O with the `as.h2o()` function. 
+The `h2o_rabies` object is created by importing the `rabies` data frame
+to H2O with the `as.h2o()` function.
 
 ```{r}
 #| output: false
@@ -558,7 +561,8 @@ The `h2o_rabies` object is created by importing the `rabies` data frame to H2O w
 h2o_rabies <- as.h2o(rabies)
 ```
 
-Set a response variable and predictors. 
+Set a response variable and predictors.
+
 ```{r}
 response <- "dalys_rabies"
 ```
@@ -567,7 +571,6 @@ response <- "dalys_rabies"
 #| eval: false
 predictors <- setdiff(names(rabies), response)
 ```
-
 
 ```{r}
 #| eval: false
@@ -579,11 +582,12 @@ train <- splits[[1]]
 test <- splits[[2]]
 ```
 
-Train three models: 
+Train three models:
 
-- a linear regression model (family = "gaussian" or standard ordinary least squares (OLS) linear regression)
-- a GBM model (Gradient Boosting Machine)
-- a random forest model 
+-   a linear regression model (family = "gaussian" or standard ordinary
+    least squares (OLS) linear regression)
+-   a GBM model (Gradient Boosting Machine)
+-   a random forest model
 
 ```{r}
 #| output: false
@@ -608,7 +612,8 @@ model_rf <- h2o.randomForest(x = predictors,
                              seed = 1234)
 ```
 
-Evaluate the models with the `h2o.performance()` function to evaluate the performance of the models by calculating the metrics.
+Evaluate the models with the `h2o.performance()` function to evaluate
+the performance of the models by calculating the metrics.
 
 ```{r}
 #| eval: false
@@ -651,9 +656,12 @@ h20.rabies.metrics <- readRDS("data/model-data/h20.rabies.metrics.rds")
 #| echo: false
 h20.rabies.metrics
 ```
-The best model is the one with the lowest RMSE and MAE values. In this case, the `gbm` model is the best performing model among the three.
 
-To predict on the test data, we use the `gbm` model in the `h2o.predict()` function:
+The best model is the one with the lowest RMSE and MAE values. In this
+case, the `gbm` model is the best performing model among the three.
+
+To predict on the test data, we use the `gbm` model in the
+`h2o.predict()` function:
 
 ```{r}
 #| output: false
@@ -704,7 +712,10 @@ results_df <- data.frame(Actual = actual_df[, response],
 
 ```
 
-The check for normality of the residuals is done with the `qqnorm()` and `qqline()` functions. The residuals are calculated as the difference between the actual and predicted values.
+The check for normality of the residuals is done with the `qqnorm()` and
+`qqline()` functions. The residuals are calculated as the difference
+between the actual and predicted values.
+
 ```{r}
 #| layout-ncol: 2
 #| fig-cap: "H2O - GBM Model Results on DALYs due to Rabies; Residuals Distribution and Normality Test"
@@ -728,12 +739,10 @@ qqnorm(results_df$Residuals)
 qqline(results_df$Residuals, col = 2)
 ```
 
-
 ```{r}
 # Adding time to the results data frame
 results_df$Time <- actual_df$year
 ```
-
 
 ```{r}
 # Plot Actual vs Predicted
@@ -774,7 +783,11 @@ p1 + theme_minimal()
 p2 + theme_minimal()
 ```
 
-In conclusion, the H2O GBM model performed well on the rabies dataset, with a low RMSE and MAE. The residuals were normally distributed, indicating that the model's predictions were accurate. The actual vs predicted values plot shows a good fit, and the time series plot indicates that the model captured the trend in the data.
+In conclusion, the H2O GBM model performed well on the rabies dataset,
+with a low RMSE and MAE. The residuals were normally distributed,
+indicating that the model's predictions were accurate. The actual vs
+predicted values plot shows a good fit, and the time series plot
+indicates that the model captured the trend in the data.
 
 ```{r}
 #| output: false
@@ -785,13 +798,14 @@ h2o.shutdown(prompt = FALSE)
 ### Example: General Infection with Keras
 
 The following example shows how to use the `{keras}`, a package that
-facilitates the creation and training of **neural networks** and **deep
-learning** models. It provides a user-friendly interface to build
+facilitates the creation and training of **neural networks**\index{Neural networks} and **deep
+learning**\index{Deep
+learning} models. It provides a user-friendly interface to build
 models, whether they are simple neural networks or complex deep learning
 architectures, particularly useful for handling network connections.
 More detailed explanation of how a neural network works can be found in
 
-In this case the **SEIR**\index{SEIR} model (susceptible, exposed,
+In this case the **SEIR**\index{Susceptible Exposed Infected Eecovered (SEIR)} model (susceptible, exposed,
 infected and recovered) is used, as seen in @sec-05-machine_learning
 chapter, to simulate the spread of a general infection in a population
 of 1000 individuals over 160 days. For some types of infections, the
@@ -869,7 +883,14 @@ output <- ode(y = initial_state,
 output <- as.data.frame(output)
 ```
 
-The social media data is simulated and consists of 1000 individuals $(n)$ over 10 $(p)$ days, with an infection vector, and 10 features $(x_i)$, including social distancing adherence, mask usage (always, sometimes, never), hand hygiene frequency (times per day washing or sanitizing), work or study environment (remote versus in-person), participation in gatherings (number of gatherings attended recently), and contact tracing status (exposure to a confirmed case), among others. All values are standardized obtained from a normal distribution.
+The social media data is simulated and consists of 1000 individuals
+$(n)$ over 10 $(p)$ days, with an infection vector, and 10 features
+$(x_i)$, including social distancing adherence, mask usage (always,
+sometimes, never), hand hygiene frequency (times per day washing or
+sanitizing), work or study environment (remote versus in-person),
+participation in gatherings (number of gatherings attended recently),
+and contact tracing status (exposure to a confirmed case), among others.
+All values are standardized obtained from a normal distribution.
 
 ```{r}
 set.seed(123)
@@ -889,7 +910,7 @@ social_data[1:4,c(1:3,11)]
 Define the model by using the `keras_model_sequential()` function, and
 add layers with the `layer_dense()` and `layer_activation()` functions.
 On each layer the model will apply a transformation to the input data,
-and the activation function will introduce non-linearity to the model.
+and the activation function\index{Activation function} will introduce non-linearity to the model.
 
 Here we use a simple model with just two layers and a **ReLU** and a
 **Sigmoid** as activation functions. These functions have specific
@@ -897,17 +918,27 @@ shapes that allow the model to learn complex patterns in the data. Any
 time one layer is done the output is passed to the next layer.
 
 Although the `layer_dropout()` is not actually used in this application,
-it could be added to the model as a layer that drops out output results under specified requirements. The function is used to prevent overfitting by randomly
-setting a fraction of input units to zero during training.
+it could be added to the model as a layer that drops out output results
+under specified requirements. The function is used to prevent
+overfitting by randomly setting a fraction of input units to zero during
+training.
 
 The model concludes with one more `layer_dense()` with `activation` used
 to finally activate the output with a tailored function. In this case a
 **sigmoid**, but also a **softmax** function could be used.
 
-The decision of which activation function to use depends on the task type (classification or regression), or due to performance considerations, such as the ReLU is computationally simple and efficient. The **sigmoid** function is used in binary classification problems, where the output is a probability between 0 and 1. The **softmax** function is used in multi-class classification problems, where the
-output is a probability distribution over multiple classes. Sometimes, you try a few and see which works best through cross-validation or tuning.
+The decision of which activation function to use depends on the task
+type (classification or regression), or due to performance
+considerations, such as the ReLU is computationally simple and
+efficient. The **sigmoid** function is used in binary classification
+problems, where the output is a probability between 0 and 1. The
+**softmax** function is used in multi-class classification problems,
+where the output is a probability distribution over multiple classes.
+Sometimes, you try a few and see which works best through
+cross-validation or tuning.
 
-Given an input vector $x=[x_1,x_2,...,x_p]$ of size $p$, the model is composed of:
+Given an input vector $x=[x_1,x_2,...,x_p]$ of size $p$, the model is
+composed of:
 
 1.  **First Dense Layer Transformation**:
 
@@ -936,7 +967,6 @@ $$
 a^{(2)}=Sigmoid(z^{(2)})= \frac{1} {1+e^{-z^{(2)}}}
 $$ {#eq-second-activation}
 
-
 ```{r}
 #| eval: false
 model <- keras_model_sequential(input_shape = c(p))
@@ -955,10 +985,11 @@ $$
 y= \hat{y} + \epsilon
 $$ {#eq-model-error}
 
-where $y$ is the true value, $\hat{y}$ is the predicted value, and $\epsilon$ is the error.
+where $y$ is the true value, $\hat{y}$ is the predicted value, and
+$\epsilon$ is the error.
 
 The loss function is used to measure how well the model is performing,
-in this case a **binary crossentropy** loss function is used, to match
+in this case a **binary crossentropy**\index{Binary crossentropy} loss function is used, to match
 the difference between original data and the model output, and apply
 model adjustments in case the difference is too high. The formula for
 binary crossentropy is:
@@ -967,16 +998,17 @@ $$
 L(y,\hat{y})=-\frac{1}{n}\sum_{i=1}^n{y_i \log(\hat{y}_i)+(1-y_i) \log(1-\hat{y}_i)}
 $$ {#eq-loss-function-binary-crossentropy}
 
-where $L$ is the loss, $y$ is the true value, $\hat{y}$ is the predicted value, and $n$ is the number of samples.
-
+where $L$ is the loss, $y$ is the true value, $\hat{y}$ is the predicted
+value, and $n$ is the number of samples.
 
 The `optimizer_adam()` function, used to update the model's weights
-during training, in **Keras** specifies the use of the **Adaptive Moment
-Estimation (Adam)** optimization algorithm for training a neural
+during training, in **Keras**\index{Keras} specifies the use of the **Adaptive Moment
+Estimation (Adam)**\index{Adaptive Moment
+Estimation (Adam)} optimization algorithm for training a neural
 network. It updates the parameters of the neural network.
 
-Then finally, the model is evaluated on performance with the
-**accuracy** metric.
+Then finally, the model is evaluated on performance\index{Performance} with the
+**accuracy**\index{Accuracy} metric.
 
 ```{r}
 #| eval: false
@@ -987,8 +1019,8 @@ model %>% compile(loss = "binary_crossentropy",
 ```
 
 Once the model is defined and compiled, the model is then trained using
-the `fit()` function with the training data, number of **epochs**,
-**batch size**, and **validation** split specified. The number of epochs
+the `fit()` function with the training data, number of **epochs**\index{Epochs},
+**batch size**\index{Batch size}, and **validation**\index{Validation} split specified. The number of epochs
 is the number of times the model will go through the training data, the
 batch size is the number of samples used in each training step, and the
 validation split is the fraction of the training data that will be used
@@ -1076,7 +1108,7 @@ plot(history2)
 History](images/07_keras_history.png){#fig-mod-history
 fig-align="center" fig-alt="Model 1 and Model 2 Training History"}
 
-The model is then used to predict the probability of infection based on
+The model is then used to predict the probability of infection\index{Probability of infection} based on
 the social media data. The predictions are then converted to binary
 values using a threshold of 0.5, where values greater than 0.5 are
 classified as 1 (infected) and values less than or equal to 0.5 are
@@ -1189,7 +1221,7 @@ library(dlstats) # for package download stats
 library(pkgsearch) # for searching packages
 ```
 
-We search for packages related to *"excess of mortality"* and
+We search for packages related to *"excess of mortality"*\index{Excess of mortality} and
 "infectious diseases":
 
 ```{r}

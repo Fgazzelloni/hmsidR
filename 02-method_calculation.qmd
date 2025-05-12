@@ -17,7 +17,7 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   A closer look at the metrics
+-   A closer look at the health metrics
 -   Understand how to use them
 -   Think about potentiality for improvements
 :::
@@ -25,47 +25,60 @@ Learning Objectives
 
 \
 The objective of this chapter is to provide a first level calculation of
-the burden of diseases, focusing on disability and premature mortality,
-which are captured by DALYs and HALE. In @sec-01-health_metrics, we
-defined the metrics to establish the theoretical framework for
-constructing them. In this chapter, we will proceed with a general
-calculation of YLLs and YLDs to obtain the DALYs. This step is essential
-for understanding the structure of the metric components, which will be
-further investigated in @sec-03-components.
+the burden of diseases\index{Burden of diseases}, focusing on disability
+and premature mortality, which are captured by
+DALYs\index{Disability Adjusted Life Years (DALYs)} and
+HALE\index{Health Adjusted Life Expectancy (HALE)}. In
+@sec-01-health_metrics, we defined the metrics to establish the
+theoretical framework for constructing them. In this chapter, we will
+proceed with a general calculation of
+YLLs\index{Years of Life Lost (YLLs)} and
+YLDs\index{Years Lived with Disability (YLDs)} to obtain the
+DALYs\index{Disability-Adjusted Life Years (DALYs)}. This step is
+essential for understanding the structure of the metric
+components\index{Metric components}, which will be further investigated
+in @sec-03-components.
 
-Used to measure the burden of disease and quantify the impact of
-diseases and injuries on individuals and populations, these metrics can
-help prioritise public health interventions and evaluate the
-effectiveness of public health programs.
+Used to measure the burden of disease and
+quantify the impact of diseases\index{Diseases} and
+injuries\index{Injuries} on individuals and populations, these metrics
+can help prioritise public health\index{Public health}
+interventions\index{Health interventions} and evaluate the effectiveness
+of public health programs.
 
 ## YLLs Calculation
 
-The **Years of Life Lost (YLLs)** is a metric that measures the number
-of years a person would have lived if they had not died prematurely due
-to a disease or injury. **YLLs are calculated by subtracting the age at
-death from the expected age at death in a population without the disease
-or injury**.
+The **Years of Life Lost (YLLs)**\index{Years of Life Lost (YLLs)} is a
+metric that measures the number of years a person would have lived if
+they had not died prematurely due to a disease or injury. **YLLs are
+calculated by subtracting the age at death from the expected age at
+death in a population without the disease or
+injury**\index{Years of Life Lost (YLLs)}.
 
 In the late 1940s (@sec-01-health_metrics), **William
-Haenszel**[@haenszel1950] introduced the concept of **Standardized Rate
-for Mortality in units of Lost Years of Life**, marking an early attempt
+Haenszel**\index{William Haenszel}[@haenszel1950] introduced the concept
+of **Standardized Rate for Mortality in units of Lost Years of
+Life**\index{Standardized Rate for Mortality}, marking an early attempt
 to quantify the impact of premature mortality. This approach emphasized
 the importance of considering the *age at death* and comparing it to the
-*expected life expectancy*, highlighting that early deaths have a
-greater impact than those occurring later in life. It was ascertained
-that accounting for the number of years lost for a group of people would
-help recognize the potential life lost for a certain cause. Since this
-first approach, some adjustments to the standard death rates were made,
-leading to a new calculation that considered standardised death rates
-applied to age-specific factors for specific causes of death.
+*expected life expectancy*\index{Expected life expectancy}, highlighting
+that early deaths have a greater impact than those occurring later in
+life. It was ascertained that accounting for the number of years lost
+for a group of people would help recognize the potential life lost for a
+certain cause. Since this first approach, some adjustments to the
+standard death rates were made, leading to a new calculation that
+considered standardised death rates applied to age-specific factors for
+specific causes of death.
 
-Building on these ideas, **Mary Dempsey**[@dempsey2019] formalized the
-concept in 1947 to assess the burden of tuberculosis, coining the term
-**Years of Life Lost (YLLs)**. This metric was specifically designed to
-identify areas requiring improvement to reduce health loss and prevent
-premature death[@reiner2022]. Her work established YLLs as a critical
-tool for understanding and addressing the disproportionate effects of
-early mortality on population health.
+Building on these ideas, **Mary
+Dempsey**\index{Mary Dempsey}[@dempsey2019] formalized the concept in
+1947 to assess the burden of tuberculosis\index{Tuberculosis},
+coining the term **Years of Life Lost
+(YLLs)**\index{Years of Life Lost (YLLs)}. This metric was specifically
+designed to identify areas requiring improvement to reduce health loss
+and prevent premature death[@reiner2022]. Her work established YLLs as a
+critical tool for understanding and addressing the disproportionate
+effects of early mortality on population health.
 
 > The impact of premature losses on society extends beyond the grief of
 > losing a loved one; it also includes the economic and social cost of
@@ -80,51 +93,66 @@ YLL=N*le
 $$ {#eq-yll}
 
 In @eq-yll, $N$ is the number of premature deaths, and $le$ is the
-standard live expectancy at the age of death. This calculation takes
-into account the number of deaths at each age and multiplies it by the
-standard life expectancy remaining at that age, using global life tables
-to determine life expectancy. More details about the components of YLL
-are provided in the next chapter (@sec-03-components), and a sample of
-the construction of a life table with relative estimations of the life
-expectancy can be found in @sec-appendixA.
+standard life expectancy\index{Standard life expectancy} at the age of
+death. This calculation takes into account the number of deaths at each
+age and multiplies it by the standard life expectancy remaining at that
+age, using global life tables\index{Global life tables} to determine
+life expectancy\index{Life expectancy}. More details about the
+components of YLLs\index{Years of Life Lost (YLLs)} are provided in the
+next chapter (@sec-03-components), and a sample of the construction of a
+life table\index{Life table} with relative estimations of the life
+expectancy\index{Life expectancy} can be found in @sec-appendixA.
 
-In general, the **Global Burden of Diseases studies (GBD)** use
-standardised life tables, to consistently measure the impact of various
-diseases. This approach allows for reliable comparisons across different
-conditions and populations, providing a comprehensive assessment of
-disease burden on a global scale[@devleesschauwer2020]. Additionally,
-country-specific life expectancies are valuable for investigating
+In general, the **Global Burden of Disease studies
+(GBD)**\index{Global Burden of Disease (GBD)} use standardised
+life tables\index{Standardised life tables}, to consistently measure the
+impact of various diseases. This approach allows for reliable
+comparisons across different conditions and populations, providing a
+comprehensive assessment of disease burden\index{Disease burden} on a
+global scale[@devleesschauwer2020]. Additionally, country-specific life
+expectancies\index{Life expectancy} are valuable for investigating
 premature deaths resulting from health-related causes, such as fatal
-diseases. For instance, certain types of country-specific life
-expectancies are frequently recommended due to their ability to provide
-insight into longevity characteristics, which can inform policymakers
-and aid in prevention efforts, as exemplified by the Japanese life
-expectancy [@tsugane2021]. A G7 cross-country study demonstrated that
-Japan has the longest average life expectancy, primarily attributed to
-significantly low mortality rates from ischemic heart disease and
-cancer, which are the leading causes of death in most countries, as
-indicated by the GBD study.
+diseases\index{Fatal diseases}. For instance, certain types of
+country-specific life expectancies are frequently recommended due to
+their ability to provide insight into longevity characteristics, which
+can inform policymakers and aid in prevention efforts, as exemplified by
+the Japanese life expectancy\index{Japanese life
+expectancy} [@tsugane2021]. A G7 cross-country\index{Cross-country}
+study demonstrated that Japan has the longest average life expectancy,
+primarily attributed to significantly low mortality rates from ischemic
+heart disease\index{Ischemic heart disease} and cancer\index{Cancer},
+which are the leading causes of death\index{Cause of death} in most
+countries, as indicated by the
+GBD\index{Global Burden of Disease (GBD)} study.
 
 ### Example: YLLs due to Stroke
 
-Stroke can be a consequence of several infectious diseases, such as
-COVID-19, Tuberculosis (TB), and Malaria. The impact of these diseases
-on the cardiovascular system can lead to stroke, as infections can cause
-inflammation, blood clot formation, or direct damage to blood vessels.
+Stroke\index{Stroke} can be a consequence of several infectious
+diseases\index{Infectious diseases}, such as COVID-19\index{COVID-19},
+Tuberculosis (TB)\index{Tuberculosis}, and Malaria\index{Malaria}.
+The impact of these diseases on the
+cardiovascular\index{Cardiovascular disease (CVD)} system can lead to stroke,
+as infections\index{Infections} can cause
+inflammation\index{Inflammation}, blood clot formation, or direct damage
+to blood vessels.
 
-In the following example, we calculate the YLLs due to stroke in the
-year 2019 for the Global region. We use the data from the Global Burden
-of Disease (GBD) study, which provides estimates of the **number of
-deaths due to stroke** in different regions. The data can be downloaded
-from the `{hmsidwR}` package, which contains the necessary datasets for
-this calculation. The `deaths2019` dataset comprises
+In the following example, we calculate the
+YLLs\index{Years of Life Lost (YLLs)} due to stroke in the year 2019 for
+the Global region. We use the data from the Global Burden of Disease
+(GBD) study\index{Global Burden
+of Disease (GBD)}, which provides estimates of the **number of deaths
+due to stroke** in different regions. The data can be downloaded from
+the `{hmsidwR}` package, which contains the necessary datasets for this
+calculation. The `deaths2019` dataset comprises
 `r dim(hmsidwR::deaths2019)[1]` observations and
 `r dim(hmsidwR::deaths2019)[2]` variables, containing the estimated
 number of deaths due to 9 causes, including stroke, across 6 regions:
 Global, France, Italy, Germany, the United Kingdom, and the United
-States. We also use the **Global Health Observatory Life Tables** to
-estimate the life expectancy at different ages, which is used to
-calculate the YLLs due to stroke.
+States. We also use the **Global Health Observatory Life
+Tables**\index{Global Health Observatory Life Tables} to estimate the
+life expectancy\index{Life expectancy} at different ages, which is used
+to calculate the YLLs\index{Years of Life Lost (YLLs)} due to
+stroke\index{Stroke}.
 
 ```{r}
 #| eval: false
@@ -143,12 +171,12 @@ library(hmsidwR)
 unique(hmsidwR::deaths2019$cause)
 ```
 
-Our specific task is to calculate the Years of Life Lost (YLLs)
-attributable to stroke in the year 2019 for the Global region. We filter
-the location to be "Global" and the cause to be "Stroke". The use of
-`str_detect()` is to match the cause of death containing a specific
-word, it is very useful when the cause of death is not exactly
-containing just one word.
+Our specific task is to calculate the Years of Life Lost
+(YLLs)\index{Years of Life Lost (YLLs)} attributable to stroke in the
+year 2019 for the Global region. We filter the location to be "Global"
+and the cause to be "Stroke". The use of `str_detect()` is to match the
+cause of death containing a specific word, it is very useful when the
+cause of death is not exactly containing just one word.
 
 ```{r}
 deaths_stroke <- hmsidwR::deaths2019 %>%
@@ -165,8 +193,9 @@ a `geom_boxplot()`. The boxplot shows the distribution of the number of
 deaths by age group, with the median, quartiles, and outliers. The plot
 is divided by age group and shows the variation in the number of deaths
 due to stroke between gender as it is stratified by gender, highlighting
-variations in stroke mortality between males and females. We can observe
-the difference in the number of deaths increases for older age groups.
+variations in stroke mortality\index{Mortality} between males and
+females. We can observe the difference in the number of deaths increases
+for older age groups.
 
 ```{r}
 #| label: fig-deaths_stroke
@@ -187,15 +216,20 @@ Among the indicators available in the `hmsidwR::gho_lifetables` dataset,
 we specifically focus on the indicator denoted as $e_x$. The expectation
 of life at age $x$ ($e_x$) refers to the *average number of additional
 years a person is expected to live*, given that they have already
-reached age $x$. This measure is commonly referred to as life expectancy
-at age $x$. This dataset is part of the Global Health Observatory (GHO)
-data repository, which is maintained by the World Health Organization
-(WHO). The dataset also contains life table indicators, such as the
-number of person-years lived above age $x$ $(l_x)$, the number of
-person-years lived between ages $x$ and $x+n$ $(_{n}L_x)$, the
-age-specific death rate between ages $x$ and $x+n$ $(_{n}M_x)$, the
-number of people dying between ages $x$ and $x+n$ $(_{n}d_x)$, and the
-probability of dying between ages $x$ and $x+n$ $(_{n}q_x)$.
+reached age $x$. This measure is commonly referred to as life
+expectancy\index{Life expectancy} at age $x$. This dataset is part of
+the Global Health Observatory
+(GHO)\index{Global Health Observatory (GHO)} data repository, which is
+maintained by the World Health Organization
+(WHO)\index{World Health Organization
+(WHO)}. The dataset also contains life table indicators, such as the
+number of person-years\index{Person-years} lived above age $x$ $(l_x)$,
+the number of person-years lived between ages $x$ and $x+n$ $(_{n}L_x)$,
+the age-specific\index{Age-specific} death rate\index{Death rate}
+between ages $x$ and $x+n$ $(_{n}M_x)$, the number of people dying
+between ages $x$ and $x+n$ $(_{n}d_x)$, and the probability of
+dying\index{Probability of dying} between ages $x$ and $x+n$
+$(_{n}q_x)$.
 
 ```{r}
 #| label: tbl-indicators
@@ -325,7 +359,7 @@ Global region, particularly among older populations.
 
 ### Exercise: All-Ages YLLs Estimation {#sec-02-ex-yll-est}
 
-Calculate the YLLs due to stroke in the Global region for **All-ages**,
+Calculate the YLLs due to stroke in the Global region for **All-ages**\index{All-ages},
 and compare the results with the IHME data for the year 2019.
 
 The YLLs due to stroke in the Global region in 2019-IHME data can be
@@ -401,7 +435,7 @@ longer used in the most recent calculations.
 **YLDs (Years Lived with Disability)** measure the number of years a
 person lives with a disability due to a disease or injury. It is
 calculated by multiplying the **prevalence of a condition** by the
-**disability weight**, which reflects the **severity** of the
+**disability weight**\index{Disability weight}, which reflects the **severity**\index{Severity} of the
 disability.
 
 The key factor of the disability weights (DW) is linked to the severity
@@ -435,8 +469,8 @@ $$
 YLD_i=I*DW*L
 $$ {#eq-yldi}
 
-In @eq-yldi, $I$ is the incidence of the condition, $DW$ is the
-disability weight, and $L$ is the average duration of the condition. The
+In @eq-yldi, $I$ is the incidence\index{Incidence} of the condition, $DW$ is the
+disability weight, and $L$ is the average duration\index{Duration} of the condition. The
 incidence takes into account the number of new cases of a disease or
 health condition that occur in a population over a specific period. The
 disability weight reflects the severity of the health condition, and the
@@ -452,14 +486,14 @@ YLD_p=p*DW
 $$ {#eq-yld}
 
 In @eq-yld, $p$ is the prevalence, $DW$ are the disability weights.
-While an incidence-based approach focuses on the number of new cases of
-a health condition, the prevalence-based approach considers the total
+While an incidence-based approach\index{Incidence-based approach} focuses on the number of new cases of
+a health condition, the prevalence-based approach\index{Prevalence-based approach} considers the total
 number of cases in the population. The disability weight reflects the
 severity of the health condition and it is applied to the prevalence to
 calculate the YLDs, and the duration of the condition is not considered
 in the prevalence-based calculation.
 
-### Example: YLDs due to Stroke
+### Example: YLDs due to Stroke {#sec-02-ex-ylds-stroke}
 
 Since the release of GBD 2010, the WHO has decided to switch to a
 prevalence-based approach for the calculation of YLDs. The major impact
@@ -483,14 +517,9 @@ hmsidwR::disweights %>%
   filter(cause1 == "Stroke") 
 ```
 
-The level of `severity` is assigned based on the **level of disability**
-by the **National Institutes of Health Stroke Scale**, or
-[**NIH**](https://en.wikipedia.org/wiki/National_Institutes_of_Health "National Institutes of Health")
-**Stroke Scale** (**NIHSS**). The classification is used by healthcare
+The level of **severity** is assigned based on the **degree of disability** assessed by the [**National Institutes of Health Stroke Scale (NIHSS)**](https://en.wikipedia.org/wiki/National_Institutes_of_Health)\index{National Institutes of Health Stroke Scale (NIHSS)}. The classification is used by healthcare
 providers to objectively quantify the impairment caused by a
-[stroke](https://en.wikipedia.org/wiki/Stroke "Stroke"). Here is assumed
-a sample population affected by a stroke, categorised as **mild**,
-**moderate**, or **severe** with assigned proportions.
+[stroke](https://en.wikipedia.org/wiki/Stroke "Stroke"). Here is assumed a sample population affected by a stroke, categorised as **mild**, **moderate**, or **severe** with assigned proportions.
 
 |       |                 |                |            |
 |-------|-----------------|----------------|------------|
@@ -499,10 +528,8 @@ a sample population affected by a stroke, categorised as **mild**,
 | 5–20  | Moderate stroke | Moderate       | 25.3%      |
 | 21-42 | Severe stroke   | Severe         | 24.4%      |
 
-: **Level of disability** by the **National Institutes of Health Stroke
-Scale**, or
-[**NIH**](https://en.wikipedia.org/wiki/National_Institutes_of_Health "National Institutes of Health")
-**Stroke Scale** (**NIHSS**)
+: **Level of disability** by the [**National Institutes of Health NIH**](https://en.wikipedia.org/wiki/National_Institutes_of_Health)
+or more specifically by the **National Institutes of Health Stroke Scale (NIHSS)**.
 
 These levels are general for all ages; the values might vary for other
 specifications of the level of disability [@wyper2020].
@@ -582,12 +609,12 @@ Then, multiply these values for the severity levels for stroke in the
 Global region. In this way we obtain three values, one for each severity
 level.
 
-For calculating the prevalence-based YLDs, we use the `Prevalence`
+For calculating the prevalence-based YLDs, we use the `prevalence`
 values, the `severity` and the `average weights`, while for
 incidence-based YLDs, we also need to consider the `average duration` of
 the condition.
 
-In particular, for stroke, the average duration of the condition can
+In particular, for stroke\index{Stroke}, the average duration of the condition can
 vary based on:
 
 -   duration for acute stroke: up to 28 days
@@ -757,14 +784,17 @@ the YLLs. Use the IHME data provided in @sec-02-ex-yll-est
 ## DALYs Calculation
 
 As a measure of the overall disease burden, **Disability Adjusted Life
-Years (DALYs)** are used to quantify the sum of years of potential life
-lost due to premature death (YLLs) and years lived with disability
-(YLDs). The number of DALYs indicates the number of years of life lost
+Years (DALYs)**\index{Disability Adjusted Life
+Years (DALYs)} are used to quantify the sum of years of potential life
+lost due to premature death (YLLs)\index{Years of Life
+Lost (YLLs)} and years lived with disability
+(YLDs)\index{Years Lived with Disability (YLDs)}. The number of DALYs indicates the number of years of life lost
 due to premature deaths, disease, or injury. This metric takes into
 account both the **quantity** and **quality** of life.
 
 DALYs are a generalisation of the well-known **Potential Years of Life
-Lost measure (PYLLs)**, which includes the loss of good health. We do
+Lost measure (PYLLs)**\index{Potential Years of Life
+Lost (PYLLs)}, which includes the loss of good health. We do
 not consider PYLLs in this book, but more information can be found in
 the references [@globalh].
 
@@ -892,9 +922,9 @@ DALYs can vary significantly between conditions, reflecting both the
 severity and impact of each disease on quality and length of life. For
 instance, stroke and diabetes, both prevalent globally, differ widely in
 their DALY contributions. Strokes tend to have high DALYs due to their
-immediate impact on mortality (Years of Life Lost or YLL) and long-term
-disability (Years Lived with Disability or YLD). On the other hand,
-diabetes, a chronic condition, has a lower YLL but a higher YLD,
+immediate impact on mortality (Years of Life Lost or YLLs) and long-term
+disability (Years Lived with Disability or YLDs). On the other hand,
+diabetes, a chronic condition, has a lower YLLs but a higher YLDs,
 reflecting the long-term impact on quality of life.
 
 ### Exercise: Total DALYs Estimation
@@ -944,7 +974,7 @@ burden of disease over the past decade[@ferrari2024]. By using DALYs,
 YLLs, and YLDs, public health leaders were able to identify key areas
 for improvement and target resources to address the most pressing health
 challenges. For example, the government used the DALYs metrics to
-address the burden of non-communicable diseases (NCDs), public health
+address the burden of non-communicable diseases (NCDs)\index{Non Communicable Diseases (NCDs)}, public health
 leaders observed that conditions like cardiovascular disease and
 diabetes were contributing significantly to the country's overall
 disease burden, surpassing infectious diseases in certain demographics.
@@ -994,7 +1024,7 @@ campaigns, vaccination programs, and screening and treatment programs.
 
 ## HALE Calculation
 
-Healthy Life Expectancy (HALE) is a metric used to estimate the number
+Healthy Life Expectancy (HALE)\index{Healthy Life Expectancy (HALE)} is a metric used to estimate the number
 of years a person can expect to live in good health, taking into account
 both mortality and morbidity factors. It is often used as a measure of
 overall population health and quality of life. It takes into account the
@@ -1017,7 +1047,7 @@ $$
 HALE= \text{life expectancy}- YLD
 $$ {#eq-hale}
 
-HALE\index{HALE} is obtained by subtracting the YLDs from the life
+HALE is obtained by subtracting the YLDs from the life
 expectancy of a population. However, if we consider more specifications
 such as comorbidities and other health factors that can occur in real
 life, the calculation can be adjusted by assuming different levels of
@@ -1042,7 +1072,7 @@ factors such as sex, country, and year, involves computing the average
 health of individuals across different age groups within the population
 and integrating information on the prevalence of various health
 conditions and their associated disability weights. Comorbidity is
-addressed using a Monte Carlo simulation approach, assuming independence
+addressed using a Monte Carlo simulation\index{Monte Carlo simulation} approach, assuming independence
 of comorbidities within each age group. Simulations are conducted to
 model exposure to different health conditions based on their estimated
 prevalence in each age group, resulting in a simulated population
