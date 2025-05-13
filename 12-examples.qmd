@@ -24,31 +24,32 @@ Learning Objectives
 ::::::
 
 \
-In this chapter, we will learn how to create advanced data visualisation
-techniques using `ggplot2`. We will create contour plots to visualise
-interaction effects and pyramid plots to visualise population
-distribution.
+In this chapter, we will learn how to create advanced data
+visualisation\index{Data visualisation} techniques using `ggplot2`. We
+will create contour plots to visualise interaction effects and pyramid
+plots to visualise population distribution.
 
 ## Example: Detecting Interaction Effects with Contour Plots
 
-Interaction effects can cause predictors to act together on the response
-variable, leading to additional variation in the response. Interaction
-effects occur when the combined effect of two or more predictors is
-different from what would be expected if the impact of each predictor
-were considered alone. For instance, in the case of **cardiovascular
-disease (CVD)** risk prediction, the interaction between age and
+Interaction effects\index{Interaction effects} can cause predictors to
+act together on the response variable, leading to additional variation
+in the response. Interaction effects occur when the combined effect of
+two or more predictors is different from what would be expected if the
+impact of each predictor were considered alone. For instance, in the
+case of **cardiovascular disease (CVD)**\index{Cardiovascular
+Disease (CVD)} risk prediction, the interaction between age and
 cholesterol levels can have a significant impact on the risk of
 developing heart disease. In addition, if smoke is added to the model,
-the effect of cholesterol levels on CVD risk may change depending on
-whether the individual is a smoker or non-smoker. So, smoke is said to
-interact with cholesterol levels in predicting CVD risk, as well as age,
-but in what way?
+the effect of cholesterol\index{Cholesterol} levels on CVD risk may
+change depending on whether the individual is a smoker or non-smoker.
+So, smoke is said to interact with cholesterol levels in predicting CVD
+risk, as well as age, but in what way?
 
 $$y=\beta_0 +\beta_1 x_1 + \beta_2 x_2 +\beta_3 x_3 + \epsilon$$ {#eq-interaction}
 
-where $y$ is the risk of developing heart disease, $\beta_0$ is the
-intercept, $\beta_1$ and $\beta_2$ are the coefficients for the
-predictors $x_1$ and $x_2$, respectively, and $\beta_3$ is the
+where $y$ is the risk of developing heart disease\index{Heart disease},
+$\beta_0$ is the intercept, $\beta_1$ and $\beta_2$ are the coefficients
+for the predictors $x_1$ and $x_2$, respectively, and $\beta_3$ is the
 coefficient for the **interaction term** $x_1*x_2$. The error term
 $\epsilon$ accounts for the variability in the response variable that is
 not explained by the predictors.
@@ -256,11 +257,12 @@ p3
 
 ## Example: Pyramid Plot
 
-A pyramid plot is a type of bar chart that displays the distribution of
-a population by age. We use the data from the `{wpp2022}` package,
-`data(package = "wpp2022")` which is a collection of population
-datasets, with population estimates. Data are from the United Nations
-World Population Prospects 2022.
+A pyramid plot\index{Pyramid plot} is a type of bar chart that displays
+the distribution of a population by age. We use the data from the
+`{wpp2022}` package, `data(package = "wpp2022")` which is a collection
+of population datasets, with population estimates. Data are from the
+United Nations World Population
+Prospects\index{World Population Prospects (WPP)} 2022.
 
 ```{r}
 library(wpp2022)

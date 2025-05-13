@@ -17,16 +17,16 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   What is Covid-19
--   How does it spread
--   Map Covid-19 outbreaks
+-   Understand the key characteristics and impact of COVID-19
+-   Explore how COVID-19 spreads through populations and environments
+-   Learn to map and visualize COVID-19 outbreaks using spatial data
 :::
 ::::::
 
 \
-In this chapter, we explore the dynamics of **COVID-19** disease
-outbreaks in more detail. We examine the results of various model's
-applications that simulate the spread of the virus.
+In this chapter, we explore the dynamics of **COVID-19**\index{COVID-19}
+disease outbreaks\index{Outbreak} in more detail. We examine the results
+of various model's applications that simulate the spread of the virus.
 
 ## Epidemiology
 
@@ -38,25 +38,26 @@ identified in December 2019 in Wuhan, Hubei province, China, and has
 since then spread globally, leading to a **pandemic**[@pandemic].
 
 The origin of the virus is still under investigation[@who-conv], but it
-is believed to have **zoonotic**[@zoonosis]\index{zoonotic} origins,
+is believed to have **zoonotic**[@zoonosis]\index{Zoonotic} origins,
 with **bats** being the most likely reservoir. The virus has also been
 linked to **pangolins**[@huang2023], mammals that are illegally
 trafficked for their scales and meat. The virus is thought to have
 jumped from animals to humans, possibly through a wet market in Wuhan
 where live animals were sold.
 
-Zoonotic\index{zoonosis} diseases are a critical area of study in public
+Zoonotic\index{Zoonosis} diseases are a critical area of study in public
 health and epidemiology due to their significant impact on human
 populations and the potential for pandemics. As discussed by **MD Laura
 H. Kahn** in **One Health and the Politics of
-COVID-19**[@laurah.kahn2024], the pandemic’s origins and spread
-highlight the critical need for a holistic understanding of health
-systems that integrates human, animal, and environmental health.
+COVID-19**[@laurah.kahn2024]\index{One Health}, the pandemic’s origins
+and spread highlight the critical need for a holistic understanding of
+health systems that integrates human, animal, and environmental health.
 Zoonotic viruses can be transmitted from animals to humans through
 direct contact, consumption of contaminated food or water, or exposure
 to infected animal products. These viruses can cause a range of
 diseases, from mild illnesses to severe respiratory infections, and can
-have devastating effects on public health and economies.
+have devastating effects on public health\index{Public health} and
+economies.
 
 ::: {.callout .callout-info}
 Examples of Zoonotic Viruses:
@@ -69,20 +70,21 @@ Examples of Zoonotic Viruses:
 5.  Rabies: Spread from infected animals like dogs, bats, and raccoons.
 :::
 
-On January 30, 2020, The **World Health Organization (WHO)** declared
-the **COVID-19** **Outbreak**; a Public Health Emergency of
-International Concern, and a worldwide investigation started to
-understand more about the virus and its effects on humans. This
-challenge involved the unprecedented identification of this type of
-virus, requiring thorough testing and confirmation of the incubation
-period, recovery rate, and infection rate through the collection of
-cases globally.
+On January 30, 2020, The **World Health Organization
+(WHO)**\index{World Health Organization (WHO)} declared the **COVID-19**
+**Outbreak** a *Public Health Emergency of International Concern*, and a
+worldwide investigation started to understand more about the virus and
+its effects on humans. This challenge involved the unprecedented
+identification of this type of virus, requiring thorough testing and
+confirmation of the incubation period, recovery rate, and infection rate
+through the collection of cases globally.
 
 The virus spreads primarily through respiratory droplets. Symptoms can
 include loss of taste and smell, fatigue, muscle aches, and
 gastrointestinal issues, with fever, cough, and shortness of breath.
-Severe cases can lead to **pneumonia**, **acute respiratory distress
-syndrome (ARDS)**, and **death**. The emergency was primarily due to the
+Severe cases can lead to **pneumonia**\index{Pneumonia}, **acute
+respiratory distress syndrome (ARDS)**\index{Acute Respiratory Distress
+Syndrome (ARDS)}, and **death**. The emergency was primarily due to the
 high number of deaths occurring without a known pharmacological
 intervention to contain it.
 
@@ -133,20 +135,21 @@ health responses, and vaccination rates.
 ::: {.callout .callout-warning}
 Public Health COVID-19 Prevention Measures:
 
--   **Diagnostic Tests**: PCR (polymerase chain reaction) tests and
-    rapid antigen tests are used to detect active infections, while
-    antibody tests determine past infections.
+-   **Diagnostic Tests**: PCR (polymerase chain
+    reaction)\index{Polymerase Chain Reaction (PCR)} tests and rapid
+    antigen tests are used to detect active infections, while antibody
+    tests determine past infections.
 -   **Treatment**: While there is no specific antiviral treatment for
     COVID-19, supportive care, including oxygen therapy and mechanical
     ventilation, is used for severe cases. Some antiviral medications
     and therapies have been repurposed or developed specifically for
     COVID-19.
--   **Vaccination**: Vaccines have been developed and distributed
-    globally to prevent COVID-19. These vaccines, including mRNA
-    vaccines (Pfizer-BioNTech and Moderna), viral vector vaccines
-    (AstraZeneca and Johnson & Johnson), and inactivated virus vaccines
-    (Sinovac and Sinopharm), have shown high efficacy in preventing
-    severe disease and reducing transmission.
+-   **Vaccination**\index{Vaccines, vaccination}: Vaccines have been
+    developed and distributed globally to prevent COVID-19. These
+    vaccines, including mRNA vaccines (Pfizer-BioNTech and Moderna),
+    viral vector vaccines (AstraZeneca and Johnson & Johnson), and
+    inactivated virus vaccines (Sinovac and Sinopharm), have shown high
+    efficacy in preventing severe disease and reducing transmission.
 :::
 
 COVID-19 has had a profound impact on global health, economies, and
@@ -163,21 +166,24 @@ widespread vaccination coverage.
 
 Mapping COVID-19 outbreaks helps identify infection hotspots, track the
 virus’s spread, and inform public health interventions. Geographic
-Information Systems (GIS) and spatial analysis techniques can visualise
-and analyse COVID-19 data, such as the number of cases, deaths, and
-recoveries, at local, regional, and global levels.
+Information Systems (GIS)\index{Geographic
+Information Systems (GIS)} and spatial analysis\index{Spatial analysis}
+techniques can visualise and analyse COVID-19 data, such as the number
+of cases, deaths, and recoveries, at local, regional, and global levels.
 
 ## Example: Modelling the Spread of COVID-19 {#sec-14-modelling-covid19}
 
 Spatiotemporal modelling of COVID-19 outbreaks can provide valuable
-insights into the pandemic's dynamics and help guide public health
-responses. In this example, we'll use the
-**Susceptible-Exposed-Infected-Recovered (SEIR)** model to simulate the
-spread of COVID-19 infections, as we saw in @sec-05-epidemic-x. A
-**Bayesian machine learning approach** is used to predict the spread of
-the virus over time and across different regions. Bayesian methods
-handle uncertainties and allow for the integration of prior information
-into the model.
+insights into the pandemic's\index{Pandemic} dynamics and help guide
+public health responses. In this example, we'll use the
+**Susceptible-Exposed-Infected-Recovered
+(SEIR)**\index{Susceptible Exposed Infected Recovered (SEIR)} model to
+simulate the spread of COVID-19 infections, as we saw in
+@sec-05-epidemic-x. A **Bayesian machine learning
+approach**\index{Bayesian machine learning} is used to predict the
+spread of the virus over time and across different regions. Bayesian
+methods handle uncertainties and allow for the integration of prior
+information into the model.
 
 ### SEIR model
 
@@ -213,8 +219,9 @@ seir_model <- function(t, y, parameters) {
 ```
 
 As seen previously, we'll use the `ode()` function from the `{deSolve}`
-package to solve the ordinary differential equations (ODEs) and simulate
-the spread of the virus over a period of 365 days:
+package to solve the ordinary differential equations
+(ODEs)\index{Ordinary Differential Equations (ODEs)} and simulate the
+spread of the virus over a period of 365 days:
 
 ```{r}
 times <- seq(0, 365, by = 1)
@@ -378,9 +385,9 @@ bayesian_model$formula
 After fitting the model, we can plot the model diagnostics to assess its
 performance with the `plot()` function. The diagnostics include trace
 plots of the chains, density plots of the posterior distributions, and
-the `Gelman-Rubin statistic`, which measures the convergence of the
-chains. The Gelman-Rubin statistic should be close to 1 for the model to
-have converged.
+the `Gelman-Rubin statistic`\index{Gelman-Rubin statistic}, which
+measures the convergence of the chains. The Gelman-Rubin statistic
+should be close to 1 for the model to have converged.
 
 ```{r}
 #| eval: false
@@ -398,7 +405,7 @@ fig-alt="Bayesian Model diagnostics"}
 
 Then, finally we can make predictions using the fitted model and
 visualise the actual vs. predicted COVID-19 cases over time. The
-`predictions` object is type matrix/array.
+`predictions`\index{Predictions} object is type matrix/array.
 
 ```{r}
 predictions <- predict(bayesian_model, newdata = cv19_data)
@@ -440,7 +447,8 @@ ggplot(data = cv19_data_pred, aes(x = date)) +
 We have been able to simulate the spread of COVID-19 using the SEIR and
 predict the spread using the Bayesian regression model. However,
 combining the predictions of multiple models can provide more accurate
-and robust forecasts. This technique is known as **ensemble modelling**.
+and robust forecasts. This technique is known as **ensemble
+modelling**\\index{Ensemble modelling.
 
 Ensemble modelling combines the predictions of multiple models to
 improve the overall accuracy and robustness of predictions. This
@@ -450,8 +458,8 @@ reliable estimates of disease spread.
 
 This method combines the strengths of different models to produce more
 accurate and stable predictions by averaging the results of individual
-models or using more sophisticated techniques such as **stacking** or
-**boosting**.
+models or using more sophisticated techniques such as
+**stacking**\index{Stacking} or **boosting**\index{Boosting}.
 
 For example, ensemble models have been used to predict confirmed
 COVID-19 cases and provide short-term forecasts by integrating multiple
@@ -460,9 +468,11 @@ forecasting periods to enhance prediction accuracy[@chowell2022].
 
 In this example, we use the `{tidymodels}` meta-package and other key
 packages such as `{modeltimes}`, and `{stacks}` to combine different
-types of models. We will use: Decision Tree, Random Forest, K-Nearest
-Neighbors (KNN), and Support Vector Machines (SVM) models to combine and
-predict the spread of COVID-19 cases.
+types of models. We will use: Decision Tree\index{Decision tree}, Random
+Forest\index{Random Forest}, K-Nearest Neighbours (KNN)\index{K-Nearest
+Neighbours (KNN)}, and Support Vector Machines
+(SVM)\index{Support Vector Machines (SVM)} models to combine and predict
+the spread of COVID-19 cases.
 
 ```{r}
 library(tidymodels)
@@ -483,8 +493,9 @@ cv_train <- training(cv_split)
 cv_test <- testing(cv_split)
 ```
 
-Create a `vfold_cv()` object for cross-validation with 10 folds. This
-object will be used to evaluate the models' performance during training.
+Create a `vfold_cv()` object for
+cross-validation\index{Cross Validation} with 10 folds. This object will
+be used to evaluate the models' performance during training.
 
 ```{r}
 set.seed(1001)
@@ -577,8 +588,8 @@ race_results
 
 Then we collect the metrics for the models to evaluate their
 performance. We filter the results for the root mean squared error
-(`rmse`) and arrange them in ascending order to identify the
-best-performing model.
+(`rmse`)\index{Root Mean Squared Error (RMSE)} and arrange them in
+ascending order to identify the best-performing model.
 
 ```{r}
 rmse <- collect_metrics(race_results) %>% 
@@ -701,10 +712,11 @@ impact of pandemics.
 
 The influence of COVID-19 on global health can be measured using the
 DALYs. We use the data from the JHU official GitHub repository
-**CSSEGISandData**[^14-covid19-1] to calculate the DALYs for COVID-19.
-The data includes the number of confirmed cases, deaths, and recovered
-cases for each country and region. We will calculate the DALYs for the
-US, China, United Kingdom, and Canada.
+**CSSEGISandData**[^14-covid19-1] to calculate the
+DALYs\index{Disability Adjusted Life Years (DALYs)} for COVID-19. The
+data includes the number of confirmed cases, deaths, and recovered cases
+for each country and region. We will calculate the DALYs for the US,
+China, United Kingdom, and Canada.
 
 [^14-covid19-1]: <https://github.com/CSSEGISandData/COVID-19>
 
@@ -772,7 +784,8 @@ deaths1 %>% head()
 
 Then, the next step is to join the two sets by province, country, lat,
 long, and date. Sum the number of cases and deaths and calculate the
-case fatality ratio (CFR) as deaths divided by cases.
+case fatality ratio (CFR)\index{Case Fatality Rate (CFR)} as deaths
+divided by cases.
 
 ```{r}
 COVID19 <- cases1 %>%
@@ -952,14 +965,15 @@ The difference in the number of cases and deaths between the US and
 China is striking. The US has the highest number of cases and deaths,
 while China has the lowest number of cases and deaths. The United
 Kingdom and Canada have a similar number of cases and deaths, but the
-United Kingdom has a higher **case fatality rate (CFR)**\index{CFR} than
-Canada.
+United Kingdom has a higher **case fatality rate
+(CFR)**\index{Case Fatality Rate (CFR)} than Canada.
 
 Let's now calculate the DALYs for COVID-19, starting with the YLLs. We
-know that the simplified formula for YLLs is the number of deaths
-multiplied by the standard life expectancy at the age of death. The
-standard life expectancy for these countries varies, but we can use the
-global average of 72.6 years.
+know that the simplified formula for
+YLLs\index{Years of Life Lost (YLLs)} is the number of deaths multiplied
+by the standard life expectancy\index{Standard life expectancy} at the
+age of death. The standard life expectancy for these countries varies,
+but we can use the global average of 72.6 years.
 
 Also, we group the date by 4 months cycles to calculate the YLLs.
 
@@ -1009,13 +1023,13 @@ The majority of YLLs are in the United Kingdom, followed by the US,
 Canada, and China. The YLLs are highest in the first 4-month cycle
 (Jan-Apr) and decrease in the following cycles.
 
-Let's now calculate the YLDs for COVID-19. The YLDs are calculated by
-multiplying the number of cases by the disability weight. The Disability
-Weight applied is that for low respiratory diseases which is 0.133. As
-of 2020, the Global Burden of Disease Study 2019 estimated that the
-DALYs for lower respiratory diseases was 1,000,000. We can use the
-`{hmsidwR}` package to get the disability weight for lower respiratory
-diseases.
+Let's now calculate the YLDs\index{Years Lived with Disability (YLDs)}
+for COVID-19. The YLDs are calculated by multiplying the number of cases
+by the disability weight. The Disability Weight applied is that for low
+respiratory diseases which is 0.133. As of 2020, the Global Burden of
+Disease Study 2019 estimated that the DALYs for lower respiratory
+diseases was 1,000,000. We can use the `{hmsidwR}` package to get the
+disability weight for lower respiratory diseases.
 
 ```{r}
 hmsidwR::disweights %>%
@@ -1028,10 +1042,11 @@ disease multiplied by the disability weight. To calculate the
 prevalence, we need the population of each country. For this task we use
 the `{wpp2022}` package, which provides the population data from the
 2022 revision of the **United Nations World Population Prospects (WPP
-2022)**. It includes both historical estimates and projections of
-demographic indicators such as population counts and fertility rates,
-accommodating the challenges brought on by events like the COVID-19
-pandemic and transitioning from five-year to one-year data intervals.
+2022)**\index{World Population Prospects (WPP)}. It includes both
+historical estimates and projections of demographic indicators such as
+population counts and fertility rates, accommodating the challenges
+brought on by events like the COVID-19 pandemic and transitioning from
+five-year to one-year data intervals.
 
 ```{r}
 #| eval: false

@@ -17,11 +17,11 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   How health metrics vary across different countries.
+-   How health metrics vary across different countries
 -   Gain insights from the Global Burden of Disease (GBD) study on
-    health metrics at the country level.
+    health metrics at the country level
 -   Evaluate the implications of health metrics for global public health
-    policy and interventions.
+    policy and interventions
 :::
 ::::::
 
@@ -30,19 +30,25 @@ In the previous sections, we explored various aspects of health metrics,
 including tailored case studies, data sources, modelling, and
 visualisation techniques. We discussed key health metrics such as
 mortality rates, life expectancy, Disability-Adjusted Life Years
-(DALYs), Years of Life Lost (YLLs), and Years Lived with Disability
-(YLDs). We also examined the role of risk factors, disease burdens, and
-health outcomes in shaping population health profiles.
+(DALYs)\index{Disability Adjusted Life Years
+(DALYs)}, Years of Life Lost (YLLs)\index{Years of Life Lost (YLLs)},
+and Years Lived with Disability (YLDs)\index{Years Lived with Disability
+(YLDs)}. We also examined the role of risk factors\index{Risk factors},
+disease burdens\index{Disease burden}, and health outcomes in shaping
+population health\index{Population health} profiles.
 
-In this final chapter, we will focus on visualising health metrics
-across countries to understand the state of health globally. We will
-explore the implications of cross-country comparisons of health metrics
-for public health policy and interventions. We will use data from the
-**Global Burden of Disease (GBD)** study and the **OECD’s Health at a
-Glance** report to compare health indicators, disease burdens, and risk
-factors across different countries. By analysing health metrics at the
-country level, we can gain insights into public health priorities,
-identify areas for improvement, and inform global public health policy.
+In this final chapter, we will focus on visualising health
+metrics\index{Health metrics} across countries to understand the state
+of health globally. We will explore the implications of cross-country
+comparisons of health metrics for public health policy and
+interventions. We will use data from the **Global Burden of Disease
+(GBD)**\index{Global Burden of Disease (GBD)} study and the **OECD’s
+Health at a Glance**\index{OECD’s Health at a Glance} report to compare
+health indicators\index{Health indicators}, disease burdens, and risk
+factors\index{Risk factors} across different countries. By analysing
+health metrics at the country level, we can gain insights into public
+health priorities, identify areas for improvement, and inform global
+public health policy.
 
 ## Data Sources for Health Metrics Comparison
 
@@ -56,15 +62,17 @@ cross-country comparisons and insights into public health priorities.
 
 The **OECD’s Health at a Glance** report offers a comparative overview
 of health indicators among member countries. The report examines metrics
-such as life expectancy, health expenditures, and major health trends.
-It also provides accessible insights into public health priorities and
-performance indicators, facilitating comparisons and helping to identify
-areas for improvement ([www.oecd-ilibrary.org](www.oecd-ilibrary.org)).
+such as life expectancy\index{Life expectancy}, health expenditures, and
+major health trends. It also provides accessible insights into public
+health priorities and performance indicators, facilitating comparisons
+and helping to identify areas for improvement
+([www.oecd-ilibrary.org](www.oecd-ilibrary.org)).
 
 In this example, we will download data from the OECD's Health at a
 Glance report website (<https://data-explorer.oecd.org/>) to compare
 **Disability-adjusted life years (DALYs) due to Ambient Particulate
-Matter** as a risk exposure per 1 000 inhabitants (accessed Nov 2024).
+Matter**\index{Disability Adjusted Life Years (DALYs)} as a risk
+exposure per 1 000 inhabitants (accessed Nov 2024).
 
 We can use the `url` for DALYs due to Ambient Particulate Matter found
 by searching for the keyword `DALYs` in the search box of the OECD
@@ -191,27 +199,31 @@ countries like Iceland and Italy.
 In general, the data shows that regions with high air pollution, such as
 parts of East Asia, see increased DALYs from respiratory conditions.
 This is due to the high levels of particulate matter in the air, which
-can lead to respiratory diseases like asthma and chronic obstructive
-pulmonary disease (COPD). Countries with stringent air quality
+can lead to respiratory diseases like asthma and **chronic obstructive
+pulmonary disease (COPD)**\index{Chronic Obstructive
+Pulmonary Disease (COPD)}. Countries with stringent air quality
 regulations, such as those in Western Europe, tend to have lower DALYs
 from air pollution-related conditions.
 
 ### Example of GBD Data Cross-Country Comparisons
 
 The **Global Burden of Disease GBD** study by the **Institute for Health
-Metrics and Evaluation (IHME)** provides comprehensive data on various
+Metrics and Evaluation (IHME)**\index{Institute for Health
+Metrics and Evaluation (IHME)} provides comprehensive data on various
 health metrics covering a vast array of diseases, injuries, and risk
 factors across 204 countries. To access the GBD data
 (\<www.healthdata.org\>), we can use the **Sustainable Development Goals
-(SDG) API** provided by the IHME. The API allows users to access GBD
-data for specific indicators, locations, and years, enabling
-cross-country comparisons. In @sec-collecting-data is provided a
-detailed guide on how to access and use the **SDG API**.
+(SDG) API**\index{Sustainable Development Goals (SDG)} provided by the
+IHME. The API allows users to access GBD data for specific indicators,
+locations, and years, enabling cross-country comparisons. In
+@sec-collecting-data is provided a detailed guide on how to access and
+use the **SDG API**.
 
-In this example, we will compare the **Tuberculosis Incidence Rate in
-2019** for selected countries using the Sustainable Development Goals
-(SDG) API data. We will use the `{hmsidwR}` package to download the data
-and visualise the results using a bar plot.
+In this example, we will compare the
+**Tuberculosis**\index{Tuberculosis} Incidence Rate in 2019 for selected
+countries using the Sustainable Development Goals (SDG) API data. We
+will use the `{hmsidwR}` package to download the data and visualise the
+results using a bar plot.
 
 ```{r}
 #| eval: false
@@ -290,7 +302,7 @@ data_1001 %>%
 
 Tuberculosis can still be a significant concern, even in smaller island
 nations, due to factors like limited healthcare infrastructure, high
-prevalence of co-morbidities, and socioeconomic conditions. Tonga, a
+prevalence of co-morbidities, and socio-economic conditions. Tonga, a
 country located in the South Pacific, east of Australia, and north of
 New Zealand, part of the region known as Oceania, is made up of 170
 islands, where four-fifths of them are uninhabited. The country faces
@@ -304,7 +316,8 @@ health outcomes across countries.
 
 Health metrics can vary significantly across countries due to a
 combination of factors that influence population health outcomes. Some
-of the key determinants of health metrics variation include:
+of the key determinants\index{Key determinants} of health metrics
+variation include:
 
 -   Healthcare Infrastructure and Access
 -   Socioeconomic Status
@@ -327,12 +340,14 @@ long-term benefits in population health metrics.
 
 The **Global Burden of Disease (GBD)** study provides detailed data on a
 wide range of health metrics, including Years Lived with Disability
-(YLDs) due to injuries. Considered non fatal outcomes, YLDs measure the
-impact of injuries on population health by quantifying the years lived
-with a disability caused by an injury. By comparing YLDs due to injuries
-across countries with different Sustainable Development Index (SDI)
-levels, we can identify disparities in injury-related health outcomes
-and inform public health interventions to reduce the burden of injuries.
+(YLDs)\index{Years Lived with Disability
+(YLDs)} due to injuries\index{Injuries}. Considered non fatal outcomes,
+YLDs measure the impact of injuries on population health by quantifying
+the years lived with a disability caused by an injury. By comparing YLDs
+due to injuries across countries with different Sustainable Development
+Index (SDI)\index{Sustainable Development Index (SDI)} levels, we can
+identify disparities in injury-related health outcomes and inform public
+health interventions to reduce the burden of injuries.
 
 In this example we will use the GBD data to compare the **Years Lived
 with Disability (YLDs) due to Injuries** for high, middle, and low
@@ -397,13 +412,13 @@ injuries, while low SDI countries experience a rising burden.
 ## Example: Injuries Cross-Country Variation by Type
 
 In this example, we will use the GBD data to compare the types of
-injuries contributing to the burden of disease in high, middle, and low
-SDI countries from 1990 to 2021[^16-summary-2]. For example, we can
-compare the average number of injuries by type (e.g., road injuries,
-falls, self-harm) in high, middle, and low SDI countries. This
-comparison can help identify the most common types of injuries and
-inform targeted public health interventions to reduce the burden of
-injuries in different populations.
+injuries contributing to the burden of disease\index{Burden of disease}
+in high, middle, and low SDI countries from 1990 to 2021[^16-summary-2].
+For example, we can compare the average number of injuries by type
+(e.g., road injuries, falls, self-harm) in high, middle, and low SDI
+countries. This comparison can help identify the most common types of
+injuries and inform targeted public health interventions to reduce the
+burden of injuries in different populations.
 
 [^16-summary-2]: For reproducibility a copy of the "injuries" data are
     stored on the GitHub Repository of this book
@@ -466,7 +481,7 @@ health outcomes.
 In this example, we will visualise the **Disability Adjusted Life Years
 (DALYs) Rate by Country** for all causes using the GBD data. We will use
 data from the `{hmsidwR}` package, `spatialdalys2021`, to create a
-choropleth map showing the DALYs rate per 100,000 population for each
+*choropleth* map showing the DALYs rate per 100,000 population for each
 country. The map will provide a visual representation of the burden of
 disease across different countries, highlighting disparities in health
 outcomes and disease burdens.
@@ -533,7 +548,7 @@ and interventions.
 
 Analysing health metrics at a global level reveals key patterns in
 disease prevalence, mortality rates, and risk factors, offering insights
-into how socioeconomic, environmental, and policy variables influence
+into how socio-economic, environmental, and policy variables influence
 health outcomes. Such comparative analyses are critical for setting
 international health priorities and targeting interventions in regions
 with the greatest need.

@@ -8,7 +8,7 @@ book_theme <- theme_minimal() +
 ggplot2::theme_set(book_theme)
 ```
 
-Data visualisation\index{Data visualisation ! } is a powerful tool for
+Data visualisation\index{Data visualisation} is a powerful tool for
 transforming complex datasets into clear and insightful graphical
 representations. It plays a central role in **Exploratory Data Analysis
 (EDA)**\index{Exploratory Data Analysis (EDA)}, helping to reveal
@@ -31,7 +31,7 @@ interactive visualisations.
 
 ## History of Data Visualisation
 
-The history of data visualisation\index{Data visualisation ! history}
+The history of data visualisation
 spans centuries. The roots of data visualisation can be traced back to
 ancient times with rudimentary visual representations, but its modern
 form began to take shape with the growth of statistics and graphical

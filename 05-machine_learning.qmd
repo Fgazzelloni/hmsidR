@@ -65,23 +65,23 @@ complex data patterns.
 
 **Machine Learning (ML)**\index{Machine learning} techniques are
 identified as subfields of the **Artificial Intelligence
-(AI)**\index{AI} technology, acting by learning relationships in the
-data. Learning from experience (E), ML computes tasks (T) to improve
-performance (P). The origins of ML, dating back to the late 1950s, only
-flourished in the 1990s with the aim of minimising loss on unseen
-samples [@machine2024].
+(AI)**\index{Artificial Intelligence (AI)} technology, acting by
+learning relationships in the data. Learning from experience (E), ML
+computes tasks (T) to improve performance (P). The origins of ML, dating
+back to the late 1950s, only flourished in the 1990s with the aim of
+minimising loss on unseen samples [@machine2024].
 
 ![Machine Learning
 Cycle](images/05_ml-image.png){#fig-ml-cycle
 fig-align="center" width="404" fig-alt="Machine Learning Cycle"}
 
-The **Machine Learning Cycle**\index{Machine learning cycle} is a continuous process that involves the
-following steps: data collection, data preprocessing, model selection,
-model training, model evaluation, and model deployment. The cycle is
-iterative, with each step informing the next, and the process is
-repeated until the desired performance is achieved. The goal of the
-Machine Learning cycle is to develop models that can make accurate
-predictions or decisions based on data.
+The **Machine Learning Cycle**\index{Machine learning cycle} is a
+continuous process that involves the following steps: data collection,
+data preprocessing, model selection, model training, model evaluation,
+and model deployment. The cycle is iterative, with each step informing
+the next, and the process is repeated until the desired performance is
+achieved. The goal of the Machine Learning cycle is to develop models
+that can make accurate predictions or decisions based on data.
 
 The emergence of infections is an ongoing evolution and adaptation
 [@broemeling2021]. In the late 1970s, Dr. René Dubos believed that '*the
@@ -107,7 +107,7 @@ the future and preventing undesired outcomes.
 In particular, these types of models are subdivided in:
 
 1.  **Mechanistic Model**\index{Mechanistic model}: For example the
-    SIR\index{SIR} model is a **classic compartmental
+    SIR\index{Susceptible Infected Recovered (SIR)} model is a **classic compartmental
     model**\index{Compartmental model} used to simulate the spread of
     infectious diseases. It divides the population into three
     compartments: susceptible $(S)$, infectious $(I)$, and recovered
@@ -139,13 +139,15 @@ $$ {#eq-sir-model-theory}
     but instead learns patterns from the input data.
 
 Machine learning models fall under the category of **empirically driven
-models**. Unlike **mechanistic models**\index{Mechanistic models}, which are based on explicit
-equations and known relationships between variables (such as the
-differential equations\index{Differential equations} used in infectious disease modelling\index{Infectious disease modelling}), machine
-learning models derive patterns and relationships directly from data
-without explicit knowledge of the underlying mechanisms. Therefore,
-while both mechanistic and empirically driven models are used for
-prediction, they operate on different principles:
+models**. Unlike **mechanistic models**\index{Mechanistic model}, which
+are based on explicit equations and known relationships between
+variables (such as the differential
+equations\index{Differential equations} used in infectious disease
+modelling\index{Infectious disease modelling}), machine learning models
+derive patterns and relationships directly from data without explicit
+knowledge of the underlying mechanisms. Therefore, while both
+mechanistic and empirically driven models are used for prediction, they
+operate on different principles:
 
 > **Mechanistic models rely on known relationships and equations, while
 > machine learning models learn patterns from data[@baker2018].**
@@ -158,8 +160,8 @@ understanding of the modelling procedures.
 ### Learning Methods
 
 There are a variety of models available, and the decision on which model
-to use depends on the type of **learning method**\index{Learning method} either
-**supervised**\index{Supervised learning} or
+to use depends on the type of **learning method**\index{Learning method}
+either **supervised**\index{Supervised learning} or
 **unsupervised**\index{Unsupevised learning}. Supervised learning is
 applied when data are labelled, meaning that the dataset includes both
 the independent (predictors) and dependent (outcome) variables. It is
@@ -282,12 +284,13 @@ by the model. To estimate the coefficients of the model function, we
 employ statistical techniques such as **linear
 regression**\index{Linear regression} for continuous response variables,
 **logistic regression**\index{Logistic regression} for binary response
-variables, and various **machine learning algorithms**\index{Machine learning algorithms} that include
-tuning parameters to handle more complex dataset and model
-specifications. These techniques analyse the relationship between the
-predictors and the response in the dataset and determine the optimal
-coefficients that minimise the difference between the observed $(y)$
-values and the values predicted by the model $(\hat y)$ .
+variables, and various **machine learning
+algorithms**\index{Machine learning algorithms} that include tuning
+parameters to handle more complex dataset and model specifications.
+These techniques analyse the relationship between the predictors and the
+response in the dataset and determine the optimal coefficients that
+minimise the difference between the observed $(y)$ values and the values
+predicted by the model $(\hat y)$ .
 
 Once the model coefficients are estimated, we can use the model function
 to predict future values of $y$ for new values of predictor variables
@@ -581,12 +584,13 @@ summary(gam_model)
 ```
 
 The smooth term for days is significant, as indicated by the approximate
-significance test. The effective degrees of freedom (edf)\index{Effective degrees of freedom (edf)} for the smooth
-term are 8.969, suggesting a moderately flexible relationship between
-deaths and time. The adjusted R-squared value is 0.914, indicating that
-the model explains approximately 91.4% of the variance in the response
-variable (deaths). The deviance explained is 91.6%, suggesting that the
-model fits the data well.
+significance test. The effective degrees of freedom
+(edf)\index{Effective degrees of freedom (edf)} for the smooth term are
+8.969, suggesting a moderately flexible relationship between deaths and
+time. The adjusted R-squared value is 0.914, indicating that the model
+explains approximately 91.4% of the variance in the response variable
+(deaths). The deviance explained is 91.6%, suggesting that the model
+fits the data well.
 
 Overall, the model suggests that there is a positive relationship
 between increasing time and the number of deaths due to cholera, with
@@ -771,11 +775,11 @@ simulated_data <- cbind(simulated_data,
                                       sd = 5))
 ```
 
-Simulated data are split into **training**\index{Training} and **testing**\index{Testing} sets to train
-the model and evaluate its performance. What this means is that the
-model is trained on a subset of the data (the training set) and then
-tested on the remaining data (the testing set) to assess its predictive
-performance.
+Simulated data are split into **training**\index{Training} and
+**testing**\index{Testing} sets to train the model and evaluate its
+performance. What this means is that the model is trained on a subset of
+the data (the training set) and then tested on the remaining data (the
+testing set) to assess its predictive performance.
 
 ```{r}
 #| label: fig-seir-rf
@@ -863,19 +867,20 @@ cbind(test_data, pred = predictions) %>%
 #### Optimization with Tidymodels
 
 Random Forest model is a powerful machine learning algorithm that can be
-tuned to improve its performance. The **tuning process**\index{Tuning process} involves
-selecting the optimal values for the hyperparameters of the model, such
-as in the case of a random forest model, the number of trees, the number
-of variables to consider at each split, and the minimum number of data
-points required to split a node. These hyperparameters can significantly
-impact the model's performance, and tuning them can help improve the
-model's accuracy and generalisation to new data.
+tuned to improve its performance. The **tuning
+process**\index{Tuning process} involves selecting the optimal values
+for the hyperparameters of the model, such as in the case of a random
+forest model, the number of trees, the number of variables to consider
+at each split, and the minimum number of data points required to split a
+node. These hyperparameters can significantly impact the model's
+performance, and tuning them can help improve the model's accuracy and
+generalisation to new data.
 
-For this task we use the `{tidymodels}` package, a
-collection of packages for modelling and machine learning using the
-tidyverse principles. The `{tidymodels}` package provides a consistent
-interface for modelling tasks, making it easier to build, tune, and
-evaluate machine learning models.
+For this task we use the `{tidymodels}` package, a collection of
+packages for modelling and machine learning using the tidyverse
+principles. The `{tidymodels}` package provides a consistent interface
+for modelling tasks, making it easier to build, tune, and evaluate
+machine learning models.
 
 ```{r}
 library(tidymodels)
@@ -1070,11 +1075,11 @@ preferred due to its flexibility and ability to characterise the entire
 posterior distribution.
 
 In INLA, each of GAMs components are treated as random effects with
-specific prior distributions (typically Gaussian\index{Gaussian}). The smoothness of
-these effects is controlled by hyperparameters, which INLA estimates
-from the data. The model is then fitted using the `{INLA}` package,
-which provides a fast and efficient way to estimate the posterior
-distribution of the model parameters.
+specific prior distributions (typically Gaussian\index{Gaussian}). The
+smoothness of these effects is controlled by hyperparameters, which INLA
+estimates from the data. The model is then fitted using the `{INLA}`
+package, which provides a fast and efficient way to estimate the
+posterior distribution of the model parameters.
 
 Let's assume new `epidemic_data` with columns `day`, `cases`, and
 `temperature.` To model the number of cases as a function of time and
@@ -1386,11 +1391,11 @@ The most common analyses methods are[@hult2021]:
 
 As mentioned in the history of health metrics (@sec-01-health_metrics),
 the cost-utility framework has been employed for calculating
-QALYs\index{Quality Adjusted Life Years (QALYs)}. Over time, this measure
-has been criticised for potentially discriminating against certain
-disabilities in the population by assigning costs that were perceived as
-either too high or too low, and for failing to capture the full spectrum
-of human health conditions.
+QALYs. Over time, this
+measure has been criticised for potentially discriminating against
+certain disabilities in the population by assigning costs that were
+perceived as either too high or too low, and for failing to capture the
+full spectrum of human health conditions.
 
 Moreover, comprehensive tools that assess the impacts through
 cost-effectiveness measures to estimate the effectiveness of health

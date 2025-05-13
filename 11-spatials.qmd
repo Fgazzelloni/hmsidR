@@ -26,12 +26,13 @@ Learning Objectives
 ::::::
 
 \
-In the previous chapters, we explored the fundamentals of data
-visualisation with various techniques for creating static and
+In the previous chapters, we explored the fundamentals of **data
+visualisation**\index{Data
+visualisation} with various techniques for creating static and
 interactive plots. In this chapter, we will learn how to model and
-visualise spatial data, which involves analysing and representing data
+visualise **spatial data**\index{Spatial data}, which involves analysing and representing data
 with spatial components. We will explore the concepts of spatial data,
-spatial data models, and spatial models, and learn how to create maps,
+spatial data models, and **spatial models**\index{Spatial models}, and learn how to create maps,
 simulate infections, and predict the spatial distribution of phenomena
 such as disease spread. By combining spatial data with machine learning
 techniques, we can model the spatial dynamics of disease transmission
@@ -49,7 +50,7 @@ and predicting spatial processes and for informing data-driven decisions
 in public health, environmental management, and urban planning.
 
 A notable example is the **Ebola Virus Disease outbreak in West Africa
-(2014–2016)**. The virus spread across countries like Guinea, Liberia,
+(2014–2016)**\index{Ebola}. The virus spread across countries like Guinea, Liberia,
 and Sierra Leone, driven by factors such as population density,
 healthcare infrastructure, and human mobility. By analysing spatial data
 on cases, fatalities, and healthcare facilities and applying spatial
@@ -60,7 +61,7 @@ identify high-risk areas for targeted interventions[@null2014].
 > But what exactly distinguishes spatial data, spatial data models, and
 > spatial models?
 
--   **Spatial Data**\index{spatial data}: This refers to data that
+-   **Spatial Data**\index{Spatial data}: This refers to data that
     includes geographic coordinates, addresses, or boundaries,
     representing the physical location of objects or events. Spatial
     data can be stored in two main formats: vector and raster. Vector
@@ -69,14 +70,14 @@ identify high-risk areas for targeted interventions[@null2014].
     data models, on the other hand, use a grid of cells or pixels, each
     with a value representing a variable like temperature, land cover,
     or elevation.
--   **Spatial Data Models**\index{spatial data model}: These are
+-   **Spatial Data Models**\index{Spatial data model}: These are
     frameworks for organizing and representing spatial data. They
     provide the structure for connecting real-world phenomena with their
     digital representation through algorithms and spatial primitives
     (like spatial relationships and topology). Spatial data models form
     the foundation for managing and processing spatial information,
     enabling meaningful analysis and visualization.
--   **Spatial Models**\index{spatial model}: Unlike spatial data models,
+-   **Spatial Models**\index{Spatial model}: Unlike spatial data models,
     which organize data, spatial models simulate dynamic spatial
     processes—phenomena that change over time. Examples include the
     spread of infectious diseases, flood development, or land use
@@ -89,7 +90,7 @@ For further information on spatial data models and spatial process
 models, refer to the **ArcGIS** documentation for guidance on solving
 spatial problems and the **Esri** blog for in-depth discussions on
 spatial analysis. Additionally,
-[R-Spatial.org](https://r-spatial.org/)\index{rspatial} offers a wealth
+[R-Spatial.org](https://r-spatial.org/)\index{R-spatial} offers a wealth
 of resources on spatial data analysis, including tutorials and the
 latest developments in the field.
 
@@ -143,7 +144,7 @@ ggplot(data = africa) +
 
 ## Coordinate Reference System (CRS)
 
-A **coordinate reference system (CRS)**\index{CRS} is a standardised way
+A **Coordinate Reference System (CRS)**\index{Coordinate Reference System (CRS)} is a standardised way
 of defining the spatial location of features on the Earth's surface. It
 uses a set of coordinates to represent the position of points, lines,
 and polygons in space. There are different types of CRS, such as
@@ -151,7 +152,8 @@ and polygons in space. There are different types of CRS, such as
 Earth's surface in different ways. Geographic CRS (**LatLong**)
 represents locations on a curved surface using latitude and longitude
 for global mapping, while projected CRS or **Universal Transverse
-Mercator (UTM)**\index{UTM} projects the curved Earth onto a flat map,
+Mercator (UTM)**\index{Universal Transverse
+Mercator (UTM)} projects the curved Earth onto a flat map,
 using metres for precise mapping. In particular, the UTM system provides
 the distance in metres from the equator and the central meridian of a
 specific zone.
@@ -167,13 +169,13 @@ africa_crs
 ```
 
 For example, the CRS of the Africa map is **WGS 84** or *World Geodetic
-System 1984* which is a reference system for the Earth's surface that
+System 1984*\index{World Geodetic
+System 1984 (WGS 84)} which is a reference system for the Earth's surface that
 defines origin and orientation of the coordinate axes, called a
 **datum** (a fact known from direct observation). The
-**EPSG**\index{EPSG} is a structured dataset of CRS and Coordinate
+**EPSG**\index{European Petroleum Survey Group (EPSG)} is a structured dataset of CRS and Coordinate
 Transformations, it was originally compiled by the, now defunct,
-European Petroleum Survey Group[^11-spatials-1]. The EPSG code for WGS
-84 is 4326.
+European Petroleum Survey Group[^11-spatials-1]. The EPSG code for WGS 84 is 4326.
 
 [^11-spatials-1]: <https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf>
 
@@ -197,7 +199,7 @@ ctr_africa <- africa %>%
 ### Bounding Box
 
 We can use the `st_bbox()` function to retrieve the **bounding
-box**\index{bounding box} of the `ctr_africa` object, as a matrix with
+box**\index{Bounding box} of the `ctr_africa` object, as a matrix with
 the minimum and maximum values of the coordinates. A bounding box is a
 rectangular area defined by two points: the lower-left corner (minimum
 values of the coordinates) and the upper-right corner (maximum values of
@@ -383,7 +385,7 @@ specifying the title, x-axis label, and y-axis label. The
 
 ### Grid of Points
 
-To create a **grid of points**\index{grid} we transform the `df` data as
+To create a **grid of points**\index{Grid} we transform the `df` data as
 a simple features object with the `st_as_sf()` function from the `{sf}`
 package, specifying the longitude and latitude columns as the
 coordinates and the CRS as 4326[^11-spatials-2]. Then, intersect the
@@ -479,7 +481,7 @@ raster grid representing a specific temperature value. The rasterized
 temperature data will be visualised as a heatmap on the map, with warmer
 colours indicating higher temperatures.
 
-The raster\index{raster} template is created using the `rast()` function
+The raster\index{Raster} template is created using the `rast()` function
 from the `{terra}` package, specifying the number of rows and columns,
 the minimum and maximum values for the x and y coordinates, and the
 coordinate reference system (CRS) of the raster. If you want to know
@@ -593,7 +595,7 @@ A central point that represents the spatial distribution of infections
 in the region is the center of mass. It is a useful metric for
 understanding the spatial dynamics of disease spread and identifying
 critical zones for intervention. To calculate the coordinates of the
-**center of mass** for the infections, even called the **epicenter** of
+**center of mass**index{Center of mass} for the infections, even called the **epicenter**\index{Epicenter} of
 the infections, we use the `center_of_mass()` function.
 
 The center of mass is the average of the latitude and longitude of the
@@ -750,7 +752,7 @@ To explore the dynamics of disease transmission in Central Africa by
 simulating the spread of infections we use a type of network
 characterised by a high degree of clustering and short average path
 lengths between nodes called **small-world
-network**\index{smallworld network}. It represents a realistic model of
+network**\index{Smallworld network}. It represents a realistic model of
 human contact patterns, where individuals are more likely to interact
 with their neighbours but can also have long-range connections with
 other individuals. By simulating the spread of infections in a
@@ -994,10 +996,10 @@ euclidean_distance <- function(longitude, latitude,
 ```
 
 There are other type of distance metrics that can be used, such as the
-**Manhattan** distance\index{distance}, which calculates the sum of the
+**Manhattan** distance\index{Distance !}\index{Distance ! Manhattan}, which calculates the sum of the
 absolute differences between the coordinates of two points, the
-**Mahlanobis** distance, which considers the correlation between the
-variables, and the **Chebyshev** distance, which calculates the maximum
+**Mahlanobis**\index{Distance ! Mahlanobis} distance, which considers the correlation between the
+variables, and the **Chebyshev**\index{Distance ! Chebyshev} distance, which calculates the maximum
 difference between the coordinates of two points.
 
 ### Spatial Autocorrelation
@@ -1066,7 +1068,7 @@ spatial pattern of infections, it does not provide detailed information
 on the spatial distribution of cases across the region. To estimate the
 spatial distribution of infections and predict the risk of outbreaks, we
 can use spatial interpolation techniques such as
-**Kriging**\index{Kriging}[@kriging2024].
+**Kriging**\index{Spatial interpolation technique (Kriging)}[@kriging2024].
 
 This method is used to estimate the spatial distribution of cases by
 creating a raster of the predicted spatial distribution of infections.
@@ -1077,7 +1079,7 @@ individuals across a region.
 For example, the application of Kriging was used to predict the spatial
 distribution of Dengue outbreaks in regions like Khyber Pakhtunkhwa,
 Pakistan[@ahmad2020]. Similarly, during the COVID-19 pandemic,
-**Empirical Bayesian Kriging (EBK)**[@onovo] was used to estimate the
+**Empirical Bayesian Kriging (EBK)**\index{Empirical Bayesian Kriging (EBK)}[@onovo] was used to estimate the
 spatial distribution of COVID-19 cases in sub-Saharan Africa. This
 approach combined time series data of confirmed cases with
 socio-demographic indicators to create detailed spatial risk maps,
@@ -1088,7 +1090,7 @@ spread, while considering the impact of environmental factors such as
 temperature, or humidity on disease transmission; Kriging requires an
 estimation of the variance of points at locations.
 
-For estimating the variance, a **variogram model**\index{variogram} is
+For estimating the variance, a **variogram model**\index{Variogram} is
 fit to the observed data. The variogram is a function of the distance
 `h` that describes the degree of spatial dependence of a spatial random
 field or stochastic process. It takes consideration of the spatial

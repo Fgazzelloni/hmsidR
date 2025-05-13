@@ -18,10 +18,14 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Life tables and Life expectancy
--   Mortality level and rates
--   Incidence and Prevalence
--   Disability weights and Severity levels
+-   Understand the construction and interpretation of life tables and
+    life expectancy measures
+-   Analyse mortality levels and rates to assess population health
+    dynamics
+-   Distinguish between incidence and prevalence and their relevance in
+    disease monitoring
+-   Interpret disability weights and severity levels in the context of
+    burden of disease estimation
 :::
 ::::::
 
@@ -42,8 +46,8 @@ injury at both global and population levels.
 
 ## Cause-Specific or Population-Wide
 
-Health metrics\index{Health metrics !} are essential tools for
-evaluating the health status of a population and guiding public health
+Health metrics\index{Health metrics} are essential tools for evaluating
+the health status of a population and guiding public health
 interventions. They provide valuable insights into the burden of disease
 and injury, helping policymakers and public health officials make
 informed decisions about resource allocation and health policy. By
@@ -64,8 +68,7 @@ of the analyses is **cause-specific**\index{Cause-specific} or
 impact the granularity of the health metrics components, as in alignment
 with general principles in epidemiological research and health metrics
 analysis, discussed in the Global Burden of Disease (GBD)
-study\index{Global Burden of Disease (GBD)}
-methodologies[@vos2020].
+study\index{Global Burden of Disease (GBD)} methodologies[@vos2020].
 
 Cause-specific metrics focus on disease intervention planning, such as
 assessing the burden of HIV\index{HIV} or
@@ -169,8 +172,8 @@ years of life for individuals at different ages.
 ### Global Health Observatory Life Tables
 
 The **Global Health Observatory (GHO) Life
-Tables**\index{Global Health Observatory (GHO) Life Tables} are
-essential tools provided by the World Health Organization
+Tables**\index{Global Health Observatory (GHO)} are essential tools
+provided by the World Health Organization
 (WHO)\index{World Health Organization (WHO)} to support global health
 monitoring and assessment. They are part of the broader GHO data
 repository, which serves as WHO's gateway to health-related statistics
@@ -444,10 +447,12 @@ $$
 CMR= \frac{\text{Number of deaths}}{\text{Total population}}*100,000
 $$ {#eq-cmr}
 
+::: {.callout .callout-info}
 Other types of mortality rates include:
 
--   **Age Specific Mortality Rate (ASMR)**\index{Age Specific mortality rate (ASMR)}: the number of deaths
-    per 100,000 population in a specific age group
+-   **Age Specific Mortality Rate
+    (ASMR)**\index{Age Specific Mortality Rate (ASMR)}: the number of
+    deaths per 100,000 population in a specific age group
 
 $$
 ASMR= \frac{\text{Number of deaths in a specific age group}}{\text{Total population in that age group}}*100,000
@@ -479,11 +484,12 @@ $$ {#eq-mmr}
 These mortality rates are used to assess the impact of diseases or
 injuries on a population and to identify areas where improvements in
 health care are needed.
+:::
 
 #### Example: Deaths Counts derived by Mortality Rates
 
-Let's simulate\index{simulation} **malaria**\index{Malaria}
-death counts in an African population with a **case fatality rate
+Let's simulate\index{Simulation} **malaria**\index{Malaria} death counts
+in an African population with a **Case Fatality Rate
 (CFR)**\index{Case Fatality Rate (CFR)} ranging from 0.01% to 0.40%, and
 a case-incidence\index{Case-incidence} of 59.4 per 1000 population
 annually[@worldma]. Calculate the number of expected malaria cases and
@@ -609,8 +615,8 @@ diseases within populations.
 ### Use of Prevalence in DALYs Calculation
 
 In the context of the Global Burden of Diseases
-(GBD)\index{Global Burden of Diseases GBD} study, the use of
-prevalence in the calculation of Disability-Adjusted Life Years
+(GBD)\index{Global Burden of Diseases GBD} study, the use of prevalence
+in the calculation of Disability-Adjusted Life Years
 (DALYs)\index{Disability Adjusted Life
 Years (DALYs)} is pivotal because DALYs aim to measure both the
 **current impact** of diseases and their **long-term effects** on
@@ -852,7 +858,8 @@ The disability weights can be derived or computed, depending on data
 availability. Often derived through large-scale population surveys, or
 expert panels through reviews of clinical descriptions and assessment
 scores based on understanding and professional experience. These methods
-involve trade-off exercises, such as **Time Trade Off (TTO)**\index{Time Trade-Off (TTO)}[@lugnér2020] or **paired
+involve trade-off exercises, such as **Time Trade Off
+(TTO)**\index{Time Trade-Off (TTO)}[@lugnér2020] or **paired
 comparison**\index{Paired
 comparison} tasks[@rehm2013]. Through surveys the respondents are asked
 to choose between different health states or to trade life years in
@@ -977,7 +984,7 @@ disease or injury. These components are:
 
 The estimation of YLDs requires certain epidemiological parameters such
 as prevalence, incidence, case-fatality
-rate\index{Case-Fatality Rate (CFR)}, relative
+rate\index{Case Fatality Rate (CFR)}, relative
 risk\index{Relative Risk (RR)}, odds ratio\index{Odds Ratio (OR)},
 hazard ratio\index{Hazard Ratio (HR)}, mean, incidence ratio, severity,
 duration\index{Duration} and remission\\index{Remission.
@@ -1025,20 +1032,20 @@ disease or injury. These components are:
     population will have a greater impact on overall YLD, regardless of
     the age of the affected individuals.
 
--   **Duration of disability**: The duration\index{Duration} of disability is also
-    considered when calculating YLD. Conditions that last for a longer
-    period of time will have a greater impact on the number of years
-    lived with disability.
+-   **Duration of disability**: The duration\index{Duration} of
+    disability is also considered when calculating YLD. Conditions that
+    last for a longer period of time will have a greater impact on the
+    number of years lived with disability.
 
 ### DALYs Components
 
-Both YLLs and YLDs are components\index{Health metrics ! components} of
-the DALYs\index{\index{Disability Adjusted Life Years (DALYs)}} and are
-used to provide a comprehensive assessment of the impact of disease and
-injury on a population. By combining YLLs and YLDs, the DALYs take into
-account both premature death and the impact of disease or injury on
-quality of life, providing a more comprehensive view of the overall
-burden of disease.
+Both YLLs and YLDs are components\index{Health metrics} of the
+DALYs\index{Disability Adjusted Life Years (DALYs)} and are used to
+provide a comprehensive assessment of the impact of disease and injury
+on a population. By combining YLLs and YLDs, the DALYs take into account
+both premature death and the impact of disease or injury on quality of
+life, providing a more comprehensive view of the overall burden of
+disease.
 
 DALYs are especially useful in guiding the allocation of health
 resources as they provide a common numerator, allowing for the

@@ -17,44 +17,47 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   What is Malaria
--   How does it spread
--   Map Malaria outbreaks
+-   Understand the key characteristics and impact of Malaria
+-   Explore how Malaria spreads through populations and environments
+-   Learn to map and visualize Malaria outbreaks using spatial data
 :::
 ::::::
 
 \
-In this chapter, we explore the dynamics of Malaria transmission in more
-detail. We examine the results of various model’s applications that
-simulate the spread of the virus.
+In this chapter, we explore the dynamics of Malaria\index{Malaria}
+transmission in more detail. We examine the results of various model’s
+applications that simulate the spread of the virus.
 
 ## Epidemiology
 
-**Malaria** is a mosquito-borne infectious disease that affects humans
-and other animals. It is caused by parasitic protozoans belonging to the
-Plasmodium type. The disease is **transmitted through the bites of
-Anopheles mosquitoes**. The symptoms of malaria typically include fever,
-fatigue, vomiting, and headaches. If left untreated, malaria can be
-fatal. Malaria is a major public health concern in many tropical and
-subtropical regions, particularly in Africa.
+**Malaria** is a mosquito-borne\index{Mosquito borne} infectious disease
+that affects humans and other animals. It is caused by parasitic
+protozoans belonging to the Plasmodium type. The disease is
+**transmitted through the bites of Anopheles mosquitoes**. The symptoms
+of malaria typically include fever, fatigue, vomiting, and headaches. If
+left untreated, malaria can be fatal. Malaria is a major public
+health\index{Public health} concern in many tropical and subtropical
+regions, particularly in Africa.
 
-Malaria transmission dynamics are influenced by various factors,
-including the prevalence of infected individuals, the density of
-mosquito vectors, and environmental conditions. The transmission of
-malaria occurs when an infected mosquito bites a human host, injecting
-the Plasmodium parasites into the bloodstream. The parasites then
-multiply within the host's red blood cells, leading to the
-characteristic symptoms of malaria. The parasites can be transmitted
-back to mosquitoes when they feed on infected individuals, completing
-the transmission cycle.
+Malaria transmission dynamics\index{Transmission dynamics} are
+influenced by various factors, including the prevalence of infected
+individuals, the density of mosquito vectors, and environmental
+conditions. The transmission of malaria occurs when an infected mosquito
+bites a human host, injecting the Plasmodium parasites into the
+bloodstream. The parasites then multiply within the host's red blood
+cells, leading to the characteristic symptoms of malaria. The parasites
+can be transmitted back to mosquitoes when they feed on infected
+individuals, completing the transmission cycle.
 
 ## Mapping Malaria Outbreaks
 
-Mapping malaria outbreaks is essential for locating high-risk areas and
-guiding effective public health interventions. Geographic Information
-Systems (GIS) enable the visualisation of malaria’s spatial
-distribution, revealing transmission patterns and hotspots. The analysis
-of malaria cases, alongside environmental factors, such as temperature,
+Mapping malaria outbreaks\index{Outbreak} is essential for locating
+high-risk areas and guiding effective public health interventions.
+Geographic Information Systems (GIS)\index{Geographic Information
+Systems (GIS)} enable the visualisation of malaria’s spatial
+distribution, revealing transmission
+patterns\index{Transmission patterns} and hotspots. The analysis of
+malaria cases, alongside environmental factors, such as temperature,
 humidity, and vegetation cover, allows the identification of conditions
 that facilitate transmission and support the development of targeted
 control strategies.
@@ -82,11 +85,12 @@ tidyverse_conflicts()
 To download malaria data we can use the `getPR()` function, it releases
 the data from the Malaria Atlas Project API. The function requires the
 country and species of Plasmodium to be specified. In this example, we
-will download data for Nigeria and the Plasmodium falciparum species.
+will download data for Nigeria and the *Plasmodium falciparum species*.
 
 ```{r}
 #| eval: false
-nigeria_data <- getPR(country = "Nigeria", species = "Pf")
+nigeria_data <- getPR(country = "Nigeria", 
+                      species = "Pf")
 ```
 
 ```{r}
@@ -122,10 +126,11 @@ head(nigeria_data_sf)
 ```
 
 To get the administrative boundaries of Nigeria we use the
-{rnaturlaearth} package:
+`{rnaturlaearth}` package:
 
 ```{r}
-nigeria_sf <- ne_countries(country = "Nigeria", returnclass = "sf")
+nigeria_sf <- ne_countries(country = "Nigeria", 
+                           returnclass = "sf")
 ```
 
 And finally plot the malaria hotspots on a map of Nigeria to visualise
@@ -196,9 +201,10 @@ geom_sf(data = tanzania_data_sf,
 ## Example: Simulating Malaria Transmission Dynamics
 
 In this example, we will use data for Malaria positive cases in Nigeria
-from the Malaria Atlas Project to evaluate the transmission dynamics
-using a simple mathematical model. We will use machine learning to
-predict future trends.
+from the **Malaria Atlas Project**\index{Malaria Atlas Project} to
+evaluate the transmission dynamics\index{Transmission dynamics} using a
+simple mathematical model. We will use machine learning to predict
+future trends.
 
 To illustrate the modelling and prediction process we will use the
 `{caret}` package, which provides a unified interface for training and
@@ -213,6 +219,7 @@ nigeria_cases <- nigeria_data %>%
   rename(year = year_start) %>%
   drop_na() %>%
   select(year, positive)
+
 head(nigeria_cases)
 ```
 
@@ -220,6 +227,11 @@ Visualize the dynamics of malaria transmission in Nigeria using a line
 plot to show the number of infected cases over time.
 
 ```{r}
+#| label: fig-malaria-dynamics
+#| fig-cap: "The plot shows the dynamics of malaria transmission in Nigeria from 1985 to 2018. The blue line represents the number of infected cases over time, highlighting the fluctuations in malaria incidence during this period."
+#| fig-alt: "Line plot showing the dynamics of malaria transmission in Nigeria from 1985 to 2018."
+#| fig-width: 6
+#| fig-height: 4
 nigeria_cases %>%
   ggplot() +
   geom_line(aes(x = year, y = positive), 
@@ -237,28 +249,31 @@ nigeria_cases %>%
 To train a machine learning model to predict future trends in malaria
 transmission, we will be using 80% of the original data to train the
 model and 20% to test it. Then, we will evaluate its performance using
-the Root Mean Squared Error (RMSE).
+the Root Mean Squared Error
+(RMSE)\index{Root Mean Squared Error (RMSE)}.
 
 The `{caret}` package provides a unified interface for training and
 evaluating machine learning models in R (@sec-07-packages). It supports
-a wide range of algorithms and provides tools for hyperparameter tuning,
-cross-validation, and model evaluation.
+a wide range of algorithms and provides tools for hyperparameter
+tuning\index{Hyperparameter tuning},
+cross-validation\index{Cross Validation}, and model evaluation.
 
 ```{r}
 #| eval: true
-# Load necessary libraries
+# Load libraries and check for conflicts
 library(caret)
+conflicted::conflicts_prefer(dplyr::lag)
 ```
 
 #### Feature Engineering
 
-Create lagged variables to capture the temporal dynamics of malaria
-transmission. For time series forecasting, it’s helpful to create
-variables, which represent past values of the target variable. This
-allows the model to learn trends from previous values.
+Create lagged variables to capture the temporal
+dynamics\index{Temporal dynamics} of malaria transmission. For time
+series\index{Time series} forecasting, it’s helpful to create variables,
+which represent past values of the target variable. This allows the
+model to learn trends from previous values.
 
 ```{r}
-conflicted::conflicts_prefer(dplyr::lag)
 # Create lagged features (e.g., previous year's cases)
 nigeria_cases <- nigeria_cases %>%
   arrange(year) %>%
@@ -266,6 +281,7 @@ nigeria_cases <- nigeria_cases %>%
          lag_2 = lag(positive, 2),
          lag_3 = lag(positive, 3)) %>%
   drop_na()
+
 head(nigeria_cases)
 ```
 
@@ -286,9 +302,13 @@ Define the machine learning model specific for investigating Malaria
 dynamics. In this case, we will use the time and number of lagged cases
 to predict the number of infected cases. We will use the `train()`
 function from the `{caret}` package to train the model. A suitable model
-would be? List the models that can be used for this task: - Random
-Forest ("rf") - Gradient Boosting ("gbm") - Support Vector Machines
-("svm") - Neural Networks ("nnet") - etc.
+would be? List the models that can be used for this task:
+
+-   Random Forest\index{Random
+    Forest} ("rf")
+-   Gradient Boosting\index{Gradient Boosting (GB)} ("gbm")
+-   Support Vector Machines ("svm")\index{Support Vector Machines (SVM)}
+-   Neural Networks\index{Neural Networks (NNet)} ("nnet") - etc.
 
 In the `method` argument, specify the model to be used (e.g., "rf" for
 Random Forest). The `trControl` argument specifies the cross-validation
@@ -297,9 +317,11 @@ the hyperparameter grid for tuning.
 
 ```{r}
 # Define the training control with 5-fold cross-validation
-train_control <- trainControl(method = "cv", number = 5)
+train_control <- trainControl(method = "cv", 
+                              number = 5)
 
-# Define a tuning grid for mtry (number of variables sampled at each split)
+# Define a tuning grid for mtry 
+# (number of variables sampled at each split)
 tuning_grid <- expand.grid(mtry = c(1, 2, 3))
 
 # Train the Random Forest model
@@ -310,13 +332,13 @@ rf_model <- train(
   method = "rf",
   trControl = train_control,
   tuneGrid = tuning_grid,
-  ntree = 500  # Increase the number of trees if desired
-)
+  ntree = 500)  # Number of trees 
 ```
 
-The parameter calibration (hyperparameter tuning) is performed by the
-`train` function automatically using cross-validation to select the
-optimal hyperparameters for the model.
+The parameter calibration\index{Parameter calibration} (hyperparameter
+tuning\index{Hyperparameter tuning}) is performed by the `train`
+function automatically using cross-validation to select the optimal
+hyperparameters for the model.
 
 #### Model Evaluation
 
@@ -325,28 +347,39 @@ estimating the number of infected cases.
 
 ```{r}
 # Predict on the test data
-nigeria_cases$pred <- predict(rf_model, newdata = nigeria_cases)
+nigeria_cases$pred <- predict(rf_model, 
+                              newdata = nigeria_cases)
+```
 
+```{r}
+#| label: fig-rf-malaria-predictions
+#| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with a Random Forest model. The blue line represents the observed cases, while the red line represents the predicted cases. The model's predictions are not closely aligned with the observed values, indicating potential limitations in capturing the dynamics of malaria transmission."
+#| fig-alt: "Line plot showing the observed vs predicted malaria positive cases in Nigeria."
+#| fig-width: 6
+#| fig-height: 4
 nigeria_cases %>%
  ggplot(aes(x = year, y = positive)) +
   geom_line(color = "navy", linetype = "solid") +
-  geom_line(aes(y = pred), color = "darkred", linetype = "dashed") +
-  labs(
-    title = "Observed vs Predicted Malaria Positive Cases in Nigeria",
-    x = "Year",
-    y = "Number of Positive Cases") +
+  geom_line(aes(y = pred), 
+            color = "darkred", linetype = "dashed") +
+  labs(title = "Malaria Positive Cases in Nigeria",
+       subtitle = "Observed vs Predicted - Random Forest",
+       x = "Year",
+       y = "Number of Positive Cases") +
   theme_minimal()
 ```
 
 To evaluate the model's ability in predicting future trends, we predict
 the number of infected cases on the test data and calculate the Root
-Mean Squared Error (RMSE). Test data are a subset of the original data
+Mean Squared Error (RMSE)\index{Root
+Mean Squared Error (RMSE)}. Test data are a subset of the original data
 that were not used for training the model and provide an independent
 evaluation of the model’s performance.
 
 ```{r}
 # Predict on the test data
-test$pred <- predict(rf_model, newdata = test)
+test$pred <- predict(rf_model, 
+                     newdata = test)
 
 # View predictions alongside actual values
 head(test[, c("year", "positive", "pred")])
@@ -356,23 +389,28 @@ Visualize the predicted vs actual infected cases using a line plot to
 compare the model's predictions with the actual data.
 
 ```{r}
-#| label: fig-rf-malaria-predictions
-#| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with a Random Forest model. The blue line represents the observed cases, while the red line represents the predicted cases. The model's predictions are not closely aligned with the observed values, indicating potential limitations in capturing the dynamics of malaria transmission."
-#| fig-alt: "Line plot showing the observed vs predicted malaria positive cases in Nigeria."
 # Reshape data for plotting
-plot_data <- test %>%
+plot_data_rf <- test %>%
   select(year, positive, pred) %>%
   rename(Observed = positive, Predicted = pred) %>%
   pivot_longer(cols = c("Observed", "Predicted"), 
                names_to = "Type", values_to = "Cases")
 
+plot_data_rf %>% head()    
+```
+
+```{r}
+#| label: fig-rf-malaria-predictions2
+#| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with a Random Forest model. The blue line represents the observed cases, while the red line represents the predicted cases. The model's predictions are not closely aligned with the observed values, indicating potential limitations in capturing the dynamics of malaria transmission."
+#| fig-alt: "Line plot showing the observed vs predicted malaria positive cases in Nigeria."
 # Plot observed vs predicted cases
-ggplot(plot_data, aes(x = year, y = Cases, 
+ggplot(plot_data_rf, aes(x = year, y = Cases, 
                       color = Type, linetype = Type)) +
   geom_line(size = 1) +
   geom_point(size = 2) +
   scale_color_manual(values = c("navy", "darkred")) +
-  labs(title = "Observed vs Predicted Malaria Positive Cases in Nigeria",
+  labs(title = "Malaria Positive Cases in Nigeria",
+       subtitle = "Observed vs Predicted - Random Forest",
        x = "Year",
        y = "Number of Positive Cases") +
   theme_minimal() +
@@ -408,7 +446,8 @@ additional features to improve the model's performance.
 ```{r}
 #| output: false
 # Increase the number of folds in cross-validation
-train_control <- trainControl(method = "cv", number = 10)  
+train_control <- trainControl(method = "cv", 
+                              number = 10)  
 
 # Scaling data in caret
 rf_model2 <- train(
@@ -417,8 +456,7 @@ rf_model2 <- train(
   method = "rf",
   trControl = train_control,
   tuneGrid = expand.grid(mtry = 2:4),
-  preProcess = c("center", "scale")
-)
+  preProcess = c("center", "scale"))
 ```
 
 Predict future trends using the trained adjusted Random Forest model on
@@ -426,7 +464,8 @@ the test data.
 
 ```{r}
 # Predict on the test data
-test$pred_rf2 <- predict(rf_model2, newdata = test)
+test$pred_rf2 <- predict(rf_model2, 
+                         newdata = test)
 ```
 
 Visualize the predicted vs actual infected cases using a line plot to
@@ -434,9 +473,6 @@ compare the adjusted Random Forest model's predictions with the actual
 data.
 
 ```{r}
-#| label: fig-xgb-malaria-predictions
-#| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with an adjusted Random Forest model. The blue line represents the observed cases, while the red line represents the predicted cases. The model's predictions show a closer alignment with the observed values compared to the first Random Forest model, indicating improved performance."
-#| fig-alt: "Line plot showing the observed vs predicted malaria positive cases in Nigeria using XGBoost."  
 # Reshape data for plotting
 plot_data_xgb <- test %>%
   select(year, positive, pred_rf2) %>%
@@ -444,13 +480,21 @@ plot_data_xgb <- test %>%
   pivot_longer(cols = c("Observed", "Predicted"), 
                names_to = "Type", values_to = "Cases")
 
+plot_data_xgb %>% head()
+```
+
+```{r}
+#| label: fig-xgb-malaria-predictions
+#| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with an adjusted Random Forest model. The blue line represents the observed cases, while the red line represents the predicted cases. The model's predictions show a closer alignment with the observed values compared to the first Random Forest model, indicating improved performance."
+#| fig-alt: "Line plot showing the observed vs predicted malaria positive cases in Nigeria using XGBoost."  
 # Plot observed vs predicted cases
 ggplot(plot_data_xgb, aes(x = year, y = Cases, 
                       color = Type, linetype = Type)) +
   geom_line(size = 1) +
   geom_point(size = 2) +
   scale_color_manual(values = c("navy", "darkred")) +
-  labs(title = "Observed vs Predicted Malaria Cases in Nigeria (XGBoost)",
+  labs(title = "Malaria Cases in Nigeria",
+       subtitle = "Observed vs Predicted - Adjusted Random Forest (XGBoost)",
        x = "Year",
        y = "Number of Positive Cases") +
   theme_minimal() +
@@ -463,6 +507,44 @@ Evaluate the model's performance improvement using RMSE:
 # Calculate RMSE
 rmse <- sqrt(mean((test$positive - test$pred_rf2)^2))
 cat("RMSE:", rmse, "\n")
+```
+
+To visualise the improvement in model's performance, we can plot the
+observed vs predicted for both models:
+
+```{r}
+#| label: fig-rf-xgb-malaria-predictions
+#| fig-cap: "The plot shows the observed vs predicted malaria positive cases in Nigeria made with both Random Forest and XGBoost models. The blue line represents the observed cases, while the red line represents the predicted cases from the Random Forest and XGBoost models."
+#| fig-alt: "Line plot showing the observed vs predicted malaria positive cases in Nigeria using Random Forest and XGBoost."
+#| fig-width: 6
+#| fig-height: 4
+#| echo: false
+plot_data_rf %>%
+ggplot(aes(x = year, y = Cases, 
+       color = Type, linetype = Type)) +
+  geom_line() +
+  geom_line(data = plot_data_xgb) +
+  geom_point(size = 2) +
+  scale_color_manual(values = c("navy", "darkred")) +
+annotate("text", x = 2007.5, y = 140, size = 3,
+         label = "Random Forest", color = "darkred") +
+annotate("text", x = 2007.5, y = 250, size = 3,
+         label = "XGBoost", color = "darkred") +
+# draw a curved arrow from "Random Forest" to the point (2007.5, 140)
+geom_curve(aes(x = 2006.5, y = 140, 
+               xend = 2007, yend = 190), 
+           curvature = -0.2, 
+           arrow = arrow(length = unit(0.1, "inches"))) +
+  geom_curve(aes(x = 2008, y = 250, 
+               xend = 2008, yend = 190), 
+           curvature = -0.2, 
+           arrow = arrow(length = unit(0.1, "inches"))) +
+  labs(title = "Malaria Cases in Nigeria",
+       subtitle = "Observed vs Predicted - Random Forest vs XGBoost",
+       x = "Year",
+       y = "Number of Positive Cases") +
+  theme_minimal() +
+  theme(legend.position = "top")
 ```
 
 In conclusion, the model's performance can be further improved by

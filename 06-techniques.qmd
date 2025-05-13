@@ -17,9 +17,11 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   How to manipulate data through feature engineering
--   Select the most suitable model for your data
--   Learn about machine learning algorithms
+-   Apply feature engineering techniques to prepare data for modelling
+-   Evaluate and select the most appropriate machine learning model
+    based on data characteristics
+-   Understand the fundamentals of key machine learning algorithms and
+    their applications
 :::
 ::::::
 
@@ -34,64 +36,79 @@ and evaluation.
 
 In this chapter, we focus on the strategies for selecting appropriate
 models by leveraging the strengths of different techniques, specifically
-for health metrics\index{Health metrics} and for infectious diseases\index{Infectious diseases}. We will explore various
+for health metrics\index{Health metrics} and for infectious
+diseases\index{Infectious diseases}. We will explore various
 considerations involved in addressing potential biases, and discuss
 actions to prevent them.
 
 ## Goals of the Analysis and Nature of Data
 
-The identification of the primary **goal of the analysis** is fundamental.
-Whether it involves trend analysis, investigating the relationships
-between response and predictor variables, or strictly forecasting to
-predict future outcomes, the strategy for model selection varies
-accordingly.
+The identification of the primary **goal of the analysis** is
+fundamental. Whether it involves trend analysis, investigating the
+relationships between response and predictor variables, or strictly
+forecasting to predict future outcomes, the strategy for model selection
+varies accordingly.
 
 **Health Metrics Data:**
 
--   **Composite Measures:**\index{Composite measures} Health metrics like DALYs\index{Disability Adjusted Life Years (DALYs)} are composite
-    measures that include both mortality\index{Mortality} and morbidity\index{Morbidity} data, often
-    requiring sophisticated regression models capable of handling
-    continuous variables and multiple predictors. By examining the
-    components of DALYs (e.g., Years of Life Lost (YLLs)\index{Years of Life Lost (YLLs)} and Years Lived
-    with Disability (YLDs)\index{Years Lived with Disability (YLDs)}), we can identify the key drivers such as
-    mortality rates, disease prevalence, and risk factors.
+-   **Composite Measures:**\index{Composite measures} Health metrics
+    like DALYs\index{Disability Adjusted Life Years (DALYs)} are
+    composite measures that include both mortality\index{Mortality} and
+    morbidity\index{Morbidity} data, often requiring sophisticated
+    regression models capable of handling continuous variables and
+    multiple predictors. By examining the components of DALYs (e.g.,
+    Years of Life Lost (YLLs)\index{Years of Life Lost (YLLs)} and Years
+    Lived with Disability
+    (YLDs)\index{Years Lived with Disability (YLDs)}), we can identify
+    the key drivers such as mortality rates, disease prevalence, and
+    risk factors.
 
--   **Regression Models:** Regression models\index{Regression models !}, including **linear
-    regression**\index{Regression models ! linear
-    regression}, **Ridge regression**\index{Regression models ! Ridge regression}, and
-    **Lasso regression**\index{Regression models ! Lasso regression}, are commonly used to
-    handle these continuous variables and address challenges like
-    correlation and multicollinearity\index{Multicollinearity} with
-    appropriate techniques such as regularisation.
+-   **Regression Models:** Regression models\index{Regression models !},
+    including **linear regression**\index{Regression models ! linear
+    regression}, **Ridge
+    regression**\index{Regression models ! Ridge regression}, and
+    **Lasso regression**\index{Regression models ! Lasso regression},
+    are commonly used to handle these continuous variables and address
+    challenges like correlation and
+    multicollinearity\index{Multicollinearity} with appropriate
+    techniques such as regularisation.
 
 **Infectious Disease Data:**
 
 -   **Categorical and Continuous Data:** Infectious disease data can be
-    categorical\index{Categorical} (e.g., disease presence or absence) or continuous\index{Continuous} (e.g.,
-    incidence rates). Classification models are suitable for categorical
-    outcomes, while regression models are appropriate for continuous
-    data.
+    categorical\index{Categorical} (e.g., disease presence or absence)
+    or continuous\index{Continuous} (e.g., incidence rates).
+    Classification models are suitable for categorical outcomes, while
+    regression models are appropriate for continuous data.
 
--   **Disease Dynamics:**\index{Disease dynamics !} Understanding the dynamics of infectious
-    diseases, such as transmission rates\index{Disease dynamics ! transmission rates}, incubation periods\index{Disease dynamics ! incubation periods}, and
-    immunity\index{Disease dynamics ! immunity}, informs the selection of models. Common models include
-    compartmental models\index{Compartmental models} (e.g., SIR, SEIR) and agent-based models.
+-   **Disease Dynamics:**\index{Disease dynamics !} Understanding the
+    dynamics of infectious diseases, such as transmission
+    rates\index{Disease dynamics ! transmission rates}, incubation
+    periods\index{Disease dynamics ! incubation periods}, and
+    immunity\index{Disease dynamics ! immunity}, informs the selection
+    of models. Common models include compartmental
+    models\index{Compartmental model} (e.g., SIR, SEIR) and agent-based
+    models.
 
 **Common considerations for health metrics and infectious diseases data
 type:**
 
--   **Seasonality and Trends:** The data may exhibit seasonality\index{Seasonality} or
-    trends\index{Trend}, necessitating the use of time series\index{Time series} analysis models like
-    **ARIMA**\index{Autoregressive Integrated Moving Average (ARIMA)} or seasonal decomposition\index{Decomposition} to capture these
+-   **Seasonality and Trends:** The data may exhibit
+    seasonality\index{Seasonality} or trends\index{Trend}, necessitating
+    the use of time series\index{Time series} analysis models like
+    **ARIMA**\index{AutoRegressive Integrated Moving Average (ARIMA)} or
+    seasonal decomposition\index{Decomposition} to capture these
     patterns.
 
 -   **Simulation Models:** These models can predict the impact of
-    interventions on DALYs\index{Disability Adjusted Life Years (DALYs)} and infectious diseases\index{Infectious diseases}, estimating the
+    interventions on DALYs\index{Disability Adjusted Life Years (DALYs)}
+    and infectious diseases\index{Infectious diseases}, estimating the
     effectiveness of different interventions and guiding policy
     decisions. Examples of these types of models are: **SIR** models,
-    and **Agent-based models**\index{Agent-based models}. In addition, **confidence intervals**\index{Confidence intervals}
-    and **sensitivity analyses**\index{sensitivity analyses} help assess the uncertainty associated
-    with these predictions.
+    and **Agent-based models**\index{Agent-based models}. In addition,
+    **confidence intervals**\index{Confidence intervals} and
+    **sensitivity analyses**\index{Sensitivity analyses} help assess the
+    uncertainty associated with these predictions.
 
 -   **Bayesian Models:**\index{Bayesian models} These models can
     estimate parameters and make predictions based on prior knowledge
@@ -99,9 +116,11 @@ type:**
 
 -   **Predictive modelling:**\index{Predictive modelling} Such as
     **decision trees**\index{Decision trees}, **support vector machines
-    (SVM)**\index{Support Vector Machines (SVM)}, and **Long Short-Term Memory (LSTM) neural
-    networks**\index{Long Short-Term Memory (LSTM)}, can predict disease outbreaks, identify
-    high-risk populations, and optimise resource allocation.
+    (SVM)**\index{Support Vector Machines (SVM)}, and **Long Short-Term
+    Memory (LSTM) neural
+    networks**\index{Long Short-Term Memory (LSTM)}, can predict disease
+    outbreaks, identify high-risk populations, and optimise resource
+    allocation.
 
 ## Statistical and Machine Learning Methods
 
@@ -111,11 +130,11 @@ factors well identified, we are a step forward in restricting the range
 of applicable models.
 
 The next step involves conducting a thorough **exploratory data analysis
-(EDA)**\index{Exploratory Data Analysis (EDA)}. This initial exploration helps to uncover the
-underlying structure of the data, the relationships between variables,
-and the way the response variable—which may also be referred to as the
-outcome variable—depends on predictors. This phase is critical as it
-informs the necessity of subsequent data adjustments and
+(EDA)**\index{Exploratory Data Analysis (EDA)}. This initial exploration
+helps to uncover the underlying structure of the data, the relationships
+between variables, and the way the response variable—which may also be
+referred to as the outcome variable—depends on predictors. This phase is
+critical as it informs the necessity of subsequent data adjustments and
 transformations.
 
 The importance of data preparation and exploratory data analysis in
@@ -124,16 +143,18 @@ learning digestible data. **Feature
 engineering**\index{Feature engineering} is a technique that involves
 creating new features from existing ones based on domain knowledge or
 transformation of data to improve the model's ability to discern
-patterns. For example, creating features like **moving averages**\index{Moving averages} or
-differences between consecutive days can reveal trends and cycles\index{Cycles} that
-are not immediately apparent from raw data.
+patterns. For example, creating features like **moving
+averages**\index{Moving averages} or differences between consecutive
+days can reveal trends and cycles\index{Cycles} that are not immediately
+apparent from raw data.
 
-Another example is the **standardisation**\index{Standardisation} process, which is crucial
-when dealing with variables measured in different units. It involves
-rescaling the features so they have a mean of zero and a standard
-deviation of one. This process is particularly important when variables
-span several orders of magnitude; without standardisation, a model might
-incorrectly interpret the scale of a feature as a proxy for importance.
+Another example is the **standardisation**\index{Standardisation}
+process, which is crucial when dealing with variables measured in
+different units. It involves rescaling the features so they have a mean
+of zero and a standard deviation of one. This process is particularly
+important when variables span several orders of magnitude; without
+standardisation, a model might incorrectly interpret the scale of a
+feature as a proxy for importance.
 
 Furthermore, the application of transformations, such as **logarithmic**
 scaling or the application of **spline** functions can help in managing
@@ -152,13 +173,13 @@ focusing on practical understanding and implementation.
 In developing predictive models for health metrics and infectious
 diseases, selecting the appropriate model is critical to ensure accurate
 and reliable forecasts. Here are outlined sample strategies employed in
-the model selection process, we introduce the **Rabies**\index{Rabies} dataset used
-for our discussion and demonstrate the selection of a suitable model for
-analysing its impact. Rabies, although nearly 100% fatal once symptoms
-appear, presents a unique challenge due to the relative rarity of cases
-and limited availability of comprehensive data. This scarcity
-complicates efforts to model the disease accurately and develop
-effective public health strategies.
+the model selection process, we introduce the **Rabies**\index{Rabies}
+dataset used for our discussion and demonstrate the selection of a
+suitable model for analysing its impact. Rabies, although nearly 100%
+fatal once symptoms appear, presents a unique challenge due to the
+relative rarity of cases and limited availability of comprehensive data.
+This scarcity complicates efforts to model the disease accurately and
+develop effective public health strategies.
 
 To address these challenges, we explore advanced modelling techniques
 that can enhance the robustness of our analyses despite data
@@ -168,20 +189,21 @@ accurate predictions.
 
 ## Example: Rabies {#sec-06-rabies}
 
-The **rabies**\index{Rabies} dataset from the `{hmsidwR}` package contains
-information on death rates and disability-adjusted life years (DALYs)
-per 100,000 inhabitants due to rabies and all causes of mortality in
-Asia and for the Global region from 1990 to 2019. Rabies ([@cdc2024]) is
-a fatal viral infection, and it is also classified as an infectious
-disease that can infect all mammals causing acute encephalitis. Caused
-by the rabies virus, which belongs to the Lyssavirus genus, it is
-transmitted to humans through the bite of an infected animal such as
-bats, raccoons, skunks, foxes, and obviously dogs, which are the main
-source of human rabies deaths [@hampson2015]. Rabies defined as
-**neglected tropical disease (NTD)**\index{Neglected Tropical Disease (NTD)} predominantly affects already
-marginalised, poor and vulnerable populations. Although effective human
-vaccines and immunoglobulins exist for rabies, these are often not
-readily available or accessible to everyone [@rabies].
+The **rabies**\index{Rabies} dataset from the `{hmsidwR}` package
+contains information on death rates and disability-adjusted life years
+(DALYs) per 100,000 inhabitants due to rabies and all causes of
+mortality in Asia and for the Global region from 1990 to 2019. Rabies
+([@cdc2024]) is a fatal viral infection, and it is also classified as an
+infectious disease that can infect all mammals causing acute
+encephalitis. Caused by the rabies virus, which belongs to the
+Lyssavirus genus, it is transmitted to humans through the bite of an
+infected animal such as bats, raccoons, skunks, foxes, and obviously
+dogs, which are the main source of human rabies deaths [@hampson2015].
+Rabies defined as **neglected tropical disease
+(NTD)**\index{Neglected Tropical Disease (NTD)} predominantly affects
+already marginalised, poor and vulnerable populations. Although
+effective human vaccines and immunoglobulins exist for rabies, these are
+often not readily available or accessible to everyone [@rabies].
 
 In this example we consider the number of DALYs per 100,000 inhabitants
 due to rabies in Asia and the Global region, as our response variable,
@@ -385,11 +407,11 @@ p4 +
     ymin = 1, ymax = 2)
 ```
 
-For this task, we will use the `{tidymodels}`
-meta-package, as it provides a consistent interface for modelling and
-machine learning tasks. In particular, we define and execute modelling
-workflows, to create tailored data pre-processing tasks on various
-modelling specifications, and evaluate the performance using resampling
+For this task, we will use the `{tidymodels}` meta-package, as it
+provides a consistent interface for modelling and machine learning
+tasks. In particular, we define and execute modelling workflows, to
+create tailored data pre-processing tasks on various modelling
+specifications, and evaluate the performance using resampling
 techniques, to eventually select the best model. A more detailed
 explanation of the `{tidymodels}` framework can be found in the book
 [@silge].
@@ -421,22 +443,22 @@ There are various types of resampling techniques, it depends on the
 specific characteristics of your dataset, and the goals of your
 analysis. Some of the most common resampling techniques include:
 
--   **k-Fold Cross-Validation**\index{k-Fold Cross-Validation} for general
-    model evaluation and hyperparameter tuning.
--   **Bootstrap Resampling**\index{Resampling ! bootstrap} to estimate the
-    variability of your model and for smaller datasets.
+-   **k-Fold Cross-Validation**\index{k-Fold Cross-Validation} for
+    general model evaluation and hyperparameter tuning.
+-   **Bootstrap Resampling**\index{Resampling ! bootstrap} to estimate
+    the variability of your model and for smaller datasets.
 -   **Time Series Cross-Validation**\index{Time series cross validation}
     for time-dependent data to preserve temporal structure.
 -   **Spatial Resampling**\index{Resampling ! spatial} for spatially
     correlated data to account for spatial dependencies.
--   **Stratified Resampling**\index{Resampling ! stratified} when dealing
-    with imbalanced datasets to ensure proper representation of all
-    classes.
+-   **Stratified Resampling**\index{Resampling ! stratified} when
+    dealing with imbalanced datasets to ensure proper representation of
+    all classes.
 
 In this case, we will use **k-Fold Cross-Validation** to evaluate the
 model's performance. The `vfold_cv()` function creates a set of folds
-for cross-validation\index{Cross validation}, which is used to train and test the model on
-different subsets of the data.
+for cross-validation\index{Cross Validation}, which is used to train and
+test the model on different subsets of the data.
 
 ```{r}
 set.seed(11102024)
@@ -446,9 +468,10 @@ folds <- vfold_cv(training, v = 10)
 ### Data Preprocessing and Featuring Engineering
 
 As already seen in the exploratory phase, preprocessing data is a
-crucial step in machine learning\index{Machine learning. This process can include techniques
-for handling missing values, standardisation of the data, encoding
-categorical variables, and removing highly correlated variables.
+crucial step in machine learning\\index{Machine learning. This process
+can include techniques for handling missing values, standardisation of
+the data, encoding categorical variables, and removing highly correlated
+variables.
 
 In this case, we will use the `{recipes}` package to create a recipe,
 with a set of preprocessing steps. The `recipe()` function allows us to
@@ -569,33 +592,38 @@ rec2 %>%
 
 ### Correlation, Multicollinearity and Overfitting
 
-To be noted is that we haven't applied any **correlation**\index{Correlation} selection
-step on this data. Filtering out highly correlated predictors, such as
-those with a correlation greater than 80% to avoid multicollinearity\index{Multicollinearity},
-would lead to excluding crucial variables. On the other hand, including
-all possible covariates in a model often yields implausible signs on
-covariates or unstable coefficients, as well as overfitting
-[@foreman2012].
+To be noted is that we haven't applied any
+**correlation**\index{Correlation} selection step on this data.
+Filtering out highly correlated predictors, such as those with a
+correlation greater than 80% to avoid
+multicollinearity\index{Multicollinearity}, would lead to excluding
+crucial variables. On the other hand, including all possible covariates
+in a model often yields implausible signs on covariates or unstable
+coefficients, as well as overfitting [@foreman2012].
 
 When multiple predictors are correlated, but all are crucial for the
 analysis (e.g., deaths due to rabies, total deaths, and total DALYs for
 all causes), applying a correlation step that filters out correlated
 variables can be problematic. One way to overcome bias arising from it
-is using regularisation techniques like **Ridge Regression**\index{Regression ! ridge} or **Lasso
-Regression**\index{Regression ! lasso} is often the best approach to handle multicollinearity
-without removing any predictors. Alternatively, **Principal Components Analysis (PCA)**\index{Principal Components Analysis (PCA)} can
-reduce dimensionality while retaining most of the variance. These
-methods ensure all important predictors are included in the model
-without the adverse effects of multicollinearity.
+is using regularisation techniques like **Ridge
+Regression**\index{Regression ! ridge} or **Lasso
+Regression**\index{Regression ! lasso} is often the best approach to
+handle multicollinearity without removing any predictors. Alternatively,
+**Principal Components Analysis
+(PCA)**\index{Principal Components Analysis (PCA)} can reduce
+dimensionality while retaining most of the variance. These methods
+ensure all important predictors are included in the model without the
+adverse effects of multicollinearity.
 
 ### Model Specification
 
 The next step is to outline the model specification. There are various
-type of models that can be used. We start with a **random forest**\index{Random Forest}. This
-choice is typically done due to the algorithm's features, which is able
-to create **multiple bootstrap samples**\index{Bootstrap} (random samples with
-replacement) from the original dataset. Each bootstrap sample is used to
-train a separate decision tree.
+type of models that can be used. We start with a **random
+forest**\index{Random Forest}. This choice is typically done due to the
+algorithm's features, which is able to create **multiple bootstrap
+samples**\index{Bootstrap} (random samples with replacement) from the
+original dataset. Each bootstrap sample is used to train a separate
+decision tree.
 
 ### Model 1: Random Forest
 
@@ -694,20 +722,21 @@ rf_fit %>%
 
 ### Model 2: Generalised Linear Model (GLM)
 
-Generalised Linear Models (GLMs)\index{Generalised Linear Models (GLMs)} involve statistical
-estimation rather than the iterative parameter tuning, common in many
-machine learning techniques. However, adding a machine learning feature
-through parameter calibration can be done using techniques such as
-cross-validation and grid search to find the best model settings.
+Generalised Linear Models (GLMs)\index{Generalised Linear Models (GLMs)}
+involve statistical estimation rather than the iterative parameter
+tuning, common in many machine learning techniques. However, adding a
+machine learning feature through parameter calibration can be done using
+techniques such as cross-validation and grid search to find the best
+model settings.
 
 To introduce a machine learning feature with parameter calibration into
 our modelling of the rabies data, we can use a technique like
 cross-validation combined with a **regularisation method** or an
 algorithm that supports parameter tuning. Here, we can employ a model
-from the `glmnet` package, which fits a generalised linear
-model via **penalised maximum likelihood**. The regularisation path is
-computed for the lasso or elastic-net penalty at a grid of values for
-the regularisation parameter lambda.
+from the `glmnet` package, which fits a generalised linear model via
+**penalised maximum likelihood**. The regularisation path is computed
+for the lasso or elastic-net penalty at a grid of values for the
+regularisation parameter lambda.
 
 Adding Machine Learning Features with `{glmnet}` and Cross-Validation
 
@@ -828,29 +857,34 @@ data.frame(dalys_rabies = response, predictors, predictions) %>%
 
 In the example above, we used two models to predict DALYs due to rabies,
 a random forest with `{tidymodels}` and a generalised linear model with
-`{glmnet}` with a Root Mean-Square Error\index{Root Mean-Square Error (RMSE)} of 0.448 and 0.257
+`{glmnet}` with a Root Mean-Square
+Error\index{Root Mean-Square Error (RMSE)} of 0.448 and 0.257
 respectively. The Random Forest model has a higher RMSE, which means it
 has a higher prediction error compared to the GLM model. However, we
 haven't applied any of the preprocessing steps, and there are many other
 models that could be used to predict DALYs such as:
 
-1.  **Support Vector Machines (SVM)**\index{Support Vector Machines (SVM)}: SVMs are a powerful machine
-    learning algorithm that can be used for both classification and
-    regression tasks. They work by finding the hyperplane that best
+1.  **Support Vector Machines
+    (SVM)**\index{Support Vector Machines (SVM)}: SVMs are a powerful
+    machine learning algorithm that can be used for both classification
+    and regression tasks. They work by finding the hyperplane that best
     separates the data into different classes or groups.
 
-2.  **Extreme Gradient Boosting (XGBoost)**\index{Extreme Gradient Boosting (XGBoost)}: Known for
+2.  **Extreme Gradient Boosting
+    (XGBoost)**\index{Extreme Gradient Boosting (XGBoost)}: Known for
     its high performance in various prediction tasks, XGBoost can handle
     missing values and is effective for large datasets.
 
-3.  **K-Nearest Neighbours (KNN)**\index{K-Nearest Neighbours (KNN)} models are a type of
-    instance-based learning algorithm that stores all available cases
-    and classifies new cases based on a similarity measure.
+3.  **K-Nearest Neighbours (KNN)**\index{K-Nearest Neighbours (KNN)}
+    models are a type of instance-based learning algorithm that stores
+    all available cases and classifies new cases based on a similarity
+    measure.
 
-4.  **Long Short-Term Memory (LSTM) Networks**\index{Long Short-Term Memory (LSTM)}: For temporal
-    or sequential health data, LSTM networks can capture dependencies
-    over time, making them suitable for time-series prediction of
-    disease progression and outcomes.
+4.  **Long Short-Term Memory (LSTM)
+    Networks**\index{Long Short-Term Memory (LSTM)}: For temporal or
+    sequential health data, LSTM networks can capture dependencies over
+    time, making them suitable for time-series prediction of disease
+    progression and outcomes.
 
 Each of these models has its own strengths and weaknesses, and the
 choice of model will depend on the specific characteristics of the data
@@ -942,19 +976,20 @@ autoplot(grid_results,
 
 ## Summary
 
-The integration of machine learning techniques into public health\index{Public health} data
-analysis can significantly enhance the predictive power and robustness
-of models. By leveraging the capabilities of machine learning
-algorithms, we can extract valuable insights from complex health data,
-enabling more informed decision-making and policy formulation in public
-health contexts. The examples provided in this chapter illustrate the
-application of machine learning techniques to health metrics data,
-demonstrating the importance of feature engineering\index{Feature engineering}, model selection,
-and parameter calibration\index{Calibration} in enhancing the predictive accuracy and
-relevance of models. By following best practices in machine learning,
-public health researchers and practitioners can harness the power of
-data-driven insights to address critical health challenges and improve
-population health outcomes.
+The integration of machine learning techniques into public
+health\index{Public health} data analysis can significantly enhance the
+predictive power and robustness of models. By leveraging the
+capabilities of machine learning algorithms, we can extract valuable
+insights from complex health data, enabling more informed
+decision-making and policy formulation in public health contexts. The
+examples provided in this chapter illustrate the application of machine
+learning techniques to health metrics data, demonstrating the importance
+of feature engineering\index{Feature engineering}, model selection, and
+parameter calibration\index{Calibration} in enhancing the predictive
+accuracy and relevance of models. By following best practices in machine
+learning, public health researchers and practitioners can harness the
+power of data-driven insights to address critical health challenges and
+improve population health outcomes.
 
 **Best Practices for Machine Learning in Public Health:**
 

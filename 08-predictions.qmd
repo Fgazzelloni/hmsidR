@@ -34,13 +34,13 @@ overview of **predictive modelling**\index{Predictive modelling},
 focusing on the challenges of applying predictions to new data, the use
 of **time series analysis**\index{Time series}, and **mixed
 models**\index{Mixed models} to anticipate the trajectory of infectious
-diseases and health metrics\index{Health metrics}. By exploring the underlying patterns and
-analysing historical data, we estimate the disease burden and evaluate
-the impact of interventions on population health. We demonstrate how
-time series analysis and mixed models\index{Mixed models} can be tailored to address
-specific research questions, such as predicting disease outbreaks,
-estimating disease burden, and assessing the impact of interventions on
-population health.
+diseases and health metrics\index{Health metrics}. By exploring the
+underlying patterns and analysing historical data, we estimate the
+disease burden and evaluate the impact of interventions on population
+health. We demonstrate how time series analysis and mixed
+models\index{Mixed models} can be tailored to address specific research
+questions, such as predicting disease outbreaks, estimating disease
+burden, and assessing the impact of interventions on population health.
 
 ## Predictions About the Future
 
@@ -72,10 +72,10 @@ informed decisions based on the predictions.
 
 ## Example: Dengue Test Predictions for 2017-2021
 
-**Predictive modelling**\index{Predictive modelling} is a powerful tool for forecasting future
-trends. Here we test the Dengue's\index{Dengue} model made with `{mlr3}` meta-package
-in @sec-07-packages. The model was trained on data from 1990 to 2016 and
-now tested for years 2017 to 2021.
+**Predictive modelling**\index{Predictive modelling} is a powerful tool
+for forecasting future trends. Here we test the Dengue's\index{Dengue}
+model made with `{mlr3}` meta-package in @sec-07-packages. The model was
+trained on data from 1990 to 2016 and now tested for years 2017 to 2021.
 
 First we load the original data and name it `old_data`.
 
@@ -147,13 +147,13 @@ data.table::as.data.table(new_pred_regr.cv_glmnet) %>%
 ```
 
 And calculate some metrics to evaluate the model performance on new
-data. We calculate the
-**Mean Absolute Percent Error (MAPE)**\index{Mean Absolute Percent Error (MAPE)},
-the **Mean Squared Error (MSE)**\index{Mean Squared Error (MSE)}, and the
-**Root Mean Squared Error (RMSE)**\index{Root Mean Squared Error (RMSE)}.
-The MAPE is a measure of prediction accuracy\index{Accuracy}, while the MSE and RMSE are
-measures of the average squared difference between predicted and actual
-values.
+data. We calculate the **Mean Absolute Percent Error
+(MAPE)**\index{Mean Absolute Percent Error (MAPE)}, the **Mean Squared
+Error (MSE)**\index{Mean Squared Error (MSE)}, and the **Root Mean
+Squared Error (RMSE)**\index{Root Mean Squared Error (RMSE)}. The MAPE
+is a measure of prediction accuracy\index{Accuracy}, while the MSE and
+RMSE are measures of the average squared difference between predicted
+and actual values.
 
 ```{r}
 data.table::as.data.table(new_pred_regr.cv_glmnet) %>% 
@@ -173,10 +173,10 @@ The model performs fairly well, with relatively low error:
 
 Much more can be done to improve the models, such as **hyperparameter
 tuning**\index{Hyperparameter
-tuning}, **feature engineering**\index{Feature engineering}, and **model ensembles**\index{Model ensembles}, but this is
-a good point to start. We could also look at the confidence intervals of
-the predictions, to see how certain we are about the predictions, and so
-on.
+tuning}, **feature engineering**\index{Feature engineering}, and **model
+ensembles**\index{Model ensemble}, but this is a good point to start.
+We could also look at the confidence intervals of the predictions, to
+see how certain we are about the predictions, and so on.
 
 This is the result of the `cv_glmnet` application on new data:
 
@@ -229,9 +229,9 @@ rbind(regr.cv_glmnet_new,
             rmse = sqrt(mean((truth - response)^2))) 
 ```
 
-The `glmnet` performs better than `xgboost`. The xgboost\index{xgboost} model may be
-overfitting or it is just poorly tuned, given its higher error despite
-being a more complex model.
+The `glmnet` performs better than `xgboost`. The xgboost\index{xgboost}
+model may be overfitting or it is just poorly tuned, given its higher
+error despite being a more complex model.
 
 ```{r}
 #| fig-cap: "Dengue Predictions for 2017-2021: xgboost. The solid line shows the historical data, the brown line shows the new data, and the dashed line the predictions."
@@ -253,13 +253,14 @@ regr.xgboost_new %>%
   labs(title = "Dengue Predictions for 2017-2021: xgboost")
 ```
 
-In conclusion, predictive modelling is a valuable tool for forecasting\index{Forecasting}
-future trends and making informed decisions based on historical data. By
-leveraging the insights gained from the models, we can anticipate the
-trajectory of infectious diseases, estimate disease burden, and evaluate
-the impact of interventions on population health. The models can be
-further refined and optimised to improve their predictive performance
-and provide more accurate forecasts.
+In conclusion, predictive modelling is a valuable tool for
+forecasting\index{Forecasting} future trends and making informed
+decisions based on historical data. By leveraging the insights gained
+from the models, we can anticipate the trajectory of infectious
+diseases, estimate disease burden, and evaluate the impact of
+interventions on population health. The models can be further refined
+and optimised to improve their predictive performance and provide more
+accurate forecasts.
 
 By combining predictive modelling with time series analysis and mixed
 models, we can gain a comprehensive understanding of the complex
@@ -272,9 +273,10 @@ One important side of the analysis is to consider the evolution of the
 phenomenon in time. We can do this by using `time` as a factor in the
 model. **Time series**\index{Time series} analysis serves as a tool for
 understanding and forecasting temporal patterns. Techniques such as
-**AutoRegressive Integrated Moving Average (ARIMA)**\index{AutoRegressive Integrated Moving Average (ARIMA)}
-models offer a systematic approach to modelling time-dependent data,
-capturing seasonal\index{Seasonal} variations, trends\index{Trend}, and
+**AutoRegressive Integrated Moving Average
+(ARIMA)**\index{AutoRegressive Integrated Moving Average (ARIMA)} models
+offer a systematic approach to modelling time-dependent data, capturing
+seasonal\index{Seasonal} variations, trends\index{Trend}, and
 irregularities to generate accurate forecasts.
 
 **Mixed models**\index{Mixed models}, on the other side, provide a
@@ -300,7 +302,7 @@ such as trend, seasonality\index{Seasonality}, cyclic
 patterns\index{Cyclic patterns}, and irregular fluctuations, which can
 be explored using various methods such as
 **decomposition**\index{Decomposition}, **smoothing**\index{Smoothing},
-and **modelling**\index{Modelling}. This analysis is widely used in
+and **modelling**. This analysis is widely used in
 fields like economics, finance, epidemiology, and environmental science
 to understand and predict future trends, identify anomalies, and make
 informed decisions based on historical patterns.
@@ -355,10 +357,10 @@ comprehensive understanding of how social and economic determinants
 influence health outcomes.
 
 The SDI is a **composite index** developed by the Global Burden of
-Disease (GBD) Study\index{Global Burden of Disease (GBD)} to
-capture a country’s level of socio-demographic development, that
-combines various social and demographic factors to provide a
-comprehensive measure of a population's health and well-being.
+Disease (GBD) Study\index{Global Burden of Disease (GBD)} to capture a
+country’s level of socio-demographic development, that combines various
+social and demographic factors to provide a comprehensive measure of a
+population's health and well-being.
 
 It is based on three components:
 
@@ -484,8 +486,8 @@ sdi90_19 |>
 
 Focusing on France as the location of interest, we analyse the time
 series by decomposing the series into its components and evaluating the
-autocorrelation\index{Autocorrelation} function to assess underlying temporal patterns, and
-apply an
+autocorrelation\index{Autocorrelation} function to assess underlying
+temporal patterns, and apply an
 `ARIMA(1,0,0)`\index{AutoRegressive Integrated Moving Average (ARIMA)}
 model.
 
@@ -573,9 +575,9 @@ variation remains relatively constant over time. The equation
 proportionally with the trend (e.g., higher variability during periods
 of higher values). Finally, The equation @eq-log-decomposition
 represents a log-transformed multiplicative model, which stabilizes
-variance and allows for additive decomposition\index{Decomposition} in the logarithmic
-scale—often preferred when dealing with exponential growth or
-heteroscedasticity\index{Heteroscedasticity}.
+variance and allows for additive decomposition\index{Decomposition} in
+the logarithmic scale—often preferred when dealing with exponential
+growth or heteroscedasticity\index{Heteroscedasticity}.
 
 The `autoplot()` function is from the `{fabletools}` package and allows
 for the visualization of the components. In particular, the
@@ -622,9 +624,9 @@ where:
 
 Time series that exhibit **no autocorrelation**, or no predictable
 relationship between observations at different time points, are referred
-to as **white noise series**\index{White noise}, where each value is essentially a random
-draw from the same distribution, with constant mean and variance, with
-no pattern recognition.
+to as **white noise series**\index{White noise}, where each value is
+essentially a random draw from the same distribution, with constant mean
+and variance, with no pattern recognition.
 
 On the contrary, the presence of **autocorrelation**, or statistically
 significant correlations between current and past values, indicates the
@@ -880,7 +882,8 @@ external shocks, structural changes, or nonlinear relationships, making
 them insufficient for capturing all aspects of the data, including trend
 and seasonality.
 
-This is where **ensemble learning**\index{Ensemble learning} comes into play.
+This is where **ensemble learning**\index{Ensemble learning} comes into
+play.
 
 By aggregating the predictions from **multiple single learners**, we can
 form a **model ensemble**\index{Model ensemble}, to improve predictive

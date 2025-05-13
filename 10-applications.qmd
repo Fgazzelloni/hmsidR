@@ -17,29 +17,42 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Overview of the basic plots for visualising predictions and outcomes
--   How to customise a plot using colours, palettes, legends, and guides
--   Tell the story with data through plot layouts and saving as an image
+-   Visualize predicted vs. observed values and assess residuals.
+-   Interpret model metrics with VIP, accuracy, and confusion matrix
+    plots.
+-   Create and customize ROC curves and compute AUC for classification
+    models.
 :::
 ::::::
 
 \
-This chapter is an essential part of the data
-visualisation\index{Data visualisation} section, it focuses on how to
+In the introduction to data visualisation (@sec-09-data_visualisation),
+we explored foundational techniques for effectively communicating model
+results and data insights through plots. We reviewed essential plots
+used to visualise predictions and outcomes, such as scatter plots, line
+graphs, and bar charts. The chapter also covered how to customise these
+plots using colours, palettes, legends, and guides to improve clarity
+and visual appeal. Additionally, we discussed how to craft compelling
+data stories by organising multiple plots in a layout and saving them as
+image files for reports or presentations. These skills are critical for
+interpreting model outputs and sharing findings with a wider audience.
+
+In this chapter, an essential part of the data
+visualisation\index{Data visualisation} section, we focus on how to
 effectively interpret and use the results from machine
 learning\index{Machine learning} models in the context of health
-metrics and infectious
-diseases.\index{Infectious diseases} The aim is to provide actionable
+metrics\index{Health metrics} and infectious
+diseases\index{Infectious diseases}. The aim is to provide actionable
 insights, enhance decision-making, and communicate findings to various
-stakeholders.
+stakeholders:
 
-1.  **Visualising Predictions and Outcomes**:
+-   **Visualising Predictions and Outcomes**:
     -   Techniques for visualising predicted vs. actual values.
     -   Using scatter plots, line plots, and bar charts to compare
         predictions and observed data.
     -   Highlighting discrepancies and trends through residual plots and
         error distribution charts.
-2.  **Case Studies and Applications**:
+-   **Case Studies and Applications**:
     -   Real-world examples of model results application in public
         health.
     -   Case studies demonstrating the impact of machine learning and
@@ -49,13 +62,28 @@ stakeholders.
 
 ## Practical Insights and Examples
 
-### Example: Visualising COVID-19 Data
+In this section, we will explore practical examples of how to visualise
+models and their results. The objective is to learn how to interpret the
+results of a model and how to communicate them effectively. Several
+considerations are important when visualising the results of a model,
+such as:
+
+-   **Understanding the data**: Before visualising the results, it is
+    important to understand the data and the model used. This includes
+    understanding the variables, their relationships, and the
+    assumptions of the model.
+-   **Choosing the right visualisation**: Different types of data and
+    models require different types of visualisations. It is important to
+    choose the right visualisation to effectively communicate the
+    results.
+
+### Example: COVID-19 Analytics
 
 Data are from the **ECDC (European Centre for Disease Prevention and
 Control)**\index{European Centre for Disease Prevention and
-Control (ECDC)} - updated daily. Data include information on the
-**number of deaths for each country**. The dataset can be accessed
-through the `{covid19.analytics}` package.\index{COVID-19}
+Control (ECDC)} - updated daily. The data include information on the
+**number of deaths for each country due to COVID-19**. The dataset can
+be accessed through the `{covid19.analytics}` package\index{COVID-19}.
 
 ```{r}
 #| eval: false
@@ -80,70 +108,160 @@ data <- covid19.ALL.agg.cases %>%
   mutate(Last_Update = as.Date(Last_Update)) 
 
 data %>% 
-  head
+  head()
 ```
 
 We group the data by `Last_Update` and calculate the mean of the
-Confirmed, Deaths, Recovered variables.
+Confirmed, Deaths, Recovered variables. This is a rough aggregation and
+not population-weighted.
 
 ```{r}
 data %>%
   group_by(Last_Update) %>%
-  summarise(across(Confirmed:Recovered, ~ mean(.x, na.rm = TRUE)))
+  reframe(across(Confirmed:Recovered, 
+                   ~ mean(.x, na.rm = TRUE))) 
 ```
 
-We can visualise the data with a scatter plot with `geom_line`() and
-`geom_point()` functions and then add a `geom_smooth()`. This last
-function adds the most suitable model line, in this case a linear
-regression line, to the plot based on the data.
+We can visualise the data with a scatter plot using `geom_point()` and
+overlay a line with `geom_line()` functions and then add a
+`geom_smooth()`. This last function adds the most suitable model line,
+in this case a linear regression line, to the plot based on the data.
 
 The plot shows the relationship between the number of confirmed cases
 and the number of deaths.
 
 ```{r}
 #| label: fig-covid19_data
-#| fig-cap: "COVID-19 Deaths by Country"
+#| fig-cap: "COVID-19 Deaths for all Countries. The plot shows the relationship between the number of confirmed cases and the number of deaths. The dashed line shows the linear regression line, while the solid line shows the smoothed line."
 #| fig-alt: "COVID-19 data"
+#| fig-width: 6
+#| fig-height: 4
+
 data %>%
   ggplot(aes(x = Confirmed, y = Deaths)) +
-  geom_point() +
   geom_line(linetype = "dashed") +
-  # add a linear regression line
-  geom_smooth() +
-  labs(title = "COVID-19 Deaths by Country",
+  geom_point(shape = 21) +
+# add a smoothed line to approximate the trend
+  geom_smooth(method = "lm", linetype = "dashed") +
+  geom_smooth(method = "gam", 
+              formula = y ~ s(x, bs = "cs"), 
+              linetype = "solid") +
+# add a scale to the x-axis  
+  scale_x_continuous(trans = "sqrt", 
+                     expand = c(0, 0), # remove space
+                     labels = scales::label_comma()) +
+  labs(title = "COVID-19 Deaths for all Countries",
+       subtile = "Comparison of Linear Model vs GAM Fit",
        x = "Confirmed", y = "Number of Deaths") 
 ```
 
-We don't know if this is a good model, but we can attempt fitting a
-linear regression to predict the number of deaths based on the number of
-confirmed cases. We fit two models the first one without predictors,
-just with the intercept and we obtain the expected values of the number
-of `Deaths` in case of no epidemic in action. The second model is fit
-with `Confirmed` and `Recovered` as predictors. The`lm()` function is
-used to fit the model.
+The plot shows a positive correlation between the number of confirmed
+cases and the number of deaths. As the `geom_smooth()` fits a smooth
+line using method = 'gam' and formula = 'y \~ s(x, bs = "cs"), using a
+spline method; it provides a useful first approximation of the
+relationship between Confirmed and Deaths.
+
+To estimate the number of Deaths due to Confirmed and Recovered cases,
+we start by fitting three models:
+
+-   the first one without predictors, to obtain the expected value of
+    the number of `Deaths` in case of no epidemic in action
+-   the second model is fit with `Confirmed` cases as the only predictor
+-   the third model is fit with `Confirmed` and `Recovered` as
+    predictors.
+
+In all cases we use the `lm()` function, which fits a linear model to
+the data.
 
 ```{r}
 mod1 <- lm(Deaths ~ 1, data = data) 
-mod2 <- lm(Deaths ~ Confirmed + Recovered, data = data)
+mod2 <- lm(Deaths ~ Confirmed, data = data)
+mod3 <- lm(Deaths ~ Confirmed + Recovered, data = data)
 summary(mod1)$coefficients;
-summary(mod2)$coefficients
+summary(mod2)$coefficients;
+summary(mod3)$coefficients
 ```
 
-The `summary()` function provides the coefficients of the model, which
-tell us that in absence of epidemics the average number of **Deaths** is
-562.4838, while for each additional **Confirmed** case, the number of
-deaths increases by 0.025050716, and for each additional **Recovered**
-case, the number of deaths decreases by 0.003785725. The intercept is
-negative, which means that when the number of confirmed and recovered
-cases is zero, the number of deaths is negative. This is not possible,
-so we need to interpret the coefficients in the context of the data.
+The `summary()` function provides the model coefficients, which indicate
+that, in the absence of an epidemic\index{Epidemic}, the average number
+of Deaths is estimated at 562.48. For each additional Confirmed case,
+the number of deaths increases by approximately 0.025, while for each
+additional Recovered case, the number of deaths decreases by about
+0.0038. The intercept is negative, suggesting that when both confirmed
+and recovered cases are zero, the model predicts a negative number of
+deaths—an implausible result. This highlights the importance of
+interpreting the coefficients within the context of the data.
 
-The model is not perfect, but it can be used to estimate the number of
-deaths based on the number of confirmed and recovered cases. We can use
-the `predict()` function.
+> "Mortality trends following an epidemic typically show a decline once
+> transmission ceases, assuming no further cases occur." CDC’s
+> Principles of Epidemiology.
 
 ```{r}
-Pred <- predict(mod2, newdata = data)
+#| label: fig-covid19_model-comparison
+#| layout-ncol: 2
+#| fig-cap: "COVID-19 Model Comparison. Source ECDC: covid19.analytics"
+#| fig-subcap:
+#| - "Model Fit Comparison"
+#| - "Observed vs. Fitted Values"
+#| fig-alt: "COVID-19 Model Comparison"
+#| fig-width: 6
+#| fig-height: 4
+
+# Model Fit Comparison
+model_metrics <- data.frame(
+  model = c("mod1", "mod2", "mod3"),
+  R2 = c(summary(mod1)$r.squared, 
+                summary(mod2)$r.squared,
+                summary(mod3)$r.squared),
+  AIC = c(AIC(mod1), AIC(mod2), AIC(mod3)))
+
+model_metrics_long <- pivot_longer(model_metrics, -model)
+
+ggplot(model_metrics_long, aes(x = model, y = value, fill = name)) +
+  geom_col(position = "dodge") +
+  facet_wrap(~name, scales = "free_y") +
+  labs(title = "Model Fit Comparison", y = "Value", x = "Model") +
+  theme(legend.position = "none")
+
+# Observed vs. Fitted Values
+data$fit2 <- fitted(mod2)
+data$fit3 <- fitted(mod3)
+
+data_long <- data |>
+  select(Deaths, fit2, fit3) |>
+  pivot_longer(cols = starts_with("fit"), 
+               names_to = "model", 
+               values_to = "fitted")
+
+ggplot(data_long, aes(x = Deaths, y = fitted,
+                      color = model)) +
+  geom_point(alpha = 0.6, aes(shape = model)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  labs(title = "Predicted vs Observed Deaths due to COVID-19", 
+       x = "Observed Deaths", y = "Predicted") +
+  theme_minimal()
+```
+
+The first plot shows the model fit comparison, with the
+R-squared\index{R-squared} and
+AIC\index{Akaike Information Criterion (AIC)} values for each model. The
+second plot shows the observed vs. fitted values for the models. The
+dashed line represents a perfect fit, while the points represent the
+actual data.
+
+The model with the highest R-squared value is the one that best explains
+the variance in the data. The AIC value is a measure of the relative
+quality of a statistical model for a given dataset, with lower values
+indicating a better fit. The models explains \~85% of the variance in
+the number of deaths, suggesting a strong linear relationship. The
+`r.squared` value is close to 1, which means that the model fits the
+data well.
+
+To estimate the number of deaths based on the number of confirmed and
+recovered cases. We can use the `predict()` function.
+
+```{r}
+Pred <- predict(mod3, newdata = data)
 
 data_pred <- cbind(data %>% select(Confirmed, Deaths), Pred) %>%
   # calculate the residuals to see how well the model fits the data
@@ -158,15 +276,6 @@ deaths and the predicted number of deaths. A positive residual means
 that the model underestimated the number of deaths, while a negative
 residual means that the model overestimated the number of deaths.
 
-```{r}
-# metrics
-summary(mod2)$r.squared
-```
-
-The model explains 85% of the variance in the data, which is very good.
-The `r.squared` value is close to 1, which means that the model fits the
-data well.
-
 Let's see the results in a plot:
 
 ```{r}
@@ -174,23 +283,24 @@ Let's see the results in a plot:
 #| label: fig-covid19_model
 #| fig-cap: "COVID-19 data"
 #| fig-subcap: 
-#|  - "COVID-19 Deaths by Country"
-#|  - "Predicted vs. Actual Deaths"
+#|  - "Predicted vs. Actual Deaths due to COVID-19"
+#|  - "Model Residuals vs. Observed Deaths due to COVID-19"
 #| fig-alt: "COVID-19 data"
 data_pred %>%
   ggplot(aes(Deaths, Pred)) +
   geom_point() +
   geom_abline(intercept = 0, slope = 1, color = "red") +
   geom_segment(aes(xend = Deaths, yend = Pred), alpha = 0.5) +
-  labs(title = "Predicted vs. Actual Deaths",
+  tune::coord_obs_pred() +
+  labs(title = "Predicted vs. Actual Deaths due to COVID-19",
        x = "Actual Deaths", y = "Predicted Deaths") 
 
 data_pred %>%
-  ggplot(aes(Confirmed, Residuals)) +
+  ggplot(aes(Deaths, Residuals)) +
   geom_point() +
   geom_hline(yintercept = 0, color = "red") +
-  labs(title = "Residuals vs. Confirmed Cases",
-       x = "Confirmed Cases", y = "Residuals") 
+  labs(title = "Residuals vs. Deaths due to COVID-19",
+       x = "Deaths", y = "Residuals") 
 ```
 
 Finally, we can visualise the results of the model with a scatter plot
@@ -227,10 +337,10 @@ data_pred %>%
 
 #### Exercise: COVID-19 Case Fatality Ratio
 
-Use the `covid19.ALL.agg.cases` data to visualise the **case fatality
-ratio**\index{Case fatality ratio} estimated for each country, by last
-update and include the latitude and longitude as further information.
-Build a suitable model and explain the results with a plot.
+Use the `covid19.ALL.agg.cases` data to visualise the **Case Fatality
+Rate**\index{Case Fatality Rate (CFR)} estimated for each country, by
+last update and include the latitude and longitude as further
+information. Build a suitable model and explain the results with a plot.
 
 ```{r}
 cfr <- covid19.ALL.agg.cases %>% 
@@ -247,7 +357,8 @@ In this example we have a look at how to visualise the results of a
 decision tree\index{Decision tree} model for predicting Ischemic
 Stroke\index{Stroke}.
 
-Load necessary libraries:
+Load necessary libraries and the data for the Ischemic
+Stroke\index{Stroke}[@fes/data].
 
 ```{r}
 # Ischemic Stroke decision tree
@@ -256,31 +367,33 @@ library(rpart)
 library(rpart.plot)
 ```
 
-Load the data for the Ischemic Stroke from the GitHub repository of the
-book: "Feature Engineering and Selection: A Practical Approach for
-Predictive Models" by Max Kuhn and Kjell Johnson.
-
-url:
-<https://github.com/topepo/FES/blob/master/Data_Sets/Ischemic_Stroke/stroke_data.RData?raw=true>
-
-`load(url(url)))`
-
 ```{r}
 #| echo: false
 load(url("https://github.com/topepo/FES/blob/master/Data_Sets/Ischemic_Stroke/stroke_data.RData?raw=true"))
 ```
 
 Data are already split into training and test sets, we will combine them
-for the analysis. We just need to select the variables of interest for
-the analysis with `any_of()`, a function to select the variables of
-interest for the analysis.
+for the analysis. The `stroke_train` and `stroke_test` datasets contain
+`r nrow(stroke_train)`, `r nrow(stroke_test)` observations respectively
+and `r ncol(stroke_test)` variables. Within the variables we have
+information on volume, proportion, area, thickness of the arterial wall,
+among others. The target variable is `Stroke`, which indicates whether
+the patient has had a stroke or not[@johnson].
 
-`?any_of()`
+We select the variables of interest for the analysis with `any_of()`, a
+function to select the variables based on their names.
+
+`?any_of()` for more infromation about the function.
 
 ```{r}
-selected_train <- 
-  stroke_train %>%
+selected_train <- stroke_train %>%
   dplyr::select(any_of(VC_preds), Stroke)
+```
+
+To check which columns in `stroke_train` dataset were not selected:
+
+```{r}
+setdiff(names(stroke_train), names(selected_train))
 ```
 
 Set up the recipe for the data with the `recipe()` function from the
@@ -298,7 +411,11 @@ is_recipe <- recipe(Stroke ~ ., data = selected_train) %>%
   step_YeoJohnson(all_predictors()) %>%
   step_zv(all_predictors())
 
-is_recipe%>%prep()%>%bake(new_data=NULL)%>%select(1:5)%>%head(5)
+is_recipe %>%
+  prep() %>% 
+  bake(new_data=NULL) %>%
+  select(1:5) %>%
+  head(5)
 ```
 
 Set up the decision tree model with the `decision_tree()` function from
@@ -332,7 +449,246 @@ is_dt_fit_wfl%>%
   rpart.plot::rpart.plot(roundint = FALSE)
 ```
 
+In this plot, the decision tree is visualised with the `rpart.plot` and
+the information released evidences the importance of some specific
+predictors, such as max wall thickness, max dilatation by area, volume
+proportion, and max remodelling ratio. The decision tree is a useful
+tool for visualising the results of the model and understanding the
+relationships between the predictors and the target variable.
+
+The interpretation of the decision tree is straightforward: each node
+represents a decision based on the value of a predictor, and the leaves
+represent the final classification. The tree can be pruned to reduce its
+complexity and improve its interpretability. The decision tree can be
+used to make predictions on new data by following the path from the root
+to a leaf node based on the values of the predictors.
+
+### Example: Ischemic Stroke Classification
+
+In this second example we will demonstrate
+**classification**\index{Classification} (stroke vs. no stroke) using
+patient and plaque imaging features, and visualise model insights for
+stakeholder communication.
+
+The objective is to visualise how well the model predict whether a
+patient experienced a stroke (Stroke) based on imaging features (e.g.,
+MaxStenosisByArea, CALCVolProp) and risk factors (e.g., age,
+DiabetesHistory).
+
+Visualise:
+
+-   Variable importance
+-   Prediction performance (e.g., ROC curve)
+-   Partial dependence of key features
+
+Load necessary libraries, and fit a **random
+forest**\index{Random Forest} model to the data with the `rand_forest()`
+function from the `{tidymodels}` package. We will use the `ranger`
+engine for the random forest model and set the mode to classification.
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(vip)
+library(DALEXtra)
+library(pROC)
+```
+
+The model specify the number of trees to grow, the minimum number of
+observations in a node before a split is attempted, and the maximum
+depth of the tree. The `set_engine()` function specifies the engine to
+use for the model, in this case `ranger`, and the `set_mode()` function
+specifies the mode of the model, in this case classification.
+
+```{r}
+rf_spec <- rand_forest(trees = 500, min_n = 5) %>%
+  set_engine("ranger", importance = "impurity") %>%
+  set_mode("classification")
+
+rf_wf <- workflow() %>%
+  add_formula(Stroke ~ .) %>%
+  add_model(rf_spec)
+
+rf_fit <- rf_wf %>% fit(data = stroke_train)
+```
+
+#### Variable Importance
+
+The object `rf_fit` contains the fitted model. We can extract the the
+model specification and use the `vip()` function to visualise what are
+the predictors that most influence the model. The `vip()` function
+creates a variable importance plot, which shows the importance of each
+predictor in the model. The importance is calculated based on the **Mean
+Decrease in Impurity (MDI)**\index{Mean Decrease in Impurity (MDI)} for
+each predictor.
+
+```{r}
+#| label: fig-rf-importance
+#| fig-cap: "Variable Importance for Ischemic Stroke"
+#| fig-alt: "Variable Importance for Ischemic Stroke"
+#| fig-width: 6
+#| fig-height: 4
+rf_fit %>%
+  extract_fit_parsnip() %>%
+  vip::vip(num_features = 10)
+```
+
+We can conclude that for this data set, the most important predictors
+are `MaxStenosisByArea`, `CALCVolProp`, `MaxWallThickness`, and
+`MaxRemodellingRatio`.
+
+Next step is to evaluate the model performance. We will use the
+`predict()` function to make predictions on the test data set
+(`stroke_test`) and calculate the **accuracy**\index{Accuracy} of the
+model.
+
+```{r}
+set.seed(05122025)
+rf_preds <- predict(rf_fit, stroke_test, 
+                    type = "prob") %>%
+  bind_cols(predict(rf_fit, stroke_test)) %>%
+  bind_cols(stroke_test %>% select(Stroke))
+
+rf_preds %>% head()
+```
+
+#### Accuracy
+
+The accuracy of the model is calculated as the proportion of correct
+predictions. The `accuracy()` function from the `yardstick` package
+calculates the accuracy of the model based on the predicted and observed
+values.
+
+```{r}
+rf_preds %>%
+  accuracy(truth = Stroke, .pred_class)
+```
+
+In this case, the accuracy of the model is 0.70, which means that the
+model correctly predicts whether a patient experienced a stroke or not
+70% of the time. The accuracy is calculated as the number of correct
+predictions divided by the total number of predictions.
+
+#### ROC Curve
+
+The **Receiver Operating Characteristic
+(ROC)**\index{Receiver Operating Characteristic (ROC)} curve is a
+graphical representation of the performance of a binary classifier
+system as its discrimination threshold is varied. The ROC curve plots
+the true positive rate (TPR) against the false positive rate (FPR) at
+various threshold settings.
+
+We can use the `roc_curve()` function from the `yardstick` package to
+calculate the ROC curve and the area under the curve (AUC). The
+`roc_curve` object contains the specificity and sensitivity values for
+each threshold, which can be used to calculate the
+**AUC**\index{Area Under the Curve (AUC)}.
+
+```{r}
+roc_curve <- yardstick::roc_curve(data = rf_preds, 
+                       truth = Stroke, .pred_N)
+roc_curve %>% head()
+```
+
+The relationship between the **True Positive Rate
+(TPR)**\index{True Positive Rate (TPR)} and **False Positive Rate
+(FPR)**\index{False Positive Rate (FPR)} is visualised in the ROC curve.
+The area under the curve (AUC) is a measure of the model's performance,
+with values closer to 1 indicating better performance. The
+**specificity**\index{Specificity} and
+**sensitivity**\index{Sensitivity} of the model indicate the proportion
+of true positives and true negatives, respectively, and we can use the
+`autoplot()` function to visualise the ROC curve.
+
+```{r}
+#| label: fig-roc-curve
+#| fig-cap: "ROC Curve for Ischemic Stroke"
+#| fig-alt: "ROC Curve for Ischemic Stroke"
+#| fig-width: 6
+#| fig-height: 4
+autoplot(roc_curve)
+```
+
+Another way to extract the ROC curve is to use the `pROC` package and
+the `roc()` function. The `roc()` function takes the observed values and
+the predicted probabilities as arguments and returns an object
+containing the ROC curve.
+
+```{r}
+roc_obj <- pROC::roc(rf_preds$Stroke, 
+                     rf_preds$.pred_N)
+roc_obj %>%
+  pROC::auc() %>%
+  round(2)
+```
+
+The `roc_obj` object provides information about the area under the ROC
+curve. In this case we have an AUC is `r round(roc_obj$auc,2)`. The AUC
+is a measure of the model's performance, values closer to 1 indicate
+better performance.
+
+#### Partial Dependence
+
+> "How does the prediction change when a specific feature changes,
+> holding all others constant?"
+
+Finally, we attempt an explanation of the model using `DALEX` and
+`DALEXtra` packages, and some specific functions, such as:
+`explain_tidymodels()` and `model_profile()`.
+
+```{r}
+#| output: false
+explainer_rf <- 
+  DALEXtra::explain_tidymodels(rf_fit, 
+                               data = select(stroke_train, -Stroke), 
+                               y = stroke_train$Stroke)
+```
+
+The `explainer_rf` object contains the model, the data, and the target
+variable and it will be used to create the partial dependence plot with
+the `model_profile()` function.
+
+A **Partial Dependence Plot (PDP)**\index{Partial Dependence Plot (PDP)}
+is a tool used in machine learning to help interpret black-box models
+like random forests. It shows the marginal effect of one (or two)
+features on the predicted outcome, while averaging out the influence of
+all other features.
+
+In this case we specify the `MaxStenosisByArea` variable, to see how
+changes in `MaxStenosisByArea` influence the model’s predicted outcome,
+on average. A higher value of MaxStenosisByArea indicates more severe
+arterial narrowing, which is a risk factor for stroke or heart attack.
+
+```{r}
+#| label: fig-partial-dependence
+#| fig-cap: "Partial Dependence Plot for Ischemic Stroke: MaxStenosisByArea (arterial narrowing)"
+#| fig-alt: "Partial Dependence Plot for Ischemic Stroke"
+#| fig-width: 6
+#| fig-height: 4
+DALEX::model_profile(explainer_rf, 
+                     variables = "MaxStenosisByArea") %>%
+  plot() +
+  labs(
+    title = "Partial Dependence Plot for Ischemic Stroke",
+    subtitle = "",
+    x = "Value",
+    y = "AVG Prediction") +
+  theme_minimal() 
+```
+
+The plot shows the partial dependence of the `MaxStenosisByArea`
+variable on the predicted probability of having a stroke. The results
+indicate that `MaxStenosisByArea` has a positive influence on stroke
+risk, though this effect plateaus beyond a certain threshold.
+
 ## Summary
 
 In this chapter, we have learned how to visualise the results of a
-model.
+model. There are several important considerations when visualising the
+results of a model, and differences might arise due to the type of model
+used. We have seen how to use several packages and functions, such as
+`ggplot2`, `vip`, `pROC`, and `DALEX` to visualise the results of a
+model. We have also seen how to interpret the results of a model and how
+to communicate them effectively. The examples provided in this chapter
+demonstrate how to use visualisation techniques to enhance
+decision-making and communicate findings to various stakeholders.

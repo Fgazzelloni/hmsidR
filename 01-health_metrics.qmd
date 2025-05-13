@@ -37,7 +37,7 @@ rates**\index{Mortality rates}. One of Graunt's key observations was the
 consistent pattern of higher mortality among infants and young children.
 He noted the difference in life expectancy between males and females and
 provided insights into factors influencing mortality\index{Mortality},
-such as epidemics\index{Epidemics} and seasons.
+such as epidemics\index{Epidemic} and seasons.
 
 Over time, advancements in mathematics, medicine, and statistics led to
 the development of more sophisticated health metrics. The 19th century
@@ -67,7 +67,7 @@ timeline <- tibble(
     "In the 17th century, John Graunt, an English haberdasher, made significant contributions to health metrics. In 1662, he published 'Natural and Political Observations Made upon the Bills of Mortality,' which analysed weekly and annual records of deaths in London. Graunt's work laid the foundation for modern demography, introducing concepts like life expectancy and mortality rates.",
     "The 19th century saw the development of life tables, providing a systematic approach to analysing mortality and life expectancy. This period marked a transition from descriptive observations to more structured methods in health metrics.",
     "QALYs, another important health metric, emerged in the late 20th century as a measure combining both the quality and quantity of life lived. QALYs are commonly used in health economics and healthcare decision-making.",
-    "A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health organisation (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
+    "A significant milestone in contemporary health metrics is the initiation of the Global Burden of Disease (GBD) Study in 1990. Led by Christopher J. L. Murray and Alan D. Lopez, this collaborative effort between the World Health organization (WHO) and the World Bank aimed to quantify the impact of diseases and injuries on global health.",
     "The GBD Study introduced DALYs as a metric in 1990. DALYs combine years of life lost due to premature mortality and years lived with disability, providing a comprehensive measure of disease burden. This metric became instrumental in assessing the overall health impact of different conditions.",
     "With advancements in technology, including computing power and big data analytics, health metrics have become more sophisticated. Real-time tracking, machine learning applications, and global health databases contribute to a more dynamic understanding of population health.",
     "Today, health metrics encompass a wide range of measures, including traditional mortality rates, disease-specific metrics, and broader indicators like well-being and social determinants of health. These metrics play a crucial role in shaping public health policies, healthcare interventions, and global health assessments."
@@ -116,9 +116,10 @@ fig-align="center" fig-alt="Health Metrics development timeline"}
 More specifically, *Mary Dempsey*\index{Mary Dempsey} in 1940s wrote an
 article[@dempsey2019a] for the National Tuberculosis Association about
 the concept of **Years of Life Lost
-(YLLs)**\index{Years of Life Lost (YLLs)}, assessing time-lost as a metric
-for health for the first time. She was then followed by other more
-advanced improvements spanning all throughout the rest of the century.
+(YLLs)**\index{Years of Life Lost (YLLs)}, assessing time-lost as a
+metric for health for the first time. She was then followed by other
+more advanced improvements spanning all throughout the rest of the
+century.
 
 > **"The quality of life depends also on the state of "public
 > health"-namely on factors that affect the biological welfare of the
@@ -139,15 +140,13 @@ The term **Summary Measures of Population Health
 was established in the field, originating from the need to encapsulate
 both fatal and non-fatal health outcomes into a single, comprehensive
 measure, representing a significant evolution in health metrics. Used
-for various purposes, the
-SMPH\index{Summary Measures of Population Health (SMPH)} compares the
-health of populations and includes the contributions of different
-diseases\index{Diseases}, injuries\index{Injuries} and risk
-factors\index{Risk factors} to the total disease
-burden\index{Disease burden} in a population. SMPH, also referred to as
-a composite indicator[@hyder2012], is divided into two broad families:
-health expectancies\index{Health expectancies} and health
-gaps\index{Health gaps}.
+for various purposes, the SMPH compares the health of populations and
+includes the contributions of different diseases\index{Diseases},
+injuries\index{Injuries} and risk factors\index{Risk factors} to the
+total disease burden\index{Disease burden} in a population. SMPH, also
+referred to as a composite indicator[@hyder2012], is divided into two
+broad families: health expectancies\index{Health expectancies} and
+health gaps\index{Health gaps}.
 
 **Health expectancies**\index{Health expectancies} are summary measures
 that combine information on mortality\index{Mortality} and
@@ -172,7 +171,7 @@ index of the cost-utility analysis\index{Cost-utility}.
 In the contemporary era, the integration of computing power and big
 data\index{Big data} has further transformed health
 metrics\index{Health metrics}. Today, we have complex models, machine
-learning\index{Machine Learning} algorithms, and global health databases
+learning\index{Machine learning} algorithms, and global health databases
 that allow for real-time tracking of diseases and health outcomes.
 
 John Graunt's\index{John Graunt} work may have been modest in its
@@ -238,14 +237,16 @@ only the health status but also the identification of the level of
 disabilities concerned by disparities. This lead to a new way of
 comparing the overall health and life expectancy of different countries,
 released along with the Global Burden of Disease Study\index{Global
-Burden of Disease (GBD)} in 1990 [@murray1994]; a project that
-involved *Christopher J. L. Murray*\index{Christopher J. L. Murray}
+Burden of Disease (GBD)} in 1990 [@murray1994]; a project that involved
+*Christopher J. L. Murray*\index{Christopher J. L. Murray}
 [@christop2024] and *Alan Lopez*\index{Alan Lopez}[@alanlop2023], in
-collaboration with the World Health organisation
-(WHO)\index{World Health Organisation (WHO)}. This effort resulted in
+collaboration with the World Health organization
+(WHO)\index{World Health Organization (WHO)}. This effort resulted in
 the development of the Disability-Adjusted Life Years
 (DALYs)\index{Disability Adjusted Life Years (DALYs)} [@disabili2023a],
-a metric that combines **years of life lost due to premature death (YLLs)**\index{Years of Life Lost (YLLs)} and **years lived with disabilities (YLDs)**\index{Years Lived with Disabilities (YLDs)}.
+a metric that combines **years of life lost due to premature death
+(YLLs)**\index{Years of Life Lost (YLLs)} and **years lived with
+disabilities (YLDs)**\index{Years Lived with Disability (YLDs)}.
 
 ```{r}
 #| echo: false
@@ -362,7 +363,11 @@ disability[^01-health_metrics-2][@healthy].
 
 ### Healthy Life Years (HLY)
 
-There is one more health metrics that is worth mentioning, the **Healthy Life Years (HLYs)**\index{Healthy Life Years (HLYs)} indicator, also known as **Disability-Free Life Expectancy (DFLE)**\index{Disability Free Life Expectancy (DFLE)} or **Sullivan's Index**\index{Sullivan's Index}[@healthy2024]. It assesses the number of
+There is one more health metrics that is worth mentioning, the **Healthy
+Life Years (HLYs)**\index{Healthy Life Years (HLYs)} indicator, also
+known as **Disability-Free Life Expectancy
+(DFLE)**\index{Disability Free Life Expectancy (DFLE)} or **Sullivan's
+Index**\index{Sullivan's Index}[@healthy2024]. It assesses the number of
 years an individual can expect to live in good health, free from
 significant health problems or disabilities. It is a measure of the
 *quality of life-adjusted life expectancy*, focusing on the years lived
@@ -373,7 +378,9 @@ well-being\index{Well-being} beyond just life expectancy. It takes into
 account both mortality and morbidity, providing a comprehensive picture
 of overall health and well-being.
 
-HLYs\index{Healthy Life Years (HLYs)} differs from HALE\index{Healthy Life Expectancy (HALE)} in that it focuses on the number of additional years a person can expect to live in good health
+HLYs\index{Healthy Life Years (HLYs)} differs from
+HALE\index{Healthy Life Expectancy (HALE)} in that it focuses on the
+number of additional years a person can expect to live in good health
 after reaching a certain age, typically 65. This makes HLYs especially
 relevant for assessing health in ageing populations and evaluating
 interventions that aim to improve the quality of life for older adults.
@@ -397,10 +404,10 @@ maintain independence.
 Currently, **Well-being-Adjusted Health Expectancy
 (WAHE)**\index{Well-being Adjusted Health Expectancy (WAHE)} is still an
 emerging metric in health research that combines traditional health
-indicators with **well-being factors** to provide a
-more comprehensive assessment of population health. WAHE is calculated
-by estimating the number of life years equivalent to full health, taking
-into account both physical and psychological well-being.
+indicators with **well-being factors** to provide a more comprehensive
+assessment of population health. WAHE is calculated by estimating the
+number of life years equivalent to full health, taking into account both
+physical and psychological well-being.
 
 WAHE\index{Well-being Adjusted Health Expectancy (WAHE)} aims to capture
 the overall health and well-being of individuals by incorporating
@@ -478,7 +485,7 @@ kable(data,
 These metrics are used alone or in combination with other health metrics
 in global health assessments conducted by organisations such as the
 **World Health Organisation
-(WHO)**\index{World Health Organisation (WHO)}, the **European
+(WHO)**\index{World Health Organization (WHO)}, the **European
 Commission**\index{European Commission}, and the **Institute for Health
 Metrics and Evaluation
 (IHME)**\index{Institute for Health Metrics and Evaluation (IHME)}. They
@@ -491,9 +498,10 @@ prioritise health needs and target interventions effectively.
 The investigation into finding updated metrics is a sustained
 commitment, aiming to develop new measures tailored to the evolving
 landscape of the health field. Recently, the new **Summary Measure of
-Population Health (SMPH)**\index{Summary Measure of
-Population Health (SMPH)} proposed the **Well-being-Adjusted Health
-Expectancy (WAHE)**\index{Well-being Adjusted Health
+Population Health
+(SMPH)**\index{Summary Measure of Population Health (SMPH)} proposed the
+**Well-being-Adjusted Health Expectancy
+(WAHE)**\index{Well-being Adjusted Health
 Expectancy (WAHE)} measure as an estimate of the number of life years
 equivalent to full health[@muszynska-spielauer2022]. This approach
 reflects a growing recognition that health metrics should account for

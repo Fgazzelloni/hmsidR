@@ -17,9 +17,12 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Understand key causes and risk factors
--   Define the research question
--   Get introduced to causal inference concepts
+-   Identify major causes of disease and associated risk factors using
+    health data
+-   Formulate clear and focused research questions for health outcomes
+    analysis
+-   Gain an introductory understanding of causal inference concepts and
+    their application in public health research
 :::
 ::::::
 
@@ -36,7 +39,7 @@ dynamics.
 Historically, major risks included starvation, infections, and violent
 conflicts, while modern risks are often associated with lifestyle
 choices and chronic diseases such as obesity\index{Obesity},
-cardiovascular disease\index{Cardiovascular disease}, and cancer.
+cardiovascular disease\index{Cardiovascular Disease (CVD)}, and cancer.
 Despite advancements in healthcare and increasing life
 expectancy\index{Life
 expectancy} in post-industrial countries, the focus often shifts to
@@ -128,19 +131,20 @@ Conditions and injuries associated with the burden of disease and injury
 vary according to specific causes and risks. In this book causes and
 risk factors include:
 
--   **Lifestyle choices**\index{Lifestyle}: Poor diet, physical inactivity, tobacco use,
-    and excessive alcohol consumption are major risk factors for many
-    chronic diseases and injuries, including heart disease, stroke,
-    cancer, and liver disease.
+-   **Lifestyle choices**\index{Lifestyle}: Poor diet, physical
+    inactivity, tobacco use, and excessive alcohol consumption are major
+    risk factors for many chronic diseases and injuries, including heart
+    disease, stroke, cancer, and liver disease.
 -   **Environmental factors**\index{Environmental factors}: Exposure to
     pollutants, such as air pollution and toxic chemicals, can increase
     the risk of certain diseases and injuries.
--   **Infections**\index{Infections}: Many diseases, such as tuberculosis, HIV/AIDS, and
-    malaria, are caused by infectious agents.
--   **Poverty**\index{Poverty}: People living in poverty are often more susceptible to
-    health problems due to limited access to healthcare, healthy food,
-    and safe living conditions.
--   **Ageing**\index{Ageing | Aging}: As people get older, they are at
+-   **Infections**\index{Infections}: Many diseases, such as
+    tuberculosis, HIV/AIDS, and malaria, are caused by infectious
+    agents.
+-   **Poverty**\index{Poverty}: People living in poverty are often more
+    susceptible to health problems due to limited access to healthcare,
+    healthy food, and safe living conditions.
+-   **Ageing**\index{Ageing | aging |}: As people get older, they are at
     an increased risk of many health problems, including chronic
     diseases and disabilities.
 -   **Genetics**: Some diseases and injuries are caused by genetic
@@ -200,7 +204,7 @@ assess risks and their impact on health outcomes:
 -   Theoretical Minimum-Risk Exposure Levels
     (TMRELs)\index{Theoretical Minimum Risk Exposure Levels (TMRELs)}
 -   Population Attributable Fractions
-    (PAFs)\index{Population Attributable Fractions (PAFs)}
+    (PAFs)\index{Population Attributable Fraction (PAF)}
 
 ### Risk-Specific Exposures
 
@@ -290,10 +294,10 @@ where $d_1/n_1$ and $d_0/n_0$ are the proportion of the population with
 and without the disease.
 
 For example, let's say we are studying the association between smoking
-(exposure) and lung cancer\index{Lung cancer} (outcome). We want to calculate the relative
-risk of lung cancer among smokers compared to non-smokers. If the
-relative risk is 2, it means that smokers are twice as likely to develop
-lung cancer compared to non-smokers.
+(exposure) and lung cancer\index{Lung cancer} (outcome). We want to
+calculate the relative risk of lung cancer among smokers compared to
+non-smokers. If the relative risk is 2, it means that smokers are twice
+as likely to develop lung cancer compared to non-smokers.
 
 ```{r}
 exposed <- c(50, 10)
@@ -369,11 +373,13 @@ formulas:
     simplified view of the relative risk based solely on event
     proportions.
 -   The second formula, $RR=\frac{d_1/n_1}{d_0/n_0}$, considers both the
-    **number of events** $(d1, d0)$ and **person-time at risk**\index{Person-time at risk}
-    $(n1, n0)$ for each group. This formula takes into account the
-    **incidence rate**\index{Incidence rate} in addition to **event proportions**\index{Event proportions}, providing a
-    more specific understanding of the relative risk by incorporating
-    information about the **duration of exposure**\index{Duration of exposure}.
+    **number of events** $(d1, d0)$ and **person-time at
+    risk**\index{Person-time at risk} $(n1, n0)$ for each group. This
+    formula takes into account the **incidence
+    rate**\index{Incidence rate} in addition to **event
+    proportions**\index{Event proportions}, providing a more specific
+    understanding of the relative risk by incorporating information
+    about the **duration of exposure**\index{Duration of exposure}.
 
 ### Relative Risks and Network Analysis
 
@@ -392,12 +398,12 @@ To represent the network we can use a **Directed Acyclic Graph
 (DAG)} for drawing causal relationships between variables, such as the
 relationship between health risks and diseases.
 
-This is an example of a **Network graph**\index{Network graph} representing the causal
-pathways between different variables, such as smoking, physical
-inactivity, high blood pressure, lung cancer, heart disease, and stroke.
-By visualising the relationships between these variables, we can
-identify the direct and indirect effects of risk factors on health
-outcomes.
+This is an example of a **Network graph**\index{Network graph}
+representing the causal pathways between different variables, such as
+smoking, physical inactivity, high blood pressure, lung cancer, heart
+disease, and stroke. By visualising the relationships between these
+variables, we can identify the direct and indirect effects of risk
+factors on health outcomes.
 
 ```{r}
 #| echo: false
@@ -706,12 +712,13 @@ actions.](images/04_causal_inference_flowchart.png){#fig-causal_inference
 fig-align="center" width="50%" fig-alt="Causal Inference Flowchart"}
 
 Performing causal inference\index{Causal inference} requires setting up
-an experiment, where there are **treatment**\index{Treatment} and **outcome**\index{Outcome} elements.
-The *treatment* is the intervention applied to the data. For example, to
-confirm the statement that *regular exercise leads to improved
-cardiovascular health*, an intervention may be designed to introduce
-another variable, such as regular fruit consumption, and observe its
-combined effect with exercise on cardiovascular health.
+an experiment, where there are **treatment**\index{Treatment} and
+**outcome**\index{Outcome} elements. The *treatment* is the intervention
+applied to the data. For example, to confirm the statement that *regular
+exercise leads to improved cardiovascular health*, an intervention may
+be designed to introduce another variable, such as regular fruit
+consumption, and observe its combined effect with exercise on
+cardiovascular health.
 
 In this investigation, the primary factors are exercise and fruit
 intake. The goal is to examine whether their combination improves

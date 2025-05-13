@@ -87,6 +87,7 @@ format:
     theme:
       - pulse
       - hmsid.scss
+    reader-mode: true
     html-math-method: katex
     include-in-header:
       text: |
