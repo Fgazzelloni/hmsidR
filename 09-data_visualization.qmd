@@ -31,12 +31,12 @@ interactive visualisations.
 
 ## History of Data Visualisation
 
-The history of data visualisation
-spans centuries. The roots of data visualisation can be traced back to
-ancient times with rudimentary visual representations, but its modern
-form began to take shape with the growth of statistics and graphical
-methods in the 17th and 18th centuries. One notable milestone was the
-publication of **William Playfair**'s\index{William
+The history of data visualisation spans centuries. The roots of data
+visualisation can be traced back to ancient times with rudimentary
+visual representations, but its modern form began to take shape with the
+growth of statistics and graphical methods in the 17th and 18th
+centuries. One notable milestone was the publication of **William
+Playfair**'s\index{William
 Playfair} **"Commercial and Political Atlas"**[@william2025] in 1786,
 which introduced innovative graphical techniques like the line graph,
 bar chart, and pie chart.
@@ -458,6 +458,8 @@ variable.
 #| label: fig-data-viz-germany-facer
 #| fig-cap: "Barplots Layout - Lung Cancer Deaths by Age in Germany"
 #| fig-alt: "Barplots Layout - Lung Cancer Deaths by Age in Germany"
+#| fig-width: 6
+#| fig-height: 4
 hmsidwR::germany_lungc |>
   ggplot(aes(x = age, y = dx, group = sex))  +
   geom_col(position="identity",
@@ -467,7 +469,8 @@ hmsidwR::germany_lungc |>
   facet_grid(sex ~ .) +
   labs(title = "Lung Cancer Deaths by Age in Germany",
        x = "Age",
-       y = "Deaths")
+       y = "Deaths") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ### Colors and Patterns
@@ -517,17 +520,13 @@ reversing the order of the legend items.
 ```{r}
 # Customising a legend to a plot
 lineplot1 <- lineplot +
-  labs(
-    linetype = "Sex",
+  labs(linetype = "Sex",
     subtitle = "Year 2019",
-    caption = "DataSource: hmsidwR::germany_lungc"
-  ) +
+    caption = "DataSource: hmsidwR::germany_lungc") +
   guides(linetype = guide_legend(reverse = TRUE)) +
-  theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    plot.title = element_text(hjust = 0.5, face = "bold")
-  )
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, face = "bold"))
 
 lineplot2 <- lineplot1 + 
   scale_y_log10() + 

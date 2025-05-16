@@ -1,0 +1,99 @@
+---
+title: "Untitled"
+---
+
+```{r}
+library(tidyverse)
+library(hmsidwR)
+```
+```{r}
+url <- "https://dl.healthdata.org:443/gbd-api-2021-public/700074df1f36cc8e3237ee88956aa2be_files/IHME-GBD_2021_DATA-700074df-1.zip"
+risks <- hmsidwR::getunz(url)
+risks <- risks[[2]]
+risks %>% head()
+```
+## Summary exposure value
+```{r}
+sev <- risks %>%
+  mutate(location = ifelse(location == "Kingdom of Eswatini", "Eswatini", location)) %>%
+  #filter(rei == "Air pollution") %>%
+  select(-sex,-age,-metric,-measure,-upper,-lower) %>%
+  pivot_wider(names_from = rei, 
+              values_from = val) 
+
+saveRDS(sev, "~/Documents/R/AAA_packages/hmsidwR_container/extra-files/data/ihme/summary_exposure_values.rds")
+```
+
+
+```{r}
+meningitis <- hmsidwR::infectious_diseases %>%
+  filter(cause_name == "Meningitis") 
+
+meningitis %>% head()
+```
+
+```{r}
+meningitis %>%
+  count(location_name)
+```
+
+```{r}
+meningitis <- meningitis %>%
+  arrange(year) %>%
+  select(year, location = location_name,
+         Deaths, DALYs) %>%
+  full_join(sev, by = c("location", "year")) 
+
+meningitis %>%
+   head()
+```
+
+```{r}
+
+```
+
+
+```{r}
+aggregate_data <- data %>%
+  filter(!is.na(DALYs)) %>%
+  group_by(year) %>%
+  reframe(
+    Deaths = sum(Deaths, na.rm = TRUE),
+    DALYs = sum(DALYs, na.rm = TRUE),
+    Smoking = sum(Smoking, na.rm = TRUE),
+    p25 = sum(`Particulate matter pollution`, na.rm = TRUE)) 
+
+aggregate_data %>%
+  ggplot(aes(x = year, y = Deaths)) +
+  geom_point() +
+  geom_smooth()
+```
+```{r}
+range(aggregate_data$year)
+```
+
+## Model Deaths with smoking and particulate matter within years
+```{r}
+aggregate_data %>%
+  lm(Deaths ~ 1, data = .) %>%
+  summary()
+```
+```{r}
+aggregate_data %>%
+  lm(Deaths ~ Smoking + p25 + year, 
+    data = .) %>%
+  summary()
+```
+
+```{r}
+aggregate_data %>%
+  glm(Deaths ~ Smoking + p25 + year, 
+    data = .) %>%
+  summary()
+```
+```{r}
+ library(mgcv)
+gam(log(Deaths) ~ s(year) + Smoking + p25, data = aggregate_data) %>%
+  summary()
+```
+

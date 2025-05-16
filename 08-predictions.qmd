@@ -174,9 +174,9 @@ The model performs fairly well, with relatively low error:
 Much more can be done to improve the models, such as **hyperparameter
 tuning**\index{Hyperparameter
 tuning}, **feature engineering**\index{Feature engineering}, and **model
-ensembles**\index{Model ensemble}, but this is a good point to start.
-We could also look at the confidence intervals of the predictions, to
-see how certain we are about the predictions, and so on.
+ensembles**\index{Model ensemble}, but this is a good point to start. We
+could also look at the confidence intervals of the predictions, to see
+how certain we are about the predictions, and so on.
 
 This is the result of the `cv_glmnet` application on new data:
 
@@ -302,9 +302,9 @@ such as trend, seasonality\index{Seasonality}, cyclic
 patterns\index{Cyclic patterns}, and irregular fluctuations, which can
 be explored using various methods such as
 **decomposition**\index{Decomposition}, **smoothing**\index{Smoothing},
-and **modelling**. This analysis is widely used in
-fields like economics, finance, epidemiology, and environmental science
-to understand and predict future trends, identify anomalies, and make
+and **modelling**. This analysis is widely used in fields like
+economics, finance, epidemiology, and environmental science to
+understand and predict future trends, identify anomalies, and make
 informed decisions based on historical patterns.
 
 **Decomposition methods**\index{Decomposition} play a crucial role by
@@ -534,20 +534,13 @@ dcmp <- sdi_fr_ts |>
 components(dcmp) |> head()
 ```
 
-Using the words from the **Forecasting: Principles and Practice** book
-there are:
-
-> "...three types of time series patterns: trend, seasonality and
-> cycles.
-
-And to be more specific:
-
-> When we decompose a time series into components, we usually combine
-> the trend and cycle into a single trend-cycle component (often just
-> called the trend for simplicity). Thus we can think of a time series
-> as comprising three components: a trend-cycle component, a seasonal
-> component, and a remainder component (containing anything else in the
-> time series). *Rob J Hyndman*"
+There are three main types of time series patterns: trend, seasonality,
+and cycles. When a time series is decomposed into components, the trend
+and cycle are typically combined into a single trend-cycle component,
+often referred to simply as the trend for the sake of simplicity. As a
+result, a time series can be understood as comprising three components:
+a trend-cycle component, a seasonal component, and a remainder
+component, which captures any other variations in the series[@forecast].
 
 The components of a time series can be additive or multiplicative,
 depending on the nature of the data:

@@ -17,11 +17,11 @@ Learning Objectives
 ::::
 
 ::: solutionbox-body
--   Visualize predicted vs. observed values and assess residuals.
--   Interpret model metrics with VIP, accuracy, and confusion matrix
-    plots.
+-   Visualize predicted vs. observed values and assess residuals
+-   Interpret model metrics with VIP, accuracy, and partial dependency
+    plots
 -   Create and customize ROC curves and compute AUC for classification
-    models.
+    models
 :::
 ::::::
 
@@ -34,39 +34,28 @@ graphs, and bar charts. The chapter also covered how to customise these
 plots using colours, palettes, legends, and guides to improve clarity
 and visual appeal. Additionally, we discussed how to craft compelling
 data stories by organising multiple plots in a layout and saving them as
-image files for reports or presentations. These skills are critical for
-interpreting model outputs and sharing findings with a wider audience.
+image files for reports or presentations.
 
-In this chapter, an essential part of the data
+In this chapter, which is an essential part of the data
 visualisation\index{Data visualisation} section, we focus on how to
 effectively interpret and use the results from machine
 learning\index{Machine learning} models in the context of health
 metrics\index{Health metrics} and infectious
-diseases\index{Infectious diseases}. The aim is to provide actionable
-insights, enhance decision-making, and communicate findings to various
-stakeholders:
+diseases\index{Infectious diseases}.
 
--   **Visualising Predictions and Outcomes**:
-    -   Techniques for visualising predicted vs. actual values.
-    -   Using scatter plots, line plots, and bar charts to compare
-        predictions and observed data.
-    -   Highlighting discrepancies and trends through residual plots and
-        error distribution charts.
--   **Case Studies and Applications**:
-    -   Real-world examples of model results application in public
-        health.
-    -   Case studies demonstrating the impact of machine learning and
-        spatial modelling on health metrics.
-    -   Lessons learned and best practices from successful
-        implementations.
+We will explore how to visualise the results of:
+
+-   **Regression models**\index{Regression models} with a linear
+    regression, and a generalized additive model (GAM)
+-   **Classification models**\index{Classification models} with decision
+    trees, and random forest models.
 
 ## Practical Insights and Examples
 
-In this section, we will explore practical examples of how to visualise
-models and their results. The objective is to learn how to interpret the
-results of a model and how to communicate them effectively. Several
-considerations are important when visualising the results of a model,
-such as:
+The practice of visualising model results is essential for communicating
+insights from a model to stakeholders.
+
+Considerations for visualising model results include:
 
 -   **Understanding the data**: Before visualising the results, it is
     important to understand the data and the model used. This includes
@@ -77,278 +66,386 @@ such as:
     choose the right visualisation to effectively communicate the
     results.
 
-### Example: COVID-19 Analytics
+### Example: Deaths due to Meningitis
 
-Data are from the **ECDC (European Centre for Disease Prevention and
-Control)**\index{European Centre for Disease Prevention and
-Control (ECDC)} - updated daily. The data include information on the
-**number of deaths for each country due to COVID-19**. The dataset can
-be accessed through the `{covid19.analytics}` package\index{COVID-19}.
+Data are from the **Institute for Health Metrics and Evaluation
+(IHME)**\index{Institute for Health Metrics and Evaluation (IHME)} and
+include **death rates due to meningitis**\index{Meningitis}, as well as
+two exposure levels of risk factors—particulate matter (PM2.5) and
+smoking—in the Sub-Saharan Africa (Central African Republic, Zambia,
+Eswatini, Lesotho, and Malawi) from 1990 to 2021. The data are in the
+`{hmsidwR}` package and can be loaded as `hmsidwR::meningitis`.
 
 ```{r}
 #| eval: false
-install.packages("covid19.analytics")
+install.packages("hmsidwR") 
+# or
+# install the development version of book package
+devtools::install_github("Fgazzelloni/hmsidwR")
 ```
 
+Let's have a look at the first few rows of the data:
+
 ```{r}
-#| output: false
+# Load libraries and data
 library(tidyverse)
-library(covid19.analytics)
-
-covid19.ALL.agg.cases <- covid19.data("aggregated")
+library(hmsidwR)
+meningitis %>% head
 ```
 
-We select the variables of interest, such as `Country_Region`,
-`Last_Update`, `Confirmed`, `Deaths`, `Recovered`.
+**Meningitis**[@meningit] is a serious global health concern
+characterised by inflammation of the membranes surrounding the brain and
+spinal cord. It can arise from both infectious and non-infectious causes
+and is often associated with a high risk of mortality and long-term
+complications.
+
+In this example, we explore how two environmental risk factors —
+**particulate matter (PM2.5)** and **smoking** — may influence
+meningitis mortality. These variables represent **aggregate exposure
+levels** that could potentially contribute to meningitis-related deaths.
+
+Meningitis death rates vary considerably across countries and over time.
+To begin, we visualise how these rates have changed from 1990 to 2021 in
+five Sub-Saharan African countries. A scatter plot will show annual
+death rates by country, while a smooth line will reveal the overall
+trend, helping to contextualize patterns before moving to modelling.
 
 ```{r}
-data <- covid19.ALL.agg.cases %>% 
-  select(Country_Region, Last_Update, 
-         Confirmed, Deaths, Recovered) %>%
-  mutate(Last_Update = as.Date(Last_Update)) 
-
-data %>% 
-  head()
-```
-
-We group the data by `Last_Update` and calculate the mean of the
-Confirmed, Deaths, Recovered variables. This is a rough aggregation and
-not population-weighted.
-
-```{r}
-data %>%
-  group_by(Last_Update) %>%
-  reframe(across(Confirmed:Recovered, 
-                   ~ mean(.x, na.rm = TRUE))) 
-```
-
-We can visualise the data with a scatter plot using `geom_point()` and
-overlay a line with `geom_line()` functions and then add a
-`geom_smooth()`. This last function adds the most suitable model line,
-in this case a linear regression line, to the plot based on the data.
-
-The plot shows the relationship between the number of confirmed cases
-and the number of deaths.
-
-```{r}
-#| label: fig-covid19_data
-#| fig-cap: "COVID-19 Deaths for all Countries. The plot shows the relationship between the number of confirmed cases and the number of deaths. The dashed line shows the linear regression line, while the solid line shows the smoothed line."
-#| fig-alt: "COVID-19 data"
+#| label: fig-aggregate-meningitis
+#| fig-cap: "Deaths due to Menigitis from 1990 to 2021 in Sub-Saharan Africa. The solid ticker line represents the smooth line revealing the overall trend, while the other lines represent the death rates for each country."
+#| fig-alt: "Deaths due to Menigitis from 1990 to 2021"
 #| fig-width: 6
 #| fig-height: 4
-
-data %>%
-  ggplot(aes(x = Confirmed, y = Deaths)) +
-  geom_line(linetype = "dashed") +
-  geom_point(shape = 21) +
-# add a smoothed line to approximate the trend
-  geom_smooth(method = "lm", linetype = "dashed") +
-  geom_smooth(method = "gam", 
-              formula = y ~ s(x, bs = "cs"), 
-              linetype = "solid") +
-# add a scale to the x-axis  
-  scale_x_continuous(trans = "sqrt", 
-                     expand = c(0, 0), # remove space
-                     labels = scales::label_comma()) +
-  labs(title = "COVID-19 Deaths for all Countries",
-       subtile = "Comparison of Linear Model vs GAM Fit",
-       x = "Confirmed", y = "Number of Deaths") 
+meningitis %>%
+  ggplot(aes(x = year, y = deaths)) +
+  geom_line(aes(group = location, 
+                linetype = location)) +
+  geom_smooth() +
+  labs(title = "Deaths due to Menigitis",
+       subtitle = "from 1990 to 2021 in Sub-Saharan Africa",
+       y = "Death Rates", x = "Time (Year)") +
+  theme(legend.position = "bottom",
+        legend.title = element_blank()) 
 ```
 
-The plot shows a positive correlation between the number of confirmed
-cases and the number of deaths. As the `geom_smooth()` fits a smooth
-line using method = 'gam' and formula = 'y \~ s(x, bs = "cs"), using a
-spline method; it provides a useful first approximation of the
-relationship between Confirmed and Deaths.
-
-To estimate the number of Deaths due to Confirmed and Recovered cases,
-we start by fitting three models:
-
--   the first one without predictors, to obtain the expected value of
-    the number of `Deaths` in case of no epidemic in action
--   the second model is fit with `Confirmed` cases as the only predictor
--   the third model is fit with `Confirmed` and `Recovered` as
-    predictors.
-
-In all cases we use the `lm()` function, which fits a linear model to
-the data.
+To gain an idea of the estimated average of death rates in the
+population, we can fit a simple linear regression model with `lm()`
+function, with the formula `deaths ~ 1`, which means that we are fitting
+a model with only an intercept (i.e., no predictors). Then we draw a
+simple **Q-Q plot**[@q-qplot2025] (a scatterplot created by plotting two
+sets of quantiles against one another) to check the normality of the
+residuals.
 
 ```{r}
-mod1 <- lm(Deaths ~ 1, data = data) 
-mod2 <- lm(Deaths ~ Confirmed, data = data)
-mod3 <- lm(Deaths ~ Confirmed + Recovered, data = data)
-summary(mod1)$coefficients;
-summary(mod2)$coefficients;
-summary(mod3)$coefficients
+mod0 <- lm(deaths ~ 1, data = meningitis)
+summary(mod0)
 ```
 
-The `summary()` function provides the model coefficients, which indicate
-that, in the absence of an epidemic\index{Epidemic}, the average number
-of Deaths is estimated at 562.48. For each additional Confirmed case,
-the number of deaths increases by approximately 0.025, while for each
-additional Recovered case, the number of deaths decreases by about
-0.0038. The intercept is negative, suggesting that when both confirmed
-and recovered cases are zero, the model predicts a negative number of
-deaths—an implausible result. This highlights the importance of
-interpreting the coefficients within the context of the data.
+The summary of this model shows the intercept value to be the estimate average of the death rates. We can look at the distribution of the death rates with an histogram:
+```{r}
+hist1 <- meningitis %>%
+  ggplot(aes(x = deaths)) +
+  geom_histogram(bins = 10, 
+                 fill = "grey70", color = "grey40") +
+  geom_vline(aes(xintercept = mean(deaths)),
+             color = "black", 
+             size = 2,
+             linetype = "dashed") +
+  labs(title = "Histogram of Death Rates due to Meningitis",
+       x = "Death Rates", y = "Count") +
+  theme(legend.position = "bottom",
+        legend.title = element_blank())
 
-> "Mortality trends following an epidemic typically show a decline once
-> transmission ceases, assuming no further cases occur." CDC’s
-> Principles of Epidemiology.
+# Add log scale to x axis
+hist2 <- hist1 +
+   scale_x_log10() 
+```
 
 ```{r}
-#| label: fig-covid19_model-comparison
+#| label: fig-meningitis-histogram
 #| layout-ncol: 2
-#| fig-cap: "COVID-19 Model Comparison. Source ECDC: covid19.analytics"
-#| fig-subcap:
-#| - "Model Fit Comparison"
-#| - "Observed vs. Fitted Values"
-#| fig-alt: "COVID-19 Model Comparison"
+#| fig-cap: "The histogram of Death Rates due to Meningitis clearly show the right-skewness of the data. The dashed line represents the mean value of the death rates."
+#| fig-subcap: 
+#| - "Histogram of Death Rates due to Meningitis"
+#| - "Histogram of Death Rates due to Meningitis (log scale)"
+#| fig-alt: "Histogram of Death Rates due to Meningitis"
 #| fig-width: 6
 #| fig-height: 4
+#| echo: false
 
-# Model Fit Comparison
-model_metrics <- data.frame(
-  model = c("mod1", "mod2", "mod3"),
-  R2 = c(summary(mod1)$r.squared, 
-                summary(mod2)$r.squared,
-                summary(mod3)$r.squared),
-  AIC = c(AIC(mod1), AIC(mod2), AIC(mod3)))
+hist1
+hist2
+```
+To investigate the non linear relationship between the number of deaths
+and the two risk factors, we can use a **Generalized Additive Model
+(GAM)** with `s()` function from the `{mgcv}` package. The `s()`
+function is used to fit smooth terms in the model, which allows us to
+capture non-linear relationships between the predictors and the response
+variable.
 
-model_metrics_long <- pivot_longer(model_metrics, -model)
+```{r}
+library(mgcv)
+mod1 <- gam(deaths ~ s(smoking), data = meningitis)
+mod2 <- gam(deaths ~ s(smoking) + s(pm25),
+            data = meningitis)
+```
 
-ggplot(model_metrics_long, aes(x = model, y = value, fill = name)) +
-  geom_col(position = "dodge") +
-  facet_wrap(~name, scales = "free_y") +
-  labs(title = "Model Fit Comparison", y = "Value", x = "Model") +
+To summarise, the models results in a table format, with the estimated coefficients for each model, we can see that the values for the intercept and the coefficients for smoking and PM2.5 are all positive and statistically significant (p < 0.05), indicating that **higher levels of these risk factors are associated with higher death rates due to meningitis**. 
+```{r}
+#| echo: false
+#| label: tab-meningitis-coefficients
+tibble(
+  Model = c("mod0 - linear model", 
+            "mod1 - gam 1 predictor", "mod2 gam 2 predictors"),
+  Beta0 = c(summary(mod0)$coefficients[1],
+            mod1$coefficients[1],
+            mod2$coefficients[1]),
+  Beta1 = c(NA, 
+            mod1$coefficients[2],
+            mod2$coefficients[2]),
+  Beta2 = c(NA, NA, mod2$coefficients[3])) %>%
+  mutate(across(-Model, round, 2)) %>%
+  knitr::kable(caption = "Estimated coefficients for the models")
+```
+
+```{r}
+#| layout-ncol: 3
+#| label: fig-meningitis-predictors
+#| fig-cap: "Summary Exposure Values: Smocking and PM2.5"
+#| fig-subcap:
+#| - "Smocking - mod1"
+#| - "Smocking - mod2"
+#| - "PM2.5 - mod2"
+#| fig-alt: "Summary Exposure Values: Smocking and PM2.5"
+#| fig-width: 6
+#| fig-height: 4
+plot(mod1)
+plot(mod2)
+```
+
+A further comparison is done with the `AIC()` function:
+
+```{r}
+AIC(mod1, mod2)
+```
+
+The second GAM model (mod2) is clearly better than the first one (mod1):
+
+-   The AIC drops by \~42 points, which is a substantial improvement (a
+    drop of \>10 is considered strong evidence).
+-   The additional smooth term s(pm25) significantly improves model fit,
+    even after accounting for increased complexity (degrees of freedom
+    increase from 10.6 to 16.1).
+
+Let's now include the `year` variable in the model, to account for the
+temporal trend in the data. We can also include an interaction term
+between `year` and `location` to account for the different trends in
+different countries. The `by` argument in the `s()` function allows us
+to fit separate smooth terms for each level of the `location` variable.
+
+We set the location to be a factor variable:
+```{r}
+meningitis$location <- as.factor(meningitis$location)
+```
+
+Then we can fit the third model:
+```{r}
+mod3 <- gam(deaths ~ s(smoking) + s(pm25) + s(year, by = location),
+            data = meningitis)
+```
+
+The `s(year, by = location)` term allows for different smooth terms:
+```{r}
+#| label: fig-meningitis-location
+#| fig-cap: "Meningitis Death Rates by Country. The solid line represents the smooth line revealing the overall trend, while the other lines represent the death rates for each country."
+#| fig-alt: "Meningitis Death Rates by Country"
+#| fig-width: 6
+#| fig-height: 4
+par(mfrow = c(2, 3))
+for (i in 1:5) {
+  plot(mod3, select = i + 2, shade = TRUE,
+       main = levels(meningitis$location)[i])
+}
+```
+```{r}
+#| echo: false
+#| label: tab-meningitis-model-metrics
+# summarise the three models r squared
+tibble(
+  Model = c("mod0 - linear model", 
+            "mod1 - gam 1 predictor", "mod2 gam 2 predictors"),
+  R2 = c(summary(mod1)$r.sq,
+         summary(mod2)$r.sq,
+         summary(mod3)$r.sq),
+  DevExp = c(
+    summary(mod1)$dev.expl,
+    summary(mod2)$dev.expl,
+    summary(mod3)$dev.expl)) %>%
+  knitr::kable(caption = "Model Metrics")
+```
+
+In conclusion, we began with a generalised additive model with just smoking as influencing factor, then we fit a second model where both
+smoking and PM2.5 were modelled as smooth functions. This second model
+explained nearly 80% of the variance in meningitis death rates. However,
+by incorporating country-specific nonlinear time trends, we dramatically
+improved the model fit to over 99% of variance explained. This
+highlights the importance of accounting for temporal and spatial
+structure in health data, particularly when modelling long time spans
+across multiple countries.
+
+There is still a consideration to be made related to the exposure effect of smocking and PM2.5 on meningitis death rates. 
+```{r}
+#| echo: false
+#| label: tab-meningitis-p-values
+library(broom)
+cbind(tidy(mod2) %>% select(term),
+      tidy(mod1) %>% select(p.value_mod1 = p.value),
+      tidy(mod2) %>% select(p.value_mod2 = p.value),
+      tidy(mod3)[1:2,] %>% select(p.value_mod3 = p.value)) %>%
+  knitr::kable(caption = "Model p-values")
+```
+In the second model (mod2), both the smoking and PM2.5 terms have p-values below 0.05, indicating that they are statistically significant predictors of meningitis mortality. However, when incorporating temporal and spatial effects in mod3, the significance of these exposure variables changes — most notably, PM2.5 is no longer statistically significant. This shift suggests that the apparent association in the simpler model may be confounded by time trends or country-level differences, highlighting the importance of accounting for structured variation in space and time.
+
+Let's use both models to predict the number of deaths due to
+meningitis in the dataset. We can use the `predict()` function to obtain
+the predicted values for the model. The predicted values are added to
+the original dataset as a new column called `predicted`.
+
+```{r}
+meningitis$predicted_mod2 <- predict(mod2)
+meningitis$predicted_mod3 <- predict(mod3)
+```
+
+```{r}
+#| label: fig-meningitis
+#| layout-ncol: 2
+#| fig-cap: "Meningitis Death Rates by Country. The dashed line represents the predicted values from the model, while the solid lines represent the observed values."
+#| fig-subcap: 
+#| - "Observed vs Predicted - Mod2"
+#| - "Observed vs Predicted - Mod3"
+#| fig-alt: "Meningitis Death Rates by Country"
+#| fig-width: 6
+#| fig-height: 4
+ggplot(meningitis, 
+       aes(x = year, y = deaths, color = location)) +
+  geom_line() +
+  geom_line(aes(y = predicted_mod2), 
+            linetype = "dashed") +
+  facet_grid(location ~ ., scale = "free") +
+  labs(title = "Meningitis Death Rates by Country",
+       subtitle = "Observed vs Predicted",
+       y = "Death Rate", x = "Year") +
   theme(legend.position = "none")
 
-# Observed vs. Fitted Values
-data$fit2 <- fitted(mod2)
-data$fit3 <- fitted(mod3)
-
-data_long <- data |>
-  select(Deaths, fit2, fit3) |>
-  pivot_longer(cols = starts_with("fit"), 
-               names_to = "model", 
-               values_to = "fitted")
-
-ggplot(data_long, aes(x = Deaths, y = fitted,
-                      color = model)) +
-  geom_point(alpha = 0.6, aes(shape = model)) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
-  labs(title = "Predicted vs Observed Deaths due to COVID-19", 
-       x = "Observed Deaths", y = "Predicted") +
-  theme_minimal()
+ggplot(meningitis, 
+       aes(x = year, y = deaths, color = location)) +
+  geom_line() +
+  geom_line(aes(y = predicted_mod3), 
+            linetype = "dashed") +
+  facet_grid(location ~ ., scale = "free") +
+  labs(title = "Meningitis Death Rates by Country",
+       subtitle = "Observed vs Predicted",
+       y = "Death Rate", x = "Year") +
+  theme(legend.position = "none")
 ```
 
-The first plot shows the model fit comparison, with the
-R-squared\index{R-squared} and
-AIC\index{Akaike Information Criterion (AIC)} values for each model. The
-second plot shows the observed vs. fitted values for the models. The
-dashed line represents a perfect fit, while the points represent the
-actual data.
+We can notice that the model fits the data well, with the predicted
+values closely following the observed values, with mod3 clearly overfitting the data. 
 
-The model with the highest R-squared value is the one that best explains
-the variance in the data. The AIC value is a measure of the relative
-quality of a statistical model for a given dataset, with lower values
-indicating a better fit. The models explains \~85% of the variance in
-the number of deaths, suggesting a strong linear relationship. The
-`r.squared` value is close to 1, which means that the model fits the
-data well.
-
-To estimate the number of deaths based on the number of confirmed and
-recovered cases. We can use the `predict()` function.
-
+Let's check the residuals of mod2:
 ```{r}
-Pred <- predict(mod3, newdata = data)
-
-data_pred <- cbind(data %>% select(Confirmed, Deaths), Pred) %>%
+meningitis %>%
   # calculate the residuals to see how well the model fits the data
-  mutate(Residuals = Deaths - Pred) 
-
-data_pred %>%
+  mutate(residuals = deaths - predicted_mod2) %>%
+  select(deaths, predicted_mod2, residuals) %>%
   head()
 ```
 
-The `Residuals` column shows the difference between the actual number of
-deaths and the predicted number of deaths. A positive residual means
-that the model underestimated the number of deaths, while a negative
-residual means that the model overestimated the number of deaths.
+The residuals column represents the difference between the observed and predicted values. A positive residual indicates that the model underestimates the number of deaths, while a negative residual indicates an overestimate.
 
-Let's see the results in a plot:
+To evaluate model performance, we can visualize the residuals against the predicted values. In this plot, the dashed line marks the zero-residual baseline. Points above the line correspond to underestimation, and those below represent overestimation. The fact that most points cluster closely around the zero line suggests that the model provides a reasonably good fit to the data.
 
 ```{r}
 #| layout-ncol: 2
-#| label: fig-covid19_model
-#| fig-cap: "COVID-19 data"
+#| label: fig-meningitis-residuals
+#| fig-cap: "Residuals vs Predicted"
 #| fig-subcap: 
-#|  - "Predicted vs. Actual Deaths due to COVID-19"
-#|  - "Model Residuals vs. Observed Deaths due to COVID-19"
-#| fig-alt: "COVID-19 data"
-data_pred %>%
-  ggplot(aes(Deaths, Pred)) +
-  geom_point() +
-  geom_abline(intercept = 0, slope = 1, color = "red") +
-  geom_segment(aes(xend = Deaths, yend = Pred), alpha = 0.5) +
-  tune::coord_obs_pred() +
-  labs(title = "Predicted vs. Actual Deaths due to COVID-19",
-       x = "Actual Deaths", y = "Predicted Deaths") 
+#| - "Residuals vs Predicted"
+#| - "QQ-plot of the residuals"
+#| fig-width: 6
+#| fig-height: 4
 
-data_pred %>%
-  ggplot(aes(Deaths, Residuals)) +
+meningitis %>%
+  mutate(residuals = deaths - predicted_mod2) %>%
+  ggplot(aes(x = predicted_mod2, y = residuals)) +
   geom_point() +
-  geom_hline(yintercept = 0, color = "red") +
-  labs(title = "Residuals vs. Deaths due to COVID-19",
-       x = "Deaths", y = "Residuals") 
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  facet_grid(location ~ ., scale = "free") +
+  labs(title = "Residuals vs Predicted",
+       x = "Predicted Values", y = "Residuals") +
+  theme(legend.position = "none")
+
+meningitis %>%
+  mutate(residuals = deaths - predicted_mod2) %>%
+  ggplot(aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_grid(location ~ ., scale = "free") +
+  labs(title = "QQ-plot of the residuals",
+       x = "Theoretical Quantiles", y = "Sample Quantiles") +
+  theme(legend.position = "none")
 ```
 
-Finally, we can visualise the results of the model with a scatter plot
-and a line plot. The first plot shows the observed vs. predicted values,
-while the second plot shows the residuals. The segments represent the
-difference between the observed and predicted values.
+**Heteroskedasticity**\index{Heteroskedasticity} is a common problem in regression analysis, and it
+occurs when the variance of the residuals is not constant across all levels of the predictor variables. This can lead to biased estimates of the coefficients and incorrect conclusions about the significance of the predictors. In this case, we can see that the residuals are not evenly distributed around zero, indicating that there may be some
+**heteroskedasticity**\index{Heteroskedasticity} in the data.
+
+#### Exercise: One Country Focus
+
+Improve the model specifically for Lesotho by refining the smooth terms and including year as a covariate to capture temporal patterns:
+
+1.	Subset the data to include only observations from Lesotho
+2.	Adjust the smooth functions as needed for a better fit
+3.	Refit the model incorporating the year variable
+4.	Perform cross-validation by splitting the data into training and test sets, and simulate model performance across multiple samples
+
+Evaluate the model fit and compare it to previous results. Consider visualizing the residuals and predicted values for further insight.
 
 ```{r}
-#| label: fig-lm_results
+Lesotho_data <- meningitis %>%
+  filter(location == "Lesotho") 
+
+Lesotho_data$predicted_mod2 <- predict(mod2, newdata = Lesotho_data)
+```
+
+
+```{r}
 #| layout-ncol: 2
-#| fig-cap: "COVID-19 Model Results"
-#| fig-subcap: 
-#|  - "Observed vs. Predicted" 
-#|  - "Segments represent the residuals"
-#| fig-alt: "COVID-19 Model Results"
-data_pred %>%
+#| label: fig-lesotho
+#| fig-cap: "Lesotho Death Rates by Country. The dashed line represents the predicted values from the model, while the solid lines represent the observed values."
+#| fig-subcap:
+#| - "Observed vs Predicted - Mod2"
+#| - "Observed vs Predicted - Mod3"
+#| fig-alt: "Lesotho Death Rates by Country"
+Lesotho_data %>%
   ggplot() +
-  geom_point(aes(Confirmed, Deaths)) +
-  geom_line(aes(Confirmed, Pred), linetype = "dashed") +
-  labs(title = "Observed vs. Predicted",
-       x = "Confirmed Cases", y = "Deaths",
-       caption = "Source: ECDC") 
+  geom_point(aes(year, deaths)) +
+  geom_line(aes(year, predicted_mod2), 
+            linetype = "dashed") +
+  labs(title = "Lesotho_data: Observed vs. Predicted",
+       x = "Time(Year)", y = "Death Rates") 
   
-data_pred %>%
-  ggplot(aes(x = Confirmed, y = Deaths)) +
+Lesotho_data %>%
+  ggplot(aes(x = year, y = deaths)) +
   geom_point() +
-  geom_line(aes(Confirmed, Pred), linetype = "dashed") +
-  geom_segment(aes(xend = Confirmed, yend = Pred)) +
-  labs(title = "Observed vs. Predicted",
+  geom_line(aes(year, predicted_mod2), 
+            linetype = "dashed") +
+  geom_segment(aes(xend = year, 
+                   yend = predicted_mod2),
+               linewidth = 0.1) +
+  labs(title = "Lesotho: Observed vs. Predicted",
        subtitle = "Segments represent the residuals",
-       x = "Confirmed Cases", y = "Deaths",
-       caption = "Source: ECDC")   
-```
-
-#### Exercise: COVID-19 Case Fatality Ratio
-
-Use the `covid19.ALL.agg.cases` data to visualise the **Case Fatality
-Rate**\index{Case Fatality Rate (CFR)} estimated for each country, by
-last update and include the latitude and longitude as further
-information. Build a suitable model and explain the results with a plot.
-
-```{r}
-cfr <- covid19.ALL.agg.cases %>% 
-  select(Country_Region, Last_Update, 
-         Lat, Long_, Case_Fatality_Ratio)
-
-cfr %>%
-  head()
+       x = "Time(Year)", y = "Death Rates")  
 ```
 
 ### Example: Ischemic Stroke Decision Tree
@@ -462,6 +559,7 @@ represent the final classification. The tree can be pruned to reduce its
 complexity and improve its interpretability. The decision tree can be
 used to make predictions on new data by following the path from the root
 to a leaf node based on the values of the predictors.
+
 
 ### Example: Ischemic Stroke Classification
 

@@ -30,11 +30,12 @@ In the previous chapters, we explored the fundamentals of **data
 visualisation**\index{Data
 visualisation} with various techniques for creating static and
 interactive plots. In this chapter, we will learn how to model and
-visualise **spatial data**\index{Spatial data}, which involves analysing and representing data
-with spatial components. We will explore the concepts of spatial data,
-spatial data models, and **spatial models**\index{Spatial models}, and learn how to create maps,
-simulate infections, and predict the spatial distribution of phenomena
-such as disease spread. By combining spatial data with machine learning
+visualise **spatial data**\index{Spatial data}, which involves analysing
+and representing data with spatial components. We will explore the
+concepts of spatial data, spatial data models, and **spatial
+models**\index{Spatial models}, and learn how to create maps, simulate
+infections, and predict the spatial distribution of phenomena such as
+disease spread. By combining spatial data with machine learning
 techniques, we can model the spatial dynamics of disease transmission
 and assess the risks associated with the spread of infections. We will
 use various packages such as `sf`, `ggplot2`, and `gstat` to create
@@ -50,13 +51,14 @@ and predicting spatial processes and for informing data-driven decisions
 in public health, environmental management, and urban planning.
 
 A notable example is the **Ebola Virus Disease outbreak in West Africa
-(2014–2016)**\index{Ebola}. The virus spread across countries like Guinea, Liberia,
-and Sierra Leone, driven by factors such as population density,
-healthcare infrastructure, and human mobility. By analysing spatial data
-on cases, fatalities, and healthcare facilities and applying spatial
-models to simulate the virus’s spread, researchers gained valuable
-insights into the dynamics of the outbreak. This analysis helped
-identify high-risk areas for targeted interventions[@null2014].
+(2014–2016)**\index{Ebola}. The virus spread across countries like
+Guinea, Liberia, and Sierra Leone, driven by factors such as population
+density, healthcare infrastructure, and human mobility. By analysing
+spatial data on cases, fatalities, and healthcare facilities and
+applying spatial models to simulate the virus’s spread, researchers
+gained valuable insights into the dynamics of the outbreak. This
+analysis helped identify high-risk areas for targeted
+interventions[@null2014].
 
 > But what exactly distinguishes spatial data, spatial data models, and
 > spatial models?
@@ -144,7 +146,8 @@ ggplot(data = africa) +
 
 ## Coordinate Reference System (CRS)
 
-A **Coordinate Reference System (CRS)**\index{Coordinate Reference System (CRS)} is a standardised way
+A **Coordinate Reference System
+(CRS)**\index{Coordinate Reference System (CRS)} is a standardised way
 of defining the spatial location of features on the Earth's surface. It
 uses a set of coordinates to represent the position of points, lines,
 and polygons in space. There are different types of CRS, such as
@@ -153,10 +156,9 @@ Earth's surface in different ways. Geographic CRS (**LatLong**)
 represents locations on a curved surface using latitude and longitude
 for global mapping, while projected CRS or **Universal Transverse
 Mercator (UTM)**\index{Universal Transverse
-Mercator (UTM)} projects the curved Earth onto a flat map,
-using metres for precise mapping. In particular, the UTM system provides
-the distance in metres from the equator and the central meridian of a
-specific zone.
+Mercator (UTM)} projects the curved Earth onto a flat map, using metres
+for precise mapping. In particular, the UTM system provides the distance
+in metres from the equator and the central meridian of a specific zone.
 
 We use the `{sf}` package to define and transform CRS. The `st_crs()`
 function allows you to retrieve the CRS of a spatial object, while the
@@ -170,12 +172,13 @@ africa_crs
 
 For example, the CRS of the Africa map is **WGS 84** or *World Geodetic
 System 1984*\index{World Geodetic
-System 1984 (WGS 84)} which is a reference system for the Earth's surface that
-defines origin and orientation of the coordinate axes, called a
-**datum** (a fact known from direct observation). The
-**EPSG**\index{European Petroleum Survey Group (EPSG)} is a structured dataset of CRS and Coordinate
-Transformations, it was originally compiled by the, now defunct,
-European Petroleum Survey Group[^11-spatials-1]. The EPSG code for WGS 84 is 4326.
+System 1984 (WGS 84)} which is a reference system for the Earth's
+surface that defines origin and orientation of the coordinate axes,
+called a **datum** (a fact known from direct observation). The
+**EPSG**\index{European Petroleum Survey Group (EPSG)} is a structured
+dataset of CRS and Coordinate Transformations, it was originally
+compiled by the, now defunct, European Petroleum Survey
+Group[^11-spatials-1]. The EPSG code for WGS 84 is 4326.
 
 [^11-spatials-1]: <https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf>
 
@@ -595,8 +598,9 @@ A central point that represents the spatial distribution of infections
 in the region is the center of mass. It is a useful metric for
 understanding the spatial dynamics of disease spread and identifying
 critical zones for intervention. To calculate the coordinates of the
-**center of mass**index{Center of mass} for the infections, even called the **epicenter**\index{Epicenter} of
-the infections, we use the `center_of_mass()` function.
+**center of mass**index{Center of mass} for the infections, even called
+the **epicenter**\index{Epicenter} of the infections, we use the
+`center_of_mass()` function.
 
 The center of mass is the average of the latitude and longitude of the
 infected individuals, weighted by the number of infected individuals at
@@ -803,7 +807,7 @@ V(small_world_dev)$status[infected_nodes] <- "I"  # Infectious
 # Assign colours based on infection status
 V(small_world_dev)$color <- 
            ifelse(V(small_world_dev)$status == "I",
-                               "red", "grey")
+                               "black", "grey80")
 ```
 
 Plot the graphs:
@@ -996,11 +1000,13 @@ euclidean_distance <- function(longitude, latitude,
 ```
 
 There are other type of distance metrics that can be used, such as the
-**Manhattan** distance\index{Distance !}\index{Distance ! Manhattan}, which calculates the sum of the
-absolute differences between the coordinates of two points, the
-**Mahlanobis**\index{Distance ! Mahlanobis} distance, which considers the correlation between the
-variables, and the **Chebyshev**\index{Distance ! Chebyshev} distance, which calculates the maximum
-difference between the coordinates of two points.
+**Manhattan** distance\index{Distance !}\index{Distance ! Manhattan},
+which calculates the sum of the absolute differences between the
+coordinates of two points, the
+**Mahlanobis**\index{Distance ! Mahlanobis} distance, which considers
+the correlation between the variables, and the
+**Chebyshev**\index{Distance ! Chebyshev} distance, which calculates the
+maximum difference between the coordinates of two points.
 
 ### Spatial Autocorrelation
 
@@ -1079,9 +1085,10 @@ individuals across a region.
 For example, the application of Kriging was used to predict the spatial
 distribution of Dengue outbreaks in regions like Khyber Pakhtunkhwa,
 Pakistan[@ahmad2020]. Similarly, during the COVID-19 pandemic,
-**Empirical Bayesian Kriging (EBK)**\index{Empirical Bayesian Kriging (EBK)}[@onovo] was used to estimate the
-spatial distribution of COVID-19 cases in sub-Saharan Africa. This
-approach combined time series data of confirmed cases with
+**Empirical Bayesian Kriging
+(EBK)**\index{Empirical Bayesian Kriging (EBK)}[@onovo] was used to
+estimate the spatial distribution of COVID-19 cases in sub-Saharan
+Africa. This approach combined time series data of confirmed cases with
 socio-demographic indicators to create detailed spatial risk maps,
 aiding in understanding and controlling the outbreak.
 
