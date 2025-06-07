@@ -165,7 +165,7 @@ life years
 (DALYs)**\index{Disability Adjusted Life Years (DALYs)}[@murray1994a] in
 the global burden of disease (GBD)\index{Global Burden of Disease (GBD)}
 study and the **quality adjusted life years
-(QALY)**\index{Quality Adjusted Life Years (QALYs)} used as the outcome
+(QALYs)**\index{Quality Adjusted Life Years (QALYs)} used as the outcome
 index of the cost-utility analysis\index{Cost-utility}.
 
 In the contemporary era, the integration of computing power and big

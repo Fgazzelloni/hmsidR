@@ -12,7 +12,7 @@ include broader dimensions, incorporating mental health, social factors,
 and overall life satisfaction.
 
 In recent years, there has been an increased emphasis on holistic
-well-being, recognizing that health is not merely the absence of disease
+well-being, recognising that health is not merely the absence of disease
 but a state of complete physical, mental, and social well-being. This
 perspective aligns with the 1946 *World Health Organization*'s
 constitution principles[@constitu] of health which states: **"a state of
@@ -119,7 +119,7 @@ of both spatial and health metrics.
 
 To ensure reproducibility, the book-project employs the `{renv}`
 package, which provides a snapshot of the specific versions of all
-packages used during the writing of the book @sec-appendixB. This
+packages used during the writing of the book (@sec-appendixB). This
 enables readers to restore all R package libraries to the exact versions
 they were in at the time of writing, ensuring that all code examples
 work as intended regardless of future package updates. This detail is
@@ -140,7 +140,7 @@ this important field[@murray2008].
 
 The **Metrics and Evaluation** section introduces the foundational
 concepts of health metrics. @sec-01-health_metrics (**Introduction to
-Health Metrics**), provides an overview of the definitions, historical
+Health Metrics**) provides an overview of the definitions, historical
 context, and development of health metrics over time.
 @sec-02-method_calculation (**Methods and Calculations**) is a first
 level calculation of the metrics, including Disability-Adjusted Life
@@ -192,7 +192,7 @@ setting the stage for detailed case studies. @sec-14-covid19 (**COVID-19
 Outbreaks**) and @sec-15-malaria (**The Case of Malaria**) provide
 in-depth analysis of COVID-19 and malaria, illustrating how these
 diseases impact population health metrics. The section concludes with
-@sec-16-summary **(Summary: The State of Health)**, comparing countries
+@sec-16-summary **(Summary: The State of Health)** comparing countries
 and regions to evaluate health status.
 
 **Conclusion**

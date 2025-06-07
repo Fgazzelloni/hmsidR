@@ -65,14 +65,14 @@ the importance of considering the *age at death* and comparing it to the
 *expected life expectancy*\index{Expected life expectancy}, highlighting
 that early deaths have a greater impact than those occurring later in
 life. It was ascertained that accounting for the number of years lost
-for a group of people would help recognize the potential life lost for a
+for a group of people would help recognise the potential life lost for a
 certain cause. Since this first approach, some adjustments to the
 standard death rates were made, leading to a new calculation that
 considered standardised death rates applied to age-specific factors for
 specific causes of death.
 
 Building on these ideas, **Mary
-Dempsey**\index{Mary Dempsey}[@dempsey2019] formalized the concept in
+Dempsey**\index{Mary Dempsey}[@dempsey2019] formalised the concept in
 1947 to assess the burden of tuberculosis\index{Tuberculosis}, coining
 the term **Years of Life Lost (YLLs)**\index{Years of Life Lost (YLLs)}.
 This metric was specifically designed to identify areas requiring

@@ -761,7 +761,7 @@ In this plot we can see that the PACF shows a significant spike at lag
 value. The subsequent lags are not significant, suggesting that only the
 first lag should be included in the ARIMA model.
 
-### ARIMA model
+### ARIMA Model
 
 The **ARIMA**\index{AutoRegressive Integrated Moving Average (ARIMA)}
 model forecasts time series values based on past observations.

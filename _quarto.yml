@@ -34,7 +34,7 @@ book:
     style: docked
   page-footer:
     left: |
-      &copy; 2024 This book is written by <a href="https://federicagazzelloni.netlify.app/">Federica Gazzelloni</a>.
+      &copy; 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.
     center: |
       Editor CRC Press - Chapman & Hall | Taylor & Francis Group
     right: |

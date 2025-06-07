@@ -16,10 +16,10 @@ engine: knitr
 \
 This book will teach you about health metrics such as Disability
 Adjusted Life Years (DALYs), Years of Life Lost (YLLs), Years Lived with
-Disabilities (YLDs), and others. It explains how to calculate these
+Disability (YLDs), and others. It explains how to calculate these
 metrics and discusses their components in detail. You will explore the
 machine learning framework and learn how to apply the influence of
-infectious disease dynamics on trends in these metrics . The book equips
+infectious disease dynamics on these metrics. The book equips
 you with all the necessary tools for data collection, analysis,
 visualisation and modelling.
 
@@ -111,7 +111,7 @@ If you're using BibTeX, you can use the following entry:
   year = {2024},
   publisher = {CRC Press},
   address = {Boca Raton, FL, USA},
-  isbn = { }
+  isbn = {978-1-032-62578-2}
 }
 ```
 

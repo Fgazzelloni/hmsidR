@@ -173,7 +173,7 @@ p2 <- ggplot(griddf, aes(x, y, z = z)) +
                    linewidth = 2) +
   scale_color_viridis_c()+
   guides(linetype = "none")+
-  labs(title="Antagonism",
+  labs(title="Additive",
        color="Prediction", x = "x1", y = "x2")+
   theme(legend.position = "top")
 ```
@@ -205,7 +205,7 @@ p3 <- ggplot(griddf, aes(x, y, z = z)) +
                    linewidth = 2) +
   scale_color_viridis_c()+
   guides(linetype = "none")+
-  labs(title="Antagonism",
+  labs(title="Synergistic",
        color="Prediction", x = "x1", y = "x2")+
   theme(legend.position = "top")
 ```
