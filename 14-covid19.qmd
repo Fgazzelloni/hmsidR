@@ -448,7 +448,7 @@ We have been able to simulate the spread of COVID-19 using the SEIR and
 predict the spread using the Bayesian regression model. However,
 combining the predictions of multiple models can provide more accurate
 and robust forecasts. This technique is known as **ensemble
-modelling**\\index{Ensemble modelling.
+modelling**\index{Ensemble modelling}.
 
 Ensemble modelling combines the predictions of multiple models to
 improve the overall accuracy and robustness of predictions. This
