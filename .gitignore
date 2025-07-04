@@ -7,7 +7,8 @@
 .httr-oauth
 .DS_Store
 R
-data
+data/model-data
+_format.yml
 rsconnect
 components_hm_files
 compiler/

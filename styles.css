@@ -1,0 +1,11 @@
+/* Make callouts responsive on mobile devices */
+.solutionbox-header {
+
+}
+
+@media screen and (max-width: 600px) {
+  .solutionbox-header {
+/* wrap text in solutionbox header */
+    break
+  }
+}

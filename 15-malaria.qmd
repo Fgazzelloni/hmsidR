@@ -102,9 +102,6 @@ nigeria_data <- getPR(country = "Nigeria",
 ```{r}
 #| echo: false
 nigeria_data <- readRDS("data/inst/extdata/15-nigeria_data.rds")
-nigeria_data %>% pull(year_start) %>% range();
-# 23 years spanning from 1985 to 2018
-nigeria_data %>% count(year_start) %>% dim()
 ```
 
 Data contains cases for 23 years spanning from 1985 to 2018. We can

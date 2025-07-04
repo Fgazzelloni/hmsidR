@@ -9,7 +9,10 @@ engine: knitr
 `r format(lubridate::now(tzone = "CET"), usetz = TRUE, digits = 0)`*
 
 ::: solutionbox-header
-❗️Final touches are complete—book is heading to the press! 🚀
+❗🛒 Pre-order now: 👉 [Routledge
+Website](https://www.routledge.com/Health-Metrics-and-the-Spread-of-Infectious-Diseases-Machine-Learning-Applications-and--Spatial-Modelling-Analysis-with-R/Gazzelloni/p/book/9781032625782/)
+👉
+[Amazon](https://www.amazon.com/Health-Metrics-Spread-Infectious-Diseases/dp/1032625783/)
 :::
 ::::
 
@@ -19,9 +22,9 @@ Adjusted Life Years (DALYs), Years of Life Lost (YLLs), Years Lived with
 Disability (YLDs), and others. It explains how to calculate these
 metrics and discusses their components in detail. You will explore the
 machine learning framework and learn how to apply the influence of
-infectious disease dynamics on these metrics. The book equips
-you with all the necessary tools for data collection, analysis,
-visualisation and modelling.
+infectious disease dynamics on these metrics. The book equips you with
+all the necessary tools for data collection, analysis, visualisation and
+modelling.
 
 Think of it as a toolbox for assessing the health of a country and
 comparing it with others. You will also learn how to select the best
@@ -92,6 +95,21 @@ insights have been referenced and built upon throughout this book. Your
 pioneering efforts and dedication to improving public health have laid
 the foundation for the analyses and models discussed herein. Your
 contributions have been a source of inspiration and guidance.
+
+:::: {.content-visible when-format="html"}
+::: callout
+🙌 **Special Acknowledgement**
+
+I also want to extend a heartfelt thank-you to members of the
+[DSLC](https://dslc.io/) *Health Metrics Book Club*, whose thoughtful
+reflections, questions, and encouragement have contributed to the final
+refinement of this book. In particular, I’d like to acknowledge:
+
+-   [Chantel Davies](https://www.linkedin.com/in/chanteldavies)
+-   [Robert Willans](https://www.linkedin.com/in/robert-willans-b0b4b3161/)
+-   [Retselisitsoe Monyake](https://www.linkedin.com/in/rmonyake/)
+:::
+::::
 
 ### How to Cite This Book
 
