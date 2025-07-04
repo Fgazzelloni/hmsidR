@@ -36,7 +36,7 @@ _book/
 *.ist
 *.run.xml
 *.*_cache/
-*.*_files/
+*.*_files
 /modeling/
 11-spatials_files
 *.zip
