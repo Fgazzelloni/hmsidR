@@ -40,3 +40,4 @@ _book/
 /modeling/
 11-spatials_files
 *.zip
+**/*.quarto_ipynb
