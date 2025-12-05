@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Federica Gazzelloni">
+
+<title>7&nbsp; Techniques for Machine Learning Applications – Health Metrics and the Spread of Infectious Diseases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07-packages.html" rel="next">
+<link href="./05-machine_learning.html" rel="prev">
+<link href="./images/icons/pen-to-square-solid.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3f82c0c769e6123ec458e1781414e6ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J9YVQPL7W9"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J9YVQPL7W9', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script defer="" data-domain="" src=""></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./06-techniques.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Health Metrics and the Spread of Infectious Diseases</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Fgazzelloni/hmsidR" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Health Metrics</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-health_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-method_calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-causes_risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Machine Learning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-techniques.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-predictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Data Visualization</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpreting Model Results Through Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-spatials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatial Data Modelling and Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Advanced Data Visualisation Techniques</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Infectious Diseases</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-infectious_diseases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to Infectious Diseases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-covid19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">COVID-19 Outbreaks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-malaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">The Case of Malaria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary: The State of Health</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Life Tables, Markov Chain and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Tools Used to Make This Book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Tips on Converting to Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#goals-of-the-analysis-and-nature-of-data" id="toc-goals-of-the-analysis-and-nature-of-data" class="nav-link active" data-scroll-target="#goals-of-the-analysis-and-nature-of-data"><span class="header-section-number">7.1</span> Goals of the Analysis and Nature of Data</a></li>
+  <li><a href="#statistical-and-machine-learning-methods" id="toc-statistical-and-machine-learning-methods" class="nav-link" data-scroll-target="#statistical-and-machine-learning-methods"><span class="header-section-number">7.2</span> Statistical and Machine Learning Methods</a></li>
+  <li><a href="#model-selection-strategies" id="toc-model-selection-strategies" class="nav-link" data-scroll-target="#model-selection-strategies"><span class="header-section-number">7.3</span> Model Selection Strategies</a></li>
+  <li><a href="#sec-06-rabies" id="toc-sec-06-rabies" class="nav-link" data-scroll-target="#sec-06-rabies"><span class="header-section-number">7.4</span> Example: Rabies</a>
+  <ul class="collapse">
+  <li><a href="#training-data-and-resampling" id="toc-training-data-and-resampling" class="nav-link" data-scroll-target="#training-data-and-resampling"><span class="header-section-number">7.4.1</span> Training Data and Resampling</a></li>
+  <li><a href="#data-preprocessing-and-featuring-engineering" id="toc-data-preprocessing-and-featuring-engineering" class="nav-link" data-scroll-target="#data-preprocessing-and-featuring-engineering"><span class="header-section-number">7.4.2</span> Data Preprocessing and Featuring Engineering</a></li>
+  <li><a href="#correlation-multicollinearity-and-overfitting" id="toc-correlation-multicollinearity-and-overfitting" class="nav-link" data-scroll-target="#correlation-multicollinearity-and-overfitting"><span class="header-section-number">7.4.3</span> Correlation, Multicollinearity and Overfitting</a></li>
+  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification"><span class="header-section-number">7.4.4</span> Model Specification</a></li>
+  <li><a href="#model-1-random-forest" id="toc-model-1-random-forest" class="nav-link" data-scroll-target="#model-1-random-forest"><span class="header-section-number">7.4.5</span> Model 1: Random Forest</a></li>
+  <li><a href="#model-2-generalised-linear-model-glm" id="toc-model-2-generalised-linear-model-glm" class="nav-link" data-scroll-target="#model-2-generalised-linear-model-glm"><span class="header-section-number">7.4.6</span> Model 2: Generalised Linear Model (GLM)</a></li>
+  <li><a href="#testing-multiple-models" id="toc-testing-multiple-models" class="nav-link" data-scroll-target="#testing-multiple-models"><span class="header-section-number">7.4.7</span> Testing Multiple Models</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.5</span> Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/06-techniques.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./06-techniques.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-06-techniques" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="solutionbox">
+<div class="solutionbox-header">
+<div class="solutionbox-icon">
+
+</div>
+<p>Learning Objectives</p>
+</div>
+<div class="solutionbox-body">
+<ul>
+<li>Apply feature engineering techniques to prepare data for modelling</li>
+<li>Evaluate and select the most appropriate machine learning model based on data characteristics</li>
+<li>Understand the fundamentals of key machine learning algorithms and their applications</li>
+</ul>
+</div>
+</div>
+<p><br>
+Selecting the most suitable machine learning model involves understanding <strong>the goals of the analysis</strong>, the <strong>nature of the data</strong>, and the <strong>statistical and machine learning methods</strong> that best suit the tasks. In <a href="05-machine_learning.html" class="quarto-xref"><span>Chapter 6</span></a>, we learned about what machine learning models are, provided examples for building a model framework, and selected common metrics for model performance calibration and evaluation.</p>
+<p>In this chapter, we focus on the strategies for selecting appropriate models by leveraging the strengths of different techniques, specifically for health metrics and for infectious diseases. We will explore various considerations involved in addressing potential biases, and discuss actions to prevent them.</p>
+<section id="goals-of-the-analysis-and-nature-of-data" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="goals-of-the-analysis-and-nature-of-data"><span class="header-section-number">7.1</span> Goals of the Analysis and Nature of Data</h2>
+<p>The identification of the primary <strong>goal of the analysis</strong> is fundamental. Whether it involves trend analysis, investigating the relationships between response and predictor variables, or strictly forecasting to predict future outcomes, the strategy for model selection varies accordingly.</p>
+<p><strong>Health Metrics Data:</strong></p>
+<ul>
+<li><p><strong>Composite Measures:</strong> Health metrics like DALYs are composite measures that include both mortality and morbidity data, often requiring sophisticated regression models capable of handling continuous variables and multiple predictors. By examining the components of DALYs (e.g., Years of Life Lost (YLLs) and Years Lived with Disability (YLDs)), we can identify the key drivers such as mortality rates, disease prevalence, and risk factors.</p></li>
+<li><p><strong>Regression Models:</strong> Regression models, including <strong>linear regression</strong>, <strong>Ridge regression</strong>, and <strong>Lasso regression</strong>, are commonly used to handle these continuous variables and address challenges like correlation and multicollinearity with appropriate techniques such as regularisation.</p></li>
+</ul>
+<p><strong>Infectious Disease Data:</strong></p>
+<ul>
+<li><p><strong>Categorical and Continuous Data:</strong> Infectious disease data can be categorical (e.g., disease presence or absence) or continuous (e.g., incidence rates). Classification models are suitable for categorical outcomes, while regression models are appropriate for continuous data.</p></li>
+<li><p><strong>Disease Dynamics:</strong> Understanding the dynamics of infectious diseases, such as transmission rates, incubation periods, and immunity, informs the selection of models. Common models include compartmental models (e.g., SIR, SEIR) and agent-based models.</p></li>
+</ul>
+<p><strong>Common considerations for health metrics and infectious diseases data type:</strong></p>
+<ul>
+<li><p><strong>Seasonality and Trends:</strong> The data may exhibit seasonality or trends, necessitating the use of time series analysis models like <strong>ARIMA</strong> or seasonal decomposition to capture these patterns.</p></li>
+<li><p><strong>Simulation Models:</strong> These models can predict the impact of interventions on DALYs and infectious diseases, estimating the effectiveness of different interventions and guiding policy decisions. Examples of these types of models are: <strong>SIR</strong> models, and <strong>Agent-based models</strong>. In addition, <strong>confidence intervals</strong> and <strong>sensitivity analyses</strong> help assess the uncertainty associated with these predictions.</p></li>
+<li><p><strong>Bayesian Models:</strong> These models can estimate parameters and make predictions based on prior knowledge and observed data, incorporating uncertainty and variability.</p></li>
+<li><p><strong>Predictive modelling:</strong> Such as <strong>decision trees</strong>, <strong>support vector machines (SVM)</strong>, and <strong>Long Short-Term Memory (LSTM) neural networks</strong>, can predict disease outbreaks, identify high-risk populations, and optimise resource allocation.</p></li>
+</ul>
+</section>
+<section id="statistical-and-machine-learning-methods" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="statistical-and-machine-learning-methods"><span class="header-section-number">7.2</span> Statistical and Machine Learning Methods</h2>
+<p>The choice of model depends on the type of data, the relationships between variables, and the goals of the analysis. Once we have these factors well identified, we are a step forward in restricting the range of applicable models.</p>
+<p>The next step involves conducting a thorough <strong>exploratory data analysis (EDA)</strong>. This initial exploration helps to uncover the underlying structure of the data, the relationships between variables, and the way the response variable—which may also be referred to as the outcome variable—depends on predictors. This phase is critical as it informs the necessity of subsequent data adjustments and transformations.</p>
+<p>The importance of data preparation and exploratory data analysis in machine learning are the building blocks in the preparation of machine learning digestible data. <strong>Feature engineering</strong> is a technique that involves creating new features from existing ones based on domain knowledge or transformation of data to improve the model’s ability to discern patterns. For example, creating features like <strong>moving averages</strong> or differences between consecutive days can reveal trends and cycles that are not immediately apparent from raw data.</p>
+<p>Another example is the <strong>standardisation</strong> process, which is crucial when dealing with variables measured in different units. It involves rescaling the features so they have a mean of zero and a standard deviation of one. This process is particularly important when variables span several orders of magnitude; without standardisation, a model might incorrectly interpret the scale of a feature as a proxy for importance.</p>
+<p>Furthermore, the application of transformations, such as <strong>logarithmic</strong> scaling or the application of <strong>spline</strong> functions can help in managing skewed data or enhancing model ability to capture non-linear relationships, which result particularly useful in complex data modelling. In addition, tailored adjustments, and more sophisticated manipulations have been implemented over time to allow estimation of missing values in order to obtain customised, flexible, and more homogeneous data. For more information on feature engineering, see<span class="citation" data-cites="butcher2020"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> useful for effective machine learning strategy application, covering various techniques and appropriate use cases, focusing on practical understanding and implementation.</p>
+</section>
+<section id="model-selection-strategies" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="model-selection-strategies"><span class="header-section-number">7.3</span> Model Selection Strategies</h2>
+<p>In developing predictive models for health metrics and infectious diseases, selecting the appropriate model is critical to ensure accurate and reliable forecasts. Here are outlined sample strategies employed in the model selection process, we introduce the <strong>Rabies</strong> dataset used for our discussion and demonstrate the selection of a suitable model for analysing its impact. Rabies, although nearly 100% fatal once symptoms appear, presents a unique challenge due to the relative rarity of cases and limited availability of comprehensive data. This scarcity complicates efforts to model the disease accurately and develop effective public health strategies.</p>
+<p>To address these challenges, we explore advanced modelling techniques that can enhance the robustness of our analyses despite data limitations, which involves evaluating multiple models based on their performance and selecting the best-fitting models to achieve the most accurate predictions.</p>
+</section>
+<section id="sec-06-rabies" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-06-rabies"><span class="header-section-number">7.4</span> Example: Rabies</h2>
+<p>The <strong>rabies</strong> dataset from the <code>{hmsidwR}</code> package contains information on death rates and disability-adjusted life years (DALYs) per 100,000 inhabitants due to rabies and all causes of mortality in Asia and for the Global region from 1990 to 2019. Rabies (<span class="citation" data-cites="cdc2024"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span>) is a fatal viral infection, and it is also classified as an infectious disease that can infect all mammals causing acute encephalitis. Caused by the rabies virus, which belongs to the Lyssavirus genus, it is transmitted to humans through the bite of an infected animal such as bats, raccoons, skunks, foxes, and obviously dogs, which are the main source of human rabies deaths.<span class="citation" data-cites="hampson2015"><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> Rabies defined as <strong>neglected tropical disease (NTD)</strong> predominantly affects already marginalised, poor and vulnerable populations. Although effective human vaccines and immunoglobulins exist for rabies, these are often not readily available or accessible to everyone.<span class="citation" data-cites="rabies"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span></p>
+<p>In this example we consider the number of DALYs per 100,000 inhabitants due to rabies in Asia and the Global region, as our response variable, the dataset is made available in the <code>{hmsidwR}</code> package. It is composed of 240 observations and 7 variables: <code>measure</code>, <code>location</code>, <code>cause</code>, <code>year</code>, <code>val</code>, <code>upper</code>, <code>lower</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>hmsidwR<span class="sc">::</span>rabies <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">1990</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>upper, <span class="sc">-</span>lower) <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   measure location cause       year      val</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Deaths  Global   All causes  1990 1107.   </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Deaths  Asia     Rabies      1990    0.599</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Deaths  Global   All causes  1994 1095.   </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Deaths  Global   All causes  1992 1090.   </span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Deaths  Asia     Rabies      1992    0.575</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Deaths  Asia     Rabies      1994    0.554</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Selecting only the <code>cause == Rabies</code> , the first thing to notice is that deaths rates and DALYs are on different units, rates and years respectively.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rabies <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>rabies <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">1990</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>upper, <span class="sc">-</span>lower) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measure, <span class="at">values_from =</span> val) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause <span class="sc">==</span> <span class="st">"Rabies"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">dx_rabies =</span> Deaths, <span class="at">dalys_rabies =</span> DALYs) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>cause)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>rabies <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location  year dx_rabies dalys_rabies</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Asia      1990     0.599         33.1</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Asia      1992     0.575         31.9</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Asia      1994     0.554         30.7</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Asia      1991     0.585         32.3</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Asia      1995     0.551         30.5</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Asia      1997     0.502         27.9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>It can be seen that the number of deaths due to rabies is much lower than the number of DALYs. This difference in scale can affect the model’s ability to learn from the data. To address this issue, we can scale and centre the numeric variables to make them more comparable.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> rabies <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">group =</span> location, <span class="at">linetype =</span> location)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dx_rabies),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dalys_rabies))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> rabies <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># apply a scale transformation to the numeric variables</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.integer</span>(year),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">across</span>(<span class="fu">where</span>(is.double), scale)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">group =</span> location, <span class="at">linetype =</span> location)) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dx_rabies),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dalys_rabies))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fig-rabies-deaths-dalys" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rabies-deaths-dalys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rabies-deaths-dalys" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rabies-deaths-dalys-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="DALYs due to Rabies - Not scaled and Scaled and centred">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-rabies-deaths-dalys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-rabies-deaths-dalys-1.png" class="img-fluid figure-img" data-ref-parent="fig-rabies-deaths-dalys" alt="DALYs due to Rabies - Not scaled and Scaled and centred" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-rabies-deaths-dalys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Not scaled
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rabies-deaths-dalys" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rabies-deaths-dalys-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="DALYs due to Rabies - Not scaled and Scaled and centred">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-rabies-deaths-dalys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-rabies-deaths-dalys-2.png" class="img-fluid figure-img" data-ref-parent="fig-rabies-deaths-dalys" alt="DALYs due to Rabies - Not scaled and Scaled and centred" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-rabies-deaths-dalys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Scaled and centred
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rabies-deaths-dalys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: Not Scaled and Scaled and Centred
+</figcaption>
+</figure>
+</div>
+<p>Creating new features from existing ones provide additional predictive power. Then, combine the cause vector in a way to obtain two vectors for death rates due to rabies and all causes, scale and centre the numeric variables to obtain homogeneous data to use in the model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>all_causes <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>rabies <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">1990</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>upper, <span class="sc">-</span>lower) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measure, <span class="at">values_from =</span> val) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>cause <span class="sc">==</span> <span class="st">"Rabies"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">dx_allcauses =</span> Deaths, <span class="at">dalys_allcauses =</span> DALYs) <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>cause)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> rabies <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(all_causes, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"location"</span>, <span class="st">"year"</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location  year dx_rabies dalys_rabies dx_allcauses dalys_allcauses</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Asia      1990     0.599         33.1        1179.          50897.</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Asia      1992     0.575         31.9        1151.          49532.</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Asia      1994     0.554         30.7        1120.          48084.</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Asia      1991     0.585         32.3        1166.          50412.</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Asia      1995     0.551         30.5        1116.          47766.</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Asia      1997     0.502         27.9        1072.          46164.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To be able to visualise the magnitude of difference between death rates and DALYs for both rabies and all causes, it is necessary to scale or standardise the data as shown above.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>location) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(dat <span class="sc">%&gt;%</span> <span class="fu">select</span>(year, location)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> location, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> location)) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dx_rabies),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dx_allcauses))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year, <span class="sc">-</span>location) <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(dat <span class="sc">%&gt;%</span> <span class="fu">select</span>(year, location)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> location,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> location)) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dalys_rabies),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> dalys_allcauses))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fig-deaths-dalys-std" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deaths-dalys-std-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-deaths-dalys-std" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-deaths-dalys-std-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Deaths and DALYs due to Rabies and All Causes - Scaled and centred">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-deaths-dalys-std-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-deaths-dalys-std-1.png" class="img-fluid figure-img" data-ref-parent="fig-deaths-dalys-std" alt="Deaths and DALYs due to Rabies and All Causes - Scaled and centred" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-deaths-dalys-std-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Deaths due to Rabies and All Causes
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-deaths-dalys-std" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-deaths-dalys-std-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Deaths and DALYs due to Rabies and All Causes - Scaled and centred">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-deaths-dalys-std-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-deaths-dalys-std-2.png" class="img-fluid figure-img" data-ref-parent="fig-deaths-dalys-std" alt="Deaths and DALYs due to Rabies and All Causes - Scaled and centred" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-deaths-dalys-std-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Dalys due to Rabies and All Causes
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deaths-dalys-std-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.2: Scaled and centred
+</figcaption>
+</figure>
+</div>
+<p>For this task, we will use the <code>{tidymodels}</code> meta-package, as it provides a consistent interface for modelling and machine learning tasks. In particular, we define and execute modelling workflows, to create tailored data pre-processing tasks on various modelling specifications, and evaluate the performance using resampling techniques, to eventually select the best model. A more detailed explanation of the <code>{tidymodels}</code> framework can be found in the book.<span class="citation" data-cites="silge"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span></p>
+<section id="training-data-and-resampling" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="training-data-and-resampling"><span class="header-section-number">7.4.1</span> Training Data and Resampling</h3>
+<p>Splitting data into training and test allows the model to train a subsection of the data and then test its performance on the remaining part of the data, the test set. In this case, we will use the <code>initial_split()</code> function to split the data into training and test sets. The proportion assigned to trains can vary but it is usually assigned to be 80%, also a stratification option can be set.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11012024</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(dat, <span class="at">prop =</span> <span class="fl">0.8</span>, <span class="at">strata =</span> location)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>training <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>After that, it is important to create a set of folds, which means a set of subgroups of the original data by grouping following specific directions based on the type of <strong>resampling technique</strong>. Resampling techniques are used to evaluate the model’s performance and estimate its generalisation error. There are various types of resampling techniques, it depends on the specific characteristics of your dataset, and the goals of your analysis. Some of the most common resampling techniques include:</p>
+<ul>
+<li><strong>k-Fold Cross-Validation</strong> for general model evaluation and hyperparameter tuning.</li>
+<li><strong>Bootstrap Resampling</strong> to estimate the variability of your model and for smaller datasets.</li>
+<li><strong>Time Series Cross-Validation</strong> for time-dependent data to preserve temporal structure.</li>
+<li><strong>Spatial Resampling</strong> for spatially correlated data to account for spatial dependencies.</li>
+<li><strong>Stratified Resampling</strong> when dealing with imbalanced datasets to ensure proper representation of all classes.</li>
+</ul>
+<p>In this case, we will use <strong>k-Fold Cross-Validation</strong> to evaluate the model’s performance. The <code>vfold_cv()</code> function creates a set of folds for cross-validation, which is used to train and test the model on different subsets of the data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11102024</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(training, <span class="at">v =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="data-preprocessing-and-featuring-engineering" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="data-preprocessing-and-featuring-engineering"><span class="header-section-number">7.4.2</span> Data Preprocessing and Featuring Engineering</h3>
+<p>As already seen in the exploratory phase, preprocessing data is a crucial step in machine learning\index{Machine learning. This process can include techniques for handling missing values, standardisation of the data, encoding categorical variables, and removing highly correlated variables.</p>
+<p>In this case, we will use the <code>{recipes}</code> package to create a recipe, with a set of preprocessing steps. The <code>recipe()</code> function allows us to define a model formula and use various <code>step_&lt;functions&gt;()</code> for manipulating data. We are going to set up 3 recipes, the first is a basic one which includes all variables and does not perform any data transformation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(dalys_rabies <span class="sc">~</span> ., <span class="at">data =</span> training)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The second recipe includes some key steps to transform the data into a way specific models would be able to understand and learn from it. Models such as k-nearest neighbours, or support vector machines, that rely on distance metrics, can be sensitive to differences in feature scales.</p>
+<p>For instance, non-standardised year data can dominate the model’s decision-making process, leading to biased results. By scaling and centring the data, we ensure that all features contribute equally to the model’s predictions.</p>
+<p>We can create more complex recipes with more steps, but for this example, we will use a step for encoding the location variable (Asia, Global) into a numeric vector, and a second step to normalise (or standardise) all predictors.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rec1 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(dalys_rabies <span class="sc">~</span> ., <span class="at">data =</span> training) <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert nominal variables to dummy variables</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scale the numeric variables</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_numeric_predictors</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Once the recipe is created, we can apply it to the data using the <code>prep()</code> function, which estimates the necessary parameters for the transformations and applies them to the data. Then, to check the results we can use the <code>juice()</code> function to extract the processed data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rec1 <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">juice</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     year dx_rabies dalys_rabies</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -1.61       2.12         33.1</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 -1.17       1.79         30.7</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 -1.50       2.02         32.3</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 -1.06       1.76         30.5</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 -0.847      1.40         27.9</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 -0.738      1.23         26.8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Trained data can be also tested on new data, in this case we test them on the <code>test</code> set with the <code>bake()</code> function.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rec1 <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(<span class="at">new_data =</span> test) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     year dx_rabies dalys_rabies</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -1.39     1.94           31.9</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 -0.521    0.870          24.5</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 -0.412    0.743          23.7</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  0.131    0.375          20.7</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 -0.738    0.255          20.7</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 -0.521    0.0443         19.3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>DALYs often aggregate various health impacts, and can have highly skewed distributions. This skewness arises due to several factors: the presence of outliers, the nature of the health condition being measured, and the distribution of the data itself. To handle the skewness of the data, we can apply:</p>
+<ul>
+<li>Log Transformation: <span class="math inline">log(DALYs+1)</span></li>
+<li>Sqrt Transformation: <span class="math inline">\sqrt{DALYs}</span></li>
+<li>Yeo-Johnson Transformation, a generalisation of the Box-Cox transformation that can handle both positive and negative values: <span class="math inline">((DALYs+1)^p-1)/p</span>.</li>
+</ul>
+<p>Let’s apply the <strong>Yeo-Johnson transformations</strong> to the response variable (<code>dalys_rabies)</code> and see how the density distribution changes with different values of <span class="math inline">\lambda</span>. This is a step that can be tuned with a machine learning algorithm.</p>
+<div id="fig-response-transformation" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-response-transformation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-response-transformation" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-response-transformation-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-response-transformation-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-response-transformation-1.png" class="img-fluid figure-img" data-ref-parent="fig-response-transformation" alt="Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-response-transformation-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Log10
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-response-transformation" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-response-transformation-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-response-transformation-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-response-transformation-2.png" class="img-fluid figure-img" data-ref-parent="fig-response-transformation" alt="Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-response-transformation-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Yeo-Johnson p=-2
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-response-transformation" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-response-transformation-3" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-response-transformation-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-response-transformation-3.png" class="img-fluid figure-img" data-ref-parent="fig-response-transformation" alt="Log10, Yeo-Johnson p=-2, Yeo-Johnson p=2" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-response-transformation-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Log10
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-response-transformation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.3: Response variable transformation
+</figcaption>
+</figure>
+</div>
+<p>Let’s now create a third recipe with the <code>step_YeoJohnson()</code> function.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rec2 <span class="ot">&lt;-</span> rec1 <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># apply Yeo-Johnson transformation to the response variable</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_YeoJohnson</span>(dalys_rabies)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>rec2 <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">juice</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     year dx_rabies dalys_rabies</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -1.61       2.12         5.97</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 -1.17       1.79         5.78</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 -1.50       2.02         5.91</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 -1.06       1.76         5.77</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 -0.847      1.40         5.54</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 -0.738      1.23         5.44</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="correlation-multicollinearity-and-overfitting" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="correlation-multicollinearity-and-overfitting"><span class="header-section-number">7.4.3</span> Correlation, Multicollinearity and Overfitting</h3>
+<p>To be noted is that we haven’t applied any <strong>correlation</strong> selection step on this data. Filtering out highly correlated predictors, such as those with a correlation greater than 80% to avoid multicollinearity, would lead to excluding crucial variables. On the other hand, including all possible covariates in a model often yields implausible signs on covariates or unstable coefficients, as well as overfitting.<span class="citation" data-cites="foreman2012"><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span></p>
+<p>When multiple predictors are correlated, but all are crucial for the analysis (e.g., deaths due to rabies, total deaths, and total DALYs for all causes), applying a correlation step that filters out correlated variables can be problematic. One way to overcome bias arising from it is using regularisation techniques like <strong>Ridge Regression</strong> or <strong>Lasso Regression</strong> is often the best approach to handle multicollinearity without removing any predictors. Alternatively, <strong>Principal Components Analysis (PCA)</strong> can reduce dimensionality while retaining most of the variance. These methods ensure all important predictors are included in the model without the adverse effects of multicollinearity.</p>
+</section>
+<section id="model-specification" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="model-specification"><span class="header-section-number">7.4.4</span> Model Specification</h3>
+<p>The next step is to outline the model specification. There are various type of models that can be used. We start with a <strong>random forest</strong>. This choice is typically done due to the algorithm’s features, which is able to create <strong>multiple bootstrap samples</strong> (random samples with replacement) from the original dataset. Each bootstrap sample is used to train a separate decision tree.</p>
+</section>
+<section id="model-1-random-forest" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="model-1-random-forest"><span class="header-section-number">7.4.5</span> Model 1: Random Forest</h3>
+<p>Rabies death rates may exhibit complex relationships with predictor variables. Random forests are capable of capturing non-linear relationships between predictors and the target variable.</p>
+<p>Also, it handles multicollinearity, missing data, provides variables importance and is an ensemble learning method, which means they combine the predictions of multiple individual decision trees to produce a more accurate and stable prediction.</p>
+<p>In our simplified case this type of model will do random samples with replacement of data. In <code>{tidymodels}</code> we can select different types of engines, in the case of random forest we could use random forest, ranger, and others. The difference between these engines derives from the specific type of calculation used to make the estimation. The Ranger engine is notably faster than random forest, so let’s use that for this example.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rf_mod <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">trees =</span> <span class="fu">tune</span>(),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">engine =</span> <span class="st">"ranger"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>wkf <span class="ot">&lt;-</span> <span class="fu">workflow</span>(<span class="at">preprocessor =</span> rec, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">spec =</span> rf_mod)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>rf_res <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(<span class="at">object =</span> wkf,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">resamples =</span> folds,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">grid =</span> <span class="dv">5</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> <span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(rf_res, <span class="at">metric =</span> <span class="st">"rmse"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>n, <span class="sc">-</span>std_err)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 7</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    mtry trees min_n .metric .estimator  mean .config             </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;               </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     4  1794     7 rmse    standard   0.692 Preprocessor1_Model1</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2     5    85    17 rmse    standard   1.38  Preprocessor1_Model5</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     1   446    16 rmse    standard   2.15  Preprocessor1_Model4</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4     3  1338    34 rmse    standard   2.79  Preprocessor1_Model2</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5     2  1151    31 rmse    standard   2.91  Preprocessor1_Model3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rf_res_tuned <span class="ot">&lt;-</span> <span class="fu">select_best</span>(rf_res, <span class="at">metric =</span> <span class="st">"rmse"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>rf_res_tuned</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 4</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    mtry trees min_n .config             </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;               </span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     4  1794     7 Preprocessor1_Model1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rf_fit <span class="ot">&lt;-</span> wkf <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(<span class="fu">select_best</span>(rf_res,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">metric =</span> <span class="st">"rmse"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(training)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>rf_fit <span class="sc">%&gt;%</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> test) <span class="sc">%&gt;%</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test) <span class="sc">%&gt;%</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rmse</span>(<span class="at">truth =</span> dalys_rabies, <span class="at">estimate =</span> .pred)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 3</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .metric .estimator .estimate</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 rmse    standard       0.506</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fig-rf-predictions" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rf-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rf-predictions" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rf-predictions-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Predictions vs. Truth and Predictions vs. Truth by Year">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-rf-predictions-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-rf-predictions-1.png" class="img-fluid figure-img" data-ref-parent="fig-rf-predictions" alt="Predictions vs. Truth and Predictions vs. Truth by Year" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-rf-predictions-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Predictions vs.&nbsp;Truth
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rf-predictions" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rf-predictions-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Predictions vs. Truth and Predictions vs. Truth by Year">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-rf-predictions-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-rf-predictions-2.png" class="img-fluid figure-img" data-ref-parent="fig-rf-predictions" alt="Predictions vs. Truth and Predictions vs. Truth by Year" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-rf-predictions-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Predictions vs.&nbsp;Truth by Year
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rf-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.4: Predictions vs.&nbsp;Truth
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="model-2-generalised-linear-model-glm" class="level3" data-number="7.4.6">
+<h3 data-number="7.4.6" class="anchored" data-anchor-id="model-2-generalised-linear-model-glm"><span class="header-section-number">7.4.6</span> Model 2: Generalised Linear Model (GLM)</h3>
+<p>Generalised Linear Models (GLMs) involve statistical estimation rather than the iterative parameter tuning, common in many machine learning techniques. However, adding a machine learning feature through parameter calibration can be done using techniques such as cross-validation and grid search to find the best model settings.</p>
+<p>To introduce a machine learning feature with parameter calibration into our modelling of the rabies data, we can use a technique like cross-validation combined with a <strong>regularisation method</strong> or an algorithm that supports parameter tuning. Here, we can employ a model from the <code>glmnet</code> package, which fits a generalised linear model via <strong>penalised maximum likelihood</strong>. The regularisation path is computed for the lasso or elastic-net penalty at a grid of values for the regularisation parameter lambda.</p>
+<p>Adding Machine Learning Features with <code>{glmnet}</code> and Cross-Validation</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(glmnet)) <span class="fu">install.packages</span>(<span class="st">"glmnet"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>For <code>glmnet</code>, we need to input matrices rather than data frames, and create matrices for the independent variables (predictors) and the dependent variable (response).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>predictors <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(dalys_rabies <span class="sc">~</span> .,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">data =</span> dat)[, <span class="sc">-</span><span class="dv">1</span>] <span class="co"># Remove intercept</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> dat<span class="sc">$</span>dalys_rabies</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Use cross-validation to find the optimal lambda value, which controls the strength of the regularisation:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model with cross-validation</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>cv_model <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(predictors,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                      response,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"gaussian"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>cv_model</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:  cv.glmnet(x = predictors, y = response, family = "gaussian") </span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Measure: Mean-Squared Error </span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      Lambda Index Measure      SE Nonzero</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; min 0.09043    48 0.05662 0.01147       2</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1se 0.13120    44 0.06564 0.01192       2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Extracting the best model, we can see that <span class="math inline">\lambda</span> is 0.165.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the best lambda value</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>best_lambda <span class="ot">&lt;-</span> cv_model<span class="sc">$</span>lambda.min</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"Best Lambda:"</span>, best_lambda)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "Best Lambda: 0.0904304071218807"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And plot the lambda selection with the <code>plot()</code> function.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the lambda selection</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-glmnet-predictions" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Lambda Selection">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-glmnet-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-glmnet-predictions-1.png" class="img-fluid figure-img" alt="Lambda Selection" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-glmnet-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.5: Cross-Validation Optimal Lambda
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Then, fitting the final model with the selected best lambda, we can predict and evaluate the model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>final_model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(predictors,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                      response,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="st">"gaussian"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">lambda =</span> best_lambda)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict using the final model</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(final_model,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># values of the penalty parameter lambda</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">s =</span> best_lambda,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                       <span class="co"># matrix of new values for x</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">newx =</span> predictors</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                       )</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Mean Squared Error</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((response <span class="sc">-</span> predictions)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"Root Mean Squared Error:"</span>, rmse)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "Root Mean Squared Error: 0.224854043214572"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>By incorporating <code>glmnet</code> and using lambda selection via cross-validation, we introduce a <strong>machine learning feature—parameter calibration</strong> into our analysis. This approach not only helps in minimising overfitting but also enhances model performance by selecting the most effective regularisation parameter. The cross-validation process used here is crucial for confirming that our model’s parameters are optimally tuned for the given data, embodying a key aspect of machine learning methodologies.</p>
+<div id="fig-glmnet-predictions2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-glmnet-predictions2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-glmnet-predictions2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-glmnet-predictions2-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Predictions vs. Truth and Predictions vs. Truth by Year">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-glmnet-predictions2-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-glmnet-predictions2-1.png" class="img-fluid figure-img" data-ref-parent="fig-glmnet-predictions2" alt="Predictions vs. Truth and Predictions vs. Truth by Year" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-glmnet-predictions2-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Predictions vs.&nbsp;Truth
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-glmnet-predictions2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-glmnet-predictions2-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Predictions vs. Truth and Predictions vs. Truth by Year">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-glmnet-predictions2-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-glmnet-predictions2-2.png" class="img-fluid figure-img" data-ref-parent="fig-glmnet-predictions2" alt="Predictions vs. Truth and Predictions vs. Truth by Year" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-glmnet-predictions2-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Predictions vs.&nbsp;Truth by Year
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-glmnet-predictions2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.6: Predictions vs.&nbsp;Truth
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="testing-multiple-models" class="level3" data-number="7.4.7">
+<h3 data-number="7.4.7" class="anchored" data-anchor-id="testing-multiple-models"><span class="header-section-number">7.4.7</span> Testing Multiple Models</h3>
+<p>In the example above, we used two models to predict DALYs due to rabies, a random forest with <code>{tidymodels}</code> and a generalised linear model with <code>{glmnet}</code> with a Root Mean-Square Error of 0.448 and 0.257 respectively. The Random Forest model has a higher RMSE, which means it has a higher prediction error compared to the GLM model. However, we haven’t applied any of the preprocessing steps, and there are many other models that could be used to predict DALYs such as:</p>
+<ol type="1">
+<li><p><strong>Support Vector Machines (SVM)</strong>: SVMs are a powerful machine learning algorithm that can be used for both classification and regression tasks. They work by finding the hyperplane that best separates the data into different classes or groups.</p></li>
+<li><p><strong>Extreme Gradient Boosting (XGBoost)</strong>: Known for its high performance in various prediction tasks, XGBoost can handle missing values and is effective for large datasets.</p></li>
+<li><p><strong>K-Nearest Neighbours (KNN)</strong> models are a type of instance-based learning algorithm that stores all available cases and classifies new cases based on a similarity measure.</p></li>
+<li><p><strong>Long Short-Term Memory (LSTM) Networks</strong>: For temporal or sequential health data, LSTM networks can capture dependencies over time, making them suitable for time-series prediction of disease progression and outcomes.</p></li>
+</ol>
+<p>Each of these models has its own strengths and weaknesses, and the choice of model will depend on the specific characteristics of the data and the goals of the analysis. By testing multiple models and comparing their performance, we can identify the best model for the given data and task.</p>
+<p>Let’s use the <code>{parsnip}</code> package and the <code>workflow_set()</code> function to fit a set of models to the rabies data. We will fit a <strong>Support Vector Machine (SVM)</strong>, and a <strong>K-Nearest neighbours (KNN) model</strong> to the data and compare their performance.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>linear_reg_spec <span class="ot">&lt;-</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">mixture =</span> <span class="fu">tune</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>svm_p_spec <span class="ot">&lt;-</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">svm_poly</span>(<span class="at">cost =</span> <span class="fu">tune</span>(),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">degree =</span> <span class="fu">tune</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"kernlab"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>knn_spec <span class="ot">&lt;-</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nearest_neighbor</span>(<span class="at">neighbor =</span> <span class="fu">tune</span>(),</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dist_power =</span> <span class="fu">tune</span>(),</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">weight_func =</span> <span class="fu">tune</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"kknn"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rules)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(baguette)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine workflows into a workflow set</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>workflow_set <span class="ot">&lt;-</span> <span class="fu">workflow_set</span>(<span class="at">preproc =</span> <span class="fu">list</span>(<span class="at">scaled =</span> rec1,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">yeo_johnson =</span> rec2),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">models =</span> <span class="fu">list</span>(<span class="at">linear_reg =</span> linear_reg_spec,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">svm =</span> svm_p_spec,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">knn =</span> knn_spec))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>grid_ctrl <span class="ot">&lt;-</span><span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">parallel_over =</span> <span class="st">"everything"</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">save_workflow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit and evaluate the models with hyperparameter tuning</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>grid_results <span class="ot">&lt;-</span> workflow_set <span class="sc">%&gt;%</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow_map</span>(<span class="at">seed =</span> <span class="dv">1503</span>,</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">resamples =</span> folds,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">grid =</span> <span class="dv">5</span>,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">control =</span> grid_ctrl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the results</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>grid_results <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mean) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   wflow_id               .metric  mean std_err</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                  &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 yeo_johnson_svm        rmse    0.148  0.0168</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 yeo_johnson_knn        rmse    0.150  0.0331</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 yeo_johnson_knn        rmse    0.173  0.0271</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 yeo_johnson_svm        rmse    0.175  0.0177</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 yeo_johnson_linear_reg rmse    0.178  0.0239</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 yeo_johnson_linear_reg rmse    0.179  0.0243</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(grid_results,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">rank_metric =</span> <span class="st">"rmse"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">metric =</span> <span class="st">"rmse"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">select_best =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y =</span> mean <span class="sc">-</span> <span class="fl">0.1</span>, </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> wflow_id),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">angle =</span> <span class="dv">90</span>, </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">1</span>, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-model-performance" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Model Performance">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-model-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-techniques_files/figure-html/fig-model-performance-1.png" class="img-fluid figure-img" alt="Model Performance" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-model-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.7: Model Performance
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.5</span> Summary</h2>
+<p>The integration of machine learning techniques into public health data analysis can significantly enhance the predictive power and robustness of models. By leveraging the capabilities of machine learning algorithms, we can extract valuable insights from complex health data, enabling more informed decision-making and policy formulation in public health contexts. The examples provided in this chapter illustrate the application of machine learning techniques to health metrics data, demonstrating the importance of feature engineering, model selection, and parameter calibration in enhancing the predictive accuracy and relevance of models. By following best practices in machine learning, public health researchers and practitioners can harness the power of data-driven insights to address critical health challenges and improve population health outcomes.</p>
+<p><strong>Best Practices for Machine Learning in Public Health:</strong></p>
+<ul>
+<li>Conduct exploratory data analysis to understand the underlying structure of the data and relationships between variables.</li>
+<li>Apply feature engineering techniques to create new variables and enhance the model’s predictive power.</li>
+<li>Select machine learning models that are contextually appropriate and robust for public health data analysis. Such as Random Forest, Generalised Linear Models, and others.</li>
+<li>Use parameter calibration techniques such as cross-validation, regularisation, monte carlo, and grid search to optimise model performance.</li>
+<li>Evaluate model performance using appropriate metrics and visualisation tools to assess predictive accuracy and relevance.</li>
+</ul>
+<p>The integration of machine learning methodologies into public health data analysis represents a significant opportunity to advance the field of public health and enhance our understanding of health metrics and disease dynamics.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-butcher2020" class="csl-entry" role="listitem">
+Butcher, Brandon, and Brian J. Smith. <em>The American Statistician</em> 74, no. 3 (July 2020): 308–9. doi:<a href="https://doi.org/10.1080/00031305.2020.1790217">10.1080/00031305.2020.1790217</a>.
+</div>
+<div id="ref-cdc2024" class="csl-entry" role="listitem">
+CDC. <span>“About Rabies,”</span> May 14, 2024. <a href="https://www.cdc.gov/rabies/about/index.html">https://www.cdc.gov/rabies/about/index.html</a>.
+</div>
+<div id="ref-foreman2012" class="csl-entry" role="listitem">
+Foreman, Kyle J., Rafael Lozano, Alan D. Lopez, and Christopher JL Murray. <span>“Modeling Causes of Death: An Integrated Approach Using CODEm.”</span> <em>Population Health Metrics</em> 10, no. 1 (January 2012): 1. doi:<a href="https://doi.org/10.1186/1478-7954-10-1">10.1186/1478-7954-10-1</a>.
+</div>
+<div id="ref-hampson2015" class="csl-entry" role="listitem">
+Hampson, Katie, Laurent Coudeville, Tiziana Lembo, Maganga Sambo, Alexia Kieffer, Michaël Attlan, Jacques Barrat, et al. <span>“Estimating the Global Burden of Endemic Canine Rabies.”</span> <em>PLOS Neglected Tropical Diseases</em> 9, no. 4 (April 2015): e0003709. doi:<a href="https://doi.org/10.1371/journal.pntd.0003709">10.1371/journal.pntd.0003709</a>.
+</div>
+<div id="ref-rabies" class="csl-entry" role="listitem">
+<span>“Rabies,”</span> n.d. <a href="https://www.who.int/news-room/fact-sheets/detail/rabies">https://www.who.int/news-room/fact-sheets/detail/rabies</a>.
+</div>
+<div id="ref-silge" class="csl-entry" role="listitem">
+Silge, Max Kuhn, and Julia. <em>Tidy Modeling with r</em>, n.d. <a href="https://www.tmwr.org/">https://www.tmwr.org/</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Brandon Butcher and Brian J. Smith, <em>The American Statistician</em> 74, no. 3 (July 2020): 308–9, doi:<a href="https://doi.org/10.1080/00031305.2020.1790217">10.1080/00031305.2020.1790217</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>CDC, <span>“About Rabies,”</span> May 14, 2024, <a href="https://www.cdc.gov/rabies/about/index.html">https://www.cdc.gov/rabies/about/index.html</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Katie Hampson et al., <span>“Estimating the Global Burden of Endemic Canine Rabies,”</span> <em>PLOS Neglected Tropical Diseases</em> 9, no. 4 (April 2015): e0003709, doi:<a href="https://doi.org/10.1371/journal.pntd.0003709">10.1371/journal.pntd.0003709</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><span>“Rabies,”</span> n.d., <a href="https://www.who.int/news-room/fact-sheets/detail/rabies">https://www.who.int/news-room/fact-sheets/detail/rabies</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Max Kuhn Silge and Julia, <em>Tidy Modeling with r</em>, n.d., <a href="https://www.tmwr.org/">https://www.tmwr.org/</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Kyle J. Foreman et al., <span>“Modeling Causes of Death: An Integrated Approach Using CODEm,”</span> <em>Population Health Metrics</em> 10, no. 1 (January 2012): 1, doi:<a href="https://doi.org/10.1186/1478-7954-10-1">10.1186/1478-7954-10-1</a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fgazzelloni\.quarto\.pub\/hmsidr\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05-machine_learning.html" class="pagination-link" aria-label="Introduction to Machine Learning">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07-packages.html" class="pagination-link" aria-label="Essential R Packages for Machine Learning">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>Editor CRC Press - Chapman &amp; Hall | Taylor &amp; Francis Group</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/06-techniques.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Built with ❤︎️ and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

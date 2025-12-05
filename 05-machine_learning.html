@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Federica Gazzelloni">
+
+<title>6&nbsp; Introduction to Machine Learning – Health Metrics and the Spread of Infectious Diseases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06-techniques.html" rel="next">
+<link href="./04-causes_risks.html" rel="prev">
+<link href="./images/icons/pen-to-square-solid.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3f82c0c769e6123ec458e1781414e6ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J9YVQPL7W9"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J9YVQPL7W9', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script defer="" data-domain="" src=""></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./05-machine_learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Health Metrics and the Spread of Infectious Diseases</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Fgazzelloni/hmsidR" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Health Metrics</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-health_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-method_calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-causes_risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Machine Learning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-machine_learning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-techniques.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-predictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Data Visualization</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpreting Model Results Through Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-spatials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatial Data Modelling and Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Advanced Data Visualisation Techniques</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Infectious Diseases</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-infectious_diseases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to Infectious Diseases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-covid19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">COVID-19 Outbreaks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-malaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">The Case of Malaria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary: The State of Health</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Life Tables, Markov Chain and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Tools Used to Make This Book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Tips on Converting to Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#deterministic-and-stochastic-modelling" id="toc-deterministic-and-stochastic-modelling" class="nav-link active" data-scroll-target="#deterministic-and-stochastic-modelling"><span class="header-section-number">6.1</span> Deterministic and Stochastic Modelling</a></li>
+  <li><a href="#machine-learning-models" id="toc-machine-learning-models" class="nav-link" data-scroll-target="#machine-learning-models"><span class="header-section-number">6.2</span> Machine Learning Models</a>
+  <ul class="collapse">
+  <li><a href="#empirically-driven-models" id="toc-empirically-driven-models" class="nav-link" data-scroll-target="#empirically-driven-models"><span class="header-section-number">6.2.1</span> Empirically Driven Models</a></li>
+  <li><a href="#learning-methods" id="toc-learning-methods" class="nav-link" data-scroll-target="#learning-methods"><span class="header-section-number">6.2.2</span> Learning Methods</a></li>
+  <li><a href="#parameters-and-hyper-parameters" id="toc-parameters-and-hyper-parameters" class="nav-link" data-scroll-target="#parameters-and-hyper-parameters"><span class="header-section-number">6.2.3</span> Parameters and Hyper-parameters</a></li>
+  </ul></li>
+  <li><a href="#the-steps-of-building-a-model" id="toc-the-steps-of-building-a-model" class="nav-link" data-scroll-target="#the-steps-of-building-a-model"><span class="header-section-number">6.3</span> The Steps of Building a Model</a>
+  <ul class="collapse">
+  <li><a href="#example-cholera" id="toc-example-cholera" class="nav-link" data-scroll-target="#example-cholera"><span class="header-section-number">6.3.1</span> Example: Cholera</a></li>
+  <li><a href="#sec-05-epidemic-x" id="toc-sec-05-epidemic-x" class="nav-link" data-scroll-target="#sec-05-epidemic-x"><span class="header-section-number">6.3.2</span> Example: Epidemic X</a></li>
+  <li><a href="#example-epidemic-y" id="toc-example-epidemic-y" class="nav-link" data-scroll-target="#example-epidemic-y"><span class="header-section-number">6.3.3</span> Example: Epidemic Y</a></li>
+  </ul></li>
+  <li><a href="#measures-of-machine-learning-models" id="toc-measures-of-machine-learning-models" class="nav-link" data-scroll-target="#measures-of-machine-learning-models"><span class="header-section-number">6.4</span> Measures of Machine Learning Models</a>
+  <ul class="collapse">
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions"><span class="header-section-number">6.4.1</span> Loss Functions</a></li>
+  <li><a href="#evaluation-metrics" id="toc-evaluation-metrics" class="nav-link" data-scroll-target="#evaluation-metrics"><span class="header-section-number">6.4.2</span> Evaluation Metrics</a></li>
+  <li><a href="#public-health-loss-functions" id="toc-public-health-loss-functions" class="nav-link" data-scroll-target="#public-health-loss-functions"><span class="header-section-number">6.4.3</span> Public Health Loss Functions</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/05-machine_learning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./05-machine_learning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-05-machine_learning" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>“Human beings are not just passive victims of disease. They are active participants in the biological confrontation between man and microbe.”</strong></p>
+</blockquote>
+<p>This chapter will walk you through a basic construction of a machine learning model, providing a simple explanation of how to model fast-growing phenomena, such as in the case of the spread of infectious diseases. Then in the following chapters of this second section you will dive deep into different techniques for modelling starting from feature engineering to making predictions.</p>
+<section id="deterministic-and-stochastic-modelling" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="deterministic-and-stochastic-modelling"><span class="header-section-number">6.1</span> Deterministic and Stochastic Modelling</h2>
+<p>The spread of a virus can be seen as a <strong>random process</strong>, since the number of individuals who are infected at any given time can change randomly. The exact number of individuals who will be infected in the future cannot be determined with certainty, as it depends on various factors such as the contagiousness of the virus, the behaviour of individuals, and the efficacy of mitigation measures.</p>
+<p>A <strong>deterministic model</strong>, on the other hand, could be used to model the spread of a virus under certain conditions, such as a fixed number of individuals, constant contagiousness, and no mitigation measures. This type of model can be used to make predictions about the spread of a virus under certain assumptions, but it will not account for the randomness and uncertainty associated with real-world scenarios. In general, a <strong>stochastic process</strong>, or random process<span class="citation" data-cites="dobrow2016"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> is the type of model which attempts to replicate uncertain outcomes, using probabilities. On the other hand, in a <strong>deterministic system</strong> the outcome is obtained from a given input, and for this reason it is reproducible.</p>
+<p>Most models used to study the spread of a virus are a <strong>combination of both deterministic and stochastic models</strong>. For example, the SIR (Susceptible-Infected-Recovered) model is a deterministic model that describes the dynamics of the spread of a virus, but it also includes stochastic elements such as random interactions between individuals.</p>
+</section>
+<section id="machine-learning-models" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="machine-learning-models"><span class="header-section-number">6.2</span> Machine Learning Models</h2>
+<p>What a machine learning model is and how it differs from statistical models (deterministic and stochastic) is all a matter of parameter calibration. Understanding the differences between deterministic and stochastic models is crucial for effectively applying machine learning techniques, as it informs the selection of the appropriate modelling approach based on the data characteristics and analysis goals. Machine learning models learn from data to automatically adjust their parameters, optimising them to minimise errors or maximise performance on a given task. Compared to traditional statistical models, they are more flexible and adaptable to complex data patterns.</p>
+<p><strong>Machine Learning (ML)</strong> techniques are identified as subfields of the <strong>Artificial Intelligence (AI)</strong> technology, acting by learning relationships in the data. Learning from experience (E), ML computes tasks (T) to improve performance (P). The origins of ML, dating back to the late 1950s, only flourished in the 1990s with the aim of minimising loss on unseen samples.<span class="citation" data-cites="machine2024"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span></p>
+<div id="fig-ml-cycle" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Machine Learning Cycle" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ml-cycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/05_ml-image.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Machine Learning Cycle" width="404">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ml-cycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Machine Learning Cycle
+</figcaption>
+</figure>
+</div>
+<p>The <strong>Machine Learning Cycle</strong> is a continuous process that involves the following steps: data collection, data preprocessing, model selection, model training, model evaluation, and model deployment. The cycle is iterative, with each step informing the next, and the process is repeated until the desired performance is achieved. The goal of the Machine Learning cycle is to develop models that can make accurate predictions or decisions based on data.</p>
+<p>The emergence of infections is an ongoing evolution and adaptation.<span class="citation" data-cites="broemeling2021"><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> In the late 1970s, Dr.&nbsp;René Dubos believed that ‘<em>the relationship between humans and microbes is dynamic and influenced by various factors, including environmental conditions, human behaviour, and microbial adaptation</em>’. The importance of understanding the complex interactions between hosts and pathogens in the emergence and spread of infectious diseases is described as dynamic interplay between organisms and their environment, a <strong>process of continuous adaptation and interaction</strong>. Organisms continuously respond to changes in their surroundings to maintain balance and survival. This is analogous to what happens inside a machine learning model environment. It involves continuous parameter learning and adjustment achieved through a technique called tuning or parameter calibration, resulting in a range of possible alternative scenarios and simulations of the observed data.</p>
+<section id="empirically-driven-models" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="empirically-driven-models"><span class="header-section-number">6.2.1</span> Empirically Driven Models</h3>
+<p>To locate machine learning models within the models framework, we can think about the scope of the analysis, which in this case is predicting the future and preventing undesired outcomes.</p>
+<p>In particular, these types of models are subdivided in:</p>
+<ol type="1">
+<li><strong>Mechanistic Model</strong>: For example the SIR model is a <strong>classic compartmental model</strong> used to simulate the spread of infectious diseases. It divides the population into three compartments: susceptible <span class="math inline">(S)</span>, infectious <span class="math inline">(I)</span>, and recovered <span class="math inline">(R)</span>. The equations describe the rate of change of each compartment over time, where <span class="math inline">\beta</span> represents the transmission rate and <span class="math inline">\gamma</span> represents the recovery rate.</li>
+</ol>
+<p><span id="eq-sir-model-theory"><span class="math display">
+\text{SIR model } \left\{\begin{matrix}
+\begin{aligned}
+\frac{dS}{dt} =&amp; - \beta \cdot S \cdot I \\
+\frac{dI}{dt} =&amp; \beta \cdot S \cdot I - \gamma \cdot I \\
+\frac{dR}{dt} =&amp; \gamma \cdot I
+\end{aligned}
+\end{matrix}\right.
+\tag{6.1}</span></span></p>
+<ol start="2" type="1">
+<li><strong>Empirically Driven Model</strong>: Empirically driven models do not have explicit mathematical equations like mechanistic models. Instead, they <strong>learn patterns</strong> and relationships directly from data. An example of an empirically driven model is <strong>Random Forest</strong> which is a machine learning algorithm that builds multiple decision trees and combines their predictions to make accurate predictions. It works by splitting the data into subsets and building a decision tree for each subset. The final prediction is made by aggregating the predictions of all decision trees. Unlike mechanistic models, Random Forest does not rely on explicit equations or known relationships but instead learns patterns from the input data.</li>
+</ol>
+<p>Machine learning models fall under the category of <strong>empirically driven models</strong>. Unlike <strong>mechanistic models</strong>, which are based on explicit equations and known relationships between variables (such as the differential equations used in infectious disease modelling), machine learning models derive patterns and relationships directly from data without explicit knowledge of the underlying mechanisms. Therefore, while both mechanistic and empirically driven models are used for prediction, they operate on different principles:</p>
+<blockquote class="blockquote">
+<p><strong>Mechanistic models rely on known relationships and equations, while machine learning models learn patterns from data<span class="citation" data-cites="baker2018">.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span></strong></p>
+</blockquote>
+<p>Before delving deep into machine learning techniques for analysing health data and metrics, it’s essential to proceed step by step in building a modelling framework. This approach begins with a thorough understanding of the modelling procedures.</p>
+</section>
+<section id="learning-methods" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="learning-methods"><span class="header-section-number">6.2.2</span> Learning Methods</h3>
+<p>There are a variety of models available, and the decision on which model to use depends on the type of <strong>learning method</strong> either <strong>supervised</strong> or <strong>unsupervised</strong>. Supervised learning is applied when data are labelled, meaning that the dataset includes both the independent (predictors) and dependent (outcome) variables. It is the classical approach to machine learning, where the model learns to predict the outcome variable based on the input variables. Unsupervised learning, on the other hand, only includes the input variables, so there is no a direct objective, or a “response” variable to focus on. The model learns to find patterns and relationships in the data without explicit labels, making it useful for clustering and dimensionality reduction.</p>
+<p>The <strong>nature of the data</strong> is also fundamental, including whether the outcome is continuous or discrete, and whether the number of predictors exceeds the number of observations. Models can range from non-linear to multilevel, and they can involve more complex combinations. A major distinction is made between <strong>regression</strong> and <strong>classification</strong> based on whether the outcome variable is continuous.</p>
+<p><strong>Machine learning models</strong> are all types of models that can be all of the above but allow for: <strong>learning from data through model parameters auto-calibration</strong>. Learning from data is a process where an algorithm adjusts its parameters to minimise the errors in predictions. Each algorithm has its method of learning.</p>
+</section>
+<section id="parameters-and-hyper-parameters" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="parameters-and-hyper-parameters"><span class="header-section-number">6.2.3</span> Parameters and Hyper-parameters</h3>
+<p>In machine learning and statistical modelling, parameters and hyperparameters are two distinct concepts, each playing a crucial role in building and tuning models.</p>
+<p><strong>Parameters</strong> are the <strong>internal</strong> coefficients or weights that the model learns from the training data. These values are adjusted during the training process to minimise the loss function and improve the model’s accuracy. For instance, in a linear regression model, parameters include the <strong>slope coefficients</strong> and the <strong>intercept</strong> (<a href="#eq-lm" class="quarto-xref">Equation&nbsp;<span>6.3</span></a>). Parameters are optimised during the training phase using optimization algorithms that perform selection, mutation, and crossover of the <strong>coefficients</strong>. The goal is to find the set of parameters that best fit the training data.</p>
+<p><strong>Hyperparameters</strong> are the <strong>external</strong> settings of the model that can be redefined by the practitioner, or optimised using techniques such as grid search, random search, or more advanced methods like Bayesian optimization. This process involves evaluating model performance with different hyperparameter settings. Examples of hyperparameters are the sample size, the number of trees on a random forest model, the learning rate, the regularisation setting (<span class="math inline">\lambda</span> ) in ridge and lasso regression, and so on.</p>
+<p>More will be explained below, but it’s important to understand that creating a model might involve high-level calculations. This means progressing beyond a basic equation to include parameter selection and hyperparameter optimization. In particular, in the study of infectious diseases, the focus is on how variables will evolve over time. For this reason, selecting the appropriate model requires an understanding of the underlying patterns and dynamics of growth.</p>
+</section>
+</section>
+<section id="the-steps-of-building-a-model" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="the-steps-of-building-a-model"><span class="header-section-number">6.3</span> The Steps of Building a Model</h2>
+<p>The process of constructing a model that would be able to explain the relationships between dependent and independent variables in a given system is intended as model development. At the heart of this process is the application of a model function to estimate coefficients that minimise the difference between the model’s predictions and the observed data.</p>
+<div id="fig-model-building_flowchart" class="quarto-float quarto-figure quarto-figure-center anchored" alt="model-building process" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-model-building_flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/05_model_building_flowchart.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%" alt="model-building process">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-model-building_flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Model Building Process
+</figcaption>
+</figure>
+</div>
+<p>Let’s break this down further: Suppose we have a response variable, denoted as <span class="math inline">y</span>, which represents the number of deaths or infections in our dataset. Additionally, we have some other variables called predictors <span class="math inline">x_1, x_2, ...</span>, which are factors that may influence the level of <span class="math inline">y</span>. These predictors are selected based on the type of analyses, and could include factors such as demographics, secondary health outcomes (morbidity), population density, temperature, vaccination rates, etc. The goal of model development is to create a mathematical function that captures the relationship between the response variable <span class="math inline">y</span> (or dependent variable) responding to changes in predictor variables <span class="math inline">x_i</span> (or independent variables) within the study.</p>
+<p>This function, often referred to as the model equation or model function, is typically represented as:</p>
+<p><span id="eq-simple-model"><span class="math display">y = f(x_1, x_2, ...) + \epsilon \tag{6.2}</span></span></p>
+<p>Here, <span class="math inline">f</span> represents the relationship between the predictors and the response, and <span class="math inline">epsilon</span> represents the error term, which captures the difference between the observed values of <span class="math inline">y</span> and the values predicted by the model. To estimate the coefficients of the model function, we employ statistical techniques such as <strong>linear regression</strong> for continuous response variables, <strong>logistic regression</strong> for binary response variables, and various <strong>machine learning algorithms</strong> that include tuning parameters to handle more complex dataset and model specifications. These techniques analyse the relationship between the predictors and the response in the dataset and determine the optimal coefficients that minimise the difference between the observed <span class="math inline">(y)</span> values and the values predicted by the model <span class="math inline">(\hat y)</span> .</p>
+<p>Once the model coefficients are estimated, we can use the model function to predict future values of <span class="math inline">y</span> for new values of predictor variables <span class="math inline">x_i</span>. This allows us to simulate the effect of different scenarios or make predictions about future outcomes based on the relationships identified in the data. Overall, the model development process is a crucial step in the modelling framework, as it sets the foundation for understanding and analysing the relationships between variables in a given system. It enables us to extract insights from the data, make predictions, and inform decision-making in various fields, including epidemiology, public health, economics, and environmental science.</p>
+<section id="example-cholera" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="example-cholera"><span class="header-section-number">6.3.1</span> Example: Cholera</h3>
+<p>The first dataset used is from the <code>{HistData}</code> package <code>HistData::CholeraDeaths1849</code>, made of 730 observations and 6 variables, with 2 causes of deaths: cholera and diarrhoea. For this example we select just the deaths due to cholera within 12 months in 1849. Let’s have a look at the first 6 rows of the dataset:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>cholera <span class="ot">&lt;-</span> HistData<span class="sc">::</span>CholeraDeaths1849 <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause_of_death <span class="sc">==</span> <span class="st">"Cholera"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, deaths)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>cholera <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 2</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   date       deaths</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;date&gt;      &lt;dbl&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 1849-01-01     13</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 1849-01-02     19</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 1849-01-03     28</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 1849-01-04     24</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 1849-01-05     23</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 1849-01-06     39</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The response variable is <code>y = deaths</code> due to cholera, and the only predictor we are considering on this first step is <code>x = date</code> in days from 1849-01-01 to 1849-12-31. Let’s visualise our data by using the <code>{ggplot2}</code> package with <code>geom_line()</code> as layer.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cholera <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> deaths)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Deaths due to Cholera in London (1849)"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"N. deaths"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-cholera1849" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Deaths due to Cholera in London (1849)">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cholera1849-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-cholera1849-1.png" class="img-fluid figure-img" alt="Deaths due to Cholera in London (1849)" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cholera1849-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: Deaths due to Cholera in London (1849)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Now let’s observe in mathematical terms what happens when we start investigating the relationship between the response and the predictor, to explain the behaviour of the variables.</p>
+<p>The following mathematical formulation represent our observed data, where <span class="math inline">\beta_0</span> and <span class="math inline">\beta_1</span> are the parameters, respectively the intercept and the slope allowing the computation of the equivalence between <span class="math inline">y</span> and <span class="math inline">x</span> <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<p><span id="eq-lm"><span class="math display">
+y=\beta_0 + \beta_1 x
+\tag{6.3}</span></span></p>
+<p>When a model is attempted, the values of the slope <span class="math inline">(\beta_0)</span> and the intercept <span class="math inline">(\beta_1)</span> are estimated<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> in order to be able to replicate the values <span class="math inline">(y)</span> of the response by applying <span class="math inline">x</span> to our model function.</p>
+<p><span id="eq-lm-estimates"><span class="math display">
+\hat y = \hat \beta_0+\hat \beta_1x
+\tag{6.4}</span></span></p>
+<p>where <span class="math inline">\hat \beta_0</span> is the estimate value of the intercept, and <span class="math inline">\hat \beta_1</span> the estimated value of the slope. So, the estimated data will approximate the observed data, with some margin of error <span class="math inline">(\epsilon)</span>:</p>
+<p><span id="eq-model-error"><span class="math display">
+y \sim \hat y + \epsilon
+\tag{6.5}</span></span></p>
+<p>The difference between <span class="math inline">y</span> and <span class="math inline">\hat y</span> is the error we make when applying a model.</p>
+<p><span id="eq-error"><span class="math display">
+y- \hat y = \epsilon
+\tag{6.6}</span></span></p>
+<p>Reducing the error <span class="math inline">(\epsilon)</span> as much as possible can lead to better fit of the model.</p>
+<p>While the case of having just one predictor influencing our response variable might be useful for educational purposes, as illustrated in the data above, scenarios involving more than one predictor are more realistic and lead to increased complexity in the model function. This situation typically results in a multivariate linear model, often referred to as <strong>multiple linear regression</strong>.</p>
+<p><span id="eq-mlm"><span class="math display">y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n \tag{6.7}</span></span></p>
+<p>In this case more than one predictor is used to investigate the varying effects of the response variable. A compact form of the model function with more than one predictor can be stated as:</p>
+<p><span id="eq-mlm-compact"><span class="math display">
+y=\beta_0 + \sum_{i=1}^{p}{\beta_ix_i}= \beta_0+\beta X
+\tag{6.8}</span></span></p>
+<p>In this notation, the capital <span class="math inline">X</span> takes the form of a matrix containing various <span class="math inline">x_i</span>: <span class="math inline">X=(x_1,x_2,x_3,...,x_p)</span>, the predictors, and the <span class="math inline">\beta=(\beta_1,\beta_2,\beta_3,...,\beta_p)</span> are the coefficient to be estimated.</p>
+<blockquote class="blockquote">
+<p>Valuable insights into the trends and drivers of cholera mortality can be gained in order to inform public health interventions and policies aimed at reducing the burden of this disease.</p>
+</blockquote>
+<p>If we were to investigate this spread as we hadn’t seen before and looked at some point in time, let’s say in between June and August 1849 we could have thought that the trend was linear and growing in time. And actually is until some point, as we know what happened next. In the first plot the model line (blue line) is obtained with the <code>geom_smooth()</code> function with the specification <code>method = "lm"</code> . In the second plot we have used all data up to August, and we can clearly see the infections spread smoothly to finally explode shaping an elbow curve. The <code>geom_smooth()</code> selected the best function that suits the data with a <strong>locally estimated scatterplot smoothing</strong>, or <strong>LOESS</strong>, which is a nonparametric method for smoothing a series of data in which no assumptions are made about the underlying structure of the data.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cholera <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&gt;=</span> <span class="st">"1849-06-01"</span> <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="st">"1849-08-01"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> deaths)) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Deaths due to Cholera in London (June to August 1849)"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Linear Model"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"N. deaths"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>cholera <span class="sc">%&gt;%</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&lt;=</span> <span class="st">"1849-08-01"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> deaths)) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Deaths due to Cholera in London (January to August 1849)"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"method LOESS"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"N. deaths"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-cholera-section" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cholera-section-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-cholera-section" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-cholera-section-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Deaths due to Cholera in London (June to August 1849)">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-cholera-section-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-cholera-section-1.png" class="img-fluid figure-img" data-ref-parent="fig-cholera-section" alt="Deaths due to Cholera in London (June to August 1849)" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cholera-section-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Deaths due to Cholera in London (June to August 1849)
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-cholera-section" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-cholera-section-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Deaths due to Cholera in London (June to August 1849)">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-cholera-section-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-cholera-section-2.png" class="img-fluid figure-img" data-ref-parent="fig-cholera-section" alt="Deaths due to Cholera in London (June to August 1849)" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cholera-section-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Deaths due to Cholera in London (January to August 1849)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cholera-section-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: Deaths due to Cholera in London (1849)
+</figcaption>
+</figure>
+</div>
+<p>In the case of <code>CholeraDeaths1849</code>, and in the context of infectious diseases, the trend typically starts at a certain point, then increases to reach a peak—the highest level of infection spread—before eventually decreasing back to the initial level. This pattern is inherently <strong>non-linear</strong>.</p>
+<p>To visualise both linear and non-linear trends we can use a <code>geom_smooth()</code> function<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, with <code>method = "lm"</code> for linear model and <code>method = "gam"</code> for applying a <strong>general additive model</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cholera, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> deaths)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"gam"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">se =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-cholera1849-gam" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Deaths due to Cholera in London (1849)">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cholera1849-gam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-cholera1849-gam-1.png" class="img-fluid figure-img" alt="Deaths due to Cholera in London (1849)" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cholera1849-gam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.5: Deaths due to Cholera in London (1849)-GAM
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="gam---generalised-additive-model" class="level4" data-number="6.3.1.1">
+<h4 data-number="6.3.1.1" class="anchored" data-anchor-id="gam---generalised-additive-model"><span class="header-section-number">6.3.1.1</span> GAM - Generalised Additive Model</h4>
+<p>The purpose of creating a model is to identify underlying patterns within a series of observations. This requires the model to interpolate given observations in order to represent the overall pattern accurately. For instance, in the visualisation above, the blue line made with the <code>geom_smooth()</code> function, when specified with <code>method = "lm"</code>, helps us visualise the direction of a linear pattern in the data. However, it’s evident that the data points form a bell-shaped curve as distribution of deaths over time, indicating a non-linear relationship between date and cholera deaths. In the second layer we used <code>method= "gam"</code>, <strong>Generalised Additive Models (GAMs)</strong> flexible extensions of linear models, the most suitable choice for this data used to model non-linear relationships between the response and predictor variables. They are particularly useful when the relationship between the variables is complex and cannot be adequately captured by linear models.</p>
+<p><span id="eq-gam"><span class="math display">
+g(\mu) = \beta_0 + f(x)
+\tag{6.9}</span></span></p>
+<p>where: <span class="math inline">g()</span> is a link function, <span class="math inline">\mu</span> is the expected value of the response variable, <span class="math inline">\beta_0</span> is the intercept term, <span class="math inline">f()</span> represents the smooth functions of the predictor variable. In case of more than one predictor: <span class="math inline">g(\mu) = \beta_0 + f_1(x_{i1}+f_2(x_{i2}+f_3(x_{i3}+...)</span> there will be <span class="math inline">p=1,..,j</span> number of <span class="math inline">f()</span> smooth functions as many as the number of predictors.</p>
+<p>What is happening here is a transformation of the predictors through the application of a function: <span class="math inline">x \sim f(x)</span>. The smooth functions are estimated using non-parametric techniques such as splines (polynomial transformations) or kernel functions. These smooth functions allow for flexible modelling of the relationship between the predictor variables and the response variable, capturing non-linearities and complex patterns in the data. The link function <span class="math inline">g()</span> is typically chosen based on the distributional characteristics of the response variable, to represent the data mean trend.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the mgcv package</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># use the days instead of the full date</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>cholera<span class="sc">$</span>days <span class="ot">&lt;-</span> <span class="fu">row_number</span>(cholera)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a GAM using the gam() function</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>gam_model <span class="ot">&lt;-</span> <span class="fu">gam</span>(deaths <span class="sc">~</span> <span class="fu">s</span>(days), <span class="at">data =</span> cholera)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the summary of the GAM model</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_model)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Family: gaussian </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Link function: identity </span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Formula:</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; deaths ~ s(days)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Parametric coefficients:</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)  146.008      3.583   40.74   &lt;2e-16 ***</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Approximate significance of smooth terms:</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           edf Ref.df   F p-value    </span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; s(days) 8.969      9 431  &lt;2e-16 ***</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-sq.(adj) =  0.914   Deviance explained = 91.6%</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GCV = 4818.7  Scale est. = 4687      n = 365</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The smooth term for days is significant, as indicated by the approximate significance test. The effective degrees of freedom (edf) for the smooth term are 8.969, suggesting a moderately flexible relationship between deaths and time. The adjusted R-squared value is 0.914, indicating that the model explains approximately 91.4% of the variance in the response variable (deaths). The deviance explained is 91.6%, suggesting that the model fits the data well.</p>
+<p>Overall, the model suggests that there is a positive relationship between increasing time and the number of deaths due to cholera, with the number of deaths increasing over time to reach a peak and then eventually slow down to zero. However, it’s essential to consider the context of the data and potential confounding variables before drawing conclusions about causality or making predictions based solely on this model. Other important factors influencing the spread are social behaviour and vaccination. We will talk more about infectious diseases spread in section 4 <a href="13-infectious_diseases.html" class="quarto-xref"><span>Chapter 14</span></a>.</p>
+</section>
+</section>
+<section id="sec-05-epidemic-x" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="sec-05-epidemic-x"><span class="header-section-number">6.3.2</span> Example: Epidemic X</h3>
+<section id="seir-model" class="level4" data-number="6.3.2.1">
+<h4 data-number="6.3.2.1" class="anchored" data-anchor-id="seir-model"><span class="header-section-number">6.3.2.1</span> SEIR Model</h4>
+<p>In this example we simulate data of an epidemic to build a SEIR (susceptible, exposed, infected, recovered) model, a case a little more complicated than just making a SIR (susceptible, infected, recovered) model (<a href="#eq-sir-model-theory" class="quarto-xref">Equation&nbsp;<span>6.1</span></a>). More about the compartmental models will be shown in <a href="07-packages.html" class="quarto-xref"><span>Chapter 8</span></a>, <a href="13-infectious_diseases.html" class="quarto-xref"><span>Chapter 14</span></a> and in <a href="14-covid19.html" class="quarto-xref"><span>Chapter 15</span></a>.</p>
+<p>So, let’s start looking at how our simple linear equation <span class="math inline">y= \beta_0+\beta_1 x</span> can be changed to become a differential equation. A differential equation describes how a quantity changes with respect to another quantity, in particular time in this case. So, we are interested in the variation of <span class="math inline">y</span> within time.</p>
+<p><span id="eq-diff-eq"><span class="math display">
+{y}'=\frac{dy}{dt}= \frac{y_1 - y_0}{t_1-t_0}
+\tag{6.10}</span></span></p>
+<p>And this is explained by the variation of the predictors in time, the calculation is a derivative. Recall that the derivative of a constant is 0, in our case <span class="math inline">\beta_0</span> is the constant.</p>
+<p><span id="eq-lin-diff-eq"><span class="math display">
+\frac{dy}{dt}= \frac{d(\beta_0+\beta_1 x)}{dt}= \beta_1 \frac{dx}{dt}
+\tag{6.11}</span></span></p>
+<p>This equation describes how <span class="math inline">y</span> changes with respect to time <span class="math inline">t</span>, taking into account the rate of change of <span class="math inline">x</span> with respect to time <span class="math inline">t</span>, and the constant slope <span class="math inline">\beta_1</span> of the line.</p>
+<p><span id="eq-lin-diff-eq-2"><span class="math display">
+y'=\beta_1 \frac{dx}{dt}
+\tag{6.12}</span></span></p>
+<p>The <a href="#eq-lin-diff-eq-2" class="quarto-xref">Equation&nbsp;<span>6.12</span></a> will be used in the model to describe how individuals move between compartments over time.</p>
+<p>For this example we use a package named <code>{deSolve}</code> which solves differential equations.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required packages</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(deSolve) <span class="co"># For solving differential equations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We define a function for making the SEIR model, and its parameters. <span class="math inline">\beta</span> is the transmission rate, <span class="math inline">\sigma</span> the rate of latent individuals becoming infectious, and <span class="math inline">\gamma</span> the rate of recovery.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SEIR <span class="ot">&lt;-</span> <span class="cf">function</span>(time, state, parameters) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># variables need to be in a list</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with</span>(<span class="fu">as.list</span>(<span class="fu">c</span>(state, parameters)), {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameters</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    beta <span class="ot">&lt;-</span> parameters[<span class="dv">1</span>] <span class="co"># Transmission rate</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> parameters[<span class="dv">2</span>] <span class="co"># Rate of latent individuals becoming infectious</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    gamma <span class="ot">&lt;-</span> parameters[<span class="dv">3</span>] <span class="co"># Rate of recovery</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SEIR equations</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    dS <span class="ot">&lt;-</span> <span class="sc">-</span>beta <span class="sc">*</span> S <span class="sc">*</span> I <span class="sc">/</span> N</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    dE <span class="ot">&lt;-</span> beta <span class="sc">*</span> S <span class="sc">*</span> I <span class="sc">/</span> N <span class="sc">-</span> sigma <span class="sc">*</span> E</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    dI <span class="ot">&lt;-</span> sigma <span class="sc">*</span> E <span class="sc">-</span> gamma <span class="sc">*</span> I</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    dR <span class="ot">&lt;-</span> gamma <span class="sc">*</span> I</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return derivatives</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="fu">c</span>(dS, dE, dI, dR)))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then simulate starting parameters by assigning a value to them.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span> <span class="co"># Total population size</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fl">0.3</span> <span class="co"># Transmission rate</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="co"># Rate of latent individuals becoming infectious</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fl">0.05</span> <span class="co"># Rate of recovery</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Set an initial state and a time vector, let’s say 100 days.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>initial_state <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">S =</span> N <span class="sc">-</span> <span class="dv">1</span>, <span class="at">E =</span> <span class="dv">1</span>, <span class="at">I =</span> <span class="dv">0</span>, <span class="at">R =</span> <span class="dv">0</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Time vector</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>times <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Here we use the <code>ode()</code> function from the <code>{deSolve}</code> package for solving the differential equations in the the SEIR model function that we created above.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> deSolve<span class="sc">::</span><span class="fu">ode</span>(<span class="at">y =</span> initial_state,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">times =</span> times,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">func =</span> SEIR,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">parms =</span> <span class="fu">c</span>(<span class="at">beta =</span> beta,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">sigma =</span> sigma,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">gamma =</span> gamma))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The output is class “deSolve”, “matrix” :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(output)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "deSolve" "matrix"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>So, it needs to be converted to be a dataframe of time, susceptible, exposed, infected and recovered. All simulated values in 100 days of an epidemic.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(output)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulated_data)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   time        S         E          I           R</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    0 999.0000 1.0000000 0.00000000 0.000000000</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    1 998.9857 0.9186614 0.09324728 0.002384628</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    2 998.9452 0.8699953 0.17567358 0.009145043</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    3 998.8812 0.8483181 0.25070051 0.019828923</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5    4 998.7954 0.8493639 0.32110087 0.034138118</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6    5 998.6890 0.8699856 0.38915443 0.051899977</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This plot shows the simulated data of the SEIR model, with the number of susceptible, exposed, infectious, and recovered individuals over time. The number of susceptible individuals decreases over time as they become exposed and infected, while the number of exposed and infectious individuals increases before eventually decreasing as individuals recover from the infection.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot simulated data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(simulated_data, <span class="fu">aes</span>(<span class="at">x =</span> time)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> S, <span class="at">color =</span> <span class="st">"Susceptible"</span>)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> E, <span class="at">color =</span> <span class="st">"Exposed"</span>)) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> I, <span class="at">color =</span> <span class="st">"Infectious"</span>)) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> R, <span class="at">color =</span> <span class="st">"Recovered"</span>)) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Simulation of SEIR Model"</span>, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Susceptible"</span> <span class="ot">=</span> <span class="st">"navy"</span>, <span class="st">"Exposed"</span> <span class="ot">=</span> <span class="st">"orange"</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Infectious"</span> <span class="ot">=</span> <span class="st">"brown"</span>, <span class="st">"Recovered"</span> <span class="ot">=</span> <span class="st">"darkgreen"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-seir-simulation" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Simulation of SEIR Model">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seir-simulation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-seir-simulation-1.png" class="img-fluid figure-img" alt="Simulation of SEIR Model" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seir-simulation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.6: Simulation of SEIR Model: Susceptible, Exposed, Infectious, and Recovered individuals over Time interact with each other determining the scenario of the Epidemic. With the increase of the number of exposed and infectious individuals, the number of susceptible individuals decreases over time. The number of exposed and infectious individuals increases before eventually decreasing as individuals recover from the infection.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="random-forest" class="level4" data-number="6.3.2.2">
+<h4 data-number="6.3.2.2" class="anchored" data-anchor-id="random-forest"><span class="header-section-number">6.3.2.2</span> Random Forest</h4>
+<p>The next step is to calibrate this model by applying a machine learning algorithm. A <code>random forest</code> model is a type of model that uses an algorithm called <strong>ensemble learning</strong> to build multiple decision trees and combine their predictions to make accurate predictions. It works by splitting the data into subsets and building a decision tree for each subset. The final prediction is made by aggregating the predictions of all decision trees. Unlike mechanistic models, Random Forest does not rely on explicit equations or known relationships but instead learns patterns from the input data.</p>
+<p>The <code>randomForest()</code> function from the <code>{randomForest}</code> package is used to predict the number of new infections in the simulated data, and train the model to which some normally distributed noise is added to the simulated data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(simulated_data,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">noise =</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(simulated_data),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">mean =</span> <span class="dv">0</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">sd =</span> <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Simulated data are split into <strong>training</strong> and <strong>testing</strong> sets to train the model and evaluate its performance. What this means is that the model is trained on a subset of the data (the training set) and then tested on the remaining data (the testing set) to assess its predictive performance.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required packages</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(simulated_data), </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                      <span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">nrow</span>(simulated_data))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> simulated_data[train_index, ]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> simulated_data[<span class="sc">-</span>train_index, ]</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the Random Forest model - non machine learning yet!</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> I <span class="sc">~</span> .,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">round</span>(train_data)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the tree</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>reprtree<span class="sc">:::</span><span class="fu">plot.getTree</span>(rf_model, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">depth =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-seir-rf" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tree of Random Forest Model for Epidemic X">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seir-rf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-seir-rf-1.png" class="img-fluid figure-img" alt="Tree of Random Forest Model for Epidemic X" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seir-rf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.7: Tree of Random Forest Model for Epidemic X: The model splits the sample by determining the most probable number of infected individuals, using multiple decision trees to enhance accuracy. Each tree in the forest evaluates different features and criteria to make predictions, combining their outputs to form a consensus estimate. This approach helps to reduce overfitting and improve the robustness of the model in predicting the spread and impact of the epidemic.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It can be seen that the Random Forest model is trained on the simulated data, and the decision tree is built grouping the data into different categories, in this case the model uses the input variables (S, E, R, noise) with <code>depth = 4</code> to set the limit of the number of splits in the tree. Things can change with a different set of parameters, such as the number of trees, the number of variables to consider at each split, and the minimum number of data points required to split a node.</p>
+<p>To predict the number of new infections based on the input variables, the <code>predict()</code> function is used on the test set, and the Root Mean Squared Error (RMSE) is then calculated to evaluate the model’s performance. It quantifies how much the predicted values deviate from the actual values. The smaller the RMSE, the closer the predicted values are to the actual values, indicating a better predictive model performance. Conversely, a higher RMSE indicates a greater error between predicted and actual values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions on the test set</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test_data)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Root Mean Squared Error (RMSE)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>(rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test_data<span class="sc">$</span>I <span class="sc">-</span> predictions)<span class="sc">^</span><span class="dv">2</span>, <span class="at">na.rm =</span> T)))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7.400184</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This means that the model’s predictions deviate from the actual values by an average of 8.66 new infections. This value can be used to assess the model’s performance and identify areas for improvement.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(test_data, <span class="at">pred =</span> predictions) <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(I, pred)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Prediction of Infections for Epidemic X"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Simulate Data"</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Infections"</span>, <span class="at">y =</span> <span class="st">"Predicted values"</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(test_data, <span class="at">pred =</span> predictions) <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time)) <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> I)) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> pred), <span class="at">color =</span> <span class="st">"navy"</span>) <span class="sc">+</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Prediction of Infections for Epidemic X"</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Simulate Data"</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time (Day)"</span>, <span class="at">y =</span> <span class="st">"Obeserved vs Estimated values"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-seir-rf2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seir-rf2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-seir-rf2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-seir-rf2-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Prediction of Infections for Epidemic X">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-seir-rf2-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-seir-rf2-1.png" class="img-fluid figure-img" data-ref-parent="fig-seir-rf2" alt="Prediction of Infections for Epidemic X" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seir-rf2-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Prediction of Infections for Epidemic X
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-seir-rf2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-seir-rf2-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Prediction of Infections for Epidemic X">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-seir-rf2-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-seir-rf2-2.png" class="img-fluid figure-img" data-ref-parent="fig-seir-rf2" alt="Prediction of Infections for Epidemic X" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seir-rf2-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Observed vs Estimated values
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seir-rf2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.8: Prediction of Infections for Epidemic X: The model predicts the number of new infections based on the input variables, using the Random Forest algorithm to enhance accuracy. The plot shows the relationship between the observed and predicted values, with the line representing the ideal prediction where the observed and predicted values are equal. The Root Mean Squared Error (RMSE) is calculated to evaluate the model’s performance, with a lower RMSE indicating a better predictive model.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="optimization-with-tidymodels" class="level4" data-number="6.3.2.3">
+<h4 data-number="6.3.2.3" class="anchored" data-anchor-id="optimization-with-tidymodels"><span class="header-section-number">6.3.2.3</span> Optimization with Tidymodels</h4>
+<p>Random Forest model is a powerful machine learning algorithm that can be tuned to improve its performance. The <strong>tuning process</strong> involves selecting the optimal values for the hyperparameters of the model, such as in the case of a random forest model, the number of trees, the number of variables to consider at each split, and the minimum number of data points required to split a node. These hyperparameters can significantly impact the model’s performance, and tuning them can help improve the model’s accuracy and generalisation to new data.</p>
+<p>For this task we use the <code>{tidymodels}</code> package, a collection of packages for modelling and machine learning using the tidyverse principles. The <code>{tidymodels}</code> package provides a consistent interface for modelling tasks, making it easier to build, tune, and evaluate machine learning models.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dials)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidymodels_prefer</span>()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Spending data</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1231</span>) <span class="co"># Set seed for reproducibility</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(simulated_data, <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a resampling scheme: 5-fold cross-validation</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>cv_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(train_data, <span class="at">v =</span> <span class="dv">5</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a recipe for data preprocessing</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>data_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(I <span class="sc">~</span> ., <span class="at">data =</span> train_data) <span class="sc">%&gt;%</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_nzv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_numeric</span>())</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the Random Forest model</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>rf_ranger_model <span class="ot">&lt;-</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tuning parameters - Machine Learning Application</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rand_forest</span>(<span class="at">trees =</span> <span class="fu">tune</span>(),</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>              <span class="at">min_n =</span> <span class="fu">tune</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Automate tuning parameters is performed, in this case, using a Bayesian Optimization with the <code>tune_bayes()</code> function to specify the grid of hyperparameters to search over. You can specify the number of iterations and initial random points to start the optimization. The <code>tune_bayes()</code> function uses the <code>bayes_opt()</code> function from the <code>{tune}</code> package to perform the optimization.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayesian optimization</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>bayes_results <span class="ot">&lt;-</span> <span class="fu">tune_bayes</span>(rf_ranger_model,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                            data_recipe,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">resamples =</span> cv_folds,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, rsq),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                            <span class="co"># Number of initial random points</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">initial =</span> <span class="dv">5</span>, </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                            <span class="co"># Total iterations including initial points</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">iter =</span> <span class="dv">20</span>, </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">param_info =</span> <span class="fu">parameters</span>(rf_ranger_model))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Examine the results of the Bayesian optimization to identify the optimal hyperparameters for the Random Forest model. The <code>show_best()</code> function displays the best hyperparameters based on the optimization results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarise the tuning results</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(bayes_results, <span class="at">metric =</span> <span class="st">"rmse"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 9</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   trees min_n .metric .estimator   mean     n std_err .config .iter</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;int&gt;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1873     2 rmse    standard   0.0352     5 0.00844 Iter14     14</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1801     2 rmse    standard   0.0353     5 0.00855 Iter9       9</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1839     2 rmse    standard   0.0354     5 0.00832 Iter11     11</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1883     2 rmse    standard   0.0356     5 0.00831 Iter16     16</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1709     2 rmse    standard   0.0356     5 0.00863 Iter10     10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Extract the best parameters:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>best_bayes <span class="ot">&lt;-</span> <span class="fu">select_best</span>(bayes_results, <span class="at">metric =</span> <span class="st">"rmse"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>best_bayes</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 3</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   trees min_n .config</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;  </span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1873     2 Iter14</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Finally, we can use the best hyperparameters to train the Random Forest model on the training data and evaluate its performance on the test data. The <code>fit()</code> function fits the model using the best hyperparameters, and the <code>predict()</code> function makes predictions on the test data. We can then calculate the Root Mean Squared Error (RMSE) to evaluate the model’s performance.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Final model with best parameters</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>final_bayes_model <span class="ot">&lt;-</span> <span class="fu">finalize_model</span>(rf_ranger_model,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                                    best_bayes)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>final_fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(final_bayes_model,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">formula =</span> I <span class="sc">~</span> .,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> train_data)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict and evaluate on test data</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(final_fit, <span class="at">new_data =</span> test_data)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>augumented <span class="ot">&lt;-</span> <span class="fu">augment</span>(final_fit, <span class="at">new_data =</span> test_data)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>eval_metrics <span class="ot">&lt;-</span> <span class="fu">metrics</span>(<span class="at">estimate =</span> .pred,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">truth =</span> I,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> augumented)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>eval_metrics</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 3</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .metric .estimator .estimate</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 rmse    standard       4.21 </span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 rsq     standard       0.999</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 mae     standard       2.35</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Root Mean Squared Error (RMSE)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>err <span class="ot">&lt;-</span> (test_data<span class="sc">$</span>I <span class="sc">-</span> predictions<span class="sc">$</span>.pred)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(err, <span class="at">na.rm =</span> T))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"RMSE:"</span>, rmse)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "RMSE: 4.20689404543576"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>augumented <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(I, .pred)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Prediction of Infections for Epidemic X"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Simulate Data"</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Infections"</span>, <span class="at">y =</span> <span class="st">"Predicted values"</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>augumented <span class="sc">%&gt;%</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time)) <span class="sc">+</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> I)) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .pred), <span class="at">color =</span> <span class="st">"navy"</span>) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Prediction of Infections for Epidemic X"</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Simulate Data"</span>,</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time (Day)"</span>, <span class="at">y =</span> <span class="st">"Obesrved vs Estimated values"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-seir-rf-tune" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seir-rf-tune-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-seir-rf-tune" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-seir-rf-tune-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Prediction of Infections for Epidemic X">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-seir-rf-tune-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-seir-rf-tune-1.png" class="img-fluid figure-img" data-ref-parent="fig-seir-rf-tune" alt="Prediction of Infections for Epidemic X" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seir-rf-tune-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Prediction of Infections for Epidemic X
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-seir-rf-tune" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-seir-rf-tune-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Prediction of Infections for Epidemic X">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-seir-rf-tune-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-seir-rf-tune-2.png" class="img-fluid figure-img" data-ref-parent="fig-seir-rf-tune" alt="Prediction of Infections for Epidemic X" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seir-rf-tune-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Observed vs Estimated values
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seir-rf-tune-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.9: Prediction of Infections for Epidemic X
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="example-epidemic-y" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="example-epidemic-y"><span class="header-section-number">6.3.3</span> Example: Epidemic Y</h3>
+<section id="inla-an-empirical-bayes-approach-to-gams" class="level4" data-number="6.3.3.1">
+<h4 data-number="6.3.3.1" class="anchored" data-anchor-id="inla-an-empirical-bayes-approach-to-gams"><span class="header-section-number">6.3.3.1</span> INLA: An Empirical Bayes Approach to GAMs</h4>
+<p>In this example is a simulation of an epidemic in 100 days based on temperature level and number of cases simulated with a random poisson distribution.</p>
+<p>The model used is the <strong>INLA - integrated nested Laplace approximation</strong><span class="citation" data-cites="approxim"><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span> model, an excellent choice for applications requiring repeated model fitting. The INLA approach is particularly useful for fitting complex models, such as Generalised additive models (GAMs), which involve non-linear relationships between predictors and the response variable.</p>
+<p><span id="eq-inla-model"><span class="math display">
+y_i=\beta_0+\sum_{j=1}^n{f_j(x_{i,j})}+\epsilon_i
+\tag{6.13}</span></span></p>
+<p><span id="eq-inla-smooth"><span class="math display">
+f_j(x_{i,j})=\sum_{k=1}^p\beta_{j,k}B_{j,k}(x_{i,j})
+\tag{6.14}</span></span></p>
+<p>where <span class="math inline">y_i</span> represent the response vector of observations, <span class="math inline">f_j(x_{i,j})</span> the smooth function of the predictors (random effects), <span class="math inline">B_{j,k}</span> basis function such as splines, <span class="math inline">\beta_0</span> and <span class="math inline">\beta_j</span> the intercept and the coefficients respectively. While <span class="math inline">\epsilon_i</span> is the error term with a Gaussian distribution:</p>
+<p><span id="eq-inla-error"><span class="math display">
+\epsilon_i \sim Norm(0,\sigma^2)
+\tag{6.15}</span></span></p>
+<p>Used as:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>INLA<span class="sc">::</span><span class="fu">inla</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> ... <span class="sc">+</span> xn, <span class="at">data =</span> data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>It is also a valid alternative to <strong>Markov Chain Monte Carlo (MCMC)</strong> methods used to compute the joint posterior distribution of the model parameters<span class="citation" data-cites="markovc1995"><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span> - (<a href="appendixB.html" class="quarto-xref"><span>Appendix B</span></a>). Due to the deterministic nature of its approximations, the use of a <strong>Laplacian approximation</strong> to estimate the individual posterior marginals of the model parameters, allows for faster computation, and more efficient estimation of the posterior distribution, making it a popular choice for Bayesian inference in large-scale applications. However, it’s worth noting that for very complex models or those with multi-modal posteriors, MCMC might still be preferred due to its flexibility and ability to characterise the entire posterior distribution.</p>
+<p>In INLA, each of GAMs components are treated as random effects with specific prior distributions (typically Gaussian). The smoothness of these effects is controlled by hyperparameters, which INLA estimates from the data. The model is then fitted using the <code>{INLA}</code> package, which provides a fast and efficient way to estimate the posterior distribution of the model parameters.</p>
+<p>Let’s assume new <code>epidemic_data</code> with columns <code>day</code>, <code>cases</code>, and <code>temperature.</code> To model the number of cases as a function of time and temperature, considering a non-linear effect of time using a <strong>random walk model</strong> (<code>model = "rw2"</code>) and a linear effect of temperature:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"INLA"</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">repos =</span> <span class="fu">c</span>(<span class="fu">getOption</span>(<span class="st">"repos"</span>),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">INLA =</span> <span class="st">"https://inla.r-inla-download.org/R/stable"</span>),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dep =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data creation</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>epidemic_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">day =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">temperature =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">20</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases =</span> <span class="fu">rpois</span>(<span class="dv">100</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">lambda =</span> <span class="dv">10</span> <span class="sc">+</span> <span class="fu">sin</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> <span class="sc">/</span> <span class="dv">20</span>) <span class="sc">*</span> <span class="dv">10</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                                                           <span class="at">sd =</span> <span class="dv">5</span>)))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the model formula</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>formula <span class="ot">&lt;-</span> cases <span class="sc">~</span> <span class="fu">f</span>(day, <span class="at">model =</span> <span class="st">"rw2"</span>) <span class="sc">+</span> temperature</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model using INLA</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">inla</span>(formula,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">"poisson"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> epidemic_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of the results</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>summary.fixed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The model summary shows the estimated coefficients for the fixed effects of the model, including the intercept and the effect of temperature. The estimated coefficients represent the average effect of each predictor on the response variable, accounting for the non-linear effect of time and the linear effect of temperature. The summary also includes the standard errors and 95% credible intervals for each coefficient, providing a measure of uncertainty around the estimates.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>summary.hyperpar <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Precision for day</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mean               23176.059</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sd                 14734.793</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.025quant          4473.789</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.5quant           19952.248</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.975quant         60407.982</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mode               13533.496</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting the fitted values and the effect of time</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>time_effect <span class="ot">&lt;-</span> result<span class="sc">$</span>summary.random<span class="sc">$</span>day</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>fitted_values <span class="ot">&lt;-</span> result<span class="sc">$</span>summary.fitted.values</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a data frame for plotting</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Day =</span> epidemic_data<span class="sc">$</span>day,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">FittedCases =</span> fitted_values<span class="sc">$</span>mean,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Lower =</span> fitted_values<span class="sc">$</span><span class="st">`</span><span class="at">0.025quant</span><span class="st">`</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Upper =</span> fitted_values<span class="sc">$</span><span class="st">`</span><span class="at">0.975quant</span><span class="st">`</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the results</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> Day)) <span class="sc">+</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Lower, <span class="at">ymax =</span> Upper),</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill =</span> <span class="st">"lightblue"</span>,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> FittedCases),</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Fitted GAM for Epidemic Y"</span>,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Day"</span>, <span class="at">y =</span> <span class="st">"Fitted number of cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-epidemic-y" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Fitted GAM for Epidemic Y">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-epidemic-y-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="05-machine_learning_files/figure-html/fig-epidemic-y-1.png" class="img-fluid figure-img" alt="Fitted GAM for Epidemic Y" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-epidemic-y-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.10: Fitted GAM for Epidemic Y: The plot shows the fitted values of the GAM model for Epidemic Y, with the shaded area representing the 95% credible interval around the mean estimate. The blue line represents the mean estimate of the number of cases over time, capturing the non-linear trend in the data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The <code>inla()</code> function allows a model specification, in this case a <code>Poisson</code> is used and a formula. The non-linear effect is a second-order random walk <code>model = "rw2"</code>, a statistical modelling approach used to represent a type of prior commonly used in Bayesian modelling for time series or spatial data where you expect smoothness and some degree of continuity between adjacent observations. In particular, GAMs are used to capture non-linear trends by fitting smooth, flexible functions to the data. These functions can be represented through various basis functions, and a second-order random walk is one such basis function. The random walk model assumes that the values of the response variable are correlated with their neighbours, creating a smooth, continuous effect over time.</p>
+</section>
+</section>
+</section>
+<section id="measures-of-machine-learning-models" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="measures-of-machine-learning-models"><span class="header-section-number">6.4</span> Measures of Machine Learning Models</h2>
+<p>To evaluate the performance of machine learning models, the loss function and the evaluation metrics are used to assess how well the model generalizes to new, unseen data. The loss function quantifies the discrepancy between the predicted outcomes and the actual values, providing a measure of the model’s performance. The evaluation metrics, such as accuracy, precision, recall, and F1 score, provide additional insights into the model’s performance and can help identify areas for improvement.</p>
+<section id="loss-functions" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="loss-functions"><span class="header-section-number">6.4.1</span> Loss Functions</h3>
+<blockquote class="blockquote">
+<p>The <strong>loss function</strong> is a method for evaluating how well a machine learning algorithm model features a dataset. The <strong>cost function</strong> is the average of all loss function values.</p>
+</blockquote>
+<p>The accuracy of predictive models is checked with <strong>loss functions</strong>, which measure the discrepancy between the predicted outcomes and the actual values. This adjustment of the model learning process is performed through iterative adjustments of the model parameters with the objective to improve the model’s performance.</p>
+<p>Models are trained to a specific loss function that guides the optimization process and quantifies the model performance.</p>
+<section id="regression-loss-functions" class="level4" data-number="6.4.1.1">
+<h4 data-number="6.4.1.1" class="anchored" data-anchor-id="regression-loss-functions"><span class="header-section-number">6.4.1.1</span> Regression Loss Functions</h4>
+<p>Regression loss functions are for regression tasks where the prediction involves continuous numbers, and include:</p>
+<ul>
+<li><strong>Mean Squared Error (MSE):</strong> MSE calculates the average of the squares of the errors, i.e., the average squared difference between the estimated values and the actual value. This loss function is sensitive to outliers as it squares the errors before averaging them.</li>
+</ul>
+<p><span id="eq-mse"><span class="math display">MSE=\frac{1}{n}\sum_{i=1}^{n}{(\hat{Y_i}-Y_i)^2} \tag{6.16}</span></span></p>
+<ul>
+<li><strong>Mean Absolute Error (MAE):</strong> MAE measures the average magnitude of the errors in a set of predictions, without considering their direction (i.e., it averages the absolute differences between predictions and actual outcomes). Unlike MSE, MAE is not overly sensitive to outliers, making it suitable for datasets with anomalies.</li>
+</ul>
+<p><span id="eq-mae"><span class="math display">MAE=\frac{1}{n}\sum_{i=1}^{n}{|\hat{Y_i}-Y_i|} \tag{6.17}</span></span></p>
+<ul>
+<li><strong>Mean Squared Logarithmic Error (MSLE):</strong> MSLE is useful when targeting a regression model to predict exponential growth. By taking the log of the predictions and actual values, MSLE transforms the target variable to reduce the skew of the distribution, which can lead to more stable predictions across a range of values.</li>
+</ul>
+<p><span id="eq-msle"><span class="math display">MSLE=\frac{1}{n}\sum_{i=1}^{n}{(log(\hat{Y_i}+1)-log(Y_i+1))^2} \tag{6.18}</span></span></p>
+</section>
+<section id="classification-loss-functions" class="level4" data-number="6.4.1.2">
+<h4 data-number="6.4.1.2" class="anchored" data-anchor-id="classification-loss-functions"><span class="header-section-number">6.4.1.2</span> Classification Loss Functions</h4>
+<p>Classification loss functions are for classification tasks, where the output is categorical, typical loss functions include:</p>
+<ul>
+<li><strong>Binary Cross-Entropy:</strong> Also known as log loss, this function measures the performance of a classification model whose output is a probability value between 0 and 1. It is particularly useful for binary classification tasks.</li>
+</ul>
+<p><span id="eq-bincv"><span class="math display">L=-\frac{1}{m}\sum_{i=1}^{m}{(y_i*log(\hat{y_i})+(1-y)log(1-\hat{y}))} \tag{6.19}</span></span></p>
+<ul>
+<li><strong>Hinge Loss:</strong> Often used with Support Vector Machines (SVMs), hinge loss evaluates the margin of classification errors, providing a penalty for miss-classified points to improve model accuracy.</li>
+</ul>
+<p><span id="eq-hloss"><span class="math display">
+L=max(0,1-y*f(x))
+\tag{6.20}</span></span></p>
+<p><strong>Choosing the right loss function:</strong> The selection of a suitable loss function depends on the specific characteristics of the data and the model application. For instance, if predicting precise values is crucial and the data range is wide, MSE might be appropriate. Conversely, for models where the prediction scale is logarithmic or the data contains many outliers, MSLE or MAE could be more effective.</p>
+<p>The choice of a loss function is not merely a technical decision but a strategic one, affecting how a model learns and performs on unseen data. Each loss function has its strengths and trade-offs, making it vital for practitioners to understand their implications thoroughly. Understanding these measures and how they influence model training and predictions can greatly enhance the effectiveness of machine learning applications.</p>
+</section>
+</section>
+<section id="evaluation-metrics" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="evaluation-metrics"><span class="header-section-number">6.4.2</span> Evaluation Metrics</h3>
+<p>While loss functions are used during the training process to guide the optimization of the model parameters, <strong>evaluation metrics</strong> measure how well the model’s predictions align with the actual outcomes, providing a signal to adjust the model.</p>
+<section id="regression-evaluation-metrics" class="level4" data-number="6.4.2.1">
+<h4 data-number="6.4.2.1" class="anchored" data-anchor-id="regression-evaluation-metrics"><span class="header-section-number">6.4.2.1</span> Regression Evaluation Metrics</h4>
+<p>For regression tasks, the following metrics are commonly used to assess the model’s predictive performance:</p>
+<ul>
+<li><strong>Root Mean Squared Error (RMSE):</strong> A measure of the average deviation between predicted and actual values, calculated as the square root of the average of the squared differences between predicted and actual values. It is commonly used in regression tasks to assess the model’s predictive accuracy.</li>
+</ul>
+<p><span id="eq-rmse"><span class="math display">RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y_i})^2} \tag{6.21}</span></span></p>
+<ul>
+<li><strong>R-squared (R2):</strong> A statistical measure of how well the model fits the data, indicating the proportion of variance in the dependent variable that is explained by the independent variables. It ranges from 0 to 1, with higher values indicating a better fit.</li>
+</ul>
+<p><span id="eq-r2"><span class="math display">R^2 = 1 - \frac{SS_{residual}}{SS_{total}} \tag{6.22}</span></span></p>
+<ul>
+<li><strong>Adjusted R-squared:</strong> A modified version of R-squared that adjusts for the number of predictors in the model, providing a more accurate measure of the model’s goodness of fit. It penalises the addition of unnecessary predictors that do not improve the model’s performance.</li>
+</ul>
+<p><span id="eq-adjr2"><span class="math display">Adjusted R^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1} \tag{6.23}</span></span></p>
+</section>
+<section id="classification-evaluation-metrics" class="level4" data-number="6.4.2.2">
+<h4 data-number="6.4.2.2" class="anchored" data-anchor-id="classification-evaluation-metrics"><span class="header-section-number">6.4.2.2</span> Classification Evaluation Metrics</h4>
+<p>For classification tasks, the following metrics are commonly used to evaluate the model’s performance:</p>
+<ul>
+<li><strong>Accuracy:</strong> The proportion of correctly classified instances out of the total instances in the dataset. It is a simple and intuitive measure of a model’s performance, but it may not be suitable for imbalanced datasets.</li>
+</ul>
+<p><span id="eq-acc"><span class="math display">Accuracy = \frac{TP + TN}{TP + TN + FP + FN} \tag{6.24}</span></span></p>
+<ul>
+<li><strong>Precision:</strong> The proportion of true positive predictions out of all positive predictions made by the model. It is a measure of the model’s ability to avoid false positives.</li>
+</ul>
+<p><span id="eq-precision"><span class="math display">Precision = \frac{TP}{TP + FP} \tag{6.25}</span></span></p>
+<ul>
+<li><strong>Recall (Sensitivity):</strong> The proportion of true positive predictions out of all actual positive instances in the dataset. It is a measure of the model’s ability to identify all positive instances.</li>
+</ul>
+<p><span id="eq-recall"><span class="math display">Recall = \frac{TP}{TP + FN} \tag{6.26}</span></span></p>
+<ul>
+<li><p><strong>Confusion Matrix:</strong> A table that summarises the performance of a classification model, showing the number of true positive (TP), true negative (TN), false positive (FP), and false negative (FN) predictions. It is used to calculate metrics such as accuracy, precision, recall, and specificity.</p></li>
+<li><p><strong>F1 Score:</strong> The harmonic mean of precision and recall, providing a balanced measure of a model’s performance. It is particularly useful when dealing with imbalanced datasets.</p></li>
+</ul>
+<p><span id="eq-f1"><span class="math display">F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall} \tag{6.27}</span></span></p>
+<ul>
+<li><strong>Receiver Operating Characteristic (ROC) Curve:</strong> A graphical representation of the trade-off between true positive rate (sensitivity) and false positive rate (1-specificity) across different threshold values. It is used to evaluate the performance of binary classification models.</li>
+</ul>
+<p><span id="eq-tpr"><span class="math display">TPR = \frac{TP}{TP + FN}; \text{ }FPR = \frac{FP}{FP + TN} \tag{6.28}</span></span></p>
+<ul>
+<li><strong>Area Under the Curve (AUC):</strong> The area under the ROC curve, which provides a single value to summarise the model’s performance. An AUC of 0.5 indicates a random classifier, while an AUC of 1.0 indicates a perfect classifier.</li>
+</ul>
+<p><span id="eq-auc"><span class="math display">AUC = \int_{0}^{1} TPR(FPR) dFPR \tag{6.29}</span></span></p>
+<p>These are only a few of the most common loss functions and evaluation metrics able to provide insights into the model’s performance to generalize to new data and make accurate predictions.</p>
+</section>
+</section>
+<section id="public-health-loss-functions" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="public-health-loss-functions"><span class="header-section-number">6.4.3</span> Public Health Loss Functions</h3>
+<blockquote class="blockquote">
+<p>“The public may be less interested in environmental quality than in economic prosperity.” Dubos</p>
+</blockquote>
+<p>In the field of public health the measures of cost like mortality and morbidity are used to evaluate the outcome of health and well-being of a population.</p>
+<p>The most common analyses methods are<span class="citation" data-cites="hult2021">:<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span></p>
+<ul>
+<li>Cost-utility, using quality-adjusted life years (QALYs)</li>
+<li>Cost-effectiveness, for specific outcomes, such as life expectancy or medical outcomes.</li>
+</ul>
+<p>As mentioned in the history of health metrics (<a href="01-health_metrics.html" class="quarto-xref"><span>Chapter 2</span></a>), the cost-utility framework has been employed for calculating QALYs. Over time, this measure has been criticised for potentially discriminating against certain disabilities in the population by assigning costs that were perceived as either too high or too low, and for failing to capture the full spectrum of human health conditions.</p>
+<p>Moreover, comprehensive tools that assess the impacts through cost-effectiveness measures to estimate the effectiveness of health interventions should also include a measure of disability. The measure of DALYs (Disability-Adjusted Life Years), developed in 1993, took major consideration of the disability status in evaluating the well-being of a population. It was further enhanced by incorporating a layer based on disability weights.</p>
+<p>In summary, the measures for a cost-effectiveness intervention involve a careful calibration of following components: mortality, morbidity, and disability.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-approxim" class="csl-entry" role="listitem">
+<span>“Approximate Bayesian Inference for Latent Gaussian Models by Using Integrated Nested Laplace Approximations - Rue - 2009 - Journal of the Royal Statistical Society: Series b (Statistical Methodology) - Wiley Online Library,”</span> n.d. <a href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1467-9868.2008.00700.x">https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1467-9868.2008.00700.x</a>.
+</div>
+<div id="ref-baker2018" class="csl-entry" role="listitem">
+Baker, Ruth E., Jose-Maria Peña, Jayaratnam Jayamohan, and Antoine Jérusalem. <span>“Mechanistic Models Versus Machine Learning, a Fight Worth Fighting for the Biological Community?”</span> <em>Biology Letters</em> 14, no. 5 (May 16, 2018): 20170660. doi:<a href="https://doi.org/10.1098/rsbl.2017.0660">10.1098/rsbl.2017.0660</a>.
+</div>
+<div id="ref-broemeling2021" class="csl-entry" role="listitem">
+Broemeling, Lyle D. <em>Bayesian Analysis of Infectious Diseases: COVID-19 and Beyond</em>. New York: Chapman; Hall/CRC, 2021. doi:<a href="https://doi.org/10.1201/9781003125983">10.1201/9781003125983</a>.
+</div>
+<div id="ref-dobrow2016" class="csl-entry" role="listitem">
+Dobrow, Robert P. <em>Introduction to Stochastic Processes with R</em>. John Wiley &amp; Sons, 2016.
+</div>
+<div id="ref-markovc1995" class="csl-entry" role="listitem">
+Gilks, W. R., S. Richardson, and David Spiegelhalter, eds. <em>Markov Chain Monte Carlo in Practice</em>. Chapman; Hall/CRC, 1995. doi:<a href="https://doi.org/10.1201/b14835">10.1201/b14835</a>.
+</div>
+<div id="ref-hult2021" class="csl-entry" role="listitem">
+Hult, Marja, Olli Halminen, Miika Linna, Sakari Suominen, and Mari Kangasniemi. <span>“Cost-Effectiveness Calculators for Health, Well-Being and Safety Promotion: A Systematic Review.”</span> <em>The European Journal of Public Health</em> 31, no. 5 (May 10, 2021): 997–1003. doi:<a href="https://doi.org/10.1093/eurpub/ckab068">10.1093/eurpub/ckab068</a>.
+</div>
+<div id="ref-machine2024" class="csl-entry" role="listitem">
+<span>“Machine Learning.”</span> <em>Wikipedia</em>, April 2024. <a href="https://en.wikipedia.org/w/index.php?title=Machine_learning&amp;oldid=1220758567">https://en.wikipedia.org/w/index.php?title=Machine_learning&amp;oldid=1220758567</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Robert P. Dobrow, <em>Introduction to Stochastic Processes with R</em> (John Wiley &amp; Sons, 2016).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span>“Machine Learning,”</span> <em>Wikipedia</em>, April 2024, <a href="https://en.wikipedia.org/w/index.php?title=Machine_learning&amp;oldid=1220758567">https://en.wikipedia.org/w/index.php?title=Machine_learning&amp;oldid=1220758567</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Lyle D. Broemeling, <em>Bayesian Analysis of Infectious Diseases: COVID-19 and Beyond</em> (New York: Chapman; Hall/CRC, 2021), doi:<a href="https://doi.org/10.1201/9781003125983">10.1201/9781003125983</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Ruth E. Baker et al., <span>“Mechanistic Models Versus Machine Learning, a Fight Worth Fighting for the Biological Community?”</span> <em>Biology Letters</em> 14, no. 5 (May 16, 2018): 20170660, doi:<a href="https://doi.org/10.1098/rsbl.2017.0660">10.1098/rsbl.2017.0660</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>We can compare this formulation to a general <span class="math inline">Y=a+mx</span> linear function. In our case <span class="math inline">a</span> would be the intercept and <span class="math inline">m</span> the slope of the line that will summarise the information between <span class="math inline">y</span> and <span class="math inline">x</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>The hat (^) on top of the variables indicates the values are estimated.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>More about data visualisations techniques are in chapter <a href="09-data_visualization.html" class="quarto-xref"><span>Chapter 10</span></a>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><span>“Approximate Bayesian Inference for Latent Gaussian Models by Using Integrated Nested Laplace Approximations - Rue - 2009 - Journal of the Royal Statistical Society: Series b (Statistical Methodology) - Wiley Online Library,”</span> n.d., <a href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1467-9868.2008.00700.x">https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1467-9868.2008.00700.x</a>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>W. R. Gilks, S. Richardson, and David Spiegelhalter, eds., <em>Markov Chain Monte Carlo in Practice</em> (Chapman; Hall/CRC, 1995), doi:<a href="https://doi.org/10.1201/b14835">10.1201/b14835</a>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Marja Hult et al., <span>“Cost-Effectiveness Calculators for Health, Well-Being and Safety Promotion: A Systematic Review,”</span> <em>The European Journal of Public Health</em> 31, no. 5 (May 10, 2021): 997–1003, doi:<a href="https://doi.org/10.1093/eurpub/ckab068">10.1093/eurpub/ckab068</a>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fgazzelloni\.quarto\.pub\/hmsidr\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04-causes_risks.html" class="pagination-link" aria-label="Causes and Risks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06-techniques.html" class="pagination-link" aria-label="Techniques for Machine Learning Applications">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>Editor CRC Press - Chapman &amp; Hall | Taylor &amp; Francis Group</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/05-machine_learning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Built with ❤︎️ and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

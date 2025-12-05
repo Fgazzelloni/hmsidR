@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Federica Gazzelloni">
+
+<title>5&nbsp; Causes and Risks – Health Metrics and the Spread of Infectious Diseases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05-machine_learning.html" rel="next">
+<link href="./03-components.html" rel="prev">
+<link href="./images/icons/pen-to-square-solid.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3f82c0c769e6123ec458e1781414e6ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J9YVQPL7W9"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J9YVQPL7W9', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script defer="" data-domain="" src=""></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-health_metrics.html"><strong>Health Metrics</strong></a></li><li class="breadcrumb-item"><a href="./04-causes_risks.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Health Metrics and the Spread of Infectious Diseases</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Fgazzelloni/hmsidR" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Health Metrics</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-health_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-method_calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-causes_risks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Machine Learning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-techniques.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-predictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Data Visualization</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpreting Model Results Through Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-spatials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatial Data Modelling and Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Advanced Data Visualisation Techniques</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Infectious Diseases</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-infectious_diseases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to Infectious Diseases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-covid19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">COVID-19 Outbreaks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-malaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">The Case of Malaria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary: The State of Health</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Life Tables, Markov Chain and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Tools Used to Make This Book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Tips on Converting to Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#conditions-and-injuries" id="toc-conditions-and-injuries" class="nav-link active" data-scroll-target="#conditions-and-injuries"><span class="header-section-number">5.1</span> Conditions and Injuries</a></li>
+  <li><a href="#risk-measures" id="toc-risk-measures" class="nav-link" data-scroll-target="#risk-measures"><span class="header-section-number">5.2</span> Risk Measures</a>
+  <ul class="collapse">
+  <li><a href="#risk-specific-exposures" id="toc-risk-specific-exposures" class="nav-link" data-scroll-target="#risk-specific-exposures"><span class="header-section-number">5.2.1</span> Risk-Specific Exposures</a></li>
+  <li><a href="#relative-risks-rrs" id="toc-relative-risks-rrs" class="nav-link" data-scroll-target="#relative-risks-rrs"><span class="header-section-number">5.2.2</span> Relative Risks (RRs)</a></li>
+  <li><a href="#relative-risks-and-network-analysis" id="toc-relative-risks-and-network-analysis" class="nav-link" data-scroll-target="#relative-risks-and-network-analysis"><span class="header-section-number">5.2.3</span> Relative Risks and Network Analysis</a></li>
+  <li><a href="#theoretical-minimum-risk-exposure-levels-tmrels" id="toc-theoretical-minimum-risk-exposure-levels-tmrels" class="nav-link" data-scroll-target="#theoretical-minimum-risk-exposure-levels-tmrels"><span class="header-section-number">5.2.4</span> Theoretical Minimum-Risk Exposure Levels (TMRELs)</a></li>
+  <li><a href="#population-attributable-fractions-pafs" id="toc-population-attributable-fractions-pafs" class="nav-link" data-scroll-target="#population-attributable-fractions-pafs"><span class="header-section-number">5.2.5</span> Population Attributable Fractions (PAFs)</a></li>
+  </ul></li>
+  <li><a href="#causal-inference" id="toc-causal-inference" class="nav-link" data-scroll-target="#causal-inference"><span class="header-section-number">5.3</span> Causal Inference</a></li>
+  <li><a href="#summarising-the-relationship-between-risk-and-outcome" id="toc-summarising-the-relationship-between-risk-and-outcome" class="nav-link" data-scroll-target="#summarising-the-relationship-between-risk-and-outcome"><span class="header-section-number">5.4</span> Summarising the Relationship Between Risk and Outcome</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/04-causes_risks.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-health_metrics.html"><strong>Health Metrics</strong></a></li><li class="breadcrumb-item"><a href="./04-causes_risks.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-04-causes_risks" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="solutionbox">
+<div class="solutionbox-header">
+<div class="solutionbox-icon">
+
+</div>
+<p>Learning Objectives</p>
+</div>
+<div class="solutionbox-body">
+<ul>
+<li>Identify major causes of disease and associated risk factors using health data</li>
+<li>Formulate clear and focused research questions for health outcomes analysis</li>
+<li>Gain an introductory understanding of causal inference concepts and their application in public health research</li>
+</ul>
+</div>
+</div>
+<p><br>
+</p>
+<blockquote class="blockquote">
+<p><strong>“…fear is the most pervasive emotion of modern society…”<span class="citation" data-cites="bourke2007"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span></strong></p>
+</blockquote>
+<p>What qualifies as a risk is subject to dynamic social change<span class="citation" data-cites="li2020"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> , as well as the perception of risk has evolved over time, influenced by factors such as media coverage and sociopolitical dynamics.</p>
+<p>Historically, major risks included starvation, infections, and violent conflicts, while modern risks are often associated with lifestyle choices and chronic diseases such as obesity, cardiovascular disease, and cancer. Despite advancements in healthcare and increasing life expectancy in post-industrial countries, the focus often shifts to perceived threats like terrorism, global pandemics such as COVID-19, and environmental catastrophes. This shift is reflected in the increasing combination of quantitative analyses and public health interventions, tracking changes in risk-related discourse and identifying key risk topics over time.</p>
+<p>Furthermore, tools like topic modelling and sentiment analysis help identify how the public perceives various risks and how these perceptions evolve over time.</p>
+<p>In the field of public health, the latest GBD results reveal significant insights into the causes and risks associated with health metrics and infectious diseases. The primary risks identified include behavioural, environmental, occupational, and metabolic factors.</p>
+<div id="fig-risk-dev" class="quarto-float quarto-figure quarto-figure-center anchored" alt="FlowChart of Historical vs. Modern Risks" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-risk-dev-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/04_risk-dev.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" alt="FlowChart of Historical vs. Modern Risks">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-risk-dev-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: FlowChart of Historical vs.&nbsp;Modern Risks: this flowchart illustrates how risk perception has evolved over time, shifting from historical to modern risks. It integrates key risk factors identified in the Global Burden of Disease (GBD) study.
+</figcaption>
+</figure>
+</div>
+<section id="conditions-and-injuries" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="conditions-and-injuries"><span class="header-section-number">5.1</span> Conditions and Injuries</h2>
+<p>Conditions and injuries associated with the burden of disease and injury vary according to specific causes and risks. In this book causes and risk factors include:</p>
+<ul>
+<li><strong>Lifestyle choices</strong>: Poor diet, physical inactivity, tobacco use, and excessive alcohol consumption are major risk factors for many chronic diseases and injuries, including heart disease, stroke, cancer, and liver disease.</li>
+<li><strong>Environmental factors</strong>: Exposure to pollutants, such as air pollution and toxic chemicals, can increase the risk of certain diseases and injuries.</li>
+<li><strong>Infections</strong>: Many diseases, such as tuberculosis, HIV/AIDS, and malaria, are caused by infectious agents.</li>
+<li><strong>Poverty</strong>: People living in poverty are often more susceptible to health problems due to limited access to healthcare, healthy food, and safe living conditions.</li>
+<li><strong>Ageing</strong>: As people get older, they are at an increased risk of many health problems, including chronic diseases and disabilities.</li>
+<li><strong>Genetics</strong>: Some diseases and injuries are caused by genetic factors, such as a genetic predisposition to certain cancers.</li>
+<li><strong>Injuries</strong>: Injuries, such as falls, road traffic accidents, and violence, can also contribute to the burden of diseases and injuries.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-daly_dag" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Causal relationships leading to fueling DALYs value. Weights (W), Years Lived with Disability (YLD), and Years of Life Lost (YLL) are the main components of the DALY metric.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-daly_dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-causes_risks_files/figure-html/fig-daly_dag-1.png" class="img-fluid figure-img" alt="Causal relationships leading to fueling DALYs value. Weights (W), Years Lived with Disability (YLD), and Years of Life Lost (YLL) are the main components of the DALY metric." width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-daly_dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Causal relationships leading to fueling DALYs value. Weights (W), Years Lived with Disability (YLD), and Years of Life Lost (YLL) are the main components of the DALY metric.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A particular health condition can have multiple causes (co-morbidities) and risk factors. For instance, a poverty status and the lack of access to healthcare facilities, is proven to be increasing the risk of infectious diseases, while poor diet and physical inactivity can increase the risk of chronic diseases. Acting in favour of addressing the <em>underlying causes and risk factors</em> for diseases and injuries is crucial for prompt public health interventions and can help reduce the overall burden of disease.</p>
+</section>
+<section id="risk-measures" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="risk-measures"><span class="header-section-number">5.2</span> Risk Measures</h2>
+<p>In health metrics, <em>risk</em> refers to the likelihood that an individual will experience a specific health outcome, such as illness or injury, due to certain behaviours, exposures, or conditions. Risk factors are variables that increase the probability of developing a particular health condition or experiencing an adverse health outcome; they are measurable probabilities influenced by factors like lifestyle (e.g., smoking or diet), environmental exposures (e.g., air pollution), or underlying health conditions.</p>
+<p>To provide a comprehensive framework for assessing the burden of different risk factors on population health and guide effective public health strategies to mitigate these risks, key measures are used to assess risks and their impact on health outcomes:</p>
+<ul>
+<li>Risk-specific exposures</li>
+<li>Relative risks (RRs)</li>
+<li>Theoretical Minimum-Risk Exposure Levels (TMRELs)</li>
+<li>Population Attributable Fractions (PAFs)</li>
+</ul>
+<section id="risk-specific-exposures" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="risk-specific-exposures"><span class="header-section-number">5.2.1</span> Risk-Specific Exposures</h3>
+<p>The quantification of risks and causes involves the evaluation of a set of behavioural, environmental and occupational, and metabolic risks. Pairs of risk-outcome are investigated based on observations and statistical evidence. Convincing evidence consists of plausible associations between exposure and disease in terms of size, duration and effects. Common examples of risk exposures in health metrics include: smoking, physical inactivity, high blood pressure (hypertension), and others.</p>
+<p>Risk combinations can be <strong>additive</strong> (the occurrence of a least one event, A or B), <strong>multiplicative</strong> (the occurrence of both of two events, A and B) or just <strong>interactive,</strong> acting to influence other pairs, this action is generally identified as possible <strong>confounding</strong>, to be distinguished by factors in the causal pathway between exposure and outcome.</p>
+<p>To have an idea of the impact of different risk factors on a cause of illness, the <strong>Socio-demographic Index (SDI)</strong> provides insights into the potential magnitude of social, cultural and demographic factors looking at the risk exposures and possible paths for policy interventions. The life expectancy level is closely correlated to the level of the SDI indicator as it is based on average income per person, educational attainment, and total fertility rate (TFR). Higher SDI values typically indicate better socio-economic conditions, including improved access to healthcare, education, and sanitation, which can mitigate various health risks. Conversely, lower SDI values are associated with higher risk exposure due to limited access to healthcare, poorer living conditions, and other socio-economic challenges. An application of the SDI index on time series is on <a href="08-predictions.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p>One more element to take into consideration is the <strong>Comparative Risk Assessment (CRA)</strong><span class="citation" data-cites="stanaway2018"><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> divided into attributable and avoidable burden. Considering as the objective the potential reduction of future disease burden, four types of <strong>minimum risk exposure</strong> distributions are identified:</p>
+<ul>
+<li>Theoretical</li>
+<li>Plausible</li>
+<li>Feasible</li>
+<li>Cost-effective</li>
+</ul>
+<p>The following provide a high level overview on quantifying attributable burden by using the theoretical minimum risk.</p>
+</section>
+<section id="relative-risks-rrs" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="relative-risks-rrs"><span class="header-section-number">5.2.2</span> Relative Risks (RRs)</h3>
+<p>The relative risk (or Risk Ratio) is a measure of the strength of the association between an exposure and an outcome. It compares the likelihood of a particular health outcome, occurring in individuals exposed to a specific risk factor, to the likelihood in those who are not exposed. This metric helps quantify how much a risk factor, like smoking or high blood pressure, increases the probability of an adverse health effect.</p>
+<p>To calculate the risk-outcome pairs, such as mortality and morbidity, the attributable burden of a risk is decomposed to identify the impact on disease burden across factors like location, age, sex, and specific causes of disease<span class="citation" data-cites="murray2020">.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> This decomposition considers the combined effect of all risk exposures, which are categorised into metabolic, behavioural, and environmental risk factors. Each category contributes distinctly to the overall health outcome, enabling a nuanced understanding of how multiple exposures collectively influence disease burden and health outcomes.</p>
+<p>The relative risk is the ratio between the proportions of exposed and unexposed groups.</p>
+<p><span id="eq-rr"><span class="math display">
+RR= \frac{p_0}{p_1}
+\tag{5.1}</span></span></p>
+<p>where <span class="math inline">p_1</span> and <span class="math inline">p_0</span> are the proportions of exposed and unexposed groups respectively. Or, in terms of population, these group would approx the values of the real population:</p>
+<p><span id="eq-rr2"><span class="math display">
+RR = \frac{p_1}{p_0}=\frac{d_1/n_1}{d_0/n_0}
+\tag{5.2}</span></span></p>
+<p>where <span class="math inline">d_1/n_1</span> and <span class="math inline">d_0/n_0</span> are the proportion of the population with and without the disease.</p>
+<p>For example, let’s say we are studying the association between smoking (exposure) and lung cancer (outcome). We want to calculate the relative risk of lung cancer among smokers compared to non-smokers. If the relative risk is 2, it means that smokers are twice as likely to develop lung cancer compared to non-smokers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>exposed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>unexposed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">5</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the relative risk</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>relative_risk <span class="ot">&lt;-</span> <span class="cf">function</span>(exposed, unexposed) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  (exposed[<span class="dv">1</span>] <span class="sc">/</span> <span class="fu">sum</span>(exposed)) <span class="sc">/</span> (unexposed[<span class="dv">1</span>] <span class="sc">/</span> <span class="fu">sum</span>(unexposed))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">relative_risk</span>(exposed, unexposed)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.041667</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In this case, a relative risk of 1.04 indicates that the exposed group is 1.04 times more likely to develop the outcome compared to the unexposed group.</p>
+<p>A second example is to calculate the relative risk based on the number of events and person-time at risk for exposed and unexposed groups. Let’s consider the following scenario:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="co"># Number of events in the exposed group</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co"># Person-time at risk in the exposed group</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>d0 <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># Number of events in the unexposed group</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>n0 <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># Person-time at risk in the unexposed group</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the relative risk</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>relative_risk_d <span class="ot">&lt;-</span> (d1 <span class="sc">/</span> n1) <span class="sc">/</span> (d0 <span class="sc">/</span> n0)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the relative risk</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>relative_risk_d</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In this case, the relative risk based on the number of events and person-time at risk is 1.25, indicating that the exposed group has a 1.25 times higher risk of developing the outcome compared to the unexposed group.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-barplot_relative_risk" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Bar chart showing the relative risk of outcome between exposed and unexposed groups.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barplot_relative_risk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-causes_risks_files/figure-html/fig-barplot_relative_risk-1.png" class="img-fluid figure-img" alt="Bar chart showing the relative risk of outcome between exposed and unexposed groups." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barplot_relative_risk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.3: Bar chart showing the relative risk of outcome between exposed and unexposed groups. The relative risk is calculated based on the number of events and person-time at risk for each group.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In summary, the relative risk can be calculated using two different formulas:</p>
+<ul>
+<li>The first formula, <span class="math inline">RR=p_1/p_0</span>, calculates the relative risk directly using the proportions of events <span class="math inline">p_1</span> in the exposed group compared to the unexposed group <span class="math inline">p_0</span> . This formula provides a more simplified view of the relative risk based solely on event proportions.</li>
+<li>The second formula, <span class="math inline">RR=\frac{d_1/n_1}{d_0/n_0}</span>, considers both the <strong>number of events</strong> <span class="math inline">(d1, d0)</span> and <strong>person-time at risk</strong> <span class="math inline">(n1, n0)</span> for each group. This formula takes into account the <strong>incidence rate</strong> in addition to <strong>event proportions</strong>, providing a more specific understanding of the relative risk by incorporating information about the <strong>duration of exposure</strong>.</li>
+</ul>
+</section>
+<section id="relative-risks-and-network-analysis" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="relative-risks-and-network-analysis"><span class="header-section-number">5.2.3</span> Relative Risks and Network Analysis</h3>
+<p>In some cases, relative risks can be modelled using <strong>network analysis</strong>, a specialised approach within statistical modelling which extends the concept of mixed effects to compare multiple treatments while accounting for various factors and dependencies. The relationship between variables, represented by nodes and edges, considers the potential interactions or dependencies between different risk factors and outcomes. This approach is generally favourable when exploring complex relationships among multiple variables.</p>
+<p>To represent the network we can use a <strong>Directed Acyclic Graph (DAG)</strong> for drawing causal relationships between variables, such as the relationship between health risks and diseases.</p>
+<p>This is an example of a <strong>Network graph</strong> representing the causal pathways between different variables, such as smoking, physical inactivity, high blood pressure, lung cancer, heart disease, and stroke. By visualising the relationships between these variables, we can identify the direct and indirect effects of risk factors on health outcomes.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-networkgraph1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Network graph to identify the relationship between risk factors and health outcomes." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-networkgraph1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-causes_risks_files/figure-html/fig-networkgraph1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Network graph to identify the relationship between risk factors and health outcomes." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-networkgraph1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.4: Directed Acyclic Graph (DAG) - Network Analysis of Risk Factor Relationships.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The following code shows one more example of a network graph that would be helpful to identify the relationship between outcome (O), exposure (E) and different risk factors made with the <code>{ggdag}</code> package and the <code>dagify()</code> function.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the library</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">555</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the DAG structure</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> x,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">~</span> c1 <span class="sc">+</span> c2 <span class="sc">+</span> c3,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  c1 <span class="sc">~</span> c2 <span class="sc">+</span> c3,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  c1 <span class="sc">~</span> c3)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the DAG</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdag</span>(dag) <span class="sc">+</span> <span class="fu">theme_dag_grid</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-networkgraph2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Network graph to identify the relationship between outcome (O), exposure (E) and different risk factors." data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-networkgraph2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-causes_risks_files/figure-html/fig-networkgraph2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Network graph to identify the relationship between outcome (O), exposure (E) and different risk factors." width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-networkgraph2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.5: DAG between outcome (O), exposure (E) and different risk factors.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="simulation-of-risk-exposure" class="level4" data-number="5.2.3.1">
+<h4 data-number="5.2.3.1" class="anchored" data-anchor-id="simulation-of-risk-exposure"><span class="header-section-number">5.2.3.1</span> Simulation of Risk Exposure</h4>
+<p>The simulation of the risk exposure can be done replicating a logistic regression model with a DAG structure. We can use the <code>{dagitty}</code> package, and the <code>simulateLogistic()</code> function. The model estimates the probability of an outcome (O), given exposure (E) to different risk factors, such as C1, C2, and C3 (confounders). The relative risk is calculated based on the estimated probabilities of the outcome given exposure and no exposure to the risk factors.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dagitty)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create DAG structure</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagitty</span>(<span class="st">"dag { E -&gt; O</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">                      C1 -&gt; O</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">                      C2 -&gt; O</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="st">                      C3 -&gt; O }"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dag <span class="sc">%&gt;%</span> <span class="fu">tidy_dagitty</span>()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">simulateLogistic</span>(dag)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   C1 C2 C3  E  O</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1 -1  1  1 -1</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 -1 -1 -1  1  1</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1  1  1  1  1</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1  1 -1 -1 -1</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1  1 -1 -1 -1</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 -1 -1 -1  1  1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression model</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(O <span class="sc">~</span> E <span class="sc">+</span> C1 <span class="sc">+</span> C2 <span class="sc">+</span> C3,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> data,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract estimated probabilities</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>pr_outcome_exp <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>pr_outcome_no_exp <span class="ot">&lt;-</span> <span class="fu">predict</span>(model,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">E =</span> <span class="st">"1"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">C1 =</span> data<span class="sc">$</span>C1,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">C2 =</span> data<span class="sc">$</span>C2,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">C3 =</span> data<span class="sc">$</span>C3),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                             <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate relative risk</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>relative_risk <span class="ot">&lt;-</span> pr_outcome_exp <span class="sc">/</span> pr_outcome_no_exp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fig-distribution_rr" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distribution_rr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-distribution_rr" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-distribution_rr-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The histogram and density distribution of Relative Risk. The histogram displays the frequency of relative risk values, while the density plot shows the distribution of relative risk values.">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-distribution_rr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-causes_risks_files/figure-html/fig-distribution_rr-1.png" class="img-fluid figure-img" data-ref-parent="fig-distribution_rr" alt="The histogram and density distribution of Relative Risk. The histogram displays the frequency of relative risk values, while the density plot shows the distribution of relative risk values." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-distribution_rr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Histogram of Relative Risk
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-distribution_rr" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-distribution_rr-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The histogram and density distribution of Relative Risk. The histogram displays the frequency of relative risk values, while the density plot shows the distribution of relative risk values.">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-distribution_rr-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-causes_risks_files/figure-html/fig-distribution_rr-2.png" class="img-fluid figure-img" data-ref-parent="fig-distribution_rr" alt="The histogram and density distribution of Relative Risk. The histogram displays the frequency of relative risk values, while the density plot shows the distribution of relative risk values." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-distribution_rr-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Density distribution of Relative Risk
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distribution_rr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.6: Histogram and density distribution of Relative Risk.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="theoretical-minimum-risk-exposure-levels-tmrels" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="theoretical-minimum-risk-exposure-levels-tmrels"><span class="header-section-number">5.2.4</span> Theoretical Minimum-Risk Exposure Levels (TMRELs)</h3>
+<p>Risk factors associated with a particular health condition are considered based on the <strong>Theoretical minimum risk exposure levels (TMRELs)</strong> and as a function of the risk exposure or <strong>relative risk (RR)</strong> value. Not all the variables that are thought to be risk factors increasing causes for a particular health condition are always the driving cause of the condition, for this reason a minimum level of risk exposure is established for the risk to be considered involved as effective in the outcome.</p>
+<p>Moreover, disease attributable to a particular risk factor or combination of risk factors need to be ascertained by investigating the risk-outcome relationship. Risk factors can also act indirectly on the outcome via intermediate risks, such as the association of low fruit consumption and heart disease influenced by systolic blood pressure which acts as mediator between the two.</p>
+<div class="cell" data-layout-align="center" data-lable="fig-risk-outcome">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04-causes_risks_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" alt="DAG: Risk-Outcome leading to heart disease" width="576"></p>
+<figcaption>DAG: Risk-Outcome leading to heart disease. The relationship between low fruit consumption, systolic blood pressure, and heart disease.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Examples of risk factors with established <strong>Theoretical Minimum Risk Exposure Levels (TMRELs)</strong> include particulate matter air pollution, high systolic blood pressure, and smoking. For systolic blood pressure, the TMREL is typically set around 110/70 mmHg. Research has shown that maintaining blood pressure near this level is associated with the lowest risk for cardiovascular disease and stroke. Similarly, for particulate matter air pollution, the TMREL is set at the lowest level of exposure that is feasible and achievable, typically based on World Health Organization (WHO) guidelines. For smoking, the TMREL is set at zero, as any level of smoking is associated with increased health risks.</p>
+<p>In terms of <strong>Disability-Adjusted Life Years (DALYs)</strong>, the overall level is significantly influenced by behavioural, environmental, and occupational risks. Behavioural risks, such as smoking and physical inactivity, and environmental exposures, like air pollution, contribute heavily to DALYs by increasing both mortality and disability rates within affected populations. Occupational risks further add to the burden, particularly in regions where workplace safety standards are lower, underscoring the need for targeted interventions across different population groups.</p>
+</section>
+<section id="population-attributable-fractions-pafs" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="population-attributable-fractions-pafs"><span class="header-section-number">5.2.5</span> Population Attributable Fractions (PAFs)</h3>
+<p>The <strong>Population Attributable Fraction (PAF)</strong> is a measure used to quantify the proportion of disease incidence in a population that can be attributed to a specific risk factor. It represents the proportion of risk that would be reduced in a given year if the exposure to a risk factor in the past were reduced to an ideal exposure scenario.</p>
+<p>PAF is calculated based on the prevalence of the risk factor in the population and the relative risk associated with that risk factor. The formula for calculating PAF is as follows:</p>
+<p><span id="eq-paf"><span class="math display">
+PAF = \frac{{P_e \times (RR - 1)}}{{1 + P_e \times (RR - 1)}}
+\tag{5.3}</span></span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">P_e</span> is the prevalence of the risk factor in the population.</li>
+<li><span class="math inline">RR</span> is the relative risk associated with the risk factor, representing the increased risk of disease among individuals exposed to the risk factor compared to those who are not exposed.</li>
+</ul>
+<p>The PAF ranges from 0% to 100%. A PAF of 0% indicates that the risk factor has no impact on the incidence of the disease, while a PAF of 100% indicates that all cases of the disease in the population can be attributed to the risk factor.</p>
+<p>PAF is useful for public health interventions as it provides insight into the potential impact of reducing or eliminating a specific risk factor on the incidence of disease in the population. By targeting interventions to reduce exposure to the risk factor, public health efforts can effectively reduce the burden of disease in the population and improve overall health outcomes.</p>
+</section>
+</section>
+<section id="causal-inference" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="causal-inference"><span class="header-section-number">5.3</span> Causal Inference</h2>
+<p>Causality concerns the relationship between two variables, where one variable (<em>the cause</em>) directly influences the other (<em>the effect</em>). For example, regular exercise improves cardiovascular health, or adequate sleep supports cognitive function. However, causality is distinct from correlation, which indicates a statistical association without implying a direct influence. For instance, a correlation between television watching and obesity does not imply a causal link. Establishing causality requires systematically evaluating alternative explanations and accounting for confounding factors that could affect both the cause and effect.</p>
+<p>Causal inference is essential for understanding the underlying causes of a condition or phenomenon, even if these causes are not immediately apparent. It often requires a structured data analysis to uncover hidden causal relationships within the observed data.</p>
+<div id="fig-causal_inference" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Causal Inference Flowchart" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-causal_inference-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/04_causal_inference_flowchart.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%" alt="Causal Inference Flowchart">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-causal_inference-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.7: Causal Inference Flowchart. The flowchart outlines the steps involved in performing causal inference, from formulating a hypothesis to informing public health actions.
+</figcaption>
+</figure>
+</div>
+<p>Performing causal inference requires setting up an experiment, where there are <strong>treatment</strong> and <strong>outcome</strong> elements. The <em>treatment</em> is the intervention applied to the data. For example, to confirm the statement that <em>regular exercise leads to improved cardiovascular health</em>, an intervention may be designed to introduce another variable, such as regular fruit consumption, and observe its combined effect with exercise on cardiovascular health.</p>
+<p>In this investigation, the primary factors are exercise and fruit intake. The goal is to examine whether their combination improves cardiovascular health. Once the intervention is analysed by measuring changes in cardiovascular health (the response variable), the next step is to apply a control procedure, often using a <strong>counterfactual</strong> scenario. This approach helps assess what might have happened in the absence of the treatment, providing a benchmark to confirm the treatment’s true effect.</p>
+</section>
+<section id="summarising-the-relationship-between-risk-and-outcome" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="summarising-the-relationship-between-risk-and-outcome"><span class="header-section-number">5.4</span> Summarising the Relationship Between Risk and Outcome</h2>
+<p>The relationship between risk and outcome in epidemiology is central to understanding the causes of disease and guiding preventive strategies. This relationship involves assessing how exposure to certain risk factors affects the likelihood of developing specific health outcomes. Epidemiological studies quantify the strength of this association through measures like <strong>Relative Risk (RR)</strong> and <strong>Population Attributable Fraction (PAF)</strong>.</p>
+<p><strong>Relative Risk (RR)</strong> compares the risk of developing a health outcome among individuals exposed to a risk factor with those who are not exposed. An RR greater than 1 indicates an increased risk associated with the exposure. For example, if smokers have a relative risk of 15 for lung cancer compared to non-smokers, this suggests a strong association between smoking and lung cancer.</p>
+<p><strong>Population Attributable Fraction (PAF)</strong> estimates the proportion of disease incidence in a population that can be attributed to a specific risk factor, helping quantify the potential impact of reducing or eliminating that exposure on the overall disease burden. For example, if smoking accounts for 30% of lung cancer cases in a population, the PAF for smoking-related lung cancer is 0.30.</p>
+<p>To establish causality, epidemiologists must demonstrate consistent associations, dose-response relationships (where increased exposure heightens risk), temporal precedence (exposure precedes outcome), and rule out alternative explanations. Ultimately, understanding these risk-outcome relationships enables evidence-based public health decisions, informing preventive strategies, interventions, and policies to improve population health.</p>
+<div class="cell" data-tbl-cap="Table showing risk measures, definitions, and examples." data-tbl-alt="Table showing risk measures, definitions, and examples.">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Table showing risk measures, definitions, and examples.</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 37%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Risk Measure</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Relative Risk (RR)</td>
+<td style="text-align: left;">Measures the likelihood of an outcome occurring in an exposed group relative to a non-exposed group.</td>
+<td style="text-align: left;">Smokers have a 15x higher relative risk (RR = 15) of lung cancer compared to non-smokers.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Population Attributable Fraction (PAF)</td>
+<td style="text-align: left;">Estimates the proportion of disease cases that could be prevented if a specific risk factor were eliminated.</td>
+<td style="text-align: left;">If smoking accounts for 30% of lung cancer cases, then the PAF for smoking is 0.30.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Theoretical Minimum Risk Exposure Level (TMREL)</td>
+<td style="text-align: left;">Represents the ideal level of exposure to a risk factor that minimises adverse health effects.</td>
+<td style="text-align: left;">The TMREL for PM2.5 (air pollution) is set around 2.4 <span class="math inline">\mu</span>g/m<span class="math inline">^3</span>, as exposure below this level is associated with minimal health risk.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>In conclusion, the study of risk and outcome has evolved beyond traditional epidemiological methods to embrace advanced techniques like transfer learning. This interdisciplinary approach enables the application of insights from epidemiology to other fields and viceversa, deepening our understanding of the complex relationships between risk factors and health outcomes. Machine learning and data-driven techniques help identifying patterns, and develop predictive models that extend beyond conventional frameworks, offering fresh perspectives on population health and guiding targeted interventions.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-bourke2007" class="csl-entry" role="listitem">
+Bourke, Joanna. <em>Fear: A Cultural History</em>. Catapult, 2007.
+</div>
+<div id="ref-li2020" class="csl-entry" role="listitem">
+Li, Ying, Thomas Hills, and Ralph Hertwig. <span>“A Brief History of Risk.”</span> <em>Cognition</em> 203 (October 2020): 104344. doi:<a href="https://doi.org/10.1016/j.cognition.2020.104344">10.1016/j.cognition.2020.104344</a>.
+</div>
+<div id="ref-murray2020" class="csl-entry" role="listitem">
+Murray, Christopher J. L., Aleksandr Y. Aravkin, Peng Zheng, Cristiana Abbafati, Kaja M. Abbas, Mohsen Abbasi-Kangevari, Foad Abd-Allah, et al. <span>“Global Burden of 87 Risk Factors in 204 Countries and Territories, 1990<span></span>2019: A Systematic Analysis for the Global Burden of Disease Study 2019.”</span> <em>The Lancet</em> 396, no. 10258 (October 17, 2020): 1223–49. doi:<a href="https://doi.org/10.1016/S0140-6736(20)30752-2">10.1016/S0140-6736(20)30752-2</a>.
+</div>
+<div id="ref-stanaway2018" class="csl-entry" role="listitem">
+Stanaway, Jeffrey D, Ashkan Afshin, Emmanuela Gakidou, Stephen S Lim, Degu Abate, Kalkidan Hassen Abate, Cristiana Abbafati, et al. <span>“Global, Regional, and National Comparative Risk Assessment of 84 Behavioural, Environmental and Occupational, and Metabolic Risks or Clusters of Risks for 195 Countries and Territories, 1990<span></span>2017: A Systematic Analysis for the Global Burden of Disease Study 2017.”</span> <em>The Lancet</em> 392, no. 10159 (November 2018): 1923–94. doi:<a href="https://doi.org/10.1016/s0140-6736(18)32225-6">10.1016/s0140-6736(18)32225-6</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Joanna Bourke, <em>Fear: A Cultural History</em> (Catapult, 2007).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Ying Li, Thomas Hills, and Ralph Hertwig, <span>“A Brief History of Risk,”</span> <em>Cognition</em> 203 (October 2020): 104344, doi:<a href="https://doi.org/10.1016/j.cognition.2020.104344">10.1016/j.cognition.2020.104344</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Jeffrey D Stanaway et al., <span>“Global, Regional, and National Comparative Risk Assessment of 84 Behavioural, Environmental and Occupational, and Metabolic Risks or Clusters of Risks for 195 Countries and Territories, 1990<span></span>2017: A Systematic Analysis for the Global Burden of Disease Study 2017,”</span> <em>The Lancet</em> 392, no. 10159 (November 2018): 1923–94, doi:<a href="https://doi.org/10.1016/s0140-6736(18)32225-6">10.1016/s0140-6736(18)32225-6</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Christopher J. L. Murray et al., <span>“Global Burden of 87 Risk Factors in 204 Countries and Territories, 1990<span></span>2019: A Systematic Analysis for the Global Burden of Disease Study 2019,”</span> <em>The Lancet</em> 396, no. 10258 (October 17, 2020): 1223–49, doi:<a href="https://doi.org/10.1016/S0140-6736(20)30752-2">10.1016/S0140-6736(20)30752-2</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fgazzelloni\.quarto\.pub\/hmsidr\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-components.html" class="pagination-link" aria-label="Metrics Components">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-machine_learning.html" class="pagination-link" aria-label="Introduction to Machine Learning">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>Editor CRC Press - Chapman &amp; Hall | Taylor &amp; Francis Group</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/04-causes_risks.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Built with ❤︎️ and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

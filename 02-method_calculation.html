@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Federica Gazzelloni">
+
+<title>3&nbsp; Methods and Calculations – Health Metrics and the Spread of Infectious Diseases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-components.html" rel="next">
+<link href="./01-health_metrics.html" rel="prev">
+<link href="./images/icons/pen-to-square-solid.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3f82c0c769e6123ec458e1781414e6ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J9YVQPL7W9"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J9YVQPL7W9', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script defer="" data-domain="" src=""></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-health_metrics.html"><strong>Health Metrics</strong></a></li><li class="breadcrumb-item"><a href="./02-method_calculation.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Health Metrics and the Spread of Infectious Diseases</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Fgazzelloni/hmsidR" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Health Metrics</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-health_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-method_calculation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-causes_risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Machine Learning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-techniques.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-predictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Data Visualization</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpreting Model Results Through Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-spatials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatial Data Modelling and Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Advanced Data Visualisation Techniques</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Infectious Diseases</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-infectious_diseases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to Infectious Diseases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-covid19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">COVID-19 Outbreaks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-malaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">The Case of Malaria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary: The State of Health</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Life Tables, Markov Chain and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Tools Used to Make This Book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Tips on Converting to Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#ylls-calculation" id="toc-ylls-calculation" class="nav-link active" data-scroll-target="#ylls-calculation"><span class="header-section-number">3.1</span> YLLs Calculation</a>
+  <ul class="collapse">
+  <li><a href="#example-ylls-due-to-stroke" id="toc-example-ylls-due-to-stroke" class="nav-link" data-scroll-target="#example-ylls-due-to-stroke"><span class="header-section-number">3.1.1</span> Example: YLLs due to Stroke</a></li>
+  <li><a href="#sec-02-ex-yll-est" id="toc-sec-02-ex-yll-est" class="nav-link" data-scroll-target="#sec-02-ex-yll-est"><span class="header-section-number">3.1.2</span> Exercise: All-Ages YLLs Estimation</a></li>
+  </ul></li>
+  <li><a href="#ylds-calculation" id="toc-ylds-calculation" class="nav-link" data-scroll-target="#ylds-calculation"><span class="header-section-number">3.2</span> YLDs Calculation</a>
+  <ul class="collapse">
+  <li><a href="#sec-02-ex-ylds-stroke" id="toc-sec-02-ex-ylds-stroke" class="nav-link" data-scroll-target="#sec-02-ex-ylds-stroke"><span class="header-section-number">3.2.1</span> Example: YLDs due to Stroke</a></li>
+  <li><a href="#exercise-all-ages-ylds-estimation" id="toc-exercise-all-ages-ylds-estimation" class="nav-link" data-scroll-target="#exercise-all-ages-ylds-estimation"><span class="header-section-number">3.2.2</span> Exercise: All-Ages YLDs Estimation</a></li>
+  </ul></li>
+  <li><a href="#dalys-calculation" id="toc-dalys-calculation" class="nav-link" data-scroll-target="#dalys-calculation"><span class="header-section-number">3.3</span> DALYs Calculation</a>
+  <ul class="collapse">
+  <li><a href="#example-dalys-due-to-stroke" id="toc-example-dalys-due-to-stroke" class="nav-link" data-scroll-target="#example-dalys-due-to-stroke"><span class="header-section-number">3.3.1</span> Example: DALYs due to Stroke</a></li>
+  <li><a href="#exercise-total-dalys-estimation" id="toc-exercise-total-dalys-estimation" class="nav-link" data-scroll-target="#exercise-total-dalys-estimation"><span class="header-section-number">3.3.2</span> Exercise: Total DALYs Estimation</a></li>
+  </ul></li>
+  <li><a href="#how-dalys-are-used" id="toc-how-dalys-are-used" class="nav-link" data-scroll-target="#how-dalys-are-used"><span class="header-section-number">3.4</span> How DALYs are Used</a>
+  <ul class="collapse">
+  <li><a href="#general-application-of-dalys" id="toc-general-application-of-dalys" class="nav-link" data-scroll-target="#general-application-of-dalys"><span class="header-section-number">3.4.1</span> General Application of DALYs</a></li>
+  </ul></li>
+  <li><a href="#hale-calculation" id="toc-hale-calculation" class="nav-link" data-scroll-target="#hale-calculation"><span class="header-section-number">3.5</span> HALE Calculation</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.6</span> Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/02-method_calculation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-health_metrics.html"><strong>Health Metrics</strong></a></li><li class="breadcrumb-item"><a href="./02-method_calculation.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-02-method_calculation" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="solutionbox">
+<div class="solutionbox-header">
+<div class="solutionbox-icon">
+
+</div>
+<p>Learning Objectives</p>
+</div>
+<div class="solutionbox-body">
+<ul>
+<li>Explore key health metrics and their significance in public health analysis</li>
+<li>Learn how to apply and interpret these metrics using real-world data</li>
+<li>Identify opportunities to improve health metrics and their use in decision-making</li>
+</ul>
+</div>
+</div>
+<p><br>
+The objective of this chapter is to provide a first level calculation of the burden of diseases, focusing on disability and premature mortality, which are captured by DALYs and HALE. In <a href="01-health_metrics.html" class="quarto-xref"><span>Chapter 2</span></a>, we defined the metrics to establish the theoretical framework for constructing them. In this chapter, we will proceed with a general calculation of YLLs and YLDs to obtain the DALYs. This step is essential for understanding the structure of the metric components, which will be further investigated in <a href="03-components.html" class="quarto-xref"><span>Chapter 4</span></a>.</p>
+<p>Used to measure the burden of disease and quantify the impact of diseases and injuries on individuals and populations, these metrics can help prioritise public health interventions and evaluate the effectiveness of public health programs.</p>
+<section id="ylls-calculation" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="ylls-calculation"><span class="header-section-number">3.1</span> YLLs Calculation</h2>
+<p>The <strong>Years of Life Lost (YLLs)</strong> is a metric that measures the number of years a person would have lived if they had not died prematurely due to a disease or injury. <strong>YLLs are calculated by subtracting the age at death from the expected age at death in a population without the disease or injury</strong>.</p>
+<p>In the late 1940s (<a href="01-health_metrics.html" class="quarto-xref"><span>Chapter 2</span></a>), <strong>William Haenszel</strong><span class="citation" data-cites="haenszel1950"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> introduced the concept of <strong>Standardized Rate for Mortality in units of Lost Years of Life</strong>, marking an early attempt to quantify the impact of premature mortality. This approach emphasized the importance of considering the <em>age at death</em> and comparing it to the <em>expected life expectancy</em>, highlighting that early deaths have a greater impact than those occurring later in life. It was ascertained that accounting for the number of years lost for a group of people would help recognise the potential life lost for a certain cause. Since this first approach, some adjustments to the standard death rates were made, leading to a new calculation that considered standardised death rates applied to age-specific factors for specific causes of death.</p>
+<p>Building on these ideas, <strong>Mary Dempsey</strong><span class="citation" data-cites="dempsey2019"><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> formalised the concept in 1947 to assess the burden of tuberculosis, coining the term <strong>Years of Life Lost (YLLs)</strong>. This metric was specifically designed to identify areas requiring improvement to reduce health loss and prevent premature death<span class="citation" data-cites="reiner2022">.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> Her work established YLLs as a critical tool for understanding and addressing the disproportionate effects of early mortality on population health.</p>
+<blockquote class="blockquote">
+<p>The impact of premature losses on society extends beyond the grief of losing a loved one; it also includes the economic and social cost of losing productive members of the workforce. Such premature deaths lead to a significant burden on the community, affecting overall economic stability and societal well-being.</p>
+</blockquote>
+<p><strong>Standard Formula</strong></p>
+<p><span id="eq-yll"><span class="math display">
+YLL=N*le
+\tag{3.1}</span></span></p>
+<p>In <a href="#eq-yll" class="quarto-xref">Equation&nbsp;<span>3.1</span></a>, <span class="math inline">N</span> is the number of premature deaths, and <span class="math inline">le</span> is the standard life expectancy at the age of death. This calculation takes into account the number of deaths at each age and multiplies it by the standard life expectancy remaining at that age, using global life tables to determine life expectancy. More details about the components of YLLs are provided in the next chapter (<a href="03-components.html" class="quarto-xref"><span>Chapter 4</span></a>), and a sample of the construction of a life table with relative estimations of the life expectancy can be found in <a href="appendixA.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
+<p>In general, the <strong>Global Burden of Disease studies (GBD)</strong> use standardised life tables, to consistently measure the impact of various diseases. This approach allows for reliable comparisons across different conditions and populations, providing a comprehensive assessment of disease burden on a global scale<span class="citation" data-cites="devleesschauwer2020">.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> Additionally, country-specific life expectancies are valuable for investigating premature deaths resulting from health-related causes, such as fatal diseases. For instance, certain types of country-specific life expectancies are frequently recommended due to their ability to provide insight into longevity characteristics, which can inform policymakers and aid in prevention efforts, as exemplified by the Japanese life expectancy.<span class="citation" data-cites="tsugane2021"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span> A G7 cross-country study demonstrated that Japan has the longest average life expectancy, primarily attributed to significantly low mortality rates from ischemic heart disease and cancer, which are the leading causes of death in most countries, as indicated by the GBD study.</p>
+<section id="example-ylls-due-to-stroke" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="example-ylls-due-to-stroke"><span class="header-section-number">3.1.1</span> Example: YLLs due to Stroke</h3>
+<p>Stroke can be a consequence of several infectious diseases, such as COVID-19, Tuberculosis (TB), and Malaria. The impact of these diseases on the cardiovascular system can lead to stroke, as infections can cause inflammation, blood clot formation, or direct damage to blood vessels.</p>
+<p>In the following example, we calculate the YLLs due to stroke in the year 2019 for the Global region. We use the data from the Global Burden of Disease (GBD) study, which provides estimates of the <strong>number of deaths due to stroke</strong> in different regions. The data can be downloaded from the <code>{hmsidwR}</code> package, which contains the necessary datasets for this calculation. The <code>deaths2019</code> dataset comprises 2754 observations and 7 variables, containing the estimated number of deaths due to 9 causes, including stroke, across 6 regions: Global, France, Italy, Germany, the United Kingdom, and the United States. We also use the <strong>Global Health Observatory Life Tables</strong> to estimate the life expectancy at different ages, which is used to calculate the YLLs due to stroke.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"hmsidwR"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("devtools")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"Fgazzelloni/hmsidwR"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hmsidwR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(hmsidwR<span class="sc">::</span>deaths2019<span class="sc">$</span>cause)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "Lower respiratory infections"           </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] "Stroke"                                 </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] "Chronic obstructive pulmonary disease"  </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] "Road injuries"                          </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] "Diabetes and kidney diseases"           </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] "Colon and rectum cancer"                </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] "Tracheal, bronchus, and lung cancer"    </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8] "Breast cancer"                          </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9] "Alzheimer's disease and other dementias"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Our specific task is to calculate the Years of Life Lost (YLLs) attributable to stroke in the year 2019 for the Global region. We filter the location to be “Global” and the cause to be “Stroke”. The use of <code>str_detect()</code> is to match the cause of death containing a specific word, it is very useful when the cause of death is not exactly containing just one word.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>deaths_stroke <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>deaths2019 <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(age)<span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">==</span> <span class="st">"Global"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">str_detect</span>(cause, <span class="st">"Stroke"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>location, <span class="sc">-</span>cause, <span class="sc">-</span>upper, <span class="sc">-</span>lower)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>deaths_stroke <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sex    age      dx</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;ord&gt; &lt;dbl&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 male   &lt;1    3640.</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 female &lt;1    2404.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 both   &lt;1    6044.</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 male   01-04 2049.</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 female 01-04 1505.</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 both   01-04 3553.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, we visualise the number of deaths due to stroke by age group, with a <code>geom_boxplot()</code>. The boxplot shows the distribution of the number of deaths by age group, with the median, quartiles, and outliers. The plot is divided by age group and shows the variation in the number of deaths due to stroke between gender as it is stratified by gender, highlighting variations in stroke mortality between males and females. We can observe the difference in the number of deaths increases for older age groups.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>deaths_stroke <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>sex <span class="sc">==</span> <span class="st">"both"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age,<span class="at">y =</span> dx)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Male and Female Deaths due to Stroke"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Year 2019"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"IHME GBD 2019 Data"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age Group"</span>, <span class="at">y =</span> <span class="st">"Deaths"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-deaths_stroke" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Deaths due to Stroke by Age Group (2019)">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deaths_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-method_calculation_files/figure-html/fig-deaths_stroke-1.png" class="img-fluid figure-img" alt="Deaths due to Stroke by Age Group (2019)" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deaths_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Boxplots showing male and female deaths variation due to Stroke by Age Group (2019)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Among the indicators available in the <code>hmsidwR::gho_lifetables</code> dataset, we specifically focus on the indicator denoted as <span class="math inline">e_x</span>. The expectation of life at age <span class="math inline">x</span> (<span class="math inline">e_x</span>) refers to the <em>average number of additional years a person is expected to live</em>, given that they have already reached age <span class="math inline">x</span>. This measure is commonly referred to as life expectancy at age <span class="math inline">x</span>. This dataset is part of the Global Health Observatory (GHO) data repository, which is maintained by the World Health Organization (WHO). The dataset also contains life table indicators, such as the number of person-years lived above age <span class="math inline">x</span> <span class="math inline">(l_x)</span>, the number of person-years lived between ages <span class="math inline">x</span> and <span class="math inline">x+n</span> <span class="math inline">(_{n}L_x)</span>, the age-specific death rate between ages <span class="math inline">x</span> and <span class="math inline">x+n</span> <span class="math inline">(_{n}M_x)</span>, the number of people dying between ages <span class="math inline">x</span> and <span class="math inline">x+n</span> <span class="math inline">(_{n}d_x)</span>, and the probability of dying between ages <span class="math inline">x</span> and <span class="math inline">x+n</span> <span class="math inline">(_{n}q_x)</span>.</p>
+<div class="cell">
+<div id="tbl-indicators" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-indicators-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Life Table Indicators
+</figcaption>
+<div aria-describedby="tbl-indicators-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Indicator</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Tx</td>
+<td style="text-align: left;">person-years lived above age x</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ex</td>
+<td style="text-align: left;">expectation of life at age x</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lx</td>
+<td style="text-align: left;">number of people left alive at age x</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nLx</td>
+<td style="text-align: left;">person-years lived between ages x and x+n</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nMx</td>
+<td style="text-align: left;">age-specific death rate between ages x and x+n</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ndx</td>
+<td style="text-align: left;">number of people dying between ages x and x+n</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nqx</td>
+<td style="text-align: left;">probability of dying between ages x and x+n</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>We use the estimated value of the expected life for 5-year age groups, such as <code>&lt;1, ... , 05-09, 10-14</code>, etc. for both females and males.</p>
+<p>On the other hand, the standard life expectancy represents the <em>maximum number of years a person is expected to live from birth</em>. For example, according to estimates released in 2021 by the United Nations Population Division, the <strong>Japanese life expectancy at birth</strong> is approximately 84.6 years. This figure is significantly higher than the global average life expectancy of around 72.6 years.</p>
+<p>To calculate the YLLs due to stroke, we need to use the life expectancy at different ages. We filter the <code>gho_lifetables</code> dataset to year 2019, which is the most updated year available for the life expectancy data, and select the indicator <code>ex</code> to get the life expectancy at different ages, renaming it as <code>le</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ex2019 <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>gho_lifetables <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( year <span class="sc">==</span> <span class="dv">2019</span>, indicator <span class="sc">==</span> <span class="st">"ex"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>indicator, <span class="sc">-</span>year) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">le =</span> value)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ex2019 <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   age   sex       le</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;ord&gt; &lt;chr&gt;  &lt;dbl&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 &lt;1    male    70.8</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 &lt;1    female  75.9</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 &lt;1    both    73.3</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 01-04 male    72.0</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 01-04 female  76.9</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 01-04 both    74.4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then we merge the <code>deaths_stroke</code> with the <code>ex2019</code> data to calculate the YLLs due to stroke in the Global region with the <code>full_join()</code> function, and group the data by age and sex before to create one more vector named <code>YLL</code>, which is the product of the number of deaths and the life expectancy at that age. These YLLs values are expressed in millions, and are not necessarily the real values, but estimated values. Their values are strongly dependent on the life expectancy and the number of deaths due to stroke, also other adjustments can be made to the life expectancy values to get more accurate results. In the past, the calculation of YLLs included the use of a discount rate, which is no longer used in the most recent calculations.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>YLL_global_stroke <span class="ot">&lt;-</span> deaths_stroke <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(ex2019) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">YLL =</span> dx <span class="sc">*</span> le) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="tbl-YLL_global_stroke" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-YLL_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: YLLs due to Stroke in the Global region-5 years age groups
+</figcaption>
+<div aria-describedby="tbl-YLL_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>YLL_global_stroke <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sex    age      dx    le     YLL</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 male   &lt;1    3640.  70.8 257916.</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 female &lt;1    2404.  75.9 182396.</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 both   &lt;1    6044.  73.3 443136.</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 male   01-04 2049.  72.0 147563.</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 female 01-04 1505.  76.9 115680.</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 both   01-04 3553.  74.4 264428.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</figure>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-YLL_global_stroke" class="quarto-float quarto-figure quarto-figure-center anchored" alt="YLLs due to Stroke in the Global region">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-YLL_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-method_calculation_files/figure-html/fig-YLL_global_stroke-1.png" class="img-fluid figure-img" alt="YLLs due to Stroke in the Global region" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-YLL_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: YLLs due to Stroke in the Global region
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on these results, we can conclude that the components of YLLs due to stroke are essential measures of the impact of this condition on the quality of life of individuals in the Global region. The YLLs due to stroke are particularly high in older age groups, where the number of deaths is higher, and the life expectancy is lower. This indicates that stroke has a significant impact on the overall burden of disease in the Global region, particularly among older populations.</p>
+</section>
+<section id="sec-02-ex-yll-est" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="sec-02-ex-yll-est"><span class="header-section-number">3.1.2</span> Exercise: All-Ages YLLs Estimation</h3>
+<p>Calculate the YLLs due to stroke in the Global region for <strong>All-ages</strong>, and compare the results with the IHME data for the year 2019.</p>
+<p>The YLLs due to stroke in the Global region in 2019-IHME data can be downloaded from the <a href="healthdata.org">healthdata.org</a>, with 2019 data reflecting the updates of 2021 GDB releases.</p>
+<p>The <code>stroke_ihme</code><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> dataset contains the estimated values for the numbers, percent and rates of Deaths, DALYs, YLLs, and YLDs due to stroke in the Global region-All ages and Age-standardized, for years 2019 and 2021.</p>
+<p>Filtering the data for the year 2019-All Ages, we can visualise only the values of all metrics due to stroke in the Global region, as shown below.</p>
+<div id="tbl-stroke_ihme" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-stroke_ihme-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.3: All-Ages IHME Metrics for Stroke in the Global region for the year 2019
+</figcaption>
+<div aria-describedby="tbl-stroke_ihme-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stroke_ihme <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">round</span>(., <span class="dv">2</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>         age <span class="sc">==</span> <span class="st">"All ages"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(metric, DALYs, YLDs, YLLs)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 4</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   metric         DALYs        YLDs         YLLs</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Number  156261906.   14462764.   141799142.  </span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Percent         0.06        0.02         0.08</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Rate         2018.        187.        1831.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</figure>
+</div>
+<p>In the Global region, YLLs (Years of Life Lost) due to stroke for all age groups total 141.799 million years, accounting for 8% of the total disease burden. On average, approximately 1,830 years of life were lost prematurely due to stroke for every 100,000 people in the population.</p>
+<p>To calculate the YLLs due to stroke in the Global region for <strong>All-ages</strong> use the <a href="#tbl-YLL_global_stroke" class="quarto-xref">Table&nbsp;<span>3.2</span></a> datasets, and compare the results with the IHME data for the year 2019. As estimated by the IHME for the year 2019, this calculation is based on the number of deaths caused by stroke and the corresponding life expectancy at different ages, which together determine the YLLs attributable to stroke.<span class="citation" data-cites="ferrari2024"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span></p>
+<p>Note that the values are not necessarily the real values, but estimated values. Their values are strongly dependent on the life expectancy and the number of deaths due to stroke, also other adjustments can be made to the life expectancy values to get more accurate results. In the past, the calculation of YLLs included the use of a discount rate, which is no longer used in the most recent calculations.</p>
+</section>
+</section>
+<section id="ylds-calculation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="ylds-calculation"><span class="header-section-number">3.2</span> YLDs Calculation</h2>
+<p><strong>YLDs (Years Lived with Disability)</strong> measure the number of years a person lives with a disability due to a disease or injury. It is calculated by multiplying the <strong>prevalence of a condition</strong> by the <strong>disability weight</strong>, which reflects the <strong>severity</strong> of the disability.</p>
+<p>The key factor of the disability weights (DW) is linked to the severity (mean of the range of health loss suffered to disease) of a non-fatal health condition due to disease or injury. DW ranges between 0 (equivalent to full health) and 1 (equivalent to death). The estimation of the disability weights is challenging and has been continuously changed by modifying and adapting methodologies in various studies.<span class="citation" data-cites="liu2023"><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span> The challenge is assigning disability weights to diseases with different levels of prevalence and severity, such as cases with high prevalence and low severity. People’s experiences of the same condition can vary significantly, making it difficult to establish a Standardised weight that accurately reflects the global impact on quality of life. Furthermore, the results need to be reported to a year-based value.</p>
+<p>Moreover, the calculation of YLDs has been updated over the years, shifting from an incidence to a prevalence-based approach. More in-depth analyses are in <a href="03-components.html" class="quarto-xref"><span>Chapter 4</span></a>; for now, we will show how both types of calculations differ, but then we will focus on using the most updated approach based on values of prevalence estimated by the GBD2021, summarised in the <code>hmsidwR::incprev_stroke</code> dataset. This dataset specifically contains the estimated values for the incidence and prevalence of stroke in the Global region for the years 2019 and 2021.</p>
+<section id="incidence-based-calculation" class="level4" data-number="3.2.0.1">
+<h4 data-number="3.2.0.1" class="anchored" data-anchor-id="incidence-based-calculation"><span class="header-section-number">3.2.0.1</span> Incidence-based Calculation</h4>
+<p><strong>Standard Formula</strong></p>
+<p><span id="eq-yldi"><span class="math display">
+YLD_i=I*DW*L
+\tag{3.2}</span></span></p>
+<p>In <a href="#eq-yldi" class="quarto-xref">Equation&nbsp;<span>3.2</span></a>, <span class="math inline">I</span> is the incidence of the condition, <span class="math inline">DW</span> is the disability weight, and <span class="math inline">L</span> is the average duration of the condition. The incidence takes into account the number of new cases of a disease or health condition that occur in a population over a specific period. The disability weight reflects the severity of the health condition, and the average duration of the condition is the average length of time a person lives with the condition.</p>
+</section>
+<section id="prevalence-based-calculation" class="level4" data-number="3.2.0.2">
+<h4 data-number="3.2.0.2" class="anchored" data-anchor-id="prevalence-based-calculation"><span class="header-section-number">3.2.0.2</span> Prevalence-based Calculation</h4>
+<p><strong>Standard Formula</strong></p>
+<p><span id="eq-yld"><span class="math display">
+YLD_p=p*DW
+\tag{3.3}</span></span></p>
+<p>In <a href="#eq-yld" class="quarto-xref">Equation&nbsp;<span>3.3</span></a>, <span class="math inline">p</span> is the prevalence, <span class="math inline">DW</span> are the disability weights. While an incidence-based approach focuses on the number of new cases of a health condition, the prevalence-based approach considers the total number of cases in the population. The disability weight reflects the severity of the health condition and it is applied to the prevalence to calculate the YLDs, and the duration of the condition is not considered in the prevalence-based calculation.</p>
+</section>
+<section id="sec-02-ex-ylds-stroke" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-02-ex-ylds-stroke"><span class="header-section-number">3.2.1</span> Example: YLDs due to Stroke</h3>
+<p>Since the release of GBD 2010, the WHO has decided to switch to a prevalence-based approach for the calculation of YLDs. The major impact of this shift is to distribute the weights of the YLDs more evenly across all age groups, rather than concentrating them at the age of incidence.</p>
+<p>In the following example we use the <code>disability weights</code> and the <code>severity</code> levels extracted from a dataset in the GBD study. The <code>disweights</code> dataset is stored in the <code>{hmsidwR}</code> package and is made of 463 observations and 9 variables. It contains the estimated values for the disability weights, which are measured on a scale from 0 to 1, where 0 equals a state of full health and 1 equals death.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>hmsidwR<span class="sc">::</span>disweights <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cause1, severity) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">dw =</span> <span class="fu">mean</span>(dw)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause1 <span class="sc">==</span> <span class="st">"Stroke"</span>) </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 3</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cause1 severity    dw</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Stroke mild     0.019</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Stroke moderate 0.193</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Stroke severe   0.57</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The level of <strong>severity</strong> is assigned based on the <strong>degree of disability</strong> assessed by the <a href="https://en.wikipedia.org/wiki/National_Institutes_of_Health"><strong>National Institutes of Health Stroke Scale (NIHSS)</strong></a>. The classification is used by healthcare providers to objectively quantify the impairment caused by a <a href="https://en.wikipedia.org/wiki/Stroke" title="Stroke">stroke</a>. Here is assumed a sample population affected by a stroke, categorised as <strong>mild</strong>, <strong>moderate</strong>, or <strong>severe</strong> with assigned proportions.</p>
+<table class="caption-top table">
+<caption><strong>Level of disability</strong> by the <a href="https://en.wikipedia.org/wiki/National_Institutes_of_Health"><strong>National Institutes of Health NIH</strong></a> or more specifically by the <strong>National Institutes of Health Stroke Scale (NIHSS)</strong>.</caption>
+<tbody>
+<tr class="odd">
+<td>Score</td>
+<td>Stroke severity</td>
+<td>Severity Level</td>
+<td>Severity %</td>
+</tr>
+<tr class="even">
+<td>0-4</td>
+<td>Minor stroke</td>
+<td>Mild</td>
+<td>50.3%</td>
+</tr>
+<tr class="odd">
+<td>5–20</td>
+<td>Moderate stroke</td>
+<td>Moderate</td>
+<td>25.3%</td>
+</tr>
+<tr class="even">
+<td>21-42</td>
+<td>Severe stroke</td>
+<td>Severe</td>
+<td>24.4%</td>
+</tr>
+</tbody>
+</table>
+<p>These levels are general for all ages; the values might vary for other specifications of the level of disability.<span class="citation" data-cites="wyper2020"><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dwsev2019 <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>disweights <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cause1, severity, dw) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">severity_n =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    severity <span class="sc">==</span> <span class="st">"mild"</span> <span class="sc">~</span> <span class="fl">0.503</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    severity <span class="sc">==</span> <span class="st">"moderate"</span> <span class="sc">~</span> <span class="fl">0.253</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    severity <span class="sc">==</span> <span class="st">"severe"</span> <span class="sc">~</span> <span class="fl">0.244</span>))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>dwsev2019 <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cause1             severity    dw severity_n</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;              &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Infectious disease mild     0.006      0.503</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Infectious disease moderate 0.051      0.253</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Infectious disease mild     0.006      0.503</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Infectious disease mild     0.006      0.503</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Infectious disease mild     0.006      0.503</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Infectious disease mild     0.006      0.503</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The values for disability weights and severity are considered for all ages; in general, they differ by age, and for different types of stroke.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dw_stroke <span class="ot">&lt;-</span> dwsev2019 <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause1 <span class="sc">==</span> <span class="st">"Stroke"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(severity, severity_n) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">avg_dw =</span> <span class="fu">mean</span>(dw))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>dw_stroke </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 3</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   severity severity_n avg_dw</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 mild          0.503  0.206</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 moderate      0.253  0.293</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 severe        0.244  0.632</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, calculate the part of the population affected by a specific level of severity considering the prevalence (and/or the incidence) multiplied by the severity levels.</p>
+<p>For instance, here we use the <code>incprev_stroke</code> and the <code>dw_stroke</code> datasets to calculate the YLDs due to stroke, and have a look at how incidence and prevalence differ from each other.</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Health metrics values can be expressed as numbers, percentages or rates:</p>
+<ul>
+<li>If the prevalence of stroke is 1,541,506.96 for male with age between 34-39 and it is expressed in numbers, it means that there are approximately 1,541,507 individuals in the age group 35-39 who had a stroke.</li>
+<li>If the prevalence of stroke is 0.58 for male with age between 34-39 and it is expressed in percent value (%), it means 0.58% of the population within that age range had a stroke.</li>
+<li>If the prevalence of stroke is expressed as rate, it is the number of cases of stroke per 100,000 individuals in the population.</li>
+</ul>
+<p>Percentages and numbers are related by the size of the population in that age group. To convert between these forms, you need to know the total population in the age group.</p>
+</div>
+</div>
+</div>
+<p>Let’s consider the numbers of incidence and prevalence, and assign them as two separate vectors in a new dataset named <code>inc_prev_stroke_5y</code>. We use the <code>pivot_wider()</code> function to spread the data into a wider format, with the <code>measure</code> column as the key column and the <code>val</code> column as the value column.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>inc_prev_stroke_5y <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>incprev_stroke <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(measure, sex, age, val) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"measure"</span>, <span class="at">values_from =</span> <span class="st">"val"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s check the values for the age group 35-39.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>inc_prev_stroke_5y <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sex) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">==</span> <span class="st">"35-39"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 4</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sex    age   Prevalence Incidence</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;ord&gt;      &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 both   35-39   3147689.   257815.</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 female 35-39   1606182.   113831.</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 male   35-39   1541507.   143984.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, multiply these values for the severity levels for stroke in the Global region. In this way we obtain three values, one for each severity level.</p>
+<p>For calculating the prevalence-based YLDs, we use the <code>prevalence</code> values, the <code>severity</code> and the <code>average weights</code>, while for incidence-based YLDs, we also need to consider the <code>average duration</code> of the condition.</p>
+<p>In particular, for stroke, the average duration of the condition can vary based on:</p>
+<ul>
+<li>duration for acute stroke: up to 28 days</li>
+<li>duration for chronic stroke: beyond 28 days, often modelled for long-term consequences, sometimes up to the lifetime of the patient depending on the model used.</li>
+</ul>
+<p>In this example, we consider the average duration of the condition for 28 days. It does need to be converted to be year-based:</p>
+<p><span id="eq-avg_dur"><span class="math display"> \hat{L}_{stroke}= \frac{28}{365}  \tag{3.4}</span></span></p>
+<p>These values strongly depend on the disability weights and the severity values assigned to the condition.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>YLD_by_severity <span class="ot">&lt;-</span> <span class="fu">merge</span>(inc_prev_stroke_5y, dw_stroke) <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, age, avg_dw) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">prev_sev =</span> Prevalence<span class="sc">*</span>severity_n,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">inc_sev =</span> Incidence<span class="sc">*</span>severity_n,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">yld_p =</span> prev_sev<span class="sc">*</span> avg_dw,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">yld_i =</span> inc_sev<span class="sc">*</span> avg_dw <span class="sc">*</span> <span class="dv">28</span><span class="sc">/</span><span class="dv">365</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s check the values for the age group 35-39.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>YLD_by_severity <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">==</span> <span class="st">"35-39"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 9 × 7</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sex    age   avg_dw prev_sev inc_sev   yld_p yld_i</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;ord&gt;  &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 both   35-39  0.206 1583288. 129681. 326847. 2054.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 both   35-39  0.293  796365.  65227. 233379. 1466.</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 both   35-39  0.632  768036.  62907. 485262. 3049.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 female 35-39  0.206  807910.  57257. 166781.  907.</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 female 35-39  0.293  406364.  28799. 119087.  647.</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 female 35-39  0.632  391908.  27775. 247616. 1346.</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 male   35-39  0.206  775378.  72424. 160066. 1147.</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 male   35-39  0.293  390001.  36428. 114292.  819.</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9 male   35-39  0.632  376128.  35132. 237646. 1703.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can reverse the calculation to check the original values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>YLD_by_severity <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">==</span> <span class="st">"35-39"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, age) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">prev=</span><span class="fu">sum</span>(prev_sev),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">inc=</span><span class="fu">sum</span>(inc_sev))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 4</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sex    age       prev     inc</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;ord&gt;    &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 both   35-39 3147689. 257815.</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 female 35-39 1606182. 113831.</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 male   35-39 1541507. 143984.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And, finally calculate the total value for YLDs as:</p>
+<p><span id="eq-tot-ylds"><span class="math display"> \text{Total YLDs} = \text{YLD}_{\text{mild}} + \text{YLD}_{\text{moderate}} + \text{YLD}_{\text{severe}} \tag{3.5}</span></span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>YLD_global_stroke <span class="ot">&lt;-</span> YLD_by_severity <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, age) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">YLD_p =</span> <span class="fu">sum</span>(yld_p),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">YLD_i =</span> <span class="fu">sum</span>(yld_i))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>For instance, for a male with age 34-39, the YLDs due to stroke calculated on the population of that age group who have the condition for three different severity levels, are shown below.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>YLD_global_stroke <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"male"</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         age <span class="sc">==</span> <span class="st">"35-39"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 4</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sex   age     YLD_p YLD_i</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 male  35-39 512004. 3669.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This value is the sum of the severity levels of prevalence-based YLDs due to stroke; it strongly depends on the disability weights and the severity values assigned to the condition. Here we have considered estimated values, which do not necessarily correspond to the real values.</p>
+<p>We note the difference in the YLDs if incidence or prevalence is used in the calculation. The magnitude of the YLDs is similar, but the values are distributed differently across the age groups.</p>
+<div id="fig-YLD_global_stroke" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-YLD_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-YLD_global_stroke" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-YLD_global_stroke-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="YLDs due to stroke in the Global region">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-YLD_global_stroke-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-method_calculation_files/figure-html/fig-YLD_global_stroke-1.png" class="img-fluid figure-img" data-ref-parent="fig-YLD_global_stroke" alt="YLDs due to stroke in the Global region" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-YLD_global_stroke-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) YLDs calculated with prevalence
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-YLD_global_stroke" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-YLD_global_stroke-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="YLDs due to stroke in the Global region">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-YLD_global_stroke-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-method_calculation_files/figure-html/fig-YLD_global_stroke-2.png" class="img-fluid figure-img" data-ref-parent="fig-YLD_global_stroke" alt="YLDs due to stroke in the Global region" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-YLD_global_stroke-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) YLDs calculated with incidence
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-YLD_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: YLDs due to stroke in the Global region
+</figcaption>
+</figure>
+</div>
+<p>In summary, the YLDs due to stroke are an important measure of the impact of this condition on the quality of life of individuals in the Global region. In this example we saw how the level of disability and the severity of the condition can affect the YLDs, and how the prevalence-based and incidence-based calculations can provide different results. The YLDs due to stroke are particularly high in older age groups, where the prevalence of the condition is higher, and the severity of the disability is more pronounced. This indicates that stroke has a significant impact on the overall burden of disease in the Global region, particularly among older populations.</p>
+</section>
+<section id="exercise-all-ages-ylds-estimation" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="exercise-all-ages-ylds-estimation"><span class="header-section-number">3.2.2</span> Exercise: All-Ages YLDs Estimation</h3>
+<p>Calculate the YLDs due to stroke in the Global region for <strong>All-ages</strong>, and compare the results with the IHME data for the year 2019 as done for the YLLs. Use the IHME data provided in <a href="#sec-02-ex-yll-est" class="quarto-xref"><span>Section 3.1.2</span></a> <a href="#tbl-stroke_ihme" class="quarto-xref">Table&nbsp;<span>3.3</span></a> from the <code>stroke_ihme</code> dataset.</p>
+</section>
+</section>
+<section id="dalys-calculation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="dalys-calculation"><span class="header-section-number">3.3</span> DALYs Calculation</h2>
+<p>As a measure of the overall disease burden, <strong>Disability Adjusted Life Years (DALYs)</strong> are used to quantify the sum of years of potential life lost due to premature death (YLLs) and years lived with disability (YLDs). The number of DALYs indicates the number of years of life lost due to premature deaths, disease, or injury. This metric takes into account both the <strong>quantity</strong> and <strong>quality</strong> of life.</p>
+<p>DALYs are a generalisation of the well-known <strong>Potential Years of Life Lost measure (PYLLs)</strong>, which includes the loss of good health. We do not consider PYLLs in this book, but more information can be found in the references.<span class="citation" data-cites="globalh"><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span></p>
+<p><strong>Standard Formula</strong></p>
+<p><span id="eq-daly"><span class="math display">
+DALYs=YLLs+YLDs
+\tag{3.6}</span></span></p>
+<p>One DALY is one lost year of healthy life. This measure is used to assess how diseases and injuries impact populations, providing a comprehensive picture of the overall burden of disease by combining YLLs and YLDs in different groups.</p>
+<section id="example-dalys-due-to-stroke" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="example-dalys-due-to-stroke"><span class="header-section-number">3.3.1</span> Example: DALYs due to Stroke</h3>
+<p>The sum of YLLs and YLDs releases the overall value of DALYs due to stroke in the Global region.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>DALY_global_stroke <span class="ot">&lt;-</span> YLL_global_stroke <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sex, YLL) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(YLD_global_stroke <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(age, sex, <span class="at">YLD=</span>YLD_p), </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"age"</span>,<span class="st">"sex"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DALY =</span> YLL <span class="sc">+</span> YLD) </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>DALY_global_stroke <span class="sc">%&gt;%</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   age   sex        YLL    YLD    DALY</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;ord&gt; &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 &lt;1    male   257916.  1475. 259391.</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 &lt;1    female 182396.  1696. 184092.</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 &lt;1    both   443136.  3170. 446307.</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 01-04 male   147563. 25094. 172657.</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 01-04 female 115680. 30047. 145728.</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 01-04 both   264428. 55142. 319570.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s have a closer look at the 35-39 age groups.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>DALY_global_stroke <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">==</span> <span class="st">"35-39"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   age   sex         YLL      YLD     DALY</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;ord&gt; &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 35-39 male   1363806.  512004. 1875809.</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 35-39 female  879509.  533485. 1412994.</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 35-39 both   2273474. 1045489. 3318963.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fig-DALY_global_stroke" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-DALY_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-DALY_global_stroke" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-DALY_global_stroke-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="DALYs due to stroke in the Global region">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-DALY_global_stroke-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-method_calculation_files/figure-html/fig-DALY_global_stroke-1.png" class="img-fluid figure-img" data-ref-parent="fig-DALY_global_stroke" alt="DALYs due to stroke in the Global region" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-DALY_global_stroke-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) DALYs due to stroke in the Global region for females and males.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-DALY_global_stroke" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-DALY_global_stroke-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="DALYs due to stroke in the Global region">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-DALY_global_stroke-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-method_calculation_files/figure-html/fig-DALY_global_stroke-2.png" class="img-fluid figure-img" data-ref-parent="fig-DALY_global_stroke" alt="DALYs due to stroke in the Global region" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-DALY_global_stroke-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) DALYs, YLLs and YLDs due to stroke in the Global region
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-DALY_global_stroke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: DALYs due to stroke in the Global region
+</figcaption>
+</figure>
+</div>
+<p>In summary, DALYs are a valuable metric for assessing the overall burden. The DALYs due to stroke provide a comprehensive measure of the impact of this condition on the quality of life of individuals, combining the years of life lost due to premature death and the years lived with disability.</p>
+<p>DALYs can vary significantly between conditions, reflecting both the severity and impact of each disease on quality and length of life. For instance, stroke and diabetes, both prevalent globally, differ widely in their DALY contributions. Strokes tend to have high DALYs due to their immediate impact on mortality (Years of Life Lost or YLLs) and long-term disability (Years Lived with Disability or YLDs). On the other hand, diabetes, a chronic condition, has a lower YLLs but a higher YLDs, reflecting the long-term impact on quality of life.</p>
+</section>
+<section id="exercise-total-dalys-estimation" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="exercise-total-dalys-estimation"><span class="header-section-number">3.3.2</span> Exercise: Total DALYs Estimation</h3>
+<p>Calculate the DALYs due to stroke in the Global region for <strong>All-ages</strong>, and compare the results with the IHME data for the year 2019 as done for the YLLs. Use the IHME data provided in <a href="#sec-02-ex-yll-est" class="quarto-xref"><span>Section 3.1.2</span></a> <a href="#tbl-stroke_ihme" class="quarto-xref">Table&nbsp;<span>3.3</span></a> from the <code>stroke_ihme</code> dataset.</p>
+</section>
+</section>
+<section id="how-dalys-are-used" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="how-dalys-are-used"><span class="header-section-number">3.4</span> How DALYs are Used</h2>
+<p>DALYs, YLLs, and YLDs can be used in several ways to help identify health priorities, evaluate the impact of diseases and injuries, and inform public health decision-making. Some common uses of these metrics include:</p>
+<ul>
+<li><strong>Prioritising public health interventions</strong>: By calculating the overall burden of disease in a population, public health practitioners can prioritise which diseases and injuries to address first. This helps allocate resources and target interventions to the areas of greatest need.</li>
+<li><strong>Evaluating the impact of diseases and injuries</strong>: These metrics can be used to measure the impact of diseases and injuries on individuals and populations and to track changes over time. This information can help inform public health decision-making and allocate resources more effectively.</li>
+<li><strong>Comparing the burden of disease across populations</strong>: DALY, YLL, and YLD can be used to compare the burden of disease across populations and between different regions. This information can help identify disparities in health outcomes and inform targeted public health interventions.</li>
+<li><strong>Evaluating the effectiveness of public health programs</strong>: These metrics can be used to evaluate the impact of public health programs and to assess the effectiveness of public health interventions. This information can help public health practitioners identify areas for improvement and make necessary changes to ensure that programs are achieving their goals.</li>
+<li><strong>Monitoring global health trends</strong>: DALY, YLL, and YLD can also be used to monitor global health trends and track changes in the burden of disease over time. This information can be used to inform global health policies and allocate resources to address emerging health threats.</li>
+</ul>
+<p>To mention the case of Rwanda, the GBD 2021 results released by the IHME showed that the country had made significant progress in reducing the burden of disease over the past decade<span class="citation" data-cites="ferrari2024">.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></span> By using DALYs, YLLs, and YLDs, public health leaders were able to identify key areas for improvement and target resources to address the most pressing health challenges. For example, the government used the DALYs metrics to address the burden of non-communicable diseases (NCDs), public health leaders observed that conditions like cardiovascular disease and diabetes were contributing significantly to the country’s overall disease burden, surpassing infectious diseases in certain demographics. This insight led to targeted policy shifts, including prioritising funding for NCD prevention and treatment programs, investing in training for healthcare providers on chronic disease management, and increasing public awareness of lifestyle risk factors like smoking and poor diet.</p>
+<p>Overall, the health metrics of DALY, YLL, and YLD provide valuable information for public health practitioners, researchers, and policy makers to help prioritise and allocate resources, evaluate the impact of diseases and injuries, and inform public health decision-making.</p>
+<section id="general-application-of-dalys" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="general-application-of-dalys"><span class="header-section-number">3.4.1</span> General Application of DALYs</h3>
+<p>As an example here is shown how the DALY metric can be used for prevention. Suppose we have data on the number of cases of a particular disease, as well as the average number of years of life lost due to this disease. We can use this information to calculate the total number of DALYs lost due to this disease.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame with the number of cases and average years of life lost</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">YLL =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">YLD =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the number of DALYs lost</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">DALY =</span> YLL <span class="sc">+</span> YLD)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum the total number of DALYs lost</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>total_dalys <span class="ot">&lt;-</span> <span class="fu">sum</span>(df<span class="sc">$</span>DALY)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>total_dalys</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 38</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In this example, the number of cases of the disease and the average years of life lost for each case are used to calculate the number of DALYs lost for each case. Finally, the total number of DALYs lost for the entire population.</p>
+<p>This information can be used to inform public health interventions to prevent the spread of this disease and reduce the number of DALYs lost. For example, the information could be used to prioritise resources for disease control and prevention activities, such as health education campaigns, vaccination programs, and screening and treatment programs.</p>
+</section>
+</section>
+<section id="hale-calculation" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="hale-calculation"><span class="header-section-number">3.5</span> HALE Calculation</h2>
+<p>Healthy Life Expectancy (HALE) is a metric used to estimate the number of years a person can expect to live in good health, taking into account both mortality and morbidity factors. It is often used as a measure of overall population health and quality of life. It takes into account the impact of both fatal and non-fatal health outcomes on overall life expectancy. HALE is typically calculated using data on mortality rates and health-related quality of life measures, such as disability-adjusted life years (DALYs) or quality-adjusted life years (QALYs). These measures allow for the estimation of the number of years lost due to premature death or disability.</p>
+<p>It can be used to identify health disparities, assess the effectiveness of healthcare interventions, and inform public health policies. By measuring the number of years lived in good health, HALE offers a more nuanced understanding of population health rather than traditional life expectancy measures.</p>
+<p><strong>Standard Formula</strong></p>
+<p><span id="eq-hale"><span class="math display">
+HALE= \text{life expectancy}- YLD
+\tag{3.7}</span></span></p>
+<p>HALE is obtained by subtracting the YLDs from the life expectancy of a population. However, if we consider more specifications such as comorbidities and other health factors that can occur in real life, the calculation can be adjusted by assuming different levels of prevalence based on disease sequelae with associated disability weights, and eventually accounting for comorbidity levels by using a Monte Carlo simulation approach.</p>
+<p>We use age-specific mortality and YLDs per capita by location, age, sex, and year, and define the HALE as:</p>
+<blockquote class="blockquote">
+<p>the average number of years that a person at a given age can expect to live in good health, taking into account mortality and loss of functional health.</p>
+</blockquote>
+<div id="fig-flow-hale" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="HALE - GLOBAL HEALTH METRICS">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flow-hale-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/02_hale.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="HALE - GLOBAL HEALTH METRICS" width="504">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flow-hale-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: HALE - GLOBAL HEALTH METRICS VOLUME 392, ISSUE 10159, P1859-1922, NOVEMBER 10, 2018
+</figcaption>
+</figure>
+</div>
+<p>The process of calculating HALE for a specific population, considering factors such as sex, country, and year, involves computing the average health of individuals across different age groups within the population and integrating information on the prevalence of various health conditions and their associated disability weights. Comorbidity is addressed using a Monte Carlo simulation approach, assuming independence of comorbidities within each age group. Simulations are conducted to model exposure to different health conditions based on their estimated prevalence in each age group, resulting in a simulated population reflecting the prevalence of multi-morbidities.<span class="citation" data-cites="stanaway2018"><a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></span></p>
+<p><strong>Positive health</strong> associated with each health condition is defined as one minus the disability weight <span class="math inline">(1 - DW)</span>. The combined health for an individual in the simulated population is determined by multiplying these positive health values for all relevant health conditions present.</p>
+<p>The <strong>average health</strong> values are then computed as one minus the Years Lived with Disability (YLD) <span class="math inline">(1 - YLD)</span> per person in the population, which are used to calculate health-adjusted person years. The <strong>Sullivan method</strong> is employed to incorporate these average health values into the life table. This involves adjusting the values in the <span class="math inline">nLx</span> column of the life table by the corresponding average health values, recalculating the life table using these adjusted values, and then using an iterative process to estimate health-adjusted person-years for different age groups.</p>
+<p>Finally, HALE is calculated by dividing the adjusted person-years for each age group by the proportion of a hypothetical birth cohort still alive at that age.</p>
+<section id="simulating-life-table-data" class="level4" data-number="3.5.0.1">
+<h4 data-number="3.5.0.1" class="anchored" data-anchor-id="simulating-life-table-data"><span class="header-section-number">3.5.0.1</span> Simulating Life Table Data</h4>
+<p>To understand the process of calculating HALE, we can simulate life table data. We’ll define age intervals (e.g., every 5 years) and simulate survival probabilities for each age interval (between 0 and 1).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">040424</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>age_intervals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>survival_probabilities <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">length</span>(age_intervals),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>life_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age =</span> age_intervals,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Survival_Probability =</span> survival_probabilities,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nLx =</span> <span class="dv">100000</span> <span class="sc">-</span> (age_intervals <span class="sc">*</span> survival_probabilities))</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>life_table <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Age Survival_Probability       nLx</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   0            0.5579497 100000.00</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   5            0.9241893  99995.38</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  10            0.8810716  99991.19</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  15            0.9562922  99985.66</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  20            0.6927314  99986.15</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  25            0.5607459  99985.98</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We then calculate adjusted <span class="math inline">T_x</span> for each age group as the sum of health-adjusted person-years for all age intervals above the current age interval.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate prevalences</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>prevalences <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">length</span>(age_intervals),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="fl">0.5</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate disability weights</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>disability_weights <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">length</span>(age_intervals),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average health for each age group</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>average_health <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (prevalences <span class="sc">*</span> disability_weights)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust Tx for each age group</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>life_table<span class="sc">$</span>adjusted_px <span class="ot">&lt;-</span> life_table<span class="sc">$</span>Survival_Probability <span class="sc">*</span> average_health</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>life_table <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Age Survival_Probability       nLx adjusted_px</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   0            0.5579497 100000.00   0.5345848</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   5            0.9241893  99995.38   0.7786488</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  10            0.8810716  99991.19   0.5781898</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  15            0.9562922  99985.66   0.7392462</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  20            0.6927314  99986.15   0.5813254</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  25            0.5607459  99985.98   0.3603310</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s make a function to calculate the <strong>HALE</strong>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>calculate_HALE <span class="ot">&lt;-</span> <span class="cf">function</span>(age, px) {</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialise a vector to store adjusted Tx for each age group</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  adjusted_Tx <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(age))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterate over each age interval to calculate adjusted Tx</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(age)) {</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate adjusted Tx for the current age group</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    adjusted_Tx[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(px[i<span class="sc">:</span><span class="fu">length</span>(age)])</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  HALE <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(age))</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate HALE for each age group</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(age)) {</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate HALE for the current age group</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    HALE[i] <span class="ot">&lt;-</span> adjusted_Tx[i] <span class="sc">/</span> px[i]</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  HALE</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now, we calculate HALE for the simulated life table data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate HALE for the simulated life table data</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>HALE1 <span class="ot">&lt;-</span> <span class="fu">calculate_HALE</span>(age_intervals, life_table<span class="sc">$</span>Survival_Probability)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>HALE2 <span class="ot">&lt;-</span> <span class="fu">calculate_HALE</span>(age_intervals, life_table<span class="sc">$</span>adjusted_px)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To visualise the HALE for both the standard and adjusted life table data we can plot the results with a line graph.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-HALE" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Health Adjusted Life Expectancy (HALE) by Age">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-HALE-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02-method_calculation_files/figure-html/fig-HALE-1.png" class="img-fluid figure-img" alt="Health Adjusted Life Expectancy (HALE) by Age" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-HALE-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.6: Health Adjusted Life Expectancy (HALE) by Age. The blue line represents the HALE for the simulated life table data, the dotted line represents the HALE for the adjusted life table data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The difference between the two lines represents the impact of adjusting a life table for health conditions on the calculation of HALE. The adjusted life table data considers the prevalence of health conditions and their associated disability weights, providing a more accurate estimate of the number of years a person can expect to live in good health.</p>
+<p>In general, HALE is a valuable metric for assessing the overall health of a population, by incorporating information on the prevalence of health conditions and their associated disability weights, HALE offers a more specific understanding of population health.</p>
+</section>
+</section>
+<section id="summary" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.6</span> Summary</h2>
+<p>In this chapter, we have detailed the methods and calculations for evaluating the burden of disease using key health metrics: YLLs, YLDs, and DALYs. By understanding how to compute these metrics, we gain insights into the impact of diseases and injuries on populations, guiding public health decisions and interventions. We also introduced HALE, a metric that combines mortality and morbidity data to provide a comprehensive measure of population health. These metrics are invaluable tools for public health practitioners, policymakers, and researchers in their quest to improve global health outcomes.</p>
+<p>As we confront new global health challenges like pandemics, ageing populations, and climate-related health risks, traditional metrics like DALYs and QALYs are evolving to meet new approaches to capture the complexity of health outcomes. The inclusion of well-being, resilience, and mental health is becoming increasingly essential to understanding the full impact of health conditions on individuals and populations.</p>
+<p>In the next chapter (<a href="03-components.html" class="quarto-xref"><span>Chapter 4</span></a>), we will delve deeper into the components and variations of these metrics, further enhancing our understanding of how to utilise them effectively in public health assessments.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-dempsey2019" class="csl-entry" role="listitem">
+Dempsey, Mary. <span>“Decline in Tuberculosis.”</span> <em>American Review of Tuberculosis</em>, April 23, 2019. <a href="https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab">https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab</a>.
+</div>
+<div id="ref-devleesschauwer2020" class="csl-entry" role="listitem">
+Devleesschauwer, Brecht, Scott A. McDonald, Niko Speybroeck, and Grant M. A. Wyper. <span>“Valuing the Years of Life Lost Due to COVID-19: The Differences and Pitfalls.”</span> <em>International Journal of Public Health</em> 65, no. 6 (2020): 719–20. doi:<a href="https://doi.org/10.1007/s00038-020-01430-2">10.1007/s00038-020-01430-2</a>.
+</div>
+<div id="ref-ferrari2024" class="csl-entry" role="listitem">
+Ferrari, Alize J., Damian Francesco Santomauro, Amirali Aali, Yohannes Habtegiorgis Abate, Cristiana Abbafati, Hedayat Abbastabar, Samar Abd ElHafeez, et al. <span>“Global Incidence, Prevalence, Years Lived with Disability (YLDs), Disability-Adjusted Life-Years (DALYs), and Healthy Life Expectancy (HALE) for 371 Diseases and Injuries in 204 Countries and Territories and 811 Subnational Locations, 1990<span></span>2021: A Systematic Analysis for the Global Burden of Disease Study 2021.”</span> <em>The Lancet</em> 403, no. 10440 (May 18, 2024): 2133–61. doi:<a href="https://doi.org/10.1016/S0140-6736(24)00757-8">10.1016/S0140-6736(24)00757-8</a>.
+</div>
+<div id="ref-globalh" class="csl-entry" role="listitem">
+<span>“Global Health Estimates,”</span> n.d. <a href="https://www.who.int/data/global-health-estimates">https://www.who.int/data/global-health-estimates</a>.
+</div>
+<div id="ref-haenszel1950" class="csl-entry" role="listitem">
+Haenszel, William. <span>“A Standardized Rate for Mortality Defined in Units of Lost Years of Life.”</span> <em>American Journal of Public Health and the Nations Health</em> 40, no. 1 (January 1950): 17–26. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1528498/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1528498/</a>.
+</div>
+<div id="ref-liu2023" class="csl-entry" role="listitem">
+Liu, Xiaoxue, Yan Guo, Fang Wang, Yong Yu, Yaqiong Yan, Haoyu Wen, Fang Shi, et al. <span>“Disability Weight Measurement for the Severity of Different Diseases in Wuhan, China.”</span> <em>Population Health Metrics</em> 21 (May 2023): 5. doi:<a href="https://doi.org/10.1186/s12963-023-00304-y">10.1186/s12963-023-00304-y</a>.
+</div>
+<div id="ref-reiner2022" class="csl-entry" role="listitem">
+Reiner, Robert C., and Simon I. Hay. <span>“The Overlapping Burden of the Three Leading Causes of Disability and Death in Sub-Saharan African Children.”</span> <em>Nature Communications</em> 13, no. 1 (December 6, 2022): 7457. doi:<a href="https://doi.org/10.1038/s41467-022-34240-6">10.1038/s41467-022-34240-6</a>.
+</div>
+<div id="ref-stanaway2018" class="csl-entry" role="listitem">
+Stanaway, Jeffrey D, Ashkan Afshin, Emmanuela Gakidou, Stephen S Lim, Degu Abate, Kalkidan Hassen Abate, Cristiana Abbafati, et al. <span>“Global, Regional, and National Comparative Risk Assessment of 84 Behavioural, Environmental and Occupational, and Metabolic Risks or Clusters of Risks for 195 Countries and Territories, 1990<span></span>2017: A Systematic Analysis for the Global Burden of Disease Study 2017.”</span> <em>The Lancet</em> 392, no. 10159 (November 2018): 1923–94. doi:<a href="https://doi.org/10.1016/s0140-6736(18)32225-6">10.1016/s0140-6736(18)32225-6</a>.
+</div>
+<div id="ref-tsugane2021" class="csl-entry" role="listitem">
+Tsugane, Shoichiro. <span>“Why Has Japan Become the World’s Most Long-Lived Country: Insights from a Food and Nutrition Perspective.”</span> <em>European Journal of Clinical Nutrition</em> 75, no. 6 (2021): 921–28. doi:<a href="https://doi.org/10.1038/s41430-020-0677-5">10.1038/s41430-020-0677-5</a>.
+</div>
+<div id="ref-wyper2020" class="csl-entry" role="listitem">
+Wyper, Grant M. A., Ian Grant, Eilidh Fletcher, Neil Chalmers, Gerry McCartney, and Diane L. Stockton. <span>“Prioritising the Development of Severity Distributions in Burden of Disease Studies for Countries in the European Region.”</span> <em>Archives of Public Health</em> 78, no. 1 (January 2020): 3. doi:<a href="https://doi.org/10.1186/s13690-019-0385-6">10.1186/s13690-019-0385-6</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>William Haenszel, <span>“A Standardized Rate for Mortality Defined in Units of Lost Years of Life,”</span> <em>American Journal of Public Health and the Nations Health</em> 40, no. 1 (January 1950): 17–26, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1528498/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1528498/</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Mary Dempsey, <span>“Decline in Tuberculosis,”</span> <em>American Review of Tuberculosis</em>, April 23, 2019, <a href="https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab">https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Robert C. Reiner and Simon I. Hay, <span>“The Overlapping Burden of the Three Leading Causes of Disability and Death in Sub-Saharan African Children,”</span> <em>Nature Communications</em> 13, no. 1 (December 6, 2022): 7457, doi:<a href="https://doi.org/10.1038/s41467-022-34240-6">10.1038/s41467-022-34240-6</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Brecht Devleesschauwer et al., <span>“Valuing the Years of Life Lost Due to COVID-19: The Differences and Pitfalls,”</span> <em>International Journal of Public Health</em> 65, no. 6 (2020): 719–20, doi:<a href="https://doi.org/10.1007/s00038-020-01430-2">10.1007/s00038-020-01430-2</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Shoichiro Tsugane, <span>“Why Has Japan Become the World’s Most Long-Lived Country: Insights from a Food and Nutrition Perspective,”</span> <em>European Journal of Clinical Nutrition</em> 75, no. 6 (2021): 921–28, doi:<a href="https://doi.org/10.1038/s41430-020-0677-5">10.1038/s41430-020-0677-5</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>For reproducibility the <code>stroke_ihme</code> data is stored in the GitHub repository of the book (<a href="https://github.com/Fgazzelloni/hmsidR" class="uri">https://github.com/Fgazzelloni/hmsidR</a>).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Alize J. Ferrari et al., <span>“Global Incidence, Prevalence, Years Lived with Disability (YLDs), Disability-Adjusted Life-Years (DALYs), and Healthy Life Expectancy (HALE) for 371 Diseases and Injuries in 204 Countries and Territories and 811 Subnational Locations, 1990<span></span>2021: A Systematic Analysis for the Global Burden of Disease Study 2021,”</span> <em>The Lancet</em> 403, no. 10440 (May 18, 2024): 2133–61, doi:<a href="https://doi.org/10.1016/S0140-6736(24)00757-8">10.1016/S0140-6736(24)00757-8</a>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Xiaoxue Liu et al., <span>“Disability Weight Measurement for the Severity of Different Diseases in Wuhan, China,”</span> <em>Population Health Metrics</em> 21 (May 2023): 5, doi:<a href="https://doi.org/10.1186/s12963-023-00304-y">10.1186/s12963-023-00304-y</a>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Grant M. A. Wyper et al., <span>“Prioritising the Development of Severity Distributions in Burden of Disease Studies for Countries in the European Region,”</span> <em>Archives of Public Health</em> 78, no. 1 (January 2020): 3, doi:<a href="https://doi.org/10.1186/s13690-019-0385-6">10.1186/s13690-019-0385-6</a>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p><span>“Global Health Estimates,”</span> n.d., <a href="https://www.who.int/data/global-health-estimates">https://www.who.int/data/global-health-estimates</a>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Ferrari et al., <span>“Global Incidence, Prevalence, Years Lived with Disability (YLDs), Disability-Adjusted Life-Years (DALYs), and Healthy Life Expectancy (HALE) for 371 Diseases and Injuries in 204 Countries and Territories and 811 Subnational Locations, 1990<span></span>2021.”</span><a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>Jeffrey D Stanaway et al., <span>“Global, Regional, and National Comparative Risk Assessment of 84 Behavioural, Environmental and Occupational, and Metabolic Risks or Clusters of Risks for 195 Countries and Territories, 1990<span></span>2017: A Systematic Analysis for the Global Burden of Disease Study 2017,”</span> <em>The Lancet</em> 392, no. 10159 (November 2018): 1923–94, doi:<a href="https://doi.org/10.1016/s0140-6736(18)32225-6">10.1016/s0140-6736(18)32225-6</a>.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fgazzelloni\.quarto\.pub\/hmsidr\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-health_metrics.html" class="pagination-link" aria-label="Introduction to Health Metrics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-components.html" class="pagination-link" aria-label="Metrics Components">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>Editor CRC Press - Chapman &amp; Hall | Taylor &amp; Francis Group</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/02-method_calculation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Built with ❤︎️ and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Federica Gazzelloni">
+
+<title>8&nbsp; Essential R Packages for Machine Learning – Health Metrics and the Spread of Infectious Diseases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08-predictions.html" rel="next">
+<link href="./06-techniques.html" rel="prev">
+<link href="./images/icons/pen-to-square-solid.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3f82c0c769e6123ec458e1781414e6ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J9YVQPL7W9"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J9YVQPL7W9', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script defer="" data-domain="" src=""></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./07-packages.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Health Metrics and the Spread of Infectious Diseases</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Fgazzelloni/hmsidR" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Health Metrics</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-health_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-method_calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-causes_risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Machine Learning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-techniques.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-packages.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-predictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Data Visualization</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpreting Model Results Through Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-spatials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatial Data Modelling and Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Advanced Data Visualisation Techniques</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Infectious Diseases</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-infectious_diseases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to Infectious Diseases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-covid19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">COVID-19 Outbreaks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-malaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">The Case of Malaria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary: The State of Health</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Life Tables, Markov Chain and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Tools Used to Make This Book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Tips on Converting to Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#inside-and-outside-of-the-library-boxes" id="toc-inside-and-outside-of-the-library-boxes" class="nav-link active" data-scroll-target="#inside-and-outside-of-the-library-boxes"><span class="header-section-number">8.1</span> Inside and Outside of the Library Boxes</a></li>
+  <li><a href="#essential-r-packages-for-machine-learning" id="toc-essential-r-packages-for-machine-learning" class="nav-link" data-scroll-target="#essential-r-packages-for-machine-learning"><span class="header-section-number">8.2</span> Essential R Packages for Machine Learning</a>
+  <ul class="collapse">
+  <li><a href="#meta-packages" id="toc-meta-packages" class="nav-link" data-scroll-target="#meta-packages"><span class="header-section-number">8.2.1</span> Meta-Packages</a></li>
+  <li><a href="#engines" id="toc-engines" class="nav-link" data-scroll-target="#engines"><span class="header-section-number">8.2.2</span> Engines</a></li>
+  <li><a href="#sec-07-timeseries" id="toc-sec-07-timeseries" class="nav-link" data-scroll-target="#sec-07-timeseries"><span class="header-section-number">8.2.3</span> Time Series Analysis</a></li>
+  <li><a href="#bayesian-analysis" id="toc-bayesian-analysis" class="nav-link" data-scroll-target="#bayesian-analysis"><span class="header-section-number">8.2.4</span> Bayesian Analysis</a></li>
+  <li><a href="#specialized-tools" id="toc-specialized-tools" class="nav-link" data-scroll-target="#specialized-tools"><span class="header-section-number">8.2.5</span> Specialized Tools</a></li>
+  </ul></li>
+  <li><a href="#model-framework-application-examples" id="toc-model-framework-application-examples" class="nav-link" data-scroll-target="#model-framework-application-examples"><span class="header-section-number">8.3</span> Model Framework Application Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-dalys-due-to-dengue-with-mlr3" id="toc-example-dalys-due-to-dengue-with-mlr3" class="nav-link" data-scroll-target="#example-dalys-due-to-dengue-with-mlr3"><span class="header-section-number">8.3.1</span> Example: DALYs due to Dengue with mlr3</a></li>
+  <li><a href="#example-dalys-due-to-rabies-with-h2o" id="toc-example-dalys-due-to-rabies-with-h2o" class="nav-link" data-scroll-target="#example-dalys-due-to-rabies-with-h2o"><span class="header-section-number">8.3.2</span> Example: DALYs due to Rabies with H2O</a></li>
+  <li><a href="#example-general-infection-with-keras" id="toc-example-general-infection-with-keras" class="nav-link" data-scroll-target="#example-general-infection-with-keras"><span class="header-section-number">8.3.3</span> Example: General Infection with Keras</a></li>
+  </ul></li>
+  <li><a href="#how-to-find-a-new-r-package" id="toc-how-to-find-a-new-r-package" class="nav-link" data-scroll-target="#how-to-find-a-new-r-package"><span class="header-section-number">8.4</span> How to Find a New R-Package</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/07-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./07-packages.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-07-packages" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="solutionbox">
+<div class="solutionbox-header">
+<div class="solutionbox-icon">
+
+</div>
+<p>Learning Objectives</p>
+</div>
+<div class="solutionbox-body">
+<ul>
+<li>Gain an overview of essential R packages for modelling and data analysis</li>
+<li>Apply various modelling frameworks using appropriate R tools</li>
+<li>Learn how to discover and evaluate new R packages for specific analytical tasks</li>
+</ul>
+</div>
+</div>
+<p><br>
+This chapter provides an overview of the most suitable R-packages for machine learning. It also discusses the combination of packages and functions to achieve the desired results. Additionally, it explores how to find new R-packages and evaluate their suitability for a given task.</p>
+<section id="inside-and-outside-of-the-library-boxes" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="inside-and-outside-of-the-library-boxes"><span class="header-section-number">8.1</span> Inside and Outside of the Library Boxes</h2>
+<p>When it comes to R, the possibilities are endless. With over 15,000 packages available on CRAN (Comprehensive R Archive Network) and countless others on GitHub and other repositories, the universe of available packages is vast. How to untangle among all of them? Which one to choose? Sometimes, it is rather favourable to start by working out of the library boxes, which means using functions provided in the built-in packages inside a fresh R installation.</p>
+<p>However, the vast majority of the time, the best way to start is by using the packages that are already available in the R ecosystem. These packages are designed to make your life easier by providing pre-built functions for common tasks. They can help you save time and effort by automating repetitive tasks and streamlining complex analyses.</p>
+<p>Life has become easier with the advent of wrapping functions and the reduction of lines of code through the use of functions found in packages. In the past, data analysis and modelling required extensive coding, often involving repetitive tasks and lengthy scripts. As a result, users can achieve sophisticated results more efficiently, without the need to write lengthy and intricate scripts from scratch. This shift has not only simplified the process of data analysis and modelling but has also democratised access to advanced statistical techniques, making them more accessible to a broader audience.</p>
+</section>
+<section id="essential-r-packages-for-machine-learning" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="essential-r-packages-for-machine-learning"><span class="header-section-number">8.2</span> Essential R Packages for Machine Learning</h2>
+<p>Some of the most used modelling packages that are particularly useful for machine learning modelling of the spread of infectious diseases and evaluating DALYs variation due to infectious disease include:</p>
+<section id="meta-packages" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="meta-packages"><span class="header-section-number">8.2.1</span> Meta-Packages</h3>
+<ol type="1">
+<li><a href="https://www.tmwr.org/"><strong><code>{tidymodels}</code></strong></a><span class="citation" data-cites="silge">:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> This framework provides a collection of packages for modelling and machine learning tasks, including {tidyr}, {dplyr}, and ggplot2. It offers a consistent and tidy workflow for data preprocessing, model building, evaluation, and visualisation.</li>
+<li><a href="https://topepo.github.io/caret/"><strong><code>{caret}</code></strong></a><span class="citation" data-cites="kuhn">:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> The caret framework (short for <strong>C</strong>lassification <strong>A</strong>nd <strong>RE</strong>gression <strong>T</strong>raining) provides a unified interface for training and evaluating machine learning models. It supports a wide range of algorithms and offers convenient functions for hyperparameter tuning and model selection.</li>
+<li><a href="https://mlr3book.mlr-org.com/"><strong><code>{mlr3}</code></strong></a><span class="citation" data-cites="mlr-org">:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> This is a modern and extensible framework for machine learning. It provides a unified interface for modelling tasks, making it easy to train and evaluate a wide range of machine learning algorithms.</li>
+</ol>
+</section>
+<section id="engines" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="engines"><span class="header-section-number">8.2.2</span> Engines</h3>
+<p>Engines are the actual implementations of machine learning algorithms. They perform the computations necessary to train and evaluate models. Engines can be integrated into various meta-packages/frameworks to leverage their specific algorithms and computational efficiencies. Each engine might have its own set of parameters and functionalities, which can be accessed through the high-level interfaces provided by meta-packages.</p>
+<ol type="1">
+<li><a href="https://www.stat.berkeley.edu/~breiman/RandomForests/"><code>{randomForest}</code></a>: For random forest models.</li>
+<li><a href="https://github.com/dmlc/xgboost"><code>{xgboost}</code></a>: An optimised distributed gradient boosting library designed to be highly efficient, flexible, and portable. It implements machine learning algorithms under the gradient boosting framework.</li>
+<li><a href="https://glmnet.stanford.edu/"><code>{glmnet}</code></a>: For lasso and ridge regression. Provides efficient procedures for fitting generalised linear models via penalised maximum likelihood.</li>
+<li><a href="http://www.stats.ox.ac.uk/pub/MASS4/"><code>{nnet}</code></a>: For neural networks.</li>
+<li><a href="https://cran.r-project.org/web/packages/kernlab/index.html"><code>{kernlab}</code></a>: For kernel-based machine learning methods.</li>
+<li><a href="https://cran.r-project.org/web/packages/e1071/index.html"><code>{e1071}</code></a>: For support vector machines and other functions.</li>
+<li><a href="https://github.com/lme4/lme4/"><code>{lme4}</code></a>: For linear and generalised linear mixed-effects models.</li>
+<li><a href="https://cran.r-project.org/web/packages/mgcv/index.html"><code>{mgcv}</code></a>: For generalised additive models.</li>
+<li><a href="https://github.com/bethatkinson/rpart"><code>{rpart}</code></a>: For recursive partitioning and regression trees.</li>
+<li><a href="https://github.com/h2oai/h2o-3"><code>{h2o}</code></a>: A powerful machine learning framework that can be efficiently integrated with <code>{tidymodels}</code>. <code>{h2o}</code> offers a range of machine learning algorithms, including linear models, tree-based models, and ensemble methods, with efficient handling of large datasets and support for parallel computing.</li>
+<li><a href="https://keras.posit.co/"><code>{keras3}</code></a>, the R interface to <a href="https://keras.io/">Keras</a>, is a deep learning technique which provides high-level <strong>neural networks</strong> API written in Python. Designed to enable fast experimentation with deep learning models on top of <a href="https://github.com/rstudio/tensorflow"><code>{tensorflow}</code></a> (an open-source machine learning framework developed by Google).</li>
+</ol>
+</section>
+<section id="sec-07-timeseries" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="sec-07-timeseries"><span class="header-section-number">8.2.3</span> Time Series Analysis</h3>
+<ol type="1">
+<li><a href="https://pkg.robjhyndman.com/forecast/"><code>{forecast}</code></a>: For forecasting functions.</li>
+<li><a href="https://github.com/facebook/prophet"><code>{prophet}</code></a>: Specifically designed for time series forecasting with an emphasis on flexibility and ease of use. Developed by Facebook, prophet can handle various time series patterns, including seasonality, holiday effects, and trend changes, making it suitable for modelling infectious disease trends over time.</li>
+<li><a href="https://github.com/robjhyndman/fpp3package"><code>{fpp3}</code></a><span class="citation" data-cites="forecast">:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span> This package is part of the Forecasting: Principles and Practice (3rd edition) book, offering data and tools for forecasting time series data, such as the import of the <a href="https://fable.tidyverts.org/"><code>{fable}</code></a> package with the <code>ARIMA()</code> model which is relevant for modelling disease spread over time.</li>
+</ol>
+</section>
+<section id="bayesian-analysis" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="bayesian-analysis"><span class="header-section-number">8.2.4</span> Bayesian Analysis</h3>
+<ol type="1">
+<li><a href="https://github.com/paul-buerkner/brms"><code>{brms}</code></a>: For Bayesian generalised multivariate non-linear multilevel models using Stan.</li>
+<li><a href="https://mc-stan.org/rstan/"><code>{rstan}</code></a>: For Bayesian inference using Stan.</li>
+</ol>
+</section>
+<section id="specialized-tools" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="specialized-tools"><span class="header-section-number">8.2.5</span> Specialized Tools</h3>
+<ol type="1">
+<li><a href="https://github.com/r-spatial/spdep/"><code>{spdep}</code></a> is a powerful tools for spatial statistics, it provides a set of functions for analysing spatial dependencies and autocorrelation in spatial data, particularly relevant in infectious disease modelling. It also incorporates spatial effects into models and allows for a better understanding of how infectious diseases spread across space.</li>
+<li><a href="https://www.r-inla.org/"><code>{INLA}</code></a><span class="citation" data-cites="r-inlap">:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span> Integrated Nested Laplace Approximations (INLA) is a package for Bayesian inference using the INLA method. It is particularly useful for spatial and spatio-temporal modelling, which can be relevant for studying the spread of infectious diseases.</li>
+</ol>
+<p>These packages offer a diverse set of tools and techniques for modelling infectious disease spread and assessing its impact on health metrics like DALYs. These packages provide valuable insights into the dynamics of infectious diseases and can be used to inform public health interventions and policies. However, whether these packages are the most suitable depends on various factors, including:</p>
+<ul>
+<li>the specific requirements of the analysis</li>
+<li>the expertise of the researcher</li>
+<li>the nature of the data being used</li>
+</ul>
+<p>Each package has its strengths and weaknesses, and the choice of package often depends on factors such as:</p>
+<ul>
+<li>the complexity of the modelling task</li>
+<li>the type of data available</li>
+<li>the preferred modelling approach (e.g., frequentist vs.&nbsp;Bayesian).</li>
+</ul>
+<p>For example, <code>tidymodels</code> provides a tidy and consistent workflow for modelling tasks, while <code>mlr3</code> offers extensive support for machine learning algorithms and hyperparameter tuning.</p>
+<p>It’s also worth considering other packages that may be relevant for specific aspects of the analysis, such as spatial modelling (e.g., <code>spdep</code>) or time series forecasting (e.g., <code>prophet</code>).</p>
+<p>The features and capabilities of each package should carefully be evaluated in relation to their specific research objectives before choosing the one that best meets research needs and objectives. And it is worth considering that experimenting with different packages and techniques may be beneficial to identify the most effective approach for a given analysis.</p>
+</section>
+</section>
+<section id="model-framework-application-examples" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="model-framework-application-examples"><span class="header-section-number">8.3</span> Model Framework Application Examples</h2>
+<p>In this section we provide some examples of the application of different model frameworks. Data are used, as introduced in <a href="06-techniques.html" class="quarto-xref"><span>Chapter 7</span></a>, to demonstrate the application of model frameworks such as <code>mlr3</code>, <code>h2o</code>, and <code>keras</code> for machine learning tasks.</p>
+<p>We have already shown an application of the <code>{tidymodels}</code> meta-package in <a href="05-machine_learning.html" class="quarto-xref"><span>Chapter 6</span></a> and <a href="06-techniques.html" class="quarto-xref"><span>Chapter 7</span></a>, particularly useful for testing out different types of models with the help of key functions such as the <code>workflow()</code>, <code>workflow_set()</code>, and <code>workflow_map()</code>.</p>
+<section id="example-dalys-due-to-dengue-with-mlr3" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="example-dalys-due-to-dengue-with-mlr3"><span class="header-section-number">8.3.1</span> Example: DALYs due to Dengue with mlr3</h3>
+<p>The dataset for this example is from the <code>{hmsidwR}</code> package, which contains data on Deaths, DALYs, YLDs, YLLs, Prevalence, and Incidence due to selected infectious diseases from 1980 to 2021.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>hmsidwR<span class="sc">::</span>infectious_diseases <span class="sc">%&gt;%</span> names</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "year"          "location_name" "location_id"   "cause_name"   </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] "Deaths"        "DALYs"         "YLDs"          "YLLs"         </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] "Prevalence"    "Incidence"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s have a look at the locations where Dengue has been reported:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hmsidwR<span class="sc">::</span>infectious_diseases <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause_name <span class="sc">==</span> <span class="st">"Dengue"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(location_name)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location_name           </span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                   </span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Malawi                  </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Central African Republic</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Lesotho                 </span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Eswatini                </span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Zambia</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And look at how the health metrics shape up over the years for Dengue:</p>
+<div id="fig-dengue-metrics" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dengue-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-dengue-metrics" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-dengue-metrics-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Health Metrics due to Dengue">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dengue-metrics-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-dengue-metrics-1.png" class="img-fluid figure-img" data-ref-parent="fig-dengue-metrics" alt="Health Metrics due to Dengue" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dengue-metrics-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) YLLs
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-dengue-metrics" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-dengue-metrics-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Health Metrics due to Dengue">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dengue-metrics-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-dengue-metrics-2.png" class="img-fluid figure-img" data-ref-parent="fig-dengue-metrics" alt="Health Metrics due to Dengue" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dengue-metrics-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) YLDs
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-dengue-metrics" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-dengue-metrics-3" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Health Metrics due to Dengue">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dengue-metrics-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-dengue-metrics-3.png" class="img-fluid figure-img" data-ref-parent="fig-dengue-metrics" alt="Health Metrics due to Dengue" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dengue-metrics-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) DALYs
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dengue-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1: Health Metrics due to Dengue
+</figcaption>
+</figure>
+</div>
+<p>The trend of the metrics in some locations is quite flat ranging around zero, while in others it is more evident. YLLs are the leading cause of DALYs, but YLDs are also contributing to the burden of disease.</p>
+<p>We will focus on DALYs due to <strong>Dengue</strong> in three locations, Malawi, Zambia, and Central African Republic from 1990 to 2016 (26 years). The data from 2017 to 2021 is not included in the analysis and held out to be used as new data for testing the model’s performance, as shown in <a href="08-predictions.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p>Data are preprocessed to remove missing values, the values of DALYs only appeared in 1990, and then grouped by location id; the location name is removed.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dalys_dengue <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>infectious_diseases <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause_name <span class="sc">==</span> <span class="st">"Dengue"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         year<span class="sc">&lt;=</span><span class="dv">2016</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>location_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Eswatini"</span>, <span class="st">"Lesotho"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_id) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>location_name, <span class="sc">-</span>cause_name)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>dalys_dengue <span class="sc">%&gt;%</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 8</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Groups:   location_id [3]</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    year location_id   Deaths DALYs  YLDs   YLLs Prevalence Incidence</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1990         182 0.0330    7.59  5.35 2.24         33.7      560.</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1990         191 0.00135   6.88  6.86 0.0229       42.4      713.</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1990         169 0.000760  2.25  2.24 0.0186       13.1      222.</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1991         191 0.00135   8.57  8.54 0.0230       52.5      884.</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1991         182 0.0327    8.68  6.47 2.21         40.9      681.</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1991         169 0.000760  2.23  2.22 0.0185       13.0      218.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>{mlr3}</code> is a meta-package particularly useful for its syntax, as it guides the user through the machine learning steps by providing a consistent naming convention. It is also useful for benchmarking different models. In addition to the <code>{mlr3}</code> package, the <code>{mlr3learners}</code>, <code>{mlr3viz}</code>, and <code>{mlr3verse}</code>, and <code>{data.table}</code> packages are also loaded. Each of these packages provides additional functionality for machine learning tasks. More information on these packages can be found in the respective documentation, and further details can be found in the <a href="https://mlr3book.mlr-org.com/">mlr3 book</a>. In this example we use two types of models:</p>
+<ul>
+<li><code>regr.cv_glmnet</code>: A cross-validated <code>glmnet</code> model with an alpha of 0.5 and a lambda of 0.1.</li>
+<li><code>regr.xgboost</code>: An <code>xgboost</code> model with 1000 rounds, a maximum depth of 6, and an eta of 0.01. For this model the <code>{xgboost}</code> package is required.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3learners)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3viz)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3verse)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># library(xgboost)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Define the task, where the <code>id</code>, <code>backend</code>, and <code>target</code> are specified. The <code>backend</code> is the data that will be used for training the models. The <code>task</code> is the interface between the data and the learners; in this use-case the preprocessing steps are done beforehand, by removing missing and categorical values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>task <span class="ot">&lt;-</span> TaskRegr<span class="sc">$</span><span class="fu">new</span>(<span class="at">id =</span> <span class="st">"DALYs"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">backend =</span> dalys_dengue,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">target =</span> <span class="st">"DALYs"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>task<span class="sc">$</span><span class="fu">data</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, DALYs, YLDs, YLLs) <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     year    DALYs     YLDs       YLLs</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;      &lt;num&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  1990 7.591334 5.354059 2.23727545</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  1990 6.882299 6.859449 0.02285062</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:  1990 2.253677 2.235120 0.01855750</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4:  1991 8.565327 8.542325 0.02300233</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5:  1991 8.682844 6.469088 2.21375567</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6:  1991 2.234340 2.215861 0.01847933</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The learners are the model’s specifications. A full list of learners can be obtained with the function <code>as.data.table(mlr_learners)</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>learner_cv_glmnet <span class="ot">&lt;-</span> <span class="fu">lrn</span>(<span class="st">"regr.cv_glmnet"</span>, </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">s =</span> <span class="fl">0.1</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>learner_xgboost <span class="ot">&lt;-</span> <span class="fu">lrn</span>(<span class="st">"regr.xgboost"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">nrounds =</span> <span class="dv">1000</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">max_depth =</span> <span class="dv">6</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">eta =</span> <span class="fl">0.01</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then define a <strong>resampling strategy</strong> to estimate the generalization performance, then create a <strong>benchmark design</strong> to compare different learners:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>resampling <span class="ot">&lt;-</span> <span class="fu">rsmp</span>(<span class="st">"cv"</span>, <span class="at">folds =</span> <span class="dv">5</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">benchmark_grid</span>(<span class="at">tasks =</span> task,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">learners =</span> <span class="fu">list</span>(learner_cv_glmnet,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                                         learner_xgboost),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">resamplings =</span> resampling)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>design</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      task        learner resampling</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;char&gt;         &lt;char&gt;     &lt;char&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  DALYs regr.cv_glmnet         cv</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  DALYs   regr.xgboost         cv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Run the benchmark:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19052024</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bmr <span class="ot">&lt;-</span> <span class="fu">benchmark</span>(design,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">store_models =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">store_backends =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To access the content of an object such as <code>bmr</code>, use the <code>$</code> operator, or for more options use the <code>View()</code> function.</p>
+<p>The <code>score()</code> function is used to extract the performance metrics of the models, in this case the mean squared error (MSE) is used.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bmr<span class="sc">$</span><span class="fu">score</span>()[, .(learner_id,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                task_id,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                iteration,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                regr.mse)]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         learner_id task_id iteration    regr.mse</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &lt;char&gt;  &lt;char&gt;     &lt;int&gt;       &lt;num&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1: regr.cv_glmnet   DALYs         1 0.023134768</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2: regr.cv_glmnet   DALYs         2 0.011686804</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3: regr.cv_glmnet   DALYs         3 0.008018635</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4: regr.cv_glmnet   DALYs         4 0.007781078</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5: regr.cv_glmnet   DALYs         5 0.006527998</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6:   regr.xgboost   DALYs         1 0.119344375</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7:   regr.xgboost   DALYs         2 0.491756024</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8:   regr.xgboost   DALYs         3 0.081573517</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9:   regr.xgboost   DALYs         4 0.029895320</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10:   regr.xgboost   DALYs         5 0.025838211</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Here we see the results of the benchmark, the <code>regr.mse</code> is the mean squared error of the models. The <code>regr.rmse</code> and <code>regr.mae</code> are also available.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">349</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(bmr, <span class="at">measure =</span> <span class="fu">msr</span>(<span class="st">"regr.rmse"</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(bmr, <span class="at">measure =</span> <span class="fu">msr</span>(<span class="st">"regr.mae"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-bmr-regression" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bmr-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-bmr-regression" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-bmr-regression-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="BMR Regression">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-bmr-regression-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-bmr-regression-1.png" class="img-fluid figure-img" data-ref-parent="fig-bmr-regression" alt="BMR Regression" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-bmr-regression-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) BMR Regression RMSE
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-bmr-regression" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-bmr-regression-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="BMR Regression">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-bmr-regression-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-bmr-regression-2.png" class="img-fluid figure-img" data-ref-parent="fig-bmr-regression" alt="BMR Regression" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-bmr-regression-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) BMR Regression MAE
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bmr-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.2: BMR Regression RMSE and MAE
+</figcaption>
+</figure>
+</div>
+<p>Aggregate the results:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>measures <span class="ot">&lt;-</span> <span class="fu">msrs</span>(<span class="fu">c</span>(<span class="st">"regr.rmse"</span>, <span class="st">"regr.mae"</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>aggr <span class="ot">&lt;-</span> bmr<span class="sc">$</span><span class="fu">aggregate</span>(measures)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rr1 <span class="ot">&lt;-</span> aggr<span class="sc">$</span>resample_result[[<span class="dv">1</span>]]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>rr2 <span class="ot">&lt;-</span> aggr<span class="sc">$</span>resample_result[[<span class="dv">2</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Create a data frame with the results, for plotting with ggplot2, consider data are shuffled in the resampling process, and need to be reordered:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>regr.cv_glmnet <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(rr1<span class="sc">$</span><span class="fu">prediction</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">learner =</span> <span class="st">"regr.cv_glmnet"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># order data to match the original order</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(rr1<span class="sc">$</span>task<span class="sc">$</span><span class="fu">data</span>()[rr1<span class="sc">$</span><span class="fu">prediction</span>()<span class="sc">$</span>row_ids])</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>regr.xgboost <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(rr2<span class="sc">$</span><span class="fu">prediction</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">learner =</span> <span class="st">"regr.xgboost"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># order data to match the original order</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(rr2<span class="sc">$</span>task<span class="sc">$</span><span class="fu">data</span>()[rr2<span class="sc">$</span><span class="fu">prediction</span>()<span class="sc">$</span>row_ids])</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(regr.cv_glmnet, regr.xgboost)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Plot the results:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> truth, <span class="at">y =</span> response,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> learner)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> learner)) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"regr.cv_glmnet"</span> <span class="ot">=</span> <span class="st">"navy"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"regr.xgboost"</span> <span class="ot">=</span> <span class="st">"orange"</span>)) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>learner) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Truth"</span>, <span class="at">y =</span> <span class="st">"Response"</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-glmnet_xgboost" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Truth vs Response">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-glmnet_xgboost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-glmnet_xgboost-1.png" class="img-fluid figure-img" alt="Truth vs Response" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-glmnet_xgboost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.3: Truth vs Response for cv.glmnet and xgboost
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_id, learner) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> truth),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> response,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">linetype =</span> learner),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create facets for each location and</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rename the location_id with the location_name</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># with the labeller function</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(location_id),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">labeller =</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="st">`</span><span class="at">182</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Malawi"</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                             <span class="st">`</span><span class="at">191</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Zambia"</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                             <span class="st">`</span><span class="at">169</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Central African Republic"</span>)),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Dalys due to Dengue 1990-2016: Truth vs Responses"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Scale Free - Dots represent the Truth Values"</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"DALYs"</span>, <span class="at">linetype =</span> <span class="st">"Model"</span>) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-dengue-daly" class="quarto-float quarto-figure quarto-figure-center anchored" alt="DALYs due to Dengue">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dengue-daly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-dengue-daly-1.png" class="img-fluid figure-img" alt="DALYs due to Dengue" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dengue-daly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.4: Models results on observed DALYs due to Dengue 1990-2016; Test Resampled Data with cv.glmnet and xgboost.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In the next <a href="08-predictions.html" class="quarto-xref"><span>Chapter 9</span></a> we will see an application of these two models on remaining years from 2017 to 2021, to test the model performance as it was on new data.</p>
+</section>
+<section id="example-dalys-due-to-rabies-with-h2o" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="example-dalys-due-to-rabies-with-h2o"><span class="header-section-number">8.3.2</span> Example: DALYs due to Rabies with H2O</h3>
+<p>The following example shows how to use the <code>{h20}</code> r package for running <a href="https://docs.h2o.ai/h2o/latest-stable/h2o-docs/index.html"><strong>H2O</strong></a> via its REST API.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">timeout =</span> <span class="dv">6000</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"h2o"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(h2o)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the H2O cluster</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">h2o.init</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We use the <strong>rabies</strong> dataset from the <code>{hmsidwR}</code> package, which has been used in <a href="06-techniques.html#sec-06-rabies" class="quarto-xref"><span>Section 7.4</span></a>. The dataset contains information on the number of deaths and dalys due to rabies in different countries and regions. The dataset is preprocessed to remove unnecessary columns and pivoted to create a wide format with the relevant health metrics.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>rabies <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>rabies <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>upper, <span class="sc">-</span>lower) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measure, <span class="at">values_from =</span> val) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause <span class="sc">==</span> <span class="st">"Rabies"</span>,<span class="sc">!</span><span class="fu">is.na</span>(DALYs)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">dx_rabies =</span> Deaths, <span class="at">dalys_rabies =</span> DALYs) <span class="sc">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>cause) <span class="sc">%&gt;%</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>rabies <span class="sc">%&gt;%</span> head</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location  year dx_rabies dalys_rabies</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;    &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Asia      1990     0.599         33.1</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Asia      1992     0.575         31.9</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Asia      1994     0.554         30.7</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Asia      1991     0.585         32.3</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Asia      1995     0.551         30.5</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Asia      1997     0.502         27.9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>h2o_rabies</code> object is created by importing the <code>rabies</code> data frame to H2O with the <code>as.h2o()</code> function.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload data to H2O</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>h2o_rabies <span class="ot">&lt;-</span> <span class="fu">as.h2o</span>(rabies)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Set a response variable and predictors.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="st">"dalys_rabies"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>predictors <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(rabies), response)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into training and testing sets</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>splits <span class="ot">&lt;-</span> <span class="fu">h2o.splitFrame</span>(h2o_rabies,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ratios =</span> <span class="fl">0.8</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">seed =</span> <span class="dv">1234</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> splits[[<span class="dv">1</span>]]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> splits[[<span class="dv">2</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Train three models:</p>
+<ul>
+<li>a linear regression model (family = “gaussian” or standard ordinary least squares (OLS) linear regression)</li>
+<li>a GBM model (Gradient Boosting Machine)</li>
+<li>a random forest model</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>model_lm <span class="ot">&lt;-</span> <span class="fu">h2o.glm</span>(<span class="at">x =</span> predictors,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> response,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">training_frame =</span> train,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">family =</span> <span class="st">"gaussian"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>model_gbm <span class="ot">&lt;-</span> <span class="fu">h2o.gbm</span>(<span class="at">x =</span> predictors,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> response,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">training_frame =</span> train,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">validation_frame =</span> test,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ntrees =</span> <span class="dv">1000</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">max_depth =</span> <span class="dv">6</span>,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">learn_rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">seed =</span> <span class="dv">1234</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>model_rf <span class="ot">&lt;-</span> <span class="fu">h2o.randomForest</span>(<span class="at">x =</span> predictors,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> response,</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>                             <span class="at">training_frame =</span> train,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ntrees =</span> <span class="dv">100</span>,</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>                             <span class="at">max_depth =</span> <span class="dv">20</span>,</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>                             <span class="at">seed =</span> <span class="dv">1234</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Evaluate the models with the <code>h2o.performance()</code> function to evaluate the performance of the models by calculating the metrics.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>perf_lm <span class="ot">&lt;-</span> <span class="fu">h2o.performance</span>(model_lm, <span class="at">newdata =</span> test)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>perf_gbm <span class="ot">&lt;-</span> <span class="fu">h2o.performance</span>(model_gbm, <span class="at">newdata =</span> test)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>perf_rf <span class="ot">&lt;-</span> <span class="fu">h2o.performance</span>(model_rf, <span class="at">newdata =</span> test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then extract the RMSE and MAE metrics:</p>
+<pre><code>h2o.rmse(&lt;model&gt;)
+h2o.mae(&lt;model&gt;)</code></pre>
+<div class="cell">
+<pre><code>#&gt;   model     rmse       mae
+#&gt; 1    lm 2.732294 2.2957256
+#&gt; 2   gbm 1.373425 0.9379672
+#&gt; 3    rf 1.399058 1.1779029</code></pre>
+</div>
+<p>The best model is the one with the lowest RMSE and MAE values. In this case, the <code>gbm</code> model is the best performing model among the three.</p>
+<p>To predict on the test data, we use the <code>gbm</code> model in the <code>h2o.predict()</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test data</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">h2o.predict</span>(model_gbm,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">newdata =</span> test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Convert the predictions and actual values to data frames for plotting:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pred_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(predictions)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>actual_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine actual and predicted values</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Actual =</span> actual_df[, response],</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Predicted =</span> pred_df[, <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The check for normality of the residuals is done with the <code>qqnorm()</code> and <code>qqline()</code> functions. The residuals are calculated as the difference between the actual and predicted values.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate residuals</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>results_df<span class="sc">$</span>Residuals <span class="ot">&lt;-</span> results_df<span class="sc">$</span>Actual <span class="sc">-</span> results_df<span class="sc">$</span>Predicted</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Residuals vs Predicted</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results_df,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Predicted, <span class="at">y =</span> Residuals)) <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"navy"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"orange"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Residuals vs Predicted Values"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Predicted"</span>, <span class="at">y =</span> <span class="st">"Residuals"</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Normality Test of the Residuals</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(results_df<span class="sc">$</span>Residuals)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(results_df<span class="sc">$</span>Residuals, <span class="at">col =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-h20-residuals" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-h20-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-h20-residuals" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-h20-residuals-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Residuals Distribution">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-h20-residuals-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-h20-residuals-1.png" class="img-fluid figure-img" data-ref-parent="fig-h20-residuals" alt="Residuals Distribution" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-h20-residuals-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Residuals vs Predicted Values
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-h20-residuals" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-h20-residuals-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Residuals Distribution">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-h20-residuals-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-h20-residuals-2.png" class="img-fluid figure-img" data-ref-parent="fig-h20-residuals" alt="Residuals Distribution" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-h20-residuals-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Normality Test of the Residulas
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-h20-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.5: H2O - GBM Model Results on DALYs due to Rabies; Residuals Distribution and Normality Test
+</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding time to the results data frame</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>results_df<span class="sc">$</span>Time <span class="ot">&lt;-</span> actual_df<span class="sc">$</span>year</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Actual vs Predicted</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> Actual, <span class="at">y =</span> Predicted)) <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Actual vs Predicted Values"</span>,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Actual"</span>, <span class="at">y =</span> <span class="st">"Predicted"</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Actual vs Predicted over time</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Time)) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Actual,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"Actual"</span>),</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Predicted,</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"Predicted"</span>),</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="dv">1</span>,</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Actual vs Predicted Values Over Time"</span>,</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="st">"Value"</span>) <span class="sc">+</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Legend"</span>,</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Actual"</span> <span class="ot">=</span> <span class="st">"navy"</span>,</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Predicted"</span> <span class="ot">=</span> <span class="st">"orange"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fig-act-pred" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-act-pred-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-act-pred" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-act-pred-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Actual vs Predicted Values">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-act-pred-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-act-pred-1.png" class="img-fluid figure-img" data-ref-parent="fig-act-pred" alt="Actual vs Predicted Values" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-act-pred-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Actual vs Predicted Values
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-act-pred" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-act-pred-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Actual vs Predicted Values">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-act-pred-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-act-pred-2.png" class="img-fluid figure-img" data-ref-parent="fig-act-pred" alt="Actual vs Predicted Values" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-act-pred-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Actual vs Predicted Over Time
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-act-pred-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.6: H2O - GBM Model Results on DALYs due to Rabies
+</figcaption>
+</figure>
+</div>
+<p>In conclusion, the H2O GBM model performed well on the rabies dataset, with a low RMSE and MAE. The residuals were normally distributed, indicating that the model’s predictions were accurate. The actual vs predicted values plot shows a good fit, and the time series plot indicates that the model captured the trend in the data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">h2o.shutdown</span>(<span class="at">prompt =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="example-general-infection-with-keras" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="example-general-infection-with-keras"><span class="header-section-number">8.3.3</span> Example: General Infection with Keras</h3>
+<p>The following example shows how to use the <code>{keras}</code>, a package that facilitates the creation and training of <strong>neural networks</strong> and <strong>deep learning</strong> models. It provides a user-friendly interface to build models, whether they are simple neural networks or complex deep learning architectures, particularly useful for handling network connections. More detailed explanation of how a neural network works can be found in</p>
+<p>In this case the <strong>SEIR</strong> model (susceptible, exposed, infected and recovered) is used, as seen in <a href="05-machine_learning.html" class="quarto-xref"><span>Chapter 6</span></a> chapter, to simulate the spread of a general infection in a population of 1000 individuals over 160 days. For some types of infections, the latency period is significant as it is the time during which infected individuals are not yet infectious themselves. During this period the individual is in compartment E (for exposed).</p>
+<p>Once the simulation of the infected population is done, the <strong>deep learning</strong> model acts by training social media data to predict the probability of infection based on social media activity. The model results are then used to adjust the SEIR parameters based on the predicted infection status and re-run again on new data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"keras3"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>keras3<span class="sc">::</span><span class="fu">install_keras</span>(<span class="at">backend =</span> <span class="st">"tensorflow"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(keras3)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(deSolve)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To setup the SEIR compartments we start by defining the differential equations built by considering the rates of change of each compartment <span class="math inline">(S,E,I,R)</span>, the parameters <span class="math inline">(\beta,\sigma,\gamma)</span>, the initial state value of the population <span class="math inline">(N = 1000)</span>, and the length of time in days <span class="math inline">(t=160)</span>. Finally the <code>ode()</code> function is used to solve the differential equations and provide the output dataset.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>SEIR <span class="ot">&lt;-</span> <span class="cf">function</span>(time, state, parameters) {</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with</span>(<span class="fu">as.list</span>(<span class="fu">c</span>(state, parameters)), {</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Differential equations</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    dS <span class="ot">&lt;-</span> <span class="sc">-</span>beta <span class="sc">*</span> S <span class="sc">*</span> I <span class="sc">/</span> N</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    dE <span class="ot">&lt;-</span> beta <span class="sc">*</span> S <span class="sc">*</span> I <span class="sc">/</span> N <span class="sc">-</span> sigma <span class="sc">*</span> E</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    dI <span class="ot">&lt;-</span> sigma <span class="sc">*</span> E <span class="sc">-</span> gamma <span class="sc">*</span> I</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    dR <span class="ot">&lt;-</span> gamma <span class="sc">*</span> I</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return the rates of change</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="fu">c</span>(dS, dE, dI, dR))</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">beta =</span> <span class="fl">0.3</span>, <span class="co"># Infection rate</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">sigma =</span> <span class="fl">0.2</span>, <span class="co"># Incubation rate</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">gamma =</span> <span class="fl">0.1</span> <span class="co"># Recovery rate</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial state values</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>initial_state <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">S =</span> <span class="dv">999</span>, <span class="at">E =</span> <span class="dv">1</span>, <span class="at">I =</span> <span class="dv">0</span>, <span class="at">R =</span> <span class="dv">0</span>)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Time points</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>times <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">160</span>, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Solve the model</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">ode</span>(<span class="at">y =</span> initial_state,</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">times =</span> times,</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>              <span class="at">func =</span> SEIR,</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">parms =</span> parameters</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert output to a data frame</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(output)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The social media data is simulated and consists of 1000 individuals <span class="math inline">(n)</span> over 10 <span class="math inline">(p)</span> days, with an infection vector, and 10 features <span class="math inline">(x_i)</span>, including social distancing adherence, mask usage (always, sometimes, never), hand hygiene frequency (times per day washing or sanitizing), work or study environment (remote versus in-person), participation in gatherings (number of gatherings attended recently), and contact tracing status (exposure to a confirmed case), among others. All values are standardized obtained from a normal distribution.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span> <span class="co"># number of samples</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co"># number of features</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random features and labels</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>social_features <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> p),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">nrow =</span> n, <span class="at">ncol =</span> p)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>infection_labels <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a data frame</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>social_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(social_features)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>social_data<span class="sc">$</span>infection <span class="ot">&lt;-</span> infection_labels</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>social_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">11</span>)]</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            X1          X2         X3 infection</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -0.56047565 -0.99579872 -0.5116037         0</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 -0.23017749 -1.03995504  0.2369379         0</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1.55870831 -0.01798024 -0.5415892         0</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  0.07050839 -0.13217513  1.2192276         1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Define the model by using the <code>keras_model_sequential()</code> function, and add layers with the <code>layer_dense()</code> and <code>layer_activation()</code> functions. On each layer the model will apply a transformation to the input data, and the activation function will introduce non-linearity to the model.</p>
+<p>Here we use a simple model with just two layers and a <strong>ReLU</strong> and a <strong>Sigmoid</strong> as activation functions. These functions have specific shapes that allow the model to learn complex patterns in the data. Any time one layer is done the output is passed to the next layer.</p>
+<p>Although the <code>layer_dropout()</code> is not actually used in this application, it could be added to the model as a layer that drops out output results under specified requirements. The function is used to prevent overfitting by randomly setting a fraction of input units to zero during training.</p>
+<p>The model concludes with one more <code>layer_dense()</code> with <code>activation</code> used to finally activate the output with a tailored function. In this case a <strong>sigmoid</strong>, but also a <strong>softmax</strong> function could be used.</p>
+<p>The decision of which activation function to use depends on the task type (classification or regression), or due to performance considerations, such as the ReLU is computationally simple and efficient. The <strong>sigmoid</strong> function is used in binary classification problems, where the output is a probability between 0 and 1. The <strong>softmax</strong> function is used in multi-class classification problems, where the output is a probability distribution over multiple classes. Sometimes, you try a few and see which works best through cross-validation or tuning.</p>
+<p>Given an input vector <span class="math inline">x=[x_1,x_2,...,x_p]</span> of size <span class="math inline">p</span>, the model is composed of:</p>
+<ol type="1">
+<li><strong>First Dense Layer Transformation</strong>:</li>
+</ol>
+<p><span id="eq-first_layer"><span class="math display">
+z^{(1)}=\sum_{i=1}^p{W_i^{(1)} x_i+b^{(1)}}
+\tag{8.1}</span></span></p>
+<p>where <span class="math inline">W \epsilon R^{1\times p}</span> are the weights, <span class="math inline">b</span> is the bias, and <span class="math inline">z</span> is the output.</p>
+<ol start="2" type="1">
+<li><strong>First Activation (ReLU)</strong>:</li>
+</ol>
+<p><span id="eq-first_activation"><span class="math display">
+a^{(1)}=ReLu(z^{(1)})=max(0,z^{(1)})
+\tag{8.2}</span></span></p>
+<ol start="3" type="1">
+<li><strong>Second Dense Layer Transformation</strong>:</li>
+</ol>
+<p><span id="eq-second_layer"><span class="math display">
+z^{(2)}=\sum_{i=1}^p{W_i^{(2)} x_i+b^{(2)}}
+\tag{8.3}</span></span></p>
+<ol start="4" type="1">
+<li><strong>Output Activation (Sigmoid)</strong>:</li>
+</ol>
+<p><span id="eq-second-activation"><span class="math display">
+a^{(2)}=Sigmoid(z^{(2)})= \frac{1} {1+e^{-z^{(2)}}}
+\tag{8.4}</span></span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">keras_model_sequential</span>(<span class="at">input_shape =</span> <span class="fu">c</span>(p))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># simple model</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer_dense</span>(<span class="at">units =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer_activation</span>(<span class="st">"relu"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer_dense</span>(<span class="at">units =</span> <span class="dv">1</span>, <span class="at">activation =</span> <span class="st">"sigmoid"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The model is then compiled using the <code>compile()</code> function which with the use of a <strong>loss function</strong> optimises the results matching them against a minimum required value, and specified metrics to reduce the error.</p>
+<p><span id="eq-model-error"><span class="math display">
+y= \hat{y} + \epsilon
+\tag{8.5}</span></span></p>
+<p>where <span class="math inline">y</span> is the true value, <span class="math inline">\hat{y}</span> is the predicted value, and <span class="math inline">\epsilon</span> is the error.</p>
+<p>The loss function is used to measure how well the model is performing, in this case a <strong>binary crossentropy</strong> loss function is used, to match the difference between original data and the model output, and apply model adjustments in case the difference is too high. The formula for binary crossentropy is:</p>
+<p><span id="eq-loss-function-binary-crossentropy"><span class="math display">
+L(y,\hat{y})=-\frac{1}{n}\sum_{i=1}^n{y_i \log(\hat{y}_i)+(1-y_i) \log(1-\hat{y}_i)}
+\tag{8.6}</span></span></p>
+<p>where <span class="math inline">L</span> is the loss, <span class="math inline">y</span> is the true value, <span class="math inline">\hat{y}</span> is the predicted value, and <span class="math inline">n</span> is the number of samples.</p>
+<p>The <code>optimizer_adam()</code> function, used to update the model’s weights during training, in <strong>Keras</strong> specifies the use of the <strong>Adaptive Moment Estimation (Adam)</strong> optimization algorithm for training a neural network. It updates the parameters of the neural network.</p>
+<p>Then finally, the model is evaluated on performance with the <strong>accuracy</strong> metric.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compile the model</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span> <span class="fu">compile</span>(<span class="at">loss =</span> <span class="st">"binary_crossentropy"</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">optimizer =</span> <span class="fu">optimizer_adam</span>(),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metrics =</span> <span class="fu">c</span>(<span class="st">"accuracy"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Once the model is defined and compiled, the model is then trained using the <code>fit()</code> function with the training data, number of <strong>epochs</strong>, <strong>batch size</strong>, and <strong>validation</strong> split specified. The number of epochs is the number of times the model will go through the training data, the batch size is the number of samples used in each training step, and the validation split is the fraction of the training data that will be used for validation.</p>
+<p>A particular object that is created in this type of models is the <code>history</code> object, which is used to store the training history of the model. This object contains information about the loss and accuracy of the model on the training and validation data during training.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>history <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> <span class="fu">fit</span>(<span class="at">x =</span> <span class="fu">as.matrix</span>(social_data[, <span class="dv">1</span><span class="sc">:</span>p]),</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> social_data<span class="sc">$</span>infection,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">epochs =</span> <span class="dv">30</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">batch_size =</span> <span class="dv">128</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">validation_split =</span> <span class="fl">0.2</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                         )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The subsequent times the <code>history</code> object is created, the model is trained with half the number of epochs and batch size. And this specifications can further be adjusted as needed.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>history2 <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> <span class="fu">fit</span>(<span class="at">x =</span> <span class="fu">as.matrix</span>(social_data[, <span class="dv">1</span><span class="sc">:</span>p]),</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> social_data<span class="sc">$</span>infection,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">epochs =</span> <span class="dv">30</span> <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">batch_size =</span> <span class="dv">128</span> <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">validation_split =</span> <span class="fl">0.2</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                          )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Here are two attempts of the trained model with different parameters, the first with 30 epochs and a batch size of 128, and the second with 15 epochs and a batch size of 64. The training history of both models is then plotted to compare their performance.</p>
+<div id="fig-mod-history" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Model 1 and Model 2 Training History" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mod-history-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/07_keras_history.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Model 1 and Model 2 Training History">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mod-history-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.7: Model 1 and Model 2 Training History
+</figcaption>
+</figure>
+</div>
+<p>The model is then used to predict the probability of infection based on the social media data. The predictions are then converted to binary values using a threshold of 0.5, where values greater than 0.5 are classified as 1 (infected) and values less than or equal to 0.5 are classified as 0 (not infected).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>new_social_data <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(p <span class="sc">*</span> <span class="dv">160</span>),</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">nrow =</span> <span class="dv">160</span>, <span class="at">ncol =</span> p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>predicted_infections <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(new_social_data)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>predicted_infections <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(predicted_infections <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The adjustment is then done on the SEIR parameters based on predicted results. The beta parameter is adjusted by multiplying it by the mean of the predicted infections.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>adjusted_parameters <span class="ot">&lt;-</span> parameters</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>adjusted_parameters[<span class="st">"beta"</span>] <span class="ot">&lt;-</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  adjusted_parameters[<span class="st">"beta"</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">mean</span>(predicted_infections))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The SEIR model is then re-run with the adjusted parameters to simulate the spread of the infection in the population.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>adjusted_output <span class="ot">&lt;-</span> <span class="fu">ode</span>(<span class="at">y =</span> initial_state,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">times =</span> times,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">func =</span> SEIR,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">parms =</span> adjusted_parameters</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>                       )</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert output to a data frame</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>adjusted_output <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(adjusted_output)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The output shows the impact of the social media adjustments on the spread of the infection.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> output,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> I,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"Original Infections"</span>)) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> adjusted_output,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> I,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"Adjusted Infections"</span>)) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"SEIR Model - Social Media Adjustments"</span>,</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Infectious Population"</span>,</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Scenario"</span>) <span class="sc">+</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Original Infections"</span> <span class="ot">=</span> <span class="st">"navy"</span>,</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adjusted Infections"</span> <span class="ot">=</span> <span class="st">"orange"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-seir" class="quarto-float quarto-figure quarto-figure-center anchored" alt="SEIR Model">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seir-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-seir-1.png" class="img-fluid figure-img" alt="SEIR Model" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seir-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.8: SEIR Model with and without Social Media Adjustments
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This is just a simple example of how the <code>{keras}</code> package can be used to train a deep learning model on social media data to predict the probability of infection. The model can be tested on using different layers, more specifications are found in the <a href="https://keras.io/">keras documentation</a>.</p>
+</section>
+</section>
+<section id="how-to-find-a-new-r-package" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="how-to-find-a-new-r-package"><span class="header-section-number">8.4</span> How to Find a New R-Package</h2>
+<p>Finding a new R-package can be a daunting task, given the vast number of packages available on CRAN and other repositories. A strategy to identify relevant packages for your specific needs would be to use some prebuilt packages which provide search functionalities.</p>
+<p>For example, the <code>package_search()</code> function from the <code>{pkgsearch}</code> package takes a text string as input and uses basic text mining techniques to search all of CRAN.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># for data manipulation</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dlstats) <span class="co"># for package download stats</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pkgsearch) <span class="co"># for searching packages</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We search for packages related to <em>“excess of mortality”</em> and “infectious diseases”:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>excessPkg <span class="ot">&lt;-</span> <span class="fu">pkg_search</span>(<span class="at">query =</span> <span class="st">"excess of mortality"</span>, <span class="at">size =</span> <span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(excessPkg<span class="sc">$</span>maintainer_name)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "Rafael A. Irizarry" "Mathieu Fauvernier" "Juste Goungounga"  </span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] "Yohann Foucher"     "Joonas Miettinen"   "Rob Hyndman"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>excessPkgShort <span class="ot">&lt;-</span> excessPkg <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(maintainer_name <span class="sc">!=</span> <span class="st">"ORPHANED"</span>, score <span class="sc">&gt;</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(score, package, downloads_last_month) <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(downloads_last_month))</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(excessPkgShort)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A data frame: 5 × 3</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   score package    downloads_last_month</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * &lt;dbl&gt; &lt;chr&gt;                     &lt;int&gt;</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  183. popEpi                     1867</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  682. survPen                    1172</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  274. RISCA                       483</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 1009. excessmort                  317</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  673. xhaz                        180</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>excess_shortList <span class="ot">&lt;-</span> excessPkgShort<span class="sc">$</span>package</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>excess_downloads <span class="ot">&lt;-</span> <span class="fu">cran_stats</span>(excess_shortList)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(excess_downloads, <span class="fu">aes</span>(end, downloads,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">group =</span> package, </span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">color =</span> package)) <span class="sc">+</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> package)) <span class="sc">+</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"log2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-excess-downloads" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Excess of Mortality Packages">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-excess-downloads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-packages_files/figure-html/fig-excess-downloads-1.png" class="img-fluid figure-img" alt="Excess of Mortality Packages" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-excess-downloads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.9: Excess of Mortality Packages Downloads
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Another example is the <code>{cranly}</code> package, which provides a simple interface to search for packages on CRAN. The package provides comprehensive methods for cleaning up and organising the information in the CRAN package database, making it easier to find relevant packages for your specific needs.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cranly)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>p_db <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">CRAN_package_db</span>()</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>package_db <span class="ot">&lt;-</span> <span class="fu">clean_CRAN_db</span>(p_db)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>package_db <span class="sc">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"infectious diseases"</span>,</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>               description,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(package)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        package</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  EpiDynamics</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    epitweetr</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        pempi</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4         rts2</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5    seqDesign</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 SMITIDstruct</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7       spaero</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8         ssrn</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-forecast" class="csl-entry" role="listitem">
+<em>Forecasting: Principles and Practice (3rd Ed)</em>, n.d. <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.
+</div>
+<div id="ref-kuhn" class="csl-entry" role="listitem">
+Kuhn, Max. <em>The Caret Package</em>, n.d. <a href="https://topepo.github.io/caret/">https://topepo.github.io/caret/</a>.
+</div>
+<div id="ref-mlr-org" class="csl-entry" role="listitem">
+<span>“Mlr-Org,”</span> n.d. <a href="https://mlr-org.com/">https://mlr-org.com/</a>.
+</div>
+<div id="ref-r-inlap" class="csl-entry" role="listitem">
+<span>“R-INLA Project - What Is INLA?”</span> n.d. <a href="https://www.r-inla.org/what-is-inla">https://www.r-inla.org/what-is-inla</a>.
+</div>
+<div id="ref-silge" class="csl-entry" role="listitem">
+Silge, Max Kuhn, and Julia. <em>Tidy Modeling with r</em>, n.d. <a href="https://www.tmwr.org/">https://www.tmwr.org/</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Max Kuhn Silge and Julia, <em>Tidy Modeling with r</em>, n.d., <a href="https://www.tmwr.org/">https://www.tmwr.org/</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Max Kuhn, <em>The Caret Package</em>, n.d., <a href="https://topepo.github.io/caret/">https://topepo.github.io/caret/</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><span>“Mlr-Org,”</span> n.d., <a href="https://mlr-org.com/">https://mlr-org.com/</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><em>Forecasting: Principles and Practice (3rd Ed)</em>, n.d., <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><span>“R-INLA Project - What Is INLA?”</span> n.d., <a href="https://www.r-inla.org/what-is-inla">https://www.r-inla.org/what-is-inla</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fgazzelloni\.quarto\.pub\/hmsidr\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06-techniques.html" class="pagination-link" aria-label="Techniques for Machine Learning Applications">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08-predictions.html" class="pagination-link" aria-label="Predictive Modelling and Beyond">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>Editor CRC Press - Chapman &amp; Hall | Taylor &amp; Francis Group</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/07-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Built with ❤︎️ and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

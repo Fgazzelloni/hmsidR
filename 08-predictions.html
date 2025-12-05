@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Federica Gazzelloni">
+
+<title>9&nbsp; Predictive Modelling and Beyond – Health Metrics and the Spread of Infectious Diseases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./09-data_visualization.html" rel="next">
+<link href="./07-packages.html" rel="prev">
+<link href="./images/icons/pen-to-square-solid.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3f82c0c769e6123ec458e1781414e6ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J9YVQPL7W9"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J9YVQPL7W9', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script defer="" data-domain="" src=""></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./08-predictions.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Health Metrics and the Spread of Infectious Diseases</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Fgazzelloni/hmsidR" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Health Metrics</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-health_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-method_calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-causes_risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Machine Learning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-techniques.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-predictions.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Data Visualization</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpreting Model Results Through Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-spatials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatial Data Modelling and Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Advanced Data Visualisation Techniques</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Infectious Diseases</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-infectious_diseases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to Infectious Diseases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-covid19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">COVID-19 Outbreaks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-malaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">The Case of Malaria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary: The State of Health</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Life Tables, Markov Chain and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Tools Used to Make This Book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Tips on Converting to Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#predictions-about-the-future" id="toc-predictions-about-the-future" class="nav-link active" data-scroll-target="#predictions-about-the-future"><span class="header-section-number">9.1</span> Predictions About the Future</a></li>
+  <li><a href="#example-dengue-test-predictions-for-2017-2021" id="toc-example-dengue-test-predictions-for-2017-2021" class="nav-link" data-scroll-target="#example-dengue-test-predictions-for-2017-2021"><span class="header-section-number">9.2</span> Example: Dengue Test Predictions for 2017-2021</a></li>
+  <li><a href="#time-series-analysis" id="toc-time-series-analysis" class="nav-link" data-scroll-target="#time-series-analysis"><span class="header-section-number">9.3</span> Time Series Analysis</a></li>
+  <li><a href="#example-sdi-time-series-analysis" id="toc-example-sdi-time-series-analysis" class="nav-link" data-scroll-target="#example-sdi-time-series-analysis"><span class="header-section-number">9.4</span> Example: SDI Time Series Analysis</a>
+  <ul class="collapse">
+  <li><a href="#sdi-data-and-packages" id="toc-sdi-data-and-packages" class="nav-link" data-scroll-target="#sdi-data-and-packages"><span class="header-section-number">9.4.1</span> SDI Data and Packages</a></li>
+  <li><a href="#autocorrelation-and-stationarity" id="toc-autocorrelation-and-stationarity" class="nav-link" data-scroll-target="#autocorrelation-and-stationarity"><span class="header-section-number">9.4.2</span> Autocorrelation and Stationarity</a></li>
+  <li><a href="#partial-autocorrelations" id="toc-partial-autocorrelations" class="nav-link" data-scroll-target="#partial-autocorrelations"><span class="header-section-number">9.4.3</span> Partial Autocorrelations</a></li>
+  <li><a href="#arima-model" id="toc-arima-model" class="nav-link" data-scroll-target="#arima-model"><span class="header-section-number">9.4.4</span> ARIMA Model</a></li>
+  <li><a href="#arima-forecast" id="toc-arima-forecast" class="nav-link" data-scroll-target="#arima-forecast"><span class="header-section-number">9.4.5</span> ARIMA Forecast</a></li>
+  <li><a href="#model-ensembles" id="toc-model-ensembles" class="nav-link" data-scroll-target="#model-ensembles"><span class="header-section-number">9.4.6</span> Model Ensembles</a></li>
+  </ul></li>
+  <li><a href="#mixed-models" id="toc-mixed-models" class="nav-link" data-scroll-target="#mixed-models"><span class="header-section-number">9.5</span> Mixed Models</a>
+  <ul class="collapse">
+  <li><a href="#mixed-effects-models-in-estimating-ylds" id="toc-mixed-effects-models-in-estimating-ylds" class="nav-link" data-scroll-target="#mixed-effects-models-in-estimating-ylds"><span class="header-section-number">9.5.1</span> Mixed-Effects Models in Estimating YLDs</a></li>
+  </ul></li>
+  <li><a href="#example-ylds-due-to-tuberculosis---mixed-effects-models" id="toc-example-ylds-due-to-tuberculosis---mixed-effects-models" class="nav-link" data-scroll-target="#example-ylds-due-to-tuberculosis---mixed-effects-models"><span class="header-section-number">9.6</span> Example: YLDs due to Tuberculosis - Mixed-Effects Models</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.7</span> Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/08-predictions.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-machine_learning.html"><strong>Machine Learning</strong></a></li><li class="breadcrumb-item"><a href="./08-predictions.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-08-predictions" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="solutionbox">
+<div class="solutionbox-header">
+<div class="solutionbox-icon">
+
+</div>
+<p>Learning Objectives</p>
+</div>
+<div class="solutionbox-body">
+<ul>
+<li>Use model predictions to make informed decisions on new or unseen data</li>
+<li>Apply time series analysis to forecast the Socio-Demographic Index (SDI)</li>
+<li>Estimate Years Lived with Disability (YLDs) using mixed-effects models</li>
+</ul>
+</div>
+</div>
+<p><br>
+In the dynamic landscape of public health, the ability to forecast and predict future trends is essential for effective decision-making and the implementation of timely interventions. This chapter provides an overview of <strong>predictive modelling</strong>, focusing on the challenges of applying predictions to new data, the use of <strong>time series analysis</strong>, and <strong>mixed models</strong> to anticipate the trajectory of infectious diseases and health metrics. By exploring the underlying patterns and analysing historical data, we estimate the disease burden and evaluate the impact of interventions on population health. We demonstrate how time series analysis and mixed models can be tailored to address specific research questions, such as predicting disease outbreaks, estimating disease burden, and assessing the impact of interventions on population health.</p>
+<section id="predictions-about-the-future" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="predictions-about-the-future"><span class="header-section-number">9.1</span> Predictions About the Future</h2>
+<p>The previous chapters provided an attempt at estimating future outcomes based on the application of various type of statistical and machine learning techniques. Here we look at how to use these predictions on new data.</p>
+<p>When making predictions on new data, it is important to consider the <strong>generalisability</strong> of the model. A model that performs well on the training data may not necessarily generalise well to new, unseen data. To evaluate the performance of the model we used the <strong>cross-validation</strong> technique, but there are more such as <strong>hold-out validation</strong>, <strong>k-fold cross-validation</strong>, <strong>leave-one-out cross-validation</strong>, and <strong>bootstrapping</strong>. These methods help assess the model’s ability to make accurate predictions on data not used during training, providing a more reliable estimate of the model’s performance in real-world scenarios.</p>
+<p>Once the model has been trained and evaluated, it is used to make predictions on new data. This process involves applying the model to the new data to generate forecasts or estimates of the outcome of interest. For example, in the case of infectious diseases, predictive models can be used to forecast the trajectory of an outbreak, estimate the number of cases, or evaluate the impact of interventions on disease transmission. By leveraging historical data and the insights gained from the model, we can effectively evaluate the model performance and make informed decisions based on the predictions.</p>
+</section>
+<section id="example-dengue-test-predictions-for-2017-2021" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="example-dengue-test-predictions-for-2017-2021"><span class="header-section-number">9.2</span> Example: Dengue Test Predictions for 2017-2021</h2>
+<p><strong>Predictive modelling</strong> is a powerful tool for forecasting future trends. Here we test the Dengue’s model made with <code>{mlr3}</code> meta-package in <a href="07-packages.html" class="quarto-xref"><span>Chapter 8</span></a>. The model was trained on data from 1990 to 2016 and now tested for years 2017 to 2021.</p>
+<p>First we load the original data and name it <code>old_data</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>old_data <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>infectious_diseases <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year)<span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause_name <span class="sc">==</span> <span class="st">"Dengue"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         year<span class="sc">&lt;=</span><span class="dv">2017</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>location_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Eswatini"</span>, <span class="st">"Lesotho"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_id) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>location_name, <span class="sc">-</span>cause_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, we load Dengue data from 2017 to 2021 and name it <code>new_data</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>infectious_diseases <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year)<span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cause_name <span class="sc">==</span> <span class="st">"Dengue"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         year<span class="sc">&gt;=</span><span class="dv">2017</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>location_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Eswatini"</span>, <span class="st">"Lesotho"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location_id) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>location_name, <span class="sc">-</span>cause_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In the next step, we use the trained models from <a href="07-packages.html" class="quarto-xref"><span>Chapter 8</span></a> to make predictions on the new data. The predictions are stored in <code>new_pred_regr.cv_glmnet</code> and <code>new_pred_regr.xgboost</code>. The resampling results: <code>rr1$learners</code> and <code>rr2$learners</code>, contain the trained models, in particular the first of 5 folds cross validation sample is used for the predictions.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>new_pred_regr.cv_glmnet <span class="ot">&lt;-</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  rr1<span class="sc">$</span>learners[[<span class="dv">1</span>]]<span class="sc">$</span><span class="fu">predict_newdata</span>(new_data, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">task =</span> rr1<span class="sc">$</span>task)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This object contains the predictions for the new data, and we can access the response data by:</p>
+<pre><code>new_pred_regr.cv_glmnet$`data`$response</code></pre>
+<p>With the support of <code>data.table::as.data.table()</code> we can see the data, and create a new column <code>ape</code> to evaluate the <code>Absolute Percentage Error (APE)</code>. Here are shown the first 6 rows of the data:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">as.data.table</span>(new_pred_regr.cv_glmnet) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ape =</span> <span class="fu">round</span>(<span class="fu">abs</span>(truth <span class="sc">-</span> response)<span class="sc">/</span>truth,<span class="dv">3</span>)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    row_ids     truth  response   ape</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      &lt;int&gt;     &lt;num&gt;     &lt;num&gt; &lt;num&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:       1 3.3219788 3.2615171   1.8</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:       2 2.2361377 2.2855594   2.2</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:       3 0.5021275 0.6403621  27.5</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4:       4 3.2737870 3.2193092   1.7</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5:       5 0.4893329 0.6327542  29.3</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6:       6 2.3045710 2.3715899   2.9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And calculate some metrics to evaluate the model performance on new data. We calculate the <strong>Mean Absolute Percent Error (MAPE)</strong>, the <strong>Mean Squared Error (MSE)</strong>, and the <strong>Root Mean Squared Error (RMSE)</strong>. The MAPE is a measure of prediction accuracy, while the MSE and RMSE are measures of the average squared difference between predicted and actual values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">as.data.table</span>(new_pred_regr.cv_glmnet) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ape =</span> <span class="fu">round</span>(<span class="fu">abs</span>(truth <span class="sc">-</span> response)<span class="sc">/</span>truth,<span class="dv">3</span>)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mape =</span> <span class="fu">mean</span>(ape),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mse =</span>  <span class="fu">mean</span>((truth <span class="sc">-</span> response)<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((truth <span class="sc">-</span> response)<span class="sc">^</span><span class="dv">2</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     mape  mse  rmse</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 11.413 0.01 0.098</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The model performs fairly well, with relatively low error:</p>
+<ul>
+<li>An average relative error of ~11% is typically considered acceptable in many forecasting or prediction tasks.</li>
+<li>The small RMSE (0.098) and MSE (0.01) suggest that large errors are rare or small.</li>
+</ul>
+<p>Much more can be done to improve the models, such as <strong>hyperparameter tuning</strong>, <strong>feature engineering</strong>, and <strong>model ensembles</strong>, but this is a good point to start. We could also look at the confidence intervals of the predictions, to see how certain we are about the predictions, and so on.</p>
+<p>This is the result of the <code>cv_glmnet</code> application on new data:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>regr.cv_glmnet_new <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(new_pred_regr.cv_glmnet) <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">learner =</span> <span class="st">"regr.cv_glmnet"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(new_data) </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>regr.cv_glmnet_new <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> old_data, <span class="fu">aes</span>(<span class="at">y =</span> DALYs))<span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> DALYs), <span class="at">color =</span> <span class="st">"brown"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> response), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(location_id),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="st">`</span><span class="at">182</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Malawi"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">`</span><span class="at">191</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Zambia"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">`</span><span class="at">169</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Central African Republic"</span>)),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Dengue Predictions for 2017-2021: cv_glmnet"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Time (Year)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-dengue-predictions-cv-glmnet" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dengue Predictions for 2017-2021: cv_glmnet">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dengue-predictions-cv-glmnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-dengue-predictions-cv-glmnet-1.png" class="img-fluid figure-img" alt="Dengue Predictions for 2017-2021: cv_glmnet" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dengue-predictions-cv-glmnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Dengue Predictions for 2017-2021: cv_glmnet. The solid line shows the historical data, the brown line shows the new data, and the dashed line the predictions.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The same steps are taken for the <code>xgboost</code>, and the results are shown below to compare the two models.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>new_pred_regr.xgboost <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  rr2<span class="sc">$</span>learners[[<span class="dv">1</span>]]<span class="sc">$</span><span class="fu">predict_newdata</span>(new_data, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">task =</span> rr2<span class="sc">$</span>task)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>regr.xgboost_new <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(new_pred_regr.xgboost) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">learner =</span> <span class="st">"regr.xgboost"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(new_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(regr.cv_glmnet_new,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>      regr.xgboost_new) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ape =</span> <span class="fu">round</span>(<span class="fu">abs</span>(truth <span class="sc">-</span> response)<span class="sc">/</span>truth, <span class="dv">3</span>)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(learner) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mape =</span> <span class="fu">mean</span>(ape),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mse =</span>  <span class="fu">mean</span>((truth <span class="sc">-</span> response)<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((truth <span class="sc">-</span> response)<span class="sc">^</span><span class="dv">2</span>))) </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   learner         mape     mse   rmse</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 regr.cv_glmnet  11.4 0.00963 0.0981</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 regr.xgboost    20.1 0.0567  0.238</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>glmnet</code> performs better than <code>xgboost</code>. The xgboost model may be overfitting or it is just poorly tuned, given its higher error despite being a more complex model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>regr.xgboost_new <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> old_data, <span class="fu">aes</span>(<span class="at">y =</span> DALYs))<span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> DALYs), <span class="at">color =</span> <span class="st">"brown"</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> response), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(location_id),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="st">`</span><span class="at">182</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Malawi"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">`</span><span class="at">191</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Zambia"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">`</span><span class="at">169</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Central African Republic"</span>)),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Dengue Predictions for 2017-2021: xgboost"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-dengue-predictions-xgboost" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dengue Predictions for 2017-2021: xgboost">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dengue-predictions-xgboost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-dengue-predictions-xgboost-1.png" class="img-fluid figure-img" alt="Dengue Predictions for 2017-2021: xgboost" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dengue-predictions-xgboost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: Dengue Predictions for 2017-2021: xgboost. The solid line shows the historical data, the brown line shows the new data, and the dashed line the predictions.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In conclusion, predictive modelling is a valuable tool for forecasting future trends and making informed decisions based on historical data. By leveraging the insights gained from the models, we can anticipate the trajectory of infectious diseases, estimate disease burden, and evaluate the impact of interventions on population health. The models can be further refined and optimised to improve their predictive performance and provide more accurate forecasts.</p>
+<p>By combining predictive modelling with time series analysis and mixed models, we can gain a comprehensive understanding of the complex dynamics of public health and make data-driven decisions to improve population health outcomes.</p>
+</section>
+<section id="time-series-analysis" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="time-series-analysis"><span class="header-section-number">9.3</span> Time Series Analysis</h2>
+<p>One important side of the analysis is to consider the evolution of the phenomenon in time. We can do this by using <code>time</code> as a factor in the model. <strong>Time series</strong> analysis serves as a tool for understanding and forecasting temporal patterns. Techniques such as <strong>AutoRegressive Integrated Moving Average (ARIMA)</strong> models offer a systematic approach to modelling time-dependent data, capturing seasonal variations, trends, and irregularities to generate accurate forecasts.</p>
+<p><strong>Mixed models</strong>, on the other side, provide a versatile framework for incorporating various sources of variability and correlation within the data. Also known as <strong>hierarchical models</strong>, <strong>multilevel models</strong>, or <strong>random effects models</strong>, are a type of statistical model that include both fixed effects and random effects. By combining fixed effects with random effects, mixed models accommodate complex data structures, such as hierarchical or longitudinal data, while accounting for individual-level and group-level factors that may influence the outcome of interest.</p>
+<p>To analyse temporal data, where observations are collected at regular intervals over time, time series analysis allows for studying the patterns, trends, and dependencies present in the data to make forecasts or infer relationships. Time series data often exhibit inherent characteristics such as trend, seasonality, cyclic patterns, and irregular fluctuations, which can be explored using various methods such as <strong>decomposition</strong>, <strong>smoothing</strong>, and <strong>modelling</strong>. This analysis is widely used in fields like economics, finance, epidemiology, and environmental science to understand and predict future trends, identify anomalies, and make informed decisions based on historical patterns.</p>
+<p><strong>Decomposition methods</strong> play a crucial role by pulling out the underlying structure of temporal data. The components of a time series are <code>trend</code>, <code>seasonality</code>, and <code>random fluctuations</code>. Understanding the trend allows for the identification of long-term changes or shifts in the data, while detecting seasonal patterns helps uncover recurring fluctuations that may follow seasonal or cyclical patterns.</p>
+<p>By separating these components, through decomposition methods, it is possible to discover the temporal dynamics within the data, facilitating more accurate forecasting and predictive modelling. Moreover, decomposing time series data can aid in anomaly detection, trend analysis, and seasonal adjustment, making it a fundamental tool for interpreting complex temporal phenomena.</p>
+<p>Modelling time series data often requires a combination of techniques to capture its complex nature. <strong>Mixed models</strong>, <strong>Splines</strong>, and <strong>ARIMA</strong> are powerful tools commonly used for this purpose. Splines provide a flexible way to capture nonlinear relationships and smooth out the data, which is particularly useful for capturing trends or seasonal patterns. ARIMA models, on the other hand, are best at capturing the autocorrelation structure present in the data, including both short-term and long-term dependencies.</p>
+<p>Time series analysis can also be performed on estimated values produced by a machine learning model. This involves using vectors of estimates, actual values (ground truth), and time (such as years). By incorporating these elements, the time series analysis can help identify trends, seasonal patterns, and other temporal structures within the data. This approach enhances the robustness and accuracy of the predictions by combining the strengths of machine learning models with traditional time series techniques.</p>
+</section>
+<section id="example-sdi-time-series-analysis" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="example-sdi-time-series-analysis"><span class="header-section-number">9.4</span> Example: SDI Time Series Analysis</h2>
+<p>In this example, we provide a brief overview of the <strong>Socio-Demographic Index (SDI)</strong>, its components, and how it can be predicted using time series analysis. From projecting the spread of emerging pathogens to assessing the long-term effects of public health policies, predictive modelling offers valuable insights into the future of global health. As discussed in <a href="04-causes_risks.html" class="quarto-xref"><span>Chapter 5</span></a>, incorporating indicators such as the <strong>SDI</strong> can offer a more comprehensive understanding of how social and economic determinants influence health outcomes.</p>
+<p>The SDI is a <strong>composite index</strong> developed by the Global Burden of Disease (GBD) Study to capture a country’s level of socio-demographic development, that combines various social and demographic factors to provide a comprehensive measure of a population’s health and well-being.</p>
+<p>It is based on three components:</p>
+<ol type="1">
+<li>Total fertility rate (TFR) among women under age 25 (TFU25)</li>
+<li>Average educational attainment in the population over age 15 (EDU15+)</li>
+<li>Income per capita (lag-distributed)</li>
+</ol>
+<p>It ranges from 0 to 1 but it is usually multiplied by 100 for a scale of 0 to 100.</p>
+<p><strong>Standard Calculation of SDI</strong></p>
+<p>The SDI is calculated as the geometric mean of these three components:</p>
+<p><span id="eq-sdi"><span class="math display">
+SDI = \sqrt[3]{TFU25 \times EDU15+ \times LDI}
+\tag{9.1}</span></span></p>
+<p>Each component TFU25, EDU15+, and LDI is normalised before taking the geometric mean to ensure they are on a comparable scale.</p>
+<p>In particular, <strong>Total Fertility Rate (TFR)</strong> defined as the average number of children a woman would have over her lifetime given current age-specific fertility rates—is a key demographic indicator with broad implications for national well-being.</p>
+<p><strong>Standard Calculation of TFR</strong></p>
+<p><span id="eq-tfr"><span class="math display">
+\text{TFR} = \sum (\text{ASFR}_i \times 5)
+\tag{9.2}</span></span></p>
+<p>where <span class="math inline">\text{ASFR}_i</span> represents the age-specific fertility rates for age group <span class="math inline">i</span> , and the sum is typically calculated over all childbearing age groups (often 5-year intervals from ages 15-49).</p>
+<p>The TFR formula is specific to calculating fertility rates, while the SDI formula incorporates a specific <strong>subset of the TFR (TFU25)</strong> along with education and income metrics to create a broader socio-demographic index.</p>
+<p>In general, the level of this index helps identify key drivers in the development of health outcomes. SDI can be used as a predictor in predictive models to estimate the burden of diseases, mortality rates, and other health metrics.</p>
+<p>For example, the relationship between SDI and the incidence of a disease can be modelled using a logistic regression model:</p>
+<p><span id="eq-logit-sdi"><span class="math display">
+\log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 \times \text{SDI} + \beta_2 \times X_2 + \cdots + \beta_k \times X_k
+\tag{9.3}</span></span></p>
+<p>Where, <span class="math inline">p</span> is the probability of the incidence of the disease, <span class="math inline">\log \left( \frac{p}{1 - p} \right)</span> is the log-odds (logit) of the disease incidence, <span class="math inline">\beta_0</span> is the intercept term, <span class="math inline">\beta_1, \beta_2, \ldots, \beta_k</span> are the coefficients for the predictor variables, and <span class="math inline">X_2, \ldots, X_k</span> are other potential predictor variables that might influence the disease incidence.</p>
+<p>To convert the <code>log-odds</code> back to the <strong>probability of disease incidence</strong> given the value of SDI:</p>
+<p><span id="eq-prob-sdi"><span class="math display">
+p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 \times \text{SDI})}}
+\tag{9.4}</span></span></p>
+<section id="sdi-data-and-packages" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="sdi-data-and-packages"><span class="header-section-number">9.4.1</span> SDI Data and Packages</h3>
+<p>In this example we use the SDI values from 1990 to 2019, for 3 locations plus the Global region and evaluate the difference in SDI average across the time.</p>
+<p>We start by loading the data and required libraries. We use the <code>{hmsidwR}</code> package, which contains the SDI data from 1990 to 2019, the data is available in the <code>sdi90_19</code> object, and the <code>{fpp3}</code><span class="citation" data-cites="forecast"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span> package for time series analysis mentioned in <a href="07-packages.html#sec-07-timeseries" class="quarto-xref"><span>Section 8.2.3</span></a>. We also show how to use the <code>|&gt;</code> native pipe operator to filter and manipulate the data, instead of the <code>%&gt;%</code> pipe operator from the <code>{dplyr}</code> package.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hmsidwR)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hmsidwR<span class="sc">::</span>sdi90_19 <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location  year value</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Global    1990 0.511</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Global    1991 0.516</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Global    1992 0.521</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Global    1993 0.525</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Global    1994 0.529</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Global    1995 0.534</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sdi90_19 <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Global"</span>, <span class="st">"Italy"</span>, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"France"</span>, <span class="st">"Germany"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> value, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> location)) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  geomtextpath<span class="sc">::</span><span class="fu">geom_textline</span>(<span class="fu">aes</span>(<span class="at">label =</span> location), </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Social Demographic Index (SDI) from 1990 to 2019"</span>)<span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-sdi-france" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Social Demographic Index (SDI) from 1990 to 2019">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sdi-france-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-sdi-france-1.png" class="img-fluid figure-img" alt="Social Demographic Index (SDI) from 1990 to 2019" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sdi-france-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.3: Social Demographic Index (SDI) from 1990 to 2019
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Grouping the data by location and calculating the average SDI, we can note that the highest average value is found in Germany, followed by France, Italy, and the Global average.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sdi90_19 <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">avg =</span> <span class="fu">round</span>(<span class="fu">mean</span>(value), <span class="dv">3</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg)) <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Global"</span>, <span class="st">"Italy"</span>, <span class="st">"France"</span>, <span class="st">"Germany"</span>))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 2</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location   avg</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Germany  0.863</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 France   0.79 </span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Italy    0.763</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Global   0.58</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Focusing on France as the location of interest, we analyse the time series by decomposing the series into its components and evaluating the autocorrelation function to assess underlying temporal patterns, and apply an <code>ARIMA(1,0,0)</code> model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sdi_fr <span class="ot">&lt;-</span> sdi90_19 <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location <span class="sc">==</span> <span class="st">"France"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sdi_fr <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str</span>()</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tibble [6 × 3] (S3: tbl_df/tbl/data.frame)</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ location: chr [1:6] "France" "France" "France" "France" ...</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ year    : num [1:6] 1990 1991 1992 1993 1994 ...</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ value   : num [1:6] 0.738 0.743 0.75 0.755 0.759 0.763</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>{fpp3}</code> package is a meta-package and contains other packages such as: <code>tsibble</code>, <code>tsibbledata</code>, <code>feasts</code>, <code>fable</code>, and <code>fabletools.</code></p>
+<p>The <code>{tsibble}</code> package is used to set the data ready to be used inside the model. The <code>tsibble::as_tsibble()</code> function coerce our data to be a <code>tsibble</code> object:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sdi_fr_ts <span class="ot">&lt;-</span> tsibble<span class="sc">::</span><span class="fu">as_tsibble</span>(sdi_fr, <span class="at">index =</span> year)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sdi_fr_ts <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tsibble: 6 x 3 [1Y]</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location  year value</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 France    1990 0.738</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 France    1991 0.743</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 France    1992 0.75 </span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 France    1993 0.755</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 France    1994 0.759</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 France    1995 0.763</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sdi_fr_ts <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-sdi-france2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Social Demographic Index (SDI) in France">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sdi-france2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-sdi-france2-1.png" class="img-fluid figure-img" alt="Social Demographic Index (SDI) in France" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sdi-france2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.4: Social Demographic Index (SDI) in France
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Then, the <code>fabletools::model()</code> function is used to train and estimate models. In this case we use the <code>STL()</code> (Multiple seasonal decomposition by Loess) function, which decomposes a time series into seasonal, trend and remainder components.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dcmp <span class="ot">&lt;-</span> sdi_fr_ts <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">stl =</span> <span class="fu">STL</span>(value))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">components</span>(dcmp) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A dable: 6 x 6 [1Y]</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Key:     .model [1]</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # :        value = trend + remainder</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .model  year value trend remainder season_adjust</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 stl     1990 0.738 0.738 -0.000400         0.738</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 stl     1991 0.743 0.744 -0.000560         0.743</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 stl     1992 0.75  0.749  0.00128          0.75 </span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 stl     1993 0.755 0.754  0.00136          0.755</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 stl     1994 0.759 0.758  0.000800         0.759</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 stl     1995 0.763 0.762  0.000680         0.763</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>There are three main types of time series patterns: trend, seasonality, and cycles. When a time series is decomposed into components, the trend and cycle are typically combined into a single trend-cycle component, often referred to simply as the trend for the sake of simplicity. As a result, a time series can be understood as comprising three components: a trend-cycle component, a seasonal component, and a remainder component, which captures any other variations in the series<span class="citation" data-cites="forecast">.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span></p>
+<p>The components of a time series can be additive or multiplicative, depending on the nature of the data:</p>
+<p><span id="eq-additive"><span class="math display">y_t=S_t+T_t+R_t \tag{9.5}</span></span> <span id="eq-multiplicative"><span class="math display">y_t=S_t*T_t*R_t \tag{9.6}</span></span> <span id="eq-log-decomposition"><span class="math display">log(y_t)=log(S_t)+log(T_t)+log(R_t) \tag{9.7}</span></span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">y_t</span> is the observed value of the time series at time t,</li>
+<li><span class="math inline">S_t</span> represents the seasonal component, capturing regular fluctuations that repeat over fixed periods (e.g., annually or quarterly),</li>
+<li><span class="math inline">T_t</span> is the trend component, reflecting the long-term progression or direction in the data (such as gradual increases or declines),</li>
+<li><span class="math inline">R_t</span> denotes the remainder or residual component, accounting for short-term noise or random variation not explained by seasonality or trend.</li>
+</ul>
+<p>The equation <a href="#eq-additive" class="quarto-xref">Equation&nbsp;<span>9.5</span></a> assumes that the components combine additively and are independent of one another, which is suitable when the seasonal variation remains relatively constant over time. The equation <a href="#eq-multiplicative" class="quarto-xref">Equation&nbsp;<span>9.6</span></a> is used when seasonal or residual effects vary proportionally with the trend (e.g., higher variability during periods of higher values). Finally, The equation <a href="#eq-log-decomposition" class="quarto-xref">Equation&nbsp;<span>9.7</span></a> represents a log-transformed multiplicative model, which stabilizes variance and allows for additive decomposition in the logarithmic scale—often preferred when dealing with exponential growth or heteroscedasticity.</p>
+<p>The <code>autoplot()</code> function is from the <code>{fabletools}</code> package and allows for the visualization of the components. In particular, the <strong>remainder</strong> component shown in the bottom panel is what is left over when the seasonal and trend-cycle components have been subtracted from the data.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">components</span>(dcmp) <span class="sc">|&gt;</span> fabletools <span class="sc">::</span><span class="fu">autoplot</span>()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">components</span>(dcmp) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(value) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> trend), </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype=</span><span class="st">"dashed"</span>)<span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Trend line of SDI in France"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-decomposition" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-decomposition" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-decomposition-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Components of SDI in France">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-decomposition-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-decomposition-1.png" class="img-fluid figure-img" data-ref-parent="fig-decomposition" alt="Components of SDI in France" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-decomposition-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Components of SDI in France
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-decomposition" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-decomposition-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Components of SDI in France">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-decomposition-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-decomposition-2.png" class="img-fluid figure-img" data-ref-parent="fig-decomposition" alt="Components of SDI in France" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-decomposition-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Trend line of SDI in France
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.5: Components of SDI in France
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="autocorrelation-and-stationarity" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="autocorrelation-and-stationarity"><span class="header-section-number">9.4.2</span> Autocorrelation and Stationarity</h3>
+<p>Autocorrelation is very important in time series analysis as it explains whether past values influence future values. If a variable today is similar to what it was yesterday or last month, we say it has autocorrelation at lag 1 or lag <span class="math inline">k</span>.</p>
+<p><span id="eq-autocorr"><span class="math display">
+r_k = \frac{\sum_{t = k + 1}^{T} (y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t = 1}^{T} (y_t - \bar{y})^2}
+\tag{9.8}</span></span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">r_k</span>is the autocorrelation coefficient at lag <span class="math inline">k</span>,</li>
+<li><span class="math inline">y_t</span> is the value of the time series at time <span class="math inline">t</span>,</li>
+<li><span class="math inline">\bar{y}</span> is the mean of the series,</li>
+<li><span class="math inline">T</span> is the total number of time points.</li>
+</ul>
+<p>Time series that exhibit <strong>no autocorrelation</strong>, or no predictable relationship between observations at different time points, are referred to as <strong>white noise series</strong>, where each value is essentially a random draw from the same distribution, with constant mean and variance, with no pattern recognition.</p>
+<p>On the contrary, the presence of <strong>autocorrelation</strong>, or statistically significant correlations between current and past values, indicates the absence of white noise. This means the time series has temporal structure, which can be modelled for prediction. For example, positive autocorrelation suggests that high (or low) values tend to be followed by similarly high (or low) values, while negative autocorrelation implies an alternating pattern.</p>
+<p><span id="eq-autocorr-res"><span class="math display">
+r_k =
+\begin{cases}
+&gt; 0 &amp; \text{positive autocorrelation (e.g., trends)} \\
+&lt; 0 &amp; \text{negative autocorrelation (e.g., alternating pattern)} \\
+\approx 0 &amp; \text{no autocorrelation (white noise)}
+\end{cases}
+\tag{9.9}</span></span></p>
+<p>To check for autocorrelation in our data, we can use the <code>ACF()</code> function from the <code>{feasts}</code> package:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sdi_fr_ts <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ACF</span>(value) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-acf" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Autocorrelation Function of SDI in France">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-acf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-acf-1.png" class="img-fluid figure-img" alt="Autocorrelation Function of SDI in France" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-acf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.6: Autocorrelation Function of SDI in France. The blue dashed lines represent the 95% confidence interval for the null hypothesis: <code>There is no autocorrelation at lag k.</code>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The output clearly shows that our data displays autocorrelation, this validates the use of time series models such as ARIMA, which rely on autocorrelated structure.</p>
+<p>To assess whether the series is <strong>stationary</strong>, we use a specific test, the <strong>KPSS test</strong><span class="citation" data-cites="kpsstes2023"><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> or <strong>Augmented Dickey-Fuller test</strong>. If this test, generally defined as <strong>unit root test</strong>, indicates non-stationarity, we can apply a <strong>first-order difference</strong> to remove the trend and convert it into a stationary series.</p>
+<p>To apply the KPSS test we use the <code>features()</code> function from <code>{fabletools}</code> package and specify the feature to be: <code>unitroot_kpss</code>. The <code>{urca}</code> might be needed for this task; if needed <code>install.packages("urca")</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sdi_fr_ts <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(value,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">features =</span> unitroot_kpss)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 2</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   kpss_stat kpss_pvalue</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1      1.09        0.01</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A <span class="math inline">p-value = 0.01</span>, which is less than 0.05, indicates strong evidence against the null hypothesis of stationarity.</p>
+<p>In summary, the presence of autocorrelation combined with the <strong>non-stationarity</strong> result from the KPSS test suggests that the series has a trend or random walk component, and is not stationary.</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>A fundamental concept in time series analysis is <strong>stationarity</strong>. A time series is said to be stationary when its statistical properties do not change over time. This means the mean, variance, and autocorrelation structure remain constant throughout the series.</p>
+<p>On the other hand, a <strong>non-stationary</strong> time series exhibits properties that change over time—for example, a long-term trend, changing variability, or evolving seasonal patterns.</p>
+</div>
+</div>
+</div>
+<p>In this case we apply the first-order differencing (differences = 1) to the data before applying models that assume stationarity, such as ARIMA.</p>
+<p><span id="eq-diff"><span class="math display">
+y^{\prime}_t=y_t-y_{t-1}
+\tag{9.10}</span></span></p>
+<p>Differencing transforms the series by subtracting each observation from its previous value, thereby removing trends and stabilizing the mean over time. This transformation often makes the mean and variance more stable, and is essential because non-stationary time series can lead to unreliable or misleading model results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply first-order differencing to remove trend</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>sdi_fr_diff <span class="ot">&lt;-</span> sdi_fr_ts <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diff_value =</span> <span class="fu">difference</span>(value, <span class="at">differences =</span> <span class="dv">1</span>))</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>sdi_fr_diff <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tsibble: 6 x 4 [1Y]</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location  year value diff_value</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 France    1990 0.738   NA      </span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 France    1991 0.743    0.00500</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 France    1992 0.75     0.00700</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 France    1993 0.755    0.00500</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 France    1994 0.759    0.00400</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 France    1995 0.763    0.00400</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sdi_fr_diff <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> diff_value)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"First-order Differenced SDI (France)"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Differenced SDI"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-diff" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Differencing Function of SDI in France">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-diff-1.png" class="img-fluid figure-img" alt="Differencing Function of SDI in France" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.7: First-order Differenced SDI (France)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="partial-autocorrelations" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="partial-autocorrelations"><span class="header-section-number">9.4.3</span> Partial Autocorrelations</h3>
+<p>The <strong>Partial Autocorrelation Function (PACF)</strong> removes the effects of intermediate lags. It is a measures of the direct relationship between a time series and its own lagged values. The PACF allows for a more specific identification of how many lags to include in the <span class="math inline">AR</span> part of the <code>ARIMA</code> model. The number of autoregressive (<span class="math inline">AR</span>) terms (<span class="math inline">p</span>) is determined by the number of significant lags in the PACF plot.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sdi_fr_ts <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">PACF</span>(value) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>sdi_fr_ts <span class="sc">|&gt;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(<span class="at">y =</span> value, <span class="at">plot_type =</span> <span class="st">"partial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-pacf" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pacf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-pacf" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pacf-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Partial Autocorrelations of SDI in France">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pacf-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-pacf-1.png" class="img-fluid figure-img" data-ref-parent="fig-pacf" alt="Partial Autocorrelations of SDI in France" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pacf-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) PACF
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-pacf" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-pacf-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Partial Autocorrelations of SDI in France">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-pacf-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-pacf-2.png" class="img-fluid figure-img" data-ref-parent="fig-pacf" alt="Partial Autocorrelations of SDI in France" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pacf-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) gg_tsdisplay
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pacf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.8: Partial Autocorrelations of SDI in France
+</figcaption>
+</figure>
+</div>
+<p>In this plot we can see that the PACF shows a significant spike at lag 1, indicating that the first lag is important for predicting the current value. The subsequent lags are not significant, suggesting that only the first lag should be included in the ARIMA model.</p>
+</section>
+<section id="arima-model" class="level3" data-number="9.4.4">
+<h3 data-number="9.4.4" class="anchored" data-anchor-id="arima-model"><span class="header-section-number">9.4.4</span> ARIMA Model</h3>
+<p>The <strong>ARIMA</strong> model forecasts time series values based on past observations.</p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>In time series analysis, the terms forecast and predict are sometimes used interchangeably, but there’s a subtle distinction:</p>
+<ul>
+<li>Forecast typically refers to estimating future values based on a model trained on historical data.</li>
+<li>Predict can refer more generally to estimating outcomes, including within-sample estimates (e.g., fitting values during model training).</li>
+</ul>
+</div>
+</div>
+</div>
+<p><strong>Auto-ARIMA</strong> model is used to establish the best fit by combining autoregressive, moving average, and differencing components. However, careful analysis of stationarity, autocorrelations, and the residuals is required to fine-tune the model and improve forecasting accuracy.</p>
+<p>The <code>ARIMA(value)</code> function automatically selects the best p, d, and q values.</p>
+<p>In general, the ARIMA model is defined as:</p>
+<p><span id="eq-arima-model"><span class="math display">
+\text{ARIMA}(p,d,q) = \text{AR}(p) + \text{I}(d) + \text{MA}(q)
+\tag{9.11}</span></span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\text{AR}(p)</span> is the autoregressive part of the model, which uses past values of the time series to predict future values,</li>
+<li><span class="math inline">\text{I}(d)</span> is the integrated part of the model, which represents the differencing of the time series to make it stationary,</li>
+<li><span class="math inline">\text{MA}(q)</span> is the moving average part of the model, which uses past forecast errors to predict future values.</li>
+</ul>
+<p>The <code>ARIMA()</code> function from the <code>{fable}</code> package automatically selects the appropriate degree of differencing needed to achieve stationarity and fits the ARIMA model accordingly. The <code>report()</code> function provides a summary of the fitted model, including parameter estimates and diagnostic statistics.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> sdi_fr_ts <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(value))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">|&gt;</span> <span class="fu">report</span>()</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Series: value </span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model: ARIMA(1,1,0) w/ drift </span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          ar1  constant</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0.5971    0.0013</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; s.e.  0.1562    0.0002</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sigma^2 estimated as 8.634e-07:  log likelihood=162.46</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC=-318.92   AICc=-317.96   BIC=-314.82</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The model suggests that the differenced series follows a stable upward trend, with moderate autocorrelation and low residual variance, implying a strong and reliable forecast model for the observed data.</p>
+<p>In particular, selected <code>ARIMA(1,1,0)</code> indicates:</p>
+<ul>
+<li>One autoregressive (<span class="math inline">AR</span>) term (<span class="math inline">ar1 = 0.5971</span>): There is moderate persistence; the differenced value at time <span class="math inline">t</span> is positively correlated with the previous time point</li>
+<li>First-order differencing (<span class="math inline">d = 1</span>) was applied to achieve stationarity</li>
+<li>No moving average (<span class="math inline">MA</span>) term (<span class="math inline">q = 0</span>)</li>
+<li>The model includes a drift term (<span class="math inline">\text{constant} = 0.0013</span>), which accounts for a consistent upward trend in the differenced series.</li>
+<li>Standard errors (s.e.) for both coefficients are small, suggesting estimates are fairly precise.</li>
+<li><span class="math inline">\sigma^2 = 8.634e-07</span>: Very low variance of the residuals, indicating a good fit.</li>
+<li><span class="math inline">\text{Log-likelihood} = 162.46</span>: Used for model comparison.</li>
+<li><span class="math inline">\text{AIC} = -318.92</span>, <span class="math inline">\text{AICc} = -317.96</span>, <span class="math inline">\text{BIC} = -314.82</span>: All are low values, which generally indicate a better-fitting model when compared to alternatives.</li>
+</ul>
+</section>
+<section id="arima-forecast" class="level3" data-number="9.4.5">
+<h3 data-number="9.4.5" class="anchored" data-anchor-id="arima-forecast"><span class="header-section-number">9.4.5</span> ARIMA Forecast</h3>
+<p>The <code>forecast()</code> function from the <code>{fable}</code> package is used to generate forecasts based on the fitted ARIMA model. The <code>h</code> parameter specifies the forecast horizon, which is the number of future time points to predict. In this case we used <span class="math inline">h=10</span> for the next 10 years.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> .mean)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> sdi_fr_ts,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"purple"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>)<span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Forecast of SDI in France"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-forecast" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Forecast of SDI in France">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-forecast-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-forecast-1.png" class="img-fluid figure-img" alt="Forecast of SDI in France" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-forecast-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.9: Forecast of SDI in France
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-ensembles" class="level3" data-number="9.4.6">
+<h3 data-number="9.4.6" class="anchored" data-anchor-id="model-ensembles"><span class="header-section-number">9.4.6</span> Model Ensembles</h3>
+<p>In time series analysis, an individual model trained on historical data to generate forecasts is known as a <strong>single learner</strong>, such as a single ARIMA model. However, a single learner may not be sufficient to capture the full complexity of the data, especially when dealing with intricate patterns, nonlinear relationships, or multiple influencing factors, leading to poor generalisation on unseen data.</p>
+<p>Single approaches often fail to account for crucial factors like external shocks, structural changes, or nonlinear relationships, making them insufficient for capturing all aspects of the data, including trend and seasonality.</p>
+<p>This is where <strong>ensemble learning</strong> comes into play.</p>
+<p>By aggregating the predictions from <strong>multiple single learners</strong>, we can form a <strong>model ensemble</strong>, to improve predictive performance and generate more robust forecasts.</p>
+<p><strong>Ensemble learning</strong> is a machine learning technique that leverages the diversity of individual models to make more accurate predictions and reduce overfitting. Ensemble methods can reduce the variance and bias of the predictions, examples are techniques such as bagging, boosting, and stacking that leverage the diversity of individual models to create a stronger collective model that outperforms its components.</p>
+<p>These methods are widely used in machine learning and predictive modelling to enhance the predictive power of the model and achieve better generalisation performance on unseen data.</p>
+<p>In this example, we will use the <code>ARIMA()</code> function to fit multiple ARIMA models with different orders and compare their performance using the <code>glance()</code> function from the <code>{broom}</code> package.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>caf_fit <span class="ot">&lt;-</span> sdi_fr_ts <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima210 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>)),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima013 =</span> <span class="fu">ARIMA</span>(value <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">stepwise =</span> <span class="fu">ARIMA</span>(value),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">search =</span> <span class="fu">ARIMA</span>(value, <span class="at">stepwise =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>caf_fit <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Model name"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Orders"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A mable: 4 x 2</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Key:     Model name [4]</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Model name`                  Orders</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                        &lt;model&gt;</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 arima210     &lt;ARIMA(2,1,0) w/ drift&gt;</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 arima013     &lt;ARIMA(0,1,3) w/ drift&gt;</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 stepwise     &lt;ARIMA(1,1,0) w/ drift&gt;</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 search       &lt;ARIMA(1,1,0) w/ drift&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(caf_fit) <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AICc) <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.model<span class="sc">:</span>BIC)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 6</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .model        sigma2 log_lik   AIC  AICc   BIC</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 stepwise 0.000000863    162. -319. -318. -315.</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 search   0.000000863    162. -319. -318. -315.</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 arima210 0.000000896    162. -317. -315. -311.</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 arima013 0.000000950    162. -314. -312. -308.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The results of the model ensemble analysis reveal that both the <strong>stepwise</strong> and <strong>search</strong> ARIMA models outperform the others in terms of model fit, as indicated by their lower AIC and AICc values. These two models exhibit identical log-likelihood values and minimal residual variance, suggesting that they provide the most accurate forecasts while maintaining model simplicity. In contrast, the <strong>arima210</strong> and <strong>arima013</strong> models show slightly higher AIC and AICc values, indicating that they are less efficient at capturing the underlying patterns in the data.</p>
+<p>Based on these findings, we select the <strong>search</strong> model with ARIMA(1,1,0), and visualize the residuals of the fitted model.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>caf_fit <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(search) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsresiduals</span>()</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>caf_fit <span class="sc">|&gt;</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model <span class="sc">==</span> <span class="st">"search"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> .mean)) <span class="sc">+</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> sdi_fr_ts,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"purple"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-residuals" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-residuals" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-residuals-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Residuals of ARIMA Models">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-residuals-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-residuals-1.png" class="img-fluid figure-img" data-ref-parent="fig-residuals" alt="Residuals of ARIMA Models" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-residuals-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Residuals of ARIMA Models
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-residuals" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-residuals-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Residuals of ARIMA Models">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-residuals-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-residuals-2.png" class="img-fluid figure-img" data-ref-parent="fig-residuals" alt="Residuals of ARIMA Models" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-residuals-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Forecast of SDI in France
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.10: Residuals of ARIMA Models
+</figcaption>
+</figure>
+</div>
+<p>In conclusion, the analysis of the <strong>Socio-Demographic Index (SDI)</strong> in France from 1990 to 2019 demonstrates the effectiveness of time series analysis and mixed models in understanding and forecasting complex health-related data. By employing techniques such as decomposition, autocorrelation analysis, and ARIMA modelling, we can gain valuable insights into the underlying patterns and trends in the data. The use of ensemble learning further enhances the predictive performance of the models, allowing for more accurate forecasts and better-informed decision-making in public health. However, additional model validation and diagnostic checks, such as residual analysis and cross-validation, should be conducted to ensure that these models generalize well to unseen data and are not overfitting.</p>
+</section>
+</section>
+<section id="mixed-models" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="mixed-models"><span class="header-section-number">9.5</span> Mixed Models</h2>
+<p><strong>Mixed models</strong> are a powerful statistical tool for analysing data with a hierarchical or nested structure, where observations are grouped within higher-level units. By incorporating both <strong>fixed</strong> and <strong>random effects</strong>, mixed models can account for the variability within and between groups, providing a flexible framework for modelling complex data structures. Mixed models are widely used in various fields, and particularly useful in fields like healthcare and infectious diseases where data might be collected across different subjects or time points.</p>
+<p>In the following section, we will discuss the application of mixed models in estimating the <strong>Years Lived with Disability (YLDs)</strong> and the different ratios used in forecasting non-fatal disease burden.</p>
+<section id="mixed-effects-models-in-estimating-ylds" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="mixed-effects-models-in-estimating-ylds"><span class="header-section-number">9.5.1</span> Mixed-Effects Models in Estimating YLDs</h3>
+<p>Mixed-effects models are particularly useful in estimating YLDs because they can handle data that is hierarchically structured data.</p>
+<p><strong>Fixed Effects</strong>: These are the primary effects of interest and include variables such as age, gender, year, and specific interventions or treatments.</p>
+<p><strong>Random Effects</strong>: These capture the variability that is not explained by the fixed effects, such as differences between patients, clinics, or regions.</p>
+<p>By using mixed-effects models, we can better account for the within-subject and between-subject variability, providing more accurate estimates of YLDs.</p>
+</section>
+</section>
+<section id="example-ylds-due-to-tuberculosis---mixed-effects-models" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="example-ylds-due-to-tuberculosis---mixed-effects-models"><span class="header-section-number">9.6</span> Example: YLDs due to Tuberculosis - Mixed-Effects Models</h2>
+<p>In this example, we will demonstrate how estimated <strong>Years Lived with Disability (YLDs)</strong> due to <strong>Tuberculosis</strong> can be used to predict future values using mixed-effects models.</p>
+<p>We use the <code>{lme4}</code> package to fit <strong>mixed-effects models</strong>, enabling us to account for both fixed effects (e.g., year, prevalence) and random effects (e.g., variability across countries). This approach is particularly valuable for analysing grouped or repeated measures data, such as longitudinal health data, where observations are not independent over time or across different levels of analysis.</p>
+<p>Data are from the <code>g7_hmetrics</code> dataset in the <code>{hmsidwR}</code> package, which contains rates (per 100,000 population) for <strong>YLDs</strong>, <strong>deaths</strong>, <strong>incidence</strong>, and <strong>prevalence</strong> of <strong>Respiratory infections and tuberculosis</strong> in 2010 and 2019 for selected countries.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>tuberculosis <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>g7_hmetrics <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(measure <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Prevalence"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"YLDs"</span>),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">str_detect</span>(cause, <span class="st">"Tuberculosis"</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>year <span class="sc">==</span> <span class="dv">2021</span>,</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>location <span class="sc">==</span> <span class="st">"Global"</span>,</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>         metric <span class="sc">==</span> <span class="st">"Rate"</span>,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>         sex <span class="sc">==</span> <span class="st">"both"</span>) <span class="sc">%&gt;%</span> <span class="co"># per 100,000 population</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, location, measure, val) <span class="sc">%&gt;%</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measure,</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> val)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>tuberculosis <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    year location  YLDs Prevalence</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2010 Japan     3.07     17720.</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  2019 Japan     2.03     14215.</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2010 Germany   1.79      7758.</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  2019 Germany   1.55      6706.</span></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  2010 UK        2.67      8670.</span></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  2019 UK        1.84      7534.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can see how the level of YLDs due to tuberculosis has decreased in all selected countries over the 10-year period.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpattern)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tuberculosis,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(location, YLDs),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> YLDs, <span class="at">group =</span> year)) <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  ggpattern<span class="sc">::</span><span class="fu">geom_col_pattern</span>(<span class="fu">aes</span>(<span class="at">pattern =</span> <span class="fu">factor</span>(year)),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">position =</span> <span class="st">"dodge"</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">fill=</span> <span class="st">'white'</span>,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">colour=</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"YLDs for Tuberculosis by Location and Year"</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Location"</span>, <span class="at">pattern =</span> <span class="st">"Year"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-hist-tuberculosis" class="quarto-float quarto-figure quarto-figure-center anchored" alt="YLDs for Tuberculosis by Location and Year">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hist-tuberculosis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-hist-tuberculosis-1.png" class="img-fluid figure-img" alt="YLDs for Tuberculosis by Location and Year" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hist-tuberculosis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.11: YLDs for Tuberculosis by Location and Year
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The disability weight for tuberculosis in 2019 is set at 0.333 for the Global region. The duration, derived from the GBD 2021 and based on a systematic review, was adjusted for treated and untreated cases: it was estimated to be 3 years for untreated cases and 6 months for treated cases<span class="citation" data-cites="tiemersma2011">.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span></p>
+<p>The formula <span class="math inline">YLDs ~ Prevalence + year + (1 | location)</span> specifies a linear mixed-effects model for predicting Years Lived with Disability (YLDs) due to tuberculosis. The model includes fixed effects for prevalence and year, as well as a random intercept for location (<span class="math inline">(1 | location)</span>). This allows for the estimation of YLDs while accounting for variability across different locations.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the formula</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>formula <span class="ot">&lt;-</span> YLDs <span class="sc">~</span> Prevalence <span class="sc">+</span> year <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> location)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the mixed-effects model</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(formula, <span class="at">data =</span> tuberculosis)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>model</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Linear mixed model fit by REML ['lmerMod']</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Formula: YLDs ~ Prevalence + year + (1 | location)</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Data: tuberculosis</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; REML criterion at convergence: 34.6921</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Groups   Name        Std.Dev.</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  location (Intercept) 0.6202  </span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Residual             0.1773  </span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of obs: 12, groups:  location, 6</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fixed Effects:</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)   Prevalence         year  </span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  67.7989019    0.0001619   -0.0336388  </span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; fit warnings:</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Some predictor variables are on very different scales: consider rescaling</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract fixed effects</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>fixed_effects <span class="ot">&lt;-</span> <span class="fu">fixef</span>(model)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>fixed_effects</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   (Intercept)    Prevalence          year </span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 67.7989018583  0.0001619458 -0.0336387726</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Considering only the fixed effects the model function becomes: <span id="eq-mixed-model"><span class="math display">
+\hat{YLDs} = 67.79889 + 0.00016*Prevalence - 0.03364*year
+\tag{9.12}</span></span></p>
+<p>In particular, a prevalence coefficient of 0.00016 means that for each unit increase in prevalence, YLDs increase by 0.00016, while a year coefficient of -0.03364 means that for each unit increase in year, YLDs decrease by 0.03364.</p>
+<p>Looking at the random effects, we can see how the model accounts for the variability across different locations.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract random effects</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>random_effects <span class="ot">&lt;-</span> <span class="fu">ranef</span>(model)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>random_effects</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $location</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         (Intercept)</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Canada  -0.40736806</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Germany  0.44667833</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Italy   -0.09317570</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Japan   -0.06401586</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; UK       0.87190488</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; US      -0.75402360</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; with conditional variances for "location"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The model function with random_effects for each location becomes:</p>
+<p><span id="eq-mixed-model2"><span class="math display">
+\begin{split}
+\hat{YLDs} = 67.79889 \\
++ 0.00016 \cdot \text{Prevalence} \\
+- 0.03365 \cdot \text{year} \\
++ \text{ random effect for each location}
+\end{split}
+\tag{9.13}</span></span></p>
+<p>Then, predictions are made for the YLDs due to tuberculosis using the mixed-effects model on observed data and new data. The predictions are compared with the actual YLDs to evaluate the model’s performance.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict YLDs for observed data</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                       tuberculosis,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">allow.new.levels =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>tuberculosis<span class="sc">$</span>predicted_YLD <span class="ot">&lt;-</span> predictions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Predicted versus Estimated YLDs due to Tuberculosis are shown in the following plot:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tuberculosis <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(<span class="sc">!</span>location<span class="sc">==</span><span class="st">"Global"</span>),</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> YLDs, <span class="at">y =</span> predicted_YLD,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">group =</span> location)) <span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="fu">factor</span>(location))) <span class="sc">+</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> year) <span class="sc">+</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"YLDs due to Tuberculosis"</span>,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtile =</span> <span class="st">"Predicted vs Estimated"</span>,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"YLDs"</span>,</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Predicted YLD"</span>,</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">shape =</span> <span class="st">"Location"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-mod-res-tuberculosis" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Predicted vs Estimated YLDs due to Tuberculosis">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mod-res-tuberculosis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-mod-res-tuberculosis-1.png" class="img-fluid figure-img" alt="Predicted vs Estimated YLDs due to Tuberculosis" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mod-res-tuberculosis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.12: Predicted vs Estimated YLDs due to Tuberculosis
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot shows a good fit between the predicted and estimated YLDs, indicating that the model is able to capture the underlying trends in the data. The error is calculated as the absolute difference between the predicted and estimated YLDs, divided by the estimated YLDs, multiplied by 100 to express it as a percentage.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tuberculosis <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ape =</span> <span class="fu">abs</span>(predicted_YLD <span class="sc">-</span> YLDs) <span class="sc">/</span> YLDs <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mape =</span> <span class="fu">mean</span>(ape, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 1</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    mape</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt;</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  6.21</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <strong>mean absolute percent error (MAPE)</strong> is 6.2%, indicating that the model is able to predict YLDs with a reasonable level of accuracy.</p>
+<p>The <strong>residual sum of squared error (RSE)</strong> is also calculated as the square root of the sum of squared residuals divided by the number of observations minus the number of parameters in the model. The RSE is a measure of how well the model fits the data, and a lower value indicates a better fit.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tuberculosis <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residuals =</span> predicted_YLD <span class="sc">-</span> YLDs) <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rse =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(residuals<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">nrow</span>(tuberculosis) <span class="sc">-</span> <span class="fu">length</span>(<span class="fu">fixef</span>(model))))) </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 1</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     rse</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt;</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 0.126</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A RSE of 0.1262147 indicates that the model is able to predict YLDs with a reasonable level of accuracy.</p>
+<p>Let’s use the data for 2021 which we have left aside, and fit the model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>tuberculosis_2021 <span class="ot">&lt;-</span> hmsidwR<span class="sc">::</span>g7_hmetrics <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(measure <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Prevalence"</span>,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"YLDs"</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">str_detect</span>(cause, <span class="st">"Tuberculosis"</span>),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>         year <span class="sc">==</span> <span class="dv">2021</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>location <span class="sc">==</span> <span class="st">"Global"</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>         metric <span class="sc">==</span> <span class="st">"Rate"</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>         sex <span class="sc">==</span> <span class="st">"both"</span>) <span class="sc">%&gt;%</span> <span class="co"># per 100,000 population</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, location, measure, val) <span class="sc">%&gt;%</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measure,</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> val)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>tuberculosis_2021</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    year location  YLDs Prevalence</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2021 Japan    1.98      13567.</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  2021 Germany  1.54       6507.</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2021 UK       1.53       7308.</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  2021 US       0.925     11313.</span></span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  2021 Italy    1.38       9061.</span></span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  2021 Canada   1.02       8767.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict YLDs for new data</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>predictions_2021 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                           tuberculosis_2021, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">allow.new.levels =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Check how the model performed on the 2021 data. The predictions are compared with the actual YLDs to evaluate the model’s performance.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>tuberculosis_2021<span class="sc">$</span>predicted_YLD <span class="ot">&lt;-</span> predictions_2021</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>tuberculosis_2021 <span class="ot">&lt;-</span> tuberculosis_2021 <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Prevalence) <span class="sc">%&gt;%</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residuals =</span> predicted_YLD <span class="sc">-</span> YLDs) </span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>tuberculosis_2021</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 5</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    year location  YLDs predicted_YLD residuals</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2021 Japan    1.98          1.95    -0.0283</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  2021 Germany  1.54          1.32    -0.229 </span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2021 UK       1.53          1.87     0.344 </span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  2021 US       0.925         0.893   -0.0316</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  2021 Italy    1.38          1.19    -0.190 </span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  2021 Canada   1.02          0.827   -0.193</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-mod-res-tuberculosis2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Estimated YLDs due to Tuberculosis">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mod-res-tuberculosis2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="08-predictions_files/figure-html/fig-mod-res-tuberculosis2-1.png" class="img-fluid figure-img" alt="Estimated YLDs due to Tuberculosis" width="480">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mod-res-tuberculosis2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.13: YLDs due to Tuberculosis - Mixed-Model Results. Solid lines show the original values, the dashed lines show the original values for 2021, and the dots shaped are by location the predicted values.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot shows the estimated YLDs due to tuberculosis for 2010, 2019, and 2021. The dashed lines represent the estimated YLDs for 2010 and 2019, while the solid lines represent the predicted YLDs for 2021. The points represent the actual YLDs for 2021. The model is able to predict YLDs with a reasonable level of accuracy, as indicated by the close fit between the predicted and actual values.</p>
+</section>
+<section id="summary" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.7</span> Summary</h2>
+<p>Predictive modelling is a valuable tool for forecasting future trends and making informed decisions based on historical data. By leveraging the insights gained from the models, we can anticipate the trajectory of infectious diseases, estimate disease burden, and evaluate the impact of interventions on population health. The models can be further refined and optimised to improve their predictive performance and provide more accurate forecasts. By combining predictive modelling with time series analysis and mixed models, we can gain a comprehensive understanding of the complex dynamics of public health and make data-driven decisions to improve population health outcomes.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-forecast" class="csl-entry" role="listitem">
+<em>Forecasting: Principles and Practice (3rd Ed)</em>, n.d. <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.
+</div>
+<div id="ref-kpsstes2023" class="csl-entry" role="listitem">
+<span>“KPSS Test,”</span> October 12, 2023. <a href="https://en.wikipedia.org/w/index.php?title=KPSS_test&amp;oldid=1179751435">https://en.wikipedia.org/w/index.php?title=KPSS_test&amp;oldid=1179751435</a>.
+</div>
+<div id="ref-tiemersma2011" class="csl-entry" role="listitem">
+Tiemersma, Edine W., Marieke J. van der Werf, Martien W. Borgdorff, Brian G. Williams, and Nico J. D. Nagelkerke. <span>“Natural History of Tuberculosis: Duration and Fatality of Untreated Pulmonary Tuberculosis in HIV Negative Patients: A Systematic Review.”</span> <em>PLOS ONE</em> 6, no. 4 (April 4, 2011): e17601. doi:<a href="https://doi.org/10.1371/journal.pone.0017601">10.1371/journal.pone.0017601</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p><em>Forecasting: Principles and Practice (3rd Ed)</em>, n.d., <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><em>Forecasting</em>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><span>“KPSS Test,”</span> October 12, 2023, <a href="https://en.wikipedia.org/w/index.php?title=KPSS_test&amp;oldid=1179751435">https://en.wikipedia.org/w/index.php?title=KPSS_test&amp;oldid=1179751435</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Edine W. Tiemersma et al., <span>“Natural History of Tuberculosis: Duration and Fatality of Untreated Pulmonary Tuberculosis in HIV Negative Patients: A Systematic Review,”</span> <em>PLOS ONE</em> 6, no. 4 (April 4, 2011): e17601, doi:<a href="https://doi.org/10.1371/journal.pone.0017601">10.1371/journal.pone.0017601</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fgazzelloni\.quarto\.pub\/hmsidr\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07-packages.html" class="pagination-link" aria-label="Essential R Packages for Machine Learning">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./09-data_visualization.html" class="pagination-link" aria-label="Introduction to Data Visualisation">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>Editor CRC Press - Chapman &amp; Hall | Taylor &amp; Francis Group</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/08-predictions.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Built with ❤︎️ and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

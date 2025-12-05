@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Federica Gazzelloni">
+
+<title>2&nbsp; Introduction to Health Metrics – Health Metrics and the Spread of Infectious Diseases</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-method_calculation.html" rel="next">
+<link href="./intro.html" rel="prev">
+<link href="./images/icons/pen-to-square-solid.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3f82c0c769e6123ec458e1781414e6ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-J9YVQPL7W9"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J9YVQPL7W9', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"headline",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script defer="" data-domain="" src=""></script>
+<link rel="shortcut icon" href="favicon.ico">
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-health_metrics.html"><strong>Health Metrics</strong></a></li><li class="breadcrumb-item"><a href="./01-health_metrics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Health Metrics and the Spread of Infectious Diseases</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Fgazzelloni/hmsidR" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Health Metrics</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-health_metrics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-method_calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Metrics Components</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-causes_risks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Causes and Risks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Machine Learning</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-techniques.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Techniques for Machine Learning Applications</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Essential R Packages for Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-predictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Predictive Modelling and Beyond</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Data Visualization</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Data Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpreting Model Results Through Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-spatials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatial Data Modelling and Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Advanced Data Visualisation Techniques</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Infectious Diseases</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-infectious_diseases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Introduction to Infectious Diseases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-covid19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">COVID-19 Outbreaks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-malaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">The Case of Malaria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Summary: The State of Health</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Life Tables, Markov Chain and APIs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Tools Used to Make This Book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendixC.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Tips on Converting to Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#the-history-of-health-metrics" id="toc-the-history-of-health-metrics" class="nav-link active" data-scroll-target="#the-history-of-health-metrics"><span class="header-section-number">2.1</span> The History of Health Metrics</a>
+  <ul class="collapse">
+  <li><a href="#quality-adjusted-life-years-qalys" id="toc-quality-adjusted-life-years-qalys" class="nav-link" data-scroll-target="#quality-adjusted-life-years-qalys"><span class="header-section-number">2.1.1</span> Quality-Adjusted Life Years (QALYs)</a></li>
+  <li><a href="#disability-adjusted-life-years-dalys" id="toc-disability-adjusted-life-years-dalys" class="nav-link" data-scroll-target="#disability-adjusted-life-years-dalys"><span class="header-section-number">2.1.2</span> Disability-Adjusted Life Years (DALYs)</a></li>
+  <li><a href="#health-adjusted-life-years-haly" id="toc-health-adjusted-life-years-haly" class="nav-link" data-scroll-target="#health-adjusted-life-years-haly"><span class="header-section-number">2.1.3</span> Health-Adjusted Life Years (HALY)</a></li>
+  <li><a href="#health-adjusted-life-expectancy-hale" id="toc-health-adjusted-life-expectancy-hale" class="nav-link" data-scroll-target="#health-adjusted-life-expectancy-hale"><span class="header-section-number">2.1.4</span> Health-Adjusted Life Expectancy (HALE)</a></li>
+  <li><a href="#healthy-life-years-hly" id="toc-healthy-life-years-hly" class="nav-link" data-scroll-target="#healthy-life-years-hly"><span class="header-section-number">2.1.5</span> Healthy Life Years (HLY)</a></li>
+  <li><a href="#well-being-adjusted-health-expectancy-wahe" id="toc-well-being-adjusted-health-expectancy-wahe" class="nav-link" data-scroll-target="#well-being-adjusted-health-expectancy-wahe"><span class="header-section-number">2.1.6</span> Well-being-Adjusted Health Expectancy (WAHE)</a></li>
+  </ul></li>
+  <li><a href="#how-the-metrics-are-used-in-global-health" id="toc-how-the-metrics-are-used-in-global-health" class="nav-link" data-scroll-target="#how-the-metrics-are-used-in-global-health"><span class="header-section-number">2.2</span> How the Metrics are Used in Global Health</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.3</span> Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/01-health_metrics.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-health_metrics.html"><strong>Health Metrics</strong></a></li><li class="breadcrumb-item"><a href="./01-health_metrics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-01-health_metrics" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Health Metrics</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>“The concept of health also has highly subjective connotations, precisely because it is conditioned by the personal view of happiness.” René Dubos<span class="citation" data-cites="dubos1976"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></span></strong></p>
+</blockquote>
+<p>Health metrics are key variables to understanding the state of health of a population. In this first section of the book we’ll explore the history of these metrics, how to calculate them, and how to account for their variation due to causes and risks. We will examine the components of these metrics and the challenges in providing standardised values for global comparison. Additionally, in the following sections, we will learn how to build a model, evaluate the effect of infectious disease spread on health metrics, and how it impacts the overall health status of a population.</p>
+<section id="the-history-of-health-metrics" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-history-of-health-metrics"><span class="header-section-number">2.1</span> The History of Health Metrics</h2>
+<p>The history of health metrics is a fascinating journey that spans centuries, evolving from rudimentary observations to sophisticated statistical methods, as illustrated by <a href="#fig-timeline" class="quarto-xref">Figure&nbsp;<span>2.1</span></a>.</p>
+<p>One of the earliest forms of health metrics can be traced back to the work of <em>John Graunt</em>, an Englishman, in the 17th century<span class="citation" data-cites="johngra2024">.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></span> In 1662, Graunt published a landmark work titled “Natural and Political Observations Made upon the Bills of Mortality.” Graunt, defined as the <strong>father of human demography</strong>, was largely self-educated, and his interest in mortality data was driven by the Bills of Mortality, which were weekly and annual records of deaths in London, and provided information on the number of births and deaths in the city. Graunt meticulously analysed this <strong>mortality data</strong> and produced <strong>tables</strong> that presented various patterns and trends. His work laid the foundation for modern demography and statistical analysis. Among his notable contributions were the concepts of <strong>life expectancy</strong> and <strong>mortality rates</strong>. One of Graunt’s key observations was the consistent pattern of higher mortality among infants and young children. He noted the difference in life expectancy between males and females and provided insights into factors influencing mortality, such as epidemics and seasons.</p>
+<p>Over time, advancements in mathematics, medicine, and statistics led to the development of more sophisticated health metrics. The 19th century saw the emergence of <strong>life tables</strong>, which provided a systematic way to analyse mortality and life expectancy.</p>
+<div class="pagebreak landscape">
+<div id="fig-timeline" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Health Metrics development timeline" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/01_timeline.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Health Metrics development timeline">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Health Metrics Development Timeline
+</figcaption>
+</figure>
+</div>
+</div>
+<p>More specifically, <em>Mary Dempsey</em> in 1940s wrote an article<span class="citation" data-cites="dempsey2019a"><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></span> for the National Tuberculosis Association about the concept of <strong>Years of Life Lost (YLLs)</strong>, assessing time-lost as a metric for health for the first time. She was then followed by other more advanced improvements spanning all throughout the rest of the century.</p>
+<blockquote class="blockquote">
+<p><strong>“The quality of life depends also on the state of”public health”-namely on factors that affect the biological welfare of the community as a whole.”<span class="citation" data-cites="dubos1976"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span></strong></p>
+</blockquote>
+<p>The 20th century marked significant advancements in epidemiology, driving the expansion and refinement of health metrics. This period saw the widespread adoption of life tables and the modification of expected survival time to incorporate weighted metrics, such as disability-adjusted life years (DALYs). These developments enabled more comprehensive assessments of population health by accounting for both mortality and the quality of life, laying the foundation for modern health evaluation tools.</p>
+<p>The term <strong>Summary Measures of Population Health (SMPH)</strong><span class="citation" data-cites="summary2002"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span> was established in the field, originating from the need to encapsulate both fatal and non-fatal health outcomes into a single, comprehensive measure, representing a significant evolution in health metrics. Used for various purposes, the SMPH compares the health of populations and includes the contributions of different diseases, injuries and risk factors to the total disease burden in a population. SMPH, also referred to as a composite indicator<span class="citation" data-cites="hyder2012">,<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></span> is divided into two broad families: health expectancies and health gaps.</p>
+<p><strong>Health expectancies</strong> are summary measures that combine information on mortality and morbidity to represent the average number of years that an individual can expect to live in good health. Such as <strong>healthy life expectancy (HALE)</strong> and the <strong>quality adjusted life expectancy (QALE)</strong> using health-related quality of life.</p>
+<p><strong>Health gaps</strong>, on the other hand, represent the difference between the current health status of a population and an ideal health situation, providing a measure of the potential for improvement in health outcomes. Divided into the <strong>disability adjusted life years (DALYs)</strong><span class="citation" data-cites="murray1994a"><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></span> in the global burden of disease (GBD) study and the <strong>quality adjusted life years (QALYs)</strong> used as the outcome index of the cost-utility analysis.</p>
+<p>In the contemporary era, the integration of computing power and big data has further transformed health metrics. Today, we have complex models, machine learning algorithms, and global health databases that allow for real-time tracking of diseases and health outcomes.</p>
+<p>John Graunt’s work may have been modest in its origins, but it laid the groundwork for a scientific approach to understanding population health. From Graunt’s early analysis of the <em>Bills of Mortality</em><span class="citation" data-cites="johngra2024a"><a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></span> to the development of today’s advanced health metrics, this journey reflects the ongoing effort to measure and understand the complexities of human health and disease.</p>
+<section id="quality-adjusted-life-years-qalys" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="quality-adjusted-life-years-qalys"><span class="header-section-number">2.1.1</span> Quality-Adjusted Life Years (QALYs)</h3>
+<p>The concept of <strong>Quality-Adjusted Life Years (QALYs)</strong> emerged in the late 1970s, originating from the idea of combining both the <em>quantity</em> and <em>quality</em> of life by <em>Joseph S. Pliskin</em>, then it became a widely used metric for evaluating the <em>cost-effectiveness</em> of healthcare interventions.<span class="citation" data-cites="quality-2023"><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></span> One <em>QALY</em> corresponds to one year in perfect health, it ranges from 1 (perfect health) to 0 (dead). However, this metric, used in various sectors such as health insurance, is somewhat criticised due to its lack of addressing disparities among individuals. It might result in discrimination against individuals with specific medical conditions or disabilities.</p>
+<p>A controversial outcome emerged after 25 years of research and studies, raising concerns about the metric’s validity and inclusiveness. Started in the early 1989s, to step in the 2010 with the <em>European Commission</em><span class="citation" data-cites="echoutco2016"><a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></span> which started the largest-ever study specifically dedicated to testing the assumptions of the <em>QALY</em>,<span class="citation" data-cites="holmes2013"><a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></span> ending in 2013 with the recommended “not using QALYs in healthcare decision making”, arguing that patients with disabilities are valued less under a QALY-based system than individuals with no disabilities. This result has been further criticised and remains a topic of debate.</p>
+<blockquote class="blockquote">
+<p><strong>“Thus, medicine cannot by itself determine the quality of life. It can only help people to achieve the state of health that enables them to cultivate the art of life-but in their own way. This implies the ability to enjoy the fundamental satisfactions of the biological joie de vivre. It also implies the ability for each person to do what he wants to do and become what he wants to become, according to human values that transcend medical judgement” R.Dubos<span class="citation" data-cites="dubos1976a"><a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></span></strong></p>
+</blockquote>
+<p>Used in health policy to measure the value of medical interventions by balancing both the quantity and quality of life added, QALYs help decision-makers determine which treatments or programs offer the greatest health benefits relative to their costs. For example, a health policy might prioritise funding for treatments that deliver high QALYs per dollar spent, ensuring resources are allocated to maximise health outcomes across the population. This approach guides decisions in healthcare budgeting, insurance coverage, and prioritising interventions for chronic illnesses, preventive care, or new therapies.</p>
+</section>
+<section id="disability-adjusted-life-years-dalys" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="disability-adjusted-life-years-dalys"><span class="header-section-number">2.1.2</span> Disability-Adjusted Life Years (DALYs)</h3>
+<p>In the 1990s, the World Bank financed a study at Harvard University to develop a sustainable index that considered not only the health status but also the identification of the level of disabilities concerned by disparities. This lead to a new way of comparing the overall health and life expectancy of different countries, released along with the Global Burden of Disease Study in 1990;<span class="citation" data-cites="murray1994"><a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></span> a project that involved <em>Christopher J. L. Murray</em><span class="citation" data-cites="christop2024"><a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></span> and <em>Alan Lopez</em><span class="citation" data-cites="alanlop2023">,<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></span> in collaboration with the World Health organization (WHO). This effort resulted in the development of the Disability-Adjusted Life Years (DALYs),<span class="citation" data-cites="disabili2023a"><a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></span> a metric that combines <strong>years of life lost due to premature death (YLLs)</strong> and <strong>years lived with disabilities (YLDs)</strong>.</p>
+<div id="fig-dalys" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Breakdown of DALYs into YLLs and YLDs components" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dalys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/01_dalys-diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%" alt="Breakdown of DALYs into YLLs and YLDs components">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dalys-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: YLLs and YLDs components of DALYs
+</figcaption>
+</figure>
+</div>
+<p>DALYs are connected with QALYs in that both metrics seek to quantify the impact of health on quality and length of life. However, while QALYs focus on the benefits with and without medical intervention, DALYs measure the overall burden of diseases.</p>
+<p>The DALY metric is calculated by summing the <strong>years of life lost (YLLs)</strong> due to premature death and the <strong>years lived with disabilities (YLDs)</strong>. This metric provides a comprehensive measure of a population’s health status by highlighting both mortality and disability. For example, consider a population with a life expectancy of 80 years. Individuals who die before reaching this age contribute to the YLLs, while those living with disabilities add to the YLDs. The sum of these values gives the total DALYs for the population, which can then be compared globally to assess health status and identify areas needing improvement in facilities, research, or investment.</p>
+</section>
+<section id="health-adjusted-life-years-haly" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="health-adjusted-life-years-haly"><span class="header-section-number">2.1.3</span> Health-Adjusted Life Years (HALY)</h3>
+<p>Health Adjusted Life Years (HALY) is a metric that combines aspects of both DALYs and QALYs to provide a comprehensive measure of health outcomes in a population. HALYs quantify the burden of disease and the overall quality of life experienced by individuals, measuring the number of years of healthy life lived by a population while accounting for both mortality and morbidity. The information about the prevalence of diseases and disabilities, as well as the impact of these conditions on individuals’ quality of life is incorporated in the calculation of HALYs.</p>
+<p>HALYs adjust life expectancy levels based on the prevalence of health conditions and their associated disability weights. Disability weights reflect the severity of different health conditions and their impact on daily functioning. By applying these weights to the prevalence of each condition, researchers can estimate the overall burden of disease in terms of years of healthy life lost, similar to the calculation of DALYs. Unlike DALYs, which focus primarily on morbidity and mortality, HALYs incorporate measures of individuals’ quality of life, allowing for a more comprehensive assessment of health outcomes.</p>
+</section>
+<section id="health-adjusted-life-expectancy-hale" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="health-adjusted-life-expectancy-hale"><span class="header-section-number">2.1.4</span> Health-Adjusted Life Expectancy (HALE)</h3>
+<p>Healthy Life Expectancy (HALE)<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a><span class="citation" data-cites="indicato"><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></span> is a measure of overall health and well-being that accounts for both the quantity and quality of life. HALE combines years of life expectancy with the prevalence and severity of disability in a population, providing a more nuanced view of health outcomes than traditional measures of life expectancy.</p>
+<p>HALE provides a more comprehensive view of health outcomes than other traditional measures of life expectancy, which only consider the quantity of life. The calculation of HALE typically involves estimating the number of years that an individual can expect to live in good health, taking into account the impact of diseases and injuries on quality of life. This information is then used to estimate the overall health status of a population. It is a useful tool for public health practitioners and policy makers, as it provides a more nuanced view of the health outcomes of a population. This information can help inform public health interventions and prioritise resources, as well as help track changes in health outcomes over time. Additionally, HALE can be used to compare the health outcomes of different populations and identify disparities in health outcomes, which can help inform targeted public health interventions.</p>
+<p>Overall, the HALE metric provides a valuable perspective on the overall health and well-being of a population, combining information about both quantity and quality of life to provide a comprehensive view of health outcomes. It adjusts overall life expectancy by the amount of time lived in less than perfect health. This is calculated by subtracting from the life expectancy a figure which is the number of years lived with disability multiplied by a weighting to represent the effect of the disability<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a><span class="citation" data-cites="healthy">.<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a></span></p>
+</section>
+<section id="healthy-life-years-hly" class="level3" data-number="2.1.5">
+<h3 data-number="2.1.5" class="anchored" data-anchor-id="healthy-life-years-hly"><span class="header-section-number">2.1.5</span> Healthy Life Years (HLY)</h3>
+<p>There is one more health metrics that is worth mentioning, the <strong>Healthy Life Years (HLYs)</strong> indicator, also known as <strong>Disability-Free Life Expectancy (DFLE)</strong> or <strong>Sullivan’s Index</strong><span class="citation" data-cites="healthy2024">.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></span> It assesses the number of years an individual can expect to live in good health, free from significant health problems or disabilities. It is a measure of the <em>quality of life-adjusted life expectancy</em>, focusing on the years lived in full health rather than simply the total number of years lived. It specifically focuses on the number of years a person can expect to live without disability, providing valuable insights into overall health and well-being beyond just life expectancy. It takes into account both mortality and morbidity, providing a comprehensive picture of overall health and well-being.</p>
+<p>HLYs differs from HALE in that it focuses on the number of additional years a person can expect to live in good health after reaching a certain age, typically 65. This makes HLYs especially relevant for assessing health in ageing populations and evaluating interventions that aim to improve the quality of life for older adults.</p>
+<p>For example, an organisation focusing on elder care policy might use HLYs to measure program impact on older adults specifically, while a global health agency might prefer HALE for its applicability to general population health across all ages.</p>
+<p>HLY is typically calculated by subtracting the number of years lived with disability from life expectancy at birth. The resulting figure represents the number of years an individual can expect to live in good health, free from significant health-related limitations. Unlike life expectancy, which focuses solely on the length of life, HLY incorporates measures of the quality of life by considering the impact of health conditions on individuals’ ability to engage in daily activities and maintain independence.</p>
+</section>
+<section id="well-being-adjusted-health-expectancy-wahe" class="level3" data-number="2.1.6">
+<h3 data-number="2.1.6" class="anchored" data-anchor-id="well-being-adjusted-health-expectancy-wahe"><span class="header-section-number">2.1.6</span> Well-being-Adjusted Health Expectancy (WAHE)</h3>
+<p>Currently, <strong>Well-being-Adjusted Health Expectancy (WAHE)</strong> is still an emerging metric in health research that combines traditional health indicators with <strong>well-being factors</strong> to provide a more comprehensive assessment of population health. WAHE is calculated by estimating the number of life years equivalent to full health, taking into account both physical and psychological well-being.</p>
+<p>WAHE aims to capture the overall health and well-being of individuals by incorporating measures of physical health, mental health, and social well-being. This metric goes beyond traditional health metrics like life expectancy and disability-adjusted life years to provide a more holistic view of health outcomes by considering factors like <strong>happiness</strong>, <strong>life satisfaction</strong>, and <strong>social connectedness</strong>.</p>
+<p>Particularly relevant in the context of global health, WAHE provides a more holistic view of population health that can inform public health policies, healthcare interventions, and resource allocation decisions[<span class="citation" data-cites="ipc2021"><a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a></span>]<span class="citation" data-cites="muszynska-spielauer2022">.<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a></span><span class="citation" data-cites="well-bei">.<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a></span></p>
+<div class="cell">
+<div id="tbl-health_metrics" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-health_metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.1: Health Metrics Overview
+</figcaption>
+<div aria-describedby="tbl-health_metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 22%">
+<col style="width: 16%">
+<col style="width: 23%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Purpose</th>
+<th style="text-align: left;">Focus</th>
+<th style="text-align: left;">Usage</th>
+<th style="text-align: left;">Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">QALY (Quality-Adjusted Life Year)</td>
+<td style="text-align: left;">Measures health benefits of interventions by combining quantity and quality of life gained</td>
+<td style="text-align: left;">Health gains from interventions</td>
+<td style="text-align: left;">Used in cost-effectiveness studies, healthcare resource allocation, and insurance</td>
+<td style="text-align: left;">Calculated by adjusting life years gained for quality of life (e.g., 1 year at half quality = 0.5 QALY)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DALY (Disability-Adjusted Life Year)</td>
+<td style="text-align: left;">Measures burden of disease by capturing premature death and disability impact</td>
+<td style="text-align: left;">Health loss due to disease and disability</td>
+<td style="text-align: left;">Used in public health to understand and compare disease burden globally</td>
+<td style="text-align: left;">Calculated by summing years of life lost (YLL) and years lived with disability (YLD)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HALY (Health-Adjusted Life Year)</td>
+<td style="text-align: left;">General measure combining health quantity and quality; similar to QALY but less common</td>
+<td style="text-align: left;">Health gains or losses from interventions or disease impact</td>
+<td style="text-align: left;">Used similarly to QALY, though less frequently in decision-making</td>
+<td style="text-align: left;">Calculated by adjusting life years for health quality; similar to QALY</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HALE (Healthy Life Expectancy)</td>
+<td style="text-align: left;">Estimates life expectancy in ‘healthy’ years, adjusting for disability and illness</td>
+<td style="text-align: left;">Overall healthy life expectancy at a population level</td>
+<td style="text-align: left;">Primarily used in population health and public health reports for health expectancy</td>
+<td style="text-align: left;">Calculated by adjusting total life expectancy based on age-specific disability prevalence</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HLY (Health Life Years)</td>
+<td style="text-align: left;">Measures the additional healthy years expected, often from a specific age like 65</td>
+<td style="text-align: left;">Healthy life expectancy focused on ageing populations</td>
+<td style="text-align: left;">Used in geriatric health assessments and interventions for ageing populations</td>
+<td style="text-align: left;">Typically calculated by estimating additional years of good health beyond a baseline age</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WAHE (Well-being Adjusted Health Expectancy)</td>
+<td style="text-align: left;">Incorporates both physical and subjective well-being for life expectancy in ‘full health’</td>
+<td style="text-align: left;">Overall well-being and mental health as well as physical health</td>
+<td style="text-align: left;">Applicable for holistic health assessments, incorporating quality of life and mental wellness</td>
+<td style="text-align: left;">Calculated by weighting health states to reflect impact on well-being and quality of life</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="how-the-metrics-are-used-in-global-health" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="how-the-metrics-are-used-in-global-health"><span class="header-section-number">2.2</span> How the Metrics are Used in Global Health</h2>
+<p>These metrics are used alone or in combination with other health metrics in global health assessments conducted by organisations such as the <strong>World Health Organisation (WHO)</strong>, the <strong>European Commission</strong>, and the <strong>Institute for Health Metrics and Evaluation (IHME)</strong>. They provide a global perspective and insights into the health status of populations, helping to track progresses towards long-term health objectives over time. The metrics also inform public health policies, healthcare interventions, and resource allocation decisions, helping to prioritise health needs and target interventions effectively.</p>
+<p>The investigation into finding updated metrics is a sustained commitment, aiming to develop new measures tailored to the evolving landscape of the health field. Recently, the new <strong>Summary Measure of Population Health (SMPH)</strong> proposed the <strong>Well-being-Adjusted Health Expectancy (WAHE)</strong> measure as an estimate of the number of life years equivalent to full health<span class="citation" data-cites="muszynska-spielauer2022">.<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a></span> This approach reflects a growing recognition that health metrics should account for physical and clinical indicators and consider psychological and overall well-being.</p>
+</section>
+<section id="summary" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.3</span> Summary</h2>
+<p>Health metrics play a crucial role in understanding and improving population health. From John Graunt’s early work in the 17th century to today’s sophisticated metrics like DALYs, QALYs, HALYs, HALE, and HLY, these measures have evolved to provide a comprehensive view of health outcomes. They guide public health policies, healthcare interventions, and global health assessments, highlighting areas for improvement and helping to allocate resources effectively. As health metrics continue to evolve, incorporating both traditional and well-being indicators, they will remain essential tools in the quest to quantify and enhance the complexities of human health and disease.</p>
+<p>What’s next? In the next chapter we will investigate deeper into how DALYs break down health impacts into two powerful metrics—Years of Life Lost (YLLs) and Years Lived with Disability (YLDs). These calculations not only reveal the total toll of disease but drive critical decisions on where to focus resources and which interventions can most effectively boost population health.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-alanlop2023" class="csl-entry" role="listitem">
+<span>“Alan Lopez,”</span> December 11, 2023. <a href="https://en.wikipedia.org/w/index.php?title=Alan_Lopez&amp;oldid=1189335406">https://en.wikipedia.org/w/index.php?title=Alan_Lopez&amp;oldid=1189335406</a>.
+</div>
+<div id="ref-christop2024" class="csl-entry" role="listitem">
+<span>“Christopher J. L. Murray,”</span> January 1, 2024. <a href="https://en.wikipedia.org/w/index.php?title=Christopher_J._L._Murray&amp;oldid=1192936044">https://en.wikipedia.org/w/index.php?title=Christopher_J._L._Murray&amp;oldid=1192936044</a>.
+</div>
+<div id="ref-dempsey2019a" class="csl-entry" role="listitem">
+Dempsey, Mary. <span>“Decline in Tuberculosis.”</span> <em>American Review of Tuberculosis</em>, April 23, 2019. <a href="https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab">https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab</a>.
+</div>
+<div id="ref-disabili2023a" class="csl-entry" role="listitem">
+<span>“Disability-Adjusted Life Year,”</span> December 8, 2023. <a href="https://en.wikipedia.org/w/index.php?title=Disability-adjusted_life_year&amp;oldid=1188922629">https://en.wikipedia.org/w/index.php?title=Disability-adjusted_life_year&amp;oldid=1188922629</a>.
+</div>
+<div id="ref-dubos1976" class="csl-entry" role="listitem">
+Dubos, R. <span>“The State of Health and the Quality of Life.”</span> <em>Western Journal of Medicine</em> 125, no. 1 (July 1976): 8–9. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/</a>.
+</div>
+<div id="ref-dubos1976a" class="csl-entry" role="listitem">
+———. <span>“The State of Health and the Quality of Life.”</span> <em>Western Journal of Medicine</em> 125, no. 1 (July 1976): 8–9. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/</a>.
+</div>
+<div id="ref-echoutco2016" class="csl-entry" role="listitem">
+<span>“Echoutcome,”</span> October 8, 2016. <a href="https://web.archive.org/web/20161008010513/http://echoutcome.eu/">https://web.archive.org/web/20161008010513/http://echoutcome.eu/</a>.
+</div>
+<div id="ref-healthy" class="csl-entry" role="listitem">
+<span>“Healthy Life Expectancy (HALE),”</span> n.d. <a href="https://www.who.int/data/gho/data/themes/topics/indicator-groups/indicator-group-details/GHO/healthy-life-expectancy-(hale)">https://www.who.int/data/gho/data/themes/topics/indicator-groups/indicator-group-details/GHO/healthy-life-expectancy-(hale)</a>.
+</div>
+<div id="ref-healthy2024" class="csl-entry" role="listitem">
+<span>“Healthy Life Years,”</span> January 26, 2024. <a href="https://en.wikipedia.org/w/index.php?title=Healthy_Life_Years&amp;oldid=1199224227">https://en.wikipedia.org/w/index.php?title=Healthy_Life_Years&amp;oldid=1199224227</a>.
+</div>
+<div id="ref-holmes2013" class="csl-entry" role="listitem">
+Holmes, David. <span>“Report Triggers Quibbles over QALYs, a Staple of Health Metrics.”</span> <em>Nature Medicine</em> 19, no. 3 (March 1, 2013): 248–48. doi:<a href="https://doi.org/10.1038/nm0313-248">10.1038/nm0313-248</a>.
+</div>
+<div id="ref-hyder2012" class="csl-entry" role="listitem">
+Hyder, Adnan A., Prasanthi Puvanachandra, and Richard H. Morrow. <span>“Measuring the Health of Populations: Explaining Composite Indicators.”</span> <em>Journal of Public Health Research</em> 1, no. 3 (December 2012): 222–28. doi:<a href="https://doi.org/10.4081/jphr.2012.e35">10.4081/jphr.2012.e35</a>.
+</div>
+<div id="ref-indicato" class="csl-entry" role="listitem">
+<span>“Indicator Metadata Registry Details,”</span> n.d. <a href="https://www.who.int/data/gho/indicator-metadata-registry/imr-details/158">https://www.who.int/data/gho/indicator-metadata-registry/imr-details/158</a>.
+</div>
+<div id="ref-ipc2021" class="csl-entry" role="listitem">
+<span>“Ipc2021,”</span> n.d. <a href="https://ipc2021.popconf.org/abstracts/210817">https://ipc2021.popconf.org/abstracts/210817</a>.
+</div>
+<div id="ref-johngra2024" class="csl-entry" role="listitem">
+<span>“John Graunt,”</span> January 24, 2024. <a href="https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407">https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407</a>.
+</div>
+<div id="ref-johngra2024a" class="csl-entry" role="listitem">
+<span>“John Graunt,”</span> January 24, 2024. <a href="https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407">https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407</a>.
+</div>
+<div id="ref-murray1994a" class="csl-entry" role="listitem">
+Murray, C. J. <span>“Quantifying the Burden of Disease: The Technical Basis for Disability-Adjusted Life Years.”</span> <em>Bulletin of the World Health Organization</em> 72, no. 3 (1994): 429–45. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486718/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486718/</a>.
+</div>
+<div id="ref-murray1994" class="csl-entry" role="listitem">
+Murray, C. J., A. D. Lopez, and D. T. Jamison. <span>“The Global Burden of Disease in 1990: Summary Results, Sensitivity Analysis and Future Directions.”</span> <em>Bulletin of the World Health Organization</em> 72, no. 3 (1994): 495–509. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486716/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486716/</a>.
+</div>
+<div id="ref-summary2002" class="csl-entry" role="listitem">
+Murray, Christopher J. L., Joshua A. Salomon, Colin D. Mathers, Alan D. Lopez, and Weltgesundheitsorganisation, eds. <em>Summary Measures of Population Health: Concepts, Ethics, Measurement and Applications</em>. World Health Organization, 2002.
+</div>
+<div id="ref-muszynska-spielauer2022" class="csl-entry" role="listitem">
+Muszyńska-Spielauer, Magdalena, and Marc Luy. <span>“Well-Being Adjusted Health Expectancy: A New Summary Measure of Population Health.”</span> <em>European Journal of Population</em> 38, no. 5 (December 2022): 1009–31. doi:<a href="https://doi.org/10.1007/s10680-022-09628-1">10.1007/s10680-022-09628-1</a>.
+</div>
+<div id="ref-quality-2023" class="csl-entry" role="listitem">
+<span>“Quality-Adjusted Life Year,”</span> December 27, 2023. <a href="https://en.wikipedia.org/w/index.php?title=Quality-adjusted_life_year&amp;oldid=1192021016">https://en.wikipedia.org/w/index.php?title=Quality-adjusted_life_year&amp;oldid=1192021016</a>.
+</div>
+<div id="ref-well-bei" class="csl-entry" role="listitem">
+<span>“Well-Being Adjusted Health Expectancy - a New Summary Measure of Population Health | Population Europe,”</span> n.d. <a href="https://population-europe.eu/research/books-and-reports/well-being-adjusted-health-expectancy-new-summary-measure-population">https://population-europe.eu/research/books-and-reports/well-being-adjusted-health-expectancy-new-summary-measure-population</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>R Dubos, <span>“The State of Health and the Quality of Life.”</span> <em>Western Journal of Medicine</em> 125, no. 1 (July 1976): 8–9, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span>“John Graunt,”</span> January 24, 2024, <a href="https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407">https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Mary Dempsey, <span>“Decline in Tuberculosis,”</span> <em>American Review of Tuberculosis</em>, April 23, 2019, <a href="https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab">https://www.atsjournals.org/doi/epdf/10.1164/art.1947.56.2.157?role=tab</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Dubos, <span>“The State of Health and the Quality of Life.”</span> July 1976.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Christopher J. L. Murray et al., eds., <em>Summary Measures of Population Health: Concepts, Ethics, Measurement and Applications</em> (World Health Organization, 2002).<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Adnan A. Hyder, Prasanthi Puvanachandra, and Richard H. Morrow, <span>“Measuring the Health of Populations: Explaining Composite Indicators,”</span> <em>Journal of Public Health Research</em> 1, no. 3 (December 2012): 222–28, doi:<a href="https://doi.org/10.4081/jphr.2012.e35">10.4081/jphr.2012.e35</a>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>C. J. Murray, <span>“Quantifying the Burden of Disease: The Technical Basis for Disability-Adjusted Life Years.”</span> <em>Bulletin of the World Health Organization</em> 72, no. 3 (1994): 429–45, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486718/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486718/</a>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><span>“John Graunt,”</span> January 24, 2024, <a href="https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407">https://en.wikipedia.org/w/index.php?title=John_Graunt&amp;oldid=1198718407</a>.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p><span>“Quality-Adjusted Life Year,”</span> December 27, 2023, <a href="https://en.wikipedia.org/w/index.php?title=Quality-adjusted_life_year&amp;oldid=1192021016">https://en.wikipedia.org/w/index.php?title=Quality-adjusted_life_year&amp;oldid=1192021016</a>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p><span>“Echoutcome,”</span> October 8, 2016, <a href="https://web.archive.org/web/20161008010513/http://echoutcome.eu/">https://web.archive.org/web/20161008010513/http://echoutcome.eu/</a>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>David Holmes, <span>“Report Triggers Quibbles over QALYs, a Staple of Health Metrics,”</span> <em>Nature Medicine</em> 19, no. 3 (March 1, 2013): 248–48, doi:<a href="https://doi.org/10.1038/nm0313-248">10.1038/nm0313-248</a>.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>R Dubos, <span>“The State of Health and the Quality of Life.”</span> <em>Western Journal of Medicine</em> 125, no. 1 (July 1976): 8–9, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1237171/</a>.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>C. J. Murray, A. D. Lopez, and D. T. Jamison, <span>“The Global Burden of Disease in 1990: Summary Results, Sensitivity Analysis and Future Directions.”</span> <em>Bulletin of the World Health Organization</em> 72, no. 3 (1994): 495–509, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486716/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2486716/</a>.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p><span>“Christopher J. L. Murray,”</span> January 1, 2024, <a href="https://en.wikipedia.org/w/index.php?title=Christopher_J._L._Murray&amp;oldid=1192936044">https://en.wikipedia.org/w/index.php?title=Christopher_J._L._Murray&amp;oldid=1192936044</a>.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p><span>“Alan Lopez,”</span> December 11, 2023, <a href="https://en.wikipedia.org/w/index.php?title=Alan_Lopez&amp;oldid=1189335406">https://en.wikipedia.org/w/index.php?title=Alan_Lopez&amp;oldid=1189335406</a>.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p><span>“Disability-Adjusted Life Year,”</span> December 8, 2023, <a href="https://en.wikipedia.org/w/index.php?title=Disability-adjusted_life_year&amp;oldid=1188922629">https://en.wikipedia.org/w/index.php?title=Disability-adjusted_life_year&amp;oldid=1188922629</a>.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p><strong>Variations in Terminology:</strong> The terms “Health-Adjusted Life Expectancy” (HALE), “Healthy Life Expectancy” (HALE), and other variants are sometimes used interchangeably in this book.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p><span>“Indicator Metadata Registry Details,”</span> n.d., <a href="https://www.who.int/data/gho/indicator-metadata-registry/imr-details/158">https://www.who.int/data/gho/indicator-metadata-registry/imr-details/158</a>.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p><a href="https://www.healthknowledge.org.uk/e-learning/health-information/population-health-specialists/lifetables-hales-dalys-pylls#:~:text=Health%20Adjusted%20Life%20Expectancy%20(HALE)&amp;text=It%20adjusts%20overall%20life%20expectancy,the%20effect%20of%20the%20disability.">www.healthknowledge.org.uk</a><a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p><span>“Healthy Life Expectancy (HALE),”</span> n.d., <a href="https://www.who.int/data/gho/data/themes/topics/indicator-groups/indicator-group-details/GHO/healthy-life-expectancy-(hale)">https://www.who.int/data/gho/data/themes/topics/indicator-groups/indicator-group-details/GHO/healthy-life-expectancy-(hale)</a>.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p><span>“Healthy Life Years,”</span> January 26, 2024, <a href="https://en.wikipedia.org/w/index.php?title=Healthy_Life_Years&amp;oldid=1199224227">https://en.wikipedia.org/w/index.php?title=Healthy_Life_Years&amp;oldid=1199224227</a>.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p><span>“Ipc2021,”</span> n.d., <a href="https://ipc2021.popconf.org/abstracts/210817">https://ipc2021.popconf.org/abstracts/210817</a>.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23"><p>Magdalena Muszyńska-Spielauer and Marc Luy, <span>“Well-Being Adjusted Health Expectancy: A New Summary Measure of Population Health,”</span> <em>European Journal of Population</em> 38, no. 5 (December 2022): 1009–31, doi:<a href="https://doi.org/10.1007/s10680-022-09628-1">10.1007/s10680-022-09628-1</a>.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24"><p><span>Well-Being Adjusted Health Expectancy - a New Summary Measure of Population Health | Population Europe,”</span> n.d., <a href="https://population-europe.eu/research/books-and-reports/well-being-adjusted-health-expectancy-new-summary-measure-population">https://population-europe.eu/research/books-and-reports/well-being-adjusted-health-expectancy-new-summary-measure-population</a>.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25"><p>Muszyńska-Spielauer and Luy, <span>“Well-Being Adjusted Health Expectancy.”</span><a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fgazzelloni\.quarto\.pub\/hmsidr\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./intro.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-method_calculation.html" class="pagination-link" aria-label="Methods and Calculations">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methods and Calculations</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2024 This book is written by <a href="https://federicagazzelloni.com/">Federica Gazzelloni</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+<p>Editor CRC Press - Chapman &amp; Hall | Taylor &amp; Francis Group</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Fgazzelloni/hmsidR/edit/origin/01-health_metrics.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Fgazzelloni/hmsidR/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p>Built with ❤︎️ and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
