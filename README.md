@@ -4,7 +4,7 @@ This is the repository for the **Health Metrics and the Spread of Infectious Dis
 
 📖 Read it online for free:
 
--   🔗 [bookdown.org/fede_gazzelloni/hmsidR](https://bookdown.org/fede_gazzelloni/hmsidR/)
+-   🔗 [federicagazzelloni.com/hmsidR/](https://federicagazzelloni.com/hmsidR/)
 -   🔗 [fgazzelloni.quarto.pub/hmsidr](https://fgazzelloni.quarto.pub/hmsidr/)
 
 🛒 Pre-Order your printed copy:
